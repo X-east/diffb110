@@ -1,0 +1,87 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    多GPU分批生成配体 - 快速开始                             ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📋 三种使用方式：
+
+1️⃣  最简单 - 一键生成1000个分子
+   ────────────────────────────────
+   bash quick_generate_1000.sh
+
+2️⃣  自定义参数 - Python脚本
+   ────────────────────────────────
+   python generate_ligands_batch.py \
+       --checkpoint OUT/.../epoch=0019.ckpt \
+       --pdbfile data/8GJJ-C-Cip.pdb \
+       --total 1000 \
+       --batch_size 20 \
+       --num_gpus 4
+
+3️⃣  Bash脚本
+   ────────────────────────────────
+   bash generate_ligands_batch.sh \
+       --checkpoint OUT/.../epoch=0019.ckpt \
+       --pdbfile data/8GJJ-C-Cip.pdb \
+       --total 1000 \
+       --num_gpus 4
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 常用参数组合：
+
+生成500个分子（2GPU）
+  python generate_ligands_batch.py --total 500 --num_gpus 2
+
+生成2000个分子（8GPU，每批50个）
+  python generate_ligands_batch.py --total 2000 --batch_size 50 --num_gpus 8
+
+生成1000个分子（启用分子清理）
+  python generate_ligands_batch.py --total 1000 --sanitize
+
+生成1000个分子（启用分子松弛，质量更高但更慢）
+  python generate_ligands_batch.py --total 1000 --relax
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 输出目录结构：
+
+generated_ligands/
+└── 20260316_093000_1000mols_4gpus/
+    ├── all_ligands_1000.sdf          ← 所有分子（合并）
+    ├── gpu0.log                       ← GPU 0 日志
+    ├── gpu1.log                       ← GPU 1 日志
+    ├── gpu2.log                       ← GPU 2 日志
+    └── gpu3.log                       ← GPU 3 日志
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏱️  预期耗时（基于A100 GPU）：
+
+1000 分子 × 4 GPU × batch=20  →  ~35 分钟
+1000 分子 × 8 GPU × batch=20  →  ~18 分钟
+1000 分子 × 4 GPU × batch=50  →  ~20 分钟
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 监控生成进度：
+
+在另一个终端运行：
+  watch -n 2 nvidia-smi          # 监控GPU使用情况
+  tail -f generated_ligands/*/gpu0.log  # 查看实时日志
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ 验证生成结果：
+
+查看分子总数：
+  grep -c '$$$$' generated_ligands/*/all_ligands_*.sdf
+
+提取前100个分子：
+  head -n 5000 generated_ligands/*/all_ligands_*.sdf > first_100.sdf
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 详细文档：
+  cat GENERATE_LIGANDS_GUIDE.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

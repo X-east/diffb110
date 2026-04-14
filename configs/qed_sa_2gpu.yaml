@@ -1,0 +1,81 @@
+# QED + SA RL 训练配置 — 2 卡
+# 每卡生成: sample_group_size(1) × each_prompt_sample(8) = 8 分子
+# 全局每 epoch: 8 × 2 卡 = 16 分子
+# 启动: GPUS=0,1 bash scripts/run_rl_qed_sa_test.sh
+
+name: diffsbdd-ddpo-qed-sa-2gpu
+
+model:
+  checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
+  time_step: 500
+  device: "cuda"
+
+pocket:
+  pdb_path: "./data/8GJJ-C-Cip.pdb"
+  pdbqt_path: "./data/8GJJ-C-Cip_charged.pdbqt"
+  ref_ligand: "C:1101"
+
+reward:
+  enabled: ["qed", "sa"]
+  weights:
+    qed: 0.5
+    sa: 0.5
+  docking:
+    backend: "autodock_gpu"
+    fld_file: "./data/8GJJ-C-Cip_charged.maps.fld"
+    normalization_factor: -10.0
+    center_x: 161.338
+    center_y: 169.860
+    center_z: 174.187
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    nrun: 20
+    heuristics: true
+
+dataloader:
+  sample_group_size: 1      # 分组数
+  each_prompt_sample: 8     # 每组分子数 → 每卡 8 个分子
+  epochs: 100
+  min_nodes: 10
+  max_nodes: 30
+  max_n_nodes: 30
+
+train:
+  # 每卡 8 分子 × 2 卡 = 全局 16 分子/epoch
+  batch_size: 16
+  per_device_batch_size: 8
+  train_micro_batch_size: 8
+
+  learning_rate: 5.0e-4
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 1.0e-4
+  adam_epsilon: 1.0e-8
+  clip_range: 0.2
+  adv_clip_max: 10.0
+  max_grad_norm: 1.0
+  checkpoint_interval: 5
+  log_interval: 1
+
+ddp:
+  enabled: true
+  num_gpus: 2
+  strategy: "ddp"
+  find_unused_parameters: false
+  sync_batchnorm: false
+
+ray:
+  num_cpus: 4
+  num_gpus: 0
+
+wandb:
+  enabled: false
+  mode: "disabled"
+
+output:
+  dir: "./OUT/<run_name>_<YYYYMMDD>_<seq>"
+  save_frequency: 1
+  metrics_file: "metrics.csv"
+  molecules_dir: "molecules"
+  verbose: true

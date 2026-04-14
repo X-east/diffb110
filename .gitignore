@@ -1,0 +1,182 @@
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================
+# Virtual Environments
+# ============================================
+venv/
+ENV/
+env/
+.venv/
+
+# ============================================
+# Testing & Coverage
+# ============================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+pytest_debug.log
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+.ipynb_checkpoints
+*.ipynb
+
+# ============================================
+# PyTorch & ML Models
+# ============================================
+*.ckpt
+*.pth
+*.pt
+*.bin
+*.safetensors
+*.pkl
+*.pickle
+checkpoints/
+saved_models/
+wandb/
+mlruns/
+
+# ============================================
+# Data Files (Large)
+# ============================================
+*.npz
+*.npy
+*.h5
+*.hdf5
+
+# ============================================
+# Experiment Outputs
+# ============================================
+exp/
+experiments/
+outputs/
+results/
+plots/
+figures/
+
+# ============================================
+# IDE & Editors
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.project
+.pydevproject
+.settings/
+
+# ============================================
+# OS Generated
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.cache
+
+# ============================================
+# Ray & Distributed Computing
+# ============================================
+ray_results/
+*.lock
+
+# ============================================
+# Package Management
+# ============================================
+.pip_cache/
+.conda/
+*.tar.gz
+*.zip
+
+# ============================================
+# Documentation Build
+# ============================================
+docs/_build/
+site/
+
+# ============================================
+# Project Specific
+# ============================================
+# Exclude downloaded datasets
+DiffSBDD/data/crossdocked/
+DiffSBDD/data/bindingmoad/
+RLPF-verl_diffusion/Model/EDM/qm9/temp/
+
+# Exclude external submodules (if needed)
+# DiffSBDD/
+# RLPF-verl_diffusion/
+
+# ============================================
+# Project-specific large files (added)
+# ============================================
+OUT/
+AutoDock-GPU/
+Uni-Dock/
+checkpoints/
+*.dlg
+*.xml
+
+# extra generated caches / artifacts
+**/__pycache__/
+.pytest_cache/
+.hypothesis/
+ddpo.egg-info/
+
+# RLPF generated artifacts
+RLPF-verl_diffusion/Model/**/temp/
+RLPF-verl_diffusion/Model/**/property_prediction/outputs/
+RLPF-verl_diffusion/Model/**/property_prediction/outputs.zip
+RLPF-verl_diffusion/plot/
+# notebooks / scratch
+DiffSBDD/colab/
+
+# local editor / notes
+.obsidian/
+Obsidian/
+# local outputs
+out2/
