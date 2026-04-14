@@ -1,0 +1,77 @@
+# QED + SA RL 训练配置 — 单卡
+# 单卡每 epoch 生成: sample_group_size(1) × each_prompt_sample(8) = 8 分子
+# 用于 single-GPU 主程序：ddpo/main_diffsbdd_single_gpu.py
+
+name: diffsbdd-ddpo-qed-sa-1gpu
+
+dataset: crossdock
+
+model:
+  checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
+  time_step: 500
+  device: "cuda"
+
+pocket:
+  pdb_path: "/home/md666/data/disk6/DiffB110/data/8GJL-cip-minimized.pdb"
+  pdbqt_path: "./data/8GJJ-C-Cip_charged.pdbqt"
+  ref_ligand: "C:1101"
+
+reward:
+  enabled: ["qed"]
+  weights:
+    qed: 1.0
+  docking:
+    backend: "autodock_gpu"
+    fld_file: "./data/8GJJ-C-Cip_charged.maps.fld"
+    normalization_factor: -10.0
+    center_x: 207.293
+    center_y: 212.430
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    nrun: 20
+    heuristics: true
+
+dataloader:
+  sample_group_size: 1
+  each_prompt_sample: 16
+  epochs: 200
+  min_nodes: 10
+  max_nodes: 30
+  max_n_nodes: 30
+
+train:
+  # batch_size: 8    无效
+  # per_device_batch_size: 8    无效
+  train_micro_batch_size: 16
+
+  learning_rate: 1.0e-5
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 1.0e-4
+  adam_epsilon: 1.0e-8
+  clip_range: 0.1
+  adv_clip_max: 10.0
+  max_grad_norm: 1.0
+  checkpoint_interval: 1
+  log_interval: 1
+  seed: 42
+
+ddp:
+  enabled: false
+  num_gpus: 1
+  strategy: "single"
+  find_unused_parameters: false
+  sync_batchnorm: false
+
+ray:
+  num_cpus: 2
+  num_gpus: 0
+
+wandb:
+  enabled: false
+  mode: "disabled"
+
+output:
+  dir: "./OUT/<run_name>_<YYYYMMDD>_<seq>"

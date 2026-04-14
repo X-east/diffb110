@@ -1,0 +1,67 @@
+{
+  "basic_info": {
+    "file_path": "/home/md666/data/disk6/DiffB110/OUT/diffsbdd-ddpo-qed-sa-1gpu_20260401_201155/checkpoints/diffsbdd-ddpo-epoch=0001.pt",
+    "file_size_bytes": 12243329,
+    "file_size_formatted": "11.68 MB",
+    "file_format": ".pt",
+    "keys": [
+      "epoch",
+      "config",
+      "seed",
+      "model_state_dict",
+      "actor_state_dict",
+      "optimizer_state_dict",
+      "metrics"
+    ]
+  },
+  "architecture": {
+    "total_params": 1006560,
+    "num_layers": 122,
+    "modules": {
+      "ddpm.buffer": 1,
+      "ddpm.gamma": 501,
+      "ddpm.dynamics": 1006058
+    },
+    "egnn_blocks": 5,
+    "param_types": {
+      "torch.float32": 1006560
+    },
+    "param_categories": {
+      "weight": 1000608,
+      "bias": 5450
+    }
+  },
+  "training_info": {
+    "epoch": 1,
+    "seed": 42,
+    "config_keys": [
+      "name",
+      "dataset",
+      "model",
+      "pocket",
+      "reward",
+      "dataloader",
+      "train",
+      "ddp",
+      "ray",
+      "wandb",
+      "output"
+    ],
+    "metrics": {
+      "ClipFrac": 0.009900990099009901,
+      "Loss": -0.5304948631489631
+    },
+    "optimizer_params": 1723
+  },
+  "integrity": {
+    "checks": [
+      "✅ 基本字段完整",
+      "✅ 模型参数完整: 1,006,560 参数",
+      "✅ EGNN结构完整: 5 个块",
+      "✅ 包含优化器状态，可恢复训练",
+      "✅ 数值检查通过: 无NaN/Inf值"
+    ],
+    "missing_keys": [],
+    "nan_inf_issues": 0
+  }
+}

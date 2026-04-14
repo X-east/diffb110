@@ -1,0 +1,122 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ddpo"
+version = "0.1.0"
+description = "DDPO Integration Layer for DiffSBDD-RLPF"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "DiffSBDD-RL Team"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "torch>=2.0.1",
+    "pytorch-lightning>=1.8.4",
+    "rdkit>=2022.03.2",
+    "biopython>=1.79",
+    "ray>=2.41.0",
+    "wandb>=0.13.1",
+    "tensordict>=0.2.0",
+    "numpy",
+    "scipy",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "hypothesis>=6.0.0",
+    "black",
+    "isort",
+    "flake8",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "hypothesis>=6.0.0",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--tb=short",
+    "-ra",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "property: marks tests as property-based tests",
+]
+
+[tool.hypothesis]
+# Hypothesis settings for property-based testing
+# Minimum 100 examples per test as specified in design doc
+max_examples = 100
+deadline = 60000
+suppress_health_check = ["too_slow", "data_too_large"]
+verbosity = "normal"
+
+[tool.coverage.run]
+source = ["ddpo"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.venv
+    | build
+    | dist
+    | DiffSBDD
+    | RLPF-verl_diffusion
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip = ["DiffSBDD", "RLPF-verl_diffusion", ".git", ".venv"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ddpo*"]
+exclude = ["tests*", "DiffSBDD*", "RLPF-verl_diffusion*"]
