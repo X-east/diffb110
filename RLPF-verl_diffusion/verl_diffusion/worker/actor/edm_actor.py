@@ -9,16 +9,20 @@ from torch.nn.utils import clip_grad_norm_
 import numpy as np
 
 class EDMActor(BaseActor):
-    def __init__(self, model, config):
+    def __init__(self, model, config, model_impl=None):
         """
         Initialize the EDM rollout worker.
         
         Args:
-            model: The EDM model to use for rollout
+            model: The training model reference used for optimizer parameters.
             config: Configuration parameters for the rollout
+            model_impl: Optional bare model implementation used for custom
+                diffusion helper methods such as get_mask() and
+                sample_p_zs_given_zt(). If omitted, defaults to model.
         """
         super().__init__()  
         self.model = model
+        self.model_impl = model_impl if model_impl is not None else self._unwrap_model(model)
         self.config = config
         optimizer_cls = torch.optim.AdamW
         self.optimizer = optimizer_cls(
@@ -32,6 +36,13 @@ class EDMActor(BaseActor):
         self.max_grad_norm = self.config["train"]["max_grad_norm"]
         self.clip_range = self.config["train"]["clip_range"]
         self.num_timesteps = self.config["model"]["time_step"]
+
+    @staticmethod
+    def _unwrap_model(model):
+        return getattr(model, "module", model)
+
+    def set_model_impl(self, model_impl) -> None:
+        self.model_impl = model_impl
     def train_batched_samples(self, batched_samples):
         """
         Train on a batch of samples. Main training segment
@@ -68,7 +79,7 @@ class EDMActor(BaseActor):
                 info["clipfrac"].append(clipfrac.item())
                 info["loss"].append(loss.item())
                 loss.backward()
-                clip_grad_norm_(self.model.parameters(),max_norm=1)
+                clip_grad_norm_(self.model.parameters(), max_norm=self.max_grad_norm)
         self.optimizer.step()
         self.optimizer.zero_grad()
             
@@ -104,11 +115,11 @@ class EDMActor(BaseActor):
         s_array = s_array / self.num_timesteps
         t_array = t_array / self.num_timesteps
         ## need add
-        node_mask, edge_mask = self.model.get_mask(nodesxsample, latents.shape[0], self.max_n_nodes)
+        node_mask, edge_mask = self.model_impl.get_mask(nodesxsample, latents.shape[0], self.max_n_nodes)
         node_mask = node_mask.to(latents.device)
         edge_mask = edge_mask.to(latents.device)
 
-        _, log_prob_current, _, _ = self.model.sample_p_zs_given_zt(s_array, t_array, latents, node_mask, edge_mask, prev_sample=next_latents,context=context)
+        _, log_prob_current, _, _ = self.model_impl.sample_p_zs_given_zt(s_array, t_array, latents, node_mask, edge_mask, prev_sample=next_latents,context=context)
     
         ## log_prob_current is old latents in new policy
         

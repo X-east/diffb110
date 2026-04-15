@@ -236,9 +236,9 @@ def build_filter(config: dict[str, Any], dataset_info: dict[str, Any]) -> DiffSB
 
 
 
-def build_actor(model: DiffSBDDModel, config: dict[str, Any], dataset_info: dict[str, Any]):
+def build_actor(model: DiffSBDDModel, config: dict[str, Any], dataset_info: dict[str, Any], model_impl: DiffSBDDModel | None = None):
     """Construct the PPO actor and inject explicit max-node semantics."""
-    actor = EDMActor(model, config)
+    actor = EDMActor(model, config, model_impl=model_impl)
     actor.max_n_nodes = config.get("dataloader", {}).get(
         "max_n_nodes",
         config.get("dataloader", {}).get("max_nodes", dataset_info.get("max_n_nodes", 50)),
