@@ -2,12 +2,19 @@ from __future__ import annotations
 
 """Native PyTorch DDP training entrypoint for DiffSBDD + DDPO."""
 
+import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import torch
 from torch.nn.parallel import DistributedDataParallel as DDP
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "RLPF-verl_diffusion"))
+sys.path.insert(0, str(PROJECT_ROOT / "DiffSBDD"))
 
 from constants import dataset_params
 from ddpo.main_diffsbdd_single_gpu import (
