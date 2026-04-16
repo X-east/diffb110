@@ -53,6 +53,15 @@ def init_distributed_from_env(config: dict[str, Any]) -> DistributedContext:
     local_rank = int(os.environ["LOCAL_RANK"])
     world_size = int(os.environ["WORLD_SIZE"])
 
+    configured_num_gpus = config.get("ddp", {}).get("num_gpus")
+    if configured_num_gpus is not None and int(configured_num_gpus) != world_size:
+        raise RuntimeError(
+            "DDP world size does not match config.ddp.num_gpus: "
+            f"WORLD_SIZE={world_size}, ddp.num_gpus={configured_num_gpus}. "
+            "Launch torchrun with --nproc_per_node matching ddp.num_gpus, "
+            "or update the config."
+        )
+
     if not torch.cuda.is_available():
         raise RuntimeError("DDP is enabled but CUDA is not available.")
 
