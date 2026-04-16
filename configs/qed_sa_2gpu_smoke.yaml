@@ -48,15 +48,18 @@ train:                                           # PPO / 优化训练配置
   clip_range: 0.2                                # PPO ratio clipping 范围
   max_grad_norm: 1.0                             # 梯度裁剪上限
   checkpoint_interval: 1                         # 每隔多少个 epoch 保存一次 checkpoint
-  seed: 42                                       # 随机种子；影响可复现性
+  seed: 42                                       # 全局基础随机种子；DDP 下每个 rank 的实际种子 = seed + rank
   epochs: 5                                      # 真实训练总 epoch 数；主循环优先读取该字段
   # adv_clip_max: 10.0                           # 预留：当前主路径未消费；如后续加入优势裁剪可恢复
   # log_interval: 1                              # 预留：当前主路径未消费；如后续加入日志节流可恢复
 
 ddp:                                             # 原生 PyTorch DDP 配置
   enabled: true                                  # 是否启用 DDP；true 时要求用 torchrun 提供分布式环境变量
+  num_gpus: 2                                    # 期望使用的 GPU 数；程序会校验它必须等于 torchrun 注入的 WORLD_SIZE
   find_unused_parameters: false                  # 传给 PyTorch DDP 的 find_unused_parameters 参数
-  # num_gpus: 2                                  # 预留：说明性字段；实际 GPU 数来自 WORLD_SIZE
+  param_sync_check: true                         # 开启轻量参数一致性 smoke check；默认应只在 smoke/debug 场景打开
+  # param_sync_check_max_params: 8               # 预留：检查前多少个参数的范数摘要；默认 8
+  # param_sync_check_atol: 1.0e-6                # 预留：参数范数比较的绝对误差阈值
   # strategy: "ddp"                             # 预留：说明性字段；当前主路径未消费
   # sync_batchnorm: false                        # 预留：当前主路径未消费；如后续加入 SyncBN 可恢复
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import sys
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -165,6 +166,12 @@ def build_rank_run_context(
 
 
 def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext) -> DistributedRuntimeBundle:
+    if args.resume or args.checkpoint_path is not None:
+        raise NotImplementedError(
+            "DDP resume/checkpoint restore is not implemented yet. "
+            "Run without --resume / --checkpoint_path."
+        )
+
     config = apply_cli_overrides(config, args)
     seed = int(config.get("train", {}).get("seed", 42))
     set_seed_for_rank(seed, dist_ctx.rank)
@@ -258,6 +265,62 @@ def _merge_metrics(metrics_per_rank: list[dict[str, Any]]) -> dict[str, float]:
     return merged
 
 
+def maybe_check_param_sync(runtime: DistributedRuntimeBundle, epoch: int) -> None:
+    """Optionally verify that a small parameter summary matches across ranks.
+
+    This is a lightweight smoke check for DDP correctness and is intentionally
+    disabled by default. It compares only a small prefix of parameter norms to
+    keep overhead low and avoid interfering with training semantics.
+    """
+    check_cfg = runtime.config.get("ddp", {})
+    if not bool(check_cfg.get("param_sync_check", False)):
+        return
+
+    max_params = int(check_cfg.get("param_sync_check_max_params", 8))
+    atol = float(check_cfg.get("param_sync_check_atol", 1e-6))
+
+    summary: list[tuple[str, float]] = []
+    with torch.no_grad():
+        for idx, (name, param) in enumerate(runtime.model_impl.named_parameters()):
+            if idx >= max_params:
+                break
+            summary.append((name, float(param.detach().float().norm().item())))
+
+    gathered = all_gather_objects(summary, runtime.dist_ctx)
+    reference = gathered[0] if gathered else summary
+    mismatch_messages: list[str] = []
+    for rank_idx, candidate in enumerate(gathered[1:], start=1):
+        if len(candidate) != len(reference):
+            mismatch_messages.append(
+                f"rank{rank_idx}: summary length {len(candidate)} != rank0 length {len(reference)}"
+            )
+            continue
+        for (ref_name, ref_norm), (cand_name, cand_norm) in zip(reference, candidate):
+            if ref_name != cand_name:
+                mismatch_messages.append(
+                    f"rank{rank_idx}: param name mismatch {cand_name!r} != {ref_name!r}"
+                )
+                break
+            if abs(cand_norm - ref_norm) > atol:
+                mismatch_messages.append(
+                    f"rank{rank_idx}: {ref_name} norm mismatch {cand_norm:.8f} != {ref_norm:.8f}"
+                )
+                break
+
+    if mismatch_messages:
+        raise RuntimeError(
+            f"DDP parameter sync smoke check failed at epoch {epoch}: "
+            + "; ".join(mismatch_messages)
+        )
+
+    if is_main_process(runtime.dist_ctx):
+        runtime.logger.info(
+            "[DDP CHECK] Epoch %d parameter sync smoke check passed for %d params",
+            epoch,
+            len(reference),
+        )
+
+
 def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metrics: dict[str, Any], dist_ctx: DistributedContext) -> GlobalBatchStats:
     count = float(local_stats.generated_count)
     generated_count = int(round(reduce_sum_scalar(float(local_stats.generated_count), dist_ctx)))
@@ -284,9 +347,12 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
 
 
 def save_checkpoint_ddp(runtime: DistributedRuntimeBundle, epoch: int, metrics: dict[str, Any]) -> CheckpointFacts | None:
+    barrier_if_needed(runtime.dist_ctx)
     if not is_main_process(runtime.dist_ctx):
+        barrier_if_needed(runtime.dist_ctx)
         return None
     if (epoch % runtime.checkpoint_interval) != 0:
+        barrier_if_needed(runtime.dist_ctx)
         return None
 
     checkpoint_name = f"diffsbdd-ddpo-epoch={epoch:04d}.pt"
@@ -314,9 +380,10 @@ def save_checkpoint_ddp(runtime: DistributedRuntimeBundle, epoch: int, metrics: 
         exists=exists,
         size_bytes=size_bytes,
         confirmed=exists and size_bytes > 0,
-        saved_at=runtime.run_context.started_at,
+        saved_at=datetime.now().isoformat(timespec="seconds"),
     )
     runtime.run_recorder.on_checkpoint_saved(facts)
+    barrier_if_needed(runtime.dist_ctx)
     return facts
 
 
@@ -365,6 +432,7 @@ def record_epoch_ddp(
 def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepResult:
     prepared = prepare_training_samples(runtime, epoch)
     metrics = update_policy(runtime, prepared, epoch)
+    maybe_check_param_sync(runtime, epoch)
     local_stats = compute_batch_stats(prepared)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
     record_epoch_ddp(runtime, epoch, prepared, local_stats, global_stats)
