@@ -60,6 +60,18 @@ class DiffSBDDModel(nn.Module, BaseModel):
         aa_nf: Number of amino acid features (pocket residue types)
         dataset_info: Dataset configuration from DiffSBDD constants
     """
+
+    def forward(self, mode: str, **kwargs):
+        """Dispatch training forwards through the module call path.
+
+        This explicit forward entry is required for DDP training semantics:
+        PPO loss computation must enter through the wrapped module call
+        (``DDP(module)(...)``) rather than bypassing DDP via direct helper
+        method calls on the bare module.
+        """
+        if mode == "ddpo_log_prob":
+            return self.forward_ddpo_log_prob(**kwargs)
+        raise ValueError(f"Unsupported DiffSBDDModel forward mode: {mode}")
     
     def __init__(
         self,
@@ -692,67 +704,13 @@ class DiffSBDDModel(nn.Module, BaseModel):
         """
         batch_size = zt.shape[0]
         max_nodes = zt.shape[1]
-        device = zt.device
-        
-        # =====================================================================
-        # Step 1: Convert RLPF format to DiffSBDD format
-        # =====================================================================
-        # RLPF: [B, N, D] padded -> DiffSBDD: [total_nodes, D] flat
-        zt_flat, ligand_mask = self._rlpf_to_diffsbdd_format(zt, node_mask)
-        
-        # =====================================================================
-        # Step 2: Prepare pocket data (replicate to batch size)
-        # =====================================================================
-        pocket = self._replicate_pocket(batch_size)
-        xh0_pocket = torch.cat([pocket['x'], pocket['one_hot']], dim=1)
-        pocket_mask = pocket['mask']
-        
-        # =====================================================================
-        # Step 3: Compute gamma values for noise schedule
-        # =====================================================================
-        gamma_s = self.ddpm.gamma(s)
-        gamma_t = self.ddpm.gamma(t)
-        
-        # =====================================================================
-        # Step 4: Compute sigma and alpha parameters
-        # =====================================================================
-        sigma2_t_given_s, sigma_t_given_s, alpha_t_given_s = \
-            self.ddpm.sigma_and_alpha_t_given_s(gamma_t, gamma_s, zt_flat)
-        
-        sigma_s = self.ddpm.sigma(gamma_s, target_tensor=zt_flat)
-        sigma_t = self.ddpm.sigma(gamma_t, target_tensor=zt_flat)
-        
-        # =====================================================================
-        # Step 5: Neural network forward pass to predict noise
-        # =====================================================================
-        # Convert t from [B, 1] to scalar if all values are the same
-        # DiffSBDD dynamics expects a scalar time step
-        if t.numel() == 1:
-            t_scalar = t.item()
-        elif torch.all(t == t[0]):
-            t_scalar = t[0].item()
-        else:
-            # If t varies across batch, use the first value
-            # (This shouldn't happen in normal DDPO training)
-            t_scalar = t[0].item()
-        
-        eps_t_lig, _ = self.ddpm.dynamics(
-            zt_flat, xh0_pocket, t_scalar, ligand_mask, pocket_mask
+        mu_flat, sigma, ligand_mask, pocket_mask, xh0_pocket = self._compute_reverse_transition_stats(
+            s=s,
+            t=t,
+            zt=zt,
+            node_mask=node_mask,
         )
-        
-        # =====================================================================
-        # Step 6: Compute mu (mean of p(zs | zt))
-        # Formula: mu = zt / alpha_{t|s} - (sigma2_{t|s} / alpha_{t|s} / sigma_t) * eps_t
-        # =====================================================================
-        mu_flat = zt_flat / alpha_t_given_s[ligand_mask] - \
-                  (sigma2_t_given_s / alpha_t_given_s / sigma_t)[ligand_mask] * eps_t_lig
-        
-        # =====================================================================
-        # Step 7: Compute sigma (std of p(zs | zt))
-        # Formula: sigma = sigma_{t|s} * sigma_s / sigma_t
-        # =====================================================================
-        sigma = sigma_t_given_s * sigma_s / sigma_t
-        
+
         # =====================================================================
         # Step 8: Sample zs (with zero-centered coordinates)
         # =====================================================================
@@ -782,6 +740,87 @@ class DiffSBDDModel(nn.Module, BaseModel):
         
         return zs, log_prob, mu, sigma
     
+    def _compute_reverse_transition_stats(
+        self,
+        s: torch.Tensor,
+        t: torch.Tensor,
+        zt: torch.Tensor,
+        node_mask: torch.Tensor,
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Compute reverse-step Gaussian parameters for p(z_s | z_t).
+
+        This helper preserves the existing diffusion semantics while exposing
+        the trainable network forward through ``forward()`` so DDP can manage
+        gradient synchronization for PPO updates.
+        """
+        batch_size = zt.shape[0]
+
+        # RLPF: [B, N, D] padded -> DiffSBDD: [total_nodes, D] flat
+        zt_flat, ligand_mask = self._rlpf_to_diffsbdd_format(zt, node_mask)
+
+        pocket = self._replicate_pocket(batch_size)
+        xh0_pocket = torch.cat([pocket['x'], pocket['one_hot']], dim=1)
+        pocket_mask = pocket['mask']
+
+        gamma_s = self.ddpm.gamma(s)
+        gamma_t = self.ddpm.gamma(t)
+
+        sigma2_t_given_s, sigma_t_given_s, alpha_t_given_s = self.ddpm.sigma_and_alpha_t_given_s(
+            gamma_t,
+            gamma_s,
+            zt_flat,
+        )
+
+        sigma_s = self.ddpm.sigma(gamma_s, target_tensor=zt_flat)
+        sigma_t = self.ddpm.sigma(gamma_t, target_tensor=zt_flat)
+
+        if t.numel() == 1:
+            t_scalar = t.item()
+        elif torch.all(t == t[0]):
+            t_scalar = t[0].item()
+        else:
+            t_scalar = t[0].item()
+
+        eps_t_lig, _ = self.ddpm.dynamics(
+            zt_flat,
+            xh0_pocket,
+            t_scalar,
+            ligand_mask,
+            pocket_mask,
+        )
+
+        mu_flat = zt_flat / alpha_t_given_s[ligand_mask] - (
+            sigma2_t_given_s / alpha_t_given_s / sigma_t
+        )[ligand_mask] * eps_t_lig
+        sigma = sigma_t_given_s * sigma_s / sigma_t
+        return mu_flat, sigma, ligand_mask, pocket_mask, xh0_pocket
+
+    def forward_ddpo_log_prob(
+        self,
+        s: torch.Tensor,
+        t: torch.Tensor,
+        zt: torch.Tensor,
+        node_mask: torch.Tensor,
+        edge_mask: torch.Tensor,
+        prev_sample: torch.Tensor,
+        context: torch.Tensor = None,
+    ) -> torch.Tensor:
+        """Compute PPO log-prob under the current policy via module forward.
+
+        ``edge_mask`` and ``context`` are accepted for interface stability but
+        are not consumed by DiffSBDD's current reverse transition computation.
+        """
+        del edge_mask, context
+        max_nodes = zt.shape[1]
+        mu_flat, sigma, ligand_mask, _pocket_mask, _xh0_pocket = self._compute_reverse_transition_stats(
+            s=s,
+            t=t,
+            zt=zt,
+            node_mask=node_mask,
+        )
+        mu = self._diffsbdd_to_rlpf_format(mu_flat, ligand_mask, max_nodes)
+        return self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask)
+
     # =========================================================================
     # Task 4.7: sample method (full sampling loop)
     # =========================================================================

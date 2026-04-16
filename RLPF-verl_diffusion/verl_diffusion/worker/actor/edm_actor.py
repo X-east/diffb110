@@ -24,6 +24,7 @@ class EDMActor(BaseActor):
         self.model = model
         self.model_impl = model_impl if model_impl is not None else self._unwrap_model(model)
         self.config = config
+        self.last_grad_probe = []
         optimizer_cls = torch.optim.AdamW
         self.optimizer = optimizer_cls(
             self.model.parameters(),
@@ -43,6 +44,32 @@ class EDMActor(BaseActor):
 
     def set_model_impl(self, model_impl) -> None:
         self.model_impl = model_impl
+
+    def capture_grad_probe(self):
+        """Capture a small local gradient summary before optimizer.step()."""
+        probe_cfg = self.config.get("ddp", {})
+        if not bool(probe_cfg.get("grad_sync_probe", False)):
+            self.last_grad_probe = []
+            return []
+
+        max_params = int(probe_cfg.get("grad_sync_probe_max_params", 8))
+        grad_probe = []
+        for idx, (name, param) in enumerate(self.model.named_parameters()):
+            if idx >= max_params:
+                break
+            grad = param.grad
+            grad_probe.append(
+                {
+                    "name": name,
+                    "param_norm": float(param.detach().float().norm().item()),
+                    "grad_is_none": grad is None,
+                    "grad_norm": float(grad.detach().float().norm().item()) if grad is not None else None,
+                    "grad_mean": float(grad.detach().float().mean().item()) if grad is not None else None,
+                }
+            )
+        self.last_grad_probe = grad_probe
+        return grad_probe
+
     def train_batched_samples(self, batched_samples):
         """
         Train on a batch of samples. Main training segment
@@ -80,6 +107,7 @@ class EDMActor(BaseActor):
                 info["loss"].append(loss.item())
                 loss.backward()
                 clip_grad_norm_(self.model.parameters(), max_norm=self.max_grad_norm)
+        self.capture_grad_probe()
         self.optimizer.step()
         self.optimizer.zero_grad()
             
@@ -114,12 +142,22 @@ class EDMActor(BaseActor):
         t_array = s_array + 1
         s_array = s_array / self.num_timesteps
         t_array = t_array / self.num_timesteps
-        ## need add
-        node_mask, edge_mask = self.model_impl.get_mask(nodesxsample, latents.shape[0], self.max_n_nodes)
+        current_model = self.model
+        helper_model = self.model_impl
+        node_mask, edge_mask = helper_model.get_mask(nodesxsample, latents.shape[0], self.max_n_nodes)
         node_mask = node_mask.to(latents.device)
         edge_mask = edge_mask.to(latents.device)
 
-        _, log_prob_current, _, _ = self.model_impl.sample_p_zs_given_zt(s_array, t_array, latents, node_mask, edge_mask, prev_sample=next_latents,context=context)
+        log_prob_current = current_model(
+            mode="ddpo_log_prob",
+            s=s_array,
+            t=t_array,
+            zt=latents,
+            node_mask=node_mask,
+            edge_mask=edge_mask,
+            prev_sample=next_latents,
+            context=context,
+        )
     
         ## log_prob_current is old latents in new policy
         

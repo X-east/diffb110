@@ -321,6 +321,52 @@ def maybe_check_param_sync(runtime: DistributedRuntimeBundle, epoch: int) -> Non
         )
 
 
+def maybe_log_ddp_probe(runtime: DistributedRuntimeBundle, epoch: int) -> None:
+    """Log identity and local-gradient probes for DDP diagnosis."""
+    probe_cfg = runtime.config.get("ddp", {})
+    if not bool(probe_cfg.get("grad_sync_probe", False)):
+        return
+
+    model_train_module = getattr(runtime.model_train, "module", None)
+    actor_model_module = getattr(runtime.actor.model, "module", None)
+    local_probe = {
+        "rank": int(runtime.dist_ctx.rank),
+        "model_train_module_is_model_impl": model_train_module is runtime.model_impl,
+        "actor_model_is_model_train": runtime.actor.model is runtime.model_train,
+        "actor_model_module_is_model_impl": actor_model_module is runtime.model_impl,
+        "actor_model_impl_is_model_impl": runtime.actor.model_impl is runtime.model_impl,
+        "actor_model_impl_is_actor_model_module": actor_model_module is runtime.actor.model_impl,
+        "grad_probe": list(getattr(runtime.actor, "last_grad_probe", [])),
+    }
+    gathered = all_gather_objects(local_probe, runtime.dist_ctx)
+    barrier_if_needed(runtime.dist_ctx)
+    if not is_main_process(runtime.dist_ctx):
+        return
+
+    runtime.logger.info("[DDP PROBE] Epoch %d identity/grad probe start", epoch)
+    for item in gathered:
+        runtime.logger.info(
+            "[DDP PROBE][rank=%d] identity: train.module_is_impl=%s actor.model_is_train=%s actor.model.module_is_impl=%s actor.model_impl_is_impl=%s actor.model_impl_is_actor.model.module=%s",
+            item["rank"],
+            item["model_train_module_is_model_impl"],
+            item["actor_model_is_model_train"],
+            item["actor_model_module_is_model_impl"],
+            item["actor_model_impl_is_model_impl"],
+            item["actor_model_impl_is_actor_model_module"],
+        )
+        for probe in item["grad_probe"]:
+            runtime.logger.info(
+                "[DDP PROBE][rank=%d] %s | param_norm=%.8f grad_is_none=%s grad_norm=%s grad_mean=%s",
+                item["rank"],
+                probe["name"],
+                probe["param_norm"],
+                probe["grad_is_none"],
+                "None" if probe["grad_norm"] is None else f"{probe['grad_norm']:.8f}",
+                "None" if probe["grad_mean"] is None else f"{probe['grad_mean']:.8e}",
+            )
+    runtime.logger.info("[DDP PROBE] Epoch %d identity/grad probe end", epoch)
+
+
 def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metrics: dict[str, Any], dist_ctx: DistributedContext) -> GlobalBatchStats:
     count = float(local_stats.generated_count)
     generated_count = int(round(reduce_sum_scalar(float(local_stats.generated_count), dist_ctx)))
@@ -432,6 +478,7 @@ def record_epoch_ddp(
 def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepResult:
     prepared = prepare_training_samples(runtime, epoch)
     metrics = update_policy(runtime, prepared, epoch)
+    maybe_log_ddp_probe(runtime, epoch)
     maybe_check_param_sync(runtime, epoch)
     local_stats = compute_batch_stats(prepared)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
