@@ -56,7 +56,7 @@ train:                                           # PPO / 优化训练配置
 ddp:                                             # 原生 PyTorch DDP 配置
   enabled: true                                  # 是否启用 DDP；true 时要求用 torchrun 提供分布式环境变量
   num_gpus: 2                                    # 期望使用的 GPU 数；程序会校验它必须等于 torchrun 注入的 WORLD_SIZE
-  find_unused_parameters: false                  # 传给 PyTorch DDP 的 find_unused_parameters 参数
+  find_unused_parameters: true                   # 当前 PPO loss 只覆盖 ligand 分支；启用 unused-parameter 检测以兼容 DDP
   param_sync_check: true                         # 开启轻量参数一致性 smoke check；默认应只在 smoke/debug 场景打开
   # param_sync_check_max_params: 8               # 预留：检查前多少个参数的范数摘要；默认 8
   # param_sync_check_atol: 1.0e-6                # 预留：参数范数比较的绝对误差阈值
