@@ -17,7 +17,7 @@ from .base import BaseDockingBackend
 from ddpo.rewards.interfaces.docking_result import DockingResult
 
 # Full path to unidock binary (conda dif env)
-UNIDOCK_BIN = "/home/md666/miniforge3/envs/dif/bin/unidock"
+UNIDOCK_BIN = "/opt/unidock-1.1.3/bin/unidock"
 
 
 class UniDockBackend(BaseDockingBackend):
