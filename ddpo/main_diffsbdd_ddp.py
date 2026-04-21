@@ -18,26 +18,28 @@ sys.path.insert(0, str(PROJECT_ROOT / "RLPF-verl_diffusion"))
 sys.path.insert(0, str(PROJECT_ROOT / "DiffSBDD"))
 
 from constants import dataset_params
-from ddpo.main_diffsbdd_single_gpu import (
+from ddpo.runtime.build import (
+    apply_cli_overrides,
+    build_actor,
+    build_dataloader,
+    build_filter,
+    build_model,
+    load_config,
+    save_config_snapshot,
+)
+from ddpo.runtime.cli import parse_args
+from ddpo.runtime.train_helpers import (
     BatchStats,
     EpochStepResult,
     PreparedSamples,
-    apply_cli_overrides,
-    build_actor,
     build_batch_facts,
-    build_dataloader,
     build_epoch_facts,
-    build_filter,
-    build_model,
     compute_batch_stats,
     finish_run,
-    load_config,
-    parse_args,
     prepare_training_samples,
-    save_config_snapshot,
-    setup_chemistry_logging,
     update_policy,
 )
+from ddpo.utils.suppress_warnings import setup_chemistry_logging
 from ddpo.rewards.docking import DockingReward
 from ddpo.rewards.factory import build_rewarder
 from ddpo.runtime import (

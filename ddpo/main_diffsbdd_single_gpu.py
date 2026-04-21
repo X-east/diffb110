@@ -17,14 +17,43 @@ from __future__ import annotations
 import argparse
 import os
 import sys
-from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+import ddpo.utils  # noqa: F401
 import torch
-import yaml
+
+from constants import dataset_params
+from ddpo.integration import DiffSBDDModel
+from ddpo.rewards.factory import build_rewarder
+from ddpo.runtime import DiffSBDDDataLoader, DiffSBDDRollout, set_seed, setup_logging
+from ddpo.runtime.build import (
+    apply_cli_overrides,
+    build_actor,
+    build_dataloader,
+    build_filter,
+    build_model,
+    load_config,
+    resolve_device,
+    save_config_snapshot,
+)
+from ddpo.runtime.cli import parse_args
+from ddpo.runtime.recording import CheckpointFacts, RunRecorder, RunStatus, create_run_context
+from ddpo.runtime.train_helpers import (
+    BatchStats,
+    EpochStepResult,
+    PreparedSamples,
+    build_batch_facts,
+    build_epoch_facts,
+    compute_batch_stats,
+    finish_run,
+    prepare_training_samples,
+    update_policy,
+)
+from ddpo.utils import DiffSBDDFilter
+from ddpo.utils.suppress_warnings import setup_chemistry_logging
 
 # Disable output buffering for immediate console output
 os.environ["PYTHONUNBUFFERED"] = "1"
@@ -38,26 +67,6 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "RLPF-verl_diffusion"))
 sys.path.insert(0, str(PROJECT_ROOT / "DiffSBDD"))
-
-# Activate wandb stub before importing DiffSBDD-related modules
-import ddpo.utils  # noqa: F401
-
-from constants import dataset_params
-from ddpo.integration import DiffSBDDModel
-from ddpo.rewards.factory import build_rewarder
-from ddpo.runtime import DiffSBDDDataLoader, DiffSBDDRollout, set_seed, setup_logging
-from ddpo.runtime.recording import (
-    BatchFacts,
-    CheckpointFacts,
-    EpochFacts,
-    RunLifecycleFacts,
-    RunRecorder,
-    RunStatus,
-    create_run_context,
-)
-from ddpo.utils import DiffSBDDFilter, annotate_batch_molecule_semantics
-from ddpo.utils.suppress_warnings import setup_chemistry_logging
-from verl_diffusion.worker.actor.edm_actor import EDMActor
 
 
 @dataclass
@@ -79,172 +88,6 @@ class RuntimeBundle:
     run_recorder: RunRecorder
     max_epochs: int
     checkpoint_interval: int
-
-
-@dataclass
-class PreparedSamples:
-    samples: Any
-    filtering_ratio: float
-    novelty_penalty_ratio: float
-
-
-@dataclass
-class EpochStepResult:
-    epoch: int
-    metrics: dict[str, Any]
-    reward_mean: float
-    reward_min: float
-    reward_max: float
-    avg_qed: float
-    avg_sa: float
-    generated_count: int
-    valid_count: int
-    valid_ratio: float
-    filtering_ratio: float
-    novelty_penalty_ratio: float
-    failure_counts: dict[str, int]
-
-
-@dataclass
-class BatchStats:
-    reward_mean: float
-    reward_min: float
-    reward_max: float
-    avg_qed: float
-    avg_sa: float
-    generated_count: int
-    valid_count: int
-    valid_ratio: float
-    failure_counts: dict[str, int]
-
-
-def parse_args() -> argparse.Namespace:
-    """Parse CLI arguments for the single-GPU entrypoint."""
-    parser = argparse.ArgumentParser(
-        description="Single-GPU DiffSBDD + RLPF RL training entrypoint"
-    )
-    parser.add_argument(
-        "--config_path",
-        type=str,
-        required=True,
-        help="Path to YAML config file.",
-    )
-    parser.add_argument(
-        "--save_path",
-        type=str,
-        default=None,
-        help="Optional output directory override.",
-    )
-    parser.add_argument(
-        "--seed",
-        type=int,
-        default=None,
-        help="Optional seed override.",
-    )
-    parser.add_argument(
-        "--log_level",
-        type=str,
-        default="INFO",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
-        help="Logging verbosity.",
-    )
-    parser.add_argument(
-        "--resume",
-        action="store_true",
-        help="Reserved for future checkpoint resume support.",
-    )
-    parser.add_argument(
-        "--checkpoint_path",
-        type=str,
-        default=None,
-        help="Reserved for future checkpoint resume support.",
-    )
-    return parser.parse_args()
-
-
-
-def load_config(config_path: str) -> dict[str, Any]:
-    """Load YAML configuration from disk."""
-    with open(config_path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
-
-
-
-def apply_cli_overrides(config: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
-    """Apply CLI overrides while preserving config as the source of truth."""
-    if args.seed is not None:
-        config.setdefault("train", {})["seed"] = args.seed
-    return config
-
-
-
-def resolve_device(config: dict[str, Any]) -> str:
-    """Resolve runtime device from config with CUDA-aware fallback."""
-    return config.get(
-        "model", {}
-    ).get(
-        "device",
-        "cuda" if torch.cuda.is_available() else "cpu",
-    )
-
-
-
-def save_config_snapshot(config: dict[str, Any], snapshot_path: str) -> None:
-    """Persist the resolved config snapshot for reproducibility."""
-    with open(snapshot_path, "w", encoding="utf-8") as f:
-        yaml.safe_dump(config, f, sort_keys=False, allow_unicode=True)
-
-
-
-def build_model(config: dict[str, Any], device: str, dataset_name: str) -> DiffSBDDModel:
-    """Construct the DiffSBDD model wrapper."""
-    return DiffSBDDModel(
-        checkpoint_path=config["model"]["checkpoint"],
-        pocket_pdb_path=config["pocket"]["pdb_path"],
-        ref_ligand_path=config["pocket"]["ref_ligand"],
-        device=device,
-        dataset_name=dataset_name,
-    )
-
-
-
-def build_dataloader(
-    config: dict[str, Any],
-    dataset_info: dict[str, Any],
-    device: str,
-) -> DiffSBDDDataLoader:
-    """Construct the single-GPU prompt dataloader."""
-    return DiffSBDDDataLoader(
-        config=config,
-        dataset_info=dataset_info,
-        device=device,
-        num_batches=config.get("dataloader", {}).get("epochs"),
-    )
-
-
-
-def build_filter(config: dict[str, Any], dataset_info: dict[str, Any]) -> DiffSBDDFilter:
-    """Construct the canonical molecule filter."""
-    return DiffSBDDFilter(
-        dataset_info=dataset_info,
-        enable_filtering=bool(config.get("filter", {}).get("enable_filtering", False)),
-        enable_penalty=bool(config.get("filter", {}).get("enable_penalty", False)),
-        novelty_penalty_coef=float(
-            config.get("filter", {}).get("novelty_penalty_coef", 0.1)
-        ),
-    )
-
-
-
-def build_actor(model: DiffSBDDModel, config: dict[str, Any], dataset_info: dict[str, Any], model_impl: DiffSBDDModel | None = None):
-    """Construct the PPO actor and inject explicit max-node semantics."""
-    actor = EDMActor(model, config, model_impl=model_impl)
-    actor.max_n_nodes = config.get("dataloader", {}).get(
-        "max_n_nodes",
-        config.get("dataloader", {}).get("max_nodes", dataset_info.get("max_n_nodes", 50)),
-    )
-    return actor
-
 
 
 def build_runtime(args: argparse.Namespace, config: dict[str, Any]) -> RuntimeBundle:
@@ -318,214 +161,6 @@ def build_runtime(args: argparse.Namespace, config: dict[str, Any]) -> RuntimeBu
     )
 
 
-
-def prepare_training_samples(runtime: RuntimeBundle, epoch: int) -> PreparedSamples:
-    """Prepare one training sample batch with explicit stage boundaries."""
-    logger = runtime.logger
-
-    logger.info("[Epoch %d/%d] generate_batch", epoch, runtime.max_epochs)
-    prompts = runtime.dataloader.generate_batch()
-
-    logger.info("[Epoch %d/%d] generate_minibatch", epoch, runtime.max_epochs)
-    samples = runtime.rollout.generate_minibatch(prompts)
-
-    logger.info("[Epoch %d/%d] annotate_batch_molecule_semantics", epoch, runtime.max_epochs)
-    samples = annotate_batch_molecule_semantics(samples, dataset_info=runtime.dataset_info)
-
-    logger.info("[Epoch %d/%d] filters.filter", epoch, runtime.max_epochs)
-    samples, filtering_ratio, novelty_penalty_ratio = runtime.filters.filter(samples)
-
-    logger.info("[Epoch %d/%d] rewarder.calculate_rewards", epoch, runtime.max_epochs)
-    samples = runtime.rewarder.calculate_rewards(samples)
-
-    if "advantages" not in samples.batch:
-        logger.info("[Epoch %d/%d] advantages = rewards", epoch, runtime.max_epochs)
-        samples.batch["advantages"] = samples.batch["rewards"]
-
-    return PreparedSamples(
-        samples=samples,
-        filtering_ratio=filtering_ratio,
-        novelty_penalty_ratio=novelty_penalty_ratio,
-    )
-
-
-
-def update_policy(runtime: RuntimeBundle, prepared: PreparedSamples, epoch: int) -> dict[str, Any]:
-    """Execute the PPO policy update on prepared samples."""
-    runtime.logger.info("[Epoch %d/%d] actor.update_policy", epoch, runtime.max_epochs)
-    metrics = runtime.actor.update_policy(prepared.samples)
-    if metrics is None:
-        return {}
-    return dict(metrics)
-
-
-
-def _to_float_list(values: Any) -> list[float]:
-    if values is None:
-        return []
-    if isinstance(values, torch.Tensor):
-        return [float(v) for v in values.detach().cpu().reshape(-1).tolist()]
-    return [float(v) for v in list(values)]
-
-
-
-def _to_int_list(values: Any) -> list[int]:
-    if values is None:
-        return []
-    if isinstance(values, torch.Tensor):
-        return [int(v) for v in values.detach().cpu().reshape(-1).tolist()]
-    return [int(v) for v in list(values)]
-
-
-
-def _to_str_list(values: Any) -> list[str]:
-    if values is None:
-        return []
-    return [str(v) for v in list(values)]
-
-
-
-def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
-    """Compute batch-local statistics used for recording and console summaries."""
-    samples = prepared.samples
-
-    rewards = _to_float_list(samples.batch.get("rewards"))
-    qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
-    sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
-    valid_flags = _to_int_list(samples.batch.get("rdkit_valid"))
-    failure_types = _to_str_list(samples.batch.get("failure_type"))
-
-    reward_mean = float(sum(rewards) / len(rewards)) if rewards else 0.0
-    reward_min = float(min(rewards)) if rewards else 0.0
-    reward_max = float(max(rewards)) if rewards else 0.0
-    avg_qed = float(sum(qed_scores) / len(qed_scores)) if qed_scores else 0.0
-    avg_sa = float(sum(sa_scores) / len(sa_scores)) if sa_scores else 0.0
-    generated_count = len(valid_flags) if valid_flags else int(samples.batch.batch_size[0])
-    valid_count = int(sum(valid_flags)) if valid_flags else 0
-    valid_ratio = float(valid_count / generated_count) if generated_count > 0 else 0.0
-    failure_counts = dict(Counter(failure_types)) if failure_types else {}
-
-    return BatchStats(
-        reward_mean=reward_mean,
-        reward_min=reward_min,
-        reward_max=reward_max,
-        avg_qed=avg_qed,
-        avg_sa=avg_sa,
-        generated_count=generated_count,
-        valid_count=valid_count,
-        valid_ratio=valid_ratio,
-        failure_counts=failure_counts,
-    )
-
-
-
-def build_batch_facts(
-    prepared: PreparedSamples,
-    epoch: int,
-    batch_idx: int,
-    batch_stats: BatchStats,
-) -> BatchFacts:
-    """Build recorder-ready batch facts from the prepared sample batch."""
-    samples = prepared.samples
-    smiles_values = list(samples.batch.get("smiles", []))
-    valid_flags = _to_int_list(samples.batch.get("rdkit_valid"))
-    qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
-    sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
-    rewards = _to_float_list(samples.batch.get("rewards"))
-    drug_rewards = _to_float_list(samples.batch.get("druglikeness_reward"))
-    docking_rewards = _to_float_list(samples.batch.get("docking_reward"))
-
-    molecule_rows = []
-    for molecule_id in range(batch_stats.generated_count):
-        molecule_rows.append(
-            {
-                "epoch": epoch,
-                "batch_idx": batch_idx,
-                "rank": 0,
-                "molecule_id": molecule_id,
-                "smiles": smiles_values[molecule_id] if molecule_id < len(smiles_values) else "",
-                "rdkit_valid": valid_flags[molecule_id] if molecule_id < len(valid_flags) else 0,
-                "qed": qed_scores[molecule_id] if molecule_id < len(qed_scores) else 0.0,
-                "sa_raw": sa_scores[molecule_id] if molecule_id < len(sa_scores) else 0.0,
-                "reward_total": rewards[molecule_id] if molecule_id < len(rewards) else 0.0,
-                "reward_druglikeness": drug_rewards[molecule_id] if molecule_id < len(drug_rewards) else 0.0,
-                "reward_docking": docking_rewards[molecule_id] if molecule_id < len(docking_rewards) else 0.0,
-            }
-        )
-
-    return BatchFacts(
-        epoch=epoch,
-        batch_idx=batch_idx,
-        rank=0,
-        generated_count=batch_stats.generated_count,
-        valid_count=batch_stats.valid_count,
-        reward_mean=batch_stats.reward_mean,
-        reward_min=batch_stats.reward_min,
-        reward_max=batch_stats.reward_max,
-        avg_qed=batch_stats.avg_qed,
-        avg_sa=batch_stats.avg_sa,
-        filtering_ratio=prepared.filtering_ratio,
-        novelty_penalty_ratio=prepared.novelty_penalty_ratio,
-        failure_counts=batch_stats.failure_counts,
-        molecule_rows=molecule_rows,
-    )
-
-
-
-def build_epoch_facts(
-    runtime: RuntimeBundle,
-    epoch: int,
-    metrics: dict[str, Any],
-    batch_stats: BatchStats,
-    prepared: PreparedSamples,
-) -> EpochFacts:
-    """Build recorder-ready epoch facts from batch-local summaries."""
-    avg_loss = float(metrics.get("Loss", metrics.get("loss", metrics.get("ppo_loss", 0.0))))
-    checkpoint_due = (epoch % runtime.checkpoint_interval) == 0
-
-    return EpochFacts(
-        epoch=epoch,
-        timestamp=datetime.now().isoformat(timespec="seconds"),
-        avg_loss=avg_loss,
-        reward_mean=batch_stats.reward_mean,
-        reward_min=batch_stats.reward_min,
-        reward_max=batch_stats.reward_max,
-        avg_qed=batch_stats.avg_qed,
-        avg_sa=batch_stats.avg_sa,
-        generated_total=batch_stats.generated_count,
-        rdkit_valid=batch_stats.valid_count,
-        rdkit_valid_ratio=batch_stats.valid_ratio,
-        filtering_ratio_mean=prepared.filtering_ratio,
-        novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio,
-        failure_counts=batch_stats.failure_counts,
-        extra_metrics={"max_epochs": runtime.max_epochs},
-        checkpoint_due=checkpoint_due,
-    )
-
-
-
-def record_epoch(
-    runtime: RuntimeBundle,
-    epoch: int,
-    prepared: PreparedSamples,
-    metrics: dict[str, Any],
-    batch_stats: BatchStats,
-) -> None:
-    """Persist batch-level and epoch-level recorder outputs for one epoch."""
-    batch_facts = build_batch_facts(prepared=prepared, epoch=epoch, batch_idx=0, batch_stats=batch_stats)
-    runtime.run_recorder.on_batch_end(batch_facts)
-
-    epoch_facts = build_epoch_facts(
-        runtime=runtime,
-        epoch=epoch,
-        metrics=metrics,
-        batch_stats=batch_stats,
-        prepared=prepared,
-    )
-    runtime.run_recorder.on_epoch_end(epoch_facts)
-
-
-
 def checkpoint_path_for_epoch(runtime: RuntimeBundle, epoch: int) -> str:
     """Return the canonical checkpoint path for one epoch."""
     checkpoint_name = f"diffsbdd-ddpo-epoch={epoch:04d}.pt"
@@ -576,30 +211,6 @@ def save_checkpoint(runtime: RuntimeBundle, epoch: int, metrics: dict[str, Any])
 
 
 
-def build_run_lifecycle(runtime: RuntimeBundle, status: RunStatus, message: str | None = None) -> RunLifecycleFacts:
-    """Build the final run lifecycle payload."""
-    return RunLifecycleFacts(
-        run_id=runtime.run_context.run_id,
-        run_name=runtime.run_context.run_name,
-        output_dir=runtime.run_context.output_dir,
-        status=status,
-        started_at=runtime.run_context.started_at,
-        ended_at=datetime.now().isoformat(timespec="seconds"),
-        message=message,
-    )
-
-
-
-def finish_run(runtime: RuntimeBundle, status: RunStatus, message: str | None = None) -> None:
-    """Record terminal run lifecycle status through the recorder facade."""
-    lifecycle = build_run_lifecycle(runtime, status=status, message=message)
-    extra_lines = [f"Output Dir: {runtime.run_context.output_dir}"]
-    if message:
-        extra_lines.append(f"Message   : {message}")
-    runtime.run_recorder.on_run_finished(lifecycle, extra_lines=extra_lines)
-
-
-
 def summarize_epoch(
     runtime: RuntimeBundle,
     epoch: int,
@@ -647,7 +258,21 @@ def run_epoch(runtime: RuntimeBundle, epoch: int) -> EpochStepResult:
     prepared = prepare_training_samples(runtime, epoch)
     metrics = update_policy(runtime, prepared, epoch)
     batch_stats = compute_batch_stats(prepared)
-    record_epoch(runtime, epoch, prepared, metrics, batch_stats)
+    batch_facts = build_batch_facts(
+        prepared=prepared,
+        epoch=epoch,
+        batch_idx=0,
+        batch_stats=batch_stats,
+    )
+    runtime.run_recorder.on_batch_end(batch_facts)
+    epoch_facts = build_epoch_facts(
+        runtime=runtime,
+        epoch=epoch,
+        metrics=metrics,
+        batch_stats=batch_stats,
+        prepared=prepared,
+    )
+    runtime.run_recorder.on_epoch_end(epoch_facts)
     save_checkpoint(runtime, epoch, metrics)
     result = summarize_epoch(runtime, epoch, prepared, metrics, batch_stats)
     log_epoch_result(runtime, result)
