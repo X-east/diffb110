@@ -1,0 +1,61 @@
+---
+inclusion: always
+---
+# Scope
+
+This project uses GPU-based docking or scoring pipelines.
+Do not introduce Ray or distributed actor frameworks unless explicitly requested.
+
+# Core Rules
+
+- Prefer simple batch pipelines over orchestration complexity.
+- Treat docking scores as approximate ranking signals, not true binding affinity.
+- Keep receptor path, ligand path, box settings, and engine parameters explicit.
+- Do not hard-code docking box settings without config support or a clear comment.
+
+# GPU Rules
+
+- Make device placement explicit.
+- Do not assume cuda:0 unless configured.
+- Avoid unnecessary CPU↔GPU transfers.
+- Avoid repeated engine initialization if reusable.
+- Avoid repeated receptor loading if reusable.
+- Keep batch size configurable.
+- Prefer bounded batches over aggressive batching.
+
+# OOM Safety
+
+If GPU OOM is possible:
+- fail clearly
+- report where it happened
+- allow configurable batch-size reduction if appropriate
+- do not silently skip samples
+- do not continue in corrupted state
+
+# Failure Handling
+
+- Handle docking failures explicitly.
+- Log failure counts.
+- Do not fabricate fallback scores.
+- Do not silently replace failed outputs with good-looking values.
+- Keep temporary files collision-safe if files are used.
+
+# Performance Rules
+
+Optimize in this order:
+1. correctness
+2. batching
+3. caching static inputs
+4. reducing I/O
+5. reducing repeated conversions
+
+Do not add complexity without clear benefit.
+
+# Testing Priorities
+
+For nontrivial changes, test:
+- one GPU docking smoke test
+- device placement correctness
+- batch-size handling
+- failure handling
+- OOM-safe behavior where practical

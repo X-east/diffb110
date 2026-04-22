@@ -114,24 +114,38 @@ class RewardNormalizer:
 
     def _write_stats(self, batch: dict[str, Any], raw_stats: RewardStats, norm_tensor: torch.Tensor, raw_tensor: torch.Tensor) -> None:
         prefix = self.config.stats_prefix
-        batch[f"{prefix}_mean_raw"] = raw_stats.mean
-        batch[f"{prefix}_std_raw"] = raw_stats.std
-        batch[f"{prefix}_min_raw"] = raw_stats.minimum
-        batch[f"{prefix}_max_raw"] = raw_stats.maximum
-        batch[f"{prefix}_count_raw"] = raw_stats.count
+        # TensorDict with non-empty batch_size rejects Python scalars (shape=[]).
+        # Broadcast all global-stat scalars into [batch_size] tensors so they
+        # are compatible with both plain dicts and TensorDict containers.
+        bs = int(batch.get("x", raw_tensor).shape[0]) if "x" in batch and isinstance(batch.get("x"), torch.Tensor) else int(raw_tensor.numel())
+        device = raw_tensor.device
+
+        def _broadcast(v: Any) -> torch.Tensor:
+            t = v if isinstance(v, torch.Tensor) else torch.tensor(float(v), dtype=torch.float32)
+            return t.expand(bs).clone().to(device)
+
+        def _broadcast_int(v: Any) -> torch.Tensor:
+            t = v if isinstance(v, torch.Tensor) else torch.tensor(int(v), dtype=torch.int64)
+            return t.expand(bs).clone().to(device)
+
+        batch[f"{prefix}_mean_raw"] = _broadcast(raw_stats.mean)
+        batch[f"{prefix}_std_raw"] = _broadcast(raw_stats.std)
+        batch[f"{prefix}_min_raw"] = _broadcast(raw_stats.minimum)
+        batch[f"{prefix}_max_raw"] = _broadcast(raw_stats.maximum)
+        batch[f"{prefix}_count_raw"] = _broadcast_int(raw_stats.count)
 
         if norm_tensor.numel() > 0:
-            batch[f"{prefix}_mean_norm"] = float(norm_tensor.mean().item())
-            batch[f"{prefix}_std_norm"] = float(norm_tensor.std(unbiased=False).item()) if norm_tensor.numel() > 1 else 0.0
-            batch[f"{prefix}_min_norm"] = float(norm_tensor.min().item())
-            batch[f"{prefix}_max_norm"] = float(norm_tensor.max().item())
+            batch[f"{prefix}_mean_norm"] = _broadcast(float(norm_tensor.mean().item()))
+            batch[f"{prefix}_std_norm"] = _broadcast(float(norm_tensor.std(unbiased=False).item()) if norm_tensor.numel() > 1 else 0.0)
+            batch[f"{prefix}_min_norm"] = _broadcast(float(norm_tensor.min().item()))
+            batch[f"{prefix}_max_norm"] = _broadcast(float(norm_tensor.max().item()))
         else:
-            batch[f"{prefix}_mean_norm"] = 0.0
-            batch[f"{prefix}_std_norm"] = 0.0
-            batch[f"{prefix}_min_norm"] = 0.0
-            batch[f"{prefix}_max_norm"] = 0.0
+            batch[f"{prefix}_mean_norm"] = _broadcast(0.0)
+            batch[f"{prefix}_std_norm"] = _broadcast(0.0)
+            batch[f"{prefix}_min_norm"] = _broadcast(0.0)
+            batch[f"{prefix}_max_norm"] = _broadcast(0.0)
 
-        batch[f"{prefix}_failure_count"] = int((raw_tensor == self.config.failure_penalty).sum().item())
+        batch[f"{prefix}_failure_count"] = _broadcast_int(int((raw_tensor == self.config.failure_penalty).sum().item()))
 
     def apply(self, data: Any, dist_ctx: Any) -> Any:
         if not self.config.enabled:

@@ -1,7 +1,7 @@
 """
 CompositeReward: Weighted combination of multiple reward functions.
 
-Combines DockingReward, DruglikenessReward, and other rewards with configurable weights.
+Combines DockingReward, QEDReward, SAReward, and other rewards with configurable weights.
 """
 
 import warnings
@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 import torch
 
-from .base import BaseReward
+from .interfaces import BaseReward
 
 if TYPE_CHECKING:
     from verl_diffusion.protocol import DataProto

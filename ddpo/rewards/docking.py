@@ -31,7 +31,7 @@ from ddpo.utils.molecule_semantics import (
     FAILURE_SUCCESS,
 )
 
-from .base import BaseReward
+from .interfaces import BaseReward
 from .docking_backends import AutoDockGPUBackend, UniDockBackend, SminaBackend
 from .docking_config import (
     ADD_HYDROGENS,

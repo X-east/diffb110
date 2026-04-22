@@ -2,7 +2,7 @@ import os
 import re
 from typing import List, Optional
 
-from .base import BaseDockingBackend
+from ddpo.rewards.interfaces.docking_backend import BaseDockingBackend
 from ddpo.rewards.interfaces.docking_result import DockingResult
 
 
