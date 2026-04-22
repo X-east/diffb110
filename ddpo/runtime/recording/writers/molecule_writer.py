@@ -25,7 +25,7 @@ class MoleculeWriter:
         "epoch", "batch_idx", "rank", "molecule_id",
         "smiles", "rdkit_valid",  # canonical field name (not 'valid')
         "qed", "sa_raw",
-        "reward_total", "reward_druglikeness", "reward_docking",
+        "reward_total", "reward_total_raw", "reward_total_norm", "reward_druglikeness", "reward_docking",
     ]
 
     def __init__(self, run_context: RunContext) -> None:

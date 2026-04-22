@@ -35,6 +35,7 @@ from ddpo.runtime.build import (
     build_dataloader,
     build_filter,
     build_model,
+    build_reward_normalizer,
     load_config,
     resolve_device,
     save_config_snapshot,
@@ -83,6 +84,7 @@ class RuntimeBundle:
     dataloader: DiffSBDDDataLoader
     rollout: DiffSBDDRollout
     rewarder: Any
+    reward_normalizer: Any
     filters: DiffSBDDFilter
     actor: Any
     run_recorder: RunRecorder
@@ -120,6 +122,7 @@ def build_runtime(args: argparse.Namespace, config: dict[str, Any]) -> RuntimeBu
     dataloader = build_dataloader(config, dataset_info, device)
     rollout = DiffSBDDRollout(model=model, config=config)
     rewarder = build_rewarder(config=config, dataset_info=dataset_info, logger=logger)
+    reward_normalizer = build_reward_normalizer(config=config, logger=logger)
     filters = build_filter(config, dataset_info)
     actor = build_actor(model, config, dataset_info)
     run_recorder = RunRecorder(run_context=run_context, logger=logger, world_size=1)
@@ -128,6 +131,7 @@ def build_runtime(args: argparse.Namespace, config: dict[str, Any]) -> RuntimeBu
     logger.info("Initialized DiffSBDDDataLoader")
     logger.info("Initialized DiffSBDDRollout")
     logger.info("Initialized rewarder: %s", type(rewarder).__name__)
+    logger.info("Initialized reward normalizer: %s", type(reward_normalizer).__name__)
     logger.info("Initialized filter: %s", filters)
     logger.info("Initialized actor: %s", type(actor).__name__)
     logger.info("Initialized RunRecorder")
@@ -153,6 +157,7 @@ def build_runtime(args: argparse.Namespace, config: dict[str, Any]) -> RuntimeBu
         dataloader=dataloader,
         rollout=rollout,
         rewarder=rewarder,
+        reward_normalizer=reward_normalizer,
         filters=filters,
         actor=actor,
         run_recorder=run_recorder,

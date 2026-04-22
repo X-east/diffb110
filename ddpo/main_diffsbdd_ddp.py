@@ -24,6 +24,7 @@ from ddpo.runtime.build import (
     build_dataloader,
     build_filter,
     build_model,
+    build_reward_normalizer,
     load_config,
     save_config_snapshot,
 )
@@ -78,6 +79,7 @@ class DistributedRuntimeBundle:
     dataloader: Any
     rollout: DiffSBDDRollout
     rewarder: Any
+    reward_normalizer: Any
     filters: Any
     actor: Any
     run_recorder: RunRecorder
@@ -203,6 +205,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
     dataloader = build_dataloader(config, dataset_info, device)
     rollout = DiffSBDDRollout(model=model_impl, config=config)
     rewarder = build_rewarder(config=config, dataset_info=dataset_info, logger=logger)
+    reward_normalizer = build_reward_normalizer(config=config, logger=logger)
     bind_reward_runtime_devices(rewarder, gpu_id=dist_ctx.local_rank)
     filters = build_filter(config, dataset_info)
     actor = build_actor(model_train, config, dataset_info, model_impl=model_impl)
@@ -221,6 +224,8 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         per_rank_batch_size,
         global_batch_size,
     )
+    logger.info("Initialized rewarder: %s", type(rewarder).__name__)
+    logger.info("Initialized reward normalizer: %s", type(reward_normalizer).__name__)
 
     return DistributedRuntimeBundle(
         args=args,
@@ -237,6 +242,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         dataloader=dataloader,
         rollout=rollout,
         rewarder=rewarder,
+        reward_normalizer=reward_normalizer,
         filters=filters,
         actor=actor,
         run_recorder=run_recorder,

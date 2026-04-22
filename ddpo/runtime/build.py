@@ -7,6 +7,7 @@ import torch
 import yaml
 
 from ddpo.integration import DiffSBDDModel
+from ddpo.rewards.normalization import RewardNormalizationConfig, RewardNormalizer
 from ddpo.runtime.data_loader import DiffSBDDDataLoader
 from ddpo.utils import DiffSBDDFilter
 from verl_diffusion.worker.actor.edm_actor import EDMActor
@@ -91,3 +92,10 @@ def build_actor(model, config: dict[str, Any], dataset_info: dict[str, Any], mod
         config.get("dataloader", {}).get("max_nodes", dataset_info.get("max_n_nodes", 50)),
     )
     return actor
+
+
+
+def build_reward_normalizer(config: dict[str, Any], logger=None) -> RewardNormalizer:
+    """Construct the YAML-driven total reward normalizer."""
+    norm_cfg = RewardNormalizationConfig.from_config(config)
+    return RewardNormalizer(config=norm_cfg, logger=logger)

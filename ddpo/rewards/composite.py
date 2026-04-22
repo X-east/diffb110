@@ -171,6 +171,7 @@ class CompositeReward(BaseReward):
             )
         
         # Store results
+        data.batch['rewards_raw'] = combined_rewards.clone()
         data.batch['rewards'] = combined_rewards
         
         # Store component rewards for logging/debugging
