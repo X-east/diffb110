@@ -60,6 +60,11 @@ def prepare_training_samples(runtime: Any, epoch: int) -> PreparedSamples:
     samples, filtering_ratio, novelty_penalty_ratio = runtime.filters.filter(samples)
     logger.info("[Epoch %d/%d] rewarder.calculate_rewards", epoch, runtime.max_epochs)
     samples = runtime.rewarder.calculate_rewards(samples)
+    reward_normalizer = getattr(runtime, "reward_normalizer", None)
+    if reward_normalizer is not None:
+        logger.info("[Epoch %d/%d] reward_normalizer.apply", epoch, runtime.max_epochs)
+        dist_ctx = getattr(runtime, "dist_ctx", None)
+        samples = reward_normalizer.apply(samples, dist_ctx=dist_ctx)
     if "advantages" not in samples.batch:
         logger.info("[Epoch %d/%d] advantages = rewards", epoch, runtime.max_epochs)
         samples.batch["advantages"] = samples.batch["rewards"]
@@ -98,7 +103,7 @@ def _to_str_list(values: Any) -> list[str]:
 
 def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     samples = prepared.samples
-    rewards = _to_float_list(samples.batch.get("rewards"))
+    rewards = _to_float_list(samples.batch.get("rewards_clamped", samples.batch.get("rewards")))
     qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
     sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
     valid_flags = _to_int_list(samples.batch.get("rdkit_valid"))
@@ -121,7 +126,9 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
     valid_flags = _to_int_list(samples.batch.get("rdkit_valid"))
     qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
     sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
-    rewards = _to_float_list(samples.batch.get("rewards"))
+    rewards = _to_float_list(samples.batch.get("rewards_clamped", samples.batch.get("rewards")))
+    rewards_raw = _to_float_list(samples.batch.get("rewards_raw"))
+    rewards_norm = _to_float_list(samples.batch.get("rewards_norm"))
     drug_rewards = _to_float_list(samples.batch.get("druglikeness_reward"))
     docking_rewards = _to_float_list(samples.batch.get("docking_reward"))
     molecule_rows = []
@@ -136,6 +143,8 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
             "qed": qed_scores[molecule_id] if molecule_id < len(qed_scores) else 0.0,
             "sa_raw": sa_scores[molecule_id] if molecule_id < len(sa_scores) else 0.0,
             "reward_total": rewards[molecule_id] if molecule_id < len(rewards) else 0.0,
+            "reward_total_raw": rewards_raw[molecule_id] if molecule_id < len(rewards_raw) else 0.0,
+            "reward_total_norm": rewards_norm[molecule_id] if molecule_id < len(rewards_norm) else 0.0,
             "reward_druglikeness": drug_rewards[molecule_id] if molecule_id < len(drug_rewards) else 0.0,
             "reward_docking": docking_rewards[molecule_id] if molecule_id < len(docking_rewards) else 0.0,
         })
