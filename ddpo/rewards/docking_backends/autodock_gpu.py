@@ -38,7 +38,7 @@ import warnings
 from pathlib import Path
 from typing import List, Optional
 
-from .base import BaseDockingBackend
+from ddpo.rewards.interfaces.docking_backend import BaseDockingBackend
 from ddpo.rewards.interfaces.docking_result import DockingResult
 
 # --------------------------------------------------------------------------

@@ -7,7 +7,7 @@ Supports multiple docking engines:
 - Smina: CPU-based docking (legacy)
 """
 
-from .base import BaseDockingBackend
+from ddpo.rewards.interfaces.docking_backend import BaseDockingBackend
 from ddpo.rewards.interfaces.docking_result import DockingResult
 from .autodock_gpu import AutoDockGPUBackend
 from .unidock import UniDockBackend
