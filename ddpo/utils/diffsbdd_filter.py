@@ -88,11 +88,15 @@ class DiffSBDDFilter:
         """
         Filter molecules and optionally apply novelty penalty.
         """
-        if "rdkit_valid" not in data.batch or "smiles" not in data.batch:
+        ntb = data.non_tensor_batch if hasattr(data, "non_tensor_batch") else None
+        src = ntb if isinstance(ntb, dict) else data.batch
+        if "rdkit_valid" not in src or "smiles" not in src:
             data = annotate_batch_molecule_semantics(data, dataset_info=self.dataset_info)
+            ntb = data.non_tensor_batch if hasattr(data, "non_tensor_batch") else None
+            src = ntb if isinstance(ntb, dict) else data.batch
 
-        valid_flags = list(data.batch.get("rdkit_valid", []))
-        raw_smiles = list(data.batch.get("smiles", []))
+        valid_flags = list(src.get("rdkit_valid", []))
+        raw_smiles = list(src.get("smiles", []))
         all_smiles = [self._normalize_smiles_value(smiles) for smiles in raw_smiles]
 
         smiles_indices = {}

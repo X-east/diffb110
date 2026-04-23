@@ -67,9 +67,10 @@ class StabilityAwareReward:
         return data
 
     def _compute_stability(self, data: "DataProto") -> torch.Tensor:
-        """Derive stability tensor from batch['rdkit_valid']."""
+        """Derive stability tensor from non_tensor_batch['rdkit_valid']."""
         batch_size = data.batch["x"].shape[0]
-        rdkit_valid = data.batch.get("rdkit_valid")
+        ntb = getattr(data, "non_tensor_batch", None)
+        rdkit_valid = ntb.get("rdkit_valid") if ntb else data.batch.get("rdkit_valid")
 
         if rdkit_valid is not None:
             if isinstance(rdkit_valid, torch.Tensor):
@@ -78,7 +79,7 @@ class StabilityAwareReward:
 
         # Should not be reached if mainline forward() calls annotate_batch first.
         log.warning(
-            "[StabilityAwareReward] rdkit_valid not found in batch; "
+            "[StabilityAwareReward] rdkit_valid not found; "
             "returning zeros. Ensure annotate_batch_molecule_semantics() "
             "is called before calculate_rewards()."
         )

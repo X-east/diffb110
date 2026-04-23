@@ -244,25 +244,25 @@ def annotate_batch_molecule_semantics(
         smiles_list.append(semantics.smiles)
         failure_types.append(semantics.failure_type)
 
-    batch["obabel_reconstruct_success"] = obabel_reconstruct_success
-    batch["build_success"] = build_success
-    batch["sanitize_success"] = sanitize_success
-    batch["rdkit_valid"] = rdkit_valid
-    batch["smiles"] = smiles_list
-    batch["failure_type"] = failure_types
-    # Store built mol objects in non_tensor_batch so downstream rewards can reuse them
-    # without rebuilding.  Only valid molecules have a mol; invalid ones are None.
-    # NOTE: we use non_tensor_batch instead of batch because TensorDict wraps
-    # non-tensor Python objects (e.g. RDKit Mol) into an opaque container that
-    # breaks RDKit C++ type-checking at call sites like RemoveHs / GetMorganFingerprint.
+    # Store all Python-native metadata into non_tensor_batch so downstream consumers
+    # receive raw Python objects (list-of-int/str/Mol) instead of TensorDict-wrapped
+    # NonTensorData wrappers that break str() comparisons, RDKit type-checking,
+    # Counter hashing, and CSV serialization.
+    #
+    # Only true torch.Tensor values should live in data.batch; everything else goes
+    # through data.non_tensor_batch (a plain dict).
     if data.non_tensor_batch is None:
         data.non_tensor_batch = {}
-    data.non_tensor_batch["rdmols"] = [s.mol if s.rdkit_valid else None for s in all_semantics]
+    ntb = data.non_tensor_batch
+    ntb["obabel_reconstruct_success"] = obabel_reconstruct_success
+    ntb["build_success"] = build_success
+    ntb["sanitize_success"] = sanitize_success
+    ntb["rdkit_valid"] = rdkit_valid
+    ntb["smiles"] = smiles_list
+    ntb["failure_type"] = failure_types
+    ntb["rdmols"] = [s.mol if s.rdkit_valid else None for s in all_semantics]
     if include_legacy_valid_alias:
-        # Bug4 Fix-5: 'valid' kept as legacy alias for downstream compatibility only.
-        # All internal logic reads from 'rdkit_valid'. Do not use 'valid' as primary field.
-        # This alias will be removed once all downstream consumers are migrated.
-        batch["valid"] = rdkit_valid
+        ntb["valid"] = rdkit_valid
     return data
 
 

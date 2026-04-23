@@ -103,11 +103,13 @@ def _to_str_list(values: Any) -> list[str]:
 
 def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     samples = prepared.samples
+    ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
+    src = ntb if isinstance(ntb, dict) else samples.batch
     rewards = _to_float_list(samples.batch.get("rewards_clamped", samples.batch.get("rewards")))
     qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
     sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
-    valid_flags = _to_int_list(samples.batch.get("rdkit_valid"))
-    failure_types = _to_str_list(samples.batch.get("failure_type"))
+    valid_flags = _to_int_list(src.get("rdkit_valid"))
+    failure_types = _to_str_list(src.get("failure_type"))
     reward_mean = float(sum(rewards) / len(rewards)) if rewards else 0.0
     reward_min = float(min(rewards)) if rewards else 0.0
     reward_max = float(max(rewards)) if rewards else 0.0
@@ -122,8 +124,10 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
 
 def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, batch_stats: BatchStats) -> BatchFacts:
     samples = prepared.samples
-    smiles_values = list(samples.batch.get("smiles", []))
-    valid_flags = _to_int_list(samples.batch.get("rdkit_valid"))
+    ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
+    src = ntb if isinstance(ntb, dict) else samples.batch
+    smiles_values = list(src.get("smiles", []))
+    valid_flags = _to_int_list(src.get("rdkit_valid"))
     qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
     sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
     rewards = _to_float_list(samples.batch.get("rewards_clamped", samples.batch.get("rewards")))

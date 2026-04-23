@@ -72,8 +72,12 @@ class RewardNormalizer:
         if self.logger is not None:
             self.logger.info(message, *args)
 
-    def _build_failure_mask(self, batch: dict[str, Any], batch_size: int, device: torch.device) -> torch.Tensor:
-        failure_type = batch.get("failure_type")
+    def _build_failure_mask(self, data: Any, batch: dict[str, Any], batch_size: int, device: torch.device) -> torch.Tensor:
+        # Read failure_type from non_tensor_batch first (Python-native str list),
+        # fall back to batch dict for backward compatibility.
+        ntb = getattr(data, "non_tensor_batch", None)
+        source = ntb if isinstance(ntb, dict) else batch
+        failure_type = source.get("failure_type")
         if failure_type is not None:
             mask = torch.tensor(
                 [str(item) != FAILURE_SUCCESS for item in list(failure_type)],
@@ -83,7 +87,7 @@ class RewardNormalizer:
             if mask.numel() == batch_size:
                 return mask
 
-        rdkit_valid = batch.get("rdkit_valid")
+        rdkit_valid = source.get("rdkit_valid")
         if rdkit_valid is not None:
             if isinstance(rdkit_valid, torch.Tensor):
                 valid = rdkit_valid.detach().to(device=device).reshape(-1).to(dtype=torch.int64)
@@ -171,7 +175,7 @@ class RewardNormalizer:
                 f"[RewardNormalizer] Reward vector size mismatch: expected {batch_size}, got {rewards_raw.numel()}"
             )
 
-        failure_mask = self._build_failure_mask(batch, batch_size=batch_size, device=device)
+        failure_mask = self._build_failure_mask(data, batch, batch_size=batch_size, device=device)
         rewards_raw = rewards_raw.clone()
         rewards_raw[failure_mask] = float(self.config.failure_penalty)
 
