@@ -221,6 +221,7 @@ class DockingReward(BaseReward):
             batch_size=batch_size,
             dataset_info=self.dataset_info,
             prefix="docking_batch_",
+            data=data,
         )
         try:
             sdf_paths = _prepared.ligand_files

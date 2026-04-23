@@ -103,13 +103,23 @@ class QEDReward(BaseReward):
                 continue
 
             try:
-                mol, _, _, is_valid, build_failure = build_canonical_rdmol_from_sample(
-                    x=x,
-                    categorical=h,
-                    nodesxsample=nodesxsample,
-                    sample_idx=i,
-                    dataset_info=self.dataset_info,
-                )
+                # Reuse canonical mol from mainline annotate_batch_molecule_semantics()
+                # Stored in non_tensor_batch to avoid TensorDict wrapping RDKit objects.
+                rdmols = data.non_tensor_batch.get("rdmols") \
+                    if hasattr(data, "non_tensor_batch") and data.non_tensor_batch else None
+                if rdmols is not None and i < len(rdmols) and rdmols[i] is not None:
+                    mol = rdmols[i]
+                    is_valid = True
+                    build_failure = None
+                else:
+                    # Fallback: build locally (backward compat)
+                    mol, _, _, is_valid, build_failure = build_canonical_rdmol_from_sample(
+                        x=x,
+                        categorical=h,
+                        nodesxsample=nodesxsample,
+                        sample_idx=i,
+                        dataset_info=self.dataset_info,
+                    )
                 if not is_valid or mol is None:
                     if failure_type is not None and str(failure_type[i]) == FAILURE_SUCCESS:
                         failure_type[i] = build_failure or FAILURE_SANITIZE

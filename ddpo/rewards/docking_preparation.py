@@ -3,22 +3,26 @@ from __future__ import annotations
 """Ligand preparation helpers for docking reward backends.
 
 Phase-2 purpose:
-- keep canonical molecule -> docking input preparation outside `DockingReward`
-- preserve current mainline behavior: canonical RDKit molecule exported to SDF
-- keep failure boundaries explicit as docking-input failures
+|- keep canonical molecule -> docking input preparation outside `DockingReward`
+|- preserve current mainline behavior: canonical RDKit molecule exported to SDF
+|- keep failure boundaries explicit as docking-input failures
+|- **reuse pre-built rdmols from annotate_batch_molecule_semantics()**
 """
 
 import os
 import tempfile
 import warnings
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, TYPE_CHECKING
 
 from ddpo.utils.molecule_semantics import (
     FAILURE_DOCKING_INPUT,
     build_canonical_rdmol_from_sample,
     write_rdmol_to_sdf,
 )
+
+if TYPE_CHECKING:
+    from verl_diffusion.protocol import DataProto
 
 
 @dataclass
@@ -30,7 +34,6 @@ class PreparedLigandBatch:
 
     def cleanup(self) -> None:
         import shutil
-
         try:
             shutil.rmtree(self.tmpdir, ignore_errors=True)
         except Exception:
@@ -48,6 +51,19 @@ class PreparedLigandFile:
                 os.unlink(self.path)
             except Exception:
                 pass
+
+
+def _build_sample_to_sdf_from_mol(mol, sdf_path: str) -> Tuple[bool, Optional[str]]:
+    """Write an existing RDKit Mol object to SDF (no rebuild needed)."""
+    try:
+        if mol is None:
+            return False, FAILURE_DOCKING_INPUT
+        if not write_rdmol_to_sdf(mol, sdf_path):
+            return False, FAILURE_DOCKING_INPUT
+        return True, None
+    except Exception as exc:
+        warnings.warn(f"[DockingPreparation] write rdmol to SDF failed: {exc}")
+        return False, FAILURE_DOCKING_INPUT
 
 
 def build_sample_to_sdf(
@@ -84,15 +100,43 @@ def prepare_batch_sdf_inputs(
     batch_size: int,
     dataset_info,
     prefix: str,
+    data: "DataProto" = None,
 ) -> PreparedLigandBatch:
-    """Prepare one SDF file per valid sample for backend batch execution."""
+    """Prepare one SDF file per valid sample for backend batch execution.
+
+    If data.batch contains pre-built 'rdmols' from
+    annotate_batch_molecule_semantics(), they are reused directly.
+    Otherwise falls back to building each mol from tensors (backward compat).
+    """
     tmpdir = tempfile.mkdtemp(prefix=prefix)
     ligand_files: List[str] = []
     sample_indices: List[int] = []
     failures: Dict[int, str] = {}
 
+    # Try to reuse mainline rdmols (stored in non_tensor_batch, not TensorDict)
+    rdmols = None
+    if data is not None:
+        ntb = getattr(data, "non_tensor_batch", None)
+        if isinstance(ntb, dict):
+            rdmols = ntb.get("rdmols")
+
     for sample_idx in range(batch_size):
         sdf_path = os.path.join(tmpdir, f"mol_{sample_idx:04d}.sdf")
+
+        # Path A: reuse pre-built canonical mol from mainline
+        if rdmols is not None and sample_idx < len(rdmols):
+            mol = rdmols[sample_idx]
+            if mol is not None:
+                ok, failure = _build_sample_to_sdf_from_mol(mol, sdf_path)
+                if ok and os.path.exists(sdf_path) and os.path.getsize(sdf_path) > 0:
+                    ligand_files.append(sdf_path)
+                    sample_indices.append(sample_idx)
+                    continue
+                else:
+                    failures[sample_idx] = failure or FAILURE_DOCKING_INPUT
+                    continue
+
+        # Path B: fallback — build locally (backward compatibility)
         ok, failure = build_sample_to_sdf(
             x=x,
             categorical=categorical,
