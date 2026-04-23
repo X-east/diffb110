@@ -82,8 +82,10 @@ class QEDReward(BaseReward):
         x = batch["x"]
         h = batch["categorical"]
         nodesxsample = batch["nodesxsample"]
-        rdkit_valid = batch.get("rdkit_valid")
-        failure_type = batch.get("failure_type", None)
+        # Read Python-native metadata from non_tensor_batch to avoid TensorDict wrapping.
+        ntb = data.non_tensor_batch if hasattr(data, "non_tensor_batch") else None
+        rdkit_valid = ntb.get("rdkit_valid") if ntb else batch.get("rdkit_valid")
+        failure_type = ntb.get("failure_type") if ntb else batch.get("failure_type")
 
         if rdkit_valid is None:
             raise ValueError(
