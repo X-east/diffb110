@@ -250,9 +250,14 @@ def annotate_batch_molecule_semantics(
     batch["rdkit_valid"] = rdkit_valid
     batch["smiles"] = smiles_list
     batch["failure_type"] = failure_types
-    # Store built mol objects so downstream rewards can reuse them without rebuilding.
-    # Only valid molecules have a mol; invalid ones are None.
-    batch["rdmols"] = [s.mol if s.rdkit_valid else None for s in all_semantics]
+    # Store built mol objects in non_tensor_batch so downstream rewards can reuse them
+    # without rebuilding.  Only valid molecules have a mol; invalid ones are None.
+    # NOTE: we use non_tensor_batch instead of batch because TensorDict wraps
+    # non-tensor Python objects (e.g. RDKit Mol) into an opaque container that
+    # breaks RDKit C++ type-checking at call sites like RemoveHs / GetMorganFingerprint.
+    if data.non_tensor_batch is None:
+        data.non_tensor_batch = {}
+    data.non_tensor_batch["rdmols"] = [s.mol if s.rdkit_valid else None for s in all_semantics]
     if include_legacy_valid_alias:
         # Bug4 Fix-5: 'valid' kept as legacy alias for downstream compatibility only.
         # All internal logic reads from 'rdkit_valid'. Do not use 'valid' as primary field.
