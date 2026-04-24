@@ -180,3 +180,6 @@ DiffSBDD/colab/
 Obsidian/
 # local outputs
 out2/
+
+# reference only (do not track)
+DiffMeta-main/
