@@ -1,3 +1,4 @@
+import sys
 from typing import Dict
 from tqdm import tqdm as tq
 from collections import defaultdict
@@ -87,9 +88,9 @@ class EDMActor(BaseActor):
         """
         info = defaultdict(list)
         self.T = self.num_timesteps + 1
-        for _i, sample in tq(enumerate(batched_samples),desc= "Training", unit="Batch",leave=False):
+        for _i, sample in tq(enumerate(batched_samples), desc="Training", unit="Batch", leave=False, file=sys.stdout):
 
-            for j in tq(range(self.T ),desc= "Training Batch", unit="timesteps",leave=False):
+            for j in tq(range(self.T), desc="Training Batch", unit="timesteps", leave=False, file=sys.stdout):
                 if self.condition :
                     context = sample["context"]
                 else:

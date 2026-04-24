@@ -28,7 +28,7 @@ FAILURE_SANITIZE = "sanitize_failed"
 FAILURE_DRUGLIKELINESS = "druglikeness_failed"
 FAILURE_DOCKING_INPUT = "docking_input_failed"
 FAILURE_DOCKING_BACKEND = "docking_backend_failed"
-
+FAILURE_FRAGMENTED = "fragmented_molecule"
 
 @dataclass
 class SampleMoleculeSemantics:
@@ -77,19 +77,41 @@ def build_rdmol_from_geometry(
         warnings.warn(f"Failed to reconstruct molecule with OpenBabel: {exc}")
         return None, False, FAILURE_OPENBABEL_RECONSTRUCT
 
-
 def sanitize_rdmol(
     mol: Optional[Chem.Mol],
 ) -> Tuple[Optional[Chem.Mol], bool, bool, Optional[str]]:
+    """Sanitize and check connectivity.
+
+    Mirrors DiffSBDD's two-stage validation pipeline used in test.py:
+      1. Chem.SanitizeMol() — local valence/ring/aromaticity checks
+      2. Connectivity check   — reject multi-fragment molecules
+
+    A molecule that passes SanitizeMol but contains >1 connected fragment
+    is considered invalid for drug-design purposes (matches the semantics of
+    ``process_molecule(largest_frag=True)`` in DiffSBDD's evaluation pipeline).
+    """
     if mol is None:
         return None, False, False, FAILURE_OPENBABEL_RECONSTRUCT
     try:
         with redirect_stderr_to_log():
             Chem.SanitizeMol(mol)
-        return mol, True, True, None
     except Exception as exc:
-        log.warning("[RDKit-SANITIZE-INVALID] error=%s: %s", type(exc).__name__, exc)
+        log.debug("[RDKit-SANITIZE-INVALID] error=%s: %s", type(exc).__name__, exc)
         return mol, False, False, FAILURE_SANITIZE
+
+    # Connectivity check: reject fragmented molecules.
+    # This matches DiffSBDD BasicMolecularMetrics.compute_connectivity()
+    # and process_molecule(largest_frag=True) behaviour.
+    n_frags = len(Chem.GetMolFrags(mol))
+    if n_frags > 1:
+        log.debug(
+            "[FRAGMENTED-MOLECULE] n_frags=%d atoms=%d — "
+            "molecule has multiple disconnected fragments",
+            n_frags, mol.GetNumAtoms(),
+        )
+        return mol, True, False, FAILURE_FRAGMENTED     # ← 新增连通性检查
+
+    return mol, True, True, None
 
 
 def compute_smiles_from_rdmol(mol: Optional[Chem.Mol]) -> Optional[str]:
@@ -128,6 +150,10 @@ def build_canonical_rdmol_from_sample(
     mol, sanitize_ok, is_valid, sanitize_failure = sanitize_rdmol(mol)
     if not sanitize_ok or not is_valid or mol is None:
         return None, True, True, False, sanitize_failure or FAILURE_SANITIZE
+
+    # Sanitize passed but connectivity failed → still invalid
+    if not is_valid:                                     # ← 新增分支
+        return mol, True, True, False, sanitize_failure
 
     return mol, True, True, True, None
 
@@ -273,6 +299,7 @@ __all__ = [
     "FAILURE_DRUGLIKELINESS",
     "FAILURE_DOCKING_INPUT",
     "FAILURE_DOCKING_BACKEND",
+    "FAILURE_FRAGMENTED", 
     "SampleMoleculeSemantics",
     "extract_sample_geometry",
     "build_rdmol_from_geometry",

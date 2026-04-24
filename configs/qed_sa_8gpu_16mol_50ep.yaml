@@ -50,7 +50,7 @@ dataloader:
   each_prompt_sample: 8
   min_nodes: 10
   max_nodes: 30
-  max_n_nodes: 55
+  max_n_nodes: 106
   node_sampling: size_distribution
 
 train:
@@ -62,7 +62,7 @@ train:
   adam_epsilon: 1.0e-8
   clip_range: 0.2
   max_grad_norm: 1.0
-  checkpoint_interval: 10
+  checkpoint_interval: 5
   seed: 42
   epochs: 100
 
