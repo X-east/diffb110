@@ -27,6 +27,7 @@ class RewardNormalizationConfig:
     map_rewards_field: str
     advantages_key: str
     override_rewards_field: bool
+    failure_advantage_override: float | None  # None = use z-score result; float = assign fixed advantage to failures
 
     @classmethod
     def from_config(cls, config: dict[str, Any]) -> "RewardNormalizationConfig":
@@ -51,6 +52,8 @@ class RewardNormalizationConfig:
             map_rewards_field=str(norm_cfg.get("map_rewards_field", "rewards")),
             advantages_key=str(norm_cfg.get("advantages_key", "advantages")),
             override_rewards_field=bool(norm_cfg.get("override_rewards_field", True)),
+            failure_advantage_override=float(failure_cfg["advantage_override"])
+                if "advantage_override" in failure_cfg else None,
         )
 
 
@@ -187,6 +190,13 @@ class RewardNormalizer:
             rewards_clamped = rewards_norm.clamp(self.config.clamp_min, self.config.clamp_max)
         else:
             rewards_clamped = rewards_norm
+
+        # Override failure advantage with a fixed value if configured.
+        # This allows excluding failures from z-score stats (preventing outlier distortion)
+        # while still assigning a reasonable negative signal so the model learns to avoid them.
+        if self.config.failure_advantage_override is not None and failure_mask.any():
+            rewards_clamped[failure_mask] = float(self.config.failure_advantage_override)
+            rewards_norm[failure_mask] = float(self.config.failure_advantage_override)
 
         batch[self.config.raw_output_key] = rewards_raw
         batch[self.config.norm_output_key] = rewards_norm

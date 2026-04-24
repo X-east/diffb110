@@ -60,13 +60,41 @@ def build_dataloader(
     config: dict[str, Any],
     dataset_info: dict[str, Any],
     device: str,
+    model_impl=None,
 ) -> DiffSBDDDataLoader:
-    """Construct the single-GPU prompt dataloader."""
+    """Construct the single-GPU prompt dataloader.
+
+    Args:
+        config: Full YAML config dict.
+        dataset_info: Dataset constants (from ``dataset_params[dataset_name]``).
+        device: Target device string (e.g. ``"cuda"``).
+        model_impl: Optional :class:`DiffSBDDModel` instance.  When provided *and*
+            the config requests ``node_sampling: size_distribution``, the
+            loader will extract ``size_distribution`` and pocket-size tensor
+            from the model so that ligand node counts are drawn from
+            P(N_lig | N_pocket) instead of a uniform range.
+    """
+    size_dist = None
+    pocket_size = None
+
+    sampling_method = config.get("dataloader", {}).get("node_sampling", "uniform")
+    if sampling_method == "size_distribution" and model_impl is not None:
+        # Extract learned conditional distribution from the loaded checkpoint
+        ddpm = getattr(model_impl, "ddpm", None)
+        if ddpm is not None and hasattr(ddpm, "size_distribution"):
+            size_dist = ddpm.size_distribution
+        # Extract current pocket's residue count for conditioning
+        pocket_single = getattr(model_impl, "_pocket_single", None)
+        if pocket_single is not None and "size" in pocket_single:
+            pocket_size = pocket_single["size"]  # shape [1] or [n_residues]
+
     return DiffSBDDDataLoader(
         config=config,
         dataset_info=dataset_info,
         device=device,
         num_batches=config.get("dataloader", {}).get("epochs"),
+        size_distribution=size_dist,
+        pocket_size_tensor=pocket_size,
     )
 
 

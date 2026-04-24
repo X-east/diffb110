@@ -202,7 +202,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         output_device=dist_ctx.local_rank,
         find_unused_parameters=bool(config.get("ddp", {}).get("find_unused_parameters", False)),
     )
-    dataloader = build_dataloader(config, dataset_info, device)
+    dataloader = build_dataloader(config, dataset_info, device, model_impl=model_impl)
     rollout = DiffSBDDRollout(model=model_impl, config=config)
     rewarder = build_rewarder(config=config, dataset_info=dataset_info, logger=logger)
     reward_normalizer = build_reward_normalizer(config=config, logger=logger)

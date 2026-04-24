@@ -30,22 +30,32 @@ reward:
     stats_prefix: "reward"
     failure:
       raw_penalty: -5.0
-      include_in_stats: true
+      include_in_stats: false
+      advantage_override: -1.5
     clamp:
       enabled: true
       min: -5.0
       max: 5.0
 
 dataloader:
+  # --- Uniform mode (node_sampling: uniform) ---
+  #   sample_group_size × each_prompt_sample = total samples per GPU (batch_size)
+  #   min_nodes / max_nodes = sampling range for torch.randint
+  #
+  # --- Size-distribution mode (node_sampling: size_distribution) ---
+  #   sample_group_size × each_prompt_sample = total samples (each independently sampled)
+  #   min_nodes, max_nodes = NOT used (distribution decides; matches original DiffSBDD)
+  #   max_n_nodes = padding allocation size; MUST be >= distribution's max (~55 for CrossDocked)
   sample_group_size: 2
   each_prompt_sample: 8
   min_nodes: 10
   max_nodes: 30
-  max_n_nodes: 30
+  max_n_nodes: 55
+  node_sampling: size_distribution
 
 train:
   train_micro_batch_size: 16
-  learning_rate: 1.0e-6
+  learning_rate: 2.0e-5
   adam_beta1: 0.9
   adam_beta2: 0.999
   adam_weight_decay: 1.0e-4
@@ -54,7 +64,7 @@ train:
   max_grad_norm: 1.0
   checkpoint_interval: 10
   seed: 42
-  epochs: 50
+  epochs: 100
 
 ddp:
   enabled: true
