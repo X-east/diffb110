@@ -1,8 +1,9 @@
 """SAReward: reward function based on Synthetic Accessibility score.
 
 Single responsibility: compute SA score for each molecule in the batch.
-Raw SA range: [1, 10], lower is better (1 = easiest to synthesise).
-Normalized to [0, 1]: norm_sa = (10 - SA) / 9  (higher = more accessible).
+NOTE: MoleculeProperties.calculate_sa() already returns (10 - SA) / 9 in [0, 1],
+      so we store the pre-flipped value directly as both sa_scores and rewards.
+Raw SA from sascorer ranges [1, 10], lower = easier synthesis.
 
 Usage:
     from ddpo.rewards.sa_reward import SAReward
@@ -43,6 +44,11 @@ _SA_MAX: float = 10.0
 def _normalize_sa(sa_raw: float) -> float:
     """Map SA score [1, 10] to reward [0, 1] (higher = more synthesisable)."""
     return (_SA_MAX - sa_raw) / (_SA_MAX - _SA_MIN)
+
+
+def _denormalize_sa(sa_normed: float) -> float:
+    """Map normalized SA [0, 1] back to raw SA score [1, 10]."""
+    return _SA_MAX - sa_normed * (_SA_MAX - _SA_MIN)
 
 
 class SAReward(BaseReward):
@@ -142,10 +148,12 @@ class SAReward(BaseReward):
                     continue
 
                 with redirect_stderr_to_log():
-                    sa_raw = self._mol_props.calculate_sa(mol)
+                    sa_raw = self._mol_props.calculate_sa(mol)  # already (10-sascorer_SA)/9 in [0, 1]
 
+                # sa_scores stores the normalized value (higher = easier synthesis)
                 sa_scores[i] = sa_raw
-                rewards[i] = _normalize_sa(sa_raw) if self.normalize else sa_raw
+                # rewards = same normalized value (already flipped by calculate_sa)
+                rewards[i] = sa_raw if self.normalize else _denormalize_sa(sa_raw)
                 sa_success[i] = 1
                 if failure_type is not None:
                     failure_type[i] = FAILURE_SUCCESS

@@ -30,6 +30,8 @@ class UniDockBackend(BaseDockingBackend):
     - Parses per-molecule scores from the output SDF files in --dir
     """
 
+    _binary_verified = False  # class-level flag: only verify once per process
+
     def __init__(
         self,
         gpu_id: int = 0,
@@ -53,20 +55,23 @@ class UniDockBackend(BaseDockingBackend):
         self.exhaustiveness = exhaustiveness
         self.unidock_bin = unidock_bin
 
-        # Verify binary exists and works
+        # Verify binary exists and works (once per process only)
         if not Path(self.unidock_bin).exists():
             raise RuntimeError(
                 f"UniDock binary not found at: {self.unidock_bin}\n"
                 f"Install via: conda install -c conda-forge unidock"
             )
-        try:
-            result = subprocess.run(
-                [self.unidock_bin, '--version'],
-                capture_output=True, text=True, timeout=10
-            )
-            print(f"[UniDockBackend] Binary OK: {result.stdout.strip() or result.stderr.strip()}")
-        except Exception as e:
-            raise RuntimeError(f"UniDock binary check failed: {e}")
+        if not UniDockBackend._binary_verified:
+            try:
+                result = subprocess.run(
+                    [self.unidock_bin, '--version'],
+                    capture_output=True, text=True, timeout=10
+                )
+                version = result.stdout.strip() or result.stderr.strip()
+                print(f"[UniDockBackend] Binary OK: {version}")
+                UniDockBackend._binary_verified = True
+            except Exception as e:
+                raise RuntimeError(f"UniDock binary check failed: {e}")
 
     # ------------------------------------------------------------------
     # Public interface
@@ -119,7 +124,6 @@ class UniDockBackend(BaseDockingBackend):
                 ]
 
             try:
-                print(f"[UniDockBackend] Docking {len(ligand_files)} ligands on GPU {self.gpu_id}")
                 result = subprocess.run(
                     cmd, capture_output=True, text=True, timeout=600, env=env,
                 )
@@ -214,8 +218,6 @@ class UniDockBackend(BaseDockingBackend):
         scores = []
         out_path = Path(output_dir)
 
-        print(f"[UniDockBackend] Output dir contents: {list(out_path.iterdir()) if out_path.exists() else 'EMPTY'}")
-
         for lig_file in ligand_files:
             stem = Path(lig_file).stem
             score = 0.0
@@ -245,6 +247,11 @@ class UniDockBackend(BaseDockingBackend):
         """Extract best docking score from a UniDock output file."""
         try:
             content = filepath.read_text(errors='ignore')
+
+            # Uni-Dock v1.1.x SDF output: > <Uni-Dock RESULT>\nENERGY=   -9.578
+            m = re.search(r'ENERGY\s*=\s*([\-\+]?[0-9]*\.?[0-9]+)', content)
+            if m:
+                return float(m.group(1))
 
             # SDF property: > <docking_score>\n-7.5
             m = re.search(r'>\s*<[Dd]ocking[_\s][Ss]core>\s*\n([\-\+]?[0-9]*\.?[0-9]+)', content)

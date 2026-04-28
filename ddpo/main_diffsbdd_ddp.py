@@ -96,6 +96,7 @@ class GlobalBatchStats:
     reward_max: float
     avg_qed: float
     avg_sa: float
+    avg_docking: float
     generated_count: int
     valid_count: int
     valid_ratio: float
@@ -121,6 +122,7 @@ def bind_reward_runtime_devices(rewarder: Any, gpu_id: int) -> None:
         if isinstance(candidate, DockingReward):
             candidate.gpu_id = int(gpu_id)
             candidate._autodock_backend = None
+            candidate._unidock_backend = None
 
 
 def build_rank_run_context(
@@ -382,6 +384,7 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     reward_sum = reduce_sum_scalar(float(local_stats.reward_mean * count), dist_ctx)
     qed_sum = reduce_sum_scalar(float(local_stats.avg_qed * count), dist_ctx)
     sa_sum = reduce_sum_scalar(float(local_stats.avg_sa * count), dist_ctx)
+    docking_sum = reduce_sum_scalar(float(local_stats.avg_docking * count), dist_ctx)
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
@@ -390,6 +393,7 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
         reward_max=reduce_max_scalar(float(local_stats.reward_max), dist_ctx),
         avg_qed=(qed_sum / generated_count) if generated_count > 0 else 0.0,
         avg_sa=(sa_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_docking=(docking_sum / generated_count) if generated_count > 0 else 0.0,
         generated_count=generated_count,
         valid_count=valid_count,
         valid_ratio=(valid_count / generated_count) if generated_count > 0 else 0.0,
@@ -469,6 +473,7 @@ def record_epoch_ddp(
             reward_max=global_stats.reward_max,
             avg_qed=global_stats.avg_qed,
             avg_sa=global_stats.avg_sa,
+            avg_docking=global_stats.avg_docking,
             generated_count=global_stats.generated_count,
             valid_count=global_stats.valid_count,
             valid_ratio=global_stats.valid_ratio,
@@ -500,6 +505,7 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
         reward_max=global_stats.reward_max,
         avg_qed=global_stats.avg_qed,
         avg_sa=global_stats.avg_sa,
+        avg_docking=global_stats.avg_docking,
         generated_count=global_stats.generated_count,
         valid_count=global_stats.valid_count,
         valid_ratio=global_stats.valid_ratio,

@@ -27,6 +27,7 @@ class EpochStepResult:
     reward_max: float
     avg_qed: float
     avg_sa: float
+    avg_docking: float
     generated_count: int
     valid_count: int
     valid_ratio: float
@@ -42,6 +43,7 @@ class BatchStats:
     reward_max: float
     avg_qed: float
     avg_sa: float
+    avg_docking: float
     generated_count: int
     valid_count: int
     valid_ratio: float
@@ -108,6 +110,7 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     rewards = _to_float_list(samples.batch.get("rewards_clamped", samples.batch.get("rewards")))
     qed_scores = _to_float_list(samples.batch.get("qed_scores", samples.batch.get("qed")))
     sa_scores = _to_float_list(samples.batch.get("sa_scores", samples.batch.get("sa")))
+    docking_scores = _to_float_list(samples.batch.get("docking_reward"))
     valid_flags = _to_int_list(src.get("rdkit_valid"))
     failure_types = _to_str_list(src.get("failure_type"))
     reward_mean = float(sum(rewards) / len(rewards)) if rewards else 0.0
@@ -115,11 +118,12 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     reward_max = float(max(rewards)) if rewards else 0.0
     avg_qed = float(sum(qed_scores) / len(qed_scores)) if qed_scores else 0.0
     avg_sa = float(sum(sa_scores) / len(sa_scores)) if sa_scores else 0.0
+    avg_docking = float(sum(docking_scores) / len(docking_scores)) if docking_scores else 0.0
     generated_count = len(valid_flags) if valid_flags else int(samples.batch.batch_size[0])
     valid_count = int(sum(valid_flags)) if valid_flags else 0
     valid_ratio = float(valid_count / generated_count) if generated_count > 0 else 0.0
     failure_counts = dict(Counter(failure_types)) if failure_types else {}
-    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts)
+    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts)
 
 
 def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, batch_stats: BatchStats) -> BatchFacts:
@@ -152,13 +156,13 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
             "reward_druglikeness": drug_rewards[molecule_id] if molecule_id < len(drug_rewards) else 0.0,
             "reward_docking": docking_rewards[molecule_id] if molecule_id < len(docking_rewards) else 0.0,
         })
-    return BatchFacts(epoch=epoch, batch_idx=batch_idx, rank=0, generated_count=batch_stats.generated_count, valid_count=batch_stats.valid_count, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, filtering_ratio=prepared.filtering_ratio, novelty_penalty_ratio=prepared.novelty_penalty_ratio, failure_counts=batch_stats.failure_counts, molecule_rows=molecule_rows)
+    return BatchFacts(epoch=epoch, batch_idx=batch_idx, rank=0, generated_count=batch_stats.generated_count, valid_count=batch_stats.valid_count, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, filtering_ratio=prepared.filtering_ratio, novelty_penalty_ratio=prepared.novelty_penalty_ratio, failure_counts=batch_stats.failure_counts, molecule_rows=molecule_rows)
 
 
 def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_stats: BatchStats, prepared: PreparedSamples) -> EpochFacts:
     avg_loss = float(metrics.get("Loss", metrics.get("loss", metrics.get("ppo_loss", 0.0))))
     checkpoint_due = (epoch % runtime.checkpoint_interval) == 0
-    return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, failure_counts=batch_stats.failure_counts, extra_metrics={"max_epochs": runtime.max_epochs}, checkpoint_due=checkpoint_due)
+    return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, failure_counts=batch_stats.failure_counts, extra_metrics={"max_epochs": runtime.max_epochs}, checkpoint_due=checkpoint_due)
 
 
 def build_run_lifecycle(runtime: Any, status: RunStatus, message: str | None = None) -> RunLifecycleFacts:

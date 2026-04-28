@@ -104,7 +104,8 @@ class RunRecorder:
             f"  Loss             : {facts.avg_loss: .4f}\n"
             f"  Reward           : {facts.reward_mean: .4f}\n"
             f"  Avg QED          : {facts.avg_qed: .4f}\n"
-            f"  Avg SA           : {facts.avg_sa: .4f}"
+            f"  Avg SA           : {facts.avg_sa: .4f}\n"
+            f"  Avg Docking      : {facts.avg_docking: .4f}"
         )
 
     def on_checkpoint_saved(self, facts: CheckpointFacts) -> None:

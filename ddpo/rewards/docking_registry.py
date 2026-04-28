@@ -56,14 +56,14 @@ DOCKING_BACKEND_REGISTRY: Dict[str, DockingBackendSpec] = {
             "Maps at data/8GJJ-C-Cip_charged.maps.fld."
         ),
     ),
-    "unidock": DockingBackendSpec(
-        name="unidock",
-        support_level="legacy",
-        description=(
-            "UniDock GPU backend. Legacy — broken in current env. "
-            "Do not use for production training."
-        ),
+"unidock": DockingBackendSpec(
+    name="unidock",
+    support_level="supported",
+    description=(
+        "UniDock GPU backend with --gpu_batch SDF mode. "
+        "Verified: Uni-Dock v1.1.3 at /opt/unidock-1.1.3/bin/unidock."
     ),
+),
     "smina": DockingBackendSpec(
         name="smina",
         support_level="debug",
