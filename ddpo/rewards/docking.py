@@ -149,8 +149,9 @@ class DockingReward(BaseReward):
         if self.backend not in ["autodock_gpu", "unidock", "smina"]:
             raise ValueError(f"Invalid backend: {self.backend}")
 
-        # Lazy backend cache (AutoDock-GPU only; others constructed per-batch)
+        # Lazy backend caches (re-initialise only when gpu_id changes)
         self._autodock_backend: Optional[AutoDockGPUBackend] = None
+        self._unidock_backend: Optional[UniDockBackend] = None
 
         print(f"DockingReward initialized: backend={self.backend} gpu_id={self.gpu_id}")
         print(f"  Receptor: {Path(self.receptor_file).name}")
@@ -180,12 +181,14 @@ class DockingReward(BaseReward):
         if self.backend == "autodock_gpu":
             return self._get_autodock_backend()
         if self.backend == "unidock":
-            return UniDockBackend(
-                gpu_id=self.gpu_id,
-                search_mode=self.search_mode,
-                num_modes=1,
-                exhaustiveness=self.exhaustiveness,
-            )
+            if self._unidock_backend is None or self._unidock_backend.gpu_id != self.gpu_id:
+                self._unidock_backend = UniDockBackend(
+                    gpu_id=self.gpu_id,
+                    search_mode=self.search_mode,
+                    num_modes=1,
+                    exhaustiveness=self.exhaustiveness,
+                )
+            return self._unidock_backend
         if self.backend == "smina":
             return SminaBackend()
         raise ValueError(f"Unknown backend: {self.backend}")
@@ -210,8 +213,6 @@ class DockingReward(BaseReward):
         failure_type = batch.get("failure_type", None)
         batch_size = x.shape[0]
         device = x.device
-
-        print(f"[DockingReward] batch_size={batch_size} backend={self.backend} gpu_id={self.gpu_id}")
 
         rewards = [self.failure_penalty] * batch_size
         docking_failures: Dict[int, str] = {}

@@ -25,6 +25,7 @@ class BatchFacts:
     reward_max: float
     avg_qed: float
     avg_sa: float
+    avg_docking: float
     filtering_ratio: float
     novelty_penalty_ratio: float
     failure_counts: Dict[str, int] = field(default_factory=dict)
@@ -41,6 +42,7 @@ class EpochFacts:
     reward_max: float
     avg_qed: float
     avg_sa: float
+    avg_docking: float
     generated_total: float
     rdkit_valid: float
     rdkit_valid_ratio: float
