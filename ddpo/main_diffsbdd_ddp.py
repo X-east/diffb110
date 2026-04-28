@@ -24,6 +24,7 @@ from ddpo.runtime.build import (
     build_dataloader,
     build_filter,
     build_model,
+    build_ref_model,
     build_reward_normalizer,
     load_config,
     save_config_snapshot,
@@ -87,6 +88,7 @@ class DistributedRuntimeBundle:
     checkpoint_interval: int
     per_rank_batch_size: int
     global_batch_size: int
+    ref_model: Any = None
 
 
 @dataclass
@@ -204,13 +206,18 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         output_device=dist_ctx.local_rank,
         find_unused_parameters=bool(config.get("ddp", {}).get("find_unused_parameters", False)),
     )
+
+    # --- Optional frozen reference model for KL penalty ---
+    ref_model = build_ref_model(config, model_impl)
+
     dataloader = build_dataloader(config, dataset_info, device, model_impl=model_impl)
     rollout = DiffSBDDRollout(model=model_impl, config=config)
     rewarder = build_rewarder(config=config, dataset_info=dataset_info, logger=logger)
     reward_normalizer = build_reward_normalizer(config=config, logger=logger)
     bind_reward_runtime_devices(rewarder, gpu_id=dist_ctx.local_rank)
     filters = build_filter(config, dataset_info)
-    actor = build_actor(model_train, config, dataset_info, model_impl=model_impl)
+    actor = build_actor(model_train, config, dataset_info,
+                        model_impl=model_impl, ref_model=ref_model)
     run_recorder = RunRecorder(run_context=run_context, logger=logger, world_size=dist_ctx.world_size)
 
     per_rank_batch_size = int(dataloader.batch_size)
@@ -248,6 +255,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         filters=filters,
         actor=actor,
         run_recorder=run_recorder,
+        ref_model=ref_model,
         max_epochs=max_epochs,
         checkpoint_interval=checkpoint_interval,
         per_rank_batch_size=per_rank_batch_size,
