@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 from typing import Any
 
 import torch
@@ -112,14 +113,51 @@ def build_filter(config: dict[str, Any], dataset_info: dict[str, Any]) -> DiffSB
 
 
 
-def build_actor(model, config: dict[str, Any], dataset_info: dict[str, Any], model_impl=None):
-    """Construct the PPO actor and inject explicit max-node semantics."""
-    actor = EDMActor(model, config, model_impl=model_impl)
+def build_actor(
+    model,
+    config: dict[str, Any],
+    dataset_info: dict[str, Any],
+    model_impl=None,
+    ref_model=None,
+):
+    """Construct the PPO actor with optional KL penalty support.
+
+    Args:
+        model: DDP-wrapped training model.
+        config: Full YAML configuration.
+        dataset_info: Dataset constants from DiffSBDD.
+        model_impl: Bare (non-DDP) model for helper methods (get_mask, etc.).
+        ref_model: Frozen reference model for KL penalty.  When *None* (the
+            default when ``kl_coef <= 0``) KL computation is skipped entirely
+            with zero memory / compute overhead.
+    """
+    actor = EDMActor(model, config, model_impl=model_impl, ref_model=ref_model)
     actor.max_n_nodes = config.get("dataloader", {}).get(
         "max_n_nodes",
         config.get("dataloader", {}).get("max_nodes", dataset_info.get("max_n_nodes", 50)),
     )
     return actor
+
+
+def build_ref_model(config: dict[str, Any], model_impl: DiffSBDDModel) -> DiffSBDDModel | None:
+    """Build a frozen reference model for KL divergence penalty.
+
+    Returns **None** when ``kl_coef`` is missing or <= 0 so that the entire
+    KL subsystem has zero overhead when disabled via config.
+
+    The returned model is a deep copy of *model_impl* in eval mode with all
+    parameters detached (requires_grad=False).  It is **not** wrapped in DDP
+    — it is only used for inference inside :meth:`EDMActor.calculate_loss`.
+    """
+    kl_coef = float(config.get("train", {}).get("kl_coef", 0.0))
+    if kl_coef <= 0.0:
+        return None
+
+    ref = copy.deepcopy(model_impl)
+    ref.eval()
+    for p in ref.parameters():
+        p.requires_grad = False
+    return ref
 
 
 

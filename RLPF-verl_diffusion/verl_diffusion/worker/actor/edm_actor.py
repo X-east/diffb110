@@ -1,29 +1,32 @@
 import sys
-from typing import Dict
+from typing import Dict, Optional
 from tqdm import tqdm as tq
 from collections import defaultdict
 from verl_diffusion.protocol import DataProto
-from verl_diffusion.utils.math import kl_divergence_normal
 from .base import BaseActor
 import torch
 from torch.nn.utils import clip_grad_norm_
 import numpy as np
 
 class EDMActor(BaseActor):
-    def __init__(self, model, config, model_impl=None):
+    def __init__(self, model, config, model_impl=None, ref_model=None):
         """
         Initialize the EDM rollout worker.
-        
+
         Args:
             model: The training model reference used for optimizer parameters.
             config: Configuration parameters for the rollout
             model_impl: Optional bare model implementation used for custom
                 diffusion helper methods such as get_mask() and
                 sample_p_zs_given_zt(). If omitted, defaults to model.
+            ref_model: Optional frozen reference model for KL penalty.
+                When None or kl_coef <= 0, KL computation is fully disabled.
         """
-        super().__init__()  
+        super().__init__()
         self.model = model
         self.model_impl = model_impl if model_impl is not None else self._unwrap_model(model)
+        self.ref_model = ref_model
+        self.kl_coef = float(config.get("train", {}).get("kl_coef", 0.0))
         self.config = config
         self.last_grad_probe = []
         optimizer_cls = torch.optim.AdamW
@@ -118,26 +121,27 @@ class EDMActor(BaseActor):
 
         return metric
     
-    def calculate_loss(self, latents, timesteps, next_latents, log_prob_old, advantages, nodesxsample, context = None):
+    def calculate_loss(self, latents, timesteps, next_latents, log_prob_old, advantages, nodesxsample, context=None):
         """
-        Calculate the loss for a batch of an unpacked sample
+        Calculate the loss for a batch of an unpacked sample.
+
+        When ``self.kl_coef > 0`` and ``self.ref_model`` is not None,
+        a Gaussian KL penalty term is added to prevent policy drift away
+        from the frozen pretrained reference model:
+
+            total_loss = ppo_loss + kl_coef * KL(ref || current)
 
         Args:
-            latents (torch.Tensor):
-                The latents sampled from the diffusion model, shape: [batch_size, num_channels_latents, height, width]
-            timesteps (torch.Tensor):
-                The timesteps sampled from the diffusion model, shape: [batch_size]
-            next_latents (torch.Tensor):
-                The next latents sampled from the diffusion model, shape: [batch_size, num_channels_latents, height, width]
-            log_prob (torch.Tensor):
-                The log probabilities of the latents, shape: [batch_size]
-            advantages (torch.Tensor):
-                The advantages of the latents, shape: [batch_size]
-            context (torch.Tensor):
-                The embedding of context.
+            latents:     [B, N, D]  latent at time t.
+            timesteps:   [B]        normalized timestep.
+            next_latents:[B, N, D]  latent at time s (s < t).
+            log_prob_old:[B]        log p(z_s | z_t) under the *old* (rollout) policy.
+            advantages:  [B]        PPO advantage estimates.
+            nodesxsample: [B]       number of valid nodes per sample.
+            context:     optional   condition embedding.
+
         Returns:
-            loss (torch.Tensor), approx_kl (torch.Tensor), clipfrac (torch.Tensor)
-            (all of these are of shape (1,))
+            (loss, clipfrac) — both scalar tensors.
         """
         s_array = timesteps
         t_array = s_array + 1
@@ -149,7 +153,7 @@ class EDMActor(BaseActor):
         node_mask = node_mask.to(latents.device)
         edge_mask = edge_mask.to(latents.device)
 
-        log_prob_current = current_model(
+        kwargs = dict(
             mode="ddpo_log_prob",
             s=s_array,
             t=t_array,
@@ -159,15 +163,33 @@ class EDMActor(BaseActor):
             prev_sample=next_latents,
             context=context,
         )
-    
-        ## log_prob_current is old latents in new policy
-        
-        # compute the log prob of next_latents given latents under the current model
-        dif_logp = (log_prob_current - log_prob_old)
+
+        # --- Current model forward: returns (log_prob, mu, sigma) ---
+        log_prob_current, mu_new, sigma_new = current_model(**kwargs)
+
+        # --- Standard PPO loss (unchanged) ---
+        dif_logp = log_prob_current - log_prob_old
         ratio = torch.exp(dif_logp)
-        loss = self.loss(advantages, self.clip_range, ratio)
+        ppo_loss = self.loss(advantages, self.clip_range, ratio)
         clipfrac = torch.mean((torch.abs(ratio - 1.0) > self.clip_range).float())
-    
+
+        # --- Optional KL penalty against frozen reference model ---
+        kl_penalty = torch.tensor(0.0, device=latents.device)
+        if self.kl_coef > 0.0 and self.ref_model is not None:
+            with torch.no_grad():
+                _, mu_ref, sigma_ref = self.ref_model(**kwargs)
+
+            from ddpo.kl import compute_gaussian_kl
+
+            kl_penalty = compute_gaussian_kl(
+                mu_ref=mu_ref,
+                sigma_ref=sigma_ref,
+                mu_new=mu_new,
+                sigma_new=sigma_new,
+                mask=node_mask,
+            )
+
+        loss = ppo_loss + self.kl_coef * kl_penalty
         return loss, clipfrac
     
     def loss(

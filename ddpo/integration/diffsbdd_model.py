@@ -804,8 +804,12 @@ class DiffSBDDModel(nn.Module, BaseModel):
         edge_mask: torch.Tensor,
         prev_sample: torch.Tensor,
         context: torch.Tensor = None,
-    ) -> torch.Tensor:
-        """Compute PPO log-prob under the current policy via module forward.
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Compute (log_prob, mu, sigma) under the current policy via forward.
+
+        Returns a 3-tuple so that callers (PPO loss *and* optional KL penalty)
+        can reuse the same reverse-transition computation without redundant
+        network forward passes.
 
         ``edge_mask`` and ``context`` are accepted for interface stability but
         are not consumed by DiffSBDD's current reverse transition computation.
@@ -819,7 +823,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
             node_mask=node_mask,
         )
         mu = self._diffsbdd_to_rlpf_format(mu_flat, ligand_mask, max_nodes)
-        return self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask)
+        log_prob = self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask)
+        return log_prob, mu, sigma
 
     # =========================================================================
     # Task 4.7: sample method (full sampling loop)
