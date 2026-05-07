@@ -1,3 +1,4 @@
+import os
 import sys
 from typing import Dict, Optional
 from tqdm import tqdm as tq
@@ -23,6 +24,7 @@ class EDMActor(BaseActor):
                 When None or kl_coef <= 0, KL computation is fully disabled.
         """
         super().__init__()
+        self._rank = int(os.environ.get("RANK", "0"))
         self.model = model
         self.model_impl = model_impl if model_impl is not None else self._unwrap_model(model)
         self.ref_model = ref_model
@@ -91,9 +93,9 @@ class EDMActor(BaseActor):
         """
         info = defaultdict(list)
         self.T = self.num_timesteps + 1
-        for _i, sample in tq(enumerate(batched_samples), desc="Training", unit="Batch", leave=False, file=sys.stdout):
+        for _i, sample in tq(enumerate(batched_samples), desc="Training", unit="Batch", leave=False, file=sys.stdout, disable=(self._rank != 0)):
 
-            for j in tq(range(self.T), desc="Training Batch", unit="timesteps", leave=False, file=sys.stdout):
+            for j in tq(range(self.T), desc="Training Batch", unit="timesteps", leave=False, file=sys.stdout, disable=(self._rank != 0)):
                 if self.condition :
                     context = sample["context"]
                 else:
