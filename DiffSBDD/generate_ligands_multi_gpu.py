@@ -18,7 +18,7 @@ from __future__ import annotations
 
 # Model / conditioning
 CHECKPOINT = "/home/md666/data/disk6/DiffB110/DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
-PDBFILE = "/home/md666/data/disk6/DiffB110/data/8GJL-cip-minimized.pdb"
+PDBFILE = "/home/md666/data/disk6/DiffB110/data/8GJL-hbond-maestro.pdb"
 
 # Exactly one of the following pocket definitions must be used.
 # - If you know pocket residues: set RESI_LIST and keep REF_LIGAND=None
@@ -27,11 +27,11 @@ RESI_LIST: list[str] | None = None  # e.g. ["A:45", "A:46", "A:47"]
 REF_LIGAND: str | None = "C:1101"      # e.g. "A:401" or "/path/to/ref_ligand.sdf"
 
 # Output
-OUTFILE = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260407generated_10000.sdf"
-TMP_DIR = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000"
+OUTFILE = "/home/md666/data/disk6/DiffB110/bishe/RE-out/260429lsj-RE-generated_500.sdf"
+TMP_DIR = "/home/md666/data/disk6/DiffB110/bishe/RE-out/260429lsj-RE_generate_500"
 
 # Sampling scale
-N_SAMPLES_TOTAL = 10000
+N_SAMPLES_TOTAL = 500
 
 # GPUs to use (0-indexed torch device ids)
 GPUS = [1]  # change to e.g. [0,1,2,3,4,5] for 6 GPUs
@@ -352,7 +352,7 @@ def main() -> None:
     time.sleep(0.5)
 
     # Spawn one process per GPU.
-    ctx = torch.multiprocessing.get_context("spawn")
+    ctx = torch.multiprocessing.get_context("fork")
     procs: list[torch.multiprocessing.Process] = []
     shard_paths: list[Path] = []
 
