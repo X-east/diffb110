@@ -1,0 +1,86 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-05-07T09:35:58.489Z
+provider: 
+---
+
+The user wants a shorter, more concise coding specification - just the key rules/norms, not a detailed manual. Let me distill the essential points from my previous long version.
+明白，简化成精炼版本。
+
+---
+
+# DiffB110 AI 编程规范（精简版）
+
+## 一、命名
+
+| 元素 | 规则 | 示例 |
+|------|------|------|
+| 类 | PascalCase | `DiffSBDDModel` |
+| 函数/变量 | snake_case | `generate_minibatch` |
+| 常量 | UPPER_SNAKE | `FAILURE_SUCCESS` |
+| 私有成员 | `_` 前缀 | `self._pocket_single` |
+| 奖励类 | 以 `Reward` 结尾 | `QEDReward` |
+| 数据类 | 以 `Facts` 结尾 | `BatchFacts` |
+
+## 二、导入
+
+**顺序：** 标准库 → 第三方 → 项目内部，每组之间空行。
+
+**协议类型：** 一律从 `ddpo.runtime.protocol` 导入 `DataProto` / `TensorDict`。
+
+**类型检查专用：** 用 `TYPE_CHECKING` guard 包裹，避免运行时循环依赖。
+
+## 三、类型注解
+
+所有公开 API 的参数和返回值**必须**标注类型。推荐 PEP 604 语法（`from __future__ import annotations`）。
+
+`dataclass` 字段**必须**标注类型。
+
+## 四、docstring
+
+每个 `.py` 文件、每个类、每个公开方法都必须有 docstring。
+
+格式：一句话用途 + 必要时解释 Args / Returns / Raises。
+
+## 五、张量与设备
+
+**绝不硬编码 `.cuda()` 或 `.cpu()`** —— 统一从输入张量推断 `device`。
+
+创建新张量时显式传 `device=device`。
+
+## 六、错误处理
+
+**资源安全：** 临时修改模块全局状态（如 `self.T`）**必须**用 `try/finally` 恢复。
+
+异常链：`raise ... from exc` 保留上下文。
+
+## 七、奖励系统
+
+- 所有奖励实现 `BaseReward.calculate_rewards(DataProto) → DataProto`
+- 失败分子必须拿到显式惩罚（非 NaN/Inf）
+- advantage 计算用全局 z-score（`RewardNormalizer`），**已废弃 `group_index` 字段**
+- 不要再写独立的 molecule-build 路径——统一从 `rdkit_valid` 读
+
+## 八、配置驱动
+
+组件统一用 `runtime/build.py` 的工厂函数从 YAML 构建。默认值设在 Python 代码中。
+
+## 九、日志
+
+```python
+import logging
+logger = logging.getLogger(__name__)  # 或统一 "DiffSBDD-DDPO"
+```
+
+禁用 `print()` 在核心逻辑中（进度条输出允许，但仅 rank-0，用 `\r` 单行覆盖）。
+
+## 十、已修复 Bug 的防复发
+
+| 不要做的 | 原因 | 正确做法 |
+|----------|------|----------|
+| 加 `group_index` | 误导 → 实际不用 | 彻底删除 |
+| 直接改 `self.T` | 异常时污染全局 | `try/finally` |
+| `self.ddpm = ...` | DDP 序列化双倍权重 | `object.__setattr__()` |
+| 裸露 `except:` | 吞掉未知错误 | 至少 `logger.exception()` |

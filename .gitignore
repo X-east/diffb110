@@ -178,6 +178,7 @@ DiffSBDD/colab/
 # local editor / notes
 .obsidian/
 Obsidian/
+materials/
 # local outputs
 out2/
 

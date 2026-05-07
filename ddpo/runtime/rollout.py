@@ -56,7 +56,6 @@ class DiffSBDDRollout:
             "logps": logps_stacked,
             "nodesxsample": nodesxsample,
             "timesteps": expanded_timesteps,
-            "group_index": prompts.batch["group_index"],
         }
 
         return DataProto(

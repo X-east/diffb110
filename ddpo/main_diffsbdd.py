@@ -172,17 +172,12 @@ class DiffSBDDDataLoader:
             device=self.device
         )
         
-        # Create group indices
-        group_index = torch.arange(self.group_sample, device=self.device)
-        group_index = group_index.repeat_interleave(self.each_prompt_sample)
-        
         # Repeat node counts for each sample in the group
         nodesxsample = nodesxsample.repeat_interleave(self.each_prompt_sample)
         
         # Create batch data
         tensors = {
             "nodesxsample": nodesxsample,
-            "group_index": group_index,
         }
         
         meta_info = {
@@ -228,7 +223,7 @@ class DiffSBDDRollout:
         Generate a minibatch of molecular samples.
         
         Args:
-            prompts: DataProto containing nodesxsample and group_index
+            prompts: DataProto containing nodesxsample
             
         Returns:
             DataProto containing generated samples with trajectories
@@ -299,7 +294,6 @@ class DiffSBDDRollout:
             "logps": logps_stacked,
             "nodesxsample": nodesxsample,
             "timesteps": expanded_timesteps,
-            "group_index": prompts.batch["group_index"],
         }
         
         return DataProto(

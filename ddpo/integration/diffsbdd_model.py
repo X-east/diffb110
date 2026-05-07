@@ -883,124 +883,126 @@ class DiffSBDDModel(nn.Module, BaseModel):
         original_T = self.T
         self.T = timestep
         
-        device = node_mask.device
-        max_nodes = node_mask.shape[1]
-        
-        # =====================================================================
-        # Step 1: Initialize - Sample initial noise z_T in pocket center
-        # =====================================================================
-        # Replicate pocket data for batch
-        pocket = self._replicate_pocket(n_samples)
-        xh0_pocket = torch.cat([pocket['x'], pocket['one_hot']], dim=1)
-        pocket_mask = pocket['mask']
-        
-        # Create ligand mask in DiffSBDD format
-        # Convert node_mask [B, N, 1] to batch_mask [total_nodes]
-        ligand_mask = node_mask_to_batch_mask(node_mask).to(device)
-        
-        # Sample initial noise centered at pocket
-        # mu_lig_x: center of pocket for each sample
-        mu_lig_x = scatter_mean(pocket['x'], pocket_mask, dim=0)  # [B, 3]
-        mu_lig_h = torch.zeros((n_samples, self.atom_nf), device=device)
-        mu_lig = torch.cat((mu_lig_x, mu_lig_h), dim=1)  # [B, n_dims + atom_nf]
-        
-        # Expand mu_lig to flat format [total_nodes, D]
-        mu_lig_flat = mu_lig[ligand_mask]
-        
-        # Initial sigma = 1
-        sigma_init = torch.ones_like(pocket['size']).unsqueeze(1)
-        
-        # Sample z_T with zero center of mass
-        z_flat, _ = self.ddpm.sample_normal_zero_com(
-            mu_lig_flat, xh0_pocket, sigma_init, ligand_mask, pocket_mask, fix_noise
-        )
-        
-        # Convert to RLPF format [B, N, D]
-        z = self._diffsbdd_to_rlpf_format(z_flat, ligand_mask, max_nodes)
-        
-        # =====================================================================
-        # Step 2: Initialize trajectory recording
-        # =====================================================================
-        latents = [z.clone()]
-        logps = []
-        timesteps_list = []
-        mus = []
-        sigmas = []
-        
-        # Progress tracking - 单行覆盖，仅 rank-0 打印
-        _local_rank = int(__import__('os').environ.get('LOCAL_RANK', '0'))
-        _is_rank0 = (_local_rank == 0)
-        _epoch_info = getattr(self, '_progress_epoch', (0, 0))
-        _epoch_str = f"Epoch {_epoch_info[0]}/{_epoch_info[1]}" if _epoch_info[1] > 0 else "Epoch ?"
-        if _is_rank0:
-            print(f"\r[{_epoch_str}] 生成中: {n_samples}分子/卡, 0% (0/{self.T}步)  ", end="", flush=True)
-        progress_interval = max(1, self.T // 10)  # Print every 10%
-        
-        # =====================================================================
-        # Step 3: Iteratively sample p(z_s | z_t) for t = T, ..., 1
-        # =====================================================================
-        for s in reversed(range(0, self.T)):
-            # Progress output - 仅 rank-0 单行覆盖
-            if _is_rank0 and (s % progress_interval == 0 or s == self.T - 1):
-                progress = (self.T - s) / self.T * 100
-                print(f"\r[{_epoch_str}] 生成中: {progress:.0f}% ({self.T-s}/{self.T}步)  ", end="", flush=True)
-            s_array = torch.full((n_samples, 1), fill_value=s, device=device)
-            t_array = s_array + 1
-            s_array = s_array / self.T
-            t_array = t_array / self.T
+        try:
+            device = node_mask.device
+            max_nodes = node_mask.shape[1]
             
-            # Sample z_s given z_t
-            z, logp, mu, sigma = self.sample_p_zs_given_zt(
-                s_array, t_array, z, node_mask, edge_mask, 
-                context=context, fix_noise=fix_noise
+            # =====================================================================
+            # Step 1: Initialize - Sample initial noise z_T in pocket center
+            # =====================================================================
+            # Replicate pocket data for batch
+            pocket = self._replicate_pocket(n_samples)
+            xh0_pocket = torch.cat([pocket['x'], pocket['one_hot']], dim=1)
+            pocket_mask = pocket['mask']
+            
+            # Create ligand mask in DiffSBDD format
+            # Convert node_mask [B, N, 1] to batch_mask [total_nodes]
+            ligand_mask = node_mask_to_batch_mask(node_mask).to(device)
+            
+            # Sample initial noise centered at pocket
+            # mu_lig_x: center of pocket for each sample
+            mu_lig_x = scatter_mean(pocket['x'], pocket_mask, dim=0)  # [B, 3]
+            mu_lig_h = torch.zeros((n_samples, self.atom_nf), device=device)
+            mu_lig = torch.cat((mu_lig_x, mu_lig_h), dim=1)  # [B, n_dims + atom_nf]
+            
+            # Expand mu_lig to flat format [total_nodes, D]
+            mu_lig_flat = mu_lig[ligand_mask]
+            
+            # Initial sigma = 1
+            sigma_init = torch.ones_like(pocket['size']).unsqueeze(1)
+            
+            # Sample z_T with zero center of mass
+            z_flat, _ = self.ddpm.sample_normal_zero_com(
+                mu_lig_flat, xh0_pocket, sigma_init, ligand_mask, pocket_mask, fix_noise
             )
             
-            # Record trajectory
-            latents.append(z.clone())
-            logps.append(logp)
-            timesteps_list.append(s)
-            mus.append(mu)
-            sigmas.append(sigma)
-        
-        if _is_rank0:
-            print(f"\r[{_epoch_str}] 生成完成: {n_samples}分子/卡, {self.T}步 (100%)  ", flush=True)
-        
-        # =====================================================================
-        # Step 4: Final step - sample p(x, h | z_0)
-        # =====================================================================
-        x, h, mu_final, sigma_final, logp_final, zeros, xh = self.sample_p_xh_given_z0(
-            z, node_mask, edge_mask, context=context, fix_noise=fix_noise
-        )
-        
-        # Record final step
-        latents.append(xh.clone())
-        logps.append(logp_final)
-        timesteps_list.append(0)
-        mus.append(mu_final)
-        # Ensure sigma_final has consistent shape
-        if sigma_final.dim() == 1:
-            sigmas.append(sigma_final.unsqueeze(-1))
-        else:
-            sigmas.append(sigma_final)
-        
-        # =====================================================================
-        # Step 5: Verify zero center of mass and correct if needed
-        # =====================================================================
-        # Check CoM drift
-        x_sum = (x * node_mask).sum(dim=1)  # [B, 3]
-        n_valid = node_mask.sum(dim=1)  # [B, 1]
-        cog = x_sum / (n_valid + 1e-8)  # [B, 3]
-        max_cog = cog.abs().max().item()
-        
-        if max_cog > 5e-2:
-            logging.getLogger("DiffSBDD-DDPO").debug(
-                f"CoG drift detected: {max_cog:.3f}, projecting positions"
+            # Convert to RLPF format [B, N, D]
+            z = self._diffsbdd_to_rlpf_format(z_flat, ligand_mask, max_nodes)
+            
+            # =====================================================================
+            # Step 2: Initialize trajectory recording
+            # =====================================================================
+            latents = [z.clone()]
+            logps = []
+            timesteps_list = []
+            mus = []
+            sigmas = []
+            
+            # Progress tracking - 单行覆盖，仅 rank-0 打印
+            _local_rank = int(__import__('os').environ.get('LOCAL_RANK', '0'))
+            _is_rank0 = (_local_rank == 0)
+            _epoch_info = getattr(self, '_progress_epoch', (0, 0))
+            _epoch_str = f"Epoch {_epoch_info[0]}/{_epoch_info[1]}" if _epoch_info[1] > 0 else "Epoch ?"
+            if _is_rank0:
+                print(f"\r[{_epoch_str}] 生成中: {n_samples}分子/卡, 0% (0/{self.T}步)  ", end="", flush=True)
+            progress_interval = max(1, self.T // 10)  # Print every 10%
+            
+            # =====================================================================
+            # Step 3: Iteratively sample p(z_s | z_t) for t = T, ..., 1
+            # =====================================================================
+            for s in reversed(range(0, self.T)):
+                # Progress output - 仅 rank-0 单行覆盖
+                if _is_rank0 and (s % progress_interval == 0 or s == self.T - 1):
+                    progress = (self.T - s) / self.T * 100
+                    print(f"\r[{_epoch_str}] 生成中: {progress:.0f}% ({self.T-s}/{self.T}步)  ", end="", flush=True)
+                s_array = torch.full((n_samples, 1), fill_value=s, device=device)
+                t_array = s_array + 1
+                s_array = s_array / self.T
+                t_array = t_array / self.T
+                
+                # Sample z_s given z_t
+                z, logp, mu, sigma = self.sample_p_zs_given_zt(
+                    s_array, t_array, z, node_mask, edge_mask, 
+                    context=context, fix_noise=fix_noise
+                )
+                
+                # Record trajectory
+                latents.append(z.clone())
+                logps.append(logp)
+                timesteps_list.append(s)
+                mus.append(mu)
+                sigmas.append(sigma)
+            
+            if _is_rank0:
+                print(f"\r[{_epoch_str}] 生成完成: {n_samples}分子/卡, {self.T}步 (100%)  ", flush=True)
+            
+            # =====================================================================
+            # Step 4: Final step - sample p(x, h | z_0)
+            # =====================================================================
+            x, h, mu_final, sigma_final, logp_final, zeros, xh = self.sample_p_xh_given_z0(
+                z, node_mask, edge_mask, context=context, fix_noise=fix_noise
             )
-            # Remove mean to center coordinates
-            x = x - cog.unsqueeze(1) * node_mask
+            
+            # Record final step
+            latents.append(xh.clone())
+            logps.append(logp_final)
+            timesteps_list.append(0)
+            mus.append(mu_final)
+            # Ensure sigma_final has consistent shape
+            if sigma_final.dim() == 1:
+                sigmas.append(sigma_final.unsqueeze(-1))
+            else:
+                sigmas.append(sigma_final)
+            
+            # =====================================================================
+            # Step 5: Verify zero center of mass and correct if needed
+            # =====================================================================
+            # Check CoM drift
+            x_sum = (x * node_mask).sum(dim=1)  # [B, 3]
+            n_valid = node_mask.sum(dim=1)  # [B, 1]
+            cog = x_sum / (n_valid + 1e-8)  # [B, 3]
+            max_cog = cog.abs().max().item()
+            
+            if max_cog > 5e-2:
+                logging.getLogger("DiffSBDD-DDPO").debug(
+                    f"CoG drift detected: {max_cog:.3f}, projecting positions"
+                )
+                # Remove mean to center coordinates
+                x = x - cog.unsqueeze(1) * node_mask
         
-        # Restore original T
-        self.T = original_T
+        finally:
+            # Always restore original T, even if an exception occurred
+            self.T = original_T
         
         return x, h, latents, logps, timesteps_list, mus, sigmas
     
