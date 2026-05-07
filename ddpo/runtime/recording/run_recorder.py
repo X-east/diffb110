@@ -96,7 +96,7 @@ class RunRecorder:
         self.last_epoch_facts = facts
 
         max_epochs = facts.extra_metrics.get("max_epochs", "?")
-        self.console.info(
+        print(
             f"[Epoch {facts.epoch}/{max_epochs}]\n"
             f"  Generated Total  : {facts.generated_total}\n"
             f"  RDKit Validity   : {facts.rdkit_valid} / {facts.generated_total} "
@@ -105,7 +105,8 @@ class RunRecorder:
             f"  Reward           : {facts.reward_mean: .4f}\n"
             f"  Avg QED          : {facts.avg_qed: .4f}\n"
             f"  Avg SA           : {facts.avg_sa: .4f}\n"
-            f"  Avg Docking      : {facts.avg_docking: .4f}"
+            f"  Avg Docking      : {facts.avg_docking: .4f}",
+            flush=True,
         )
 
     def on_checkpoint_saved(self, facts: CheckpointFacts) -> None:

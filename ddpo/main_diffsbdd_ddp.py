@@ -503,6 +503,7 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
     maybe_check_param_sync(runtime, epoch)
     local_stats = compute_batch_stats(prepared)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
+    import sys; sys.stderr.flush()  # 刷新 stderr 确保 tqdm 残留完全写出后再打印 epoch 汇总
     record_epoch_ddp(runtime, epoch, prepared, local_stats, global_stats)
     save_checkpoint_ddp(runtime, epoch, global_stats.metrics)
     return EpochStepResult(

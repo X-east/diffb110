@@ -12,6 +12,7 @@ All DEFAULT_* constants live in docking_config.py.
 Backend support-level policy lives in docking_registry.py.
 """
 
+import logging
 import os
 import sys
 import warnings
@@ -30,6 +31,8 @@ from ddpo.utils.molecule_semantics import (
     FAILURE_DOCKING_INPUT,
     FAILURE_SUCCESS,
 )
+
+
 
 from .interfaces import BaseReward
 from .docking_backends import AutoDockGPUBackend, UniDockBackend, SminaBackend
@@ -63,6 +66,8 @@ if TYPE_CHECKING:
 
 # Legacy alias kept for any external code that imports USE_RAY from here.
 USE_RAY = False  # Ray removed from mainline docking path (Bug5 P3)
+
+LOGGER = logging.getLogger("DiffSBDD-DDPO")
 
 
 class DockingReward(BaseReward):
@@ -105,6 +110,7 @@ class DockingReward(BaseReward):
         nrun: int = DEFAULT_NRUN,
         heuristics: bool = DEFAULT_HEURISTICS,
         autodock_gpu_bin: Optional[str] = None,
+        verbose: bool = False,
     ) -> None:
         self.backend = backend.lower()
         self.receptor_file = str(Path(receptor_file).resolve())
@@ -135,6 +141,7 @@ class DockingReward(BaseReward):
         self.nrun = nrun
         self.heuristics = heuristics
         self.autodock_gpu_bin = autodock_gpu_bin
+        self.verbose = verbose
 
         # Validate paths
         if not Path(self.receptor_file).exists():
@@ -153,12 +160,26 @@ class DockingReward(BaseReward):
         self._autodock_backend: Optional[AutoDockGPUBackend] = None
         self._unidock_backend: Optional[UniDockBackend] = None
 
-        print(f"DockingReward initialized: backend={self.backend} gpu_id={self.gpu_id}")
-        print(f"  Receptor: {Path(self.receptor_file).name}")
-        print(f"  Box: center=({self.center_x}, {self.center_y}, {self.center_z}) "
-              f"size=({self.size_x}, {self.size_y}, {self.size_z})")
-        if self.backend == "autodock_gpu":
-            print(f"  FLD: {Path(self.fld_file).name}  nrun={self.nrun}  heuristics={self.heuristics}")
+        if self.verbose:
+            LOGGER.debug(
+                "DockingReward initialized: backend=%s gpu_id=%s receptor=%s box_center=(%s,%s,%s) box_size=(%s,%s,%s)",
+                self.backend,
+                self.gpu_id,
+                Path(self.receptor_file).name,
+                self.center_x,
+                self.center_y,
+                self.center_z,
+                self.size_x,
+                self.size_y,
+                self.size_z,
+            )
+            if self.backend == "autodock_gpu":
+                LOGGER.debug(
+                    "DockingReward AutoDock-GPU settings: fld=%s nrun=%s heuristics=%s",
+                    Path(self.fld_file).name,
+                    self.nrun,
+                    self.heuristics,
+                )
 
     # ------------------------------------------------------------------
     # Backend lazy initialisation
@@ -229,7 +250,12 @@ class DockingReward(BaseReward):
             mol_indices = _prepared.sample_indices
             input_failures = _prepared.failures
             docking_failures.update(input_failures)
-            print(f"[DockingReward] Built {len(sdf_paths)}/{batch_size} valid SDF files")
+            LOGGER.debug(
+                "[DockingReward] Prepared %s/%s valid SDF inputs on gpu_id=%s",
+                len(sdf_paths),
+                batch_size,
+                self.gpu_id,
+            )
 
             if sdf_paths:
                 backend = self._get_backend()
@@ -264,12 +290,6 @@ class DockingReward(BaseReward):
             _prepared.cleanup()
 
         rewards_tensor = torch.tensor(rewards, dtype=torch.float32, device=device)
-        non_penalty = (rewards_tensor != self.failure_penalty).sum().item()
-        print(
-            f"[DockingReward] Done: mean={rewards_tensor.mean():.4f} "
-            f"min={rewards_tensor.min():.4f} max={rewards_tensor.max():.4f} "
-            f"valid(non-penalty)={non_penalty}/{batch_size}"
-        )
         data.batch["rewards"] = rewards_tensor
         data.batch["docking_reward"] = rewards_tensor.clone()
         if failure_type is not None:

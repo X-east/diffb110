@@ -5,6 +5,7 @@ Uses Uni-Dock v1.1.3 --gpu_batch mode which accepts SDF directly,
 docking all ligands in a single GPU-parallelised run.
 """
 
+import logging
 import os
 import re
 import subprocess
@@ -18,6 +19,7 @@ from ddpo.rewards.interfaces.docking_result import DockingResult
 
 # Full path to unidock binary (conda dif env)
 UNIDOCK_BIN = "/opt/unidock-1.1.3/bin/unidock"
+LOGGER = logging.getLogger("DiffSBDD-DDPO")
 
 
 class UniDockBackend(BaseDockingBackend):
@@ -68,7 +70,7 @@ class UniDockBackend(BaseDockingBackend):
                     capture_output=True, text=True, timeout=10
                 )
                 version = result.stdout.strip() or result.stderr.strip()
-                print(f"[UniDockBackend] Binary OK: {version}")
+                LOGGER.debug("[UniDockBackend] Binary OK: %s", version)
                 UniDockBackend._binary_verified = True
             except Exception as e:
                 raise RuntimeError(f"UniDock binary check failed: {e}")
@@ -147,9 +149,11 @@ class UniDockBackend(BaseDockingBackend):
 
                 non_zero = sum(1 for r in results if r.success)
                 mean_s = sum(r.score_raw for r in results) / len(results)
-                print(
-                    f"[UniDockBackend] Completed: {non_zero}/{len(results)} scored, "
-                    f"mean={mean_s:.3f}"
+                LOGGER.debug(
+                    "[UniDockBackend] Completed: %s/%s scored, mean=%.3f",
+                    non_zero,
+                    len(results),
+                    mean_s,
                 )
                 return results
 

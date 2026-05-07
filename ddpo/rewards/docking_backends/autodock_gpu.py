@@ -29,6 +29,7 @@ or for newer versions:
 We parse both patterns.
 """
 
+import logging
 import os
 import re
 import shutil
@@ -81,6 +82,7 @@ def _find_autodock_gpu_bin() -> Optional[str]:
 
 
 AUTODOCK_GPU_BIN: Optional[str] = None  # resolved lazily in AutoDockGPUBackend.__init__
+LOGGER = logging.getLogger("DiffSBDD-DDPO")
 
 
 # --------------------------------------------------------------------------
@@ -165,7 +167,7 @@ class AutoDockGPUBackend(BaseDockingBackend):
             )
             ver_str = (result.stdout + result.stderr).strip().splitlines()
             ver_line = ver_str[0] if ver_str else "unknown version"
-            print(f"[AutoDockGPUBackend] Binary OK: {ver_line}")
+            LOGGER.debug("[AutoDockGPUBackend] Binary OK: %s", ver_line)
         except subprocess.TimeoutExpired:
             warnings.warn("[AutoDockGPUBackend] --version timed out; binary may be broken")
         except Exception as e:
