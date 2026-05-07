@@ -16,9 +16,6 @@ def __getattr__(name):
     if name == "DiffSBDDFilter":
         from .diffsbdd_filter import DiffSBDDFilter
         return DiffSBDDFilter
-    elif name == "ValidityFilter":
-        from .validity_filter import ValidityFilter
-        return ValidityFilter
     elif name == "wandb_stub":
         return wandb_stub
     elif name == "logger":
@@ -43,12 +40,8 @@ def __getattr__(name):
 
 __all__ = [
     "DiffSBDDFilter",
-    "ValidityFilter",
     "wandb_stub",
     "logger",
-    "FileLogger",
-    "setup_logger",
-    "get_log_dir",
     "BatchRecorder",
     "annotate_batch_molecule_semantics",
     "compute_sample_molecule_semantics",

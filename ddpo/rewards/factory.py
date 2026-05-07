@@ -66,21 +66,6 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         )
         weights_dict["sa"] = float(weights_cfg.get("sa", 1.0))
 
-    # Legacy: support old configs that still use 'druglikeness' as a single key
-    if "druglikeness" in enabled and "qed" not in enabled and "sa" not in enabled:
-        from ddpo.rewards.druglikeness import DruglikenessReward
-        drug_cfg = reward_cfg.get("druglikeness", {})
-        rewards_dict["druglikeness"] = DruglikenessReward(
-            qed_weight=float(drug_cfg.get("qed_weight", 0.5)),
-            sa_weight=float(drug_cfg.get("sa_weight", 0.5)),
-            dataset_info=dataset_info,
-        )
-        weights_dict["druglikeness"] = float(weights_cfg.get("druglikeness", 1.0))
-        logger.warning(
-            "[factory] 'druglikeness' is a legacy reward key. "
-            "Use 'qed' and 'sa' separately in reward.enabled for new configs."
-        )
-
     if "docking" in enabled:
         docking_reward = build_docking_reward(config, logger)
         docking_reward.dataset_info = dataset_info
