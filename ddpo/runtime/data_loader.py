@@ -120,9 +120,6 @@ class DiffSBDDDataLoader:
             )
             nodesxsample = nodesxsample.long()
 
-            # Each sample is its own "prompt" — no grouping needed.
-            group_index = torch.arange(self.batch_size, device=self.device)
-
         else:
             # --- Strategy 1: uniform (default, original behavior) ---
             nodesxsample = torch.randint(
@@ -132,13 +129,10 @@ class DiffSBDDDataLoader:
                 device=self.device,
             )
 
-            group_index = torch.arange(self.group_sample, device=self.device)
-            group_index = group_index.repeat_interleave(self.each_prompt_sample)
             nodesxsample = nodesxsample.repeat_interleave(self.each_prompt_sample)
 
         tensors = {
             "nodesxsample": nodesxsample,
-            "group_index": group_index,
         }
 
         meta_info = {
