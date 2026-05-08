@@ -1,6 +1,8 @@
 # Workflow Commands
 
-This document records the current verified workflow entrypoints, launch scripts, and supporting utilities in the repository.
+**最后更新**: 2026-05-08
+
+This document records the current verified workflow entrypoints, launch scripts, and supporting utilities.
 
 ## 1. Environment
 
@@ -15,11 +17,28 @@ nvidia-smi
 
 ## 2. Primary Runtime Method
 
-The current verified project workflow in this repository snapshot is centered on direct Python execution of the custom single-process training entrypoint.
+### Current verified 8-GPU docking RL launcher (production)
+~~~bash
+bash scripts/run_rl_qed_sa_docking_8gjl_8gpu.sh
+~~~
 
-### Current verified training entrypoint
+This launcher drives:
+- `torchrun --nproc_per_node=8 ddpo/main_diffsbdd_ddp.py`
+- config `configs/qed_sa_docking_8gjl_8gpu.yaml`
+- docking backend `unidock`
+- target protein 8GJL
+
+### Current verified single-GPU debugging entrypoint
 ~~~bash
 python ddpo/main_diffsbdd_single_gpu.py --config_path configs/qed_sa_1gpu.yaml
+~~~
+
+### Other launch scripts
+~~~bash
+bash scripts/run_rl_qed_sa_1gpu.sh       # 1-GPU, no docking
+bash scripts/run_rl_qed_sa_2gpu.sh       # 2-GPU, no docking
+bash scripts/run_rl_qed_sa_4gpu.sh       # 4-GPU, no docking
+bash scripts/run_rl_qed_sa_8gpu.sh       # 8-GPU, no docking
 ~~~
 
 ### Secondary / legacy RL training entrypoint
@@ -28,15 +47,20 @@ python ddpo/main_diffsbdd.py --config_path <CONFIG_FILE>
 ~~~
 
 Notes:
-- older docs referenced bash launchers such as `run_6gpu.sh`, `run_4gpu_test.sh`, and `run_4gpu_druglikeness_only.sh`
-- these scripts were not found in the current repository root during verification
-- treat those launcher references as historical / external-worktree information unless the scripts reappear or their location is confirmed
+- `ddpo/main_diffsbdd.py` contains Ray-related logic (legacy)
+- Lightning-based entrypoints do not exist in current tree
 
 ## 3. Verified Python Entrypoints
 
-These Python entrypoints are currently the most important paths for inspection, debugging, and day-to-day execution in this repository snapshot.
+### Primary 8-GPU DDP training entrypoint
+- `ddpo/main_diffsbdd_ddp.py`
 
-### Preferred current RL / DDPO training entrypoint
+CLI:
+~~~bash
+torchrun --nproc_per_node=8 ddpo/main_diffsbdd_ddp.py --config_path configs/qed_sa_docking_8gjl_8gpu.yaml
+~~~
+
+### Single-GPU debugging entrypoint
 - `ddpo/main_diffsbdd_single_gpu.py`
 
 CLI:
@@ -57,121 +81,15 @@ Arguments:
 
 CLI:
 ~~~bash
-python ddpo/main_diffsbdd.py --help
+python ddpo/main_diffsbdd.py --config_path <CONFIG_FILE>
 ~~~
-
-Arguments:
-- `--config_path CONFIG_PATH`
-- `--save_path SAVE_PATH`
-- `--log_level {DEBUG,INFO,WARNING,ERROR}`
-- `--seed SEED`
-- `--resume`
-- `--checkpoint_path CHECKPOINT_PATH`
-
-### Historical / documentation-only reference
-- `ddpo/main_diffsbdd_lightning.py`
-
-Status:
-- referenced by older documents as a Lightning DDP entrypoint
-- not found in the current repository tree
-- should not be treated as a verified active entrypoint in this checkout
 
 ### DiffSBDD base model training
-- `DiffSBDD/train.py`
-
-CLI:
-~~~bash
-python DiffSBDD/train.py --help
-~~~
-
-Arguments:
-- `--config CONFIG`
-- `--resume RESUME`
-
-### DiffSBDD ligand generation
-- `DiffSBDD/generate_ligands.py`
-
-CLI:
-~~~bash
-python DiffSBDD/generate_ligands.py --help
-~~~
-
-Arguments:
-- positional: `checkpoint`
-- `--pdbfile PDBFILE`
-- `--resi_list RESI_LIST [RESI_LIST ...]`
-- `--ref_ligand REF_LIGAND`
-- `--outfile OUTFILE`
-- `--n_samples N_SAMPLES`
-- `--batch_size BATCH_SIZE`
-- `--num_nodes_lig NUM_NODES_LIG`
-- `--all_frags`
-- `--sanitize`
-- `--relax`
-- `--resamplings RESAMPLINGS`
-- `--jump_length JUMP_LENGTH`
-- `--timesteps TIMESTEPS`
-
-### Uni-Dock tool entrypoint
-- `Uni-Dock/unidock_tools/src/unidock_tools/main.py`
-
-CLI:
-~~~bash
-python Uni-Dock/unidock_tools/src/unidock_tools/main.py --help
-~~~
-
-Subcommands:
-- `proteinprep`
-- `unidock_pipeline`
-- `mcdock`
-- `ligandprep`
-
-## 4. Entrypoint Relationship
-
-In the current repository snapshot:
-
-- the verified active RL training code path is the custom single-process entrypoint `ddpo/main_diffsbdd_single_gpu.py`
-- `ddpo/main_diffsbdd.py` remains a secondary / legacy RL path
-- older documentation references to `ddpo/main_diffsbdd_lightning.py` should be treated as historical or from another checkout unless that file is restored
-
-Underlying Python entrypoints still exist and are useful for inspection or debugging.
-
-### Underlying RL / DDPO entrypoints
-- `ddpo/main_diffsbdd_single_gpu.py`
-- `ddpo/main_diffsbdd.py`
-- `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py` (policy update path used by the active single-process flow)
-
-### Underlying DiffSBDD entrypoints
-- `DiffSBDD/train.py`
-- `DiffSBDD/generate_ligands.py`
-
-### Underlying Uni-Dock entrypoint
-- `Uni-Dock/unidock_tools/src/unidock_tools/main.py`
-
-## 5. Repository-Internal or Legacy Launchers
-
-The repository also contains additional launchers that may be useful for reference, debugging, or legacy workflows:
-
-~~~bash
-bash scripts/train_8gpu.sh
-bash scripts/train_unidock_8gpu.sh
-bash ddpo/configs/run_training.sh
-bash ddpo/configs/run_training_ddp.sh
-~~~
-
-Notes:
-- These scripts remain in the repository for reference or legacy use.
-- Some of them still contain Ray-related logic.
-- They should not be treated as the primary production workflow unless explicitly needed.
-
-## 6. DiffSBDD Commands
-
-### Base model training
 ~~~bash
 python DiffSBDD/train.py --config <CONFIG_YAML>
 ~~~
 
-### Ligand generation
+### DiffSBDD ligand generation
 ~~~bash
 python DiffSBDD/generate_ligands.py <CHECKPOINT> \
     --pdbfile <PDB_FILE> \
@@ -179,102 +97,71 @@ python DiffSBDD/generate_ligands.py <CHECKPOINT> \
     --n_samples <N>
 ~~~
 
-## 7. Docking / Reward / Analysis Utilities
+## 4. Current YAML Configurations
 
-### Visualization / generation helper
+| Config | GPUs | Docking | Backend | Description |
+|--------|------|---------|---------|-------------|
+| `configs/qed_sa_docking_8gjl_8gpu.yaml` | 8 | Yes | UniDock | ★ Current production config |
+| `configs/qed_sa_1gpu.yaml` | 1 | No | - | Single-GPU debug |
+| `configs/qed_sa_2gpu.yaml` | 2 | No | - | 2-GPU |
+| `configs/qed_sa_2gpu_smoke.yaml` | 2 | No | - | 2-GPU smoke test |
+| `configs/qed_sa_4gpu_16mol_smoke.yaml` | 4 | No | - | 4-GPU smoke test |
+| `configs/qed_sa_8gpu_16mol_50ep.yaml` | 8 | No | - | 8-GPU no docking |
+
+## 5. Entry-Point Relationship
+
+In the current repository:
+
+- **Production 8-GPU RL docking**: `scripts/run_rl_qed_sa_docking_8gjl_8gpu.sh` → `ddpo/main_diffsbdd_ddp.py`
+- **Single-GPU debugging**: `ddpo/main_diffsbdd_single_gpu.py`
+- **Legacy**: `ddpo/main_diffsbdd.py` (contains Ray logic)
+- **Lightning**: not present in current tree — do not reference as active path
+
+### Underlying key Python modules
+- `ddpo/main_diffsbdd_ddp.py` — DDP training entry
+- `ddpo/main_diffsbdd_single_gpu.py` — single-GPU entry
+- `ddpo/integration/diffsbdd_model.py` — DiffSBDDModel adapter
+- `ddpo/runtime/build.py` — component factory
+- `ddpo/runtime/rollout.py` — trajectory sampling
+- `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py` — EDMActor (PPO update)
+- `ddpo/kl/gaussian_kl.py` — KL divergence computation
+- `ddpo/rewards/` — reward system
+
+## 6. Repository-Internal Launch Scripts
+
 ~~~bash
-python scripts/generate_and_visualize.py --help
+bash scripts/run_rl_qed_sa_docking_8gjl_8gpu.sh   # ★ Current production
+bash scripts/run_rl_qed_sa_1gpu.sh
+bash scripts/run_rl_qed_sa_2gpu.sh
+bash scripts/run_rl_qed_sa_4gpu.sh
+bash scripts/run_rl_qed_sa_8gpu.sh
+bash scripts/run_unidock_box_8GJL.sh               # UniDock box setup
 ~~~
 
-### Reward and docking test utilities
+Legacy scripts (may contain Ray logic):
 ~~~bash
-python scripts/test_docking_reward.py
-python scripts/test_unidock_docking.py
-python scripts/test_unidock_reward.py
-python scripts/test_druglikeness_reward.py
+bash scripts/test_rl_qed_sa.py                       # Test utility
 ~~~
 
-### Analysis utilities
-~~~bash
-python scripts/analyze_generated_data.py
-python RLPF-verl_diffusion/Model/EDM/eval_analyze.py
-python DiffSBDD/analysis/docking.py
-~~~
-
-## 8. Validation / Debug Utilities
-
-~~~bash
-python scripts/verify_integration.py
-python scripts/verify_model_interface.py
-python scripts/verify_unidock.py
-python scripts/verify_task5_checkpoint.py
-python scripts/complete_model_verification.py
-python scripts/test_rl_loop.py
-python scripts/test_rl_pipeline.py
-python scripts/test_diffsbdd_model_e2e.py
-python scripts/test_unidock_integration.py
-~~~
-
-## 9. Current Operational Status
+## 7. Current Operational Status
 
 - Verified project environment: `dif`
-- Canonical project root: `/data/disk6/DiffB110`
-- Common shell-visible runtime path currently used by the user: `/home/md666/data/disk6/DiffB110`
-- The repository still contains Ray-based logic in several legacy scripts and launchers.
-- The current intended scientific direction remains GPU-based docking/scoring without introducing new Ray dependencies.
-- The current verified training mainline in this checkout is `ddpo/main_diffsbdd_single_gpu.py` plus:
-  - `ddpo/runtime/rollout.py`
-  - `ddpo/integration/diffsbdd_model.py`
-  - `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py`
-- References to Lightning DDP in older docs should currently be interpreted as historical / planned rather than verified-present code in this tree.
+- Runtime project root: `/home/md666/data/disk6/DiffB110`
+- Current production workflow: `torchrun` + `ddpo/main_diffsbdd_ddp.py` + UniDock
+- Lightning is **not** the current training path
+- Ray is **deprecated** — no new Ray dependencies
 
-## 10. Known Entry-Point and Environment Issues
+## 8. Known Issues
 
-### PyTorch version compatibility warning
-Several Python entrypoints print a warning indicating that one imported component expects `PyTorch >= 2.2`, while the current environment provides:
-
-- `torch==2.0.1+cu118`
-
-This does not prevent `--help` from running, but it should be recorded as an environment compatibility risk.
-
-### Uni-Dock local package conflict
-Running:
-
-~~~bash
-python Uni-Dock/unidock_tools/src/unidock_tools/application/unidock_pipeline.py --help
-~~~
-
-currently fails because Python imports the installed `unidock_tools` package from the environment instead of the local repository source.
+### PyTorch version compatibility
+- Current: `torch==2.0.1+cu118`
+- Some components expect `PyTorch >= 2.2` — produces warnings but does not prevent execution
 
 ### Legacy Ray assumptions
-The following scripts still assume Ray-based orchestration or still contain Ray-related checks:
+- `ddpo/main_diffsbdd.py` still contains Ray logic
+- Legacy scripts in `something/old-scripts/` reference Ray
 
-- `scripts/train_8gpu.sh`
-- `scripts/train_unidock_8gpu.sh`
-- `ddpo/configs/run_training.sh`
-- `ddpo/configs/run_training_ddp.sh`
-
-### Legacy script argument mismatch
-`scripts/train_unidock_8gpu.sh` calls:
-
-~~~bash
-python ddpo/main_diffsbdd.py --config ddpo/configs/unidock_8gpu_training.yaml
-~~~
-
-but the verified CLI of `ddpo/main_diffsbdd.py` expects:
-
-~~~bash
-python ddpo/main_diffsbdd.py --config_path <CONFIG_FILE>
-~~~
-
-Therefore, that script should be treated as needing correction before production use.
-
-## 11. Runtime Notes
-
-- For the current repository snapshot, prefer the verified Python entrypoints documented above for daily execution, inspection, and debugging.
-- Do not assume the previously referenced bash launch scripts are available unless their paths are re-confirmed in the active working tree.
-- For code understanding, debugging, and Cursor assistance, the Python entrypoints listed above remain the authoritative internal interfaces.
-- When documenting or editing workflows, distinguish clearly between:
-  - verified current Python entrypoints
-  - historical / missing launch scripts referenced by older docs
-  - legacy repository launchers
+### KL divergence known gaps
+- `compute_gaussian_kl()` lacks NaN/Inf protection — extreme σ can cause training explosion
+- No separate KL logging — cannot monitor KL contribution independently
+- Both issues should be fixed before enabling `kl_coef > 0`

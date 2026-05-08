@@ -38,6 +38,7 @@ from .interfaces import BaseReward
 from .docking_backends import AutoDockGPUBackend, UniDockBackend, SminaBackend
 from .docking_config import (
     ADD_HYDROGENS,
+    ASSIGN_GASTEIGER_CHARGES,
     DEFAULT_AUTOBOX_ADD,
     DEFAULT_AUTOBOX_LIGAND,
     DEFAULT_BACKEND,
@@ -93,6 +94,7 @@ class DockingReward(BaseReward):
         failure_penalty: float = FAILURE_PENALTY,
         sanitize: bool = SANITIZE_MOLECULES,
         add_hydrogens: bool = ADD_HYDROGENS,
+        assign_gasteiger: bool = ASSIGN_GASTEIGER_CHARGES,
         dataset_info: Optional[dict] = None,
         center_x: Optional[float] = DEFAULT_CENTER_X,
         center_y: Optional[float] = DEFAULT_CENTER_Y,
@@ -118,6 +120,7 @@ class DockingReward(BaseReward):
         self.failure_penalty = failure_penalty
         self.sanitize = sanitize
         self.add_hydrogens = add_hydrogens
+        self.assign_gasteiger = assign_gasteiger
         self.dataset_info = dataset_info or dataset_params["crossdock"]
         self.chunk_size = chunk_size
 
@@ -244,6 +247,8 @@ class DockingReward(BaseReward):
             dataset_info=self.dataset_info,
             prefix="docking_batch_",
             data=data,
+            add_hydrogens=self.add_hydrogens,
+            assign_gasteiger=self.assign_gasteiger,
         )
         try:
             sdf_paths = _prepared.ligand_files

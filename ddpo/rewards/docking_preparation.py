@@ -18,6 +18,7 @@ from typing import Dict, List, Optional, Tuple, TYPE_CHECKING
 from ddpo.utils.molecule_semantics import (
     FAILURE_DOCKING_INPUT,
     build_canonical_rdmol_from_sample,
+    prepare_mol_for_docking,
     write_rdmol_to_sdf,
 )
 
@@ -53,11 +54,29 @@ class PreparedLigandFile:
                 pass
 
 
-def _build_sample_to_sdf_from_mol(mol, sdf_path: str) -> Tuple[bool, Optional[str]]:
-    """Write an existing RDKit Mol object to SDF (no rebuild needed)."""
+def _build_sample_to_sdf_from_mol(
+    mol,
+    sdf_path: str,
+    *,
+    add_hydrogens: bool = True,
+    assign_gasteiger: bool = True,
+) -> Tuple[bool, Optional[str]]:
+    """Write an existing RDKit Mol object to SDF with optional docking preparation.
+
+    Args:
+        mol: Canonical RDKit Mol (no H) from batch annotation.
+        sdf_path: Destination SDF file path.
+        add_hydrogens: If True, add explicit H before writing.
+        assign_gasteiger: If True, assign Gasteiger charges before writing.
+    """
     try:
         if mol is None:
             return False, FAILURE_DOCKING_INPUT
+        # Prepare for docking: add H + charges before SDF export
+        if add_hydrogens or assign_gasteiger:
+            mol = prepare_mol_for_docking(mol, add_hydrogens, assign_gasteiger)
+            if mol is None:
+                return False, FAILURE_DOCKING_INPUT
         if not write_rdmol_to_sdf(mol, sdf_path):
             return False, FAILURE_DOCKING_INPUT
         return True, None
@@ -73,8 +92,22 @@ def build_sample_to_sdf(
     sample_idx: int,
     sdf_path: str,
     dataset_info,
+    *,
+    add_hydrogens: bool = True,
+    assign_gasteiger: bool = True,
 ) -> Tuple[bool, Optional[str]]:
-    """Build canonical RDKit molecule for one sample and export to SDF."""
+    """Build canonical RDKit molecule for one sample and export to SDF.
+
+    Args:
+        x: Atom coordinates tensor.
+        categorical: Atom type one-hot tensor.
+        nodesxsample: Number of atoms per sample.
+        sample_idx: Index of the sample in the batch.
+        sdf_path: Destination SDF file path.
+        dataset_info: Dataset parameter dict.
+        add_hydrogens: If True, add explicit H before writing.
+        assign_gasteiger: If True, assign Gasteiger charges before writing.
+    """
     try:
         mol, _, _, is_valid, failure_type = build_canonical_rdmol_from_sample(
             x=x,
@@ -85,6 +118,11 @@ def build_sample_to_sdf(
         )
         if not is_valid or mol is None:
             return False, failure_type or FAILURE_DOCKING_INPUT
+        # Prepare for docking: add H + charges before SDF export
+        if add_hydrogens or assign_gasteiger:
+            mol = prepare_mol_for_docking(mol, add_hydrogens, assign_gasteiger)
+            if mol is None:
+                return False, FAILURE_DOCKING_INPUT
         if not write_rdmol_to_sdf(mol, sdf_path):
             return False, FAILURE_DOCKING_INPUT
         return True, None
@@ -101,12 +139,19 @@ def prepare_batch_sdf_inputs(
     dataset_info,
     prefix: str,
     data: "DataProto" = None,
+    *,
+    add_hydrogens: bool = True,
+    assign_gasteiger: bool = True,
 ) -> PreparedLigandBatch:
     """Prepare one SDF file per valid sample for backend batch execution.
 
     If data.batch contains pre-built 'rdmols' from
     annotate_batch_molecule_semantics(), they are reused directly.
     Otherwise falls back to building each mol from tensors (backward compat).
+
+    Args:
+        add_hydrogens: If True, add explicit H before SDF export for docking.
+        assign_gasteiger: If True, assign Gasteiger charges before SDF export.
     """
     tmpdir = tempfile.mkdtemp(prefix=prefix)
     ligand_files: List[str] = []
@@ -127,7 +172,11 @@ def prepare_batch_sdf_inputs(
         if rdmols is not None and sample_idx < len(rdmols):
             mol = rdmols[sample_idx]
             if mol is not None:
-                ok, failure = _build_sample_to_sdf_from_mol(mol, sdf_path)
+                ok, failure = _build_sample_to_sdf_from_mol(
+                    mol, sdf_path,
+                    add_hydrogens=add_hydrogens,
+                    assign_gasteiger=assign_gasteiger,
+                )
                 if ok and os.path.exists(sdf_path) and os.path.getsize(sdf_path) > 0:
                     ligand_files.append(sdf_path)
                     sample_indices.append(sample_idx)
@@ -144,6 +193,8 @@ def prepare_batch_sdf_inputs(
             sample_idx=sample_idx,
             sdf_path=sdf_path,
             dataset_info=dataset_info,
+            add_hydrogens=add_hydrogens,
+            assign_gasteiger=assign_gasteiger,
         )
         if ok and os.path.exists(sdf_path) and os.path.getsize(sdf_path) > 0:
             ligand_files.append(sdf_path)
@@ -165,8 +216,16 @@ def prepare_single_sdf_input(
     nodesxsample,
     sample_idx: int,
     dataset_info,
+    *,
+    add_hydrogens: bool = True,
+    assign_gasteiger: bool = True,
 ) -> PreparedLigandFile:
-    """Prepare one temporary SDF file for sequential backend execution."""
+    """Prepare one temporary SDF file for sequential backend execution.
+
+    Args:
+        add_hydrogens: If True, add explicit H before SDF export for docking.
+        assign_gasteiger: If True, assign Gasteiger charges before SDF export.
+    """
     with tempfile.NamedTemporaryFile(suffix=".sdf", delete=False) as tmp:
         sdf_path = tmp.name
 
@@ -177,6 +236,8 @@ def prepare_single_sdf_input(
         sample_idx=sample_idx,
         sdf_path=sdf_path,
         dataset_info=dataset_info,
+        add_hydrogens=add_hydrogens,
+        assign_gasteiger=assign_gasteiger,
     )
     if not ok:
         prepared = PreparedLigandFile(path=sdf_path, failure_type=failure or FAILURE_DOCKING_INPUT)

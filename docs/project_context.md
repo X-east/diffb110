@@ -1,34 +1,45 @@
 # Project Context
 
+**最后更新**: 2026-05-08
+
 ## 1. Current Project Direction
 
 This project uses `DiffSBDD` for 3D molecular diffusion generation and `DDPO/PPO` for reinforcement learning optimization.
 
-Current verified code path in this repository snapshot:
-- active, structurally complete entrypoint: `ddpo/main_diffsbdd_single_gpu.py`
-- active training loop ownership: custom single-process runtime (`ddpo/runtime/*` + `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py`)
-- rollout implementation in use: `ddpo/runtime/rollout.py`
-- model adapter in use: `ddpo/integration/diffsbdd_model.py`
-- docking backend: `autodock_gpu`
-- reward components: docking reward + drug-likeness reward
+Current verified code paths in this repository:
+- **8-GPU DDP production**: `ddpo/main_diffsbdd_ddp.py` launched by `scripts/run_rl_qed_sa_docking_8gjl_8gpu.sh`
+- **Single-GPU debugging**: `ddpo/main_diffsbdd_single_gpu.py`
+- **Policy update**: `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py`
+- **Rollout**: `ddpo/runtime/rollout.py`
+- **Model adapter**: `ddpo/integration/diffsbdd_model.py`
+- **Current docking backend**: UniDock (8GJL 8-GPU config)
+- **Reward components**: UniDock docking + QED + SA, combined with explicit weights
+- **KL constraint**: integrated into EDMActor, kl_coef configurable (currently default 0.0)
+- **Reward normalization**: z-score via RewardNormalizer
+- **Component factory**: `ddpo/runtime/build.py` builds all components from YAML
 
-Important repository/documentation mismatch:
-- some older project docs still describe `ddpo/main_diffsbdd_lightning.py` + Lightning DDP as the preferred active path
-- in the current repository tree, `ddpo/main_diffsbdd_lightning.py` is not present
-- in the current repository tree, `ddpo/trainer/lightning_ddpo_module.py` is not present
-- therefore, Lightning DDP should currently be treated as a historical / intended direction, not the verified active mainline in this checkout
+### Architecture highlights
 
-The repository still contains historical Ray-based and legacy docking paths, but the intended active direction remains:
-- keep diffusion semantics explicit
-- keep mask semantics explicit
-- keep reward semantics explicit
-- avoid introducing new Ray-based orchestration
-- use GPU-based docking/scoring
-- prefer native PyTorch DDP for future multi-GPU refactors over reintroducing Ray
+- **Lightning is deprecated** — training uses `torchrun` + custom DDP runtime, not PyTorch Lightning
+- **Ray is deprecated** — GPU-direct docking/scoring, no Ray orchestration
+- **Docking module is 4-layer decoupled** — docking → preparation → config → backends → registry
+- **Molecule semantics is unified** — OpenBabel → RDKit single pipeline with `molecule_semantics.py`
+- **prepare_mol_for_docking()** — deep copy + AddHs + Gasteiger charges from canonical mol
+- **ref_model** — `copy.deepcopy(model_impl)` for KL, independent parameters, `torch.no_grad()` forward
+
+### Key design decisions
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Multi-GPU training | torchrun + DDP | Lightning deprecated; direct DDP is more controllable |
+| Docking backend | UniDock (primary) | GPU-accelerated, verified with 8GJL config |
+| Molecule pipeline | OpenBabel→RDKit single path | Avoid semantic divergence; all downstream shares same rdmol |
+| Docking input prep | AddH + Gasteiger from canonical mol | Improve docking accuracy; single preparation path |
+| KL constraint | deepcopy ref_model | Independent params, no sharing, no_grad forward |
+| Reward normalization | Global z-score | group_index deprecated; unified RewardNormalizer |
+| Component construction | runtime/build.py factory | Config-driven: YAML → all components |
 
 ## 2. Unified Molecule Semantics (Current Decision)
-
-This document records the current agreed molecule semantics for the project.
 
 ### 2.1 Single source of truth
 
@@ -46,9 +57,6 @@ The canonical reconstruction rule is:
 - then convert that reconstructed structure into one canonical **RDKit `Mol`**
 - all downstream chemistry logic must use that converted `rdmol`
 
-OpenBabel is the structure reconstruction backend.
-RDKit `Mol` is the single downstream chemistry object.
-
 ### 2.2 Canonical pipeline
 
 The canonical molecule pipeline is:
@@ -59,7 +67,11 @@ The canonical molecule pipeline is:
 4. Convert the reconstructed structure into one unified RDKit `Mol` (`rdmol`)
 5. Run RDKit sanitize / legality check on that `rdmol`
 6. Compute QED / SA directly from that same `rdmol`
-7. Export SDF / PDBQT for docking from that same `rdmol`
+7. Prepare docking input from that same `rdmol` via `prepare_mol_for_docking()`:
+   - Deep copy mol (`Chem.Mol(mol)`)
+   - Add hydrogens (`Chem.AddHs(mol, addCoords=True)`)
+   - Assign Gasteiger charges (`AllChem.ComputeGasteigerCharges(mol)`)
+   - Export SDF / PDBQT from the prepared mol
 8. Use SMILES only for logging / deduplication / novelty checks
 9. Combine component rewards explicitly into final total reward
 
@@ -77,11 +89,6 @@ Do not allow separate downstream branches that continue using OpenBabel objects 
 #### Rule C — OpenBabel-invalid means invalid molecule
 If OpenBabel reconstruction judges a sample unreasonable / invalid, that sample is an invalid molecule.
 It must receive the maximum failure penalty and skip all downstream stages.
-That means:
-- do not continue to RDKit sanitize
-- do not compute QED / SA
-- do not prepare docking input
-- do not run docking
 
 #### Rule D — RDKit validity as docking gate
 `rdkit_valid` is the required gate before docking.
@@ -93,104 +100,97 @@ Do **not** use SMILES as the primary input path for QED / SA.
 Do **not** round-trip through `Mol -> SMILES -> Mol` unless there is a documented exceptional reason.
 
 #### Rule F — docking input source
-Docking input files must be exported from the unified `rdmol`.
+Docking input files must be exported from the unified `rdmol` via `prepare_mol_for_docking()`.
 Do not create a separate "raw diffusion output -> SDF/PDBQT" path that bypasses the canonical RDKit molecule.
 
 #### Rule G — SMILES role
 SMILES is an auxiliary representation only.
-SMILES may be used for:
-- logging
-- CSV export
-- duplicate filtering
-- novelty checks against training data
-
+SMILES may be used for: logging, CSV export, duplicate filtering, novelty checks.
 SMILES must not become the primary chemistry object for reward calculation.
 
-## 3. Canonical Per-Sample Fields
+## 3. KL Divergence Constraint
+
+### 3.1 Implementation
+- `ddpo/kl/gaussian_kl.py` — pure tensor function `compute_gaussian_kl(mu_ref, sigma_ref, mu_new, sigma_new, mask)`
+- Integrated in `edm_actor.py` → `calculate_loss()`: `loss = ppo_loss + kl_coef * kl`
+- `ref_model` created by `copy.deepcopy(model_impl)`, forward in `torch.no_grad()`
+- KL formula: `KL[N(μ_ref, σ_ref²) || N(μ_new, σ_new²)]`
+
+### 3.2 Current status
+- `kl_coef = 0.0` in current configs — KL is disabled
+- Known issues:
+  - No NaN/Inf protection in `compute_gaussian_kl()` — extreme σ can cause training explosion
+  - No separate KL logging — only mixed loss visible, cannot monitor KL contribution
+- Enable with `kl_coef > 0` in YAML config after adding protections
+
+## 4. Reward System Architecture
+
+### 4.1 Docking module (4-layer decoupled)
+
+```
+docking.py (语义层)
+  → docking_preparation.py (准备层: SDF + AddH + Gasteiger)
+    → docking_config.py (配置层: 常量/默认值)
+      → docking_registry.py → docking_backends/ (后端层)
+        ├── unidock.py       (主后端)
+        ├── autodock_gpu.py  (备选)
+        └── smina.py         (CPU备用)
+```
+
+### 4.2 Reward normalization
+- `normalization.py` — `RewardNormalizer`
+- Global z-score: `normalized = (reward - running_mean) / (running_std + eps)`
+- Configurable: method, clamp range, failure handling
+- **`group_index` is deprecated** — always use global statistics
+
+### 4.3 Composite reward
+- `composite.py` — explicit weighted sum of component rewards
+- Weights in YAML config
+- Each component score logged separately
+
+## 5. Canonical Per-Sample Fields
 
 Each generated sample should conceptually be tracked with the following layers.
 
-### 3.1 Sample layer
-- `x`
-- `categorical`
-- `nodesxsample`
-- `sample_id`
+### 5.1 Sample layer
+- `x`, `categorical`, `nodesxsample`, `sample_id`
 
-### 3.2 Reconstruction layer
-- `obabel_reconstruct_success`
-- `rdmol`
-- `build_success`
+### 5.2 Reconstruction layer
+- `obabel_reconstruct_success`, `rdmol`, `build_success`
 
-### 3.3 RDKit legality layer
-- `sanitize_success`
-- `rdkit_valid`
+### 5.3 RDKit legality layer
+- `sanitize_success`, `rdkit_valid`
 
-### 3.4 Representation layer
-- `smiles`
-- `canonical_smiles`
+### 5.4 Representation layer
+- `smiles`, `canonical_smiles`
 
-### 3.5 Drug-likeness layer
-- `qed`
-- `sa_raw`
-- `sa_norm`
-- `druglikeness_reward`
-- `druglikeness_success`
+### 5.5 Drug-likeness layer
+- `qed`, `sa_raw`, `sa_norm`, `druglikeness_reward`, `druglikeness_success`
 
-### 3.6 Docking layer
-- `docking_input_success`
-- `dock_success`
-- `dock_score_raw`
-- `dock_score_norm`
-- `docking_reward`
+### 5.6 Docking layer
+- `docking_input_success`, `dock_success`, `dock_score_raw`, `dock_score_norm`, `docking_reward`
 
-### 3.7 Final reward layer
-- `total_reward`
-- `failure_type`
+### 5.7 Final reward layer
+- `total_reward`, `failure_type`
 
 Recommended `failure_type` values:
-- `build_failed`
-- `sanitize_failed`
-- `druglikeness_failed`
-- `docking_input_failed`
-- `docking_backend_failed`
-- `success`
+- `build_failed`, `sanitize_failed`, `druglikeness_failed`, `docking_input_failed`, `docking_backend_failed`, `success`
 
-## 4. Reward Semantics
+## 6. Reward Semantics
 
 The final reward must remain explicit and inspectable.
-Recommended structure:
 - keep each component score visible
 - keep each component weight in config
 - separate invalid molecule failures from docking failures
 - log component means and failure counts
 
-Suggested interpretation:
-- invalid molecule failure: reconstruction or RDKit legality failed
-- docking failure: docking input creation or docking backend failed after RDKit-valid gating
+## 7. Naming Guidance
 
-A typical total reward should be an explicit weighted sum of component scores, for example:
-- drug-likeness component from QED + normalized SA
-- docking component from normalized docking score
-
-The precise weights must live in config and be logged.
-
-## 5. Naming Guidance
-
-To reduce ambiguity, prefer these names:
 - use `rdkit_valid` instead of bare `valid`
 - avoid using `stability` if it really means RDKit sanitize success
-- if needed, separate:
-  - `build_success`
-  - `sanitize_success`
-  - `rdkit_valid`
-  - `dock_success`
+- separate: `build_success`, `sanitize_success`, `rdkit_valid`, `dock_success`
 
-Do not use one overloaded field to mean all of:
-- RDKit legality
-- reward success
-- docking success
-
-## 6. Implementation Guidance
+## 8. Implementation Guidance
 
 When updating code related to molecule reconstruction, filtering, reward, logging, or docking:
 - preserve diffusion trajectory semantics
@@ -199,8 +199,6 @@ When updating code related to molecule reconstruction, filtering, reward, loggin
 - preserve batch semantics
 - do not silently change reward meaning
 - do not silently mix different molecule-building paths
-
-Preferred implementation direction:
 - factor molecule reconstruction into one shared canonical path
 - let filter, drug-likeness reward, and docking consume the same reconstructed `rdmol`
 - make failure boundaries explicit

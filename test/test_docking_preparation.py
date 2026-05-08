@@ -13,7 +13,7 @@ class _FakeMol:
 
 
 def test_prepare_batch_sdf_inputs_tracks_success_and_failures(monkeypatch, tmp_path):
-    def fake_build_sample_to_sdf(x, categorical, nodesxsample, sample_idx, sdf_path, dataset_info):
+    def fake_build_sample_to_sdf(x, categorical, nodesxsample, sample_idx, sdf_path, dataset_info, **kwargs):
         if sample_idx == 1:
             return False, "sanitize_failed"
         with open(sdf_path, "w", encoding="utf-8") as f:
@@ -21,7 +21,13 @@ def test_prepare_batch_sdf_inputs_tracks_success_and_failures(monkeypatch, tmp_p
         return True, None
 
     monkeypatch.setattr(prep, "build_sample_to_sdf", fake_build_sample_to_sdf)
-    monkeypatch.setattr(prep.tempfile, "mkdtemp", lambda prefix: str(tmp_path / f"{prefix}tmp"))
+
+    def _fake_mkdtemp(prefix):
+        d = str(tmp_path / f"{prefix}tmp")
+        os.makedirs(d, exist_ok=True)
+        return d
+
+    monkeypatch.setattr(prep.tempfile, "mkdtemp", _fake_mkdtemp)
 
     prepared = prep.prepare_batch_sdf_inputs(
         x=None,
@@ -84,7 +90,7 @@ def test_prepare_single_sdf_input_returns_valid_file(monkeypatch, tmp_path):
         def __exit__(self, exc_type, exc, tb):
             return False
 
-    def fake_build_sample_to_sdf(x, categorical, nodesxsample, sample_idx, sdf_path, dataset_info):
+    def fake_build_sample_to_sdf(x, categorical, nodesxsample, sample_idx, sdf_path, dataset_info, **kwargs):
         with open(sdf_path, "w", encoding="utf-8") as f:
             f.write("ok\n")
         return True, None

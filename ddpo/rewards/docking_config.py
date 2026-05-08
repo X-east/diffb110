@@ -65,7 +65,8 @@ FAILURE_PENALTY: float = -1.0
 # ---------------------------------------------------------------------------
 
 SANITIZE_MOLECULES: bool = True
-ADD_HYDROGENS: bool = False
+ADD_HYDROGENS: bool = True
+ASSIGN_GASTEIGER_CHARGES: bool = True
 
 # ---------------------------------------------------------------------------
 # Docking box parameters — 8GJJ-C-Cip (RE-CmeB)
