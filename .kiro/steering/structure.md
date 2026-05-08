@@ -1,198 +1,145 @@
-# Project Structure & Architecture
+# 项目架构与结构
 
-## 组件复用策略
+## 核心架构
 
-| 组件 | 来源 | 修改程度 | 说明 |
-|------|------|----------|------|
-| **DDPOTrainer** | RLPF | 按需修改 | 协调训练流程，可能需要小幅调整以适配新组件 |
-| **main_edm.py** | RLPF | 按需修改 | 入口脚本，替换组件初始化（EDMModel→DiffSBDDModel, ForceReward→自定义奖励） |
-| **EDMActor** | RLPF | **直接复用** | PPO 策略更新，完全不修改 |
-| **EDMRollout** | RLPF | 按需修改 | 轨迹采样，可能需要适配 DiffSBDDModel |
-| **Filter** | RLPF | 替换 | 使用 DiffSBDDFilter（复用 DiffSBDD 的 build_molecule） |
-| **ForceReward** | RLPF | **不使用** | 替换为用户自定义奖励（如 DockingReward） |
-| **EDMModel** | RLPF | **不使用** | 替换为封装后的 DiffSBDDModel |
-| **DiffSBDD** | DiffSBDD | 只读引用 | 扩散模型核心，不修改，仅作为依赖引用 |
-
-### 复用 EDMActor 的影响
-
-由于直接复用 RLPF 的 EDMActor，DiffSBDDModel 必须实现 EDMActor 调用的接口：
-
-```python
-# EDMActor.calculate_loss() 调用的方法
-node_mask, edge_mask = self.model.get_mask(nodesxsample, batch_size, max_n_nodes)
-_, log_prob, _, _ = self.model.sample_p_zs_given_zt(s, t, latents, node_mask, edge_mask, prev_sample=...)
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   ddpo/ (集成主代码)                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────────────┐   ┌────────────────────────────────┐  │
+│  │ DiffSBDDModel        │   │ EDMActor (RLPF)                │  │
+│  │ (BaseModel)          │   │                                │  │
+│  │ - sample()           │   │ - calculate_loss()             │  │
+│  │ - sample_p_zs_given  │   │   PPO clip + kl_coef × KL     │  │
+│  │   _zt()              │   │ - ref_model (deepcopy, 冻结)   │  │
+│  │ - compute_log_prob() │   │                                │  │
+│  │ - cached_pocket      │   └────────────────────────────────┘  │
+│  └──────────┬───────────┘                                       │
+│             │                                                     │
+│  ┌──────────┴───────────────────────────────────────────────┐   │
+│  │                    奖励系统（4层解耦）                       │   │
+│  │                                                           │   │
+│  │  docking.py ─→ docking_preparation.py ─→ docking_config.py│   │
+│  │       │              (加氢+Gasteiger)       (常量)        │   │
+│  │       │                                                   │   │
+│  │  docking_registry.py ─→ docking_backends/                 │   │
+│  │       (注册选择)         ├── unidock.py    (主后端)       │   │
+│  │                          ├── autodock_gpu.py (备选)       │   │
+│  │                          └── smina.py       (CPU备用)     │   │
+│  │                                                           │   │
+│  │  composite.py ─→ qed_reward.py + sa_reward.py            │   │
+│  │  normalization.py ─→ z-score RewardNormalizer            │   │
+│  └───────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │ molecule_semantics.py (统一分子管线)                        │  │
+│  │  - build_canonical_rdmol_from_sample()  构建+过滤         │  │
+│  │  - prepare_mol_for_docking()            加氢+Gasteiger    │  │
+│  │  - write_rdmol_to_sdf()                 SDF 写入           │  │
+│  │  - write_rdmol_to_pdbqt()               SDF→obabel→PDBQT  │  │
+│  └───────────────────────────────────────────────────────────┘  │
+│                                                                  │
+│  ┌──────────────────────┐   ┌───────────────────────────────┐   │
+│  │ runtime/             │   │ kl/                           │   │
+│  │ - build.py (工厂)    │   │ - gaussian_kl.py (纯张量)     │   │
+│  │ - rollout.py         │   │   KL(N_ref || N_new)          │   │
+│  │ - recording/         │   └───────────────────────────────┘   │
+│  │ - distributed.py    │                                        │
+│  │ - seed.py            │                                        │
+│  └──────────────────────┘                                        │
+└─────────────────────────────────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                 DiffSBDD (Read-Only Reference)                    │
+│  ConditionalDDPM / EGNNDynamics / LigandPocketDDPM              │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-这意味着：
-- DiffSBDDModel 需要实现 `get_mask()` 返回 RLPF 格式的 mask `[B, N, 1]`
-- DiffSBDDModel 需要实现 `sample_p_zs_given_zt()` 接受 RLPF 格式输入
-- DiffSBDDModel 内部进行 RLPF ↔ DiffSBDD 格式转换
+## 训练管线
 
-## Repository Layout
+```
+1. build_runtime_ddp()
+   → model_impl = DiffSBDDModel(...)
+   → ref_model = copy.deepcopy(model_impl)      # KL 参考模型
+   → model_train = DDP(model_impl)               # DDP 包裹
+   → actor = EDMActor(model_train, ..., ref_model=ref_model)
+
+2. 训练循环 (main_diffsbdd_ddp.py)
+   → rollout: DiffSBDDModel.sample() → 扩散采样
+   → reward:  CompositeReward.calculate_rewards() → UniDock + QED + SA
+   → filter:   diffsbdd_filter → 有效性过滤
+   → update:   EDMActor.calculate_loss() → PPO clip + kl_coef × KL
+
+3. KL 计算
+   → current_model(**kwargs) → (log_prob, mu_new, sigma_new)
+   → ref_model(**kwargs) → (mu_ref, sigma_ref)     # torch.no_grad()
+   → compute_gaussian_kl(mu_ref, sigma_ref, mu_new, sigma_new, mask)
+```
+
+## 目录结构
 
 ```
 DiffB110/
-├── DiffSBDD/                    # Base diffusion model (READ-ONLY)
-│   ├── equivariant_diffusion/   # E(n)-equivariant diffusion implementation
-│   │   ├── en_diffusion.py      # Core EnVariationalDiffusion class
-│   │   ├── conditional_model.py # ConditionalDDPM - pocket-conditioned
-│   │   ├── dynamics.py          # EGNNDynamics - dual encoder/decoder
-│   │   └── egnn_new.py          # E(n) equivariant GNN layers
-│   ├── lightning_modules.py     # LigandPocketDDPM - PyTorch Lightning
-│   ├── analysis/                # Metrics, docking, visualization
-│   ├── configs/                 # YAML configurations
-│   └── generate_ligands.py      # Inference script
-│
-├── RLPF-verl_diffusion/         # RL Framework (SELECTED)
-│   ├── verl_diffusion/
-│   │   ├── model/
-│   │   │   ├── base.py          # BaseModel interface ← Implement for DiffSBDD
-│   │   │   └── edm_model.py     # EDMModel reference implementation
-│   │   ├── trainer/
-│   │   │   ├── ddpo_trainer.py  # DDPOTrainer - main training loop
-│   │   │   └── config/          # Training configs
-│   │   ├── worker/
-│   │   │   ├── actor/edm_actor.py    # EDMActor - PPO updates
-│   │   │   ├── reward/force.py       # ForceReward ← Replace with DockingReward
-│   │   │   ├── rollout/edm_rollout.py # EDMRollout - trajectory sampling
-│   │   │   └── filter/filter.py      # Sample filtering
-│   │   ├── dataloader/          # Data loading utilities
-│   │   └── protocol.py          # DataProto - data transfer protocol
-│   └── main_edm.py              # Entry point
-│
-├── ddpo/                        # Integration layer (YOUR CODE)
-│   ├── integration/
-│   │   ├── diffsbdd_model.py    # DiffSBDDModel(BaseModel) wrapper
-│   │   └── mask_utils.py        # Mask format conversion ✅
-│   ├── rewards/
-│   │   ├── base.py              # BaseReward interface ✅
-│   │   ├── docking.py           # DockingReward - Vina + Ray parallel
-│   │   ├── druglikeness.py      # QED, SA Score
-│   │   └── composite.py         # Weighted combination
-│   ├── utils/
-│   │   ├── molecule_converter.py # Molecule format conversion
-│   │   └── diffsbdd_filter.py   # DiffSBDDFilter (validity + build_molecule)
-│   └── configs/
-│       ├── diffsbdd_ddpo.yaml   # Training configuration ✅
-│       └── dataset_info.py      # DiffSBDD crossdock dataset_info
-│
-├── data/
-│   └── 8GJJ-C-Cip.pdb          # RE-CmeB protein target
-│
-├── tests/
-│   ├── property/                # Property-based tests (hypothesis)
-│   └── unit/                    # Unit tests
-│
-└── .kiro/
-    ├── specs/                   # Feature specifications
-    └── steering/                # AI assistant guidelines
+├── ddpo/                              # 核心集成代码
+│   ├── main_diffsbdd_ddp.py           # ★ 多卡 DDP 入口
+│   ├── main_diffsbdd_single_gpu.py    # 单卡调试入口
+│   ├── main_diffsbdd.py               # 旧入口（legacy）
+│   ├── integration/                   # DiffSBDD 适配
+│   │   ├── diffsbdd_model.py          # DiffSBDDModel
+│   │   └── mask_utils.py              # mask 转换
+│   ├── kl/                            # KL 散度约束
+│   │   └── gaussian_kl.py             # compute_gaussian_kl
+│   ├── rewards/                       # 奖励系统
+│   │   ├── docking.py                 # 对接奖励主逻辑
+│   │   ├── docking_preparation.py     # SDF 准备 + 加氢 + Gasteiger
+│   │   ├── docking_config.py          # 配置常量
+│   │   ├── docking_registry.py        # 后端注册
+│   │   ├── docking_factory.py         # 工厂函数
+│   │   ├── docking_backends/          # 3 个后端
+│   │   ├── interfaces/                # 抽象接口
+│   │   ├── normalization.py           # z-score 归一化
+│   │   ├── composite.py               # 组合奖励
+│   │   ├── qed_reward.py              # QED
+│   │   ├── sa_reward.py               # SA
+│   │   └── stability.py               # 稳定性
+│   ├── runtime/                       # 运行时
+│   │   ├── build.py                  # ★ 工厂：YAML → 全部组件
+│   │   ├── rollout.py                 # 轨迹采样
+│   │   ├── recording/                 # 训练记录
+│   │   ├── data_loader.py             # 数据加载
+│   │   ├── distributed.py            # DDP 通信
+│   │   ├── seed.py                    # 种子管理
+│   │   └── train_helpers.py           # 训练辅助
+│   ├── utils/                         # 工具
+│   │   ├── molecule_semantics.py      # ★ 统一分子管线
+│   │   ├── diffsbdd_filter.py         # 有效性过滤
+│   │   ├── molecule_recorder.py       # 分子记录
+│   │   ├── batch_recorder.py          # batch 统计
+│   │   └── logger.py                  # 日志
+│   └── patches/                       # 历史补丁
+├── DiffSBDD/                          # 原始扩散模型（READ-ONLY）
+├── RLPF-verl_diffusion/               # RL 框架参考
+│   └── verl_diffusion/worker/actor/edm_actor.py  # EDMActor
+├── configs/                           # YAML 配置
+│   └── qed_sa_docking_8gjl_8gpu.yaml  # ★ 当前主配置
+├── data/                              # 受体/配体/map
+├── scripts/                           # 启动脚本
+│   └── run_rl_qed_sa_docking_8gjl_8gpu.sh  # ★ 当前 8 卡启动
+├── test/                              # 测试
+├── materials/                         # 设计笔记（流形/判别器方案）
+└── OUT/                               # 训练输出
 ```
 
-## Integration Architecture
+## 关键设计决策
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      ddpo/ (Integration Layer)                   │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────────────┐      ┌────────────────────────────┐   │
-│  │ DiffSBDDModel        │      │ DockingReward              │   │
-│  │ (BaseModel)          │      │ (BaseReward)               │   │
-│  │                      │      │                            │   │
-│  │ - sample()           │      │ @ray.remote                │   │
-│  │ - sample_p_zs_given_zt()    │ def vina_score():          │   │
-│  │ - compute_log_prob() │      │     return affinity        │   │
-│  │ - cached_pocket      │      │                            │   │
-│  └──────────┬───────────┘      └─────────────┬──────────────┘   │
-│             │                                │                   │
-│             ▼                                ▼                   │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │                 DDPOTrainer (RLPF)                        │   │
-│  │                                                           │   │
-│  │  rollout.generate_minibatch() → rewarder.calculate_rewards()│
-│  │                    ↓                        ↓              │   │
-│  │            DataProto(latents, logps)   DataProto(rewards) │   │
-│  │                    ↓                        ↓              │   │
-│  │              actor.update_policy(samples.union(rewards))  │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    DiffSBDD (Read-Only Reference)                │
-│                                                                  │
-│  ConditionalDDPM.sample_p_zs_given_zt(zt_lig, zt_pocket, ...)  │
-│  EGNNDynamics.forward(xh_atoms, xh_residues, t, masks)          │
-│  LigandPocketDDPM.prepare_pocket(residues)                      │
-│  analysis.molecule_builder.build_molecule()                      │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-## Key Integration Challenges & Solutions
-
-### Challenge 1: Dual-Input Architecture
-DiffSBDD uses `(ligand, pocket)` dual inputs, RLPF expects single input.
-
-**Solution**: Cached pocket strategy
-```python
-class DiffSBDDModel(BaseModel):
-    def __init__(self, checkpoint_path, pocket_pdb_path, device):
-        self.model = LigandPocketDDPM.load_from_checkpoint(checkpoint_path)
-        # Cache pocket at init time for performance
-        self.pocket = self.model.prepare_pocket(residues)
-```
-
-### Challenge 2: Missing Log Probability
-DiffSBDD's `sample_p_zs_given_zt` doesn't return log_prob.
-
-**Solution**: Implement log_prob computation
-```python
-def compute_log_p_zs_given_zt(self, zs, mu, sigma, mask):
-    log_prob = -0.5 * ((zs - mu)**2) / (sigma**2) - torch.log(sigma)
-    return scatter_add(log_prob.sum(-1), mask, dim=0)
-```
-
-### Challenge 3: Mask Format Conversion
-DiffSBDD uses `batch_mask` (node→batch), RLPF uses `node_mask` (B×N×1).
-
-**Solution**: Conversion utilities in `ddpo/integration/mask_utils.py` ✅
-
-### Challenge 4: h Format Handling (RESOLVED)
-DiffSBDD returns `h` as tensor, RLPF EDMModel returns `h = {'integer': ..., 'categorical': ...}`.
-
-**Key Finding**: RLPF Rollout only stores `h["categorical"]` to `batch["categorical"]`, discarding the dict structure. Downstream modules (Filter, Reward, Actor) read `batch["categorical"]` directly as tensor.
-
-**Solution**: No conversion needed - return tensor directly
-```python
-# DiffSBDDModel.sample() returns tensor
-h_lig = F.one_hot(torch.argmax(h_lig, dim=1), self.atom_nf)  # [B, N, 10]
-
-# DiffSBDDRollout stores directly
-batch_data = {
-    "categorical": h_lig,  # tensor, not dict
-}
-```
-
-### Challenge 5: build_molecule Incompatibility
-RLPF uses QM9 `build_molecule`, DiffSBDD uses crossdock format.
-
-**Solution**: Create DiffSBDDFilter using DiffSBDD's `analysis.molecule_builder.build_molecule`
-
-## File Modification Guidelines
-
-| Directory | Modification | Notes |
-|-----------|-------------|-------|
-| `DiffSBDD/` | ❌ Read-only | Reference only, do not modify |
-| `RLPF-verl_diffusion/` | ❌ Read-only | Reference only, do not modify |
-| `ddpo/` | ✅ Full control | Main development area |
-| `data/` | ✅ Add data | Protein structures, results |
-| `tests/` | ✅ Full control | Test files |
-
-## SE(3) Equivariance Preservation
-
-When integrating, ensure:
-1. **Coordinate transforms** preserve equivariance (use DiffSBDD's `remove_mean_batch`)
-2. **Policy networks** output equivariant actions (inherited from DiffSBDD)
-3. **Rewards** are invariant (docking score doesn't change with rotation)
-4. **Test**: `reward(R @ x) == reward(x)` for any rotation matrix R
+| 决策 | 选择 | 原因 |
+|------|------|------|
+| 多卡训练 | torchrun + DDP | Lightning 已弃用，直接 DDP 更可控 |
+| 对接后端 | UniDock 为主 | GPU 加速，8GJL 配置已验证 |
+| 分子管线 | OpenBabel→RDKit 单一管线 | 避免语义分歧，所有下游共享同一 rdmol |
+| Docking 输入 | 加氢 + Gasteiger 电荷 | 提升对接精度，从 canonical mol 一次性准备 |
+| KL 约束 | deepcopy ref_model | 独立参数，无共享，torch.no_grad() 前向 |
+| 奖励归一化 | 全局 z-score | 废弃 group_index，统一 RewardNormalizer |
+| 组件构建 | runtime/build.py 工厂 | 配置驱动，YAML → 全部组件 |

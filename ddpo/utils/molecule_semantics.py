@@ -10,6 +10,7 @@ from typing import Any, List, Optional, Tuple
 
 import torch
 from rdkit import Chem
+from rdkit.Chem import AllChem
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "DiffSBDD"))
 
@@ -186,6 +187,46 @@ def compute_sample_molecule_semantics(
     )
 
 
+def prepare_mol_for_docking(
+    mol: Chem.Mol,
+    add_hydrogens: bool = True,
+    assign_gasteiger: bool = True,
+) -> Chem.Mol | None:
+    """Prepare an RDKit Mol for Vina-family docking (pure transformation, no I/O).
+
+    Steps:
+      1. Deep copy — original mol is not modified
+      2. Chem.AddHs(mol, addCoords=True) — add H, keep heavy-atom 3D coordinates
+      3. ComputeGasteigerCharges(mol) — assign partial charges for Vina electrostatics
+
+    What is NOT done (by design):
+      - No MMFF/UFF minimisation (Vina flexes the ligand internally)
+      - No Re-Embed (would discard the pocket-conditioned binding pose)
+
+    Args:
+        mol: RDKit Mol without explicit hydrogens.
+        add_hydrogens: If True, add explicit hydrogen atoms.
+        assign_gasteiger: If True, compute and assign Gasteiger partial charges.
+
+    Returns:
+        Deep-copied Mol with H/charges, or None on failure.
+    """
+    if mol is None:
+        return None
+    try:
+        with redirect_stderr_to_log():
+            # Deep copy — never mutate the original
+            mol = Chem.Mol(mol)
+            if add_hydrogens:
+                mol = Chem.AddHs(mol, addCoords=True)
+            if assign_gasteiger:
+                AllChem.ComputeGasteigerCharges(mol)
+        return mol
+    except Exception as exc:
+        log.warning("[LIGPREP-ERROR] %s: %s", type(exc).__name__, exc)
+        return None
+
+
 def write_rdmol_to_sdf(mol: Optional[Chem.Mol], sdf_path: str) -> bool:
     """Write one canonical RDKit molecule to SDF."""
     if mol is None:
@@ -307,6 +348,7 @@ __all__ = [
     "compute_smiles_from_rdmol",
     "build_canonical_rdmol_from_sample",
     "compute_sample_molecule_semantics",
+    "prepare_mol_for_docking",
     "write_rdmol_to_sdf",
     "write_rdmol_to_pdbqt",
     "annotate_batch_molecule_semantics",

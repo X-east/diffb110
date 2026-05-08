@@ -1,5 +1,7 @@
 # Environment Info
 
+**最后更新**: 2026-05-08
+
 ## 1. Host and OS
 - Hostname: `md`
 - User: `md666`
@@ -31,10 +33,7 @@
 - GPU0-3 are attached to NUMA node 0
 - GPU4-7 are attached to NUMA node 1
 - Near-pair topology:
-  - `(GPU0, GPU1)`
-  - `(GPU2, GPU3)`
-  - `(GPU4, GPU5)`
-  - `(GPU6, GPU7)`
+  - `(GPU0, GPU1)`, `(GPU2, GPU3)`, `(GPU4, GPU5)`, `(GPU6, GPU7)`
 
 ## 5. CUDA / Deep Learning Stack
 - NVIDIA kernel module present
@@ -43,12 +42,10 @@
 - `nvcc` version: `CUDA 12.0 (V12.0.140)`
 - `/usr/local/cuda` symlink: not present
 - `CUDA_HOME`: not set
-- `CUDA_PATH`: not set
-- `CUDA_VISIBLE_DEVICES`: not set
-  - Interpretation: all GPUs are visible by default
+- `CUDA_VISIBLE_DEVICES`: not set (all GPUs visible by default)
 
 ### PyTorch
-- Python env used for PyTorch check: `dif`
+- Python env: `dif`
 - Python version: `3.10.19`
 - PyTorch version: `2.0.1+cu118`
 - PyTorch CUDA runtime: `11.8`
@@ -57,20 +54,15 @@
 - `torch.cuda.is_available()`: `True`
 - `torch.cuda.device_count()`: `8`
 
-### Important CUDA note
-This machine currently has three CUDA-related layers:
-1. Driver capability reported by `nvidia-smi`: `CUDA 13.1`
-2. System compiler toolkit from `nvcc`: `CUDA 12.0`
+### CUDA layers note
+1. Driver capability (`nvidia-smi`): `CUDA 13.1`
+2. System compiler toolkit (`nvcc`): `CUDA 12.0`
 3. PyTorch binary runtime: `cu118`
 
-This is not automatically a problem. It means:
-- the driver is new enough,
-- the installed compiler toolkit is 12.0,
-- the PyTorch wheel/conda package was built against CUDA 11.8.
+Not automatically a problem — driver is new enough, toolkit is 12.0, PyTorch was built against CUDA 11.8.
 
 ## 6. Conda
 - Conda root: `/home/md666/miniforge3`
-- Conda executable: `/home/md666/miniforge3/bin/conda`
 - Conda version: `25.11.0`
 - Solver: `libmamba`
 
@@ -84,8 +76,7 @@ This is not automatically a problem. It means:
 
 ## 7. Python / Packages in `dif`
 - Python executable: `/home/md666/miniforge3/envs/dif/bin/python`
-- `pip` executable path: `/home/md666/miniforge3/envs/dif/bin/pip`
-- Current issue: `pip` wrapper is broken (`cannot execute: required file not found`)
+- `pip` wrapper status: broken (`cannot execute: required file not found`) — use `python -m pip ...`
 
 ### Installed package snapshot
 - `rdkit==2025.09.5`
@@ -99,14 +90,14 @@ This is not automatically a problem. It means:
 - `prolif==2.1.0`
 - `MDAnalysis==2.9.0`
 - `yaml==6.0.3`
+- `biopython` — status uncertain (may have been installed since last snapshot)
+- `unidock` — conda-installed UniDock docking package
 
 ### Not installed in `dif`
 - `torch_geometric`
 - `mdtraj`
-- `biopython`
 
 ## 8. Filesystem / Storage
-### Root filesystem
 - `/` mounted from `/dev/sdg2`
 - Root size: `879G`
 
@@ -115,23 +106,20 @@ This is not automatically a problem. It means:
 
 ## 10. Relevant Environment Variables
 
-The following environment variables are relevant to the current project setup:
-
 - `CONDA_DEFAULT_ENV=dif`
 - `CONDA_PREFIX=/home/md666/miniforge3/envs/dif`
 - `BABEL_LIBDIR=/home/md666/miniforge3/envs/dif/lib/openbabel/3.1.0`
 - `SCHRODINGER=/opt/schrodinger2021-2`
 
 ### Included PATH entries
-
 - `/home/md666/miniforge3/envs/dif/bin`
 - `/home/md666/miniforge3/condabin`
 - `/opt/schrodinger2021-2`
 
 ## 11. Known Issues / Notes
 
-- `CUDA_VISIBLE_DEVICES` is not set; therefore, all GPUs are visible by default.
-- The `pip` launcher in the `dif` environment is currently broken; use `python -m pip ...` as a workaround.
-- `torch_geometric`, `mdtraj`, and `biopython` are currently not installed in `dif`.
-- Some packages emit compatibility warnings, including a warning indicating that one component expects `PyTorch >= 2.2`.
-- Canonical paths should be resolved before finalizing project path documentation.
+- `CUDA_VISIBLE_DEVICES` is not set; all GPUs visible by default
+- `pip` launcher is broken; use `python -m pip ...` as workaround
+- Some packages emit compatibility warnings (PyTorch >= 2.2 expected)
+- AutoDock-GPU binary at `/home/md666/data/disk6/DiffB110/AutoDock-GPU/AutoDock-GPU-develop/bin/autodock_gpu_64wi` (see `docs/autodock_gpu_binary_debug.md` for access issues)
+- Current primary docking backend is **UniDock** (conda-installed), not AutoDock-GPU
