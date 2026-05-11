@@ -123,7 +123,7 @@ class DiffSBDDFilter:
         else:
             indices_to_keep = np.arange(len(all_smiles))
 
-        if self.enable_penalty and 'rewards' in data.batch:
+        if self.enable_penalty and 'reward_total' in data.batch:
             novelty_penalty_tensor = torch.tensor(
                 novelty_penalty,
                 device=data.batch["reward_total"].device,

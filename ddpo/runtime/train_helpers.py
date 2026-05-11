@@ -71,8 +71,8 @@ def prepare_training_samples(runtime: Any, epoch: int) -> PreparedSamples:
         dist_ctx = getattr(runtime, "dist_ctx", None)
         samples = reward_normalizer.apply(samples, dist_ctx=dist_ctx)
     if "advantages" not in samples.batch:
-        logger.info("[Epoch %d/%d] advantages = rewards", epoch, runtime.max_epochs)
-        samples.batch["advantages"] = samples.batch["rewards"]
+        logger.info("[Epoch %d/%d] advantages = reward_total", epoch, runtime.max_epochs)
+        samples.batch["advantages"] = samples.batch.get("reward_total_clamped", samples.batch.get("reward_total"))
     return PreparedSamples(samples=samples, filtering_ratio=filtering_ratio, novelty_penalty_ratio=novelty_penalty_ratio)
 
 
@@ -110,7 +110,7 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     samples = prepared.samples
     ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
     src = ntb if isinstance(ntb, dict) else samples.batch
-    rewards = _to_float_list(samples.batch.get("rewards_clamped", samples.batch.get("rewards")))
+    rewards = _to_float_list(samples.batch.get("reward_total_clamped", samples.batch.get("reward_total")))
     # Raw values (for terminal display)
     qed_raw = _to_float_list(samples.batch.get("qed_raw"))
     sa_raw = _to_float_list(samples.batch.get("sa_raw"))
