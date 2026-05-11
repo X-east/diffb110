@@ -9,6 +9,7 @@ import torch
 from torch.nn.utils import clip_grad_norm_
 import numpy as np
 
+
 class EDMActor(BaseActor):
     def __init__(self, model, config, model_impl=None, ref_model=None):
         """
@@ -76,6 +77,22 @@ class EDMActor(BaseActor):
         self.last_grad_probe = grad_probe
         return grad_probe
 
+    def _log_cuda_memory(self, stage: str, device: torch.device | None = None) -> None:
+        if not torch.cuda.is_available():
+            return
+        try:
+            current_device = device if device is not None else torch.device("cuda", torch.cuda.current_device())
+            allocated_mb = torch.cuda.memory_allocated(current_device) / (1024 ** 2)
+            reserved_mb = torch.cuda.memory_reserved(current_device) / (1024 ** 2)
+            max_allocated_mb = torch.cuda.max_memory_allocated(current_device) / (1024 ** 2)
+            print(
+                f"[Memory][actor][rank={self._rank}] {stage} | device={current_device} "
+                f"allocated={allocated_mb:.1f}MB reserved={reserved_mb:.1f}MB max_allocated={max_allocated_mb:.1f}MB",
+                flush=True,
+            )
+        except Exception:
+            pass
+
     def train_batched_samples(self, batched_samples):
         """
         Train on a batch of samples. Main training segment
@@ -94,21 +111,20 @@ class EDMActor(BaseActor):
         info = defaultdict(list)
         self.T = self.num_timesteps + 1
         for _i, sample in tq(enumerate(batched_samples), desc="Training", unit="Batch", leave=False, file=sys.stdout, disable=(self._rank != 0)):
-
             for j in tq(range(self.T), desc="Training Batch", unit="timesteps", leave=False, file=sys.stdout, disable=(self._rank != 0)):
-                if self.condition :
+                if self.condition:
                     context = sample["context"]
                 else:
                     context = None
                 loss, clipfrac, ppo_loss_val, kl_val = self.calculate_loss(
-                        sample["latents"][:, j],
-                        sample["timesteps"][:, j],
-                        sample["next_latents"][:, j],
-                        sample["logps"][:, j],
-                        sample["advantages"],
-                        sample["nodesxsample"],
-                        context = context
-                    )
+                    sample["latents"][:, j],
+                    sample["timesteps"][:, j],
+                    sample["next_latents"][:, j],
+                    sample["logps"][:, j],
+                    sample["advantages"],
+                    sample["nodesxsample"],
+                    context=context,
+                )
                 info["clipfrac"].append(clipfrac.item())
                 info["loss"].append(loss.item())
                 info["ppo_loss"].append(ppo_loss_val.item())
@@ -118,7 +134,7 @@ class EDMActor(BaseActor):
         self.capture_grad_probe()
         self.optimizer.step()
         self.optimizer.zero_grad()
-            
+
         metric = {}
         metric["ClipFrac"] = np.mean(np.array(info["clipfrac"]))
         metric["Loss"] = np.mean(np.array(info["loss"]))
@@ -126,7 +142,7 @@ class EDMActor(BaseActor):
         metric["KL_Penalty"] = np.mean(np.array(info["kl_penalty"]))
 
         return metric
-    
+
     def calculate_loss(self, latents, timesteps, next_latents, log_prob_old, advantages, nodesxsample, context=None):
         """
         Calculate the loss for a batch of an unpacked sample.
@@ -197,65 +213,63 @@ class EDMActor(BaseActor):
 
         loss = ppo_loss + self.kl_coef * kl_penalty
         return loss, clipfrac, ppo_loss, kl_penalty
-    
+
     def loss(
         self,
         advantages: torch.Tensor,
         clip_range: float,
         ratio: torch.Tensor,
     ):
-        unclipped_loss =    -1.0 * advantages * ratio
-        clipped_loss =   -1.0  * advantages * torch.clamp(
+        unclipped_loss = -1.0 * advantages * ratio
+        clipped_loss = -1.0 * advantages * torch.clamp(
             ratio,
             1.0 - clip_range,
             1.0 + clip_range,
         )
-        
+
         return torch.mean(torch.maximum(unclipped_loss, clipped_loss))
-    
+
     def update_policy(self, data: DataProto) -> Dict:
         samples = {}
         self.max_n_nodes = data.meta_info["max_n_nodes"]
         self.batch_size = data.batch.batch_size[0]
         self.condition = data.meta_info["condition"]
+        self._log_cuda_memory("update_policy:start")
         samples["advantages"] = data.batch["advantages"]
-        
-        samples["latents"] = data.batch["latents"][:,:self.num_timesteps+1].clone()
-        samples["next_latents"] = data.batch["latents"][:,1:].clone()
+
+        latents = data.batch["latents"]
+        samples["latents"] = latents[:, : self.num_timesteps + 1]
+        samples["next_latents"] = latents[:, 1:]
         samples["timesteps"] = data.batch["timesteps"]
         samples["logps"] = data.batch["logps"]
         samples["nodesxsample"] = data.batch["nodesxsample"]
         if self.condition:
-           samples["context"] = data.batch["context"]
+            samples["context"] = data.batch["context"]
 
+        self._log_cuda_memory("update_policy:after_view_setup")
         original_keys = samples.keys()
         original_values = samples.values()
-        # rebatch them as user defined train_batch_size is different from sample_batch_size
         samples_batched = []
-        
+
         if self.train_micro_batch_size >= self.batch_size:
-            # If train_micro_batch_size is larger than or equal to batch_size,
-            # just use the entire batch as one micro batch
             samples_batched.append(samples)
         else:
-            # Calculate number of complete batches and remaining samples
             n_complete_batches = self.batch_size // self.train_micro_batch_size
             remaining_samples = self.batch_size % self.train_micro_batch_size
-            
-            # Process complete batches
+
             if n_complete_batches > 0:
                 n_complete = n_complete_batches * self.train_micro_batch_size
-                # Only take the portion that divides evenly, then reshape
-                complete_values = [v[:n_complete].reshape(-1, self.train_micro_batch_size, *v.shape[1:]) for v in original_values]
+                complete_values = [
+                    v[:n_complete].reshape(-1, self.train_micro_batch_size, *v.shape[1:])
+                    for v in original_values
+                ]
                 transposed_values = zip(*complete_values)
                 samples_batched.extend([dict(zip(original_keys, row_values)) for row_values in transposed_values])
-            
-            # Process remaining samples if any
+
             if remaining_samples > 0:
                 remaining_values = [v[n_complete:].unsqueeze(0) for v in original_values]
                 samples_batched.append(dict(zip(original_keys, remaining_values)))
-        
-        # Train each batch
+
         metric = self.train_batched_samples(samples_batched)
-        
+        self._log_cuda_memory("update_policy:after_train")
         return metric

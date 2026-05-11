@@ -245,6 +245,25 @@ class DiffSBDDModel(nn.Module, BaseModel):
             "pocket_x_shape": tuple(self._pocket_single["x"].shape),
             "pocket_one_hot_shape": tuple(self._pocket_single["one_hot"].shape),
         }
+
+    def _log_cuda_memory(self, stage: str, device: torch.device | None = None) -> None:
+        if not torch.cuda.is_available():
+            return
+        try:
+            current_device = device if device is not None else torch.device("cuda", torch.cuda.current_device())
+            allocated_mb = torch.cuda.memory_allocated(current_device) / (1024 ** 2)
+            reserved_mb = torch.cuda.memory_reserved(current_device) / (1024 ** 2)
+            max_allocated_mb = torch.cuda.max_memory_allocated(current_device) / (1024 ** 2)
+            logging.getLogger("DiffSBDD-DDPO").info(
+                "[Memory][model] %s | device=%s allocated=%.1fMB reserved=%.1fMB max_allocated=%.1fMB",
+                stage,
+                current_device,
+                allocated_mb,
+                reserved_mb,
+                max_allocated_mb,
+            )
+        except Exception:
+            logging.getLogger("DiffSBDD-DDPO").exception("Failed to log CUDA memory at stage %s", stage)
     
     # =========================================================================
     # Task 4.2: get_mask and format conversion methods
@@ -840,8 +859,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         context: torch.Tensor = None,
         fix_noise: bool = False,
         timestep: int = 1000
-    ) -> Tuple[torch.Tensor, Dict[str, torch.Tensor], List[torch.Tensor], 
-               List[torch.Tensor], List[int], List[torch.Tensor], List[torch.Tensor]]:
+    ) -> Tuple[torch.Tensor, Dict[str, torch.Tensor], List[torch.Tensor], List[torch.Tensor], List[int]]:
         """
         Sample from the diffusion model (full sampling loop).
         
@@ -869,9 +887,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             latents: List of [B, N, D] latent tensors at each timestep
             logps: List of [B] log probabilities at each timestep
             timesteps: List of timestep indices
-            mus: List of [B, N, D] mean tensors at each timestep
-            sigmas: List of sigma values at each timestep
-            
+
         Note:
             - Trajectory recording is essential for DDPO training
             - Coordinates are kept zero-centered via DiffSBDD's remove_mean_batch
@@ -886,6 +902,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         try:
             device = node_mask.device
             max_nodes = node_mask.shape[1]
+            self._log_cuda_memory("sample:start", device=device)
             
             # =====================================================================
             # Step 1: Initialize - Sample initial noise z_T in pocket center
@@ -925,8 +942,6 @@ class DiffSBDDModel(nn.Module, BaseModel):
             latents = [z.clone()]
             logps = []
             timesteps_list = []
-            mus = []
-            sigmas = []
             
             # Progress tracking - 单行覆盖，仅 rank-0 打印
             _local_rank = int(__import__('os').environ.get('LOCAL_RANK', '0'))
@@ -936,6 +951,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             if _is_rank0:
                 print(f"\r[{_epoch_str}] 生成中: {n_samples}分子/卡, 0% (0/{self.T}步)  ", end="", flush=True)
             progress_interval = max(1, self.T // 10)  # Print every 10%
+            memory_interval = max(1, self.T // 5)
             
             # =====================================================================
             # Step 3: Iteratively sample p(z_s | z_t) for t = T, ..., 1
@@ -945,6 +961,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
                 if _is_rank0 and (s % progress_interval == 0 or s == self.T - 1):
                     progress = (self.T - s) / self.T * 100
                     print(f"\r[{_epoch_str}] 生成中: {progress:.0f}% ({self.T-s}/{self.T}步)  ", end="", flush=True)
+                if s % memory_interval == 0 or s == self.T - 1:
+                    self._log_cuda_memory(f"sample:step_{self.T - s}_of_{self.T}", device=device)
                 s_array = torch.full((n_samples, 1), fill_value=s, device=device)
                 t_array = s_array + 1
                 s_array = s_array / self.T
@@ -960,8 +978,6 @@ class DiffSBDDModel(nn.Module, BaseModel):
                 latents.append(z.clone())
                 logps.append(logp)
                 timesteps_list.append(s)
-                mus.append(mu)
-                sigmas.append(sigma)
             
             if _is_rank0:
                 print(f"\r[{_epoch_str}] 生成完成: {n_samples}分子/卡, {self.T}步 (100%)  ", flush=True)
@@ -972,17 +988,12 @@ class DiffSBDDModel(nn.Module, BaseModel):
             x, h, mu_final, sigma_final, logp_final, zeros, xh = self.sample_p_xh_given_z0(
                 z, node_mask, edge_mask, context=context, fix_noise=fix_noise
             )
+            self._log_cuda_memory("sample:after_final_decode", device=device)
             
             # Record final step
             latents.append(xh.clone())
             logps.append(logp_final)
             timesteps_list.append(0)
-            mus.append(mu_final)
-            # Ensure sigma_final has consistent shape
-            if sigma_final.dim() == 1:
-                sigmas.append(sigma_final.unsqueeze(-1))
-            else:
-                sigmas.append(sigma_final)
             
             # =====================================================================
             # Step 5: Verify zero center of mass and correct if needed
@@ -1004,7 +1015,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             # Always restore original T, even if an exception occurred
             self.T = original_T
         
-        return x, h, latents, logps, timesteps_list, mus, sigmas
+        return x, h, latents, logps, timesteps_list
     
     def _assert_mean_zero_with_mask(
         self, 
