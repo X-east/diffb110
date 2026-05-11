@@ -99,6 +99,9 @@ class GlobalBatchStats:
     avg_qed: float
     avg_sa: float
     avg_docking: float
+    avg_qed_norm: float
+    avg_sa_norm: float
+    avg_docking_norm: float
     generated_count: int
     valid_count: int
     valid_ratio: float
@@ -393,6 +396,9 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     qed_sum = reduce_sum_scalar(float(local_stats.avg_qed * count), dist_ctx)
     sa_sum = reduce_sum_scalar(float(local_stats.avg_sa * count), dist_ctx)
     docking_sum = reduce_sum_scalar(float(local_stats.avg_docking * count), dist_ctx)
+    qed_norm_sum = reduce_sum_scalar(float(local_stats.avg_qed_norm * count), dist_ctx)
+    sa_norm_sum = reduce_sum_scalar(float(local_stats.avg_sa_norm * count), dist_ctx)
+    docking_norm_sum = reduce_sum_scalar(float(local_stats.avg_docking_norm * count), dist_ctx)
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
@@ -402,6 +408,9 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
         avg_qed=(qed_sum / generated_count) if generated_count > 0 else 0.0,
         avg_sa=(sa_sum / generated_count) if generated_count > 0 else 0.0,
         avg_docking=(docking_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_qed_norm=(qed_norm_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_sa_norm=(sa_norm_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_docking_norm=(docking_norm_sum / generated_count) if generated_count > 0 else 0.0,
         generated_count=generated_count,
         valid_count=valid_count,
         valid_ratio=(valid_count / generated_count) if generated_count > 0 else 0.0,
@@ -482,6 +491,9 @@ def record_epoch_ddp(
             avg_qed=global_stats.avg_qed,
             avg_sa=global_stats.avg_sa,
             avg_docking=global_stats.avg_docking,
+            avg_qed_norm=global_stats.avg_qed_norm,
+            avg_sa_norm=global_stats.avg_sa_norm,
+            avg_docking_norm=global_stats.avg_docking_norm,
             generated_count=global_stats.generated_count,
             valid_count=global_stats.valid_count,
             valid_ratio=global_stats.valid_ratio,

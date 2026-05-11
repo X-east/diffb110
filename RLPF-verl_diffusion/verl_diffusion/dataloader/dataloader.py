@@ -16,8 +16,6 @@ class EDMDataLoader:
             num_batches: Number of batches per epoch (if None, will run indefinitely)
         """
         self.config = config
-        self.group_sample = self.config["dataloader"]["sample_group_size"]
-        self.each_prompt_sample = self.config["dataloader"]["each_prompt_sample"]
         self.dataset_info = dataset_info
         self.nodes_dist = nodes_dist
         self.prop_dist = prop_dist
@@ -25,6 +23,15 @@ class EDMDataLoader:
         self.condition = condition
         self.num_batches = num_batches
         self.current_batch = 0
+
+        # batch_size: prefer direct config; fallback to legacy product
+        _dl = config["dataloader"]
+        if "batch_size" in _dl and _dl["batch_size"] is not None:
+            self.batch_size = int(_dl["batch_size"])
+        else:
+            _gs = int(_dl.get("sample_group_size", 4))
+            _ep = int(_dl.get("each_prompt_sample", 128))
+            self.batch_size = _gs * _ep
         
     def __iter__(self):
         """Make the class iterable"""
@@ -43,42 +50,33 @@ class EDMDataLoader:
         self.current_batch += 1
         return self.generate_batch()
         
-        
     def generate_batch(self):
         """
-        Generate a batch of data
-        
+        Generate a batch of data.
+
+        Each sample receives an independent node count.
+        No group_index is emitted — advantage normalization is global z-score.
+
         Returns:
             DataProto: DataProto containing the generated batch data
         """
         tensors = {}
         max_n_nodes = self.dataset_info['max_n_nodes']
-        nodesxsample = self.nodes_dist.sample(self.group_sample)
-        group_index = torch.tensor(range(self.group_sample))
-        group_index = group_index.repeat_interleave(self.each_prompt_sample, dim=0)
-        group_index = group_index.to(self.device)
-        self.batch_size = self.each_prompt_sample * self.group_sample
-        
+
+        # Every sample gets an independent draw from the node distribution
+        nodesxsample = self.nodes_dist.sample(self.batch_size)
+
         if self.condition:
             context = self.prop_dist.sample_batch(nodesxsample).to(self.device)
-            context = context.repeat_interleave(self.each_prompt_sample, dim=0)
-            nodesxsample = nodesxsample.repeat_interleave(self.each_prompt_sample, dim=0)
-            # Store tensors
-            tensors.update({
-                'nodesxsample': nodesxsample,
-                'context': context,
-                'group_index': group_index,
-  
-            })
-        else:
-            nodesxsample = nodesxsample.repeat_interleave(self.each_prompt_sample, dim=0)
-            
-            # Store tensors
             tensors.update({
                 'nodesxsample': nodesxsample.to(self.device),
-                'group_index' : group_index
+                'context': context,
             })
-        
+        else:
+            tensors.update({
+                'nodesxsample': nodesxsample.to(self.device),
+            })
+
         # Create meta info
         meta_info = {
             'max_n_nodes': max_n_nodes,

@@ -133,7 +133,6 @@ class EDMRollout(BaseRollout):
             "logps": torch.stack(logps, dim=1),
             "nodesxsample": nodesxsample,
             "timesteps": expanded_timesteps,
-            "group_index": prompts.batch["group_index"],
         }
         
         

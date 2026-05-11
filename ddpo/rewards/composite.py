@@ -114,11 +114,16 @@ class CompositeReward(BaseReward):
         """
         Calculate weighted combination of all reward components.
         
+        Each sub-reward writes its normalised value to batch['{name}_reward'].
+        Composite reads those fields, computes the weighted sum, and writes:
+            'reward_total_raw'  [B]  -- weighted combination (before normalizer)
+            'reward_total'      [B]  -- same as reward_total_raw (may be overridden by normalizer)
+
         Args:
             data: DataProto containing molecule data
-        
+
         Returns:
-            DataProto with 'rewards' tensor [B] and component rewards added
+            DataProto with 'reward_total' and 'reward_total_raw' tensors [B] added.
         """
         batch = data.batch
         
@@ -144,19 +149,20 @@ class CompositeReward(BaseReward):
                 continue
             
             try:
-                # Calculate component reward
+                # Calculate component reward (writes batch[f'{name}_reward'])
                 data = reward_fn.calculate_rewards(data)
                 
-                # Get the rewards tensor
-                if 'rewards' in data.batch:
-                    component_reward = data.batch['rewards'].clone()
+                # Read the normalised reward from the dedicated field
+                reward_field = f'{name}_reward'
+                if reward_field in data.batch:
+                    component_reward = data.batch[reward_field].clone()
                     component_rewards[name] = component_reward
                     
                     # Add weighted contribution
                     combined_rewards += weight * component_reward
                     successful_components.append(name)
                 else:
-                    warnings.warn(f"Reward '{name}' did not return 'rewards' tensor")
+                    warnings.warn(f"Reward '{name}' did not return '{reward_field}' tensor")
                     
             except Exception as e:
                 warnings.warn(f"Failed to calculate '{name}' reward: {e}")
@@ -171,8 +177,8 @@ class CompositeReward(BaseReward):
             )
         
         # Store results
-        data.batch['rewards_raw'] = combined_rewards.clone()
-        data.batch['rewards'] = combined_rewards
+        data.batch['reward_total_raw'] = combined_rewards.clone()
+        data.batch['reward_total'] = combined_rewards
         
         # Store component rewards for logging/debugging
         for name, reward in component_rewards.items():

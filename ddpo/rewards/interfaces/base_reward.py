@@ -43,7 +43,7 @@ class BaseReward(ABC):
             data: DataProto with molecular geometry and pre-annotated semantics.
 
         Returns:
-            DataProto with data.batch['rewards'] tensor [B] added.
+            DataProto with data.batch['reward_total'] tensor [B] added.
         """
         ...
 

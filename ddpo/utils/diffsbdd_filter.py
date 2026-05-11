@@ -126,10 +126,10 @@ class DiffSBDDFilter:
         if self.enable_penalty and 'rewards' in data.batch:
             novelty_penalty_tensor = torch.tensor(
                 novelty_penalty,
-                device=data.batch["rewards"].device,
-                dtype=data.batch["rewards"].dtype,
+                device=data.batch["reward_total"].device,
+                dtype=data.batch["reward_total"].dtype,
             )
-            data.batch["rewards"] = data.batch["rewards"] + novelty_penalty_tensor * self.novelty_penalty_coef
+            data.batch["reward_total"] = data.batch["reward_total"] + novelty_penalty_tensor * self.novelty_penalty_coef
 
         filtered_data = data.select_idxs(indices_to_keep) if self.enable_filtering else data
 

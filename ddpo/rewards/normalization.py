@@ -39,17 +39,17 @@ class RewardNormalizationConfig:
             enabled=bool(norm_cfg.get("enabled", False)),
             method=str(norm_cfg.get("method", "zscore_total")),
             epsilon=float(norm_cfg.get("epsilon", 1.0e-6)),
-            use_rewards_key=str(norm_cfg.get("use_rewards_key", "rewards_raw")),
-            raw_output_key=str(norm_cfg.get("raw_output_key", "rewards_raw")),
-            norm_output_key=str(norm_cfg.get("norm_output_key", "rewards_norm")),
-            clamped_output_key=str(norm_cfg.get("clamped_output_key", "rewards_clamped")),
+            use_rewards_key=str(norm_cfg.get("use_rewards_key", "reward_total_raw")),
+            raw_output_key=str(norm_cfg.get("raw_output_key", "reward_total_raw")),
+            norm_output_key=str(norm_cfg.get("norm_output_key", "reward_total_norm")),
+            clamped_output_key=str(norm_cfg.get("clamped_output_key", "reward_total_clamped")),
             stats_prefix=str(norm_cfg.get("stats_prefix", "reward")),
             failure_penalty=float(failure_cfg.get("raw_penalty", -5.0)),
             include_failures_in_stats=bool(failure_cfg.get("include_in_stats", True)),
             clamp_enabled=bool(clamp_cfg.get("enabled", True)),
             clamp_min=float(clamp_cfg.get("min", -5.0)),
             clamp_max=float(clamp_cfg.get("max", 5.0)),
-            map_rewards_field=str(norm_cfg.get("map_rewards_field", "rewards")),
+            map_rewards_field=str(norm_cfg.get("map_rewards_field", "reward_total")),
             advantages_key=str(norm_cfg.get("advantages_key", "advantages")),
             override_rewards_field=bool(norm_cfg.get("override_rewards_field", True)),
             failure_advantage_override=float(failure_cfg["advantage_override"])
@@ -104,8 +104,8 @@ class RewardNormalizer:
 
     def _resolve_raw_rewards(self, batch: dict[str, Any], device: torch.device) -> torch.Tensor:
         rewards = batch.get(self.config.use_rewards_key)
-        if rewards is None and self.config.use_rewards_key != "rewards":
-            rewards = batch.get("rewards")
+        if rewards is None and self.config.use_rewards_key != "reward_total":
+            rewards = batch.get("reward_total")
         if rewards is None:
             raise ValueError(
                 f"[RewardNormalizer] Missing total reward field '{self.config.use_rewards_key}' in batch."

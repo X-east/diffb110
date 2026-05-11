@@ -24,9 +24,6 @@ def __getattr__(name):
     elif name == "TrainingLogger":
         from .logger import TrainingLogger
         return TrainingLogger
-    elif name == "BatchRecorder":
-        from .batch_recorder import BatchRecorder
-        return BatchRecorder
     elif name == "annotate_batch_molecule_semantics":
         from .molecule_semantics import annotate_batch_molecule_semantics
         return annotate_batch_molecule_semantics
@@ -42,7 +39,6 @@ __all__ = [
     "DiffSBDDFilter",
     "wandb_stub",
     "logger",
-    "BatchRecorder",
     "annotate_batch_molecule_semantics",
     "compute_sample_molecule_semantics",
     "write_rdmol_to_pdbqt",

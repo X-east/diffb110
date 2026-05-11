@@ -1,0 +1,78 @@
+name: qed-sa-docking-8gjl-8gpu-kl-0p01
+dataset: crossdock
+model:
+  checkpoint: ./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  time_step: 100
+  device: cuda
+pocket:
+  pdb_path: ./data/8GJL.pdb
+  ref_ligand: C:1101
+  pdbqt_path: ./data/8gjl.pdbqt
+reward:
+  enabled:
+  - qed
+  - sa
+  - docking
+  weights:
+    qed: 0.25
+    sa: 0.25
+    docking: 0.5
+  normalization:
+    enabled: true
+    method: zscore_total
+    epsilon: 1.0e-06
+    use_rewards_key: reward_total_raw
+    raw_output_key: reward_total_raw
+    norm_output_key: reward_total_norm
+    clamped_output_key: reward_total_clamped
+    map_rewards_field: reward_total
+    advantages_key: advantages
+    override_rewards_field: true
+    stats_prefix: reward
+    failure:
+      raw_penalty: -5.0
+      include_in_stats: false
+      advantage_override: -1.5
+    clamp:
+      enabled: true
+      min: -3.0
+      max: 3.0
+  docking:
+    backend: unidock
+    receptor_file: ./data/8gjl.pdbqt
+    normalization_factor: -10.0
+    center_x: 207.293
+    center_y: 212.43
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    exhaustiveness: 8
+    search_mode: fast
+dataloader:
+  batch_size: 12
+  min_nodes: 10
+  max_nodes: 30
+  max_n_nodes: 106
+  node_sampling: size_distribution
+train:
+  train_micro_batch_size: 12
+  learning_rate: 2.0e-05
+  kl_coef: 0.01
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 0.0001
+  adam_epsilon: 1.0e-08
+  clip_range: 0.2
+  max_grad_norm: 1.0
+  checkpoint_interval: 5
+  seed: 42
+  epochs: 100
+ddp:
+  enabled: true
+  num_gpus: 8
+  find_unused_parameters: true
+  param_sync_check: false
+  grad_sync_probe: true
+output:
+  dir: ./OUT/<run_name>_<YYYYMMDD>_<seq>

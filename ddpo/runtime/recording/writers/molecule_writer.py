@@ -23,9 +23,10 @@ class MoleculeWriter:
 
     FIELDNAMES = [
         "epoch", "batch_idx", "rank", "molecule_id",
-        "smiles", "rdkit_valid",  # canonical field name (not 'valid')
-        "qed", "sa_raw",
-        "reward_total", "reward_total_raw", "reward_total_norm", "reward_druglikeness", "reward_docking",
+        "smiles", "rdkit_valid",
+        "qed_raw", "sa_raw", "docking_raw",
+        "qed_reward", "sa_reward", "docking_reward",
+        "reward_total", "reward_total_raw", "reward_total_norm",
     ]
 
     def __init__(self, run_context: RunContext) -> None:
