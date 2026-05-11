@@ -25,7 +25,7 @@ from .distributed import (
     reduce_min_scalar,
     reduce_sum_scalar,
 )
-from .logging_utils import setup_logging
+from .logging_utils import log_cuda_memory, setup_logging
 from .protocol import DataProto, TensorDict
 from .reward_wrappers import StabilityAwareReward
 from .rollout import DiffSBDDRollout
@@ -67,6 +67,7 @@ __all__ = [
     "reduce_min_scalar",
     "reduce_sum_scalar",
     "setup_logging",
+    "log_cuda_memory",
     "StabilityAwareReward",
     "DiffSBDDRollout",
     "set_seed",

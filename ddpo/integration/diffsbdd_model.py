@@ -32,6 +32,8 @@ from DiffSBDD import utils as diffsbdd_utils
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "RLPF-verl_diffusion"))
 from verl_diffusion.model.base import BaseModel
 
+from ddpo.runtime.logging_utils import log_cuda_memory
+
 # Import mask conversion utilities
 from ddpo.integration.mask_utils import (
     batch_mask_to_node_mask,
@@ -245,25 +247,6 @@ class DiffSBDDModel(nn.Module, BaseModel):
             "pocket_x_shape": tuple(self._pocket_single["x"].shape),
             "pocket_one_hot_shape": tuple(self._pocket_single["one_hot"].shape),
         }
-
-    def _log_cuda_memory(self, stage: str, device: torch.device | None = None) -> None:
-        if not torch.cuda.is_available():
-            return
-        try:
-            current_device = device if device is not None else torch.device("cuda", torch.cuda.current_device())
-            allocated_mb = torch.cuda.memory_allocated(current_device) / (1024 ** 2)
-            reserved_mb = torch.cuda.memory_reserved(current_device) / (1024 ** 2)
-            max_allocated_mb = torch.cuda.max_memory_allocated(current_device) / (1024 ** 2)
-            logging.getLogger("DiffSBDD-DDPO").info(
-                "[Memory][model] %s | device=%s allocated=%.1fMB reserved=%.1fMB max_allocated=%.1fMB",
-                stage,
-                current_device,
-                allocated_mb,
-                reserved_mb,
-                max_allocated_mb,
-            )
-        except Exception:
-            logging.getLogger("DiffSBDD-DDPO").exception("Failed to log CUDA memory at stage %s", stage)
     
     # =========================================================================
     # Task 4.2: get_mask and format conversion methods
@@ -902,7 +885,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         try:
             device = node_mask.device
             max_nodes = node_mask.shape[1]
-            self._log_cuda_memory("sample:start", device=device)
+            log_cuda_memory("sample:start", component="model", device=device)
             
             # =====================================================================
             # Step 1: Initialize - Sample initial noise z_T in pocket center
@@ -939,7 +922,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             # =====================================================================
             # Step 2: Initialize trajectory recording
             # =====================================================================
-            latents = [z.clone()]
+            latents = [z.clone().cpu()]
             logps = []
             timesteps_list = []
             
@@ -962,7 +945,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
                     progress = (self.T - s) / self.T * 100
                     print(f"\r[{_epoch_str}] 生成中: {progress:.0f}% ({self.T-s}/{self.T}步)  ", end="", flush=True)
                 if s % memory_interval == 0 or s == self.T - 1:
-                    self._log_cuda_memory(f"sample:step_{self.T - s}_of_{self.T}", device=device)
+                    log_cuda_memory(f"sample:step_{self.T - s}_of_{self.T}", component="model", device=device)
                 s_array = torch.full((n_samples, 1), fill_value=s, device=device)
                 t_array = s_array + 1
                 s_array = s_array / self.T
@@ -975,7 +958,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
                 )
                 
                 # Record trajectory
-                latents.append(z.clone())
+                latents.append(z.clone().cpu())
                 logps.append(logp)
                 timesteps_list.append(s)
             
@@ -988,10 +971,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
             x, h, mu_final, sigma_final, logp_final, zeros, xh = self.sample_p_xh_given_z0(
                 z, node_mask, edge_mask, context=context, fix_noise=fix_noise
             )
-            self._log_cuda_memory("sample:after_final_decode", device=device)
+            log_cuda_memory("sample:after_final_decode", component="model", device=device)
             
             # Record final step
-            latents.append(xh.clone())
+            latents.append(xh.clone().cpu())
             logps.append(logp_final)
             timesteps_list.append(0)
             

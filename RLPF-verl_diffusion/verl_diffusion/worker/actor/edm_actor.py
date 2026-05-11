@@ -8,6 +8,7 @@ from .base import BaseActor
 import torch
 from torch.nn.utils import clip_grad_norm_
 import numpy as np
+from ddpo.runtime.logging_utils import log_cuda_memory
 
 
 class EDMActor(BaseActor):
@@ -76,22 +77,6 @@ class EDMActor(BaseActor):
             )
         self.last_grad_probe = grad_probe
         return grad_probe
-
-    def _log_cuda_memory(self, stage: str, device: torch.device | None = None) -> None:
-        if not torch.cuda.is_available():
-            return
-        try:
-            current_device = device if device is not None else torch.device("cuda", torch.cuda.current_device())
-            allocated_mb = torch.cuda.memory_allocated(current_device) / (1024 ** 2)
-            reserved_mb = torch.cuda.memory_reserved(current_device) / (1024 ** 2)
-            max_allocated_mb = torch.cuda.max_memory_allocated(current_device) / (1024 ** 2)
-            print(
-                f"[Memory][actor][rank={self._rank}] {stage} | device={current_device} "
-                f"allocated={allocated_mb:.1f}MB reserved={reserved_mb:.1f}MB max_allocated={max_allocated_mb:.1f}MB",
-                flush=True,
-            )
-        except Exception:
-            pass
 
     def train_batched_samples(self, batched_samples):
         """
@@ -234,10 +219,10 @@ class EDMActor(BaseActor):
         self.max_n_nodes = data.meta_info["max_n_nodes"]
         self.batch_size = data.batch.batch_size[0]
         self.condition = data.meta_info["condition"]
-        self._log_cuda_memory("update_policy:start")
+        log_cuda_memory("update_policy:start", component="actor")
         samples["advantages"] = data.batch["advantages"]
 
-        latents = data.batch["latents"]
+        latents = data.batch["latents"].cuda()
         samples["latents"] = latents[:, : self.num_timesteps + 1]
         samples["next_latents"] = latents[:, 1:]
         samples["timesteps"] = data.batch["timesteps"]
@@ -246,7 +231,7 @@ class EDMActor(BaseActor):
         if self.condition:
             samples["context"] = data.batch["context"]
 
-        self._log_cuda_memory("update_policy:after_view_setup")
+        log_cuda_memory("update_policy:after_view_setup", component="actor")
         original_keys = samples.keys()
         original_values = samples.values()
         samples_batched = []
@@ -271,5 +256,5 @@ class EDMActor(BaseActor):
                 samples_batched.append(dict(zip(original_keys, remaining_values)))
 
         metric = self.train_batched_samples(samples_batched)
-        self._log_cuda_memory("update_policy:after_train")
+        log_cuda_memory("update_policy:after_train", component="actor")
         return metric
