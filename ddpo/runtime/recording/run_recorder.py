@@ -96,12 +96,16 @@ class RunRecorder:
         self.last_epoch_facts = facts
 
         max_epochs = facts.extra_metrics.get("max_epochs", "?")
+        avg_kl = facts.extra_metrics.get("avg_kl", 0.0)
+        avg_ppo_loss = facts.extra_metrics.get("avg_ppo_loss", 0.0)
         print(
             f"[Epoch {facts.epoch}/{max_epochs}]\n"
             f"  Generated Total  : {facts.generated_total}\n"
             f"  RDKit Validity   : {facts.rdkit_valid} / {facts.generated_total} "
             f"({facts.rdkit_valid_ratio:.2%})\n"
             f"  Loss             : {facts.avg_loss: .4f}\n"
+            f"  PPO Loss         : {avg_ppo_loss: .4f}\n"
+            f"  KL Penalty       : {avg_kl: .6f}\n"
             f"  Reward           : {facts.reward_mean: .4f}\n"
             f"  Avg QED          : {facts.avg_qed: .4f}\n"
             f"  Avg SA           : {facts.avg_sa: .4f}\n"

@@ -61,7 +61,6 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         sa_cfg = reward_cfg.get("sa", {})
         rewards_dict["sa"] = SAReward(
             failure_penalty=float(sa_cfg.get("failure_penalty", -1.0)),
-            normalize=bool(sa_cfg.get("normalize", True)),
             dataset_info=dataset_info,
         )
         weights_dict["sa"] = float(weights_cfg.get("sa", 1.0))

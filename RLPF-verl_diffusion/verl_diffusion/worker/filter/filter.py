@@ -90,8 +90,8 @@ class Filter:
             
         # Apply penalty if enabled
         if self.enable_penalty:
-            novelty_penalty = torch.tensor(novelty_penalty).to(data.batch["rewards"].device)
-            data.batch["rewards"] = data.batch["rewards"] + novelty_penalty * 0.1
+            novelty_penalty = torch.tensor(novelty_penalty).to(data.batch["reward_total"].device)
+            data.batch["reward_total"] = data.batch["reward_total"] + novelty_penalty * 0.1
             
         # filter 
         if self.enable_filtering:

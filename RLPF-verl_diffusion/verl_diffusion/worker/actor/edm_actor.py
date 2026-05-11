@@ -100,7 +100,7 @@ class EDMActor(BaseActor):
                     context = sample["context"]
                 else:
                     context = None
-                loss, clipfrac = self.calculate_loss(
+                loss, clipfrac, ppo_loss_val, kl_val = self.calculate_loss(
                         sample["latents"][:, j],
                         sample["timesteps"][:, j],
                         sample["next_latents"][:, j],
@@ -111,6 +111,8 @@ class EDMActor(BaseActor):
                     )
                 info["clipfrac"].append(clipfrac.item())
                 info["loss"].append(loss.item())
+                info["ppo_loss"].append(ppo_loss_val.item())
+                info["kl_penalty"].append(kl_val.item())
                 loss.backward()
                 clip_grad_norm_(self.model.parameters(), max_norm=self.max_grad_norm)
         self.capture_grad_probe()
@@ -120,6 +122,8 @@ class EDMActor(BaseActor):
         metric = {}
         metric["ClipFrac"] = np.mean(np.array(info["clipfrac"]))
         metric["Loss"] = np.mean(np.array(info["loss"]))
+        metric["PPO_Loss"] = np.mean(np.array(info["ppo_loss"]))
+        metric["KL_Penalty"] = np.mean(np.array(info["kl_penalty"]))
 
         return metric
     
@@ -143,7 +147,7 @@ class EDMActor(BaseActor):
             context:     optional   condition embedding.
 
         Returns:
-            (loss, clipfrac) — both scalar tensors.
+            (loss, clipfrac, ppo_loss, kl_penalty) — all scalar tensors.
         """
         s_array = timesteps
         t_array = s_array + 1
@@ -192,7 +196,7 @@ class EDMActor(BaseActor):
             )
 
         loss = ppo_loss + self.kl_coef * kl_penalty
-        return loss, clipfrac
+        return loss, clipfrac, ppo_loss, kl_penalty
     
     def loss(
         self,
@@ -240,13 +244,15 @@ class EDMActor(BaseActor):
             
             # Process complete batches
             if n_complete_batches > 0:
-                reshaped_values = [v.reshape(-1, self.train_micro_batch_size, *v.shape[1:]) for v in original_values]
-                transposed_values = zip(*reshaped_values)
+                n_complete = n_complete_batches * self.train_micro_batch_size
+                # Only take the portion that divides evenly, then reshape
+                complete_values = [v[:n_complete].reshape(-1, self.train_micro_batch_size, *v.shape[1:]) for v in original_values]
+                transposed_values = zip(*complete_values)
                 samples_batched.extend([dict(zip(original_keys, row_values)) for row_values in transposed_values])
             
             # Process remaining samples if any
             if remaining_samples > 0:
-                remaining_values = [v[-remaining_samples:].unsqueeze(0) for v in original_values]
+                remaining_values = [v[n_complete:].unsqueeze(0) for v in original_values]
                 samples_batched.append(dict(zip(original_keys, remaining_values)))
         
         # Train each batch

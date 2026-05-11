@@ -45,6 +45,15 @@ def compute_gaussian_kl(
     s_new = torch.clamp(sigma_new, min=eps)
     s_ref = torch.clamp(sigma_ref, min=eps)
 
+    # Ensure sigma broadcasts with mu [B, N, D].
+    # DiffSBDD returns sigma as [B, 1] (per-sample scalar std);
+    # right-pad dims so [B,1] → [B,1,1] which broadcasts with [B,N,D].
+    target_ndim = mu_new.dim()
+    while s_ref.dim() < target_ndim:
+        s_ref = s_ref.unsqueeze(-1)
+    while s_new.dim() < target_ndim:
+        s_new = s_new.unsqueeze(-1)
+
     kl_elementwise = (
         torch.log(s_new / s_ref)
         + (s_ref ** 2 + (mu_ref - mu_new) ** 2) / (2.0 * s_new ** 2)

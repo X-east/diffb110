@@ -43,10 +43,11 @@ class QEDReward(BaseReward):
 
     QED ranges from 0 (not drug-like) to 1 (very drug-like).
     Failed molecules receive failure_penalty.
+    QED is already in [0, 1] so qed_raw == qed_reward.
 
     Writes to batch:
-        'rewards'         [B]  — QED score or failure_penalty
-        'qed_scores'      [B]  — QED score (0.0 for invalid molecules)
+        'qed_raw'         [B]  — raw QED score (0.0 for invalid molecules)
+        'qed_reward'      [B]  — QED reward (same as raw) or failure_penalty
         'qed_success'     [B]  — 1 if QED computed, 0 otherwise
     """
 
@@ -75,7 +76,7 @@ class QEDReward(BaseReward):
             data: DataProto with pre-annotated molecule semantics.
 
         Returns:
-            DataProto with batch['rewards'], batch['qed_scores'],
+            DataProto with batch['qed_raw'], batch['qed_reward'],
             batch['qed_success'] added.
         """
         batch = data.batch
@@ -96,8 +97,8 @@ class QEDReward(BaseReward):
         batch_size = x.shape[0]
         device = x.device
 
-        rewards = torch.full((batch_size,), self.failure_penalty, device=device)
-        qed_scores = torch.zeros(batch_size, device=device)
+        qed_reward = torch.full((batch_size,), self.failure_penalty, device=device)
+        qed_raw = torch.zeros(batch_size, device=device)
         qed_success = torch.zeros(batch_size, dtype=torch.int64, device=device)
 
         for i in range(batch_size):
@@ -130,8 +131,8 @@ class QEDReward(BaseReward):
                 with redirect_stderr_to_log():
                     qed = self._mol_props.calculate_qed(mol)
 
-                qed_scores[i] = qed
-                rewards[i] = qed
+                qed_raw[i] = qed
+                qed_reward[i] = qed  # QED is already [0, 1], raw = reward
                 qed_success[i] = 1
                 if failure_type is not None:
                     failure_type[i] = FAILURE_SUCCESS
@@ -141,8 +142,8 @@ class QEDReward(BaseReward):
                 if failure_type is not None and str(failure_type[i]) == FAILURE_SUCCESS:
                     failure_type[i] = FAILURE_DRUGLIKELINESS
 
-        data.batch["rewards"] = rewards
-        data.batch["qed_scores"] = qed_scores
+        data.batch["qed_raw"] = qed_raw
+        data.batch["qed_reward"] = qed_reward
         data.batch["qed_success"] = qed_success
         if failure_type is not None:
             data.batch["failure_type"] = failure_type

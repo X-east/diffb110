@@ -29,9 +29,19 @@ class DiffSBDDDataLoader:
         self.device = device
         self.num_batches = num_batches or config["dataloader"].get("epoches", config["dataloader"].get("epochs", 100))
 
-        self.group_sample = config["dataloader"].get("sample_group_size", 4)
-        self.each_prompt_sample = config["dataloader"].get("each_prompt_sample", 32)
-        self.batch_size = self.group_sample * self.each_prompt_sample
+        # batch_size 优先直接从配置读取；若未指定则从旧字段乘积 fallback
+        _dl = config["dataloader"]
+        if "batch_size" in _dl and _dl["batch_size"] is not None:
+            self.batch_size = int(_dl["batch_size"])
+        else:
+            _gs = int(_dl.get("sample_group_size", 4))
+            _ep = int(_dl.get("each_prompt_sample", 32))
+            self.batch_size = _gs * _ep
+            logger.info(
+                "[DiffSBDDDataLoader] batch_size not set; fallback "
+                "sample_group_size(%d) × each_prompt_sample(%d) = %d",
+                _gs, _ep, self.batch_size,
+            )
 
         self.min_nodes = config["dataloader"].get("min_nodes", 10)
         self.max_nodes = config["dataloader"].get("max_nodes", 50)
@@ -98,9 +108,8 @@ class DiffSBDDDataLoader:
 
         Two strategies:
           1. uniform:            Uniform integer sampling in [min_nodes, max_nodes].
-                                 Samples ``group_sample`` values then repeats each
-                                 ``each_prompt_sample`` times for PPO advantage
-                                 estimation over shared prompts.
+                                 Each of the ``batch_size`` samples gets an independent
+                                 random node count.
           2. size_distribution:  Conditional sampling P(N_lig | N_pocket) from the
                                  learned joint distribution over training data.
                                  Each of the ``batch_size`` samples draws an
@@ -121,15 +130,14 @@ class DiffSBDDDataLoader:
             nodesxsample = nodesxsample.long()
 
         else:
-            # --- Strategy 1: uniform (default, original behavior) ---
+            # --- Strategy 1: uniform (default) ---
+            # Every sample gets an independent random node count.
             nodesxsample = torch.randint(
                 self.min_nodes,
                 self.max_nodes + 1,
-                (self.group_sample,),
+                (self.batch_size,),
                 device=self.device,
             )
-
-            nodesxsample = nodesxsample.repeat_interleave(self.each_prompt_sample)
 
         tensors = {
             "nodesxsample": nodesxsample,

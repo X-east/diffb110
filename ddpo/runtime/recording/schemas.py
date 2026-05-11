@@ -28,6 +28,9 @@ class BatchFacts:
     avg_docking: float
     filtering_ratio: float
     novelty_penalty_ratio: float
+    avg_qed_norm: float = 0.0
+    avg_sa_norm: float = 0.0
+    avg_docking_norm: float = 0.0
     failure_counts: Dict[str, int] = field(default_factory=dict)
     molecule_rows: List[Dict[str, Any]] = field(default_factory=list)
 

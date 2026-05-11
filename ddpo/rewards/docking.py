@@ -228,17 +228,20 @@ class DockingReward(BaseReward):
             1. Build all molecules to SDF (canonical RDKit path)
             2. Call backend.dock_batch_result() for all valid SDF files
             3. Map DockingResult scores to normalised rewards
-            4. Write rewards and failure_type back to batch
+            4. Write docking_raw, docking_reward and failure_type back to batch
         """
         batch = data.batch
         x = batch["x"]
         h = batch["categorical"]
         nodesxsample = batch["nodesxsample"]
-        failure_type = batch.get("failure_type", None)
+        # Read failure_type from non_tensor_batch first (Python-native metadata)
+        ntb = data.non_tensor_batch if hasattr(data, "non_tensor_batch") else None
+        failure_type = ntb.get("failure_type") if ntb else batch.get("failure_type")
         batch_size = x.shape[0]
         device = x.device
 
-        rewards = [self.failure_penalty] * batch_size
+        docking_reward = [self.failure_penalty] * batch_size
+        docking_raw = [0.0] * batch_size
         docking_failures: Dict[int, str] = {}
 
         _prepared = prepare_batch_sdf_inputs(
@@ -288,15 +291,17 @@ class DockingReward(BaseReward):
 
                 for idx, result in zip(mol_indices, results):
                     if result.success and result.score_raw != 0.0:
-                        rewards[idx] = result.score_raw / self.normalization_factor
+                        docking_raw[idx] = result.score_raw
+                        docking_reward[idx] = result.score_raw / self.normalization_factor
                     else:
                         docking_failures[idx] = result.failure_reason or FAILURE_DOCKING_BACKEND
         finally:
             _prepared.cleanup()
 
-        rewards_tensor = torch.tensor(rewards, dtype=torch.float32, device=device)
-        data.batch["rewards"] = rewards_tensor
-        data.batch["docking_reward"] = rewards_tensor.clone()
+        docking_raw_tensor = torch.tensor(docking_raw, dtype=torch.float32, device=device)
+        docking_reward_tensor = torch.tensor(docking_reward, dtype=torch.float32, device=device)
+        data.batch["docking_raw"] = docking_raw_tensor
+        data.batch["docking_reward"] = docking_reward_tensor
         if failure_type is not None:
             for idx, failure in docking_failures.items():
                 if str(failure_type[idx]) == FAILURE_SUCCESS:

@@ -47,7 +47,7 @@ import ddpo.utils  # noqa: F401
 
 from constants import dataset_params
 from ddpo.integration import DiffSBDDModel
-from ddpo.rewards import DruglikenessReward
+from ddpo.rewards import CompositeReward, QEDReward, SAReward
 from ddpo.utils import DiffSBDDFilter
 from verl_diffusion.protocol import DataProto, TensorDict
 
@@ -191,10 +191,12 @@ def main() -> None:
     print(f"  Pocket info: {model.get_pocket_info()}")
 
     print("[2/5] Building QED+SA reward and validity filter...")
-    reward_fn = DruglikenessReward(
-        qed_weight=0.5,
-        sa_weight=0.5,
-        dataset_info=dataset_info,
+    reward_fn = CompositeReward(
+        rewards={
+            "qed": QEDReward(dataset_info=dataset_info),
+            "sa": SAReward(dataset_info=dataset_info),
+        },
+        weights={"qed": 0.5, "sa": 0.5},
     )
     filter_fn = DiffSBDDFilter(
         dataset_info=dataset_info,
@@ -235,8 +237,8 @@ def main() -> None:
     data = build_dataproto(x, h_categorical, nodesxsample, max_n_nodes)
     data = reward_fn.calculate_rewards(data)
     rewards = data.batch["rewards"]
-    qed_scores = data.batch["qed_scores"]
-    sa_scores = data.batch["sa_scores"]
+    qed_raw = data.batch["qed_raw"]
+    sa_raw = data.batch["sa_raw"]
     validity = filter_fn.get_validity_ratio(data)
 
     print("  Per-sample metrics:")
@@ -245,14 +247,14 @@ def main() -> None:
             "   "
             f"sample={i:02d} "
             f"nodes={int(nodesxsample[i].item()):02d} "
-            f"qed={float(qed_scores[i]):.4f} "
-            f"sa_raw={float(sa_scores[i]):.4f} "
+            f"qed={float(qed_raw[i]):.4f} "
+            f"sa_raw={float(sa_raw[i]):.4f} "
             f"reward={float(rewards[i]):.4f}"
         )
 
     print(f"  Mean reward: {float(rewards.mean()):.4f}")
-    print(f"  Mean QED:    {float(qed_scores.mean()):.4f}")
-    print(f"  Mean SA raw: {float(sa_scores.mean()):.4f}")
+    print(f"  Mean QED:    {float(qed_raw.mean()):.4f}")
+    print(f"  Mean SA raw: {float(sa_raw.mean()):.4f}")
     print(f"  Validity:    {validity * 100:.2f}%")
 
     print("[5/5] Running one minimal PPO-style update...")

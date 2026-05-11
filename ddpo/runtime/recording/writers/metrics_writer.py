@@ -37,8 +37,10 @@ class MetricsWriter:
         "generated_total", "rdkit_valid", "rdkit_valid_ratio",
         "reward_mean", "reward_min", "reward_max",
         "avg_qed", "avg_sa", "avg_docking",
+        "avg_qed_norm", "avg_sa_norm", "avg_docking_norm",
         "filtering_ratio_mean", "novelty_penalty_ratio_mean",
         "failure_counts", "checkpoint_due", "checkpoint_path",
+        "avg_kl", "avg_ppo_loss",
     ]
 
     def __init__(self, run_context: RunContext) -> None:
@@ -79,11 +81,16 @@ class MetricsWriter:
             "avg_qed": f"{facts.avg_qed:.6f}",
             "avg_sa": f"{facts.avg_sa:.6f}",
             "avg_docking": f"{facts.avg_docking:.6f}",
+            "avg_qed_norm": f"{facts.extra_metrics.get('avg_qed_norm', 0.0):.6f}",
+            "avg_sa_norm": f"{facts.extra_metrics.get('avg_sa_norm', 0.0):.6f}",
+            "avg_docking_norm": f"{facts.extra_metrics.get('avg_docking_norm', 0.0):.6f}",
             "filtering_ratio_mean": f"{facts.filtering_ratio_mean:.6f}",
             "novelty_penalty_ratio_mean": f"{facts.novelty_penalty_ratio_mean:.6f}",
             "failure_counts": json.dumps(facts.failure_counts, ensure_ascii=False, sort_keys=True),
             "checkpoint_due": int(facts.checkpoint_due),
             "checkpoint_path": checkpoint_path or "",
+            "avg_kl": f"{facts.extra_metrics.get('avg_kl', 0.0):.6f}",
+            "avg_ppo_loss": f"{facts.extra_metrics.get('avg_ppo_loss', 0.0):.6f}",
         }
         with open(self.summary_path, "a", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=self.SUMMARY_HEADER)
@@ -129,6 +136,7 @@ class MetricsWriter:
             "novelty_penalty_ratio_mean": facts.novelty_penalty_ratio_mean,
             "failure_counts": facts.failure_counts,
             "checkpoint_due": facts.checkpoint_due,
+            "extra_metrics": facts.extra_metrics,
             "molecules_csv": str(molecules_path),
             "checkpoint_path": str(checkpoint_path),
         }

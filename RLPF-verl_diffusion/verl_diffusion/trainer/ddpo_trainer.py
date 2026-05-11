@@ -170,34 +170,28 @@ class DDPOTrainer(BaseTrainer):
             
             return None
     def compute_advantage(self, samples):
-        group_index = samples.batch["group_index"]
-        rewards = samples.batch["rewards"]
-        
-        # Get unique group indices
-        unique_groups = torch.unique(group_index)
-        normalized_rewards = torch.zeros_like(rewards)
-        # Normalize rewards within each group
-        
-        for group_id in unique_groups:
-            group_mask = (group_index == group_id)
-            group_rewards = rewards[group_mask]
-            
-            # Calculate mean and std for this group
-            group_mean = group_rewards.mean()
-            group_std = group_rewards.std()
+        """Compute advantages using global z-score normalization.
 
-            # Normalize rewards for this group
-            # If std is too small (all rewards are similar), don't normalize
-            if group_std < 1e-6:
-                normalized_rewards[group_mask] = 0.0
-            else:
-                normalized_rewards[group_mask] = (group_rewards - group_mean) / group_std
-        
-        samples.batch["advantages"] = normalized_rewards
+        Replaces the legacy per-group z-score (which depended on group_index)
+        with a single global mean/std over the entire batch.  This unifies
+        the advantage computation with RewardNormalizer used in the new
+        single-GPU pipeline.
+        """
+        rewards = samples.batch["reward_total"]
+
+        # Global z-score
+        reward_mean = rewards.mean()
+        reward_std = rewards.std()
+
+        if reward_std < 1e-6:
+            advantages = torch.zeros_like(rewards)
+        else:
+            advantages = (rewards - reward_mean) / reward_std
+
         # Clip advantages to prevent extreme values
         clip_value = self.config["train"].get("clip_advantage_value", 5.0)
-        samples.batch["advantages"] = torch.clamp(samples.batch["advantages"], -clip_value, clip_value)
-        
+        samples.batch["advantages"] = torch.clamp(advantages, -clip_value, clip_value)
+
         return samples
 
     def save_checkpoint(self, epoch, metrics=None):
@@ -319,7 +313,7 @@ class DDPOTrainer(BaseTrainer):
                     
                     print(f"[Batch {batch_idx+1}] Updating policy...", flush=True)
                     metrics = self.actor.update_policy(samples)
-                    metrics["reward"] = samples.batch["rewards"].mean().item()
+                    metrics["reward"] = samples.batch["reward_total"].mean().item()
                     metrics["filter_ratio"] = filter_ratio
                     metrics["novelty_penalty_ratio"] = novelty_penalty_ratio
                     metrics["molecule_stability"] = samples.batch['stability'].mean().item()

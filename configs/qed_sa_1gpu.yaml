@@ -1,5 +1,5 @@
 # QED + SA RL 训练配置 — 单卡
-# 单卡每 epoch 生成: sample_group_size(1) × each_prompt_sample(8) = 8 分子
+# 单卡每 epoch 生成: batch_size(16) 分子
 # 用于 single-GPU 主程序：ddpo/main_diffsbdd_single_gpu.py
 
 name: diffsbdd-ddpo-qed-sa-1gpu
@@ -24,11 +24,11 @@ reward:
     enabled: true
     method: "zscore_total"
     epsilon: 1.0e-6
-    use_rewards_key: "rewards_raw"
-    raw_output_key: "rewards_raw"
-    norm_output_key: "rewards_norm"
-    clamped_output_key: "rewards_clamped"
-    map_rewards_field: "rewards"
+    use_rewards_key: "reward_total_raw"
+    raw_output_key: "reward_total_raw"
+    norm_output_key: "reward_total_norm"
+    clamped_output_key: "reward_total_clamped"
+    map_rewards_field: "reward_total"
     advantages_key: "advantages"
     override_rewards_field: true
     stats_prefix: "reward"
@@ -53,8 +53,7 @@ reward:
     heuristics: true
 
 dataloader:
-  sample_group_size: 1
-  each_prompt_sample: 16
+  batch_size: 16
   epochs: 200
   min_nodes: 10
   max_nodes: 30
