@@ -92,8 +92,11 @@ class MetricsWriter:
             "failure_counts": json.dumps(facts.failure_counts, ensure_ascii=False, sort_keys=True),
             "checkpoint_due": int(facts.checkpoint_due),
             "checkpoint_path": checkpoint_path or "",
-            "avg_kl": f"{facts.extra_metrics.get('avg_kl', 0.0):.6f}",
-            "avg_ppo_loss": f"{facts.extra_metrics.get('avg_ppo_loss', 0.0):.6f}",
+            "avg_kl": (
+                f"{facts.extra_metrics.get('KL_Penalty', 0.0):.6f}"
+                if "KL_Penalty" in facts.extra_metrics else ""
+            ),
+            "avg_ppo_loss": f"{facts.extra_metrics.get('PPO_Loss', 0.0):.6f}",
         }
         with open(self.summary_path, "a", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=self.SUMMARY_HEADER)

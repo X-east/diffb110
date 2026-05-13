@@ -212,6 +212,12 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
     return BatchFacts(epoch=epoch, batch_idx=batch_idx, rank=0, generated_count=batch_stats.generated_count, valid_count=batch_stats.valid_count, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, filtering_ratio=prepared.filtering_ratio, novelty_penalty_ratio=prepared.novelty_penalty_ratio, avg_qed_norm=batch_stats.avg_qed_norm, avg_sa_norm=batch_stats.avg_sa_norm, avg_docking_norm=batch_stats.avg_docking_norm, avg_diversity_norm=batch_stats.avg_diversity_norm, failure_counts=batch_stats.failure_counts, molecule_rows=molecule_rows)
 
 
+# Metrics keys already consumed by EpochFacts' own fields — excluded from generic passthrough.
+_CONSUMED_METRICS_KEYS = frozenset({
+    "Loss", "loss", "ppo_loss", "ClipFrac", "PPO_Epoch", "PPO_Epochs",
+})
+
+
 def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_stats: BatchStats, prepared: PreparedSamples) -> EpochFacts:
     avg_loss = float(metrics.get("Loss", metrics.get("loss", metrics.get("ppo_loss", 0.0))))
     checkpoint_due = (epoch % runtime.checkpoint_interval) == 0
@@ -222,11 +228,19 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
         "avg_docking_norm": batch_stats.avg_docking_norm,
         "avg_diversity_norm": batch_stats.avg_diversity_norm,
         "avg_similarity": batch_stats.avg_similarity,
-        "avg_kl": float(metrics.get("KL_Penalty", 0.0)),
-        "avg_ppo_loss": float(metrics.get("PPO_Loss", 0.0)),
         "avg_reward_raw": batch_stats.reward_raw_mean,
         "reward_enabled": get_enabled_rewards(runtime.config),
     }
+    # Generic passthrough: Actor returns whatever metrics it produces;
+    # unconsumed keys (e.g. KL_Penalty, PPO_Loss) automatically flow
+    # into extra_metrics with their original key names.  No downstream
+    # code should hard-code any specific key.
+    for key, value in metrics.items():
+        if key not in _CONSUMED_METRICS_KEYS:
+            try:
+                extra[key] = float(value)
+            except (TypeError, ValueError):
+                extra[key] = str(value) if not isinstance(value, (str, bool)) else value
     return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, failure_counts=batch_stats.failure_counts, extra_metrics=extra, checkpoint_due=checkpoint_due)
 
 

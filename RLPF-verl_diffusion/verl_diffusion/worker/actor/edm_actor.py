@@ -131,7 +131,8 @@ class EDMActor(BaseActor):
                 info["clipfrac"].append(clipfrac.item())
                 info["loss"].append(loss.item())
                 info["ppo_loss"].append(ppo_loss_val.item())
-                info["kl_penalty"].append(kl_val.item())
+                if self.kl_coef > 0.0:
+                    info["kl_penalty"].append(kl_val.item())
                 loss.backward()
                 clip_grad_norm_(self.model.parameters(), max_norm=self.max_grad_norm)
         self.capture_grad_probe()
@@ -142,7 +143,8 @@ class EDMActor(BaseActor):
         metric["ClipFrac"] = np.mean(np.array(info["clipfrac"]))
         metric["Loss"] = np.mean(np.array(info["loss"]))
         metric["PPO_Loss"] = np.mean(np.array(info["ppo_loss"]))
-        metric["KL_Penalty"] = np.mean(np.array(info["kl_penalty"]))
+        if info["kl_penalty"]:
+            metric["KL_Penalty"] = np.mean(np.array(info["kl_penalty"]))
         metric["PPO_Epoch"] = ppo_epoch_idx
 
         return metric

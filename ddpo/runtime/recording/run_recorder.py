@@ -116,8 +116,7 @@ class RunRecorder:
         self.last_epoch_facts = facts
 
         max_epochs = facts.extra_metrics.get("max_epochs", "?")
-        avg_kl = facts.extra_metrics.get("avg_kl", 0.0)
-        avg_ppo_loss = facts.extra_metrics.get("avg_ppo_loss", 0.0)
+        avg_ppo_loss = facts.extra_metrics.get("PPO_Loss", 0.0)
         # 使用原始总奖励（归一化前）展示给用户，而非 z-score 后恒 ≈0 的值
         avg_reward_raw = facts.extra_metrics.get(
             "avg_reward_raw", facts.reward_mean
@@ -130,9 +129,12 @@ class RunRecorder:
             f"({facts.rdkit_valid_ratio:.2%})",
             f"  Loss             : {facts.avg_loss: .4f}",
             f"  PPO Loss         : {avg_ppo_loss: .4f}",
-            f"  KL Penalty       : {avg_kl: .6f}",
             f"  Reward           : {avg_reward_raw: .4f}",
         ]
+
+        # Dynamic: KL line appears only when Actor produced KL_Penalty
+        if "KL_Penalty" in facts.extra_metrics:
+            lines.insert(-1, f"  KL Penalty       : {facts.extra_metrics['KL_Penalty']: .6f}")
 
         # 从 extra_metrics 读取配置驱动的奖励列表，动态构建终端行
         reward_enabled = facts.extra_metrics.get(
