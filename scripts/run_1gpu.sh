@@ -33,7 +33,7 @@ echo "GPU    : $CUDA_VISIBLE_DEVICES"
 echo "Start  : $(date '+%F %T')"
 echo "============================================================"
 
-"$PYTHON_BIN" ddpo/main_diffsbdd_single_gpu.py \
+"$PYTHON_BIN" ddpo/main_diffsbdd_ddp.py \
   --config_path "$CONFIG_PATH" \
   --log_level "$LOG_LEVEL"
 

@@ -16,7 +16,6 @@ pocket:
   pdbqt_path: "./data/8gjl.pdbqt"
 
 reward:
-  enabled: ["qed", "sa", "docking"]
   weights:
     qed: 0.25
     sa: 0.25

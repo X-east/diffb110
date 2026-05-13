@@ -112,6 +112,7 @@ class GlobalBatchStats:
     novelty_penalty_ratio: float
     failure_counts: dict[str, int]
     metrics: dict[str, float]
+    reward_raw_mean: float = 0.0
 
 
 def _iter_wrapped_rewards(rewarder: Any):
@@ -415,6 +416,7 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     sa_norm_sum = reduce_sum_scalar(float(local_stats.avg_sa_norm * count), dist_ctx)
     docking_norm_sum = reduce_sum_scalar(float(local_stats.avg_docking_norm * count), dist_ctx)
     diversity_norm_sum = reduce_sum_scalar(float(local_stats.avg_diversity_norm * count), dist_ctx)
+    reward_raw_sum = reduce_sum_scalar(float(local_stats.reward_raw_mean * count), dist_ctx)
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
@@ -437,6 +439,7 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
         novelty_penalty_ratio=reduce_mean_scalar(float(prepared.novelty_penalty_ratio), dist_ctx),
         failure_counts=failure_counts,
         metrics=merged_metrics,
+        reward_raw_mean=(reward_raw_sum / generated_count) if generated_count > 0 else 0.0,
     )
 
 
@@ -520,6 +523,7 @@ def record_epoch_ddp(
             valid_count=global_stats.valid_count,
             valid_ratio=global_stats.valid_ratio,
             failure_counts=global_stats.failure_counts,
+            reward_raw_mean=global_stats.reward_raw_mean,
         ),
         prepared=PreparedSamples(
             samples=prepared.samples,

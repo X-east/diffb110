@@ -188,3 +188,6 @@ RL-Diffusion-main/
 
 # thesis / screening work
 bishe/
+
+# QADD is an external project, not part of DiffB110
+QADD-main/

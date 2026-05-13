@@ -12,7 +12,6 @@ pocket:
   ref_ligand: "C:1101"
 
 reward:
-  enabled: ["qed", "sa"]
   weights:
     qed: 0.5
     sa: 0.5
