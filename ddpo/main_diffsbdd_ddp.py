@@ -99,9 +99,12 @@ class GlobalBatchStats:
     avg_qed: float
     avg_sa: float
     avg_docking: float
+    avg_similarity: float
+    avg_diversity: float
     avg_qed_norm: float
     avg_sa_norm: float
     avg_docking_norm: float
+    avg_diversity_norm: float
     generated_count: int
     valid_count: int
     valid_ratio: float
@@ -128,6 +131,13 @@ def bind_reward_runtime_devices(rewarder: Any, gpu_id: int) -> None:
             candidate.gpu_id = int(gpu_id)
             candidate._autodock_backend = None
             candidate._unidock_backend = None
+
+
+def bind_reward_distributed_context(rewarder: Any, dist_ctx: DistributedContext) -> None:
+    for candidate in _iter_wrapped_rewards(rewarder):
+        setter = getattr(candidate, "set_distributed_context", None)
+        if callable(setter):
+            setter(dist_ctx)
 
 
 def build_rank_run_context(
@@ -218,6 +228,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
     rewarder = build_rewarder(config=config, dataset_info=dataset_info, logger=logger)
     reward_normalizer = build_reward_normalizer(config=config, logger=logger)
     bind_reward_runtime_devices(rewarder, gpu_id=dist_ctx.local_rank)
+    bind_reward_distributed_context(rewarder, dist_ctx=dist_ctx)
     filters = build_filter(config, dataset_info)
     actor = build_actor(model_train, config, dataset_info,
                         model_impl=model_impl, ref_model=ref_model)
@@ -392,25 +403,33 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     count = float(local_stats.generated_count)
     generated_count = int(round(reduce_sum_scalar(float(local_stats.generated_count), dist_ctx)))
     valid_count = int(round(reduce_sum_scalar(float(local_stats.valid_count), dist_ctx)))
+    valid_count_local = float(local_stats.valid_count)
     reward_sum = reduce_sum_scalar(float(local_stats.reward_mean * count), dist_ctx)
-    qed_sum = reduce_sum_scalar(float(local_stats.avg_qed * count), dist_ctx)
-    sa_sum = reduce_sum_scalar(float(local_stats.avg_sa * count), dist_ctx)
-    docking_sum = reduce_sum_scalar(float(local_stats.avg_docking * count), dist_ctx)
+    # Raw property averages are now over VALID molecules only; use valid_count as multiplier/divisor.
+    qed_sum = reduce_sum_scalar(float(local_stats.avg_qed * valid_count_local), dist_ctx)
+    sa_sum = reduce_sum_scalar(float(local_stats.avg_sa * valid_count_local), dist_ctx)
+    docking_sum = reduce_sum_scalar(float(local_stats.avg_docking * valid_count_local), dist_ctx)
+    similarity_sum = reduce_sum_scalar(float(local_stats.avg_similarity * valid_count_local), dist_ctx)
+    diversity_sum = reduce_sum_scalar(float(local_stats.avg_diversity * valid_count_local), dist_ctx)
     qed_norm_sum = reduce_sum_scalar(float(local_stats.avg_qed_norm * count), dist_ctx)
     sa_norm_sum = reduce_sum_scalar(float(local_stats.avg_sa_norm * count), dist_ctx)
     docking_norm_sum = reduce_sum_scalar(float(local_stats.avg_docking_norm * count), dist_ctx)
+    diversity_norm_sum = reduce_sum_scalar(float(local_stats.avg_diversity_norm * count), dist_ctx)
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
         reward_mean=(reward_sum / generated_count) if generated_count > 0 else 0.0,
         reward_min=reduce_min_scalar(float(local_stats.reward_min), dist_ctx),
         reward_max=reduce_max_scalar(float(local_stats.reward_max), dist_ctx),
-        avg_qed=(qed_sum / generated_count) if generated_count > 0 else 0.0,
-        avg_sa=(sa_sum / generated_count) if generated_count > 0 else 0.0,
-        avg_docking=(docking_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_qed=(qed_sum / valid_count) if valid_count > 0 else 0.0,
+        avg_sa=(sa_sum / valid_count) if valid_count > 0 else 0.0,
+        avg_docking=(docking_sum / valid_count) if valid_count > 0 else 0.0,
+        avg_similarity=(similarity_sum / valid_count) if valid_count > 0 else 0.0,
+        avg_diversity=(diversity_sum / valid_count) if valid_count > 0 else 0.0,
         avg_qed_norm=(qed_norm_sum / generated_count) if generated_count > 0 else 0.0,
         avg_sa_norm=(sa_norm_sum / generated_count) if generated_count > 0 else 0.0,
         avg_docking_norm=(docking_norm_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_diversity_norm=(diversity_norm_sum / generated_count) if generated_count > 0 else 0.0,
         generated_count=generated_count,
         valid_count=valid_count,
         valid_ratio=(valid_count / generated_count) if generated_count > 0 else 0.0,
@@ -491,9 +510,12 @@ def record_epoch_ddp(
             avg_qed=global_stats.avg_qed,
             avg_sa=global_stats.avg_sa,
             avg_docking=global_stats.avg_docking,
+            avg_similarity=global_stats.avg_similarity,
+            avg_diversity=global_stats.avg_diversity,
             avg_qed_norm=global_stats.avg_qed_norm,
             avg_sa_norm=global_stats.avg_sa_norm,
             avg_docking_norm=global_stats.avg_docking_norm,
+            avg_diversity_norm=global_stats.avg_diversity_norm,
             generated_count=global_stats.generated_count,
             valid_count=global_stats.valid_count,
             valid_ratio=global_stats.valid_ratio,
@@ -527,6 +549,7 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
         avg_qed=global_stats.avg_qed,
         avg_sa=global_stats.avg_sa,
         avg_docking=global_stats.avg_docking,
+        avg_similarity=global_stats.avg_similarity,
         generated_count=global_stats.generated_count,
         valid_count=global_stats.valid_count,
         valid_ratio=global_stats.valid_ratio,

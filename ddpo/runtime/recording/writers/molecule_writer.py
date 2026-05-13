@@ -24,8 +24,8 @@ class MoleculeWriter:
     FIELDNAMES = [
         "epoch", "batch_idx", "rank", "molecule_id",
         "smiles", "rdkit_valid",
-        "qed_raw", "sa_raw", "docking_raw",
-        "qed_reward", "sa_reward", "docking_reward",
+        "qed_raw", "sa_raw", "docking_raw", "similarity_raw", "diversity_raw",
+        "qed_reward", "sa_reward", "docking_reward", "diversity_reward",
         "reward_total", "reward_total_raw", "reward_total_norm",
     ]
 

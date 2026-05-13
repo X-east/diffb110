@@ -233,6 +233,7 @@ def summarize_epoch(
         avg_qed=batch_stats.avg_qed,
         avg_sa=batch_stats.avg_sa,
         avg_docking=batch_stats.avg_docking,
+        avg_similarity=batch_stats.avg_similarity,
         generated_count=batch_stats.generated_count,
         valid_count=batch_stats.valid_count,
         valid_ratio=batch_stats.valid_ratio,

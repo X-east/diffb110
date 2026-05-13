@@ -14,6 +14,7 @@ from .qed_reward import QEDReward
 from .sa_reward import SAReward
 from .docking import DockingReward
 from .composite import CompositeReward
+from .diversity_reward import DiversityReward
 from .stability import StabilityAwareReward
 
 __all__ = [
@@ -22,5 +23,6 @@ __all__ = [
     "SAReward",
     "DockingReward",
     "CompositeReward",
+    "DiversityReward",
     "StabilityAwareReward",
 ]

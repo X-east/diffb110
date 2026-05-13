@@ -26,11 +26,14 @@ class BatchFacts:
     avg_qed: float
     avg_sa: float
     avg_docking: float
+    avg_similarity: float
+    avg_diversity: float
     filtering_ratio: float
     novelty_penalty_ratio: float
     avg_qed_norm: float = 0.0
     avg_sa_norm: float = 0.0
     avg_docking_norm: float = 0.0
+    avg_diversity_norm: float = 0.0
     failure_counts: Dict[str, int] = field(default_factory=dict)
     molecule_rows: List[Dict[str, Any]] = field(default_factory=list)
 
@@ -46,6 +49,8 @@ class EpochFacts:
     avg_qed: float
     avg_sa: float
     avg_docking: float
+    avg_similarity: float
+    avg_diversity: float
     generated_total: float
     rdkit_valid: float
     rdkit_valid_ratio: float

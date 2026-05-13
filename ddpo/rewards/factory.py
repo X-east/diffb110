@@ -12,6 +12,7 @@ import logging
 from typing import Dict
 
 from ddpo.rewards.composite import CompositeReward
+from ddpo.rewards.diversity_reward import DiversityReward
 from ddpo.rewards.qed_reward import QEDReward
 from ddpo.rewards.sa_reward import SAReward
 from ddpo.rewards.docking_factory import build_docking_reward
@@ -70,6 +71,17 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         docking_reward.dataset_info = dataset_info
         rewards_dict["docking"] = docking_reward
         weights_dict["docking"] = float(weights_cfg.get("docking", 1.0))
+
+    if "diversity" in enabled:
+        div_cfg = reward_cfg.get("diversity", {})
+        rewards_dict["diversity"] = DiversityReward(
+            failure_penalty=float(div_cfg.get("failure_penalty", -1.0)),
+            global_batch=bool(div_cfg.get("global_batch", True)),
+            mode=str(div_cfg.get("mode", "hinge_penalty")),
+            target_similarity=float(div_cfg.get("target_similarity", 0.5)),
+            penalty_scale=float(div_cfg.get("penalty_scale", 1.0)),
+        )
+        weights_dict["diversity"] = float(weights_cfg.get("diversity", 1.0))
 
     if 'connectivity' in enabled:
         try:
