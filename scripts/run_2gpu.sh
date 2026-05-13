@@ -1,18 +1,13 @@
 #!/bin/bash
-# QED + SA RL 训练启动脚本 — 4 卡
-# 每卡 8 分子，全局 32 分子/epoch
-# 用法：bash scripts/run_rl_qed_sa_4gpu.sh
-
+# QED + SA — 2 卡
 set -euo pipefail
 
 PROJECT_ROOT="/home/md666/data/disk6/DiffB110"
 CONDA_SH="/home/md666/miniforge3/etc/profile.d/conda.sh"
 CONDA_ENV_NAME="dif"
 PYTHON_BIN="/home/md666/miniforge3/envs/dif/bin/python"
-CONFIG_PATH="$PROJECT_ROOT/configs/qed_sa_4gpu.yaml"
-
-GPUS="${GPUS:-0,1,2,3}"
-SEED="${SEED:-42}"
+DEFAULT_CONFIG_PATH="$PROJECT_ROOT/configs/2gpu_qed_sa.yaml"
+CONFIG_PATH="${CONFIG_PATH:-$DEFAULT_CONFIG_PATH}"
 LOG_LEVEL="${LOG_LEVEL:-INFO}"
 
 [ ! -f "$CONFIG_PATH" ] && echo "[ERROR] Config not found: $CONFIG_PATH" && exit 1
@@ -20,30 +15,34 @@ LOG_LEVEL="${LOG_LEVEL:-INFO}"
 
 source "$CONDA_SH"
 conda activate "$CONDA_ENV_NAME"
-
 [ ! -x "$PYTHON_BIN" ] && echo "[ERROR] Python not found: $PYTHON_BIN" && exit 1
+
+eval "$("$PYTHON_BIN" "$PROJECT_ROOT/scripts/yaml_launch_env.py" "$CONFIG_PATH")"
 
 export BABEL_LIBDIR="/home/md666/miniforge3/envs/dif/lib/openbabel/3.1.0"
 export PYTHONUNBUFFERED=1
-export CUDA_VISIBLE_DEVICES="$GPUS"
+export CUDA_VISIBLE_DEVICES="$YAML_GPUS"
 
 mkdir -p "$PROJECT_ROOT/OUT"
 cd "$PROJECT_ROOT"
 
 echo "============================================================"
-echo "QED+SA RL 训练 — 4 卡 (全局 32 分子/epoch)"
+echo "$YAML_RUN_NAME — ${YAML_NUM_GPUS} 卡"
 echo "Config : $CONFIG_PATH"
 echo "GPUs   : $CUDA_VISIBLE_DEVICES"
-echo "Seed   : $SEED"
 echo "Start  : $(date '+%F %T')"
 echo "============================================================"
-nvidia-smi --list-gpus || true
 
-"$PYTHON_BIN" ddpo/main_diffsbdd_lightning.py \
-  --config_path "$CONFIG_PATH" \
-  --seed "$SEED" \
-  --log_level "$LOG_LEVEL"
+torchrun \
+  --nproc_per_node="$YAML_NUM_GPUS" \
+  --nnodes=1 \
+  --node_rank=0 \
+  --master_addr="127.0.0.1" \
+  --master_port=29500 \
+  ddpo/main_diffsbdd_ddp.py \
+    --config_path "$CONFIG_PATH" \
+    --log_level "$LOG_LEVEL"
 
 echo "============================================================"
-echo "4 卡训练完成  End: $(date '+%F %T')"
+echo "${YAML_NUM_GPUS} 卡训练完成  End: $(date '+%F %T')"
 echo "============================================================"

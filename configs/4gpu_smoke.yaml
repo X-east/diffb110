@@ -1,4 +1,6 @@
-name: qed-sa-docking-8gjl-8gpu
+# QED + SA — 4 卡烟雾测试（5 epoch）
+
+name: 4gpu-smoke
 
 dataset: crossdock
 
@@ -8,18 +10,14 @@ model:
   device: "cuda"
 
 pocket:
-  # 原始 PDB（含 HETATM 配体 CPF C1101），用于 pocket 残基提取
-  pdb_path: "./data/8GJL.pdb"
+  pdb_path: "./data/8GJJ-C-Cip.pdb"
   ref_ligand: "C:1101"
-  # UniDock 对接用的 PDBQT 受体
-  pdbqt_path: "./data/8gjl.pdbqt"
 
 reward:
-  enabled: ["qed", "sa", "docking"]
+  enabled: ["qed", "sa"]
   weights:
-    qed: 0.25
-    sa: 0.25
-    docking: 0.5
+    qed: 0.5
+    sa: 0.5
   normalization:
     enabled: true
     method: "zscore_total"
@@ -34,53 +32,38 @@ reward:
     stats_prefix: "reward"
     failure:
       raw_penalty: -5.0
-      include_in_stats: false
-      advantage_override: -1.5
+      include_in_stats: true
     clamp:
       enabled: true
-      min: -3.0
-      max: 3.0
-
-  # --- UniDock 对接配置 (8GJL) ---
-  docking:
-    backend: "unidock"
-    receptor_file: "./data/8gjl.pdbqt"
-    normalization_factor: -10.0
-    center_x: 207.293
-    center_y: 212.430
-    center_z: 172.771
-    size_x: 20.0
-    size_y: 20.0
-    size_z: 20.0
-    exhaustiveness: 8
-    search_mode: "fast"
+      min: -5.0
+      max: 5.0
 
 dataloader:
-  batch_size: 64
+  batch_size: 16
   min_nodes: 10
   max_nodes: 30
-  max_n_nodes: 106
-  node_sampling: size_distribution
+  max_n_nodes: 30
 
 train:
   train_micro_batch_size: 16
-  learning_rate: 2.0e-5
-  kl_coef: 0.01
+  learning_rate: 5.0e-4
   adam_beta1: 0.9
   adam_beta2: 0.999
   adam_weight_decay: 1.0e-4
   adam_epsilon: 1.0e-8
   clip_range: 0.2
   max_grad_norm: 1.0
-  checkpoint_interval: 5
-  seed: 1
-  epochs: 100
+  ppo_epochs: 1
+  ppo_shuffle_microbatch: false
+  checkpoint_interval: 1
+  seed: 42
+  epochs: 5
 
 ddp:
   enabled: true
-  num_gpus: 8
+  num_gpus: 4
   find_unused_parameters: true
-  param_sync_check: false
+  param_sync_check: true
   grad_sync_probe: true
 
 output:

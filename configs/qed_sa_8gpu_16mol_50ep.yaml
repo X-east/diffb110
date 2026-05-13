@@ -42,7 +42,7 @@ dataloader:
   # size_distribution mode: each sample independently draws from P(N_lig | N_pocket)
   # uniform mode:          each sample independently drawn from [min_nodes, max_nodes]
   # max_n_nodes = padding allocation size; MUST be >= distribution's max (~55 for CrossDocked)
-  batch_size: 16
+  batch_size: 48
   min_nodes: 10
   max_nodes: 30
   max_n_nodes: 106
@@ -57,13 +57,15 @@ train:
   adam_epsilon: 1.0e-8
   clip_range: 0.2
   max_grad_norm: 1.0
+  ppo_epochs: 4
+  ppo_shuffle_microbatch: false
   checkpoint_interval: 5
   seed: 42
   epochs: 100
 
 ddp:
   enabled: true
-  num_gpus: 8
+  num_gpus: 6
   find_unused_parameters: true
   param_sync_check: false
   grad_sync_probe: true

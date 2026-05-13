@@ -33,7 +33,7 @@ from matplotlib.ticker import MaxNLocator
 # ============================================================
 
 DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/bishe/CmeB-out/model_eval/260429_CmeB-generated_1000_properties.csv"
-DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/bishe/CmeB-out/model_eval"
+DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/bishe/CmeB_out_orginized/7_model_eval" 
 
 FIG_DPI = 300
 
@@ -41,9 +41,9 @@ SINGLE_FIGSIZE = (7, 5.5)
 COMBINED_FIGSIZE = (16, 10)
 COMBINED_LAYOUT = (2, 3)
 
-PANEL_TITLE_FONTSIZE = 18
-AXIS_LABEL_FONTSIZE = 15
-TICK_LABELSIZE = 12
+PANEL_TITLE_FONTSIZE = 22
+AXIS_LABEL_FONTSIZE = 19
+TICK_LABELSIZE = 16
 
 GRID_ALPHA = 0.18
 HIST_ALPHA = 0.88

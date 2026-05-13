@@ -20,31 +20,28 @@ from ddpo.rewards.stability import StabilityAwareReward
 
 
 
-def _get_enabled_rewards(config: dict) -> list[str]:
-    reward_cfg = config.get("reward", {})
-    explicit_enabled = reward_cfg.get("enabled")
-    if explicit_enabled is not None:
-        return list(explicit_enabled)
+def get_enabled_rewards(config: dict) -> list[str]:
+    """推断启用的奖励组件列表。
 
+    唯一来源是 `reward.weights`：weight > 0 视为启用，weight == 0 视为禁用。
+    如果 weights 为空或全零则回退到 ["qed", "sa"]。
+    """
+    reward_cfg = config.get("reward", {})
     weights = reward_cfg.get("weights", {})
     enabled = [name for name, value in weights.items() if float(value) > 0.0]
-    if enabled:
-        return enabled
-
-    return ["qed", "sa"]
+    return enabled if enabled else ["qed", "sa"]
 
 
 def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
     """Build the effective rewarder for the Lightning mainline.
 
     Current policy:
-    - derive enabled components from `reward.enabled` when present
-    - otherwise infer from positive `reward.weights`
+    - derive enabled components from positive `reward.weights`
     - preserve current defaults for DruglikenessReward parameters
     - only instantiate DockingReward when explicitly enabled
     """
     reward_cfg = config.get("reward", {})
-    enabled = _get_enabled_rewards(config)
+    enabled = get_enabled_rewards(config)
     weights_cfg = reward_cfg.get("weights", {})
 
     rewards_dict: Dict[str, object] = {}
@@ -89,7 +86,7 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         except ModuleNotFoundError as exc:
             raise ModuleNotFoundError(
                 "Reward config enables 'connectivity', but ddpo.rewards.connectivity_reward "
-                "is missing. Remove 'connectivity' from reward.enabled / reward.weights, "
+                "is missing. Remove 'connectivity' from reward.weights, "
                 "or restore the reward module."
             ) from exc
         conn_cfg = reward_cfg.get('connectivity', {})
