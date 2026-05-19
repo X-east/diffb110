@@ -38,8 +38,8 @@ reward:
       min: -5.0
       max: 5.0
   docking:
-    backend: "autodock_gpu"
-    fld_file: "./data/8GJJ-C-Cip_charged.maps.fld"
+    backend: "unidock"
+    receptor_file: "./data/8gjl.pdbqt"
     normalization_factor: -10.0
     center_x: 207.293
     center_y: 212.430
@@ -47,8 +47,8 @@ reward:
     size_x: 20.0
     size_y: 20.0
     size_z: 20.0
-    nrun: 20
-    heuristics: true
+    exhaustiveness: 8
+    search_mode: "fast"
 
 dataloader:
   batch_size: 16

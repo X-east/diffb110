@@ -6,7 +6,7 @@ PROJECT_ROOT="/home/md666/data/disk6/DiffB110"
 CONDA_SH="/home/md666/miniforge3/etc/profile.d/conda.sh"
 CONDA_ENV_NAME="dif"
 PYTHON_BIN="/home/md666/miniforge3/envs/dif/bin/python"
-DEFAULT_CONFIG_PATH="$PROJECT_ROOT/configs/2gpu_qed_sa.yaml"
+DEFAULT_CONFIG_PATH="$PROJECT_ROOT/launch/2gpu_qed_sa.yaml"
 CONFIG_PATH="${CONFIG_PATH:-$DEFAULT_CONFIG_PATH}"
 LOG_LEVEL="${LOG_LEVEL:-INFO}"
 
@@ -17,7 +17,7 @@ source "$CONDA_SH"
 conda activate "$CONDA_ENV_NAME"
 [ ! -x "$PYTHON_BIN" ] && echo "[ERROR] Python not found: $PYTHON_BIN" && exit 1
 
-eval "$("$PYTHON_BIN" "$PROJECT_ROOT/scripts/yaml_launch_env.py" "$CONFIG_PATH")"
+eval "$("$PYTHON_BIN" "$PROJECT_ROOT/launch/yaml_launch_env.py" "$CONFIG_PATH")"
 
 export BABEL_LIBDIR="/home/md666/miniforge3/envs/dif/lib/openbabel/3.1.0"
 export PYTHONUNBUFFERED=1

@@ -3,9 +3,9 @@
 set -euo pipefail
 
 PROJECT_ROOT="/home/md666/data/disk6/DiffB110"
-BASE_CONFIG="$PROJECT_ROOT/configs/6gpu_dock.yaml"
-LAUNCH_SCRIPT="$PROJECT_ROOT/scripts/run_6gpu_dock.sh"
-TMP_CONFIG_DIR="$PROJECT_ROOT/configs/generated_kl_sweep"
+BASE_CONFIG="$PROJECT_ROOT/launch/6gpu_dock.yaml"
+LAUNCH_SCRIPT="$PROJECT_ROOT/launch/run_6gpu_dock.sh"
+TMP_CONFIG_DIR="$PROJECT_ROOT/launch/generated/kl_sweep"
 PYTHON_BIN="/home/md666/miniforge3/envs/dif/bin/python"
 
 LOG_LEVEL="${LOG_LEVEL:-INFO}"

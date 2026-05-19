@@ -1,8 +1,8 @@
-# QED + SA — 2 卡训练
-# 每卡生成: batch_size(8) 分子
-# 全局每 epoch: 8 × 2 卡 = 16 分子
+# QED + SA — 6 卡生产训练（节点条件分布采样 + 失败分子隔离统计）
 
-name: 2gpu-qed-sa
+name: 6gpu-qed-sa
+
+dataset: crossdock
 
 model:
   checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
@@ -11,13 +11,13 @@ model:
 
 pocket:
   pdb_path: "./data/8GJJ-C-Cip.pdb"
-  pdbqt_path: "./data/8GJJ-C-Cip_charged.pdbqt"
   ref_ligand: "C:1101"
 
 reward:
   weights:
     qed: 0.5
     sa: 0.5
+    chembl_prior: 0.1
   normalization:
     enabled: true
     method: "zscore_total"
@@ -32,67 +32,51 @@ reward:
     stats_prefix: "reward"
     failure:
       raw_penalty: -5.0
-      include_in_stats: true
+      include_in_stats: false
+      advantage_override: -1.5
     clamp:
       enabled: true
       min: -5.0
       max: 5.0
-  docking:
-    backend: "autodock_gpu"
-    fld_file: "./data/8GJJ-C-Cip_charged.maps.fld"
-    normalization_factor: -10.0
-    center_x: 161.338
-    center_y: 169.860
-    center_z: 174.187
-    size_x: 20.0
-    size_y: 20.0
-    size_z: 20.0
-    nrun: 20
-    heuristics: true
+  chembl_prior:
+    fingerprint_cache: "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"
+    top_k: 5
+    chunk_size: 100000
+    low_similarity_threshold: 0.20
+    low_similarity_weight: 0.5
+    high_similarity_threshold: 0.85
+    high_similarity_weight: 0.1
+    failure_penalty: -1.0
 
 dataloader:
-  batch_size: 8
-  epochs: 100
+  batch_size: 48
   min_nodes: 10
   max_nodes: 30
-  max_n_nodes: 30
+  max_n_nodes: 106
+  node_sampling: size_distribution
 
 train:
-  batch_size: 16
-  per_device_batch_size: 8
-  train_micro_batch_size: 8
-  learning_rate: 5.0e-4
+  train_micro_batch_size: 16
+  learning_rate: 2.0e-5
   kl_coef: 0.01
   adam_beta1: 0.9
   adam_beta2: 0.999
   adam_weight_decay: 1.0e-4
   adam_epsilon: 1.0e-8
   clip_range: 0.2
-  adv_clip_max: 10.0
   max_grad_norm: 1.0
   ppo_epochs: 1
   ppo_shuffle_microbatch: false
   checkpoint_interval: 5
-  log_interval: 1
+  seed: 42
+  epochs: 100
 
 ddp:
   enabled: true
-  num_gpus: 2
-  strategy: "ddp"
-  find_unused_parameters: false
-  sync_batchnorm: false
-
-ray:
-  num_cpus: 4
-  num_gpus: 0
-
-wandb:
-  enabled: false
-  mode: "disabled"
+  num_gpus: 6
+  find_unused_parameters: true
+  param_sync_check: false
+  grad_sync_probe: true
 
 output:
   dir: "./OUT/<run_name>_<YYYYMMDD>_<seq>"
-  save_frequency: 1
-  metrics_file: "metrics.csv"
-  molecules_dir: "molecules"
-  verbose: true

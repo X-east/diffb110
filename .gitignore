@@ -186,6 +186,9 @@ out2/
 DiffMeta-main/
 RL-Diffusion-main/
 
+# launch runtime-generated configs
+launch/generated/
+
 # thesis / screening work
 bishe/
 

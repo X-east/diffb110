@@ -1,6 +1,7 @@
-# QED + SA — 6 卡生产训练（节点条件分布采样 + 失败分子隔离统计）
+# QED + SA + Docking(8GJL UniDock) — 6 卡生产训练
+# 包含对接奖励、KL 惩罚、失败分子隔离统计
 
-name: 6gpu-qed-sa
+name: 6gpu-dock
 
 dataset: crossdock
 
@@ -10,13 +11,16 @@ model:
   device: "cuda"
 
 pocket:
-  pdb_path: "./data/8GJJ-C-Cip.pdb"
+  pdb_path: "./data/8GJL.pdb"
   ref_ligand: "C:1101"
+  pdbqt_path: "./data/8gjl.pdbqt"
 
 reward:
   weights:
-    qed: 0.5
-    sa: 0.5
+    qed: 0
+    sa: 0
+    docking: 0.5
+    chembl_prior: 0.5
   normalization:
     enabled: true
     method: "zscore_total"
@@ -35,31 +39,52 @@ reward:
       advantage_override: -1.5
     clamp:
       enabled: true
-      min: -5.0
-      max: 5.0
+      min: -3.0
+      max: 3.0
+  docking:
+    backend: "unidock"
+    receptor_file: "./data/8gjl.pdbqt"
+    normalization_factor: -10.0
+    center_x: 207.293
+    center_y: 212.430
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    exhaustiveness: 8
+    search_mode: "fast"
+  chembl_prior:
+    fingerprint_cache: "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"
+    top_k: 5
+    chunk_size: 100000
+    low_similarity_threshold: 0.20
+    low_similarity_weight: 0.5
+    high_similarity_threshold: 0.85
+    high_similarity_weight: 0.1
+    failure_penalty: -1.0
 
 dataloader:
-  batch_size: 48
+  batch_size: 24
   min_nodes: 10
   max_nodes: 30
   max_n_nodes: 106
   node_sampling: size_distribution
 
 train:
-  train_micro_batch_size: 16
-  learning_rate: 2.0e-5
-  kl_coef: 0.01
+  train_micro_batch_size: 12
+  learning_rate: 1.0e-5
+  kl_coef: 0
   adam_beta1: 0.9
   adam_beta2: 0.999
   adam_weight_decay: 1.0e-4
   adam_epsilon: 1.0e-8
-  clip_range: 0.2
+  clip_range: 0.1
   max_grad_norm: 1.0
-  ppo_epochs: 1
+  ppo_epochs: 4
   ppo_shuffle_microbatch: false
   checkpoint_interval: 5
-  seed: 42
-  epochs: 100
+  seed: 1
+  epochs: 25
 
 ddp:
   enabled: true

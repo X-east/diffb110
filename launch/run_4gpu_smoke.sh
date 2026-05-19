@@ -1,12 +1,12 @@
 #!/bin/bash
-# 单卡训练
+# QED + SA — 4 卡烟雾测试
 set -euo pipefail
 
 PROJECT_ROOT="/home/md666/data/disk6/DiffB110"
 CONDA_SH="/home/md666/miniforge3/etc/profile.d/conda.sh"
 CONDA_ENV_NAME="dif"
 PYTHON_BIN="/home/md666/miniforge3/envs/dif/bin/python"
-DEFAULT_CONFIG_PATH="$PROJECT_ROOT/configs/1gpu_qed.yaml"
+DEFAULT_CONFIG_PATH="$PROJECT_ROOT/launch/4gpu_smoke.yaml"
 CONFIG_PATH="${CONFIG_PATH:-$DEFAULT_CONFIG_PATH}"
 LOG_LEVEL="${LOG_LEVEL:-INFO}"
 
@@ -17,7 +17,7 @@ source "$CONDA_SH"
 conda activate "$CONDA_ENV_NAME"
 [ ! -x "$PYTHON_BIN" ] && echo "[ERROR] Python not found: $PYTHON_BIN" && exit 1
 
-eval "$("$PYTHON_BIN" "$PROJECT_ROOT/scripts/yaml_launch_env.py" "$CONFIG_PATH")"
+eval "$("$PYTHON_BIN" "$PROJECT_ROOT/launch/yaml_launch_env.py" "$CONFIG_PATH")"
 
 export BABEL_LIBDIR="/home/md666/miniforge3/envs/dif/lib/openbabel/3.1.0"
 export PYTHONUNBUFFERED=1
@@ -27,16 +27,21 @@ mkdir -p "$PROJECT_ROOT/OUT"
 cd "$PROJECT_ROOT"
 
 echo "============================================================"
-echo "$YAML_RUN_NAME — 单卡"
+echo "$YAML_RUN_NAME — ${YAML_NUM_GPUS} 卡烟雾测试"
 echo "Config : $CONFIG_PATH"
-echo "GPU    : $CUDA_VISIBLE_DEVICES"
 echo "Start  : $(date '+%F %T')"
 echo "============================================================"
 
-"$PYTHON_BIN" ddpo/main_diffsbdd_ddp.py \
-  --config_path "$CONFIG_PATH" \
-  --log_level "$LOG_LEVEL"
+torchrun \
+  --nproc_per_node="$YAML_NUM_GPUS" \
+  --nnodes=1 \
+  --node_rank=0 \
+  --master_addr="127.0.0.1" \
+  --master_port=29500 \
+  ddpo/main_diffsbdd_ddp.py \
+    --config_path "$CONFIG_PATH" \
+    --log_level "$LOG_LEVEL"
 
 echo "============================================================"
-echo "单卡训练完成  End: $(date '+%F %T')"
+echo "烟雾测试完成  End: $(date '+%F %T')"
 echo "============================================================"
