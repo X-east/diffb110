@@ -12,6 +12,7 @@ import logging
 from typing import Dict
 
 from ddpo.rewards.composite import CompositeReward
+from ddpo.rewards.chembl_prior_reward import ChEMBLPriorReward
 from ddpo.rewards.diversity_reward import DiversityReward
 from ddpo.rewards.qed_reward import QEDReward
 from ddpo.rewards.sa_reward import SAReward
@@ -79,6 +80,26 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             penalty_scale=float(div_cfg.get("penalty_scale", 1.0)),
         )
         weights_dict["diversity"] = float(weights_cfg.get("diversity", 1.0))
+
+    if "chembl_prior" in enabled:
+        chembl_cfg = reward_cfg.get("chembl_prior", {})
+        fingerprint_cache = chembl_cfg.get("fingerprint_cache")
+        if not fingerprint_cache:
+            raise ValueError(
+                "Reward config enables 'chembl_prior', but "
+                "reward.chembl_prior.fingerprint_cache is missing."
+            )
+        rewards_dict["chembl_prior"] = ChEMBLPriorReward(
+            fingerprint_cache=str(fingerprint_cache),
+            failure_penalty=float(chembl_cfg.get("failure_penalty", -1.0)),
+            top_k=int(chembl_cfg.get("top_k", 5)),
+            chunk_size=int(chembl_cfg.get("chunk_size", 100000)),
+            low_similarity_threshold=float(chembl_cfg.get("low_similarity_threshold", 0.20)),
+            low_similarity_weight=float(chembl_cfg.get("low_similarity_weight", 0.5)),
+            high_similarity_threshold=float(chembl_cfg.get("high_similarity_threshold", 0.85)),
+            high_similarity_weight=float(chembl_cfg.get("high_similarity_weight", 0.1)),
+        )
+        weights_dict["chembl_prior"] = float(weights_cfg.get("chembl_prior", 1.0))
 
     if 'connectivity' in enabled:
         try:

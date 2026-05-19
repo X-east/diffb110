@@ -39,6 +39,8 @@ Format: `[YYYY-MM-DD HH:MM] tag-name — 中文简介`
 
 - `[2026-03-14 23:00] autodockgpu-rl-test-pass` — AutoDock-GPU 与 Lightning DDP 强化学习（DDPO）端到端测试通过，4 GPU 对接奖励正常计算，得分 mean=-4.005 kcal/mol，valid=10/16。
 - `[2026-03-15 20:00] tmux-training-workflow` — 确立 tmux 为远程训练标准工作流，修复 NCCL ALLGATHER 超时崩溃（all_gather 从 forward 移至 training_step），修复奖励汇总重复打印，统一 batch 语义。
+- `[2026-05-18 10:30] unidock-chembl-prior-6gpu` — 当前 6 卡训练入口使用 UniDock + ChEMBL prior，支持 docking/ChEMBL 50:50 奖励实验。
+- `[2026-05-18 10:45] 260518-1 — 统一当前主后端为 UniDock，新增 ChEMBL prior 奖励与 6卡 Python 启动脚本，默认支持 docking/ChEMBL 50:50 实验。
 
 ## Training Workflow — tmux Standard
 
@@ -136,31 +138,33 @@ However, the intended current project direction is GPU-based docking/scoring wit
 When modifying training or docking code:
 - do not introduce new Ray dependencies
 - treat existing Ray-based scripts as legacy unless explicitly required
-- prefer the Lightning-based multi-GPU training path centered on `ddpo/main_diffsbdd_lightning.py`
-- prefer the user-maintained bash launch scripts as the day-to-day runtime interface
+- prefer the current UniDock-based multi-GPU training path centered on `ddpo/main_diffsbdd_ddp.py`
+- prefer the user-maintained launch scripts under `scripts/` as the day-to-day runtime interface
 - keep command-line arguments consistent with the verified `--help` output
 
 ## Docking Backend Status
 
-- Primary docking backend: **AutoDock-GPU** (`autodock_gpu`)
-- Binary compiled at: `/home/md666/data/disk6/DiffB110/AutoDock-GPU/AutoDock-GPU-develop/bin/autodock_gpu_64wi`
-- Binary symlinked to: `/usr/local/bin/autodock_gpu_64wi` (on PATH)
-- AutoGrid4 maps generated and stored at: `data/8GJJ-C-Cip_charged.maps.fld`
-- Charged receptor PDBQT: `data/8GJJ-C-Cip_charged.pdbqt`
-- MGLTools installed at: `/opt/mgltools_x86_64Linux2_1.5.7`
-- AutoGrid4 binary: `/opt/x86_64Linux2/autogrid4` (symlinked to `/usr/local/bin/autogrid4`)
-- Smoke test result: reference ligand `cip.pdbqt` docked at **-4.91 kcal/mol** (Estimated Free Energy of Binding), best inter+intra **-9.11 kcal/mol**
-- UniDock (`unidock`) is legacy / broken — do not revert to it
-- All YAML configs use `backend: "autodock_gpu"` and `fld_file: "./data/8GJJ-C-Cip_charged.maps.fld"`
-- NOTE: AutoDock-GPU requires GPU access. The Cursor IDE shell runs as root without `/dev/nvidia*` access — always run training and docking from a normal user terminal.
+- Primary docking backend: **UniDock** (`unidock`) for the current 8GJL / 6-GPU DDP workflow.
+- Current production-style configs use `reward.docking.backend: "unidock"` with receptor `./data/8gjl.pdbqt`.
+- Current user-facing launchers include `scripts/run_6gpu_dock.sh` and `scripts/run_6gpu_dock.py`; both keep UniDock as the active default.
+- UniDock is installed in the `dif` environment and is the backend to preserve unless the user explicitly requests a backend switch.
+- AutoDock-GPU (`autodock_gpu`) remains an optional / historical backend implementation for compatibility and prior experiments.
+- Historical AutoDock-GPU assets may still exist:
+  - binary: `/home/md666/data/disk6/DiffB110/AutoDock-GPU/AutoDock-GPU-develop/bin/autodock_gpu_64wi`
+  - optional PATH symlink: `/usr/local/bin/autodock_gpu_64wi`
+  - AutoGrid4 maps: `data/8GJJ-C-Cip_charged.maps.fld`
+  - charged receptor PDBQT: `data/8GJJ-C-Cip_charged.pdbqt`
+- Historical AutoDock-GPU smoke result: reference ligand `cip.pdbqt` docked at **-4.91 kcal/mol** (Estimated Free Energy of Binding), best inter+intra **-9.11 kcal/mol**.
+- Do not rewrite UniDock configs to AutoDock-GPU automatically.
+- Do not remove AutoDock-GPU backend code or historical records unless explicitly requested.
 
-### AutoDock-GPU Device Numbering
+### AutoDock-GPU Device Numbering (only if that backend is explicitly enabled)
 
 - AutoDock-GPU `--devnum` is **1-indexed**: `--devnum 1` = first GPU (GPU 0 in nvidia-smi)
 - `nvidia-smi` and CUDA (`CUDA_VISIBLE_DEVICES`) are **0-indexed**
 - Conversion in code: `self._devnum = gpu_id + 1` where `gpu_id` is 0-indexed
 - Example: to use nvidia-smi GPU 2, set `gpu_id=2` → `--devnum 3`
-- Do NOT set `CUDA_VISIBLE_DEVICES` when using AutoDock-GPU, as it renumbers devices and breaks the `--devnum` mapping
+- Avoid setting `CUDA_VISIBLE_DEVICES` when using AutoDock-GPU unless the mapping is explicitly handled.
 
 ## Analysis and Summary Documents Rule
 

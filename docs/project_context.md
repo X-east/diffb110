@@ -5,12 +5,12 @@
 This project uses `DiffSBDD` for 3D molecular diffusion generation and `DDPO/PPO` for reinforcement learning optimization.
 
 Current verified code path in this repository snapshot:
-- active, structurally complete entrypoint: `ddpo/main_diffsbdd_single_gpu.py`
-- active training loop ownership: custom single-process runtime (`ddpo/runtime/*` + `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py`)
+- active, user-maintained multi-GPU entrypoint: `ddpo/main_diffsbdd_ddp.py` via launchers under `scripts/`
+- active training loop ownership: custom DDP/runtime path (`ddpo/runtime/*` + `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py`)
 - rollout implementation in use: `ddpo/runtime/rollout.py`
 - model adapter in use: `ddpo/integration/diffsbdd_model.py`
-- docking backend: `autodock_gpu`
-- reward components: docking reward + drug-likeness reward
+- docking backend: `unidock` for the current 8GJL / 6-GPU workflow
+- reward components: docking reward + ChEMBL prior and/or QED/SA depending on `reward.weights`
 
 Important repository/documentation mismatch:
 - some older project docs still describe `ddpo/main_diffsbdd_lightning.py` + Lightning DDP as the preferred active path

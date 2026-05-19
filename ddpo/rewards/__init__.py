@@ -6,6 +6,8 @@ Contains:
 - SAReward:            SA-only reward  (sa_reward.py)
 - DockingReward:       AutoDock-GPU docking score (docking.py)
 - CompositeReward:     Weighted combination of multiple rewards
+- DiversityReward:     Batch-level molecular diversity penalty
+- ChEMBLPriorReward:   ChEMBL fingerprint-space prior / penalty
 - StabilityAwareReward: Wraps any reward to inject batch['stability']
 """
 
@@ -15,6 +17,7 @@ from .sa_reward import SAReward
 from .docking import DockingReward
 from .composite import CompositeReward
 from .diversity_reward import DiversityReward
+from .chembl_prior_reward import ChEMBLPriorReward
 from .stability import StabilityAwareReward
 
 __all__ = [
@@ -24,5 +27,6 @@ __all__ = [
     "DockingReward",
     "CompositeReward",
     "DiversityReward",
+    "ChEMBLPriorReward",
     "StabilityAwareReward",
 ]
