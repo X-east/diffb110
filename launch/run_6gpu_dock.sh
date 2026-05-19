@@ -12,13 +12,14 @@ LOG_LEVEL="${LOG_LEVEL:-INFO}"
 CHEMBL_PRIOR_ENABLE="${CHEMBL_PRIOR_ENABLE:-1}"
 CHEMBL_PRIOR_WEIGHT="${CHEMBL_PRIOR_WEIGHT:-0.1}"
 CHEMBL_PRIOR_CACHE="${CHEMBL_PRIOR_CACHE:-./data/chembl/chembl_36_morgan_fingerprints.pkl.gz}"
-CHEMBL_PRIOR_TOP_K="${CHEMBL_PRIOR_TOP_K:-5}"
+CHEMBL_PRIOR_TOP_K="${CHEMBL_PRIOR_TOP_K:-10}"
 CHEMBL_PRIOR_CHUNK_SIZE="${CHEMBL_PRIOR_CHUNK_SIZE:-100000}"
-CHEMBL_PRIOR_LOW_THRESHOLD="${CHEMBL_PRIOR_LOW_THRESHOLD:-0.20}"
-CHEMBL_PRIOR_LOW_WEIGHT="${CHEMBL_PRIOR_LOW_WEIGHT:-0.5}"
-CHEMBL_PRIOR_HIGH_THRESHOLD="${CHEMBL_PRIOR_HIGH_THRESHOLD:-0.85}"
-CHEMBL_PRIOR_HIGH_WEIGHT="${CHEMBL_PRIOR_HIGH_WEIGHT:-0.1}"
-CHEMBL_PRIOR_FAILURE_PENALTY="${CHEMBL_PRIOR_FAILURE_PENALTY:--1.0}"
+CHEMBL_PRIOR_LOW_THRESHOLD="${CHEMBL_PRIOR_LOW_THRESHOLD:-0.30}"
+CHEMBL_PRIOR_LOW_WEIGHT="${CHEMBL_PRIOR_LOW_WEIGHT:-5.0}"
+CHEMBL_PRIOR_HIGH_THRESHOLD="${CHEMBL_PRIOR_HIGH_THRESHOLD:-1.0}"
+CHEMBL_PRIOR_HIGH_WEIGHT="${CHEMBL_PRIOR_HIGH_WEIGHT:-0.0}"
+CHEMBL_PRIOR_FAILURE_PENALTY="${CHEMBL_PRIOR_FAILURE_PENALTY:--2.0}"
+CHEMBL_PRIOR_MAX_REWARD_SIM="${CHEMBL_PRIOR_MAX_REWARD_SIM:-0.50}"
 
 if [ ! -f "$CONFIG_PATH" ]; then echo "[ERROR] Config not found: $CONFIG_PATH"; exit 1; fi
 if [ ! -f "$CONDA_SH" ];   then echo "[ERROR] Conda init script not found: $CONDA_SH"; exit 1; fi
@@ -33,9 +34,9 @@ mkdir -p "$GENERATED_CONFIG_DIR"
 export CONFIG_PATH CHEMBL_PRIOR_ENABLE CHEMBL_PRIOR_WEIGHT CHEMBL_PRIOR_CACHE \
   CHEMBL_PRIOR_TOP_K CHEMBL_PRIOR_CHUNK_SIZE CHEMBL_PRIOR_LOW_THRESHOLD \
   CHEMBL_PRIOR_LOW_WEIGHT CHEMBL_PRIOR_HIGH_THRESHOLD CHEMBL_PRIOR_HIGH_WEIGHT \
-  CHEMBL_PRIOR_FAILURE_PENALTY GENERATED_CONFIG_DIR
+  CHEMBL_PRIOR_FAILURE_PENALTY CHEMBL_PRIOR_MAX_REWARD_SIM GENERATED_CONFIG_DIR
 
-CONFIG_PATH="$($PYTHON_BIN - <<'PY'
+CONFIG_PATH="$($PYTHON_BIN << 'PY'
 import os
 import time
 from pathlib import Path
@@ -46,20 +47,25 @@ out_dir = Path(os.environ["GENERATED_CONFIG_DIR"]).expanduser().resolve()
 data = yaml.safe_load(base.read_text(encoding="utf-8")) or {}
 reward = data.setdefault("reward", {})
 weights = reward.setdefault("weights", {})
+chembl = reward.setdefault("chembl_prior", {})
 
-if os.environ["CHEMBL_PRIOR_ENABLE"] in {"0", "false", "False", "no", "NO"}:
+# CHEMBL_PRIOR_ENABLE=0 → 关掉权重
+disable = os.environ.get("CHEMBL_PRIOR_ENABLE", "1")
+if disable in {"0", "false", "False", "no", "NO"}:
     weights["chembl_prior"] = 0.0
 else:
-    weights["chembl_prior"] = float(os.environ["CHEMBL_PRIOR_WEIGHT"])
-    chembl = reward.setdefault("chembl_prior", {})
-    chembl["fingerprint_cache"] = os.environ["CHEMBL_PRIOR_CACHE"]
-    chembl["top_k"] = int(os.environ["CHEMBL_PRIOR_TOP_K"])
-    chembl["chunk_size"] = int(os.environ["CHEMBL_PRIOR_CHUNK_SIZE"])
-    chembl["low_similarity_threshold"] = float(os.environ["CHEMBL_PRIOR_LOW_THRESHOLD"])
-    chembl["low_similarity_weight"] = float(os.environ["CHEMBL_PRIOR_LOW_WEIGHT"])
-    chembl["high_similarity_threshold"] = float(os.environ["CHEMBL_PRIOR_HIGH_THRESHOLD"])
-    chembl["high_similarity_weight"] = float(os.environ["CHEMBL_PRIOR_HIGH_WEIGHT"])
-    chembl["failure_penalty"] = float(os.environ["CHEMBL_PRIOR_FAILURE_PENALTY"])
+    # YAML 是数据源，缺失时才 fallback 到环境变量
+    weights.setdefault("chembl_prior", float(os.environ.get("CHEMBL_PRIOR_WEIGHT", 0.1)))
+    chembl.setdefault("fingerprint_cache",
+                      os.environ.get("CHEMBL_PRIOR_CACHE", "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"))
+    chembl.setdefault("top_k", int(os.environ.get("CHEMBL_PRIOR_TOP_K", 5)))
+    chembl.setdefault("chunk_size", int(os.environ.get("CHEMBL_PRIOR_CHUNK_SIZE", 100000)))
+    chembl.setdefault("low_similarity_threshold", float(os.environ.get("CHEMBL_PRIOR_LOW_THRESHOLD", 0.20)))
+    chembl.setdefault("low_similarity_weight", float(os.environ.get("CHEMBL_PRIOR_LOW_WEIGHT", 0.5)))
+    chembl.setdefault("high_similarity_threshold", float(os.environ.get("CHEMBL_PRIOR_HIGH_THRESHOLD", 0.85)))
+    chembl.setdefault("high_similarity_weight", float(os.environ.get("CHEMBL_PRIOR_HIGH_WEIGHT", 0.1)))
+    chembl.setdefault("failure_penalty", float(os.environ.get("CHEMBL_PRIOR_FAILURE_PENALTY", "-1.0")))
+    chembl.setdefault("max_reward_similarity", float(os.environ.get("CHEMBL_PRIOR_MAX_REWARD_SIM", "0.50")))
 
 if weights.get("chembl_prior", 0.0):
     data["name"] = f"{data.get('name', '6gpu-dock')}-chembl"

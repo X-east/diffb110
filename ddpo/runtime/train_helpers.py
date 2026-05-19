@@ -36,6 +36,8 @@ class EpochStepResult:
     filtering_ratio: float
     novelty_penalty_ratio: float
     failure_counts: dict[str, int]
+    avg_chembl_reward: float = 0.0
+    avg_chembl_similarity: float = 0.0
 
 
 @dataclass
@@ -57,6 +59,8 @@ class BatchStats:
     valid_ratio: float
     failure_counts: dict[str, int]
     reward_raw_mean: float = 0.0
+    avg_chembl_reward: float = 0.0
+    avg_chembl_similarity: float = 0.0
 
 
 def prepare_training_samples(runtime: Any, epoch: int) -> PreparedSamples:
@@ -152,6 +156,15 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     avg_docking = _mean_at_indices(docking_raw, _valid_indices)
     avg_similarity = _mean_at_indices(similarity_raw, _valid_indices)
     avg_diversity = _mean_at_indices(diversity_raw, _valid_indices)
+    # ChEMBL prior: dynamically detect top_k field name
+    chembl_prior_reward = _to_float_list(samples.batch.get("chembl_prior_reward"))
+    chembl_sim_field = next(
+        (k for k in samples.batch.keys() if k.startswith("chembl_top") and k.endswith("_mean_similarity")),
+        None,
+    )
+    chembl_similarity = _to_float_list(samples.batch.get(chembl_sim_field)) if chembl_sim_field else []
+    avg_chembl_reward = _mean_at_indices(chembl_prior_reward, _valid_indices)
+    avg_chembl_similarity = _mean_at_indices(chembl_similarity, _valid_indices)
     # Normalised reward averages: include ALL molecules (failures get explicit
     # failure_penalty, which is meaningful for reward-based monitoring).
     avg_qed_norm = float(sum(qed_norm) / len(qed_norm)) if qed_norm else 0.0
@@ -163,7 +176,7 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     valid_ratio = float(valid_count / generated_count) if generated_count > 0 else 0.0
     failure_counts = dict(Counter(failure_types)) if failure_types else {}
     reward_raw_mean = float(sum(rewards_raw) / len(rewards_raw)) if rewards_raw else 0.0
-    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, avg_similarity=avg_similarity, avg_diversity=avg_diversity, avg_qed_norm=avg_qed_norm, avg_sa_norm=avg_sa_norm, avg_docking_norm=avg_docking_norm, avg_diversity_norm=avg_diversity_norm, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts, reward_raw_mean=reward_raw_mean)
+    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, avg_similarity=avg_similarity, avg_diversity=avg_diversity, avg_qed_norm=avg_qed_norm, avg_sa_norm=avg_sa_norm, avg_docking_norm=avg_docking_norm, avg_diversity_norm=avg_diversity_norm, avg_chembl_reward=avg_chembl_reward, avg_chembl_similarity=avg_chembl_similarity, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts, reward_raw_mean=reward_raw_mean)
 
 
 def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, batch_stats: BatchStats) -> BatchFacts:
@@ -178,6 +191,13 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
     docking_raw = _to_float_list(samples.batch.get("docking_raw"))
     similarity_raw = _to_float_list(samples.batch.get("similarity_raw"))
     diversity_raw = _to_float_list(samples.batch.get("diversity_raw"))
+    # ChEMBL prior: dynamically detect top_k field name
+    chembl_prior_reward = _to_float_list(samples.batch.get("chembl_prior_reward"))
+    chembl_sim_field = next(
+        (k for k in samples.batch.keys() if k.startswith("chembl_top") and k.endswith("_mean_similarity")),
+        None,
+    )
+    chembl_similarity = _to_float_list(samples.batch.get(chembl_sim_field)) if chembl_sim_field else []
     # Normalised (reward) values
     qed_reward = _to_float_list(samples.batch.get("qed_reward"))
     sa_reward = _to_float_list(samples.batch.get("sa_reward"))
@@ -188,7 +208,7 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
     rewards_raw = _to_float_list(samples.batch.get("reward_total_raw"))
     rewards_norm = _to_float_list(samples.batch.get("reward_total_norm"))
     molecule_rows = []
-    for molecule_id in range(batch_stats.generated_count):
+    for molecule_id in range(len(smiles_values)):
         molecule_rows.append({
             "epoch": epoch,
             "batch_idx": batch_idx,
@@ -205,11 +225,13 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
             "sa_reward": sa_reward[molecule_id] if molecule_id < len(sa_reward) else 0.0,
             "docking_reward": docking_reward[molecule_id] if molecule_id < len(docking_reward) else 0.0,
             "diversity_reward": diversity_reward[molecule_id] if molecule_id < len(diversity_reward) else 0.0,
+            "chembl_prior_reward": chembl_prior_reward[molecule_id] if molecule_id < len(chembl_prior_reward) else 0.0,
+            "chembl_mean_similarity": chembl_similarity[molecule_id] if molecule_id < len(chembl_similarity) else 0.0,
             "reward_total": rewards[molecule_id] if molecule_id < len(rewards) else 0.0,
             "reward_total_raw": rewards_raw[molecule_id] if molecule_id < len(rewards_raw) else 0.0,
             "reward_total_norm": rewards_norm[molecule_id] if molecule_id < len(rewards_norm) else 0.0,
         })
-    return BatchFacts(epoch=epoch, batch_idx=batch_idx, rank=0, generated_count=batch_stats.generated_count, valid_count=batch_stats.valid_count, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, filtering_ratio=prepared.filtering_ratio, novelty_penalty_ratio=prepared.novelty_penalty_ratio, avg_qed_norm=batch_stats.avg_qed_norm, avg_sa_norm=batch_stats.avg_sa_norm, avg_docking_norm=batch_stats.avg_docking_norm, avg_diversity_norm=batch_stats.avg_diversity_norm, failure_counts=batch_stats.failure_counts, molecule_rows=molecule_rows)
+    return BatchFacts(epoch=epoch, batch_idx=batch_idx, rank=0, generated_count=batch_stats.generated_count, valid_count=batch_stats.valid_count, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, filtering_ratio=prepared.filtering_ratio, novelty_penalty_ratio=prepared.novelty_penalty_ratio, avg_qed_norm=batch_stats.avg_qed_norm, avg_sa_norm=batch_stats.avg_sa_norm, avg_docking_norm=batch_stats.avg_docking_norm, avg_diversity_norm=batch_stats.avg_diversity_norm, avg_chembl_reward=batch_stats.avg_chembl_reward, avg_chembl_similarity=batch_stats.avg_chembl_similarity, failure_counts=batch_stats.failure_counts, molecule_rows=molecule_rows)
 
 
 # Metrics keys already consumed by EpochFacts' own fields — excluded from generic passthrough.
@@ -228,6 +250,8 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
         "avg_docking_norm": batch_stats.avg_docking_norm,
         "avg_diversity_norm": batch_stats.avg_diversity_norm,
         "avg_similarity": batch_stats.avg_similarity,
+        "avg_chembl_reward": batch_stats.avg_chembl_reward,
+        "avg_chembl_similarity": batch_stats.avg_chembl_similarity,
         "avg_reward_raw": batch_stats.reward_raw_mean,
         "reward_enabled": get_enabled_rewards(runtime.config),
     }
@@ -241,7 +265,7 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
                 extra[key] = float(value)
             except (TypeError, ValueError):
                 extra[key] = str(value) if not isinstance(value, (str, bool)) else value
-    return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, failure_counts=batch_stats.failure_counts, extra_metrics=extra, checkpoint_due=checkpoint_due)
+    return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, avg_chembl_reward=batch_stats.avg_chembl_reward, avg_chembl_similarity=batch_stats.avg_chembl_similarity, failure_counts=batch_stats.failure_counts, extra_metrics=extra, checkpoint_due=checkpoint_due)
 
 
 def build_run_lifecycle(runtime: Any, status: RunStatus, message: str | None = None) -> RunLifecycleFacts:

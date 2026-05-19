@@ -1,13 +1,13 @@
-"""ChEMBLPriorReward: penalize molecules far from ChEMBL fingerprint space.
+"""ChEMBLPriorReward: bidirectional reward based on ChEMBL fingerprint similarity.
 
-Reward semantics:
-    - low ChEMBL top-k similarity receives a hinge penalty
-    - excessive max similarity can receive a small copy/novelty penalty
+Reward semantics (bidirectional):
+    - neutral point at ``low_similarity_threshold`` (e.g., 0.30)
+    - positive reward when top-k mean similarity > threshold::
+        reward = low_weight * (sim - threshold)
+    - capped at ``max_reward_similarity`` (e.g., sim >= 0.50 gives max reward)
+    - negative reward when similarity < threshold (same linear slope)
     - molecules without a valid canonical RDKit mol receive failure_penalty
-
-This component does not reward higher similarity unboundedly. It is a prior / 
-penalty term intended to discourage out-of-distribution chemistry while keeping
-QED, SA, docking, and diversity rewards inspectable as separate components.
+    - excessive max similarity can receive a small copy/novelty penalty
 """
 from __future__ import annotations
 
@@ -35,6 +35,7 @@ DEFAULT_LOW_SIMILARITY_THRESHOLD: float = 0.20
 DEFAULT_LOW_SIMILARITY_WEIGHT: float = 0.5
 DEFAULT_HIGH_SIMILARITY_THRESHOLD: float = 0.85
 DEFAULT_HIGH_SIMILARITY_WEIGHT: float = 0.1
+DEFAULT_MAX_REWARD_SIMILARITY: float = 0.50
 
 
 class ChEMBLPriorReward(BaseReward):
@@ -63,6 +64,7 @@ class ChEMBLPriorReward(BaseReward):
         low_similarity_weight: float = DEFAULT_LOW_SIMILARITY_WEIGHT,
         high_similarity_threshold: float = DEFAULT_HIGH_SIMILARITY_THRESHOLD,
         high_similarity_weight: float = DEFAULT_HIGH_SIMILARITY_WEIGHT,
+        max_reward_similarity: float = DEFAULT_MAX_REWARD_SIMILARITY,
         cache: ChEMBLFingerprintCache | None = None,
     ) -> None:
         if top_k <= 0:
@@ -71,6 +73,8 @@ class ChEMBLPriorReward(BaseReward):
             raise ValueError("chunk_size must be positive")
         if low_similarity_weight < 0.0 or high_similarity_weight < 0.0:
             raise ValueError("similarity penalty weights must be non-negative")
+        if max_reward_similarity <= low_similarity_threshold:
+            raise ValueError("max_reward_similarity must be > low_similarity_threshold")
 
         self.fingerprint_cache = fingerprint_cache
         self.failure_penalty = float(failure_penalty)
@@ -80,6 +84,7 @@ class ChEMBLPriorReward(BaseReward):
         self.low_similarity_weight = float(low_similarity_weight)
         self.high_similarity_threshold = float(high_similarity_threshold)
         self.high_similarity_weight = float(high_similarity_weight)
+        self.max_reward_similarity = float(max_reward_similarity)
         self._cache = cache
 
     @property
@@ -95,7 +100,12 @@ class ChEMBLPriorReward(BaseReward):
     def _reward_from_similarity(self, max_similarity: float, topk_mean_similarity: float) -> tuple[float, float, float]:
         low_penalty = max(0.0, self.low_similarity_threshold - topk_mean_similarity)
         high_penalty = max(0.0, max_similarity - self.high_similarity_threshold)
-        reward = -self.low_similarity_weight * low_penalty - self.high_similarity_weight * high_penalty
+        # Bidirectional reward: positive above threshold, negative below
+        reward = self.low_similarity_weight * (topk_mean_similarity - self.low_similarity_threshold)
+        # Cap the maximum reward at max_reward_similarity
+        max_reward = self.low_similarity_weight * (self.max_reward_similarity - self.low_similarity_threshold)
+        reward = min(max_reward, reward)
+        reward -= self.high_similarity_weight * high_penalty
         return max(self.failure_penalty, reward), low_penalty, high_penalty
 
     def calculate_rewards(self, data: "DataProto") -> "DataProto":
@@ -194,6 +204,7 @@ class ChEMBLPriorReward(BaseReward):
             f"top_k={self.top_k}, "
             f"low_similarity_threshold={self.low_similarity_threshold}, "
             f"low_similarity_weight={self.low_similarity_weight}, "
+            f"max_reward_similarity={self.max_reward_similarity}, "
             f"high_similarity_threshold={self.high_similarity_threshold}, "
             f"high_similarity_weight={self.high_similarity_weight})"
         )

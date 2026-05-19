@@ -139,11 +139,11 @@ class DiffSBDDFilter:
 
         filtered_rdkit_valid = [valid_flags[i] for i in indices_to_keep]
         filtered_data.batch['smiles'] = [all_smiles[i] for i in indices_to_keep]
-        filtered_data.batch['rdkit_valid'] = filtered_rdkit_valid
+        filtered_data.batch['rdkit_valid'] = torch.tensor(filtered_rdkit_valid, dtype=torch.long)
         # Bug4 Fix-5: 'valid' kept as legacy alias for downstream compatibility only.
         # All internal logic reads from 'rdkit_valid'. Do not use 'valid' as primary field.
         # This alias will be removed once all downstream consumers are migrated.
-        filtered_data.batch['valid'] = filtered_rdkit_valid
+        filtered_data.batch['valid'] = torch.tensor(filtered_rdkit_valid, dtype=torch.long)
 
         return filtered_data, filtering_ratio, novelty_penalty_ratio
 

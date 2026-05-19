@@ -96,6 +96,7 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             chunk_size=int(chembl_cfg.get("chunk_size", 100000)),
             low_similarity_threshold=float(chembl_cfg.get("low_similarity_threshold", 0.20)),
             low_similarity_weight=float(chembl_cfg.get("low_similarity_weight", 0.5)),
+            max_reward_similarity=float(chembl_cfg.get("max_reward_similarity", 0.50)),
             high_similarity_threshold=float(chembl_cfg.get("high_similarity_threshold", 0.85)),
             high_similarity_weight=float(chembl_cfg.get("high_similarity_weight", 0.1)),
         )

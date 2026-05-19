@@ -113,6 +113,8 @@ class GlobalBatchStats:
     failure_counts: dict[str, int]
     metrics: dict[str, float]
     reward_raw_mean: float = 0.0
+    avg_chembl_reward: float = 0.0
+    avg_chembl_similarity: float = 0.0
 
 
 def _iter_wrapped_rewards(rewarder: Any):
@@ -417,6 +419,8 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     docking_norm_sum = reduce_sum_scalar(float(local_stats.avg_docking_norm * count), dist_ctx)
     diversity_norm_sum = reduce_sum_scalar(float(local_stats.avg_diversity_norm * count), dist_ctx)
     reward_raw_sum = reduce_sum_scalar(float(local_stats.reward_raw_mean * count), dist_ctx)
+    chembl_reward_sum = reduce_sum_scalar(float(local_stats.avg_chembl_reward * valid_count_local), dist_ctx)
+    chembl_similarity_sum = reduce_sum_scalar(float(local_stats.avg_chembl_similarity * valid_count_local), dist_ctx)
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
@@ -440,6 +444,8 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
         failure_counts=failure_counts,
         metrics=merged_metrics,
         reward_raw_mean=(reward_raw_sum / generated_count) if generated_count > 0 else 0.0,
+        avg_chembl_reward=(chembl_reward_sum / valid_count) if valid_count > 0 else 0.0,
+        avg_chembl_similarity=(chembl_similarity_sum / valid_count) if valid_count > 0 else 0.0,
     )
 
 
@@ -524,6 +530,8 @@ def record_epoch_ddp(
             valid_ratio=global_stats.valid_ratio,
             failure_counts=global_stats.failure_counts,
             reward_raw_mean=global_stats.reward_raw_mean,
+            avg_chembl_reward=global_stats.avg_chembl_reward,
+            avg_chembl_similarity=global_stats.avg_chembl_similarity,
         ),
         prepared=PreparedSamples(
             samples=prepared.samples,
@@ -560,6 +568,8 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
         filtering_ratio=global_stats.filtering_ratio,
         novelty_penalty_ratio=global_stats.novelty_penalty_ratio,
         failure_counts=global_stats.failure_counts,
+        avg_chembl_reward=global_stats.avg_chembl_reward,
+        avg_chembl_similarity=global_stats.avg_chembl_similarity,
     )
 
 

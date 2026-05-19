@@ -19,7 +19,6 @@ class RewardNormalizationConfig:
     norm_output_key: str
     clamped_output_key: str
     stats_prefix: str
-    failure_penalty: float
     include_failures_in_stats: bool
     clamp_enabled: bool
     clamp_min: float
@@ -44,7 +43,6 @@ class RewardNormalizationConfig:
             norm_output_key=str(norm_cfg.get("norm_output_key", "reward_total_norm")),
             clamped_output_key=str(norm_cfg.get("clamped_output_key", "reward_total_clamped")),
             stats_prefix=str(norm_cfg.get("stats_prefix", "reward")),
-            failure_penalty=float(failure_cfg.get("raw_penalty", -5.0)),
             include_failures_in_stats=bool(failure_cfg.get("include_in_stats", True)),
             clamp_enabled=bool(clamp_cfg.get("enabled", True)),
             clamp_min=float(clamp_cfg.get("min", -5.0)),
@@ -62,8 +60,8 @@ class RewardNormalizer:
 
     Policy:
     - component rewards remain untouched and inspectable
-    - failure samples receive one explicit raw penalty
     - z-score is applied on total reward only
+    - failure samples receive a fixed advantage override (if configured)
     - clamped normalized reward becomes training advantage by default
     """
 
@@ -119,7 +117,7 @@ class RewardNormalizer:
             return rewards_raw
         return rewards_raw[~failure_mask]
 
-    def _write_stats(self, batch: dict[str, Any], raw_stats: RewardStats, norm_tensor: torch.Tensor, raw_tensor: torch.Tensor) -> None:
+    def _write_stats(self, batch: dict[str, Any], raw_stats: RewardStats, norm_tensor: torch.Tensor, raw_tensor: torch.Tensor, failure_count: int = 0) -> None:
         prefix = self.config.stats_prefix
         # TensorDict with non-empty batch_size rejects Python scalars (shape=[]).
         # Broadcast all global-stat scalars into [batch_size] tensors so they
@@ -152,7 +150,7 @@ class RewardNormalizer:
             batch[f"{prefix}_min_norm"] = _broadcast(0.0)
             batch[f"{prefix}_max_norm"] = _broadcast(0.0)
 
-        batch[f"{prefix}_failure_count"] = _broadcast_int(int((raw_tensor == self.config.failure_penalty).sum().item()))
+        batch[f"{prefix}_failure_count"] = _broadcast_int(failure_count)
 
     def apply(self, data: Any, dist_ctx: Any) -> Any:
         if not self.config.enabled:
@@ -179,8 +177,6 @@ class RewardNormalizer:
             )
 
         failure_mask = self._build_failure_mask(data, batch, batch_size=batch_size, device=device)
-        rewards_raw = rewards_raw.clone()
-        rewards_raw[failure_mask] = float(self.config.failure_penalty)
 
         stats_values = self._stats_input(rewards_raw, failure_mask)
         raw_stats = compute_global_reward_stats(stats_values, dist_ctx=dist_ctx, epsilon=self.config.epsilon)
@@ -207,7 +203,8 @@ class RewardNormalizer:
         if self.config.override_rewards_field:
             batch[self.config.map_rewards_field] = rewards_clamped
 
-        self._write_stats(batch, raw_stats=raw_stats, norm_tensor=rewards_norm, raw_tensor=rewards_raw)
+        self._write_stats(batch, raw_stats=raw_stats, norm_tensor=rewards_norm, raw_tensor=rewards_raw,
+                          failure_count=int(failure_mask.sum().item()))
         self._log(
             "[RewardNormalizer] raw_mean=%.4f raw_std=%.4f raw_min=%.4f raw_max=%.4f failures=%d clamp=%s [%.2f, %.2f]",
             raw_stats.mean,

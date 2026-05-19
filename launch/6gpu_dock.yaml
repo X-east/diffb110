@@ -7,7 +7,7 @@ dataset: crossdock
 
 model:
   checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
-  time_step: 500
+  time_step: 100
   device: "cuda"
 
 pocket:
@@ -34,13 +34,12 @@ reward:
     override_rewards_field: true
     stats_prefix: "reward"
     failure:
-      raw_penalty: -5.0
       include_in_stats: false
-      advantage_override: -1.5
+      advantage_override: -2.0
     clamp:
       enabled: true
-      min: -3.0
-      max: 3.0
+      min: -2.0
+      max: 2.0
   docking:
     backend: "unidock"
     receptor_file: "./data/8gjl.pdbqt"
@@ -55,13 +54,14 @@ reward:
     search_mode: "fast"
   chembl_prior:
     fingerprint_cache: "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"
-    top_k: 5
+    top_k: 10
     chunk_size: 100000
-    low_similarity_threshold: 0.20
-    low_similarity_weight: 0.5
-    high_similarity_threshold: 0.85
-    high_similarity_weight: 0.1
-    failure_penalty: -1.0
+    low_similarity_threshold: 0.30
+    low_similarity_weight: 5.0
+    high_similarity_threshold: 1.0
+    high_similarity_weight: 0.0
+    failure_penalty: -2.0
+    max_reward_similarity: 0.50
 
 dataloader:
   batch_size: 24
@@ -71,7 +71,7 @@ dataloader:
   node_sampling: size_distribution
 
 train:
-  train_micro_batch_size: 12
+  train_micro_batch_size: 24
   learning_rate: 1.0e-5
   kl_coef: 0
   adam_beta1: 0.9

@@ -30,10 +30,11 @@ from .writers import CheckpointTracker, ConsoleReporter, MetricsWriter, Molecule
 # Adding a new reward component requires only one new entry here.
 # ---------------------------------------------------------------------------
 _REWARD_DISPLAY_REGISTRY: dict[str, dict[str, str]] = {
-    "qed":       {"label": "Avg QED",       "field": "avg_qed",       "fmt": ".4f"},
-    "sa":        {"label": "Avg SA",        "field": "avg_sa",        "fmt": ".4f"},
-    "docking":   {"label": "Avg Docking",   "field": "avg_docking",   "fmt": ".4f"},
-    "diversity": {"label": "Avg Diversity", "field": "avg_diversity", "fmt": ".4f"},
+    "qed":         {"label": "Avg QED",         "field": "avg_qed",           "fmt": ".4f"},
+    "sa":          {"label": "Avg SA",          "field": "avg_sa",            "fmt": ".4f"},
+    "docking":     {"label": "Avg Docking",     "field": "avg_docking",       "fmt": ".4f"},
+    "diversity":   {"label": "Avg Diversity",   "field": "avg_diversity",     "fmt": ".4f"},
+    "chembl_prior": {"label": "ChEMBL Sim TopK", "field": "avg_chembl_similarity", "fmt": ".4f"},
 }
 
 

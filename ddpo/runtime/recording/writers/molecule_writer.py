@@ -26,6 +26,7 @@ class MoleculeWriter:
         "smiles", "rdkit_valid",
         "qed_raw", "sa_raw", "docking_raw", "similarity_raw", "diversity_raw",
         "qed_reward", "sa_reward", "docking_reward", "diversity_reward",
+        "chembl_prior_reward", "chembl_mean_similarity",
         "reward_total", "reward_total_raw", "reward_total_norm",
     ]
 

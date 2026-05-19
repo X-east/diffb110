@@ -38,6 +38,8 @@ The user wants a shorter, more concise coding specification - just the key rules
 
 `dataclass` 字段**必须**标注类型。
 
+**字段顺序：** 无默认值的字段必须排在带默认值的字段之前，否则会触发 `TypeError: non-default argument follows default argument`。
+
 ## 四、docstring
 
 每个 `.py` 文件、每个类、每个公开方法都必须有 docstring。

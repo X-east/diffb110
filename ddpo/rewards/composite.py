@@ -165,7 +165,10 @@ class CompositeReward(BaseReward):
                     warnings.warn(f"Reward '{name}' did not return '{reward_field}' tensor")
                     
             except Exception as e:
-                warnings.warn(f"Failed to calculate '{name}' reward: {e}")
+                # Use full exception logging so that errors (e.g. cache load failure)
+                # are not silently swallowed — traceback is essential for debugging.
+                import logging
+                logging.getLogger(__name__).exception(f"Failed to calculate '{name}' reward: {e}")
                 # Use zeros for failed component
                 component_rewards[name] = torch.zeros(batch_size, device=device)
         
