@@ -20,7 +20,8 @@ reward:
     qed: 0
     sa: 0
     docking: 0
-    chembl_prior: 1.0
+    chembl_prior_ecfp4: 0.5
+    chembl_prior_fcfp4: 0.5
   normalization:
     enabled: true
     method: "zscore_total"
@@ -40,26 +41,37 @@ reward:
       enabled: true
       min: -2.0
       max: 2.0
-  chembl_prior:
-    fingerprint_cache: "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"
-    top_k: 10
+  chembl_prior_ecfp4:
+    fingerprint_cache: "./data/chembl/chembl_36_ecfp4_fingerprints.pkl.gz"
+    top_k: 3
     chunk_size: 100000
-    low_similarity_threshold: 0.30
-    low_similarity_weight: 5.0
+    low_similarity_threshold: 0.25
+    low_similarity_weight: 4.0
     high_similarity_threshold: 1.0
     high_similarity_weight: 0.0
     failure_penalty: -2.0
     max_reward_similarity: 0.50
+  chembl_prior_fcfp4:
+    fingerprint_cache: "./data/chembl/chembl_36_fcfp4_fingerprints.pkl.gz"
+    top_k: 3
+    chunk_size: 100000
+    low_similarity_threshold: 0.35
+    low_similarity_weight: 4.0
+    high_similarity_threshold: 1.0
+    high_similarity_weight: 0.0
+    failure_penalty: -2.0
+    max_reward_similarity: 0.60
 
 dataloader:
-  batch_size: 24
+  batch_size: 80
   min_nodes: 10
   max_nodes: 30
   max_n_nodes: 106
   node_sampling: size_distribution
+  rollout_micro_batch_size: 80
 
 train:
-  train_micro_batch_size: 24
+  train_micro_batch_size: 16
   learning_rate: 1.0e-5
   kl_coef: 0
   adam_beta1: 0.9

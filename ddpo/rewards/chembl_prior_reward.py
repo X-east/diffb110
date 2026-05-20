@@ -1,7 +1,7 @@
 """ChEMBLPriorReward: bidirectional reward based on ChEMBL fingerprint similarity.
 
 Reward semantics (bidirectional):
-    - neutral point at ``low_similarity_threshold`` (e.g., 0.30)
+    - neutral point at ``low_similarity_threshold`` (e.g., 0.25)
     - positive reward when top-k mean similarity > threshold::
         reward = low_weight * (sim - threshold)
     - capped at ``max_reward_similarity`` (e.g., sim >= 0.50 gives max reward)
@@ -31,15 +31,22 @@ if TYPE_CHECKING:
 DEFAULT_FAILURE_PENALTY: float = -1.0
 DEFAULT_TOP_K: int = 5
 DEFAULT_CHUNK_SIZE: int = 100000
-DEFAULT_LOW_SIMILARITY_THRESHOLD: float = 0.20
-DEFAULT_LOW_SIMILARITY_WEIGHT: float = 0.5
+DEFAULT_LOW_SIMILARITY_THRESHOLD: float = 0.25
+DEFAULT_LOW_SIMILARITY_WEIGHT: float = 4.0
 DEFAULT_HIGH_SIMILARITY_THRESHOLD: float = 0.85
 DEFAULT_HIGH_SIMILARITY_WEIGHT: float = 0.1
+DEFAULT_USE_FEATURES: bool = False
+DEFAULT_REWARD_PREFIX: str = "chembl_prior"
 DEFAULT_MAX_REWARD_SIMILARITY: float = 0.50
 
 
 class ChEMBLPriorReward(BaseReward):
     """ChEMBL fingerprint prior reward for canonical RDKit molecules.
+
+    Supports both ECFP4 (use_features=False, default) and FCFP4
+    (use_features=True) fingerprint types.  The fingerprint cache must match
+    the feature type — ECFP4 fingerprints require use_features=False,
+    FCFP4 fingerprints require use_features=True.
 
     Expects ``data.non_tensor_batch['rdmols']`` and ``rdkit_valid`` to be set by
     upstream molecule semantics annotation. The reward reuses those RDKit mols;
@@ -65,6 +72,8 @@ class ChEMBLPriorReward(BaseReward):
         high_similarity_threshold: float = DEFAULT_HIGH_SIMILARITY_THRESHOLD,
         high_similarity_weight: float = DEFAULT_HIGH_SIMILARITY_WEIGHT,
         max_reward_similarity: float = DEFAULT_MAX_REWARD_SIMILARITY,
+        use_features: bool = DEFAULT_USE_FEATURES,
+        reward_prefix: str = DEFAULT_REWARD_PREFIX,
         cache: ChEMBLFingerprintCache | None = None,
     ) -> None:
         if top_k <= 0:
@@ -85,6 +94,8 @@ class ChEMBLPriorReward(BaseReward):
         self.high_similarity_threshold = float(high_similarity_threshold)
         self.high_similarity_weight = float(high_similarity_weight)
         self.max_reward_similarity = float(max_reward_similarity)
+        self.use_features = bool(use_features)
+        self.reward_prefix = reward_prefix
         self._cache = cache
 
     @property
@@ -95,7 +106,7 @@ class ChEMBLPriorReward(BaseReward):
 
     @property
     def topk_mean_field(self) -> str:
-        return f"chembl_top{self.top_k}_mean_similarity"
+        return f"{self.reward_prefix}_top{self.top_k}_mean_similarity"
 
     def _reward_from_similarity(self, max_similarity: float, topk_mean_similarity: float) -> tuple[float, float, float]:
         low_penalty = max(0.0, self.low_similarity_threshold - topk_mean_similarity)
@@ -151,6 +162,7 @@ class ChEMBLPriorReward(BaseReward):
                     rdmols[i],
                     radius=cache.radius,
                     nBits=cache.n_bits,
+                    useFeatures=self.use_features,
                 )
                 max_sim, topk_mean, _ = compute_topk_tanimoto(
                     query_fp,
@@ -190,17 +202,20 @@ class ChEMBLPriorReward(BaseReward):
         prior_reward: torch.Tensor,
         success: torch.Tensor,
     ) -> None:
-        data.batch["chembl_max_similarity"] = max_similarity
+        p = self.reward_prefix
+        data.batch[f"{p}_max_similarity"] = max_similarity
         data.batch[self.topk_mean_field] = topk_mean_similarity
-        data.batch["chembl_low_similarity_penalty_raw"] = low_penalty_raw
-        data.batch["chembl_high_similarity_penalty_raw"] = high_penalty_raw
-        data.batch["chembl_prior_reward"] = prior_reward
-        data.batch["chembl_prior_success"] = success
+        data.batch[f"{p}_low_similarity_penalty_raw"] = low_penalty_raw
+        data.batch[f"{p}_high_similarity_penalty_raw"] = high_penalty_raw
+        data.batch[f"{p}_reward"] = prior_reward
+        data.batch[f"{p}_success"] = success
 
     def __repr__(self) -> str:
         return (
             "ChEMBLPriorReward("
+            f"prefix={self.reward_prefix!r}, "
             f"fingerprint_cache={self.fingerprint_cache!r}, "
+            f"use_features={self.use_features}, "
             f"top_k={self.top_k}, "
             f"low_similarity_threshold={self.low_similarity_threshold}, "
             f"low_similarity_weight={self.low_similarity_weight}, "

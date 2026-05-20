@@ -68,7 +68,7 @@ def prepare_training_samples(runtime: Any, epoch: int) -> PreparedSamples:
     logger.info("[Epoch %d/%d] generate_batch", epoch, runtime.max_epochs)
     prompts = runtime.dataloader.generate_batch()
     logger.info("[Epoch %d/%d] generate_minibatch", epoch, runtime.max_epochs)
-    samples = runtime.rollout.generate_minibatch(prompts)
+    samples = runtime.rollout.generate_samples(prompts)
     logger.info("[Epoch %d/%d] annotate_batch_molecule_semantics", epoch, runtime.max_epochs)
     samples = annotate_batch_molecule_semantics(samples, dataset_info=runtime.dataset_info)
     logger.info("[Epoch %d/%d] filters.filter", epoch, runtime.max_epochs)
@@ -121,6 +121,18 @@ def _mean_at_indices(values: list[float], indices: list[int]) -> float:
     return float(sum(selected) / len(selected)) if selected else 0.0
 
 
+def _mean_elementwise(lists: list[list[float]]) -> list[float]:
+    """逐位置平均多个等长/不等长列表，返回平均后列表。"""
+    if not lists:
+        return []
+    n = max(len(v) for v in lists)
+    result = []
+    for i in range(n):
+        vals = [v[i] for v in lists if i < len(v)]
+        result.append(float(sum(vals) / len(vals)))
+    return result
+
+
 def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     samples = prepared.samples
     ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
@@ -156,15 +168,43 @@ def compute_batch_stats(prepared: PreparedSamples) -> BatchStats:
     avg_docking = _mean_at_indices(docking_raw, _valid_indices)
     avg_similarity = _mean_at_indices(similarity_raw, _valid_indices)
     avg_diversity = _mean_at_indices(diversity_raw, _valid_indices)
-    # ChEMBL prior: dynamically detect top_k field name
-    chembl_prior_reward = _to_float_list(samples.batch.get("chembl_prior_reward"))
-    chembl_sim_field = next(
-        (k for k in samples.batch.keys() if k.startswith("chembl_top") and k.endswith("_mean_similarity")),
-        None,
-    )
-    chembl_similarity = _to_float_list(samples.batch.get(chembl_sim_field)) if chembl_sim_field else []
-    avg_chembl_reward = _mean_at_indices(chembl_prior_reward, _valid_indices)
-    avg_chembl_similarity = _mean_at_indices(chembl_similarity, _valid_indices)
+    # ChEMBL prior: dynamically detect ALL chembl_prior*_reward fields
+    chembl_prior_reward_fields = [
+        k for k in samples.batch.keys()
+        if k.startswith("chembl_prior") and k.endswith("_reward")
+    ]
+    avg_chembl_reward = 0.0
+    avg_chembl_similarity = 0.0
+    if chembl_prior_reward_fields:
+        chembl_rewards_list = []
+        chembl_similarities_list = []
+        for field in chembl_prior_reward_fields:
+            vals = _to_float_list(samples.batch.get(field))
+            chembl_rewards_list.append(vals)
+            # detect corresponding similarity field
+            prefix = field.rsplit("_reward", 1)[0]
+            sim_field = next(
+                (k for k in samples.batch.keys()
+                 if k.startswith(prefix) and k.endswith("_mean_similarity")),
+                None,
+            )
+            if sim_field:
+                chembl_similarities_list.append(_to_float_list(samples.batch.get(sim_field)))
+        # element-wise average across all chembl prior components
+        if chembl_rewards_list:
+            n = max(len(v) for v in chembl_rewards_list)
+            avg_chembl_reward = _mean_at_indices(
+                [sum(vals[i] for vals in chembl_rewards_list if i < len(vals)) / len(chembl_rewards_list)
+                 for i in range(n)],
+                _valid_indices,
+            )
+        if chembl_similarities_list:
+            n = max(len(v) for v in chembl_similarities_list)
+            avg_chembl_similarity = _mean_at_indices(
+                [sum(vals[i] for vals in chembl_similarities_list if i < len(vals)) / len(chembl_similarities_list)
+                 for i in range(n)],
+                _valid_indices,
+            )
     # Normalised reward averages: include ALL molecules (failures get explicit
     # failure_penalty, which is meaningful for reward-based monitoring).
     avg_qed_norm = float(sum(qed_norm) / len(qed_norm)) if qed_norm else 0.0
@@ -191,13 +231,27 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
     docking_raw = _to_float_list(samples.batch.get("docking_raw"))
     similarity_raw = _to_float_list(samples.batch.get("similarity_raw"))
     diversity_raw = _to_float_list(samples.batch.get("diversity_raw"))
-    # ChEMBL prior: dynamically detect top_k field name
-    chembl_prior_reward = _to_float_list(samples.batch.get("chembl_prior_reward"))
-    chembl_sim_field = next(
-        (k for k in samples.batch.keys() if k.startswith("chembl_top") and k.endswith("_mean_similarity")),
-        None,
-    )
-    chembl_similarity = _to_float_list(samples.batch.get(chembl_sim_field)) if chembl_sim_field else []
+    # ChEMBL prior: dynamically detect ALL chembl_prior*_reward fields
+    chembl_prior_reward_fields = [
+        k for k in samples.batch.keys()
+        if k.startswith("chembl_prior") and k.endswith("_reward")
+    ]
+    chembl_prior_reward_list = []
+    chembl_similarity_list = []
+    for field in chembl_prior_reward_fields:
+        vals = _to_float_list(samples.batch.get(field))
+        chembl_prior_reward_list.append(vals)
+        prefix = field.rsplit("_reward", 1)[0]
+        sim_field = next(
+            (k for k in samples.batch.keys()
+             if k.startswith(prefix) and k.endswith("_mean_similarity")),
+            None,
+        )
+        if sim_field:
+            chembl_similarity_list.append(_to_float_list(samples.batch.get(sim_field)))
+    # element-wise average for logging
+    chembl_prior_reward = _mean_elementwise(chembl_prior_reward_list) if chembl_prior_reward_list else []
+    chembl_similarity = _mean_elementwise(chembl_similarity_list) if chembl_similarity_list else []
     # Normalised (reward) values
     qed_reward = _to_float_list(samples.batch.get("qed_reward"))
     sa_reward = _to_float_list(samples.batch.get("sa_reward"))
