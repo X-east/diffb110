@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 import sys
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +29,11 @@ from ddpo.runtime.build import (
     save_config_snapshot,
 )
 from ddpo.runtime.cli import parse_args
+from ddpo.runtime.checkpointing import (
+    resolve_checkpoint_path,
+    restore_checkpoint_if_requested,
+    save_checkpoint_ddp,
+)
 from ddpo.runtime.train_helpers import (
     BatchStats,
     EpochStepResult,
@@ -60,7 +64,7 @@ from ddpo.runtime import (
     set_seed_for_rank,
     setup_logging,
 )
-from ddpo.runtime.recording import CheckpointFacts, RunRecorder, RunStatus, create_run_context
+from ddpo.runtime.recording import RunRecorder, RunStatus, create_run_context
 from ddpo.runtime.recording.run_context import RunContext
 
 
@@ -89,6 +93,9 @@ class DistributedRuntimeBundle:
     per_rank_batch_size: int
     global_batch_size: int
     ref_model: Any = None
+    start_epoch: int = 0
+    resumed_from_checkpoint: str | None = None
+    resume_checkpoint_version: int | None = None
 
 
 @dataclass
@@ -190,13 +197,8 @@ def build_rank_run_context(
 
 
 def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext) -> DistributedRuntimeBundle:
-    if args.resume or args.checkpoint_path is not None:
-        raise NotImplementedError(
-            "DDP resume/checkpoint restore is not implemented yet. "
-            "Run without --resume / --checkpoint_path."
-        )
-
     config = apply_cli_overrides(config, args)
+    checkpoint_path = resolve_checkpoint_path(args)
     seed = int(config.get("train", {}).get("seed", 42))
     set_seed_for_rank(seed, dist_ctx.rank)
     setup_chemistry_logging()
@@ -253,7 +255,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
     logger.info("Initialized rewarder: %s", type(rewarder).__name__)
     logger.info("Initialized reward normalizer: %s", type(reward_normalizer).__name__)
 
-    return DistributedRuntimeBundle(
+    runtime = DistributedRuntimeBundle(
         args=args,
         config=config,
         seed=seed,
@@ -278,6 +280,15 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         per_rank_batch_size=per_rank_batch_size,
         global_batch_size=global_batch_size,
     )
+
+    restore_checkpoint_if_requested(runtime, checkpoint_path)
+    if runtime.start_epoch >= runtime.max_epochs:
+        logger.warning(
+            "Resume checkpoint epoch (%d) is >= configured max_epochs (%d); training loop will not run.",
+            runtime.start_epoch,
+            runtime.max_epochs,
+        )
+    return runtime
 
 
 def _merge_failure_counts(counts_per_rank: list[dict[str, int]]) -> dict[str, int]:
@@ -449,47 +460,6 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     )
 
 
-def save_checkpoint_ddp(runtime: DistributedRuntimeBundle, epoch: int, metrics: dict[str, Any]) -> CheckpointFacts | None:
-    barrier_if_needed(runtime.dist_ctx)
-    if not is_main_process(runtime.dist_ctx):
-        barrier_if_needed(runtime.dist_ctx)
-        return None
-    if (epoch % runtime.checkpoint_interval) != 0:
-        barrier_if_needed(runtime.dist_ctx)
-        return None
-
-    checkpoint_name = f"diffsbdd-ddpo-epoch={epoch:04d}.pt"
-    checkpoint_path = str(Path(runtime.run_context.checkpoints_dir) / checkpoint_name)
-    payload = {
-        "epoch": epoch,
-        "config": runtime.config,
-        "seed": runtime.seed,
-        "model_state_dict": runtime.model_impl.model.state_dict(),
-        "optimizer_state_dict": runtime.actor.optimizer.state_dict(),
-        "metrics": metrics,
-    }
-    torch.save(payload, checkpoint_path)
-
-    checkpoint_file = Path(checkpoint_path)
-    exists = checkpoint_file.exists()
-    size_bytes = checkpoint_file.stat().st_size if exists else 0
-    avg_loss = float(metrics.get("Loss", metrics.get("loss", metrics.get("ppo_loss", 0.0))))
-    facts = CheckpointFacts(
-        epoch=epoch,
-        path=checkpoint_path,
-        kind="interval",
-        monitor="avg_loss",
-        monitor_value=avg_loss,
-        exists=exists,
-        size_bytes=size_bytes,
-        confirmed=exists and size_bytes > 0,
-        saved_at=datetime.now().isoformat(timespec="seconds"),
-    )
-    runtime.run_recorder.on_checkpoint_saved(facts)
-    barrier_if_needed(runtime.dist_ctx)
-    return facts
-
-
 def record_epoch_ddp(
     runtime: DistributedRuntimeBundle,
     epoch: int,
@@ -503,6 +473,14 @@ def record_epoch_ddp(
     for row in batch_facts.molecule_rows:
         row["rank"] = rank
     runtime.run_recorder.on_batch_end(batch_facts)
+
+    # Write per-rank SDF with original 3D coordinates
+    ntb = getattr(prepared.samples, "non_tensor_batch", None)
+    if isinstance(ntb, dict):
+        rdmols = ntb.get("rdmols")
+        if rdmols is not None and len(rdmols) > 0:
+            runtime.run_recorder.on_batch_sdf(batch_facts, rdmols)
+
     barrier_if_needed(runtime.dist_ctx)
 
     if not is_main_process(runtime.dist_ctx):
@@ -576,9 +554,17 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
 def run_training_loop_ddp(runtime: DistributedRuntimeBundle) -> None:
     if is_main_process(runtime.dist_ctx):
         runtime.run_recorder.on_run_started()
-    runtime.logger.info("Starting native DDP training loop for %d epochs", runtime.max_epochs)
+    if runtime.resumed_from_checkpoint:
+        runtime.logger.info(
+            "Starting native DDP training loop for epochs %d..%d (resumed from %s)",
+            runtime.start_epoch + 1,
+            runtime.max_epochs,
+            runtime.resumed_from_checkpoint,
+        )
+    else:
+        runtime.logger.info("Starting native DDP training loop for %d epochs", runtime.max_epochs)
     try:
-        for epoch in range(1, runtime.max_epochs + 1):
+        for epoch in range(runtime.start_epoch + 1, runtime.max_epochs + 1):
             result = run_epoch_ddp(runtime, epoch)
             runtime.logger.info(
                 "[Epoch %d/%d][rank=%d] complete | generated=%d valid=%d reward_mean=%.4f metrics=%s",

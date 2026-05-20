@@ -36,12 +36,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--resume",
         action="store_true",
-        help="Reserved for future checkpoint resume support.",
+        help="Resume from the newest checkpoint under --save_path/checkpoints, or from --checkpoint_path when provided.",
     )
     parser.add_argument(
         "--checkpoint_path",
         type=str,
         default=None,
-        help="Reserved for future checkpoint resume support.",
+        help="Checkpoint path to restore model, optimizer, epoch, and RNG state from.",
     )
     return parser.parse_args()

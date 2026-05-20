@@ -46,6 +46,7 @@ dataloader:
   max_nodes: 30
   max_n_nodes: 106
   node_sampling: size_distribution
+  rollout_micro_batch_size: 16
 
 train:
   train_micro_batch_size: 16

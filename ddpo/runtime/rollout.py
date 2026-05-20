@@ -1,4 +1,5 @@
 import torch
+
 from verl_diffusion.protocol import DataProto, TensorDict
 
 from ddpo.integration import DiffSBDDModel
@@ -10,13 +11,55 @@ class DiffSBDDRollout:
     Rollout worker for DiffSBDD model.
 
     Generates molecular samples using DiffSBDDModel and records
-    trajectories for DDPO training.
+    trajectories for DDPO training. Supports splitting a large batch
+    into smaller micro-batches during generation to reduce peak GPU
+    memory, then recombining the results.
+
+    Micro-batch size is controlled by ``config["dataloader"]["rollout_micro_batch_size"]``;
+    defaults to the full ``per_rank_batch_size`` (no splitting).
     """
 
     def __init__(self, model: DiffSBDDModel, config: dict):
         self.model = model
         self.config = config
         self.timestep = config["model"].get("time_step", 500)
+        self._micro_batch_size = config.get("dataloader", {}).get("rollout_micro_batch_size")
+
+    def generate_samples(self, prompts: DataProto) -> DataProto:
+        """Generate molecular samples, optionally splitting into micro-batches.
+
+        When ``rollout_micro_batch_size`` is configured and smaller than the
+        prompt batch size, the batch is split into chunks of that size, each
+        chunk is generated via :meth:`generate_minibatch`, and the results are
+        concatenated back together.
+
+        This reduces peak GPU memory during the diffusion rollout at the cost
+        of a small overhead for chunk/merge bookkeeping.
+
+        Args:
+            prompts: DataProto with dim-0 batch-size ``B`` and ``nodesxsample``.
+
+        Returns:
+            DataProto containing generated molecules for the full batch.
+        """
+        batch_size = prompts.batch.batch_size[0]
+
+        # No chunking if micro_batch_size is not configured or equals batch_size ------
+        if self._micro_batch_size is None or self._micro_batch_size >= batch_size:
+            return self.generate_minibatch(prompts)
+
+        # Split prompts by index ranges and generate each chunk -----------------------
+        results: list[DataProto] = []
+        for start in range(0, batch_size, self._micro_batch_size):
+            end = min(start + self._micro_batch_size, batch_size)
+            indices = list(range(start, end))
+            chunk = prompts.select_idxs(indices)
+            result = self.generate_minibatch(chunk)
+            results.append(result)
+
+        # Concatenate results ---------------------------------------------------------
+        combined = DataProto.concat(results)
+        return combined
 
     def generate_minibatch(self, prompts: DataProto) -> DataProto:
         """Generate a minibatch of molecular samples."""

@@ -60,6 +60,7 @@ dataloader:
   min_nodes: 10
   max_nodes: 30
   max_n_nodes: 30
+  rollout_micro_batch_size: 16
 
 train:
   train_micro_batch_size: 16

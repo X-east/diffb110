@@ -11,11 +11,11 @@ CONFIG_PATH="${CONFIG_PATH:-$DEFAULT_CONFIG_PATH}"
 LOG_LEVEL="${LOG_LEVEL:-INFO}"
 CHEMBL_PRIOR_ENABLE="${CHEMBL_PRIOR_ENABLE:-1}"
 CHEMBL_PRIOR_WEIGHT="${CHEMBL_PRIOR_WEIGHT:-0.1}"
-CHEMBL_PRIOR_CACHE="${CHEMBL_PRIOR_CACHE:-./data/chembl/chembl_36_morgan_fingerprints.pkl.gz}"
+CHEMBL_PRIOR_CACHE="${CHEMBL_PRIOR_CACHE:-./data/chembl/chembl_36_ecfp4_fingerprints.pkl.gz}"
 CHEMBL_PRIOR_TOP_K="${CHEMBL_PRIOR_TOP_K:-10}"
 CHEMBL_PRIOR_CHUNK_SIZE="${CHEMBL_PRIOR_CHUNK_SIZE:-100000}"
-CHEMBL_PRIOR_LOW_THRESHOLD="${CHEMBL_PRIOR_LOW_THRESHOLD:-0.30}"
-CHEMBL_PRIOR_LOW_WEIGHT="${CHEMBL_PRIOR_LOW_WEIGHT:-5.0}"
+CHEMBL_PRIOR_LOW_THRESHOLD="${CHEMBL_PRIOR_LOW_THRESHOLD:-0.25}"
+CHEMBL_PRIOR_LOW_WEIGHT="${CHEMBL_PRIOR_LOW_WEIGHT:-4.0}"
 CHEMBL_PRIOR_HIGH_THRESHOLD="${CHEMBL_PRIOR_HIGH_THRESHOLD:-1.0}"
 CHEMBL_PRIOR_HIGH_WEIGHT="${CHEMBL_PRIOR_HIGH_WEIGHT:-0.0}"
 CHEMBL_PRIOR_FAILURE_PENALTY="${CHEMBL_PRIOR_FAILURE_PENALTY:--2.0}"
@@ -57,11 +57,11 @@ else:
     # YAML 是数据源，缺失时才 fallback 到环境变量
     weights.setdefault("chembl_prior", float(os.environ.get("CHEMBL_PRIOR_WEIGHT", 0.1)))
     chembl.setdefault("fingerprint_cache",
-                      os.environ.get("CHEMBL_PRIOR_CACHE", "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"))
+                      os.environ.get("CHEMBL_PRIOR_CACHE", "./data/chembl/chembl_36_ecfp4_fingerprints.pkl.gz"))
     chembl.setdefault("top_k", int(os.environ.get("CHEMBL_PRIOR_TOP_K", 5)))
     chembl.setdefault("chunk_size", int(os.environ.get("CHEMBL_PRIOR_CHUNK_SIZE", 100000)))
-    chembl.setdefault("low_similarity_threshold", float(os.environ.get("CHEMBL_PRIOR_LOW_THRESHOLD", 0.20)))
-    chembl.setdefault("low_similarity_weight", float(os.environ.get("CHEMBL_PRIOR_LOW_WEIGHT", 0.5)))
+    chembl.setdefault("low_similarity_threshold", float(os.environ.get("CHEMBL_PRIOR_LOW_THRESHOLD", 0.25)))
+    chembl.setdefault("low_similarity_weight", float(os.environ.get("CHEMBL_PRIOR_LOW_WEIGHT", 4.0)))
     chembl.setdefault("high_similarity_threshold", float(os.environ.get("CHEMBL_PRIOR_HIGH_THRESHOLD", 0.85)))
     chembl.setdefault("high_similarity_weight", float(os.environ.get("CHEMBL_PRIOR_HIGH_WEIGHT", 0.1)))
     chembl.setdefault("failure_penalty", float(os.environ.get("CHEMBL_PRIOR_FAILURE_PENALTY", "-1.0")))

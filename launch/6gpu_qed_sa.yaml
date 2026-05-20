@@ -39,7 +39,7 @@ reward:
       min: -5.0
       max: 5.0
   chembl_prior:
-    fingerprint_cache: "./data/chembl/chembl_36_morgan_fingerprints.pkl.gz"
+    fingerprint_cache: "./data/chembl/chembl_36_ecfp4_fingerprints.pkl.gz"
     top_k: 5
     chunk_size: 100000
     low_similarity_threshold: 0.20
@@ -54,6 +54,7 @@ dataloader:
   max_nodes: 30
   max_n_nodes: 106
   node_sampling: size_distribution
+  rollout_micro_batch_size: 16
 
 train:
   train_micro_batch_size: 16

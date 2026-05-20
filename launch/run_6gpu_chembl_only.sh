@@ -31,7 +31,7 @@ echo "$YAML_RUN_NAME — ${YAML_NUM_GPUS} 卡 DDP (ChEMBL only)"
 echo "============================================================"
 echo "Config : $CONFIG_PATH"
 echo "GPUs   : $CUDA_VISIBLE_DEVICES"
-echo "Reward : chembl_prior weight=1.0 (双向, threshold=0.30, weight=5.0, cap=0.50)"
+echo "Reward : chembl_prior weight=1.0 (low_thr=0.25, low_weight=4.0, cap=0.50)"
 echo "Start  : $(date '+%F %T')"
 echo "============================================================"
 

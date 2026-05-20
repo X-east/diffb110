@@ -75,6 +75,9 @@ class RunRecorder:
             "status": RunStatus.RUNNING.value,
             "started_at": self.run_context.started_at,
         }
+        resume_info = getattr(self, "resume_info", None)
+        if resume_info:
+            manifest["resume"] = resume_info
         self.write_run_manifest(manifest)
         for line in [
             f"Run ID    : {self.run_context.run_id}",
@@ -93,6 +96,9 @@ class RunRecorder:
             "ended_at": lifecycle.ended_at,
             "message": lifecycle.message,
         }
+        resume_info = getattr(self, "resume_info", None)
+        if resume_info:
+            payload["resume"] = resume_info
         self.write_run_manifest(payload)
         title = f"Training {lifecycle.status.value.capitalize()}"
         self.console.info("=" * 70)
@@ -108,6 +114,9 @@ class RunRecorder:
 
     def on_batch_end(self, facts: BatchFacts) -> None:
         self.molecules.write_rank_batch(facts)
+
+    def on_batch_sdf(self, facts: BatchFacts, rdmols: list) -> None:
+        self.molecules.write_rank_sdf(facts, rdmols)
 
     def on_epoch_end(self, facts: EpochFacts) -> None:
         merged_path = self.molecules.merge_epoch(facts.epoch, self.world_size)
