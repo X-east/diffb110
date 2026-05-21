@@ -183,10 +183,6 @@ class CompositeReward(BaseReward):
         data.batch['reward_total_raw'] = combined_rewards.clone()
         data.batch['reward_total'] = combined_rewards
         
-        # Store component rewards for logging/debugging
-        for name, reward in component_rewards.items():
-            data.batch[f'{name}_reward'] = reward
-        
         return data
     
     def get_weights(self) -> Dict[str, float]:

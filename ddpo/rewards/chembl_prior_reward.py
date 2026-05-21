@@ -52,13 +52,13 @@ class ChEMBLPriorReward(BaseReward):
     upstream molecule semantics annotation. The reward reuses those RDKit mols;
     it does not reconstruct molecules independently.
 
-    Writes to ``data.batch``:
-        ``chembl_max_similarity`` [B]
-        ``chembl_top{k}_mean_similarity`` [B]
-        ``chembl_low_similarity_penalty_raw`` [B]
-        ``chembl_high_similarity_penalty_raw`` [B]
-        ``chembl_prior_reward`` [B]
-        ``chembl_prior_success`` [B]
+    Writes to ``data.batch`` (where ``{prefix}`` = ``reward_prefix``, default ``chembl_prior``):
+        ``{prefix}_max_similarity`` [B]
+        ``{prefix}_top{k}_mean_similarity`` [B]
+        ``{prefix}_low_similarity_penalty_raw`` [B]
+        ``{prefix}_high_similarity_penalty_raw`` [B]
+        ``{prefix}_reward`` [B]
+        ``{prefix}_success`` [B]
     """
 
     def __init__(
