@@ -194,3 +194,23 @@ bishe/
 
 # QADD is an external project, not part of DiffB110
 QADD-main/
+
+# runtime cache
+cache/
+
+# reference data (large binary, don't track in git)
+data/
+
+# external project
+ChEMBL_Structure_Pipeline-master/
+
+# AI tool ephemeral directories
+.agents/
+.codex/
+.envs/
+
+# generated logs
+chem_warnings.log
+
+# cookie file (not project code)
+url
