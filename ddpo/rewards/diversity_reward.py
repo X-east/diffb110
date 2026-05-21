@@ -12,11 +12,18 @@ is also per-batch.
 Use diversity in conjunction with other rewards (QED, SA, docking) via
 CompositeReward to balance quality vs. diversity.
 
-Writes to batch:
-    'similarity_raw'    [B]  — avg pairwise Tanimoto (0.0 for invalid)
-    'diversity_raw'     [B]  — 1.0 - avg pairwise Tanimoto (0.0 for invalid)
-    'diversity_reward'  [B]  — hinge penalty reward, or failure_penalty for invalid
-    'diversity_success' [B]  — 1 if diversity computed, 0 otherwise
+Fingerprint type is configurable via ``use_features``:
+    - ``use_features=False`` → ECFP4 (default)
+    - ``use_features=True``  → FCFP4
+
+All batch fields are prefixed by ``reward_prefix`` (default ``"diversity"``):
+
+    ``{prefix}_similarity_raw``  [B]  — avg pairwise Tanimoto (0.0 for invalid)
+    ``{prefix}_diversity_raw``   [B]  — 1.0 - avg pairwise Tanimoto (0.0 for invalid)
+    ``{prefix}_reward``          [B]  — hinge penalty reward, or failure_penalty for invalid
+    ``{prefix}_success``         [B]  — 1 if diversity computed, 0 otherwise
+
+Never hardcode a fingerprint type — always use the ``use_features`` parameter.
 """
 from __future__ import annotations
 
@@ -37,6 +44,10 @@ DEFAULT_FAILURE_PENALTY: float = -1.0
 DEFAULT_TARGET_SIMILARITY: float = 0.5
 DEFAULT_PENALTY_SCALE: float = 1.0
 DEFAULT_MODE: str = "hinge_penalty"
+DEFAULT_USE_FEATURES: bool = False  # False=ECFP4, True=FCFP4
+DEFAULT_REWARD_PREFIX: str = "diversity"
+DEFAULT_FINGERPRINT_RADIUS: int = 2
+DEFAULT_FINGERPRINT_BITS: int = 2048
 
 
 class DiversityReward(BaseReward):
@@ -45,6 +56,9 @@ class DiversityReward(BaseReward):
     Default mode:
         mean_similarity <= target_similarity -> reward = 0
         mean_similarity >  target_similarity -> negative hinge penalty
+
+    Fingerprint type controlled by ``use_features``:
+        False → ECFP4, True → FCFP4.
     """
 
     def __init__(
@@ -55,6 +69,8 @@ class DiversityReward(BaseReward):
         mode: str = DEFAULT_MODE,
         target_similarity: float = DEFAULT_TARGET_SIMILARITY,
         penalty_scale: float = DEFAULT_PENALTY_SCALE,
+        use_features: bool = DEFAULT_USE_FEATURES,
+        reward_prefix: str = DEFAULT_REWARD_PREFIX,
     ) -> None:
         self.failure_penalty = failure_penalty
         self.dist_ctx = dist_ctx
@@ -62,17 +78,31 @@ class DiversityReward(BaseReward):
         self.mode = mode
         self.target_similarity = target_similarity
         self.penalty_scale = penalty_scale
+        self.use_features = use_features
+        self.reward_prefix = reward_prefix
 
     # ------------------------------------------------------------------
     # Fingerprint helpers (stateless, separate for testability)
     # ------------------------------------------------------------------
 
     @staticmethod
-    def compute_fingerprints(mols: list) -> list:
-        """Compute ECFP4 Morgan fingerprints (radius=2, 2048 bits)."""
+    def compute_fingerprints(mols: list, use_features: bool = False) -> list:
+        """Compute Morgan fingerprints (radius=2, 2048 bits).
+
+        Args:
+            mols: list of RDKit Mol objects.
+            use_features: False → ECFP4, True → FCFP4 (feature-based).
+
+        Never hardcode the fingerprint type — always pass ``use_features``.
+        """
         fps = []
         for mol in mols:
-            fp = AllChem.GetMorganFingerprintAsBitVect(mol, radius=2, nBits=2048)
+            fp = AllChem.GetMorganFingerprintAsBitVect(
+                mol,
+                radius=DEFAULT_FINGERPRINT_RADIUS,
+                nBits=DEFAULT_FINGERPRINT_BITS,
+                useFeatures=use_features,
+            )
             fps.append(fp)
         return fps
 
@@ -184,7 +214,7 @@ class DiversityReward(BaseReward):
         return output
 
     def _compute_similarity_for_local_valid_mols(self, valid_mols: list) -> tuple[list[float], int]:
-        fps = self.compute_fingerprints(valid_mols)
+        fps = self.compute_fingerprints(valid_mols, use_features=self.use_features)
         local_bit_sets = [self.fingerprint_on_bits(fp) for fp in fps]
         gathered = self._all_gather_object(local_bit_sets)
 
@@ -240,10 +270,11 @@ class DiversityReward(BaseReward):
         rdmols = ntb.get("rdmols") if ntb else None
         if rdmols is None:
             warnings.warn("[DiversityReward] rdmols not found in non_tensor_batch")
-            data.batch["similarity_raw"] = sim_raw
-            data.batch["diversity_raw"] = div_raw
-            data.batch["diversity_reward"] = div_reward
-            data.batch["diversity_success"] = div_success
+            p = self.reward_prefix
+            data.batch[f"{p}_similarity_raw"] = sim_raw
+            data.batch[f"{p}_diversity_raw"] = div_raw
+            data.batch[f"{p}_reward"] = div_reward
+            data.batch[f"{p}_success"] = div_success
             return data
 
         valid_indices = []
@@ -265,16 +296,20 @@ class DiversityReward(BaseReward):
         except Exception as exc:
             warnings.warn(f"[DiversityReward] fingerprint/similarity failed: {exc}")
 
-        data.batch["similarity_raw"] = sim_raw
-        data.batch["diversity_raw"] = div_raw
-        data.batch["diversity_reward"] = div_reward
-        data.batch["diversity_success"] = div_success
+        p = self.reward_prefix
+        data.batch[f"{p}_similarity_raw"] = sim_raw
+        data.batch[f"{p}_diversity_raw"] = div_raw
+        data.batch[f"{p}_reward"] = div_reward
+        data.batch[f"{p}_success"] = div_success
 
         return data
 
     def __repr__(self) -> str:
+        fp_type = "FCFP4" if self.use_features else "ECFP4"
         return (
             "DiversityReward("
+            f"prefix={self.reward_prefix!r}, "
+            f"fp_type={fp_type}, "
             f"failure_penalty={self.failure_penalty}, "
             f"global_batch={self.global_batch}, "
             f"mode={self.mode!r}, "

@@ -110,10 +110,10 @@ class CompositeReward(BaseReward):
         if self.normalize_weights:
             self._normalize_weights()
     
-    def calculate_rewards(self, data: "DataProto") -> "DataProto":
+    def calculate_rewards(self, data: "DataProto", timer=None) -> "DataProto":
         """
         Calculate weighted combination of all reward components.
-        
+
         Each sub-reward writes its normalised value to batch['{name}_reward'].
         Composite reads those fields, computes the weighted sum, and writes:
             'reward_total_raw'  [B]  -- weighted combination (before normalizer)
@@ -121,6 +121,7 @@ class CompositeReward(BaseReward):
 
         Args:
             data: DataProto containing molecule data
+            timer: optional PerfTimer for per-component profiling
 
         Returns:
             DataProto with 'reward_total' and 'reward_total_raw' tensors [B] added.
@@ -149,8 +150,11 @@ class CompositeReward(BaseReward):
                 continue
             
             try:
+                # Time each sub-reward if a timer is available
+                if timer: timer.start(f"reward_{name}")
                 # Calculate component reward (writes batch[f'{name}_reward'])
                 data = reward_fn.calculate_rewards(data)
+                if timer: timer.stop()
                 
                 # Read the normalised reward from the dedicated field
                 reward_field = f'{name}_reward'

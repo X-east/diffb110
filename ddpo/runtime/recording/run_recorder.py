@@ -33,10 +33,11 @@ _REWARD_DISPLAY_REGISTRY: dict[str, dict[str, str]] = {
     "qed":         {"label": "Avg QED",         "field": "avg_qed",           "fmt": ".4f"},
     "sa":          {"label": "Avg SA",          "field": "avg_sa",            "fmt": ".4f"},
     "docking":     {"label": "Avg Docking",     "field": "avg_docking",       "fmt": ".4f"},
-    "diversity":   {"label": "Avg Diversity",   "field": "avg_diversity",     "fmt": ".4f"},
     "chembl_prior": {"label": "ChEMBL Sim TopK", "field": "avg_chembl_similarity", "fmt": ".4f"},
     "chembl_prior_ecfp4": {"label": "ECFP4 Sim", "field": "avg_chembl_prior_ecfp4_similarity", "fmt": ".4f"},
     "chembl_prior_fcfp4": {"label": "FCFP4 Sim", "field": "avg_chembl_prior_fcfp4_similarity", "fmt": ".4f"},
+    "diversity_ecfp4": {"label": "ECFP4 Div",   "field": "avg_diversity_ecfp4_diversity", "fmt": ".4f"},
+    "diversity_fcfp4": {"label": "FCFP4 Div",   "field": "avg_diversity_fcfp4_diversity", "fmt": ".4f"},
 }
 
 
@@ -168,6 +169,21 @@ class RunRecorder:
             if value is None:
                 continue
             lines.append(f"  {entry['label']:15s}: {value:{entry['fmt']}}")
+
+        # ── Timing summary ──
+        timing_keys = sorted(
+            k for k in facts.extra_metrics if k.startswith("time_")
+        )
+        if timing_keys:
+            lines.append(f"  ── Timings (sec) ──")
+            for key in timing_keys:
+                step_name = key.removeprefix("time_")
+                value = float(facts.extra_metrics[key])
+                lines.append(f"  {step_name:25s}: {value:7.3f}")
+            # Total from the sum of all time_* entries
+            total = sum(float(facts.extra_metrics[k]) for k in timing_keys)
+            lines.append(f"  {'─' * 36}")
+            lines.append(f"  {'epoch_total':25s}: {total:7.3f}")
 
         print("\n".join(lines), flush=True)
 

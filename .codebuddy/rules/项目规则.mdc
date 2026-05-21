@@ -13,7 +13,14 @@ The user wants a shorter, more concise coding specification - just the key rules
 
 # DiffB110 AI 编程规范（精简版）
 
-## 一、命名
+## 零、开工检查
+
+**修改代码前，必须先执行 `git status`，检查是否有已改动但未提交的代码：**
+
+- **有未提交改动** → 先报告给用户，让用户确认后再开始修改。
+- **工作区干净** → 正常开始。
+
+禁止在未通知用户的情况下直接覆盖或混合现有未提交改动。
 
 | 元素 | 规则 | 示例 |
 |------|------|------|
@@ -64,6 +71,12 @@ The user wants a shorter, more concise coding specification - just the key rules
 - 失败分子必须拿到显式惩罚（非 NaN/Inf）
 - advantage 计算用全局 z-score（`RewardNormalizer`），**已废弃 `group_index` 字段**
 - 不要再写独立的 molecule-build 路径——统一从 `rdkit_valid` 读
+- **奖励命名一致性链条**：YAML 配置名 → `reward_prefix` → batch 字段名 → dataclass 字段名 → CSV 列名 → 终端显示名，**必须全程一致**
+  - YAML 中命名为 `chembl_prior_ecfp4` → Python 中所有对应字段都应以 `chembl_prior_ecfp4` 为前缀
+  - 修改任何环节的命名时，必须同步检查并更新链条所有文件：
+    `factory.py` → `chembl_prior_reward.py` → `train_helpers.py` → `schemas.py` → `molecule_writer.py` → `metrics_writer.py` → `run_recorder.py`
+  - 每个独立奖励组件必须有自己独立的 `BatchStats` / `BatchFacts` / `EpochFacts` 字段和 CSV 列，
+    **禁止将多个组件的值合并进同一个字段/列**
 
 ## 八、配置驱动
 
@@ -102,3 +115,16 @@ logger = logging.getLogger(__name__)  # 或统一 "DiffSBDD-DDPO"
 | 直接改 `self.T` | 异常时污染全局 | `try/finally` |
 | `self.ddpm = ...` | DDP 序列化双倍权重 | `object.__setattr__()` |
 | 裸露 `except:` | 吞掉未知错误 | 至少 `logger.exception()` |
+
+## 十二、禁止硬编码
+
+**永远不要硬编码以下内容：**
+
+| 禁止 | 原因 | 正确做法 |
+|------|------|----------|
+| 硬编码指纹类型（ECFP4/FCFP4） | 耦合、不可扩展 | 用 `use_features` 参数控制，默认 `False` |
+| 硬编码指纹半径/nBits | 修改需改源码 | 用模块级常量 `DEFAULT_FINGERPRINT_RADIUS` / `DEFAULT_FINGERPRINT_BITS` |
+| 硬编码 batch 字段名（如 `similarity_raw`） | 多组件无法区分 | 用 `reward_prefix` + `f"{{prefix}}_similarity_raw"` |
+| 硬编码 `.cuda()` / `.cpu()` | 设备不可控 | 从输入张量推断 `device` |
+| 硬编码路径或数据源 | 环境依赖 | 走 YAML 配置 + `config.get()` + Python 默认值 |
+| 硬编码车间/GPU 数量 | 不可移植 | 走 `reward.weights` 检查启用状态

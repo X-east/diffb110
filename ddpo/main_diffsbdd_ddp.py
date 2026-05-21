@@ -66,6 +66,7 @@ from ddpo.runtime import (
 )
 from ddpo.runtime.recording import RunRecorder, RunStatus, create_run_context
 from ddpo.runtime.recording.run_context import RunContext
+from ddpo.utils import PerfTimer
 
 
 @dataclass
@@ -532,10 +533,14 @@ def record_epoch_ddp(
 
 
 def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepResult:
-    prepared = prepare_training_samples(runtime, epoch)
-    metrics = update_policy(runtime, prepared, epoch)
+    timer = PerfTimer() if bool(runtime.config.get("train", {}).get("timer", False)) else None
+    prepared = prepare_training_samples(runtime, epoch, timer=timer)
+    metrics = update_policy(runtime, prepared, epoch, timer=timer)
     maybe_log_ddp_probe(runtime, epoch)
     maybe_check_param_sync(runtime, epoch)
+    # Merge timing metrics into the metrics dict for recording
+    for step, elapsed in timer.summary().items():
+        metrics[f"time_{step}"] = elapsed
     local_stats = compute_batch_stats(prepared, config=runtime.config)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
     import sys; sys.stderr.flush()  # 刷新 stderr 确保 tqdm 残留完全写出后再打印 epoch 汇总

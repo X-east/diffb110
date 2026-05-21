@@ -24,6 +24,9 @@ def __getattr__(name):
     elif name == "TrainingLogger":
         from .logger import TrainingLogger
         return TrainingLogger
+    elif name == "PerfTimer":
+        from .perf_timer import PerfTimer
+        return PerfTimer
     elif name == "annotate_batch_molecule_semantics":
         from .molecule_semantics import annotate_batch_molecule_semantics
         return annotate_batch_molecule_semantics
@@ -37,6 +40,7 @@ def __getattr__(name):
 
 __all__ = [
     "DiffSBDDFilter",
+    "PerfTimer",
     "wandb_stub",
     "logger",
     "annotate_batch_molecule_semantics",

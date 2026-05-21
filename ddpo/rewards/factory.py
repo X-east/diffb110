@@ -70,16 +70,31 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         rewards_dict["docking"] = docking_reward
         weights_dict["docking"] = float(weights_cfg.get("docking", 1.0))
 
-    if "diversity" in enabled:
-        div_cfg = reward_cfg.get("diversity", {})
-        rewards_dict["diversity"] = DiversityReward(
+    if "diversity_ecfp4" in enabled:
+        div_cfg = reward_cfg.get("diversity_ecfp4", {})
+        rewards_dict["diversity_ecfp4"] = DiversityReward(
             failure_penalty=float(div_cfg.get("failure_penalty", -1.0)),
             global_batch=bool(div_cfg.get("global_batch", True)),
             mode=str(div_cfg.get("mode", "hinge_penalty")),
             target_similarity=float(div_cfg.get("target_similarity", 0.5)),
             penalty_scale=float(div_cfg.get("penalty_scale", 1.0)),
+            use_features=False,
+            reward_prefix="diversity_ecfp4",
         )
-        weights_dict["diversity"] = float(weights_cfg.get("diversity", 1.0))
+        weights_dict["diversity_ecfp4"] = float(weights_cfg.get("diversity_ecfp4", 1.0))
+
+    if "diversity_fcfp4" in enabled:
+        div_cfg = reward_cfg.get("diversity_fcfp4", {})
+        rewards_dict["diversity_fcfp4"] = DiversityReward(
+            failure_penalty=float(div_cfg.get("failure_penalty", -1.0)),
+            global_batch=bool(div_cfg.get("global_batch", True)),
+            mode=str(div_cfg.get("mode", "hinge_penalty")),
+            target_similarity=float(div_cfg.get("target_similarity", 0.5)),
+            penalty_scale=float(div_cfg.get("penalty_scale", 1.0)),
+            use_features=True,
+            reward_prefix="diversity_fcfp4",
+        )
+        weights_dict["diversity_fcfp4"] = float(weights_cfg.get("diversity_fcfp4", 1.0))
 
     # 向后兼容：旧名 chembl_prior → 单 ECFP4（仅当新名未启用时）
     if "chembl_prior" in enabled and "chembl_prior_ecfp4" not in enabled:

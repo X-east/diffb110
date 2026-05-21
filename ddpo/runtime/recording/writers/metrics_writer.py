@@ -45,7 +45,7 @@ class MetricsWriter:
         "failure_counts", "checkpoint_due", "checkpoint_path",
         "avg_kl", "avg_ppo_loss",
     ]
-    DYNAMIC_SUMMARY_PREFIXES = ("avg_chembl_prior_",)
+    DYNAMIC_SUMMARY_PREFIXES = ("avg_chembl_prior_", "avg_diversity_")
 
     def __init__(self, run_context: RunContext) -> None:
         self.run_context = run_context

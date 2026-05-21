@@ -9,7 +9,7 @@ import torch
 
 from ddpo.rewards.factory import get_enabled_rewards
 from ddpo.runtime.recording import BatchFacts, EpochFacts, RunLifecycleFacts, RunStatus
-from ddpo.utils import annotate_batch_molecule_semantics
+from ddpo.utils import PerfTimer, annotate_batch_molecule_semantics
 
 
 @dataclass
@@ -71,34 +71,50 @@ class BatchStats:
     avg_chembl_prior_fcfp4_reward: float = 0.0
     avg_chembl_prior_fcfp4_similarity: float = 0.0
     chembl_prior_metrics: dict[str, float] | None = None
+    diversity_metrics: dict[str, float] | None = None
 
 
-def prepare_training_samples(runtime: Any, epoch: int) -> PreparedSamples:
+def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None = None) -> PreparedSamples:
     logger = runtime.logger
     logger.info("[Epoch %d/%d] generate_batch", epoch, runtime.max_epochs)
+    if timer: timer.start("dataloader")
     prompts = runtime.dataloader.generate_batch()
+    if timer: timer.stop()
     logger.info("[Epoch %d/%d] generate_minibatch", epoch, runtime.max_epochs)
+    if timer: timer.start("generate")
     samples = runtime.rollout.generate_samples(prompts)
+    if timer: timer.stop()
     logger.info("[Epoch %d/%d] annotate_batch_molecule_semantics", epoch, runtime.max_epochs)
+    if timer: timer.start("annotate")
     samples = annotate_batch_molecule_semantics(samples, dataset_info=runtime.dataset_info)
+    if timer: timer.stop()
     logger.info("[Epoch %d/%d] filters.filter", epoch, runtime.max_epochs)
+    if timer: timer.start("filter")
     samples, filtering_ratio, novelty_penalty_ratio = runtime.filters.filter(samples)
+    if timer: timer.stop()
     logger.info("[Epoch %d/%d] rewarder.calculate_rewards", epoch, runtime.max_epochs)
-    samples = runtime.rewarder.calculate_rewards(samples)
+    if timer: timer.start("reward")
+    # Pass timer to CompositeReward for per-component profiling
+    samples = runtime.rewarder.calculate_rewards(samples, timer=timer)
+    if timer: timer.stop()
     reward_normalizer = getattr(runtime, "reward_normalizer", None)
     if reward_normalizer is not None:
         logger.info("[Epoch %d/%d] reward_normalizer.apply", epoch, runtime.max_epochs)
+        if timer: timer.start("reward_normalize")
         dist_ctx = getattr(runtime, "dist_ctx", None)
         samples = reward_normalizer.apply(samples, dist_ctx=dist_ctx)
+        if timer: timer.stop()
     if "advantages" not in samples.batch:
         logger.info("[Epoch %d/%d] advantages = reward_total", epoch, runtime.max_epochs)
         samples.batch["advantages"] = samples.batch.get("reward_total_clamped", samples.batch.get("reward_total"))
     return PreparedSamples(samples=samples, filtering_ratio=filtering_ratio, novelty_penalty_ratio=novelty_penalty_ratio)
 
 
-def update_policy(runtime: Any, prepared: PreparedSamples, epoch: int) -> dict[str, Any]:
+def update_policy(runtime: Any, prepared: PreparedSamples, epoch: int, timer: PerfTimer | None = None) -> dict[str, Any]:
     runtime.logger.info("[Epoch %d/%d] actor.update_policy", epoch, runtime.max_epochs)
+    if timer: timer.start("train")
     metrics = runtime.actor.update_policy(prepared.samples)
+    if timer: timer.stop()
     if metrics is None:
         return {}
     return dict(metrics)
@@ -141,6 +157,22 @@ def _mean_elementwise(lists: list[list[float]]) -> list[float]:
         vals = [v[i] for v in lists if i < len(v)]
         result.append(float(sum(vals) / len(vals)))
     return result
+
+
+def _diversity_prefixes_from_batch(batch: Any) -> list[str]:
+    """Detect diversity component prefixes from batch keys.
+
+    Detects ``{prefix}_similarity_raw`` in batch where prefix starts
+    with ``"diversity"``, e.g. ``diversity_ecfp4`` / ``diversity_fcfp4``.
+    """
+    prefixes = set()
+    for key in batch.keys():
+        key = str(key)
+        if key.endswith("_similarity_raw"):
+            prefix = key.removesuffix("_similarity_raw")
+            if prefix.startswith("diversity") and prefix:
+                prefixes.add(prefix)
+    return sorted(prefixes)
 
 
 def _chembl_prior_prefixes_from_config(config: dict[str, Any] | None) -> list[str]:
@@ -201,17 +233,28 @@ def compute_batch_stats(prepared: PreparedSamples, config: dict[str, Any] | None
     rewards = _to_float_list(samples.batch.get("reward_total_clamped", samples.batch.get("reward_total")))
     # 原始总奖励（归一化前），用于终端展示
     rewards_raw = _to_float_list(samples.batch.get("reward_total_raw"))
-    # Raw values (for terminal display)
+    # Raw values (for terminal display) — use prefixed fields for backward compat
     qed_raw = _to_float_list(samples.batch.get("qed_raw"))
     sa_raw = _to_float_list(samples.batch.get("sa_raw"))
     docking_raw = _to_float_list(samples.batch.get("docking_raw"))
-    similarity_raw = _to_float_list(samples.batch.get("similarity_raw"))
-    diversity_raw = _to_float_list(samples.batch.get("diversity_raw"))
+    # Aggregate diversity from all detected prefixes (dynamic, not hardcoded)
+    _div_prefixes = _diversity_prefixes_from_batch(samples.batch)
+    similarity_raw = _mean_elementwise([
+        _to_float_list(samples.batch.get(f"{p}_similarity_raw", []))
+        for p in _div_prefixes
+    ])
+    diversity_raw = _mean_elementwise([
+        _to_float_list(samples.batch.get(f"{p}_diversity_raw", []))
+        for p in _div_prefixes
+    ])
     # Normalised values (for recording)
     qed_norm = _to_float_list(samples.batch.get("qed_reward"))
     sa_norm = _to_float_list(samples.batch.get("sa_reward"))
     docking_norm = _to_float_list(samples.batch.get("docking_reward"))
-    diversity_norm = _to_float_list(samples.batch.get("diversity_reward"))
+    diversity_norm = _mean_elementwise([
+        _to_float_list(samples.batch.get(f"{p}_reward", []))
+        for p in _div_prefixes
+    ])
     valid_flags = _to_int_list(src.get("rdkit_valid"))
     failure_types = _to_str_list(src.get("failure_type"))
     reward_mean = float(sum(rewards) / len(rewards)) if rewards else 0.0
@@ -253,6 +296,16 @@ def compute_batch_stats(prepared: PreparedSamples, config: dict[str, Any] | None
         if _chembl_similarity_field(samples.batch, prefix):
             chembl_similarities.append(avg_s)
 
+    # Diversity: compute per-component averages (dynamic prefix detection)
+    diversity_metrics: dict[str, float] = {}
+    for prefix in _diversity_prefixes_from_batch(samples.batch):
+        sim_vals = _to_float_list(samples.batch.get(f"{prefix}_similarity_raw", []))
+        div_vals = _to_float_list(samples.batch.get(f"{prefix}_diversity_raw", []))
+        rew_vals = _to_float_list(samples.batch.get(f"{prefix}_reward", []))
+        diversity_metrics[f"avg_{prefix}_similarity"] = _mean_at_indices(sim_vals, _valid_indices)
+        diversity_metrics[f"avg_{prefix}_diversity"] = _mean_at_indices(div_vals, _valid_indices)
+        diversity_metrics[f"avg_{prefix}_reward"] = _mean_at_indices(rew_vals, _valid_indices)
+
     fixed_chembl = _legacy_fixed_chembl_fields(chembl_prior_metrics)
     avg_chembl_prior_ecfp4_reward = fixed_chembl["avg_chembl_prior_ecfp4_reward"]
     avg_chembl_prior_ecfp4_similarity = fixed_chembl["avg_chembl_prior_ecfp4_similarity"]
@@ -271,7 +324,7 @@ def compute_batch_stats(prepared: PreparedSamples, config: dict[str, Any] | None
     valid_ratio = float(valid_count / generated_count) if generated_count > 0 else 0.0
     failure_counts = dict(Counter(failure_types)) if failure_types else {}
     reward_raw_mean = float(sum(rewards_raw) / len(rewards_raw)) if rewards_raw else 0.0
-    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, avg_similarity=avg_similarity, avg_diversity=avg_diversity, avg_qed_norm=avg_qed_norm, avg_sa_norm=avg_sa_norm, avg_docking_norm=avg_docking_norm, avg_diversity_norm=avg_diversity_norm, avg_chembl_reward=avg_chembl_reward, avg_chembl_similarity=avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=avg_chembl_prior_fcfp4_similarity, chembl_prior_metrics=chembl_prior_metrics, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts, reward_raw_mean=reward_raw_mean)
+    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, avg_similarity=avg_similarity, avg_diversity=avg_diversity, avg_qed_norm=avg_qed_norm, avg_sa_norm=avg_sa_norm, avg_docking_norm=avg_docking_norm, avg_diversity_norm=avg_diversity_norm, avg_chembl_reward=avg_chembl_reward, avg_chembl_similarity=avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=avg_chembl_prior_fcfp4_similarity, chembl_prior_metrics=chembl_prior_metrics, diversity_metrics=diversity_metrics, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts, reward_raw_mean=reward_raw_mean)
 
 
 def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, batch_stats: BatchStats, config: dict[str, Any] | None = None) -> BatchFacts:
@@ -280,12 +333,19 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
     src = ntb if isinstance(ntb, dict) else samples.batch
     smiles_values = list(src.get("smiles", []))
     valid_flags = _to_int_list(src.get("rdkit_valid"))
-    # Raw values
+    # Aggregate diversity from all detected prefixes (dynamic, not hardcoded)
     qed_raw = _to_float_list(samples.batch.get("qed_raw"))
     sa_raw = _to_float_list(samples.batch.get("sa_raw"))
     docking_raw = _to_float_list(samples.batch.get("docking_raw"))
-    similarity_raw = _to_float_list(samples.batch.get("similarity_raw"))
-    diversity_raw = _to_float_list(samples.batch.get("diversity_raw"))
+    _div_prefixes = _diversity_prefixes_from_batch(samples.batch)
+    similarity_raw = _mean_elementwise([
+        _to_float_list(samples.batch.get(f"{p}_similarity_raw", []))
+        for p in _div_prefixes
+    ])
+    diversity_raw = _mean_elementwise([
+        _to_float_list(samples.batch.get(f"{p}_diversity_raw", []))
+        for p in _div_prefixes
+    ])
     # ChEMBL prior: per-type molecule-level values from configured components.
     def _chembl_prior_mol_vals(prefix: str) -> tuple[list[float], list[float]]:
         reward_vals = _to_float_list(samples.batch.get(f"{prefix}_reward", []))
@@ -303,14 +363,30 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
         if sim_vals:
             chembl_sim_by_prefix[prefix] = sim_vals
 
+    # Diversity: per-type molecule-level values from detected prefixes
+    diversity_prefixes = _diversity_prefixes_from_batch(samples.batch)
+    diversity_sim_by_prefix: dict[str, list[float]] = {}
+    diversity_div_by_prefix: dict[str, list[float]] = {}
+    diversity_rew_by_prefix: dict[str, list[float]] = {}
+    for prefix in diversity_prefixes:
+        sim_vals = _to_float_list(samples.batch.get(f"{prefix}_similarity_raw", []))
+        div_vals = _to_float_list(samples.batch.get(f"{prefix}_diversity_raw", []))
+        rew_vals = _to_float_list(samples.batch.get(f"{prefix}_reward", []))
+        if sim_vals:
+            diversity_sim_by_prefix[prefix] = sim_vals
+        if div_vals:
+            diversity_div_by_prefix[prefix] = div_vals
+        if rew_vals:
+            diversity_rew_by_prefix[prefix] = rew_vals
+
     # Aggregate: element-wise average for backward compatibility
     chembl_prior_reward = _mean_elementwise(list(chembl_reward_by_prefix.values()))
     chembl_similarity = _mean_elementwise(list(chembl_sim_by_prefix.values()))
+    diversity_reward = _mean_elementwise(list(diversity_rew_by_prefix.values()))
     # Normalised (reward) values
     qed_reward = _to_float_list(samples.batch.get("qed_reward"))
     sa_reward = _to_float_list(samples.batch.get("sa_reward"))
     docking_reward = _to_float_list(samples.batch.get("docking_reward"))
-    diversity_reward = _to_float_list(samples.batch.get("diversity_reward"))
     # Total rewards
     rewards = _to_float_list(samples.batch.get("reward_total_clamped", samples.batch.get("reward_total")))
     rewards_raw = _to_float_list(samples.batch.get("reward_total_raw"))
@@ -327,8 +403,8 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
             "qed_raw": qed_raw[molecule_id] if molecule_id < len(qed_raw) else 0.0,
             "sa_raw": sa_raw[molecule_id] if molecule_id < len(sa_raw) else 0.0,
             "docking_raw": docking_raw[molecule_id] if molecule_id < len(docking_raw) else 0.0,
-            "similarity_raw": similarity_raw[molecule_id] if molecule_id < len(similarity_raw) else 0.0,
-            "diversity_raw": diversity_raw[molecule_id] if molecule_id < len(diversity_raw) else 0.0,
+            "diversity_similarity_raw": similarity_raw[molecule_id] if molecule_id < len(similarity_raw) else 0.0,
+            "diversity_diversity_raw": diversity_raw[molecule_id] if molecule_id < len(diversity_raw) else 0.0,
             "qed_reward": qed_reward[molecule_id] if molecule_id < len(qed_reward) else 0.0,
             "sa_reward": sa_reward[molecule_id] if molecule_id < len(sa_reward) else 0.0,
             "docking_reward": docking_reward[molecule_id] if molecule_id < len(docking_reward) else 0.0,
@@ -343,6 +419,13 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
             row[f"{prefix}_reward"] = values[molecule_id] if molecule_id < len(values) else 0.0
         for prefix, values in chembl_sim_by_prefix.items():
             row[f"{prefix}_similarity"] = values[molecule_id] if molecule_id < len(values) else 0.0
+        # Diversity per-prefix molecule-level values
+        for prefix, values in diversity_sim_by_prefix.items():
+            row[f"{prefix}_similarity_raw"] = values[molecule_id] if molecule_id < len(values) else 0.0
+        for prefix, values in diversity_div_by_prefix.items():
+            row[f"{prefix}_diversity_raw"] = values[molecule_id] if molecule_id < len(values) else 0.0
+        for prefix, values in diversity_rew_by_prefix.items():
+            row[f"{prefix}_reward"] = values[molecule_id] if molecule_id < len(values) else 0.0
         molecule_rows.append(row)
     return BatchFacts(epoch=epoch, batch_idx=batch_idx, rank=0, generated_count=batch_stats.generated_count, valid_count=batch_stats.valid_count, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, filtering_ratio=prepared.filtering_ratio, novelty_penalty_ratio=prepared.novelty_penalty_ratio, avg_qed_norm=batch_stats.avg_qed_norm, avg_sa_norm=batch_stats.avg_sa_norm, avg_docking_norm=batch_stats.avg_docking_norm, avg_diversity_norm=batch_stats.avg_diversity_norm, avg_chembl_reward=batch_stats.avg_chembl_reward, avg_chembl_similarity=batch_stats.avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=batch_stats.avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=batch_stats.avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=batch_stats.avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=batch_stats.avg_chembl_prior_fcfp4_similarity, failure_counts=batch_stats.failure_counts, molecule_rows=molecule_rows)
 
@@ -369,6 +452,7 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
         "reward_enabled": get_enabled_rewards(runtime.config),
     }
     extra.update(batch_stats.chembl_prior_metrics or {})
+    extra.update(batch_stats.diversity_metrics or {})
     # Generic passthrough: Actor returns whatever metrics it produces;
     # unconsumed keys (e.g. KL_Penalty, PPO_Loss) automatically flow
     # into extra_metrics with their original key names.  No downstream

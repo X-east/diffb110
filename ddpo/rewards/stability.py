@@ -55,9 +55,9 @@ class StabilityAwareReward:
         self.base_reward = base_reward
         self.dataset_info = dataset_info
 
-    def calculate_rewards(self, data: "DataProto") -> "DataProto":
+    def calculate_rewards(self, data: "DataProto", timer=None, **kwargs) -> "DataProto":
         """Run base reward then inject stability field."""
-        data = self.base_reward.calculate_rewards(data)
+        data = self.base_reward.calculate_rewards(data, timer=timer)
 
         if "stability" not in data.batch:
             device = data.batch["x"].device
