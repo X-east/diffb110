@@ -47,12 +47,15 @@ class MoleculeWriter:
         epoch_dir = self._epoch_dir(facts.epoch)
         path = epoch_dir / f"molecules_rank{facts.rank}.csv"
         file_exists = path.exists()
+        fieldnames = self._fieldnames_for_rows(facts.molecule_rows, existing_path=path if file_exists else None)
+        if file_exists:
+            self._ensure_header(path, fieldnames)
         with open(path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=self.FIELDNAMES)
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
             if not file_exists:
                 writer.writeheader()
             for row in facts.molecule_rows:
-                writer.writerow({key: str(row.get(key, "")) for key in self.FIELDNAMES})
+                writer.writerow({key: str(row.get(key, "")) for key in fieldnames})
 
     def write_rank_sdf(self, facts: BatchFacts, rdmols: list) -> None:
         """Write per-rank molecules as multi-molecule SDF (original 3D coordinates).
@@ -91,14 +94,42 @@ class MoleculeWriter:
                     merged_rows.extend(list(reader))
         if not merged_rows:
             return None
+        fieldnames = self._fieldnames_for_rows(merged_rows)
         with open(merged_path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=self.FIELDNAMES)
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for row in merged_rows:
-                writer.writerow({key: str(row.get(key, "")) for key in self.FIELDNAMES})
+                writer.writerow({key: str(row.get(key, "")) for key in fieldnames})
 
         self._merge_sdf(epoch, world_size)
         return merged_path
+
+    def _fieldnames_for_rows(self, rows: list[dict], existing_path: Optional[Path] = None) -> list[str]:
+        extras = []
+        if existing_path is not None and existing_path.exists():
+            with open(existing_path, "r", newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                extras.extend(reader.fieldnames or [])
+        for row in rows:
+            extras.extend(str(key) for key in row.keys())
+        ordered = list(self.FIELDNAMES)
+        for key in extras:
+            if key not in ordered:
+                ordered.append(key)
+        return ordered
+
+    def _ensure_header(self, path: Path, fieldnames: list[str]) -> None:
+        with open(path, "r", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            existing_fieldnames = reader.fieldnames or []
+            rows = list(reader)
+        if existing_fieldnames == fieldnames:
+            return
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({key: str(row.get(key, "")) for key in fieldnames})
 
     def _merge_sdf(self, epoch: int, world_size: int) -> None:
         """Merge per-rank SDF files into a single molecules.sdf."""

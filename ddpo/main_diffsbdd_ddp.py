@@ -122,6 +122,7 @@ class GlobalBatchStats:
     reward_raw_mean: float = 0.0
     avg_chembl_reward: float = 0.0
     avg_chembl_similarity: float = 0.0
+    chembl_prior_metrics: dict[str, float] | None = None
 
 
 def _iter_wrapped_rewards(rewarder: Any):
@@ -432,6 +433,10 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     reward_raw_sum = reduce_sum_scalar(float(local_stats.reward_raw_mean * count), dist_ctx)
     chembl_reward_sum = reduce_sum_scalar(float(local_stats.avg_chembl_reward * valid_count_local), dist_ctx)
     chembl_similarity_sum = reduce_sum_scalar(float(local_stats.avg_chembl_similarity * valid_count_local), dist_ctx)
+    chembl_prior_metrics: dict[str, float] = {}
+    for key, value in (local_stats.chembl_prior_metrics or {}).items():
+        reduced = reduce_sum_scalar(float(value) * valid_count_local, dist_ctx)
+        chembl_prior_metrics[key] = (reduced / valid_count) if valid_count > 0 else 0.0
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
@@ -457,6 +462,7 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
         reward_raw_mean=(reward_raw_sum / generated_count) if generated_count > 0 else 0.0,
         avg_chembl_reward=(chembl_reward_sum / valid_count) if valid_count > 0 else 0.0,
         avg_chembl_similarity=(chembl_similarity_sum / valid_count) if valid_count > 0 else 0.0,
+        chembl_prior_metrics=chembl_prior_metrics,
     )
 
 
@@ -468,7 +474,7 @@ def record_epoch_ddp(
     global_stats: GlobalBatchStats,
 ) -> None:
     rank = int(runtime.dist_ctx.rank)
-    batch_facts = build_batch_facts(prepared=prepared, epoch=epoch, batch_idx=0, batch_stats=local_stats)
+    batch_facts = build_batch_facts(prepared=prepared, epoch=epoch, batch_idx=0, batch_stats=local_stats, config=runtime.config)
     batch_facts.rank = rank
     for row in batch_facts.molecule_rows:
         row["rank"] = rank
@@ -510,6 +516,11 @@ def record_epoch_ddp(
             reward_raw_mean=global_stats.reward_raw_mean,
             avg_chembl_reward=global_stats.avg_chembl_reward,
             avg_chembl_similarity=global_stats.avg_chembl_similarity,
+            avg_chembl_prior_ecfp4_reward=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_ecfp4_reward", 0.0),
+            avg_chembl_prior_ecfp4_similarity=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_ecfp4_similarity", 0.0),
+            avg_chembl_prior_fcfp4_reward=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_fcfp4_reward", 0.0),
+            avg_chembl_prior_fcfp4_similarity=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_fcfp4_similarity", 0.0),
+            chembl_prior_metrics=global_stats.chembl_prior_metrics or {},
         ),
         prepared=PreparedSamples(
             samples=prepared.samples,
@@ -525,7 +536,7 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
     metrics = update_policy(runtime, prepared, epoch)
     maybe_log_ddp_probe(runtime, epoch)
     maybe_check_param_sync(runtime, epoch)
-    local_stats = compute_batch_stats(prepared)
+    local_stats = compute_batch_stats(prepared, config=runtime.config)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
     import sys; sys.stderr.flush()  # 刷新 stderr 确保 tqdm 残留完全写出后再打印 epoch 汇总
     record_epoch_ddp(runtime, epoch, prepared, local_stats, global_stats)
@@ -548,6 +559,11 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
         failure_counts=global_stats.failure_counts,
         avg_chembl_reward=global_stats.avg_chembl_reward,
         avg_chembl_similarity=global_stats.avg_chembl_similarity,
+        avg_chembl_prior_ecfp4_reward=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_ecfp4_reward", 0.0),
+        avg_chembl_prior_ecfp4_similarity=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_ecfp4_similarity", 0.0),
+        avg_chembl_prior_fcfp4_reward=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_fcfp4_reward", 0.0),
+        avg_chembl_prior_fcfp4_similarity=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_fcfp4_similarity", 0.0),
+        chembl_prior_metrics=global_stats.chembl_prior_metrics or {},
     )
 
 

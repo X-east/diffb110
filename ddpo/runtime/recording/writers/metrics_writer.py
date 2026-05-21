@@ -39,10 +39,13 @@ class MetricsWriter:
         "avg_qed", "avg_sa", "avg_docking", "avg_similarity", "avg_diversity",
         "avg_qed_norm", "avg_sa_norm", "avg_docking_norm", "avg_diversity_norm",
         "avg_chembl_reward", "avg_chembl_similarity",
+        "avg_chembl_prior_ecfp4_reward", "avg_chembl_prior_ecfp4_similarity",
+        "avg_chembl_prior_fcfp4_reward", "avg_chembl_prior_fcfp4_similarity",
         "filtering_ratio_mean", "novelty_penalty_ratio_mean",
         "failure_counts", "checkpoint_due", "checkpoint_path",
         "avg_kl", "avg_ppo_loss",
     ]
+    DYNAMIC_SUMMARY_PREFIXES = ("avg_chembl_prior_",)
 
     def __init__(self, run_context: RunContext) -> None:
         self.run_context = run_context
@@ -62,11 +65,28 @@ class MetricsWriter:
             return list(csv.DictReader(f))
 
     def _write_rows(self, rows: list) -> None:
+        fieldnames = self._summary_header_from_rows(rows)
         with open(self.summary_path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=self.SUMMARY_HEADER)
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for row in rows:
                 writer.writerow(row)
+
+    def _dynamic_summary_keys(self, row: dict) -> list[str]:
+        return sorted(
+            str(key)
+            for key in row.keys()
+            if any(str(key).startswith(prefix) for prefix in self.DYNAMIC_SUMMARY_PREFIXES)
+            and str(key) not in self.SUMMARY_HEADER
+        )
+
+    def _summary_header_from_rows(self, rows: list[dict]) -> list[str]:
+        header = list(self.SUMMARY_HEADER)
+        for row in rows:
+            for key in self._dynamic_summary_keys(row):
+                if key not in header:
+                    header.append(key)
+        return header
 
     def write_epoch_summary(self, facts: EpochFacts, checkpoint_path: Optional[str] = None) -> None:
         row = {
@@ -90,6 +110,10 @@ class MetricsWriter:
             "avg_diversity_norm": f"{facts.extra_metrics.get('avg_diversity_norm', 0.0):.6f}",
             "avg_chembl_reward": f"{facts.avg_chembl_reward:.6f}",
             "avg_chembl_similarity": f"{facts.avg_chembl_similarity:.6f}",
+            "avg_chembl_prior_ecfp4_reward": f"{facts.avg_chembl_prior_ecfp4_reward:.6f}",
+            "avg_chembl_prior_ecfp4_similarity": f"{facts.avg_chembl_prior_ecfp4_similarity:.6f}",
+            "avg_chembl_prior_fcfp4_reward": f"{facts.avg_chembl_prior_fcfp4_reward:.6f}",
+            "avg_chembl_prior_fcfp4_similarity": f"{facts.avg_chembl_prior_fcfp4_similarity:.6f}",
             "filtering_ratio_mean": f"{facts.filtering_ratio_mean:.6f}",
             "novelty_penalty_ratio_mean": f"{facts.novelty_penalty_ratio_mean:.6f}",
             "failure_counts": json.dumps(facts.failure_counts, ensure_ascii=False, sort_keys=True),
@@ -101,9 +125,12 @@ class MetricsWriter:
             ),
             "avg_ppo_loss": f"{facts.extra_metrics.get('PPO_Loss', 0.0):.6f}",
         }
-        with open(self.summary_path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=self.SUMMARY_HEADER)
-            writer.writerow(row)
+        for key, value in facts.extra_metrics.items():
+            if any(str(key).startswith(prefix) for prefix in self.DYNAMIC_SUMMARY_PREFIXES):
+                row[str(key)] = f"{float(value):.6f}" if isinstance(value, (float, int)) else str(value)
+        rows = self._read_rows() if self.summary_path.exists() else []
+        rows.append(row)
+        self._write_rows(rows)
 
     def update_epoch_checkpoint_path(self, epoch: int, checkpoint_path: str) -> None:
         rows = self._read_rows()

@@ -35,6 +35,8 @@ _REWARD_DISPLAY_REGISTRY: dict[str, dict[str, str]] = {
     "docking":     {"label": "Avg Docking",     "field": "avg_docking",       "fmt": ".4f"},
     "diversity":   {"label": "Avg Diversity",   "field": "avg_diversity",     "fmt": ".4f"},
     "chembl_prior": {"label": "ChEMBL Sim TopK", "field": "avg_chembl_similarity", "fmt": ".4f"},
+    "chembl_prior_ecfp4": {"label": "ECFP4 Sim", "field": "avg_chembl_prior_ecfp4_similarity", "fmt": ".4f"},
+    "chembl_prior_fcfp4": {"label": "FCFP4 Sim", "field": "avg_chembl_prior_fcfp4_similarity", "fmt": ".4f"},
 }
 
 
@@ -152,9 +154,17 @@ class RunRecorder:
         )
         for reward_name in reward_enabled:
             entry = _REWARD_DISPLAY_REGISTRY.get(reward_name)
+            if entry is None and str(reward_name).startswith("chembl_prior_"):
+                entry = {
+                    "label": str(reward_name).replace("chembl_prior_", "").upper() + " Sim",
+                    "field": f"avg_{reward_name}_similarity",
+                    "fmt": ".4f",
+                }
             if entry is None:
                 continue
             value = getattr(facts, entry["field"], None)
+            if value is None:
+                value = facts.extra_metrics.get(entry["field"])
             if value is None:
                 continue
             lines.append(f"  {entry['label']:15s}: {value:{entry['fmt']}}")
