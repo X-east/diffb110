@@ -128,3 +128,119 @@ logger = logging.getLogger(__name__)  # 或统一 "DiffSBDD-DDPO"
 | 硬编码 `.cuda()` / `.cpu()` | 设备不可控 | 从输入张量推断 `device` |
 | 硬编码路径或数据源 | 环境依赖 | 走 YAML 配置 + `config.get()` + Python 默认值 |
 | 硬编码车间/GPU 数量 | 不可移植 | 走 `reward.weights` 检查启用状态
+
+## 十三、分子描述子监控系统（2026-05-21 实现）
+
+### 背景与动机
+
+训练中模型"漂移"的早期信号往往是**分子描述子分布的变化**，而非奖励值本身。之前的分析显示：
+- 模型产出"全是碳" → carbon_fraction=1.0，hetero_atom≈0
+- 产出硫磺垃圾 → carbon_fraction↓，heavy_atom↑
+- 分子变小 → aromatic_ring↓，碳比例异常
+
+这些信号在奖励指标（QED/SA/docking）中显现较晚，而**描述子分布可以直接、快速地反映漂移**。
+
+### 设计方向
+
+| 原则 | 决策 |
+|------|------|
+| **解耦** | 纯函数模块 `ddpo/utils/molecular_descriptors.py`，不依赖任何训练基础设施 |
+| **免侵入** | 通过 `metrics` dict 透传，使用已有的 `extra_metrics` 机制，不修改 `schemas.py` / `EpochFacts` 字段 |
+| **只算有效分子** | 所有描述子仅对 `rdkit_valid=True` 的分子计算 |
+| **跨 GPU 聚合** | 每个 GPU 独立算自己的分子 → `_merge_metrics` 自动平均 → rank-0 写入 CSV |
+| **复用已有实现** | ECFP4/FCFP4 指纹复用 `DiversityReward` 的 stateless classmethod |
+| **MMD 可选** | 需外部预计算参考分布后传入；无参考时 = 0.0，不影响训练 |
+
+### 具体改动
+
+```
+新增:  ddpo/utils/molecular_descriptors.py         ← 核心纯函数模块
+修改:  ddpo/runtime/train_helpers.py               ← 导入 + 添加提取辅助函数
+修改:  ddpo/main_diffsbdd_ddp.py                   ← 在 run_epoch_ddp 中注入 metrics
+修改:  ddpo/runtime/recording/writers/metrics_writer.py  ← SUMMARY_HEADER 加 ~20 列
+修改:  .codebuddy/rules/项目规则.mdc                ← 本记录
+```
+
+| 文件 | 作用 |
+|------|------|
+| `molecular_descriptors.py` | `compute_molecular_descriptors(rdmols, valid_mask, ref=None) → dict[str, float]` |
+| `train_helpers.py` | `compute_epoch_molecular_descriptors(prepared)` 从 `PreparedSamples` 提取 rdmols |
+| `main_diffsbdd_ddp.py` | 每 rank 算自己的描述子 → 合并到 `metrics` → `_merge_metrics` 跨 rank 平均 |
+| `metrics_writer.py` | CSV 增加 22 列：LogP(3)、TPSA(3)、HBA/HBD(4)、composition(5)、alerts(3)、MMD(1)、fingerprints(2) |
+
+### 数据流
+
+```
+annotate_batch_molecule_semantics()  →  ntb.rdmols / ntb.rdkit_valid
+                                           ↓
+compute_epoch_molecular_descriptors()  ← 提取自 PreparedSamples
+                                           ↓
+metrics dict  ← metrics.update(descriptor_metrics)
+    ↓ _merge_metrics（跨 rank 平均）
+global_stats.metrics
+    ↓ build_epoch_facts → extra_metrics 透传
+metrics_writer.write_epoch_summary()
+    ↓
+training_summary.csv  ← 新增 22 列
+```
+
+### 指标清单
+
+| 类别 | 指标（每 epoch） | 用途 |
+|------|------------------|------|
+| LogP | mean / median / std | 亲脂性分布漂移 |
+| TPSA | mean / median / std | 极性表面积分布漂移 |
+| HBA/HBD | mean / std | 氢键供体/受体分布 |
+| 碳比例 | carbon_fraction | **全碳坍塌检测**（→1.0 时警报） |
+| 杂原子 | hetero_atom mean/std | 硫磺垃圾检测（异常突增） |
+| 芳环 | aromatic_ring mean/std | 分子复杂度监控 |
+| 比例警报 | fraction_logp_high / tpsa_low / hba_zero_or_low | Lipinski / 吸收报警 |
+| 分布偏移 | descriptor_mmd_vs_baseline | **综合漂移检测**（6 维 RBF-MMD） |
+| 指纹多样性 | ecfp4/fcfp4_mean_pairwise_similarity | 模式坍塌检测（→1.0 时警报） |
+
+### 后续扩展
+
+- **MMD 参考分布**：可预计算 ChEMBL 100k 子集的 6D 描述子向量并存储为 `.npy` 文件，训练启动时加载传给 `reference_descriptor_vectors`
+- **终端显示**：当前不进终端（避免膨胀），如需可挑 2-3 个关键指标加入 `run_recorder.py` 的 `on_epoch_end`
+
+## 十四、总结规范（2026-05-22 制定）
+
+每次完成一组逻辑相关的任务后，AI 的输出总结**必须**按以下结构组织。此模板**默认生效**，用户无需每次都要求。
+
+### 模板结构
+
+```
+## 总结：<任务标题>
+
+### 一、动机/背景
+为什么做这件事。2-3 句话说清问题来源和驱动因素。
+
+### 二、已有的相关工作/代码/数据
+罗列相关的已有代码、数据文件、基础设施。
+关键：不仅列文件名，还要说明关联——已有 A 实现了 X，但缺什么/不够，所以需要做 B。
+
+### 三、做了什么（改动清单）
+1. 新增 → 文件路径 + 一句话作用
+2. 修改 → 文件路径 + 改了什么 + 为什么
+3. 架构/数据流（如有）→ ASCII 流程图或缩进链说明
+
+### 四、运行与结果
+关键执行过程和结果，用数字说话：
+- 耗时：X min / Y mol/s
+- 产出文件：路径、大小、条目数
+- 关键数据：最有代表性的统计值（均值、P5-P95、异常值等），用表格呈现
+
+### 五、完整清单表格（可选，改动物较多时用）
+涉及多项同类内容时用表格汇总。
+
+### 六、下一步（可选）
+后续可扩展的方向或已知局限。
+
+### 风格要求
+- **段落用简练短句**，不要长段落抒情
+- **数据优先**：能列数字就不描述，能列表格就不列文字
+- **表格统一风格**：表头简洁，列宽尽量一致
+- **不要用"首先、其次、然后"**——用明确的标题层级区分
+- **不要用"非常重要、特别好"等评价性语言**——陈述事实即可
+- **Mermaid 图**：仅当有复杂分支/状态流转且纯文字描述不清时使用
+- **完全参考**：前文 "ChEMBL 155 万分子性质分析" 的 8 节输出是正面示例

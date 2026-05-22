@@ -41,6 +41,7 @@ from ddpo.runtime.train_helpers import (
     build_batch_facts,
     build_epoch_facts,
     compute_batch_stats,
+    compute_epoch_molecular_descriptors,
     finish_run,
     prepare_training_samples,
     update_policy,
@@ -542,6 +543,10 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
     for step, elapsed in timer.summary().items():
         metrics[f"time_{step}"] = elapsed
     local_stats = compute_batch_stats(prepared, config=runtime.config)
+    # Compute per-rank molecular descriptors for epoch-level monitoring;
+    # _merge_metrics in reduce_batch_stats averages them across all ranks.
+    descriptor_metrics = compute_epoch_molecular_descriptors(prepared)
+    metrics.update(descriptor_metrics)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
     import sys; sys.stderr.flush()  # 刷新 stderr 确保 tqdm 残留完全写出后再打印 epoch 汇总
     record_epoch_ddp(runtime, epoch, prepared, local_stats, global_stats)

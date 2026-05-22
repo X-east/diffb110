@@ -10,6 +10,7 @@ import torch
 from ddpo.rewards.factory import get_enabled_rewards
 from ddpo.runtime.recording import BatchFacts, EpochFacts, RunLifecycleFacts, RunStatus
 from ddpo.utils import PerfTimer, annotate_batch_molecule_semantics
+from ddpo.utils.molecular_descriptors import compute_molecular_descriptors as _compute_molecular_descriptors
 
 
 @dataclass
@@ -464,6 +465,24 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
             except (TypeError, ValueError):
                 extra[key] = str(value) if not isinstance(value, (str, bool)) else value
     return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, avg_chembl_reward=batch_stats.avg_chembl_reward, avg_chembl_similarity=batch_stats.avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=batch_stats.avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=batch_stats.avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=batch_stats.avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=batch_stats.avg_chembl_prior_fcfp4_similarity, failure_counts=batch_stats.failure_counts, extra_metrics=extra, checkpoint_due=checkpoint_due)
+
+
+def compute_epoch_molecular_descriptors(prepared: PreparedSamples) -> dict[str, float]:
+    """Compute molecular descriptors from the prepared samples.
+
+    Extracts *rdmols* and *rdkit_valid* mask from ``prepared.samples``
+    and delegates to :func:`ddpo.utils.molecular_descriptors.compute_molecular_descriptors`.
+
+    Returns an empty dict if ``non_tensor_batch`` or required keys are missing.
+    """
+    ntb = getattr(prepared.samples, "non_tensor_batch", None)
+    if ntb is None:
+        return {}
+    rdmols = ntb.get("rdmols")
+    valid_mask = ntb.get("rdkit_valid")
+    if rdmols is None or valid_mask is None:
+        return {}
+    return _compute_molecular_descriptors(rdmols, valid_mask)
 
 
 def build_run_lifecycle(runtime: Any, status: RunStatus, message: str | None = None) -> RunLifecycleFacts:

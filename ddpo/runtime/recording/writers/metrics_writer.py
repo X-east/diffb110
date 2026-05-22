@@ -44,6 +44,19 @@ class MetricsWriter:
         "filtering_ratio_mean", "novelty_penalty_ratio_mean",
         "failure_counts", "checkpoint_due", "checkpoint_path",
         "avg_kl", "avg_ppo_loss",
+        # ── Molecular descriptors ──
+        "logp_mean", "logp_median", "logp_std",
+        "tpsa_mean", "tpsa_median", "tpsa_std",
+        "hba_mean", "hba_std", "hbd_mean", "hbd_std",
+        "carbon_fraction",
+        "hetero_atom_mean", "hetero_atom_std",
+        "aromatic_ring_mean", "aromatic_ring_std",
+        "fraction_logp_high",
+        "fraction_tpsa_low",
+        "fraction_hba_zero_or_low",
+        "descriptor_mmd_vs_baseline",
+        "ecfp4_mean_pairwise_similarity",
+        "fcfp4_mean_pairwise_similarity",
     ]
     DYNAMIC_SUMMARY_PREFIXES = ("avg_chembl_prior_", "avg_diversity_")
 
@@ -128,6 +141,12 @@ class MetricsWriter:
         for key, value in facts.extra_metrics.items():
             if any(str(key).startswith(prefix) for prefix in self.DYNAMIC_SUMMARY_PREFIXES):
                 row[str(key)] = f"{float(value):.6f}" if isinstance(value, (float, int)) else str(value)
+        # Fallthrough: any static SUMMARY_HEADER key stored in extra_metrics
+        # (e.g., molecular descriptors) that wasn't set explicitly above.
+        for header_key in self.SUMMARY_HEADER:
+            if header_key not in row and header_key in facts.extra_metrics:
+                value = facts.extra_metrics[header_key]
+                row[header_key] = f"{float(value):.6f}" if isinstance(value, (float, int)) else str(value)
         rows = self._read_rows() if self.summary_path.exists() else []
         rows.append(row)
         self._write_rows(rows)
