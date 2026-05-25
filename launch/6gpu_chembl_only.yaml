@@ -22,6 +22,11 @@ reward:
     docking: 0
     chembl_prior_ecfp4: 0.5
     chembl_prior_fcfp4: 0.5
+    logp_distribution: 0
+  per_component_normalization:
+    enabled: true
+    momentum: 0.01
+    epsilon: 1.0e-6
   normalization:
     enabled: true
     method: "zscore_total"
@@ -61,6 +66,14 @@ reward:
     high_similarity_weight: 0.0
     failure_penalty: -2.0
     max_reward_similarity: 0.60
+  logp_distribution:
+    chembl_csv: "./data/chembl/chembl_36_properties.csv.gz"
+    failure_penalty: -1.0
+    min_reward: -2.0
+    max_reward: 2.0
+    scale: 12.0
+    ema_alpha: 0.0
+    reward_prefix: logp_distribution
 
 dataloader:
   batch_size: 80

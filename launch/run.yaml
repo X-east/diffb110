@@ -24,6 +24,11 @@ reward:
     chembl_prior_fcfp4: 0.25
     diversity_ecfp4: 0.10
     diversity_fcfp4: 0.10
+    logp_distribution: 0   # 0 = disabled; set >0 to enable
+  per_component_normalization:
+    enabled: true
+    momentum: 0.01
+    epsilon: 1.0e-6
   normalization:
     enabled: true
     method: "zscore_total"
@@ -87,6 +92,15 @@ reward:
     mode: hinge_penalty
     global_batch: true
     failure_penalty: -1.0
+  logp_distribution:
+    chembl_csv: "./data/chembl/chembl_36_properties.csv.gz"
+    logp_bins: [-inf, 0.5, 1.5, 2.5, 3.0, 3.5, 4.5, 5.5, inf]
+    failure_penalty: -1.0
+    min_reward: -2.0
+    max_reward: 2.0
+    scale: 12.0
+    ema_alpha: 0.0
+    reward_prefix: logp_distribution
 
 dataloader:
   batch_size: 72

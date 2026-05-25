@@ -12,8 +12,10 @@ import logging
 from typing import Dict
 
 from ddpo.rewards.composite import CompositeReward
+from ddpo.rewards.component_normalizer import ComponentNormalizer
 from ddpo.rewards.chembl_prior_reward import ChEMBLPriorReward
 from ddpo.rewards.diversity_reward import DiversityReward
+from ddpo.rewards.logp_distribution_reward import LogPDistributionReward
 from ddpo.rewards.qed_reward import QEDReward
 from ddpo.rewards.sa_reward import SAReward
 from ddpo.rewards.docking_factory import build_docking_reward
@@ -163,6 +165,22 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         )
         weights_dict["chembl_prior_fcfp4"] = float(weights_cfg.get("chembl_prior_fcfp4", 1.0))
 
+    if "logp_distribution" in enabled:
+        lp_cfg = reward_cfg.get("logp_distribution", {})
+        logp_bins_raw = lp_cfg.get("logp_bins", None)
+        logp_bins = list(logp_bins_raw) if logp_bins_raw is not None else None
+        rewards_dict["logp_distribution"] = LogPDistributionReward(
+            chembl_csv=str(lp_cfg.get("chembl_csv", "data/chembl/chembl_36_properties.csv.gz")),
+            logp_bins=logp_bins,
+            failure_penalty=float(lp_cfg.get("failure_penalty", -1.0)),
+            min_reward=float(lp_cfg.get("min_reward", -2.0)),
+            max_reward=float(lp_cfg.get("max_reward", 2.0)),
+            scale=float(lp_cfg.get("scale", 12.0)),
+            ema_alpha=float(lp_cfg.get("ema_alpha", 0.0)),
+            reward_prefix=str(lp_cfg.get("reward_prefix", "logp_distribution")),
+        )
+        weights_dict["logp_distribution"] = float(weights_cfg.get("logp_distribution", 0.1))
+
     if 'connectivity' in enabled:
         try:
             from ddpo.rewards.connectivity_reward import ConnectivityReward
@@ -181,6 +199,21 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
     if not rewards_dict:
         raise ValueError("No reward components enabled for Lightning training")
 
+    # ── Per-component normalisation ──
+    norm_cfg = reward_cfg.get("per_component_normalization", {})
+    component_normalizer = None
+    if bool(norm_cfg.get("enabled", False)):
+        component_normalizer = ComponentNormalizer(
+            component_names=list(rewards_dict.keys()),
+            momentum=float(norm_cfg.get("momentum", 0.01)),
+            epsilon=float(norm_cfg.get("epsilon", 1e-6)),
+        )
+        logger.info(
+            "Per-component normalisation ENABLED (momentum=%.3f, components=%d)",
+            component_normalizer._normalizers[list(rewards_dict.keys())[0]].momentum,
+            len(rewards_dict),
+        )
+
     logger.info("Enabled reward components: %s", enabled)
     logger.info("Configured reward weights: %s", weights_dict)
 
@@ -188,6 +221,7 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         rewards=rewards_dict,
         weights=weights_dict,
         normalize_weights=True,
+        component_normalizer=component_normalizer,
     )
     logger.info("CompositeReward normalized weights: %s", composite_reward.get_weights())
 

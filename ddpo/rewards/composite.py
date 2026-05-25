@@ -2,17 +2,24 @@
 CompositeReward: Weighted combination of multiple reward functions.
 
 Combines DockingReward, QEDReward, SAReward, and other rewards with configurable weights.
+Supports optional per-component running z-score normalisation so that weight semantics
+match actual gradient influence regardless of per-component value ranges.
 """
+
+from __future__ import annotations
 
 import warnings
 from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 import torch
 
+from ddpo.field_registry import FieldSpec
+
 from .interfaces import BaseReward
 
 if TYPE_CHECKING:
     from verl_diffusion.protocol import DataProto
+    from .component_normalizer import ComponentNormalizer
 
 
 # ============================================================================
@@ -50,36 +57,39 @@ class CompositeReward(BaseReward):
         weights: Optional[Dict[str, float]] = None,
         fallback_reward: float = FALLBACK_REWARD,
         normalize_weights: bool = True,
+        component_normalizer: "ComponentNormalizer | None" = None,
     ):
         """
         Initialize CompositeReward.
-        
+
         Args:
             rewards: Dict mapping reward names to BaseReward instances
-                     e.g., {"docking": DockingReward(...), "druglikeness": DruglikenessReward(...)}
             weights: Dict mapping reward names to weights (default: equal weights)
             fallback_reward: Reward value when all components fail
             normalize_weights: If True, normalize weights to sum to 1.0
+            component_normalizer: Optional per-component running z-score normalizer.
+                When provided, each component's raw reward is normalised to ~N(0,1)
+                before weighted aggregation, making weight semantics match actual
+                gradient influence regardless of component value ranges.
         """
         if not rewards:
             raise ValueError("At least one reward function must be provided")
-        
+
         self.rewards = rewards
         self.fallback_reward = fallback_reward
         self.normalize_weights = normalize_weights
-        
+        self.component_normalizer = component_normalizer
+
         # Initialize weights
         if weights is None:
-            # Equal weights for all rewards
             n_rewards = len(rewards)
             self.weights = {name: 1.0 / n_rewards for name in rewards}
         else:
-            # Validate weights match rewards
             missing = set(rewards.keys()) - set(weights.keys())
             if missing:
                 warnings.warn(f"Missing weights for: {missing}. Using 0.0 for these.")
             self.weights = {name: weights.get(name, 0.0) for name in rewards}
-        
+
         # Normalize if requested
         if normalize_weights:
             self._normalize_weights()
@@ -156,14 +166,21 @@ class CompositeReward(BaseReward):
                 data = reward_fn.calculate_rewards(data)
                 if timer: timer.stop()
                 
-                # Read the normalised reward from the dedicated field
+                # Read the raw reward from the dedicated field
                 reward_field = f'{name}_reward'
                 if reward_field in data.batch:
                     component_reward = data.batch[reward_field].clone()
                     component_rewards[name] = component_reward
-                    
-                    # Add weighted contribution
-                    combined_rewards += weight * component_reward
+
+                    # Per-component running z-score normalisation (optional)
+                    if self.component_normalizer is not None:
+                        norm = self.component_normalizer.update_and_normalize(name, component_reward)
+                        data.batch[f'{name}_reward_norm'] = norm
+                    else:
+                        norm = component_reward
+
+                    # Add weighted contribution (using normalised value if available)
+                    combined_rewards += weight * norm
                     successful_components.append(name)
                 else:
                     warnings.warn(f"Reward '{name}' did not return '{reward_field}' tensor")
@@ -192,7 +209,17 @@ class CompositeReward(BaseReward):
     def get_weights(self) -> Dict[str, float]:
         """Return current weights."""
         return self.weights.copy()
+
+    def field_specs(self) -> List[FieldSpec]:
+        """Return dynamic fields declared by child rewards."""
+        specs: list[FieldSpec] = []
+        for reward_fn in self.rewards.values():
+            getter = getattr(reward_fn, "field_specs", None)
+            if callable(getter):
+                specs.extend(getter() or [])
+        return specs
     
     def __repr__(self) -> str:
         weight_str = ", ".join(f"{k}={v:.2f}" for k, v in self.weights.items())
-        return f"CompositeReward({weight_str})"
+        norm_flag = "+norm" if self.component_normalizer is not None else ""
+        return f"CompositeReward{norm_flag}({weight_str})"
