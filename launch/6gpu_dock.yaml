@@ -19,9 +19,9 @@ reward:
   weights:
     qed: 0
     sa: 0
-    docking: 0.5
-    chembl_prior: 0.5
-    logp_distribution: 0
+    docking: 0.4
+    chembl_prior: 0.4
+    logp_distribution: 0.2
   per_component_normalization:
     enabled: true
     momentum: 0.01

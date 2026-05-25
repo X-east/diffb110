@@ -19,12 +19,12 @@ reward:
   weights:
     qed: 0
     sa: 0
-    docking: 0.5
-    chembl_prior_ecfp4: 0.25
-    chembl_prior_fcfp4: 0.25
-    diversity_ecfp4: 0.10
-    diversity_fcfp4: 0.10
-    logp_distribution: 0   # 0 = disabled; set >0 to enable
+    docking: 0.4
+    chembl_prior_ecfp4: 0.2
+    chembl_prior_fcfp4: 0.2
+    diversity_ecfp4: 0      # disabled — avalanche trigger
+    diversity_fcfp4: 0      # disabled — avalanche trigger
+    logp_distribution: 0.2  # LogP distribution constraint
   per_component_normalization:
     enabled: true
     momentum: 0.01
