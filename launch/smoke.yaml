@@ -35,7 +35,6 @@ reward:
     enabled: false
   chembl_classifier:
     good_threshold: 0.7
-    bad_threshold: 0.3
     max_reward: 1.0
     penalty: -1.0
   docking:

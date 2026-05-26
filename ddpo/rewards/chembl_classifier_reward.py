@@ -50,15 +50,15 @@ class ChemblClassifierReward(BaseReward):
 
     Reward mapping (threshold-based):
       - prob >= good_threshold  → positive reward (scaled to [0, max_reward])
-      - prob <  bad_threshold   → penalty (negative, scaled)
-      - bad_threshold <= prob < good_threshold → 0.0 (neutral)
+      - prob <  good_threshold  → penalty (scaled to [penalty, 0])
+      When bad_threshold == good_threshold (default), there is no neutral zone.
 
     Args:
         model_path: Path to the trained classifier .pt file.
             Defaults to chembl_classifier/models/chembl_classifier.pt.
         failure_penalty: Reward for invalid molecules (rdkit_valid=0).
         good_threshold: P(ChEMBL-like) above this gets positive reward.
-        bad_threshold: P(ChEMBL-like) below this gets penalty.
+        bad_threshold: P(ChEMBL-like) below this gets penalty (default = good_threshold).
         max_reward: Maximum positive reward (at prob=1.0).
         penalty: Penalty value at prob=0.0.
         device: Inference device. Default auto-detect.
@@ -69,7 +69,7 @@ class ChemblClassifierReward(BaseReward):
         model_path: str | None = None,
         failure_penalty: float = -1.0,
         good_threshold: float = 0.7,
-        bad_threshold: float = 0.3,
+        bad_threshold: float | None = None,
         max_reward: float = 1.0,
         penalty: float = -1.0,
         device: str | None = None,
@@ -88,7 +88,7 @@ class ChemblClassifierReward(BaseReward):
 
         self._failure_penalty = float(failure_penalty)
         self._good_threshold = float(good_threshold)
-        self._bad_threshold = float(bad_threshold)
+        self._bad_threshold = float(bad_threshold) if bad_threshold is not None else self._good_threshold
         self._max_reward = float(max_reward)
         self._penalty = float(penalty)
         self._model_path = model_path

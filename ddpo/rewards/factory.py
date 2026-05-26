@@ -231,7 +231,7 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             model_path=cc_cfg.get("model_path", None),
             failure_penalty=float(cc_cfg.get("failure_penalty", -1.0)),
             good_threshold=float(cc_cfg.get("good_threshold", 0.7)),
-            bad_threshold=float(cc_cfg.get("bad_threshold", 0.3)),
+            bad_threshold=cc_cfg.get("bad_threshold", None),
             max_reward=float(cc_cfg.get("max_reward", 1.0)),
             penalty=float(cc_cfg.get("penalty", -1.0)),
             device=cc_cfg.get("device", None),
