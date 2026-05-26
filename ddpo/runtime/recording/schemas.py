@@ -68,6 +68,7 @@ class EpochFacts:
     avg_chembl_prior_ecfp4_similarity: float = 0.0
     avg_chembl_prior_fcfp4_reward: float = 0.0
     avg_chembl_prior_fcfp4_similarity: float = 0.0
+    avg_ligand_efficiency: float = 0.0
     failure_counts: Dict[str, int] = field(default_factory=dict)
     extra_metrics: Dict[str, Any] = field(default_factory=dict)
     checkpoint_due: bool = False

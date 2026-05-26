@@ -19,6 +19,7 @@ from ddpo.rewards.logp_distribution_reward import LogPDistributionReward
 from ddpo.rewards.qed_reward import QEDReward
 from ddpo.rewards.sa_reward import SAReward
 from ddpo.rewards.docking_factory import build_docking_reward
+from ddpo.rewards.ligand_efficiency_reward import LigandEfficiencyReward
 from ddpo.rewards.stability import StabilityAwareReward
 
 
@@ -71,6 +72,16 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         docking_reward.dataset_info = dataset_info
         rewards_dict["docking"] = docking_reward
         weights_dict["docking"] = float(weights_cfg.get("docking", 1.0))
+
+    if "ligand_efficiency" in enabled:
+        le_cfg = reward_cfg.get("ligand_efficiency", {})
+        rewards_dict["ligand_efficiency"] = LigandEfficiencyReward(
+            failure_penalty=float(le_cfg.get("failure_penalty", -1.0)),
+            min_le=float(le_cfg.get("min_le", 0.0)),
+            max_le=float(le_cfg.get("max_le", 2.0)),
+            scale=float(le_cfg.get("scale", 1.0)),
+        )
+        weights_dict["ligand_efficiency"] = float(weights_cfg.get("ligand_efficiency", 0.1))
 
     if "diversity_ecfp4" in enabled:
         div_cfg = reward_cfg.get("diversity_ecfp4", {})

@@ -8,9 +8,16 @@ from typing import Any
 import torch
 
 from ddpo.rewards.factory import get_enabled_rewards
+from ddpo.field_registry import (
+    FieldAggregate,
+    FieldSpec,
+    append_registered_molecule_fields,
+    compute_registered_epoch_aggregates,
+)
 from ddpo.runtime.recording import BatchFacts, EpochFacts, RunLifecycleFacts, RunStatus
 from ddpo.utils import PerfTimer, annotate_batch_molecule_semantics
 from ddpo.utils.molecular_descriptors import compute_molecular_descriptors as _compute_molecular_descriptors
+from ddpo.utils.molecular_descriptors import load_chembl_6d_vectors
 
 
 @dataclass
@@ -73,6 +80,8 @@ class BatchStats:
     avg_chembl_prior_fcfp4_similarity: float = 0.0
     chembl_prior_metrics: dict[str, float] | None = None
     diversity_metrics: dict[str, float] | None = None
+    registered_epoch_aggregates: dict[str, FieldAggregate] | None = None
+    extra_epoch_metrics: dict[str, float] | None = None
 
 
 def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None = None) -> PreparedSamples:
@@ -227,7 +236,11 @@ def _legacy_fixed_chembl_fields(metrics: dict[str, float]) -> dict[str, float]:
     }
 
 
-def compute_batch_stats(prepared: PreparedSamples, config: dict[str, Any] | None = None) -> BatchStats:
+def compute_batch_stats(
+    prepared: PreparedSamples,
+    config: dict[str, Any] | None = None,
+    field_specs: list[FieldSpec] | None = None,
+) -> BatchStats:
     samples = prepared.samples
     ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
     src = ntb if isinstance(ntb, dict) else samples.batch
@@ -320,15 +333,23 @@ def compute_batch_stats(prepared: PreparedSamples, config: dict[str, Any] | None
     avg_sa_norm = float(sum(sa_norm) / len(sa_norm)) if sa_norm else 0.0
     avg_docking_norm = float(sum(docking_norm) / len(docking_norm)) if docking_norm else 0.0
     avg_diversity_norm = float(sum(diversity_norm) / len(diversity_norm)) if diversity_norm else 0.0
+    registered_epoch_aggregates = compute_registered_epoch_aggregates(samples, field_specs or [])
     generated_count = len(valid_flags) if valid_flags else int(samples.batch.batch_size[0])
     valid_count = int(sum(valid_flags)) if valid_flags else 0
     valid_ratio = float(valid_count / generated_count) if generated_count > 0 else 0.0
     failure_counts = dict(Counter(failure_types)) if failure_types else {}
     reward_raw_mean = float(sum(rewards_raw) / len(rewards_raw)) if rewards_raw else 0.0
-    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, avg_similarity=avg_similarity, avg_diversity=avg_diversity, avg_qed_norm=avg_qed_norm, avg_sa_norm=avg_sa_norm, avg_docking_norm=avg_docking_norm, avg_diversity_norm=avg_diversity_norm, avg_chembl_reward=avg_chembl_reward, avg_chembl_similarity=avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=avg_chembl_prior_fcfp4_similarity, chembl_prior_metrics=chembl_prior_metrics, diversity_metrics=diversity_metrics, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts, reward_raw_mean=reward_raw_mean)
+    return BatchStats(reward_mean=reward_mean, reward_min=reward_min, reward_max=reward_max, avg_qed=avg_qed, avg_sa=avg_sa, avg_docking=avg_docking, avg_similarity=avg_similarity, avg_diversity=avg_diversity, avg_qed_norm=avg_qed_norm, avg_sa_norm=avg_sa_norm, avg_docking_norm=avg_docking_norm, avg_diversity_norm=avg_diversity_norm, avg_chembl_reward=avg_chembl_reward, avg_chembl_similarity=avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=avg_chembl_prior_fcfp4_similarity, chembl_prior_metrics=chembl_prior_metrics, diversity_metrics=diversity_metrics, generated_count=generated_count, valid_count=valid_count, valid_ratio=valid_ratio, failure_counts=failure_counts, reward_raw_mean=reward_raw_mean, registered_epoch_aggregates=registered_epoch_aggregates)
 
 
-def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, batch_stats: BatchStats, config: dict[str, Any] | None = None) -> BatchFacts:
+def build_batch_facts(
+    prepared: PreparedSamples,
+    epoch: int,
+    batch_idx: int,
+    batch_stats: BatchStats,
+    config: dict[str, Any] | None = None,
+    field_specs: list[FieldSpec] | None = None,
+) -> BatchFacts:
     samples = prepared.samples
     ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
     src = ntb if isinstance(ntb, dict) else samples.batch
@@ -416,6 +437,7 @@ def build_batch_facts(prepared: PreparedSamples, epoch: int, batch_idx: int, bat
             "reward_total_raw": rewards_raw[molecule_id] if molecule_id < len(rewards_raw) else 0.0,
             "reward_total_norm": rewards_norm[molecule_id] if molecule_id < len(rewards_norm) else 0.0,
         }
+        append_registered_molecule_fields(row, samples, field_specs or [], molecule_id)
         for prefix, values in chembl_reward_by_prefix.items():
             row[f"{prefix}_reward"] = values[molecule_id] if molecule_id < len(values) else 0.0
         for prefix, values in chembl_sim_by_prefix.items():
@@ -452,6 +474,7 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
         "avg_reward_raw": batch_stats.reward_raw_mean,
         "reward_enabled": get_enabled_rewards(runtime.config),
     }
+    extra.update(batch_stats.extra_epoch_metrics or {})
     extra.update(batch_stats.chembl_prior_metrics or {})
     extra.update(batch_stats.diversity_metrics or {})
     # Generic passthrough: Actor returns whatever metrics it produces;
@@ -464,16 +487,24 @@ def build_epoch_facts(runtime: Any, epoch: int, metrics: dict[str, Any], batch_s
                 extra[key] = float(value)
             except (TypeError, ValueError):
                 extra[key] = str(value) if not isinstance(value, (str, bool)) else value
-    return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, avg_chembl_reward=batch_stats.avg_chembl_reward, avg_chembl_similarity=batch_stats.avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=batch_stats.avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=batch_stats.avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=batch_stats.avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=batch_stats.avg_chembl_prior_fcfp4_similarity, failure_counts=batch_stats.failure_counts, extra_metrics=extra, checkpoint_due=checkpoint_due)
+    return EpochFacts(epoch=epoch, timestamp=datetime.now().isoformat(timespec="seconds"), avg_loss=avg_loss, reward_mean=batch_stats.reward_mean, reward_min=batch_stats.reward_min, reward_max=batch_stats.reward_max, avg_qed=batch_stats.avg_qed, avg_sa=batch_stats.avg_sa, avg_docking=batch_stats.avg_docking, avg_similarity=batch_stats.avg_similarity, avg_diversity=batch_stats.avg_diversity, generated_total=batch_stats.generated_count, rdkit_valid=batch_stats.valid_count, rdkit_valid_ratio=batch_stats.valid_ratio, filtering_ratio_mean=prepared.filtering_ratio, novelty_penalty_ratio_mean=prepared.novelty_penalty_ratio, avg_chembl_reward=batch_stats.avg_chembl_reward, avg_chembl_similarity=batch_stats.avg_chembl_similarity, avg_chembl_prior_ecfp4_reward=batch_stats.avg_chembl_prior_ecfp4_reward, avg_chembl_prior_ecfp4_similarity=batch_stats.avg_chembl_prior_ecfp4_similarity, avg_chembl_prior_fcfp4_reward=batch_stats.avg_chembl_prior_fcfp4_reward, avg_chembl_prior_fcfp4_similarity=batch_stats.avg_chembl_prior_fcfp4_similarity, avg_ligand_efficiency=extra.get("avg_ligand_efficiency", 0.0), failure_counts=batch_stats.failure_counts, extra_metrics=extra, checkpoint_due=checkpoint_due)
 
 
-def compute_epoch_molecular_descriptors(prepared: PreparedSamples) -> dict[str, float]:
+def compute_epoch_molecular_descriptors(prepared: PreparedSamples,
+                                        reference_vectors: np.ndarray | None = None) -> dict[str, float]:
     """Compute molecular descriptors from the prepared samples.
 
     Extracts *rdmols* and *rdkit_valid* mask from ``prepared.samples``
     and delegates to :func:`ddpo.utils.molecular_descriptors.compute_molecular_descriptors`.
 
-    Returns an empty dict if ``non_tensor_batch`` or required keys are missing.
+    Args:
+        prepared: Prepared training samples.
+        reference_vectors: Pre-loaded ChEMBL 6D descriptor vectors for MMD
+            comparison.  If None, loads lazily via ``load_chembl_6d_vectors()``.
+
+    Returns:
+        Flat dict of descriptor metrics, or empty dict if required keys
+        are missing from the non-tensor batch.
     """
     ntb = getattr(prepared.samples, "non_tensor_batch", None)
     if ntb is None:
@@ -482,7 +513,8 @@ def compute_epoch_molecular_descriptors(prepared: PreparedSamples) -> dict[str, 
     valid_mask = ntb.get("rdkit_valid")
     if rdmols is None or valid_mask is None:
         return {}
-    return _compute_molecular_descriptors(rdmols, valid_mask)
+    ref = reference_vectors if reference_vectors is not None else load_chembl_6d_vectors()
+    return _compute_molecular_descriptors(rdmols, valid_mask, reference_descriptor_vectors=ref)
 
 
 def build_run_lifecycle(runtime: Any, status: RunStatus, message: str | None = None) -> RunLifecycleFacts:

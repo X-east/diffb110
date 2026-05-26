@@ -41,6 +41,7 @@ class MetricsWriter:
         "avg_chembl_reward", "avg_chembl_similarity",
         "avg_chembl_prior_ecfp4_reward", "avg_chembl_prior_ecfp4_similarity",
         "avg_chembl_prior_fcfp4_reward", "avg_chembl_prior_fcfp4_similarity",
+        "avg_ligand_efficiency",
         "filtering_ratio_mean", "novelty_penalty_ratio_mean",
         "failure_counts", "checkpoint_due", "checkpoint_path",
         "avg_kl", "avg_ppo_loss",
@@ -58,8 +59,6 @@ class MetricsWriter:
         "ecfp4_mean_pairwise_similarity",
         "fcfp4_mean_pairwise_similarity",
     ]
-    DYNAMIC_SUMMARY_PREFIXES = ("avg_chembl_prior_", "avg_diversity_")
-
     def __init__(self, run_context: RunContext) -> None:
         self.run_context = run_context
         self.summary_path = Path(run_context.training_summary_csv_path)
@@ -89,8 +88,7 @@ class MetricsWriter:
         return sorted(
             str(key)
             for key in row.keys()
-            if any(str(key).startswith(prefix) for prefix in self.DYNAMIC_SUMMARY_PREFIXES)
-            and str(key) not in self.SUMMARY_HEADER
+            if str(key) not in self.SUMMARY_HEADER
         )
 
     def _summary_header_from_rows(self, rows: list[dict]) -> list[str]:
@@ -139,7 +137,7 @@ class MetricsWriter:
             "avg_ppo_loss": f"{facts.extra_metrics.get('PPO_Loss', 0.0):.6f}",
         }
         for key, value in facts.extra_metrics.items():
-            if any(str(key).startswith(prefix) for prefix in self.DYNAMIC_SUMMARY_PREFIXES):
+            if str(key) not in row:
                 row[str(key)] = f"{float(value):.6f}" if isinstance(value, (float, int)) else str(value)
         # Fallthrough: any static SUMMARY_HEADER key stored in extra_metrics
         # (e.g., molecular descriptors) that wasn't set explicitly above.

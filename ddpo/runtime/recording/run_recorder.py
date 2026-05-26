@@ -38,6 +38,8 @@ _REWARD_DISPLAY_REGISTRY: dict[str, dict[str, str]] = {
     "chembl_prior_fcfp4": {"label": "FCFP4 Sim", "field": "avg_chembl_prior_fcfp4_similarity", "fmt": ".4f"},
     "diversity_ecfp4": {"label": "ECFP4 Div",   "field": "avg_diversity_ecfp4_diversity", "fmt": ".4f"},
     "diversity_fcfp4": {"label": "FCFP4 Div",   "field": "avg_diversity_fcfp4_diversity", "fmt": ".4f"},
+    "logp_distribution": {"label": "LogP Dist Rwd", "field": "avg_logp_distribution_reward", "fmt": ".4f"},
+    "ligand_efficiency": {"label": "Ligand Eff", "field": "avg_ligand_efficiency", "fmt": ".4f"},
 }
 
 
