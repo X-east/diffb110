@@ -1,0 +1,90 @@
+# ChEMBL 分类器奖励 — 7卡单独测试
+# 权重 100% chembl_classifier，无其他奖励
+
+name: 7gpu-classifier-only
+
+dataset: crossdock
+
+model:
+  checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
+  time_step: 200
+  device: "cuda"
+
+pocket:
+  pdb_path: "./data/8GJL.pdb"
+  ref_ligand: "C:1101"
+  pdbqt_path: "./data/8gjl.pdbqt"
+
+reward:
+  weights:
+    qed: 0
+    sa: 0
+    docking: 0
+    chembl_prior_ecfp4: 0
+    chembl_prior_fcfp4: 0
+    logp_distribution: 0
+    chembl_classifier: 1.0
+  per_component_normalization:
+    enabled: true
+    momentum: 0.01
+    epsilon: 1.0e-6
+  normalization:
+    enabled: true
+    method: "zscore_total"
+    epsilon: 1.0e-6
+    use_rewards_key: "reward_total_raw"
+    raw_output_key: "reward_total_raw"
+    norm_output_key: "reward_total_norm"
+    clamped_output_key: "reward_total_clamped"
+    map_rewards_field: "reward_total"
+    advantages_key: "advantages"
+    override_rewards_field: true
+    stats_prefix: "reward"
+    failure:
+      include_in_stats: false
+      advantage_override: -2.0
+    clamp:
+      enabled: true
+      min: -2.0
+      max: 2.0
+  chembl_classifier:
+    good_threshold: 0.5
+    cap_high: 0.8
+    cap_low: 0.2
+    max_reward: 1.0
+    penalty: -1.0
+
+dataloader:
+  batch_size: 80
+  min_nodes: 10
+  max_nodes: 30
+  max_n_nodes: 106
+  node_sampling: size_distribution
+  rollout_micro_batch_size: 80
+
+train:
+  timer: true
+  train_micro_batch_size: 16
+  learning_rate: 3.0e-5
+  kl_coef: 0
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 1.0e-4
+  adam_epsilon: 1.0e-8
+  clip_range: 0.1
+  max_grad_norm: 1.0
+  ppo_epochs: 4
+  ppo_shuffle_microbatch: false
+  checkpoint_interval: 5
+  seed: 1
+  epochs: 100
+
+ddp:
+  enabled: true
+  num_gpus: 7
+  find_unused_parameters: true
+  param_sync_check: false
+  grad_sync_probe: true
+
+output:
+  dir: "./OUT/<run_name>_<YYYYMMDD>_<seq>"
