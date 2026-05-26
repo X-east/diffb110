@@ -42,10 +42,10 @@ data:
   # 留空则仅用合成负样本
   experiment_dirs: []
 
-  # 合成负样本数量
-  n_synthetic_pah: 2000        # 合成全碳多环芳烃 C10-C30
-  n_synthetic_garbage: 1000    # 合成垃圾分子（全硫、全碳链等）
-  n_chembl_outliers: 1000      # ChEMBL 极端异常值（LogP > 7, TPSA < 15 等）
+  # 合成负样本数量（属性规则提取的18K负样本已覆盖这些模式）
+  n_synthetic_pah: 0           # 合成全碳多环芳烃 C10-C30 (18K提取已含prop_all_carbon)
+  n_synthetic_garbage: 0       # 合成垃圾分子 (18K提取已含prop_sulfur_excess等)
+  n_chembl_outliers: 0         # ChEMBL 极端异常值 (18K提取已覆盖)
 
 # ============================================
 # Output

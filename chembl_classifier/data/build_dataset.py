@@ -370,7 +370,9 @@ def build_dataset(config_path: str | None = None) -> dict:
     pah_smiles = _build_synthetic_negatives(
         n_pah=n_pah, n_garbage=0, seed=seed
     )
-    X_pah, y_pah, s_pah = featurize_smiles(pah_smiles, featurizer, label=0)
+    X_pah, y_pah, s_pah = featurize_smiles(pah_smiles, featurizer, label=0) if pah_smiles else (
+        np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
+    )
     logger.info(f"  PAHs: {X_pah.shape[0]} valid")
     all_X_neg.append(X_pah)
     all_y_neg.append(y_pah)
@@ -382,7 +384,9 @@ def build_dataset(config_path: str | None = None) -> dict:
     garbage_smiles = _build_synthetic_negatives(
         n_pah=0, n_garbage=n_garbage, seed=seed + 1
     )
-    X_garb, y_garb, s_garb = featurize_smiles(garbage_smiles, featurizer, label=0)
+    X_garb, y_garb, s_garb = featurize_smiles(garbage_smiles, featurizer, label=0) if garbage_smiles else (
+        np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
+    )
     logger.info(f"  Garbage: {X_garb.shape[0]} valid")
     all_X_neg.append(X_garb)
     all_y_neg.append(y_garb)
@@ -396,11 +400,28 @@ def build_dataset(config_path: str | None = None) -> dict:
         n=n_outliers,
         seed=seed,
     )
-    X_out, y_out, s_out = featurize_smiles(outlier_smiles, featurizer, label=0)
+    X_out, y_out, s_out = featurize_smiles(outlier_smiles, featurizer, label=0) if outlier_smiles else (
+        np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
+    )
     logger.info(f"  Outliers: {X_out.shape[0]} valid")
     all_X_neg.append(X_out)
     all_y_neg.append(y_out)
     all_smiles_neg.extend(s_out)
+
+    # 2d. Extracted negatives from training outputs (property-rule sweep)
+    negatives_path = _PROJECT_ROOT / "chembl_classifier" / "data" / "negatives" / "all_negatives.smi"
+    if negatives_path.exists():
+        logger.info("Loading extracted property-rule negatives...")
+        with open(negatives_path) as f:
+            extracted_smiles = [line.strip() for line in f if line.strip() and not line.startswith("smiles")]
+        logger.info(f"  Read {len(extracted_smiles):,} extracted negatives")
+        X_ext, y_ext, s_ext = featurize_smiles(extracted_smiles, featurizer, label=0, n_jobs=n_jobs)
+        logger.info(f"  Extracted negatives: {X_ext.shape[0]} valid")
+        all_X_neg.append(X_ext)
+        all_y_neg.append(y_ext)
+        all_smiles_neg.extend(s_ext)
+    else:
+        logger.info("No extracted negatives found, skipping.")
 
     # ── Combine negatives ─────────────────────────────────────────────────
     X_neg = np.concatenate(all_X_neg, axis=0)
