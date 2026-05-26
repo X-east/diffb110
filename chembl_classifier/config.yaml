@@ -1,0 +1,58 @@
+# ChEMBL Classifier Configuration
+# 用于区分"ChEMBL-like"分子与异常分子（碳比例坍塌、杂质等）
+
+# ============================================
+# Model Architecture
+# ============================================
+model:
+  input_dim: 2220           # 2048 Morgan count FP + 172 RDKit 2D descriptors
+  hidden_dims: [512, 128]   # 3-layer MLP: 2220→512→128→1
+  dropout_rates: [0.3, 0.2] # 渐进 dropout，防止对负样本过拟合
+
+# ============================================
+# Training
+# ============================================
+training:
+  n_positives: 100000       # 从 ChEMBL 155 万中随机采样的正样本数
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 1e-5
+  max_epochs: 100
+  early_stopping_patience: 15
+  train_split: 0.8
+  val_split: 0.1           # test = 1 - train - val
+  seed: 42
+
+  # 类别不平衡处理：正样本 100k，负样本 ~6k，比例 ~16:1
+  # pos_weight 自动计算为 n_neg / n_pos
+  auto_pos_weight: true
+
+# ============================================
+# Data Paths
+# ============================================
+data:
+  # ChEMBL 数据（正样本来源）
+  chembl_molecules: "data/chembl/chembl_36_molecules.csv.gz"
+  chembl_properties: "data/chembl/chembl_36_properties.csv.gz"
+
+  # 并行 featurization
+  n_jobs: 24                   # 多进程并行数，设为 1 禁用多进程
+
+  # 实验输出目录（用于收集模型生成的异常分子作负样本）
+  # 留空则仅用合成负样本
+  experiment_dirs: []
+
+  # 合成负样本数量
+  n_synthetic_pah: 2000        # 合成全碳多环芳烃 C10-C30
+  n_synthetic_garbage: 1000    # 合成垃圾分子（全硫、全碳链等）
+  n_chembl_outliers: 1000      # ChEMBL 极端异常值（LogP > 7, TPSA < 15 等）
+
+# ============================================
+# Output
+# ============================================
+output:
+  model_dir: "chembl_classifier/models"
+  model_name: "chembl_classifier.pt"
+  dataset_cache: "chembl_classifier/models/dataset.pt"  # 缓存 featurized 数据
+  # 标准化参数（RDKit 描述子 Z-score）
+  norm_stats: "reference project/molskill/data/chembl_population_mean_std.csv"
