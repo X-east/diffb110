@@ -230,8 +230,10 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         rewards_dict["chembl_classifier"] = ChemblClassifierReward(
             model_path=cc_cfg.get("model_path", None),
             failure_penalty=float(cc_cfg.get("failure_penalty", -1.0)),
-            good_threshold=float(cc_cfg.get("good_threshold", 0.7)),
+            good_threshold=float(cc_cfg.get("good_threshold", 0.5)),
             bad_threshold=cc_cfg.get("bad_threshold", None),
+            cap_high=float(cc_cfg.get("cap_high", 0.8)),
+            cap_low=float(cc_cfg.get("cap_low", 0.2)),
             max_reward=float(cc_cfg.get("max_reward", 1.0)),
             penalty=float(cc_cfg.get("penalty", -1.0)),
             device=cc_cfg.get("device", None),

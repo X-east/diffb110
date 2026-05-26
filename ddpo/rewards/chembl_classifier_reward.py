@@ -48,19 +48,20 @@ class ChemblClassifierReward(BaseReward):
       - Positive: 100k random ChEMBL molecules
       - Negative: 18K property-rule negatives (all-carbon, too-hydrophilic, etc.)
 
-    Reward mapping (threshold-based):
-      - prob >= good_threshold  → positive reward (scaled to [0, max_reward])
-      - prob <  good_threshold  → penalty (scaled to [penalty, 0])
+    Reward mapping (threshold-based, capped):
+      - prob >= good_threshold  → positive reward, plateau at cap_high
+      - prob <  good_threshold  → penalty, floor at cap_low
       When bad_threshold == good_threshold (default), there is no neutral zone.
 
     Args:
         model_path: Path to the trained classifier .pt file.
-            Defaults to chembl_classifier/models/chembl_classifier.pt.
         failure_penalty: Reward for invalid molecules (rdkit_valid=0).
-        good_threshold: P(ChEMBL-like) above this gets positive reward.
-        bad_threshold: P(ChEMBL-like) below this gets penalty (default = good_threshold).
-        max_reward: Maximum positive reward (at prob=1.0).
-        penalty: Penalty value at prob=0.0.
+        good_threshold: P below this gets penalty, above gets reward.
+        bad_threshold: Penalty threshold (default = good_threshold).
+        cap_high: P above which reward plateaus at max_reward.
+        cap_low: P below which penalty floors at penalty.
+        max_reward: Maximum positive reward (at prob >= cap_high).
+        penalty: Maximum penalty (at prob <= cap_low).
         device: Inference device. Default auto-detect.
     """
 
@@ -68,8 +69,10 @@ class ChemblClassifierReward(BaseReward):
         self,
         model_path: str | None = None,
         failure_penalty: float = -1.0,
-        good_threshold: float = 0.7,
+        good_threshold: float = 0.5,
         bad_threshold: float | None = None,
+        cap_high: float = 0.8,
+        cap_low: float = 0.2,
         max_reward: float = 1.0,
         penalty: float = -1.0,
         device: str | None = None,
@@ -89,6 +92,8 @@ class ChemblClassifierReward(BaseReward):
         self._failure_penalty = float(failure_penalty)
         self._good_threshold = float(good_threshold)
         self._bad_threshold = float(bad_threshold) if bad_threshold is not None else self._good_threshold
+        self._cap_high = float(cap_high)
+        self._cap_low = float(cap_low)
         self._max_reward = float(max_reward)
         self._penalty = float(penalty)
         self._model_path = model_path
@@ -177,23 +182,28 @@ class ChemblClassifierReward(BaseReward):
         )
         probs = self._model.predict_proba(X).flatten()
 
-        # Threshold-based reward mapping:
-        #   prob >= good_threshold → positive, scaled to [0, max_reward]
-        #   prob <  bad_threshold  → penalty, scaled to [penalty, 0]
-        #   else                   → 0.0 (neutral)
+        # Threshold-based reward mapping with caps:
+        #   prob >= good_t → positive, [0, max_reward], plateau at cap_high
+        #   prob <  bad_t  → penalty, [penalty, 0], floor at cap_low
         probs = probs.to(device)
         good_t = self._good_threshold
         bad_t = self._bad_threshold
+        cap_h = self._cap_high
+        cap_l = self._cap_low
 
         high_mask = probs >= good_t
         low_mask = probs < bad_t
         mid_mask = ~(high_mask | low_mask)
 
         mapped = torch.zeros_like(probs)
-        # High: linear scale [good_t, 1.0] → [0, max_reward]
-        mapped[high_mask] = self._max_reward * (probs[high_mask] - good_t) / max(1.0 - good_t, 1e-8)
-        # Low: linear scale [0.0, bad_t] → [penalty, 0]
-        mapped[low_mask] = self._penalty * (bad_t - probs[low_mask]) / max(bad_t, 1e-8)
+        # High: linear [good_t, cap_h] → [0, max_reward], then plateau
+        scale_h = max(cap_h - good_t, 1e-8)
+        high_scaled = torch.clamp((probs[high_mask] - good_t) / scale_h, 0.0, 1.0)
+        mapped[high_mask] = self._max_reward * high_scaled
+        # Low: linear [cap_l, bad_t] → [penalty, 0], then floor
+        scale_l = max(bad_t - cap_l, 1e-8)
+        low_scaled = torch.clamp((bad_t - probs[low_mask]) / scale_l, 0.0, 1.0)
+        mapped[low_mask] = self._penalty * low_scaled
         # Mid: neutral = 0.0 (already zeros)
 
         for idx, reward_val in zip(valid_indices, mapped):
