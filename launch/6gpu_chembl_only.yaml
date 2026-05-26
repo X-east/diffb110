@@ -1,7 +1,7 @@
 # ChEMBL 指纹相似度奖励 — 单独测试
 # 权重 100%，无 dock/QED/SA 干扰
 
-name: 6gpu-chembl-only
+name: 6gpu-chembl-only-classifier
 
 dataset: crossdock
 
@@ -20,9 +20,10 @@ reward:
     qed: 0
     sa: 0
     docking: 0
-    chembl_prior_ecfp4: 0.4
-    chembl_prior_fcfp4: 0.4
+    chembl_prior_ecfp4: 0.3
+    chembl_prior_fcfp4: 0.3
     logp_distribution: 0.2
+    chembl_classifier: 0.2
   per_component_normalization:
     enabled: true
     momentum: 0.01
@@ -74,6 +75,12 @@ reward:
     scale: 12.0
     ema_alpha: 0.0
     reward_prefix: logp_distribution
+  chembl_classifier:
+    good_threshold: 0.5
+    cap_high: 0.8
+    cap_low: 0.2
+    max_reward: 1.0
+    penalty: -1.0
 
 dataloader:
   batch_size: 80
