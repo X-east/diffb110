@@ -20,6 +20,8 @@ from ddpo.rewards.qed_reward import QEDReward
 from ddpo.rewards.sa_reward import SAReward
 from ddpo.rewards.docking_factory import build_docking_reward
 from ddpo.rewards.ligand_efficiency_reward import LigandEfficiencyReward
+from ddpo.rewards.molskill_reward import MolSkillReward
+from ddpo.rewards.chembl_classifier_reward import ChemblClassifierReward
 from ddpo.rewards.stability import StabilityAwareReward
 
 
@@ -29,10 +31,16 @@ def get_enabled_rewards(config: dict) -> list[str]:
 
     唯一来源是 `reward.weights`：weight > 0 视为启用，weight == 0 视为禁用。
     如果 weights 为空或全零则回退到 ["qed", "sa"]。
+
+    特殊规则：ligand_efficiency 依赖 docking 提供的 ``ligand_efficiency_raw``，
+    因此只要 LE 启用，docking 也自动启用（但 weight 保持用户配置的原值，可能为 0）。
     """
     reward_cfg = config.get("reward", {})
     weights = reward_cfg.get("weights", {})
     enabled = [name for name, value in weights.items() if float(value) > 0.0]
+    # LE 依赖 docking 产生数据，自动启用 docking 作为数据提供者
+    if "ligand_efficiency" in enabled and "docking" not in enabled:
+        enabled.append("docking")
     return enabled if enabled else ["qed", "sa"]
 
 
@@ -206,6 +214,29 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             fragment_penalty=float(conn_cfg.get('fragment_penalty', -1.0)),
         )
         weights_dict['connectivity'] = float(weights_cfg.get('connectivity', 1.0))
+
+    if "molskill" in enabled:
+        ms_cfg = reward_cfg.get("molskill", {})
+        rewards_dict["molskill"] = MolSkillReward(
+            checkpoint_path=ms_cfg.get("checkpoint_path", None),
+            failure_penalty=float(ms_cfg.get("failure_penalty", -1.0)),
+            clamp_min=float(ms_cfg.get("clamp_min", -5.0)),
+            clamp_max=float(ms_cfg.get("clamp_max", 5.0)),
+        )
+        weights_dict["molskill"] = float(weights_cfg.get("molskill", 1.0))
+
+    if "chembl_classifier" in enabled:
+        cc_cfg = reward_cfg.get("chembl_classifier", {})
+        rewards_dict["chembl_classifier"] = ChemblClassifierReward(
+            model_path=cc_cfg.get("model_path", None),
+            failure_penalty=float(cc_cfg.get("failure_penalty", -1.0)),
+            good_threshold=float(cc_cfg.get("good_threshold", 0.7)),
+            bad_threshold=float(cc_cfg.get("bad_threshold", 0.3)),
+            max_reward=float(cc_cfg.get("max_reward", 1.0)),
+            penalty=float(cc_cfg.get("penalty", -1.0)),
+            device=cc_cfg.get("device", None),
+        )
+        weights_dict["chembl_classifier"] = float(weights_cfg.get("chembl_classifier", 1.0))
 
     if not rewards_dict:
         raise ValueError("No reward components enabled for Lightning training")
