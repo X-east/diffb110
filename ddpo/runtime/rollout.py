@@ -1,6 +1,6 @@
 import torch
 
-from verl_diffusion.protocol import DataProto, TensorDict
+from ddpo.runtime.protocol import DataProto, TensorDict
 
 from ddpo.integration import DiffSBDDModel
 from ddpo.runtime.logging_utils import log_cuda_memory

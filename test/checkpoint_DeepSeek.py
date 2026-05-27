@@ -25,7 +25,6 @@ warnings.filterwarnings('ignore')
 # 添加项目路径
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
-sys.path.insert(0, str(PROJECT_ROOT / "RLPF-verl_diffusion"))
 sys.path.insert(0, str(PROJECT_ROOT / "DiffSBDD"))
 
 try:

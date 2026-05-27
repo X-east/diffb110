@@ -1,4 +1,4 @@
-from verl_diffusion.protocol import DataProto, TensorDict
+from ddpo.runtime.protocol import DataProto, TensorDict
 import torch
 import logging
 

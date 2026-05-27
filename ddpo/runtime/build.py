@@ -11,7 +11,7 @@ from ddpo.integration import DiffSBDDModel
 from ddpo.rewards.normalization import RewardNormalizationConfig, RewardNormalizer
 from ddpo.runtime.data_loader import DiffSBDDDataLoader
 from ddpo.utils import DiffSBDDFilter
-from verl_diffusion.worker.actor.edm_actor import EDMActor
+from ddpo.runtime.actor import EDMActor
 
 
 def load_config(config_path: str) -> dict[str, Any]:

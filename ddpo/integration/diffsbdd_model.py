@@ -28,9 +28,7 @@ from DiffSBDD.lightning_modules import LigandPocketDDPM
 from DiffSBDD.constants import dataset_params, FLOAT_TYPE, INT_TYPE
 from DiffSBDD import utils as diffsbdd_utils
 
-# Import RLPF BaseModel
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "RLPF-verl_diffusion"))
-from verl_diffusion.model.base import BaseModel
+from ddpo.integration.model_base import BaseModel
 
 from ddpo.runtime.logging_utils import log_cuda_memory
 

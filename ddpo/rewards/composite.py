@@ -18,7 +18,7 @@ from ddpo.field_registry import FieldSpec
 from .interfaces import BaseReward
 
 if TYPE_CHECKING:
-    from verl_diffusion.protocol import DataProto
+    from ddpo.runtime.protocol import DataProto
     from .component_normalizer import ComponentNormalizer
 
 

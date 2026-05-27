@@ -13,7 +13,6 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
-sys.path.insert(0, str(PROJECT_ROOT / "RLPF-verl_diffusion"))
 sys.path.insert(0, str(PROJECT_ROOT / "DiffSBDD"))
 
 from constants import dataset_params

@@ -39,7 +39,6 @@ import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
-sys.path.insert(0, str(PROJECT_ROOT / "RLPF-verl_diffusion"))
 sys.path.insert(0, str(PROJECT_ROOT / "DiffSBDD"))
 
 # Must happen before imports that may import wandb
@@ -49,7 +48,7 @@ from constants import dataset_params
 from ddpo.integration import DiffSBDDModel
 from ddpo.rewards import CompositeReward, QEDReward, SAReward
 from ddpo.utils import DiffSBDDFilter
-from verl_diffusion.protocol import DataProto, TensorDict
+from ddpo.runtime.protocol import DataProto, TensorDict
 
 
 def parse_args() -> argparse.Namespace:

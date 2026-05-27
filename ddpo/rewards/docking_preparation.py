@@ -23,7 +23,7 @@ from ddpo.utils.molecule_semantics import (
 )
 
 if TYPE_CHECKING:
-    from verl_diffusion.protocol import DataProto
+    from ddpo.runtime.protocol import DataProto
 
 
 @dataclass
