@@ -15,10 +15,17 @@ DataProto 行为测试：验证 select_idxs / slice / concat 等核心操作。
 
 from __future__ import annotations
 
+import sys
 import unittest
+from pathlib import Path
 
 import numpy as np
 import torch
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+for extra in [str(PROJECT_ROOT), str(PROJECT_ROOT / "DiffSBDD")]:
+    if extra not in sys.path:
+        sys.path.insert(0, extra)
 
 from ddpo.runtime.protocol import DataProto
 
