@@ -196,6 +196,7 @@ data/
 
 # external project
 ChEMBL_Structure_Pipeline-master/
+reference project/
 
 # AI tool ephemeral directories
 .agents/
