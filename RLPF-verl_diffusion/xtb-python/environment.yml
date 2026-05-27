@@ -1,8 +1,0 @@
-name: devel
-channels:
-  - conda-forge
-dependencies:
-  - ase
-  - cffi
-  - numpy
-  - qcelemental

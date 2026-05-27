@@ -1,4 +1,0 @@
-cffi
-numpy
-ase
-qcelemental
