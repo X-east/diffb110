@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-05-27T16:25:31",
+  "root": "/data/disk6/DiffB110",
+  "analysis_dir": "/data/disk6/DiffB110/analysis/dataset_selection_dryrun_20260527",
+  "outputs": [
+    "analysis_manifest.json",
+    "negative_candidate_categories.png",
+    "negative_candidates_labeled.csv.gz",
+    "negative_category_counts.csv",
+    "positive_candidate_pool.csv.gz",
+    "positive_candidate_summary.json",
+    "positive_pool_strata.png",
+    "positive_stratum_counts.csv",
+    "select_candidate_pools.py",
+    "selection_dryrun_report.md"
+  ]
+}

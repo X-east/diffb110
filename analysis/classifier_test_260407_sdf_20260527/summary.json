@@ -1,0 +1,42 @@
+{
+  "input_sdf": "OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf",
+  "model_path": "chembl_classifier/models/chembl_classifier_selected_v0_1.pt",
+  "n_total": 5829,
+  "n_valid": 5808,
+  "valid_rate": 0.9963973237261966,
+  "probability": {
+    "mean": 0.3544749460716358,
+    "median": 0.023984852246940136,
+    "p05": 6.667919438818615e-10,
+    "p25": 6.730803215759806e-05,
+    "p75": 0.9363804459571838,
+    "p95": 0.9999558389186859
+  },
+  "mapped_reward": {
+    "mean": -0.2928020648284897,
+    "median": -1.0,
+    "p05": -1.0,
+    "p95": 1.0
+  },
+  "threshold_rates": {
+    "prob_ge_0_5": 0.35347796143250687,
+    "prob_ge_0_8": 0.29924242424242425,
+    "prob_lt_0_2": 0.5921143250688705
+  },
+  "risk_flag_rates": {
+    "c_ge_090": 0.02703168044077135,
+    "hetero_le_1": 0.01015840220385675,
+    "co_only_mostly_carbon": 0.020833333333333332,
+    "three_member_ring": 0.3639807162534435,
+    "ring_complex": 0.6494490358126722,
+    "has_benzene_like_ring": 0.48088842975206614
+  },
+  "risk_flag_probability_means": {
+    "c_ge_090": 0.029360359544217396,
+    "hetero_le_1": 0.005890138417980795,
+    "co_only_mostly_carbon": 0.05300818586486458,
+    "three_member_ring": 0.13911988195375355,
+    "ring_complex": 0.26172324673174263,
+    "has_benzene_like_ring": 0.44863615698657694
+  }
+}

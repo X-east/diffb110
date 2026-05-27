@@ -153,10 +153,15 @@ class CompositeReward(BaseReward):
         component_rewards = {}
         successful_components = []
         
+        # Define rewards that must always run regardless of weight because
+        # downstream rewards depend on their output fields.
+        _PROVIDER_REWARDS = frozenset({"docking"})
+
         # Calculate each component reward
         for name, reward_fn in self.rewards.items():
             weight = self.weights.get(name, 0.0)
-            if weight == 0.0:
+            # Skip weight-0 components EXCEPT providers (e.g. docking serves LE)
+            if weight == 0.0 and name not in _PROVIDER_REWARDS:
                 continue
             
             try:
@@ -179,11 +184,14 @@ class CompositeReward(BaseReward):
                     else:
                         norm = component_reward
 
-                    # Add weighted contribution (using normalised value if available)
-                    combined_rewards += weight * norm
-                    successful_components.append(name)
+                    # Providers with weight=0 only run for side effects (e.g. populate
+                    # data fields for downstream rewards), not for reward contribution.
+                    if weight > 0.0:
+                        combined_rewards += weight * norm
+                        successful_components.append(name)
                 else:
-                    warnings.warn(f"Reward '{name}' did not return '{reward_field}' tensor")
+                    if weight > 0.0:
+                        warnings.warn(f"Reward '{name}' did not return '{reward_field}' tensor")
                     
             except Exception as e:
                 # Use full exception logging so that errors (e.g. cache load failure)

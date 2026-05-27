@@ -10,8 +10,11 @@ for CSV logging.
 """
 from __future__ import annotations
 
+import csv
+import gzip
 import statistics
 import warnings
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -25,6 +28,19 @@ from ddpo.rewards.diversity_reward import DiversityReward
 # ---------------------------------------------------------------------------
 DEFAULT_FINGERPRINT_RADIUS: int = 2
 DEFAULT_FINGERPRINT_BITS: int = 2048
+
+# ---------------------------------------------------------------------------
+# ChEMBL reference vectors (for MMD vs baseline)
+# ---------------------------------------------------------------------------
+# Column names in the properties CSV that form the 6D descriptor vector.
+_REFERENCE_6D_COLUMNS: list[str] = [
+    "mol_log_p", "tpsa", "num_h_acceptors", "num_h_donors",
+    "num_heteroatoms", "carbon_fraction",
+]
+# Default path — resolved relative to project root.
+_DEFAULT_REFERENCE_CSV: str = "data/chembl/chembl_36_properties.csv.gz"
+# Lazy-loaded cache (module-level singleton, `np.ndarray` shape [N, 6]).
+_REFERENCE_CACHE: np.ndarray | None = None
 
 # ---------------------------------------------------------------------------
 # Metric key names — single source of truth
@@ -68,14 +84,48 @@ def _std(values: list[float]) -> float:
     return float(statistics.stdev(values))
 
 
-def _rbf_mmd(x: np.ndarray, y: np.ndarray, sigma: float | None = None) -> float:
+# ---------------------------------------------------------------------------
+# MMD computation (with subsampling for large sets)
+# ---------------------------------------------------------------------------
+# Maximum samples used for pairwise MMD computation.
+# The MMD estimator uses O(N²) memory — this cap prevents OOM with
+# large reference sets (e.g., 1.55M ChEMBL molecules).
+_MAX_MMD_SAMPLES: int = 5000
+
+
+def _rbf_mmd(x: np.ndarray, y: np.ndarray, sigma: float | None = None,
+             max_samples: int | None = None) -> float:
     """Unbiased MMD² between two sets of samples using an RBF kernel.
 
-    Uses the median heuristic for sigma if not provided.
+    To avoid O(N²) memory blowup, both *x* and *y* are sub-sampled to
+    at most *max_samples* (default ``_MAX_MMD_SAMPLES``) when they exceed
+    this cap.  The median heuristic for sigma is computed on the
+    sub-sampled combined set.
+
+    Args:
+        x: Current batch descriptor vectors [N, D].
+        y: Reference descriptor vectors [M, D].
+        sigma: Optional fixed kernel bandwidth (auto from median if None).
+        max_samples: Max points to use from each set for pairwise
+            computation (defaults to ``_MAX_MMD_SAMPLES``).
+
+    Returns:
+        Unbiased MMD² estimate (≥ 0).
     """
     nx, ny = x.shape[0], y.shape[0]
     if nx == 0 or ny == 0:
         return 0.0
+
+    if max_samples is None:
+        max_samples = _MAX_MMD_SAMPLES
+
+    # Sub-sample to keep O(N²) memory manageable
+    if nx > max_samples:
+        x = x[np.random.default_rng(42).choice(nx, max_samples, replace=False)]
+    if ny > max_samples:
+        y = y[np.random.default_rng(42).choice(ny, max_samples, replace=False)]
+
+    nx, ny = x.shape[0], y.shape[0]
 
     def _kernel(a: np.ndarray, b: np.ndarray, s: float) -> np.ndarray:
         a2 = np.sum(a ** 2, axis=1, keepdims=True)
@@ -102,6 +152,88 @@ def _rbf_mmd(x: np.ndarray, y: np.ndarray, sigma: float | None = None) -> float:
     mmd2 += (np.sum(kyy) - np.trace(kyy)) / (ny * (ny - 1)) if ny > 1 else 0.0
     mmd2 -= 2.0 * float(np.mean(kxy))
     return float(max(0.0, mmd2))
+
+
+# ---------------------------------------------------------------------------
+# Reference vector loader
+# ---------------------------------------------------------------------------
+
+def load_chembl_6d_vectors(
+    csv_path: str | Path | None = None,
+    project_root: str | Path | None = None,
+) -> np.ndarray:
+    """Load the 6D descriptor vectors from a ChEMBL properties CSV.
+
+    Results are cached in a module-level singleton — subsequent calls
+    return the cached array instantly.
+
+    Args:
+        csv_path: Path to ``chembl_36_properties.csv.gz``.
+                  If None, uses ``data/chembl/chembl_36_properties.csv.gz``
+                  relative to *project_root*.
+        project_root: Absolute project root directory.  If None, walks up
+                      from this file's location.
+
+    Returns:
+        ``np.ndarray`` of shape ``[N, 6]`` with columns
+        ``[LogP, TPSA, HBA, HBD, heteroatoms, carbon_fraction]``.
+    """
+    global _REFERENCE_CACHE
+    if _REFERENCE_CACHE is not None:
+        return _REFERENCE_CACHE
+
+    if csv_path is None:
+        root = Path(project_root) if project_root else _discover_project_root()
+        csv_path = root / _DEFAULT_REFERENCE_CSV
+
+    csv_path = Path(csv_path)
+    _REFERENCE_CACHE = _load_6d_from_csv(csv_path)
+
+    _log_once(f"[MolecularDescriptors] Loaded {len(_REFERENCE_CACHE):,} "
+              f"reference 6D vectors from {csv_path}")
+    return _REFERENCE_CACHE
+
+
+def _discover_project_root() -> Path:
+    """Walk up from this file to find the project root (where ``ddpo/`` lives)."""
+    here = Path(__file__).resolve().parent
+    for candidate in [here, here.parent, here.parent.parent]:
+        if (candidate / "ddpo").is_dir():
+            return candidate
+    return here.parent  # fallback
+
+
+_WARNED: set[str] = set()
+
+
+def _log_once(msg: str) -> None:
+    if msg not in _WARNED:
+        _WARNED.add(msg)
+        print(msg)
+
+
+def _load_6d_from_csv(csv_path: Path) -> np.ndarray:
+    """Read only the required 6 columns from a gzipped CSV with header."""
+    if not csv_path.exists():
+        warnings.warn(f"[MolecularDescriptors] Reference CSV not found: {csv_path}")
+        return np.empty((0, 6), dtype=np.float64)
+
+    try:
+        with gzip.open(str(csv_path), "rt") as f:
+            reader = csv.DictReader(f)
+            vectors: list[list[float]] = []
+            for row in reader:
+                vectors.append([float(row[col]) for col in _REFERENCE_6D_COLUMNS])
+        return np.array(vectors, dtype=np.float64)
+    except Exception as exc:
+        warnings.warn(f"[MolecularDescriptors] Failed to load reference CSV: {exc}")
+        return np.empty((0, 6), dtype=np.float64)
+
+
+def clear_reference_cache() -> None:
+    """Clear the module-level reference cache (mostly for tests)."""
+    global _REFERENCE_CACHE
+    _REFERENCE_CACHE = None
 
 
 # ---------------------------------------------------------------------------
@@ -132,7 +264,7 @@ def compute_fingerprint_pairwise_similarities(
 def compute_molecular_descriptors(
     rdmols: list[Chem.Mol | None],
     valid_mask: list[bool],
-    reference_descriptor_vectors: list[list[float]] | None = None,
+    reference_descriptor_vectors: np.ndarray | list[list[float]] | None = None,
 ) -> dict[str, float]:
     """Compute epoch-level aggregate molecular descriptors for monitoring.
 

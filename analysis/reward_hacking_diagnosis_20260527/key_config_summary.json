@@ -1,0 +1,115 @@
+{
+  "7gpu-classifier-only_20260526_210715": {
+    "weights": {
+      "qed": 0,
+      "sa": 0,
+      "docking": 0,
+      "chembl_prior_ecfp4": 0,
+      "chembl_prior_fcfp4": 0,
+      "logp_distribution": 0,
+      "chembl_classifier": 1.0
+    },
+    "normalization_enabled": true,
+    "per_component_normalization_enabled": true,
+    "learning_rate": 3e-05,
+    "kl_coef": 0,
+    "ppo_epochs": 4,
+    "epochs_configured": 100
+  },
+  "7gpu-dock-ecfp4-fcfp4_20260525_212140": {
+    "weights": {
+      "qed": 0,
+      "sa": 0,
+      "docking": 0.5,
+      "chembl_prior_ecfp4": 0.2,
+      "chembl_prior_fcfp4": 0.1,
+      "diversity_ecfp4": 0,
+      "diversity_fcfp4": 0,
+      "logp_distribution": 0.2
+    },
+    "normalization_enabled": true,
+    "per_component_normalization_enabled": true,
+    "learning_rate": 2e-05,
+    "kl_coef": 0,
+    "ppo_epochs": 3,
+    "epochs_configured": 200
+  },
+  "7gpu-dock-ecfp4-fcfp4_20260526_115341": {
+    "weights": {
+      "qed": 0,
+      "sa": 0,
+      "docking": 0,
+      "ligand_efficiency": 0.3,
+      "chembl_prior_ecfp4": 0.3,
+      "chembl_prior_fcfp4": 0.1,
+      "diversity_ecfp4": 0,
+      "diversity_fcfp4": 0,
+      "logp_distribution": 0.3
+    },
+    "normalization_enabled": false,
+    "per_component_normalization_enabled": false,
+    "learning_rate": 2e-05,
+    "kl_coef": 0,
+    "ppo_epochs": 3,
+    "epochs_configured": 200
+  },
+  "7gpu-dock-ecfp4-fcfp4_20260521_212927": {
+    "weights": {
+      "qed": 0,
+      "sa": 0,
+      "docking": 0.5,
+      "chembl_prior_ecfp4": 0.25,
+      "chembl_prior_fcfp4": 0.25,
+      "diversity_ecfp4": 0.1,
+      "diversity_fcfp4": 0.1
+    },
+    "normalization_enabled": true,
+    "per_component_normalization_enabled": null,
+    "learning_rate": 3e-05,
+    "kl_coef": 0,
+    "ppo_epochs": 4,
+    "epochs_configured": 50
+  },
+  "6gpu-chembl-only_20260521_154957": {
+    "weights": {
+      "qed": 0,
+      "sa": 0,
+      "docking": 0.5,
+      "chembl_prior_ecfp4": 0.25,
+      "chembl_prior_fcfp4": 0.25
+    },
+    "normalization_enabled": true,
+    "per_component_normalization_enabled": null,
+    "learning_rate": 3e-05,
+    "kl_coef": 0,
+    "ppo_epochs": 4,
+    "epochs_configured": 50
+  },
+  "8gpu-chembl-only_20260520_101340": {
+    "weights": {
+      "qed": 0,
+      "sa": 0,
+      "docking": 0,
+      "chembl_prior": 1.0
+    },
+    "normalization_enabled": true,
+    "per_component_normalization_enabled": null,
+    "learning_rate": 2e-05,
+    "kl_coef": 0,
+    "ppo_epochs": 4,
+    "epochs_configured": 100
+  },
+  "qed-sa-docking-8gjl-8gpu_20260508_212050": {
+    "weights": {
+      "qed": 0.25,
+      "sa": 0.25,
+      "docking": 0.5
+    },
+    "normalization_enabled": true,
+    "per_component_normalization_enabled": null,
+    "learning_rate": 2e-05,
+    "kl_coef": 0.05,
+    "ppo_epochs": null,
+    "epochs_configured": 500
+  }
+}

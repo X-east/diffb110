@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-05-27T15:44:03",
+  "root": "/data/disk6/DiffB110",
+  "analysis_dir": "/data/disk6/DiffB110/analysis/hetero_composition_diagnosis_20260527",
+  "chembl_rows": 1550090,
+  "generated_rows": 267128,
+  "outputs": [
+    "analysis_manifest.json",
+    "analyze_hetero_composition.py",
+    "co_only_composition_report.md",
+    "generated_composition_flags.csv.gz",
+    "global_co_only_comparison.png",
+    "global_composition_summary.csv",
+    "global_composition_summary.json",
+    "hetero_signature_comparison.png",
+    "hetero_signature_counts.csv",
+    "plot_hetero_composition.py",
+    "run_composition_summary.csv",
+    "selected_epoch_composition_summary.csv",
+    "top_reward_co_only_examples.csv",
+    "top_reward_co_only_runs.png",
+    "top_reward_composition_summary.csv"
+  ]
+}

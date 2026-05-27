@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "DiffSBDD"))
 
 from constants import dataset_params
 
+from ddpo.field_registry import FieldSpec
 from ddpo.utils.molecule_semantics import (
     FAILURE_DOCKING_BACKEND,
     FAILURE_DOCKING_INPUT,
@@ -229,6 +230,7 @@ class DockingReward(BaseReward):
             2. Call backend.dock_batch_result() for all valid SDF files
             3. Map DockingResult scores to normalised rewards
             4. Write docking_raw, docking_reward and failure_type back to batch
+            5. Compute ligand_efficiency = -docking_raw / heavy_atom_count
         """
         batch = data.batch
         x = batch["x"]
@@ -298,10 +300,27 @@ class DockingReward(BaseReward):
         finally:
             _prepared.cleanup()
 
+        # ── Ligand efficiency: -docking_raw / heavy_atom_count ──────────
+        rdmols = ntb.get("rdmols", []) if ntb else []
+        ligand_efficiency: list[float] = []
+        for idx in range(batch_size):
+            is_success = (docking_failures.get(idx) is None
+                          and docking_raw[idx] != 0.0)
+            if is_success and idx < len(rdmols) and rdmols[idx] is not None:
+                heavy = float(rdmols[idx].GetNumHeavyAtoms())
+                if heavy > 0:
+                    ligand_efficiency.append(-docking_raw[idx] / heavy)
+                else:
+                    ligand_efficiency.append(0.0)
+            else:
+                ligand_efficiency.append(0.0)
+
         docking_raw_tensor = torch.tensor(docking_raw, dtype=torch.float32, device=device)
         docking_reward_tensor = torch.tensor(docking_reward, dtype=torch.float32, device=device)
+        le_tensor = torch.tensor(ligand_efficiency, dtype=torch.float32, device=device)
         data.batch["docking_raw"] = docking_raw_tensor
         data.batch["docking_reward"] = docking_reward_tensor
+        data.batch["ligand_efficiency_raw"] = le_tensor
         if failure_type is not None:
             for idx, failure in docking_failures.items():
                 if str(failure_type[idx]) == FAILURE_SUCCESS:
@@ -316,3 +335,23 @@ class DockingReward(BaseReward):
             f"receptor='{Path(self.receptor_file).name}', "
             f"norm={self.normalization_factor})"
         )
+
+    def field_specs(self) -> list[FieldSpec]:
+        return [
+            FieldSpec(
+                name="ligand_efficiency_raw",
+                scope="molecule",
+                source="batch",
+                source_key="ligand_efficiency_raw",
+                reduce="none",
+                order=240,
+            ),
+            FieldSpec(
+                name="avg_ligand_efficiency",
+                scope="epoch",
+                source="batch",
+                source_key="ligand_efficiency_raw",
+                reduce="valid_mean",
+                order=240,
+            ),
+        ]

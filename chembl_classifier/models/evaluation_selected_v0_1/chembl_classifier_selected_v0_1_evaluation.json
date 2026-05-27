@@ -1,0 +1,181 @@
+{
+  "test": {
+    "accuracy": 0.9944705882352941,
+    "roc_auc": 0.999824912585615,
+    "avg_precision": 0.9998723746346886,
+    "precision": 0.996470706866996,
+    "recall": 0.9940649834020723,
+    "f1": 0.9952663913787894,
+    "confusion_matrix": [
+      [
+        7024,
+        35
+      ],
+      [
+        59,
+        9882
+      ]
+    ],
+    "positive_accuracy": 0.9940649834020723,
+    "negative_accuracy": 0.9950417906219011
+  },
+  "train": {
+    "accuracy": 0.9972132352941177,
+    "roc_auc": 0.9999574297423404
+  },
+  "distribution": {
+    "positive_probs_mean": 0.9922248125076294,
+    "positive_probs_std": 0.06436829268932343,
+    "negative_probs_mean": 0.00749506801366806,
+    "negative_probs_std": 0.06291864067316055
+  },
+  "top_errors": {
+    "false_positives": [
+      {
+        "smiles": "OCCOc1ccc2c3c1CC=Cc1ccccc1OCSCC(C2)O3",
+        "prob": 0.9999383687973022
+      },
+      {
+        "smiles": "CC1(C)C2C(=O)N(CC(=O)Nc3cccc(Cl)c3)CCC21N",
+        "prob": 0.9994854927062988
+      },
+      {
+        "smiles": "COCC12COC3CCCC(F)C(F)(F)C3=C(CCCC(=O)O)OC1N2",
+        "prob": 0.9957119226455688
+      },
+      {
+        "smiles": "CCOC(=O)C1CC1NC(=O)CN1CCCN1C(C)=O",
+        "prob": 0.9940642714500427
+      },
+      {
+        "smiles": "CCCCC1C(=O)C(F)(F)C(=O)C2CC(COC)CCC(OC(=O)C3OC13)O2",
+        "prob": 0.9889271259307861
+      },
+      {
+        "smiles": "NC(=O)CN1C(=O)CC(C2CC2)C2CCOCCC21",
+        "prob": 0.9603750109672546
+      },
+      {
+        "smiles": "OC1CCCC(C2=NC3(OO3)Oc3ccccc3C2)CCC1",
+        "prob": 0.9541964530944824
+      },
+      {
+        "smiles": "O=C(NC1CCC(C(=O)O)C1)c1cc(C2CN2)ccc1F",
+        "prob": 0.939348578453064
+      },
+      {
+        "smiles": "CCCCC1COC(=O)CC(C(C)c2ccccc2)C1=O",
+        "prob": 0.9385969638824463
+      },
+      {
+        "smiles": "CCCCC1(N2CC(C(=O)Nc3ccccc3OC(C)C)C(C)CC2=N)CC1",
+        "prob": 0.9239954352378845
+      }
+    ],
+    "false_negatives": [
+      {
+        "smiles": "CN(CC1(O)CCOCC1)C(=O)NC1CC2CC1C1CCCC21",
+        "prob": 0.0027714543975889683
+      },
+      {
+        "smiles": "C=C(C)C1CCC(C)C(=O)CCC(C)CC2(O)CC(C)C(C1)O2",
+        "prob": 0.006069232244044542
+      },
+      {
+        "smiles": "O=C(C1CC1C1CCC1)N1CCC12CCC2",
+        "prob": 0.010151630267500877
+      },
+      {
+        "smiles": "CCc1ccc(C=C2SC(=O)N(CCC3CC4CC3C(O)C4O)C2=O)cc1",
+        "prob": 0.011733625084161758
+      },
+      {
+        "smiles": "O=C1C2=C(CCCCC2)C2CCCCC12O",
+        "prob": 0.022666214033961296
+      },
+      {
+        "smiles": "NC(CC1CCOc2ccccc21)(C(=O)O)C1CC1C(=O)O",
+        "prob": 0.02884487435221672
+      },
+      {
+        "smiles": "O=C(O)C1SCC2CSC(CS)N21",
+        "prob": 0.029110310599207878
+      },
+      {
+        "smiles": "C=C(C)C1CC=C(CCOC(C)=O)CC1",
+        "prob": 0.039256881922483444
+      },
+      {
+        "smiles": "CCCCCCCCCC(O)C(=O)CC",
+        "prob": 0.044618040323257446
+      },
+      {
+        "smiles": "CC(=O)C1(N)CCC2C(C(=O)O)C21",
+        "prob": 0.05089312046766281
+      }
+    ]
+  },
+  "n_samples": {
+    "test": 17000,
+    "test_pos": 9941,
+    "test_neg": 7059
+  },
+  "negative_category_metrics": {
+    "aromatic_deficient_bad_topology": {
+      "n": 2912,
+      "negative_recall": 0.9989697802197802,
+      "false_positive_as_chembl_rate": 0.0010302197802197802,
+      "mean_chembl_probability": 0.002173545304685831,
+      "p95_chembl_probability": 0.002811793016735461
+    },
+    "co_only_mostly_carbon": {
+      "n": 2684,
+      "negative_recall": 0.9981371087928465,
+      "false_positive_as_chembl_rate": 0.0018628912071535022,
+      "mean_chembl_probability": 0.004180505406111479,
+      "p95_chembl_probability": 0.007043328019790342
+    },
+    "high_carbon_low_hetero": {
+      "n": 1859,
+      "negative_recall": 1.0,
+      "false_positive_as_chembl_rate": 0.0,
+      "mean_chembl_probability": 4.653891664929688e-05,
+      "p95_chembl_probability": 0.00018470171635271974
+    },
+    "high_reward_bad": {
+      "n": 962,
+      "negative_recall": 0.9885654885654885,
+      "false_positive_as_chembl_rate": 0.011434511434511435,
+      "mean_chembl_probability": 0.018230168148875237,
+      "p95_chembl_probability": 0.05185302514582867
+    },
+    "hydrophobic_low_polarity": {
+      "n": 2122,
+      "negative_recall": 1.0,
+      "false_positive_as_chembl_rate": 0.0,
+      "mean_chembl_probability": 0.00016180587408598512,
+      "p95_chembl_probability": 0.0001325366691162338
+    },
+    "non_oxygen_hetero_loss": {
+      "n": 2401,
+      "negative_recall": 1.0,
+      "false_positive_as_chembl_rate": 0.0,
+      "mean_chembl_probability": 9.560768376104534e-05,
+      "p95_chembl_probability": 0.00011172923404956236
+    },
+    "ring_complex": {
+      "n": 4064,
+      "negative_recall": 0.9972933070866141,
+      "false_positive_as_chembl_rate": 0.0027066929133858267,
+      "mean_chembl_probability": 0.003430153476074338,
+      "p95_chembl_probability": 0.0013914494891650961
+    },
+    "three_member_ring": {
+      "n": 5283,
+      "negative_recall": 0.9950785538519781,
+      "false_positive_as_chembl_rate": 0.004921446148021957,
+      "mean_chembl_probability": 0.007298342417925596,
+      "p95_chembl_probability": 0.008962970785796597
+    }
+  }
+}

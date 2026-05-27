@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-05-27T16:21:23",
+  "root": "/data/disk6/DiffB110",
+  "analysis_dir": "/data/disk6/DiffB110/analysis/aromatic_benzene_diagnosis_20260527",
+  "workers": 18,
+  "outputs": [
+    "analysis_manifest.json",
+    "analyze_aromatic_benzene.py",
+    "aromatic_benzene_report.md",
+    "generated_aromatic_flags.csv.gz",
+    "global_aromatic_benzene_comparison.png",
+    "global_aromatic_benzene_summary.csv",
+    "global_aromatic_benzene_summary.json",
+    "selected_epoch_aromatic_summary.csv",
+    "top_reward_aromatic_summary.csv",
+    "top_reward_low_benzene_runs.png"
+  ]
+}

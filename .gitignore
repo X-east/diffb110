@@ -182,18 +182,11 @@ materials/
 # local outputs
 out2/
 
-# reference only (do not track)
-DiffMeta-main/
-RL-Diffusion-main/
-
 # launch runtime-generated configs
 launch/generated/
 
 # thesis / screening work
 bishe/
-
-# QADD is an external project, not part of DiffB110
-QADD-main/
 
 # runtime cache
 cache/

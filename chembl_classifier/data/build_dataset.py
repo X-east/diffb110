@@ -198,6 +198,17 @@ def _build_chembl_outlier_negatives(
     return sampled["canonical_smiles"].tolist()
 
 
+def _read_smiles_table(path: Path) -> pd.DataFrame:
+    """Read an explicit SMILES table with a required `smiles` column."""
+    df = pd.read_csv(path, sep=None, engine="python")
+    if "smiles" not in df.columns:
+        raise ValueError(f"Explicit sample file lacks a 'smiles' column: {path}")
+    df = df[df["smiles"].notna()].copy()
+    df["smiles"] = df["smiles"].astype(str).str.strip()
+    df = df[df["smiles"].ne("")]
+    return df.reset_index(drop=True)
+
+
 def featurize_smiles(
     smiles_list: Sequence[str],
     featurizer: Featurizer,
@@ -342,86 +353,130 @@ def build_dataset(config_path: str | None = None) -> dict:
     featurizer: Featurizer = get_featurizer("morgan_count_rdkit_2d")
     logger.info(f"  Feature dimension: {featurizer.dim()}")
 
-    # ── 1. Positive samples: ChEMBL random 100k ───────────────────────────
-    logger.info("Loading ChEMBL molecules for positive samples...")
-    chembl_path = _PROJECT_ROOT / data_cfg["chembl_molecules"]
-    df_chembl = pd.read_csv(chembl_path, compression="gzip")
-    logger.info(f"  Total ChEMBL molecules: {len(df_chembl):,}")
+    # ── 1. Positive samples ───────────────────────────────────────────────
+    explicit_pos = data_cfg.get("explicit_positive_samples")
+    if explicit_pos:
+        pos_path = _PROJECT_ROOT / explicit_pos
+        logger.info(f"Loading explicit positive samples: {pos_path}")
+        df_pos = _read_smiles_table(pos_path)
+        pos_smiles = df_pos["smiles"].tolist()
+        logger.info(f"  Loaded {len(pos_smiles):,} explicit positives")
+    else:
+        logger.info("Loading ChEMBL molecules for positive samples...")
+        chembl_path = _PROJECT_ROOT / data_cfg["chembl_molecules"]
+        df_chembl = pd.read_csv(chembl_path, compression="gzip")
+        logger.info(f"  Total ChEMBL molecules: {len(df_chembl):,}")
 
-    n_pos = min(train_cfg["n_positives"], len(df_chembl))
-    df_pos = df_chembl.sample(n=n_pos, random_state=seed)
-    pos_smiles = df_pos["canonical_smiles"].tolist()
-    logger.info(f"  Sampled {len(pos_smiles):,} positive molecules")
+        n_pos = min(train_cfg["n_positives"], len(df_chembl))
+        df_pos = df_chembl.sample(n=n_pos, random_state=seed)
+        pos_smiles = df_pos["canonical_smiles"].tolist()
+        logger.info(f"  Sampled {len(pos_smiles):,} positive molecules")
 
     logger.info(f"Featurizing {len(pos_smiles):,} positives ({n_jobs} workers)...")
     X_pos, y_pos, smiles_pos = featurize_smiles(
         pos_smiles, featurizer, label=1, n_jobs=n_jobs
     )
     logger.info(f"  Positives: {X_pos.shape[0]:,} valid molecules")
+    source_pos = ["explicit_positive" if explicit_pos else "chembl_random"] * len(smiles_pos)
+    negative_labels_pos = [""] * len(smiles_pos)
 
     # ── 2. Negative samples ───────────────────────────────────────────────
     all_X_neg: list[np.ndarray] = []
     all_y_neg: list[np.ndarray] = []
     all_smiles_neg: list[str] = []
+    all_source_neg: list[str] = []
+    all_negative_labels: list[str] = []
+
+    explicit_neg = data_cfg.get("explicit_negative_samples")
+    include_legacy_negatives = bool(data_cfg.get("include_legacy_negatives", not explicit_neg))
+
+    if explicit_neg:
+        neg_path = _PROJECT_ROOT / explicit_neg
+        logger.info(f"Loading explicit negative samples: {neg_path}")
+        df_neg = _read_smiles_table(neg_path)
+        neg_smiles = df_neg["smiles"].tolist()
+        labels_by_smiles = dict(
+            zip(
+                df_neg["smiles"],
+                df_neg.get("all_labels", df_neg.get("label", pd.Series(["explicit_negative"] * len(df_neg)))),
+            )
+        )
+        logger.info(f"  Loaded {len(neg_smiles):,} explicit negatives")
+        X_exp, y_exp, s_exp = featurize_smiles(neg_smiles, featurizer, label=0, n_jobs=n_jobs)
+        logger.info(f"  Explicit negatives: {X_exp.shape[0]:,} valid")
+        all_X_neg.append(X_exp)
+        all_y_neg.append(y_exp)
+        all_smiles_neg.extend(s_exp)
+        all_source_neg.extend(["explicit_negative"] * len(s_exp))
+        all_negative_labels.extend([str(labels_by_smiles.get(smi, "explicit_negative")) for smi in s_exp])
 
     # 2a. Synthetic PAHs
-    n_pah = data_cfg["n_synthetic_pah"]
-    logger.info(f"Building {n_pah} synthetic PAH negatives...")
-    pah_smiles = _build_synthetic_negatives(
-        n_pah=n_pah, n_garbage=0, seed=seed
-    )
-    X_pah, y_pah, s_pah = featurize_smiles(pah_smiles, featurizer, label=0) if pah_smiles else (
-        np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
-    )
-    logger.info(f"  PAHs: {X_pah.shape[0]} valid")
-    all_X_neg.append(X_pah)
-    all_y_neg.append(y_pah)
-    all_smiles_neg.extend(s_pah)
+    if include_legacy_negatives:
+        n_pah = data_cfg["n_synthetic_pah"]
+        logger.info(f"Building {n_pah} synthetic PAH negatives...")
+        pah_smiles = _build_synthetic_negatives(
+            n_pah=n_pah, n_garbage=0, seed=seed
+        )
+        X_pah, y_pah, s_pah = featurize_smiles(pah_smiles, featurizer, label=0) if pah_smiles else (
+            np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
+        )
+        logger.info(f"  PAHs: {X_pah.shape[0]} valid")
+        all_X_neg.append(X_pah)
+        all_y_neg.append(y_pah)
+        all_smiles_neg.extend(s_pah)
+        all_source_neg.extend(["synthetic_pah"] * len(s_pah))
+        all_negative_labels.extend(["synthetic_pah"] * len(s_pah))
 
     # 2b. Synthetic garbage
-    n_garbage = data_cfg["n_synthetic_garbage"]
-    logger.info(f"Building {n_garbage} synthetic garbage negatives...")
-    garbage_smiles = _build_synthetic_negatives(
-        n_pah=0, n_garbage=n_garbage, seed=seed + 1
-    )
-    X_garb, y_garb, s_garb = featurize_smiles(garbage_smiles, featurizer, label=0) if garbage_smiles else (
-        np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
-    )
-    logger.info(f"  Garbage: {X_garb.shape[0]} valid")
-    all_X_neg.append(X_garb)
-    all_y_neg.append(y_garb)
-    all_smiles_neg.extend(s_garb)
+        n_garbage = data_cfg["n_synthetic_garbage"]
+        logger.info(f"Building {n_garbage} synthetic garbage negatives...")
+        garbage_smiles = _build_synthetic_negatives(
+            n_pah=0, n_garbage=n_garbage, seed=seed + 1
+        )
+        X_garb, y_garb, s_garb = featurize_smiles(garbage_smiles, featurizer, label=0) if garbage_smiles else (
+            np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
+        )
+        logger.info(f"  Garbage: {X_garb.shape[0]} valid")
+        all_X_neg.append(X_garb)
+        all_y_neg.append(y_garb)
+        all_smiles_neg.extend(s_garb)
+        all_source_neg.extend(["synthetic_garbage"] * len(s_garb))
+        all_negative_labels.extend(["synthetic_garbage"] * len(s_garb))
 
     # 2c. ChEMBL extreme outliers
-    n_outliers = data_cfg["n_chembl_outliers"]
-    logger.info(f"Building {n_outliers} ChEMBL outlier negatives...")
-    outlier_smiles = _build_chembl_outlier_negatives(
-        str(_PROJECT_ROOT / data_cfg["chembl_properties"]),
-        n=n_outliers,
-        seed=seed,
-    )
-    X_out, y_out, s_out = featurize_smiles(outlier_smiles, featurizer, label=0) if outlier_smiles else (
-        np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
-    )
-    logger.info(f"  Outliers: {X_out.shape[0]} valid")
-    all_X_neg.append(X_out)
-    all_y_neg.append(y_out)
-    all_smiles_neg.extend(s_out)
+        n_outliers = data_cfg["n_chembl_outliers"]
+        logger.info(f"Building {n_outliers} ChEMBL outlier negatives...")
+        outlier_smiles = _build_chembl_outlier_negatives(
+            str(_PROJECT_ROOT / data_cfg["chembl_properties"]),
+            n=n_outliers,
+            seed=seed,
+        )
+        X_out, y_out, s_out = featurize_smiles(outlier_smiles, featurizer, label=0) if outlier_smiles else (
+            np.empty((0, 2220), dtype=np.float32), np.empty((0,), dtype=np.float32), []
+        )
+        logger.info(f"  Outliers: {X_out.shape[0]} valid")
+        all_X_neg.append(X_out)
+        all_y_neg.append(y_out)
+        all_smiles_neg.extend(s_out)
+        all_source_neg.extend(["chembl_outlier"] * len(s_out))
+        all_negative_labels.extend(["chembl_outlier"] * len(s_out))
 
     # 2d. Extracted negatives from training outputs (property-rule sweep)
-    negatives_path = _PROJECT_ROOT / "chembl_classifier" / "data" / "negatives" / "all_negatives.smi"
-    if negatives_path.exists():
-        logger.info("Loading extracted property-rule negatives...")
-        with open(negatives_path) as f:
-            extracted_smiles = [line.strip() for line in f if line.strip() and not line.startswith("smiles")]
-        logger.info(f"  Read {len(extracted_smiles):,} extracted negatives")
-        X_ext, y_ext, s_ext = featurize_smiles(extracted_smiles, featurizer, label=0, n_jobs=n_jobs)
-        logger.info(f"  Extracted negatives: {X_ext.shape[0]} valid")
-        all_X_neg.append(X_ext)
-        all_y_neg.append(y_ext)
-        all_smiles_neg.extend(s_ext)
-    else:
-        logger.info("No extracted negatives found, skipping.")
+        negatives_path = _PROJECT_ROOT / "chembl_classifier" / "data" / "negatives" / "all_negatives.smi"
+        if negatives_path.exists():
+            logger.info("Loading extracted property-rule negatives...")
+            with open(negatives_path) as f:
+                extracted_smiles = [line.strip() for line in f if line.strip() and not line.startswith("smiles")]
+            logger.info(f"  Read {len(extracted_smiles):,} extracted negatives")
+            X_ext, y_ext, s_ext = featurize_smiles(extracted_smiles, featurizer, label=0, n_jobs=n_jobs)
+            logger.info(f"  Extracted negatives: {X_ext.shape[0]} valid")
+            all_X_neg.append(X_ext)
+            all_y_neg.append(y_ext)
+            all_smiles_neg.extend(s_ext)
+            all_source_neg.extend(["legacy_extracted"] * len(s_ext))
+            all_negative_labels.extend(["legacy_extracted"] * len(s_ext))
+        else:
+            logger.info("No extracted negatives found, skipping.")
 
     # ── Combine negatives ─────────────────────────────────────────────────
     X_neg = np.concatenate(all_X_neg, axis=0)
@@ -432,6 +487,8 @@ def build_dataset(config_path: str | None = None) -> dict:
     X = np.concatenate([X_pos, X_neg], axis=0)
     y = np.concatenate([y_pos, y_neg], axis=0)
     all_smiles = smiles_pos + all_smiles_neg
+    all_sources = source_pos + all_source_neg
+    all_negative_labels_full = negative_labels_pos + all_negative_labels
     logger.info(f"Combined dataset: {X.shape[0]:,} samples, {X.shape[1]} features")
 
     # Shuffle
@@ -439,6 +496,8 @@ def build_dataset(config_path: str | None = None) -> dict:
     X = X[indices]
     y = y[indices]
     all_smiles = [all_smiles[i] for i in indices]
+    all_sources = [all_sources[i] for i in indices]
+    all_negative_labels_full = [all_negative_labels_full[i] for i in indices]
 
     # Train / val / test split
     n_total = len(X)
@@ -449,12 +508,23 @@ def build_dataset(config_path: str | None = None) -> dict:
         "X_train": X[:n_train],
         "y_train": y[:n_train],
         "smiles_train": all_smiles[:n_train],
+        "sample_source_train": all_sources[:n_train],
+        "negative_labels_train": all_negative_labels_full[:n_train],
         "X_val": X[n_train : n_train + n_val],
         "y_val": y[n_train : n_train + n_val],
         "smiles_val": all_smiles[n_train : n_train + n_val],
+        "sample_source_val": all_sources[n_train : n_train + n_val],
+        "negative_labels_val": all_negative_labels_full[n_train : n_train + n_val],
         "X_test": X[n_train + n_val :],
         "y_test": y[n_train + n_val :],
         "smiles_test": all_smiles[n_train + n_val :],
+        "sample_source_test": all_sources[n_train + n_val :],
+        "negative_labels_test": all_negative_labels_full[n_train + n_val :],
+        "metadata": {
+            "explicit_positive_samples": explicit_pos,
+            "explicit_negative_samples": explicit_neg,
+            "include_legacy_negatives": include_legacy_negatives,
+        },
     }
 
     logger.info(

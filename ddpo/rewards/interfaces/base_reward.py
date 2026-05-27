@@ -14,6 +14,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
+from ddpo.field_registry import FieldSpec
+
 if TYPE_CHECKING:
     from ddpo.runtime.protocol import DataProto
 
@@ -49,3 +51,7 @@ class BaseReward(ABC):
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}()"
+
+    def field_specs(self) -> list[FieldSpec]:
+        """Declare dynamic molecule/epoch fields produced by this reward."""
+        return []

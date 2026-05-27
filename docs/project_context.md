@@ -4,27 +4,22 @@
 
 This project uses `DiffSBDD` for 3D molecular diffusion generation and `DDPO/PPO` for reinforcement learning optimization.
 
-Current verified code path in this repository snapshot:
-- active, user-maintained multi-GPU entrypoint: `ddpo/main_diffsbdd_ddp.py` via launchers under `scripts/`
-- active training loop ownership: custom DDP/runtime path (`ddpo/runtime/*` + `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py`)
-- rollout implementation in use: `ddpo/runtime/rollout.py`
-- model adapter in use: `ddpo/integration/diffsbdd_model.py`
-- docking backend: `unidock` for the current 8GJL / 6-GPU workflow
-- reward components: docking reward + ChEMBL prior and/or QED/SA depending on `reward.weights`
+The current direction has evolved from simple docking + drug-likeness rewards to a **high-dimensional feature classifier-based reward system**:
 
-Important repository/documentation mismatch:
-- some older project docs still describe `ddpo/main_diffsbdd_lightning.py` + Lightning DDP as the preferred active path
-- in the current repository tree, `ddpo/main_diffsbdd_lightning.py` is not present
-- in the current repository tree, `ddpo/trainer/lightning_ddpo_module.py` is not present
-- therefore, Lightning DDP should currently be treated as a historical / intended direction, not the verified active mainline in this checkout
+- **DDP entrypoint**: `ddpo/main_diffsbdd_ddp.py` (PyTorch native DistributedDataParallel, launched via `torchrun`)
+- **Launch configs**: `launch/*.yaml` + `launch/*.sh` (6 different configurations for different reward combinations)
+- **Core reward component**: `ChemblClassifierReward` — a 2220-dimension MLP classifier trained on ChEMBL positive/negative molecules, used as a PPO reward signal
+- **Supporting rewards**: fingerprint similarity priors (ECFP4/FCFP4), logP distribution matching, MolSkill human preference, diversity penalties, ligand efficiency
+- **Normalization**: dual-layer — per-component EMA z-score (`ComponentNormalizer`) + global z-score (`RewardNormalizer`)
+- **Monitoring**: 22 molecular descriptors tracked per-epoch (LogP/TPSA/HBA/HBD/carbon fraction/heteroatom count/aromatic rings/fingerprint diversity/MMD)
+- **Smoke testing**: `launch/smoke.sh` (1 GPU / 1 epoch / batch=4, auto-cleanup)
+- **Classifier pipeline**: standalone `chembl_classifier/` (data extraction → training → evaluation → integration to reward)
+- **Docking backend**: `unidock` for the current 8GJL target
 
-The repository still contains historical Ray-based and legacy docking paths, but the intended active direction remains:
-- keep diffusion semantics explicit
-- keep mask semantics explicit
-- keep reward semantics explicit
-- avoid introducing new Ray-based orchestration
-- use GPU-based docking/scoring
-- prefer native PyTorch DDP for future multi-GPU refactors over reintroducing Ray
+Key changes from earlier project state:
+- ❌ No longer Lightning DDP → ✅ PyTorch native DDP
+- ❌ No longer just QED/SA/docking → ✅ Multi-component classifier-centered reward system
+- ❌ `docs/` previously described a different project state → ✅ Now updated to reflect current state (2026-05-27)
 
 ## 2. Unified Molecule Semantics (Current Decision)
 
@@ -155,24 +150,88 @@ Recommended `failure_type` values:
 - `docking_backend_failed`
 - `success`
 
-## 4. Reward Semantics
+## 4. Reward Semantics（2026-05 更新：高维特征分类器体系）
 
-The final reward must remain explicit and inspectable.
-Recommended structure:
-- keep each component score visible
-- keep each component weight in config
-- separate invalid molecule failures from docking failures
-- log component means and failure counts
+The project has evolved from simple QED/SA/docking rewards to a **multi-component reward system**
+centered around a ChEMBL classifier and fingerprint priors.
 
-Suggested interpretation:
-- invalid molecule failure: reconstruction or RDKit legality failed
-- docking failure: docking input creation or docking backend failed after RDKit-valid gating
+### 4.1 Current reward components
 
-A typical total reward should be an explicit weighted sum of component scores, for example:
-- drug-likeness component from QED + normalized SA
-- docking component from normalized docking score
+| Component | YAML Key | Type | Description |
+|-----------|----------|------|-------------|
+| QED | `qed` | Drug-likeness | Quantitative Estimate of Drug-likeness |
+| SA | `sa` | Drug-likeness | Synthetic Accessibility |
+| Docking | `docking` | Structure-based | UniDock docking score (kcal/mol) |
+| Ligand Efficiency | `ligand_efficiency` | Efficiency | dock_score / heavy_atoms |
+| ChEMBL Prior ECFP4 | `chembl_prior_ecfp4` | Distribution prior | ECFP4 fingerprint similarity to ChEMBL |
+| ChEMBL Prior FCFP4 | `chembl_prior_fcfp4` | Distribution prior | FCFP4 fingerprint similarity to ChEMBL |
+| **ChEMBL Classifier** | `chembl_classifier` | **MLP classifier** | **2220D MLP (Morgan FP + RDKit 2D descriptors)** |
+| MolSkill | `molskill` | Human preference | MolSkill human-judgment model |
+| LogP Distribution | `logp_distribution` | Distribution matching | LogP distribution vs ChEMBL baseline |
+| Diversity ECFP4 | `diversity_ecfp4` | Batch penalty | Within-batch ECFP4 similarity penalty |
+| Diversity FCFP4 | `diversity_fcfp4` | Batch penalty | Within-batch FCFP4 similarity penalty |
+| Connectivity | `connectivity` | Validity | Fragment / disconnected structure penalty |
+| Component Normalizer | (built-in) | Normalization | Per-component EMA z-score (optional) |
+| Stability | `stability` | Wrapper | Injects RDKit validity / stability fields |
 
-The precise weights must live in config and be logged.
+### 4.2 ChEMBL Classifier reward（核心新增）
+
+```python
+# chembl_classifier_reward.py → ChemblClassifierReward(BaseReward)
+# Featurizer: MolSkill "morgan_count_rdkit_2d" (2048 Morgan FP + 172 RDKit 2D = 2220D)
+# Model: 3-layer MLP (2220 → 512 → 128 → 1, BatchNorm + ReLU + Dropout)
+# Output: P(ChEMBL-like) ∈ [0, 1]
+# Reward mapping:
+#   prob ≥ good_threshold → linear map to [0, max_reward], saturates at cap_high
+#   prob < bad_threshold  → linear map to [penalty, 0], floors at cap_low
+#   middle region → neutral 0
+# Invalid molecules → failure_penalty (default: -1.0)
+```
+
+### 4.3 Training configurations
+
+```yaml
+# Example: 7gpu_classifier_only.yaml
+reward:
+  weights:
+    chembl_classifier: 1.0
+    qed: 0
+    sa: 0
+    docking: 0
+  per_component_normalization:
+    enabled: true
+    momentum: 0.01
+  normalization:
+    enabled: true
+    method: "zscore_total"
+    clamp: { enabled: true, min: -2.0, max: 2.0 }
+  chembl_classifier:
+    good_threshold: 0.5
+    cap_high: 0.8
+    cap_low: 0.2
+    max_reward: 1.0
+    penalty: -1.0
+```
+
+### 4.4 Reward assembly flow
+
+```
+YAML Config (launch/*.yaml)
+    ↓
+factory.build_rewarder(config, dataset_info, logger)
+    ├── get_enabled_rewards(config)  →  weight > 0 的组件列表
+    ├── 逐组件实例化 (QED/SA/Docking/Classifier/Prior/Diversity/...)
+    ├── 可选 ComponentNormalizer (EMA z-score)
+    ├── CompositeReward(rewards, weights, component_normalizer)
+    └── StabilityAwareReward(composite_reward, dataset_info)
+        ↓
+训练循环: rewarder.calculate_rewards(data)  →  batch['reward_total']
+```
+
+### 4.5 Naming consistency chain
+
+YAML key → `reward_prefix` → batch field → CSV column → terminal display must be consistent.
+See `.codebuddy/rules/项目规则.mdc` §七 for the full checklist.
 
 ## 5. Naming Guidance
 

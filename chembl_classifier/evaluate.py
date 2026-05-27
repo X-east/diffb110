@@ -7,11 +7,17 @@ feature importance (permutation-based), prediction distribution.
 
 from __future__ import annotations
 
+import json
 import logging
+import os
 import sys
 from pathlib import Path
 
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib-diffb110")
+
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import yaml
@@ -33,6 +39,69 @@ from chembl_classifier.model import ChemblClassifier  # noqa: E402
 _CONFIG_PATH = _PROJECT_ROOT / "chembl_classifier" / "config.yaml"
 
 logger = logging.getLogger(__name__)
+
+
+def _negative_category_metrics(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    probs: np.ndarray,
+    negative_labels: list[str],
+) -> dict[str, dict[str, float]]:
+    """Compute category-wise negative recall for multi-label hard negatives."""
+    metrics: dict[str, dict[str, float]] = {}
+    category_to_indices: dict[str, list[int]] = {}
+    for idx, labels in enumerate(negative_labels):
+        if y_true[idx] != 0 or not labels:
+            continue
+        for label in str(labels).split("|"):
+            if not label:
+                continue
+            category_to_indices.setdefault(label, []).append(idx)
+
+    for label, indices in sorted(category_to_indices.items()):
+        idx_arr = np.array(indices, dtype=int)
+        predicted_negative = y_pred[idx_arr] == 0
+        predicted_positive = y_pred[idx_arr] == 1
+        metrics[label] = {
+            "n": int(len(idx_arr)),
+            "negative_recall": float(predicted_negative.mean()),
+            "false_positive_as_chembl_rate": float(predicted_positive.mean()),
+            "mean_chembl_probability": float(probs[idx_arr].mean()),
+            "p95_chembl_probability": float(np.quantile(probs[idx_arr], 0.95)),
+        }
+    return metrics
+
+
+def _write_evaluation_artifacts(
+    results: dict,
+    output_dir: Path,
+    stem: str,
+) -> None:
+    """Persist evaluation JSON, category CSV, and category plot."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    json_path = output_dir / f"{stem}_evaluation.json"
+    json_path.write_text(json.dumps(results, ensure_ascii=False, indent=2))
+
+    category_metrics = results.get("negative_category_metrics", {})
+    if not category_metrics:
+        return
+
+    rows = [
+        {"category": category, **metrics}
+        for category, metrics in category_metrics.items()
+    ]
+    df = pd.DataFrame(rows).sort_values("false_positive_as_chembl_rate", ascending=False)
+    df.to_csv(output_dir / f"{stem}_negative_category_metrics.csv", index=False)
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    view = df.sort_values("false_positive_as_chembl_rate", ascending=True)
+    ax.barh(view["category"], view["false_positive_as_chembl_rate"] * 100, color="#c2410c")
+    ax.set_xlabel("False positive as ChEMBL-like (%)")
+    ax.set_title("Hard-negative category failure rate")
+    ax.grid(axis="x", alpha=0.25)
+    plt.tight_layout()
+    plt.savefig(output_dir / f"{stem}_negative_category_failure_rate.png", dpi=220)
+    plt.close()
 
 
 @torch.no_grad()
@@ -105,6 +174,7 @@ def evaluate_model(
     X_test = torch.tensor(dataset["X_test"])
     y_test = torch.tensor(dataset["y_test"]).numpy()
     smiles_test = dataset["smiles_test"]
+    negative_labels_test = dataset.get("negative_labels_test", [""] * len(smiles_test))
 
     X_train = torch.tensor(dataset["X_train"])
     y_train = torch.tensor(dataset["y_train"]).numpy()
@@ -200,6 +270,17 @@ def evaluate_model(
             "test_neg": int(neg_mask.sum()),
         },
     }
+    results["negative_category_metrics"] = _negative_category_metrics(
+        y_test,
+        test_preds,
+        test_probs,
+        list(negative_labels_test),
+    )
+    eval_dir = _PROJECT_ROOT / output_cfg.get(
+        "evaluation_dir",
+        "chembl_classifier/models/evaluation",
+    )
+    _write_evaluation_artifacts(results, eval_dir, Path(model_path).stem)
 
     return results
 
@@ -249,6 +330,25 @@ def print_results(results: dict) -> None:
     print("Top False Negatives (predicted non-ChEMBL but are ChEMBL):")
     for item in results["top_errors"]["false_negatives"][:5]:
         print(f"  P={item['prob']:.4f} | {item['smiles']}")
+
+    category_metrics = results.get("negative_category_metrics", {})
+    if category_metrics:
+        print()
+        print("Negative Category Recall:")
+        print(f"{'Category':<36} {'N':>7} {'NegRecall':>10} {'FP-as-ChEMBL':>12} {'MeanP':>8} {'P95':>8}")
+        print("-" * 88)
+        for label, metric in sorted(
+            category_metrics.items(),
+            key=lambda item: item[1]["false_positive_as_chembl_rate"],
+            reverse=True,
+        ):
+            print(
+                f"{label:<36} {metric['n']:>7d} "
+                f"{metric['negative_recall']:>10.4f} "
+                f"{metric['false_positive_as_chembl_rate']:>12.4f} "
+                f"{metric['mean_chembl_probability']:>8.4f} "
+                f"{metric['p95_chembl_probability']:>8.4f}"
+            )
 
 
 def main() -> None:

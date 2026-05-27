@@ -1,0 +1,9 @@
+label,candidate_count
+three_member_ring,87907
+ring_complex,40498
+aromatic_deficient_bad_topology,28612
+co_only_mostly_carbon,26217
+non_oxygen_hetero_loss,23468
+hydrophobic_low_polarity,21208
+high_carbon_low_hetero,18199
+high_reward_bad,9068

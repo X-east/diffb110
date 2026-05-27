@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-05-27T16:35:16",
+  "root": "/data/disk6/DiffB110",
+  "analysis_dir": "/data/disk6/DiffB110/analysis/final_classifier_dataset_selection_20260527",
+  "outputs": [
+    "analysis_manifest.json",
+    "build_selected_sample_lists.py",
+    "selected_classifier_dataset_170k.tsv",
+    "selected_dataset_report.md",
+    "selected_dataset_summary.json",
+    "selected_negative_category_counts.csv",
+    "selected_negative_category_coverage.png",
+    "selected_negatives_70k.csv.gz",
+    "selected_negatives_70k_labeled.smi",
+    "selected_positive_distribution.png",
+    "selected_positives_100k.csv.gz",
+    "selected_positives_100k.smi"
+  ]
+}

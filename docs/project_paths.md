@@ -1,5 +1,7 @@
 # Project Paths
 
+> **最后更新**: 2026-05-27
+
 ## Canonical Root
 - `project_root=/data/disk6/DiffB110`
 - `repo_root=/data/disk6/DiffB110`
@@ -10,10 +12,11 @@
 ## Runtime-Visible Root
 - `runtime_project_root=/home/md666/data/disk6/DiffB110`
 
-## User-Maintained Launch Scripts
-- `run_6gpu_sh=/home/md666/data/disk6/DiffB110/run_6gpu.sh`
-- `run_4gpu_test_sh=/home/md666/data/disk6/DiffB110/run_4gpu_test.sh`
-- `run_4gpu_druglikeness_only_sh=/home/md666/data/disk6/DiffB110/run_4gpu_druglikeness_only.sh`
+## Launch Configs (Active Training)
+- `launch_root=/home/md666/data/disk6/DiffB110/launch`
+- `launch_configs=/home/md666/data/disk6/DiffB110/launch/*.yaml`
+- `launch_scripts=/home/md666/data/disk6/DiffB110/launch/*.sh`
+- `smoke_test=/home/md666/data/disk6/DiffB110/launch/smoke.sh`
 
 ## Main Project Modules
 - `ddpo_root=/data/disk6/DiffB110/ddpo`
@@ -22,10 +25,16 @@
 - `ddpo_trainer_root=/data/disk6/DiffB110/ddpo/trainer`
 - `ddpo_utils_root=/data/disk6/DiffB110/ddpo/utils`
 
+- `chembl_classifier_root=/data/disk6/DiffB110/chembl_classifier`
+- `chembl_classifier_data=/data/disk6/DiffB110/chembl_classifier/data`
+- `chembl_classifier_models=/data/disk6/DiffB110/chembl_classifier/models`
+
 - `diffsbdd_root=/data/disk6/DiffB110/DiffSBDD`
 - `diffsbdd_configs_root=/data/disk6/DiffB110/DiffSBDD/configs`
 - `diffsbdd_checkpoints_root=/data/disk6/DiffB110/DiffSBDD/checkpoints`
 - `diffsbdd_analysis_root=/data/disk6/DiffB110/DiffSBDD/analysis`
+
+- `analysis_root=/data/disk6/DiffB110/analysis`
 
 - `rlpf_root=/data/disk6/DiffB110/RLPF-verl_diffusion`
 - `rlpf_exp_root=/data/disk6/DiffB110/RLPF-verl_diffusion/exp`
@@ -40,6 +49,10 @@
 ## Data and Cache
 - `workspace_data_root=/data/disk6/DiffB110/data`
 - `cache_root=/data/disk6/DiffB110/cache`
+- `chembl_data_root=/data/disk6/DiffB110/data/chembl`
+- `chembl_fingerprint_ecfp4=/data/disk6/DiffB110/data/chembl/chembl_36_ecfp4.npz`
+- `chembl_fingerprint_fcfp4=/data/disk6/DiffB110/data/chembl/chembl_36_fcfp4.npz`
+- `chembl_properties=/data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz`
 
 ## Outputs and Logs
 - `outputs_root=/data/disk6/DiffB110/OUT`
@@ -47,18 +60,13 @@
 - `outputs_out_root=/data/disk6/DiffB110/OUT/out`
 
 ## Tests
-- `tests_root=/data/disk6/DiffB110/tests`
+- `tests_root=/data/disk6/DiffB110/test`
 - `tests_unit_root=/data/disk6/DiffB110/tests/unit`
 - `tests_integration_root=/data/disk6/DiffB110/tests/integration`
 - `tests_property_root=/data/disk6/DiffB110/tests/property`
 
 ## Notes
 - Use canonical paths under `/data/disk6/DiffB110` for documentation and code changes.
-- The user’s daily runtime launch scripts are currently called via `/home/md666/data/disk6/DiffB110/...`.
-- Do not mix `/home/md666/data/disk6/DiffB110` with `/data/disk6/DiffB110` inside the same script unless the path mapping is intentional and verified.
-- The repository contains multiple subprojects: `ddpo`, `DiffSBDD`, `RLPF-verl_diffusion`, `Uni-Dock`, and `molformer-main`.
-- The preferred user-facing runtime entrypoints are:
-  - `run_6gpu.sh`
-  - `run_4gpu_test.sh`
-  - `run_4gpu_druglikeness_only.sh`
-- Paths such as `protein_root`, `ligand_root`, `pocket_root`, `reference_ligand_root`, `checkpoint_root`, and `docking_root` should be added only after confirming actual folder locations.
+- The user's daily runtime launch scripts are in `launch/*.sh` (torchrun-based DDP).
+- The repository contains multiple subprojects: `ddpo`, `chembl_classifier`, `DiffSBDD`, `RLPF-verl_diffusion`, `Uni-Dock`, and `molformer-main`.
+- Launch configs (`launch/*.yaml`) are the primary configuration entrypoints, not `configs/`.

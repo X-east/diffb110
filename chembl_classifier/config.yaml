@@ -31,12 +31,18 @@ training:
 # Data Paths
 # ============================================
 data:
+  # 显式样本清单。设置后优先使用这些文件，而不是随机 ChEMBL 正样本/
+  # legacy extracted negatives。当前文件来自 analysis 中的 v0.1 候选集。
+  explicit_positive_samples: "analysis/final_classifier_dataset_selection_20260527/selected_positives_100k.smi"
+  explicit_negative_samples: "analysis/final_classifier_dataset_selection_20260527/selected_negatives_70k_labeled.smi"
+  include_legacy_negatives: false
+
   # ChEMBL 数据（正样本来源）
   chembl_molecules: "data/chembl/chembl_36_molecules.csv.gz"
   chembl_properties: "data/chembl/chembl_36_properties.csv.gz"
 
   # 并行 featurization
-  n_jobs: 24                   # 多进程并行数，设为 1 禁用多进程
+  n_jobs: 18                   # 多进程并行数，设为 1 禁用多进程
 
   # 实验输出目录（用于收集模型生成的异常分子作负样本）
   # 留空则仅用合成负样本
@@ -52,7 +58,8 @@ data:
 # ============================================
 output:
   model_dir: "chembl_classifier/models"
-  model_name: "chembl_classifier.pt"
-  dataset_cache: "chembl_classifier/models/dataset.pt"  # 缓存 featurized 数据
+  model_name: "chembl_classifier_selected_v0_1.pt"
+  dataset_cache: "chembl_classifier/models/dataset_selected_v0_1.pt"  # 缓存 featurized 数据
+  evaluation_dir: "chembl_classifier/models/evaluation_selected_v0_1"
   # 标准化参数（RDKit 描述子 Z-score）
   norm_stats: "reference project/molskill/data/chembl_population_mean_std.csv"

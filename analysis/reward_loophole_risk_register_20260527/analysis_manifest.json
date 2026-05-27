@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-05-27T16:00:00",
+  "root": "/home/md666/data/disk6/DiffB110",
+  "analysis_dir": "/home/md666/data/disk6/DiffB110/analysis/reward_loophole_risk_register_20260527",
+  "outputs": [
+    "analysis_manifest.json",
+    "plot_risk_register.py",
+    "reward_loophole_risk_register.md",
+    "risk_priority_matrix.png",
+    "risk_register.tsv",
+    "top_reward_loopholes.png"
+  ]
+}

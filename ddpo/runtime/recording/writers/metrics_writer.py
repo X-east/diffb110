@@ -39,6 +39,7 @@ class MetricsWriter:
         "avg_qed", "avg_sa", "avg_docking", "avg_similarity", "avg_diversity",
         "avg_qed_norm", "avg_sa_norm", "avg_docking_norm", "avg_diversity_norm",
         "avg_chembl_reward", "avg_chembl_similarity",
+        "avg_chembl_classifier_reward",
         "avg_chembl_prior_ecfp4_reward", "avg_chembl_prior_ecfp4_similarity",
         "avg_chembl_prior_fcfp4_reward", "avg_chembl_prior_fcfp4_similarity",
         "avg_ligand_efficiency",

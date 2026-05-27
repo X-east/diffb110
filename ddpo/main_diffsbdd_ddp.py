@@ -46,6 +46,11 @@ from ddpo.runtime.train_helpers import (
     prepare_training_samples,
     update_policy,
 )
+from ddpo.field_registry import (
+    FieldSpec,
+    collect_field_specs,
+    reduce_registered_epoch_aggregates,
+)
 from ddpo.utils.suppress_warnings import setup_chemistry_logging
 from ddpo.rewards.docking import DockingReward
 from ddpo.rewards.factory import build_rewarder
@@ -94,6 +99,7 @@ class DistributedRuntimeBundle:
     checkpoint_interval: int
     per_rank_batch_size: int
     global_batch_size: int
+    field_specs: list[FieldSpec]
     ref_model: Any = None
     start_epoch: int = 0
     resumed_from_checkpoint: str | None = None
@@ -125,6 +131,7 @@ class GlobalBatchStats:
     avg_chembl_reward: float = 0.0
     avg_chembl_similarity: float = 0.0
     chembl_prior_metrics: dict[str, float] | None = None
+    extra_epoch_metrics: dict[str, float] | None = None
 
 
 def _iter_wrapped_rewards(rewarder: Any):
@@ -234,6 +241,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
     dataloader = build_dataloader(config, dataset_info, device, model_impl=model_impl)
     rollout = DiffSBDDRollout(model=model_impl, config=config)
     rewarder = build_rewarder(config=config, dataset_info=dataset_info, logger=logger)
+    field_specs = collect_field_specs(rewarder)
     reward_normalizer = build_reward_normalizer(config=config, logger=logger)
     bind_reward_runtime_devices(rewarder, gpu_id=dist_ctx.local_rank)
     bind_reward_distributed_context(rewarder, dist_ctx=dist_ctx)
@@ -256,6 +264,10 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         global_batch_size,
     )
     logger.info("Initialized rewarder: %s", type(rewarder).__name__)
+    logger.info(
+        "Registered dynamic reward fields: %s",
+        [f"{spec.scope}:{spec.name}:{spec.reduce}" for spec in field_specs],
+    )
     logger.info("Initialized reward normalizer: %s", type(reward_normalizer).__name__)
 
     runtime = DistributedRuntimeBundle(
@@ -282,6 +294,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         checkpoint_interval=checkpoint_interval,
         per_rank_batch_size=per_rank_batch_size,
         global_batch_size=global_batch_size,
+        field_specs=field_specs,
     )
 
     restore_checkpoint_if_requested(runtime, checkpoint_path)
@@ -439,6 +452,13 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
     for key, value in (local_stats.chembl_prior_metrics or {}).items():
         reduced = reduce_sum_scalar(float(value) * valid_count_local, dist_ctx)
         chembl_prior_metrics[key] = (reduced / valid_count) if valid_count > 0 else 0.0
+    extra_epoch_metrics = reduce_registered_epoch_aggregates(
+        local_stats.registered_epoch_aggregates or {},
+        dist_ctx,
+        reduce_sum_scalar=reduce_sum_scalar,
+        reduce_min_scalar=reduce_min_scalar,
+        reduce_max_scalar=reduce_max_scalar,
+    )
     failure_counts = _merge_failure_counts(all_gather_objects(local_stats.failure_counts, dist_ctx))
     merged_metrics = _merge_metrics(all_gather_objects(metrics, dist_ctx))
     return GlobalBatchStats(
@@ -465,6 +485,7 @@ def reduce_batch_stats(local_stats: BatchStats, prepared: PreparedSamples, metri
         avg_chembl_reward=(chembl_reward_sum / valid_count) if valid_count > 0 else 0.0,
         avg_chembl_similarity=(chembl_similarity_sum / valid_count) if valid_count > 0 else 0.0,
         chembl_prior_metrics=chembl_prior_metrics,
+        extra_epoch_metrics=extra_epoch_metrics,
     )
 
 
@@ -476,7 +497,14 @@ def record_epoch_ddp(
     global_stats: GlobalBatchStats,
 ) -> None:
     rank = int(runtime.dist_ctx.rank)
-    batch_facts = build_batch_facts(prepared=prepared, epoch=epoch, batch_idx=0, batch_stats=local_stats, config=runtime.config)
+    batch_facts = build_batch_facts(
+        prepared=prepared,
+        epoch=epoch,
+        batch_idx=0,
+        batch_stats=local_stats,
+        config=runtime.config,
+        field_specs=runtime.field_specs,
+    )
     batch_facts.rank = rank
     for row in batch_facts.molecule_rows:
         row["rank"] = rank
@@ -523,6 +551,7 @@ def record_epoch_ddp(
             avg_chembl_prior_fcfp4_reward=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_fcfp4_reward", 0.0),
             avg_chembl_prior_fcfp4_similarity=(global_stats.chembl_prior_metrics or {}).get("avg_chembl_prior_fcfp4_similarity", 0.0),
             chembl_prior_metrics=global_stats.chembl_prior_metrics or {},
+            extra_epoch_metrics=global_stats.extra_epoch_metrics or {},
         ),
         prepared=PreparedSamples(
             samples=prepared.samples,
@@ -540,9 +569,10 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
     maybe_log_ddp_probe(runtime, epoch)
     maybe_check_param_sync(runtime, epoch)
     # Merge timing metrics into the metrics dict for recording
-    for step, elapsed in timer.summary().items():
-        metrics[f"time_{step}"] = elapsed
-    local_stats = compute_batch_stats(prepared, config=runtime.config)
+    if timer is not None:
+        for step, elapsed in timer.summary().items():
+            metrics[f"time_{step}"] = elapsed
+    local_stats = compute_batch_stats(prepared, config=runtime.config, field_specs=runtime.field_specs)
     # Compute per-rank molecular descriptors for epoch-level monitoring;
     # _merge_metrics in reduce_batch_stats averages them across all ranks.
     descriptor_metrics = compute_epoch_molecular_descriptors(prepared)

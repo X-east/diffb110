@@ -1,0 +1,25 @@
+{
+  "created_at": "2026-05-27T11:55:16",
+  "root": "/data/disk6/DiffB110",
+  "analysis_dir": "/data/disk6/DiffB110/analysis/reward_hacking_diagnosis_20260527",
+  "molecule_rows": 267128,
+  "runs": 57,
+  "unique_smiles_or_values": 170061,
+  "outputs": [
+    "analysis_manifest.json",
+    "analyze_reward_hacking.py",
+    "chembl_baseline.json",
+    "chembl_positive_pool.json",
+    "diagnosis_report.md",
+    "key_config_summary.json",
+    "major_run_summary.csv",
+    "molecule_flags_compact.csv.gz",
+    "negative_label_counts.json",
+    "screening_criteria_evidence_matrix.md",
+    "run_summary.csv",
+    "selected_epoch_summary.csv",
+    "selection_criteria_rationale.md",
+    "top_reward_bad_examples.csv",
+    "top_reward_decile_summary.csv"
+  ]
+}

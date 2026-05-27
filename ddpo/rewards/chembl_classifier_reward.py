@@ -216,7 +216,7 @@ class ChemblClassifierReward(BaseReward):
     # ── Field declaration ─────────────────────────────────────────────────
 
     def field_specs(self) -> list[FieldSpec]:
-        """Declare molecule-level reward field."""
+        """Declare molecule-level reward field and epoch-level average."""
         return [
             FieldSpec(
                 name="chembl_classifier_reward",
@@ -224,7 +224,15 @@ class ChemblClassifierReward(BaseReward):
                 source="batch",
                 reduce="none",
                 order=600,
-            )
+            ),
+            FieldSpec(
+                name="avg_chembl_classifier_reward",
+                scope="epoch",
+                source="batch",
+                source_key="chembl_classifier_reward",
+                reduce="generated_mean",
+                order=600,
+            ),
         ]
 
     # ── Properties ────────────────────────────────────────────────────────

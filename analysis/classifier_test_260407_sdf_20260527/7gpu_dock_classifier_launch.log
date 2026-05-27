@@ -1,0 +1,1157 @@
+============================================================
+7gpu-dock-classifier-v0-1 — 7 卡 DDP
+Config : launch/7gpu_dock_classifier_v0_1.yaml
+GPUs   : 0,1,2,3,4,5,6
+Batch  : per_rank=24 global=168
+Seed   : 1
+Start  : 2026-05-27 19:16:05
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Logging to: OUT/7gpu-dock-classifier-v0-1_20260527_191616/logs/rank_00/logs/training_20260527_191618.log
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+Entropy of n_nodes: H[N] 9.266729354858398
+Entropy of n_nodes: H[N] 9.266729354858398
+Entropy of n_nodes: H[N] 9.266729354858398
+Entropy of n_nodes: H[N] 9.266729354858398
+Entropy of n_nodes: H[N] 9.266729354858398
+Entropy of n_nodes: H[N] 9.266729354858398
+Entropy of n_nodes: H[N] 9.266729354858398
+Run ID    : 2026-05-27T19:16:16
+Run Name  : 7gpu-dock-classifier-v0-1
+Output Dir: OUT/7gpu-dock-classifier-v0-1_20260527_191616
+[Epoch ?] 生成中: 12分子/卡, 0% (0/100步)  [Epoch ?] 生成中: 1% (1/100步)  [Epoch ?] 生成中: 10% (10/100步)  [Epoch ?] 生成中: 20% (20/100步)  [Epoch ?] 生成中: 30% (30/100步)  [Epoch ?] 生成中: 40% (40/100步)  [Epoch ?] 生成中: 50% (50/100步)  [Epoch ?] 生成中: 60% (60/100步)  [Epoch ?] 生成中: 70% (70/100步)  [Epoch ?] 生成中: 80% (80/100步)  [Epoch ?] 生成中: 90% (90/100步)  [Epoch ?] 生成中: 100% (100/100步)  [Epoch ?] 生成完成: 12分子/卡, 100步 (100%)  
+[Epoch ?] 生成中: 12分子/卡, 0% (0/100步)  [Epoch ?] 生成中: 1% (1/100步)  [Epoch ?] 生成中: 10% (10/100步)  [Epoch ?] 生成中: 20% (20/100步)  [Epoch ?] 生成中: 30% (30/100步)  [Epoch ?] 生成中: 40% (40/100步)  [Epoch ?] 生成中: 50% (50/100步)  [Epoch ?] 生成中: 60% (60/100步)  [Epoch ?] 生成中: 70% (70/100步)  [Epoch ?] 生成中: 80% (80/100步)  [Epoch ?] 生成中: 90% (90/100步)  [Epoch ?] 生成中: 100% (100/100步)  [Epoch ?] 生成完成: 12分子/卡, 100步 (100%)  
+Training: 0Batch [00:00, ?Batch/s]
+Training Batch:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch:   1%|          | 1/101 [00:00<00:31,  3.13timesteps/s][A
+Training Batch:   2%|▏         | 2/101 [00:00<00:25,  3.91timesteps/s][A
+Training Batch:   3%|▎         | 3/101 [00:00<00:22,  4.27timesteps/s][A
+Training Batch:   4%|▍         | 4/101 [00:00<00:21,  4.48timesteps/s][A
+Training Batch:   5%|▍         | 5/101 [00:01<00:20,  4.59timesteps/s][A
+Training Batch:   6%|▌         | 6/101 [00:01<00:20,  4.67timesteps/s][A
+Training Batch:   7%|▋         | 7/101 [00:01<00:19,  4.71timesteps/s][A
+Training Batch:   8%|▊         | 8/101 [00:01<00:19,  4.74timesteps/s][A
+Training Batch:   9%|▉         | 9/101 [00:01<00:19,  4.77timesteps/s][A
+Training Batch:  10%|▉         | 10/101 [00:02<00:19,  4.78timesteps/s][A
+Training Batch:  11%|█         | 11/101 [00:02<00:18,  4.79timesteps/s][A
+Training Batch:  12%|█▏        | 12/101 [00:02<00:18,  4.77timesteps/s][A
+Training Batch:  13%|█▎        | 13/101 [00:02<00:18,  4.79timesteps/s][A
+Training Batch:  14%|█▍        | 14/101 [00:03<00:18,  4.80timesteps/s][A
+Training Batch:  15%|█▍        | 15/101 [00:03<00:17,  4.81timesteps/s][A
+Training Batch:  16%|█▌        | 16/101 [00:03<00:17,  4.79timesteps/s][A
+Training Batch:  17%|█▋        | 17/101 [00:03<00:17,  4.78timesteps/s][A
+Training Batch:  18%|█▊        | 18/101 [00:03<00:17,  4.78timesteps/s][A
+Training Batch:  19%|█▉        | 19/101 [00:04<00:17,  4.80timesteps/s][A
+Training Batch:  20%|█▉        | 20/101 [00:04<00:16,  4.78timesteps/s][A
+Training Batch:  21%|██        | 21/101 [00:04<00:16,  4.78timesteps/s][A
+Training Batch:  22%|██▏       | 22/101 [00:04<00:16,  4.79timesteps/s][A
+Training Batch:  23%|██▎       | 23/101 [00:04<00:16,  4.79timesteps/s][A
+Training Batch:  24%|██▍       | 24/101 [00:05<00:16,  4.81timesteps/s][A
+Training Batch:  25%|██▍       | 25/101 [00:05<00:15,  4.81timesteps/s][A
+Training Batch:  26%|██▌       | 26/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch:  27%|██▋       | 27/101 [00:05<00:15,  4.84timesteps/s][A
+Training Batch:  28%|██▊       | 28/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch:  29%|██▊       | 29/101 [00:06<00:14,  4.83timesteps/s][A
+Training Batch:  30%|██▉       | 30/101 [00:06<00:14,  4.81timesteps/s][A
+Training Batch:  31%|███       | 31/101 [00:06<00:14,  4.82timesteps/s][A
+Training Batch:  32%|███▏      | 32/101 [00:06<00:14,  4.83timesteps/s][A
+Training Batch:  33%|███▎      | 33/101 [00:06<00:14,  4.82timesteps/s][A
+Training Batch:  34%|███▎      | 34/101 [00:07<00:13,  4.83timesteps/s][A
+Training Batch:  35%|███▍      | 35/101 [00:07<00:13,  4.83timesteps/s][A
+Training Batch:  36%|███▌      | 36/101 [00:07<00:13,  4.82timesteps/s][A
+Training Batch:  37%|███▋      | 37/101 [00:07<00:13,  4.82timesteps/s][A
+Training Batch:  38%|███▊      | 38/101 [00:08<00:13,  4.81timesteps/s][A
+Training Batch:  39%|███▊      | 39/101 [00:08<00:12,  4.82timesteps/s][A
+Training Batch:  40%|███▉      | 40/101 [00:08<00:12,  4.83timesteps/s][A
+Training Batch:  41%|████      | 41/101 [00:08<00:12,  4.84timesteps/s][A
+Training Batch:  42%|████▏     | 42/101 [00:08<00:12,  4.83timesteps/s][A
+Training Batch:  43%|████▎     | 43/101 [00:09<00:12,  4.83timesteps/s][A
+Training Batch:  44%|████▎     | 44/101 [00:09<00:11,  4.83timesteps/s][A
+Training Batch:  45%|████▍     | 45/101 [00:09<00:11,  4.83timesteps/s][A
+Training Batch:  46%|████▌     | 46/101 [00:09<00:11,  4.82timesteps/s][A
+Training Batch:  47%|████▋     | 47/101 [00:09<00:11,  4.82timesteps/s][A
+Training Batch:  48%|████▊     | 48/101 [00:10<00:11,  4.81timesteps/s][A
+Training Batch:  49%|████▊     | 49/101 [00:10<00:10,  4.81timesteps/s][A
+Training Batch:  50%|████▉     | 50/101 [00:10<00:10,  4.82timesteps/s][A
+Training Batch:  50%|█████     | 51/101 [00:10<00:10,  4.82timesteps/s][A
+Training Batch:  51%|█████▏    | 52/101 [00:10<00:10,  4.83timesteps/s][A
+Training Batch:  52%|█████▏    | 53/101 [00:11<00:09,  4.82timesteps/s][A
+Training Batch:  53%|█████▎    | 54/101 [00:11<00:09,  4.79timesteps/s][A
+Training Batch:  54%|█████▍    | 55/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch:  55%|█████▌    | 56/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch:  56%|█████▋    | 57/101 [00:11<00:09,  4.82timesteps/s][A
+Training Batch:  57%|█████▋    | 58/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch:  58%|█████▊    | 59/101 [00:12<00:08,  4.80timesteps/s][A
+Training Batch:  59%|█████▉    | 60/101 [00:12<00:08,  4.80timesteps/s][A
+Training Batch:  60%|██████    | 61/101 [00:12<00:08,  4.79timesteps/s][A
+Training Batch:  61%|██████▏   | 62/101 [00:12<00:08,  4.81timesteps/s][A
+Training Batch:  62%|██████▏   | 63/101 [00:13<00:07,  4.82timesteps/s][A
+Training Batch:  63%|██████▎   | 64/101 [00:13<00:07,  4.81timesteps/s][A
+Training Batch:  64%|██████▍   | 65/101 [00:13<00:07,  4.81timesteps/s][A
+Training Batch:  65%|██████▌   | 66/101 [00:13<00:07,  4.81timesteps/s][A
+Training Batch:  66%|██████▋   | 67/101 [00:14<00:07,  4.82timesteps/s][A
+Training Batch:  67%|██████▋   | 68/101 [00:14<00:06,  4.80timesteps/s][A
+Training Batch:  68%|██████▊   | 69/101 [00:14<00:06,  4.78timesteps/s][A
+Training Batch:  69%|██████▉   | 70/101 [00:14<00:06,  4.77timesteps/s][A
+Training Batch:  70%|███████   | 71/101 [00:14<00:06,  4.78timesteps/s][A
+Training Batch:  71%|███████▏  | 72/101 [00:15<00:06,  4.80timesteps/s][A
+Training Batch:  72%|███████▏  | 73/101 [00:15<00:05,  4.81timesteps/s][A
+Training Batch:  73%|███████▎  | 74/101 [00:15<00:05,  4.79timesteps/s][A
+Training Batch:  74%|███████▍  | 75/101 [00:15<00:05,  4.79timesteps/s][A
+Training Batch:  75%|███████▌  | 76/101 [00:15<00:05,  4.79timesteps/s][A
+Training Batch:  76%|███████▌  | 77/101 [00:16<00:05,  4.79timesteps/s][A
+Training Batch:  77%|███████▋  | 78/101 [00:16<00:04,  4.79timesteps/s][A
+Training Batch:  78%|███████▊  | 79/101 [00:16<00:04,  4.79timesteps/s][A
+Training Batch:  79%|███████▉  | 80/101 [00:16<00:04,  4.79timesteps/s][A
+Training Batch:  80%|████████  | 81/101 [00:16<00:04,  4.79timesteps/s][A
+Training Batch:  81%|████████  | 82/101 [00:17<00:03,  4.80timesteps/s][A
+Training Batch:  82%|████████▏ | 83/101 [00:17<00:03,  4.80timesteps/s][A
+Training Batch:  83%|████████▎ | 84/101 [00:17<00:03,  4.77timesteps/s][A
+Training Batch:  84%|████████▍ | 85/101 [00:17<00:03,  4.77timesteps/s][A
+Training Batch:  85%|████████▌ | 86/101 [00:18<00:03,  4.69timesteps/s][A
+Training Batch:  86%|████████▌ | 87/101 [00:18<00:02,  4.72timesteps/s][A
+Training Batch:  87%|████████▋ | 88/101 [00:18<00:02,  4.73timesteps/s][A
+Training Batch:  88%|████████▊ | 89/101 [00:18<00:02,  4.75timesteps/s][A
+Training Batch:  89%|████████▉ | 90/101 [00:18<00:02,  4.77timesteps/s][A
+Training Batch:  90%|█████████ | 91/101 [00:19<00:02,  4.79timesteps/s][A
+Training Batch:  91%|█████████ | 92/101 [00:19<00:01,  4.79timesteps/s][A
+Training Batch:  92%|█████████▏| 93/101 [00:19<00:01,  4.79timesteps/s][A
+Training Batch:  93%|█████████▎| 94/101 [00:19<00:01,  4.79timesteps/s][A
+Training Batch:  94%|█████████▍| 95/101 [00:19<00:01,  4.77timesteps/s][A
+Training Batch:  95%|█████████▌| 96/101 [00:20<00:01,  4.77timesteps/s][A
+Training Batch:  96%|█████████▌| 97/101 [00:20<00:00,  4.79timesteps/s][A
+Training Batch:  97%|█████████▋| 98/101 [00:20<00:00,  4.76timesteps/s][A
+Training Batch:  98%|█████████▊| 99/101 [00:20<00:00,  4.77timesteps/s][A
+Training Batch:  99%|█████████▉| 100/101 [00:20<00:00,  4.79timesteps/s][A
+Training Batch: 100%|██████████| 101/101 [00:21<00:00,  4.75timesteps/s][A
+                                                                        [ATraining: 1Batch [00:21, 21.16s/Batch]                                      Training [PPO 1]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 1]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 1]:   1%|          | 1/101 [00:00<00:21,  4.64timesteps/s][A
+Training Batch [PPO 1]:   2%|▏         | 2/101 [00:00<00:20,  4.73timesteps/s][A
+Training Batch [PPO 1]:   3%|▎         | 3/101 [00:00<00:20,  4.78timesteps/s][A
+Training Batch [PPO 1]:   4%|▍         | 4/101 [00:00<00:20,  4.77timesteps/s][A
+Training Batch [PPO 1]:   5%|▍         | 5/101 [00:01<00:20,  4.76timesteps/s][A
+Training Batch [PPO 1]:   6%|▌         | 6/101 [00:01<00:20,  4.75timesteps/s][A
+Training Batch [PPO 1]:   7%|▋         | 7/101 [00:01<00:19,  4.74timesteps/s][A
+Training Batch [PPO 1]:   8%|▊         | 8/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 1]:   9%|▉         | 9/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 1]:  10%|▉         | 10/101 [00:02<00:19,  4.76timesteps/s][A
+Training Batch [PPO 1]:  11%|█         | 11/101 [00:02<00:18,  4.76timesteps/s][A
+Training Batch [PPO 1]:  12%|█▏        | 12/101 [00:02<00:18,  4.77timesteps/s][A
+Training Batch [PPO 1]:  13%|█▎        | 13/101 [00:02<00:18,  4.78timesteps/s][A
+Training Batch [PPO 1]:  14%|█▍        | 14/101 [00:02<00:18,  4.78timesteps/s][A
+Training Batch [PPO 1]:  15%|█▍        | 15/101 [00:03<00:17,  4.79timesteps/s][A
+Training Batch [PPO 1]:  16%|█▌        | 16/101 [00:03<00:17,  4.76timesteps/s][A
+Training Batch [PPO 1]:  17%|█▋        | 17/101 [00:03<00:17,  4.77timesteps/s][A
+Training Batch [PPO 1]:  18%|█▊        | 18/101 [00:03<00:17,  4.77timesteps/s][A
+Training Batch [PPO 1]:  19%|█▉        | 19/101 [00:03<00:17,  4.75timesteps/s][A
+Training Batch [PPO 1]:  20%|█▉        | 20/101 [00:04<00:17,  4.75timesteps/s][A
+Training Batch [PPO 1]:  21%|██        | 21/101 [00:04<00:16,  4.77timesteps/s][A
+Training Batch [PPO 1]:  22%|██▏       | 22/101 [00:04<00:16,  4.78timesteps/s][A
+Training Batch [PPO 1]:  23%|██▎       | 23/101 [00:04<00:16,  4.79timesteps/s][A
+Training Batch [PPO 1]:  24%|██▍       | 24/101 [00:05<00:16,  4.80timesteps/s][A
+Training Batch [PPO 1]:  25%|██▍       | 25/101 [00:05<00:15,  4.80timesteps/s][A
+Training Batch [PPO 1]:  26%|██▌       | 26/101 [00:05<00:15,  4.80timesteps/s][A
+Training Batch [PPO 1]:  27%|██▋       | 27/101 [00:05<00:15,  4.80timesteps/s][A
+Training Batch [PPO 1]:  28%|██▊       | 28/101 [00:05<00:15,  4.80timesteps/s][A
+Training Batch [PPO 1]:  29%|██▊       | 29/101 [00:06<00:15,  4.80timesteps/s][A
+Training Batch [PPO 1]:  30%|██▉       | 30/101 [00:06<00:14,  4.78timesteps/s][A
+Training Batch [PPO 1]:  31%|███       | 31/101 [00:06<00:14,  4.79timesteps/s][A
+Training Batch [PPO 1]:  32%|███▏      | 32/101 [00:06<00:14,  4.79timesteps/s][A
+Training Batch [PPO 1]:  33%|███▎      | 33/101 [00:06<00:14,  4.79timesteps/s][A
+Training Batch [PPO 1]:  34%|███▎      | 34/101 [00:07<00:14,  4.77timesteps/s][A
+Training Batch [PPO 1]:  35%|███▍      | 35/101 [00:07<00:13,  4.79timesteps/s][A
+Training Batch [PPO 1]:  36%|███▌      | 36/101 [00:07<00:13,  4.78timesteps/s][A
+Training Batch [PPO 1]:  37%|███▋      | 37/101 [00:07<00:13,  4.79timesteps/s][A
+Training Batch [PPO 1]:  38%|███▊      | 38/101 [00:07<00:13,  4.79timesteps/s][A
+Training Batch [PPO 1]:  39%|███▊      | 39/101 [00:08<00:12,  4.78timesteps/s][A
+Training Batch [PPO 1]:  40%|███▉      | 40/101 [00:08<00:12,  4.77timesteps/s][A
+Training Batch [PPO 1]:  41%|████      | 41/101 [00:08<00:12,  4.75timesteps/s][A
+Training Batch [PPO 1]:  42%|████▏     | 42/101 [00:08<00:12,  4.77timesteps/s][A
+Training Batch [PPO 1]:  43%|████▎     | 43/101 [00:09<00:12,  4.77timesteps/s][A
+Training Batch [PPO 1]:  44%|████▎     | 44/101 [00:09<00:12,  4.75timesteps/s][A
+Training Batch [PPO 1]:  45%|████▍     | 45/101 [00:09<00:11,  4.76timesteps/s][A
+Training Batch [PPO 1]:  46%|████▌     | 46/101 [00:09<00:11,  4.77timesteps/s][A
+Training Batch [PPO 1]:  47%|████▋     | 47/101 [00:09<00:11,  4.78timesteps/s][A
+Training Batch [PPO 1]:  48%|████▊     | 48/101 [00:10<00:11,  4.79timesteps/s][A
+Training Batch [PPO 1]:  49%|████▊     | 49/101 [00:10<00:10,  4.77timesteps/s][A
+Training Batch [PPO 1]:  50%|████▉     | 50/101 [00:10<00:10,  4.76timesteps/s][A
+Training Batch [PPO 1]:  50%|█████     | 51/101 [00:10<00:10,  4.76timesteps/s][A
+Training Batch [PPO 1]:  51%|█████▏    | 52/101 [00:10<00:10,  4.75timesteps/s][A
+Training Batch [PPO 1]:  52%|█████▏    | 53/101 [00:11<00:10,  4.76timesteps/s][A
+Training Batch [PPO 1]:  53%|█████▎    | 54/101 [00:11<00:09,  4.77timesteps/s][A
+Training Batch [PPO 1]:  54%|█████▍    | 55/101 [00:11<00:09,  4.78timesteps/s][A
+Training Batch [PPO 1]:  55%|█████▌    | 56/101 [00:11<00:09,  4.78timesteps/s][A
+Training Batch [PPO 1]:  56%|█████▋    | 57/101 [00:11<00:09,  4.77timesteps/s][A
+Training Batch [PPO 1]:  57%|█████▋    | 58/101 [00:12<00:09,  4.77timesteps/s][A
+Training Batch [PPO 1]:  58%|█████▊    | 59/101 [00:12<00:08,  4.78timesteps/s][A
+Training Batch [PPO 1]:  59%|█████▉    | 60/101 [00:12<00:08,  4.77timesteps/s][A
+Training Batch [PPO 1]:  60%|██████    | 61/101 [00:12<00:08,  4.76timesteps/s][A
+Training Batch [PPO 1]:  61%|██████▏   | 62/101 [00:12<00:08,  4.78timesteps/s][A
+Training Batch [PPO 1]:  62%|██████▏   | 63/101 [00:13<00:07,  4.77timesteps/s][A
+Training Batch [PPO 1]:  63%|██████▎   | 64/101 [00:13<00:07,  4.77timesteps/s][A
+Training Batch [PPO 1]:  64%|██████▍   | 65/101 [00:13<00:07,  4.77timesteps/s][A
+Training Batch [PPO 1]:  65%|██████▌   | 66/101 [00:13<00:07,  4.77timesteps/s][A
+Training Batch [PPO 1]:  66%|██████▋   | 67/101 [00:14<00:07,  4.76timesteps/s][A
+Training Batch [PPO 1]:  67%|██████▋   | 68/101 [00:14<00:06,  4.77timesteps/s][A
+Training Batch [PPO 1]:  68%|██████▊   | 69/101 [00:14<00:06,  4.77timesteps/s][A
+Training Batch [PPO 1]:  69%|██████▉   | 70/101 [00:14<00:06,  4.78timesteps/s][A
+Training Batch [PPO 1]:  70%|███████   | 71/101 [00:14<00:06,  4.76timesteps/s][A
+Training Batch [PPO 1]:  71%|███████▏  | 72/101 [00:15<00:06,  4.75timesteps/s][A
+Training Batch [PPO 1]:  72%|███████▏  | 73/101 [00:15<00:05,  4.75timesteps/s][A
+Training Batch [PPO 1]:  73%|███████▎  | 74/101 [00:15<00:05,  4.77timesteps/s][A
+Training Batch [PPO 1]:  74%|███████▍  | 75/101 [00:15<00:05,  4.77timesteps/s][A
+Training Batch [PPO 1]:  75%|███████▌  | 76/101 [00:15<00:05,  4.77timesteps/s][A
+Training Batch [PPO 1]:  76%|███████▌  | 77/101 [00:16<00:05,  4.77timesteps/s][A
+Training Batch [PPO 1]:  77%|███████▋  | 78/101 [00:16<00:04,  4.77timesteps/s][A
+Training Batch [PPO 1]:  78%|███████▊  | 79/101 [00:16<00:04,  4.76timesteps/s][A
+Training Batch [PPO 1]:  79%|███████▉  | 80/101 [00:16<00:04,  4.77timesteps/s][A
+Training Batch [PPO 1]:  80%|████████  | 81/101 [00:16<00:04,  4.75timesteps/s][A
+Training Batch [PPO 1]:  81%|████████  | 82/101 [00:17<00:04,  4.72timesteps/s][A
+Training Batch [PPO 1]:  82%|████████▏ | 83/101 [00:17<00:03,  4.73timesteps/s][A
+Training Batch [PPO 1]:  83%|████████▎ | 84/101 [00:17<00:03,  4.71timesteps/s][A
+Training Batch [PPO 1]:  84%|████████▍ | 85/101 [00:17<00:03,  4.74timesteps/s][A
+Training Batch [PPO 1]:  85%|████████▌ | 86/101 [00:18<00:03,  4.73timesteps/s][A
+Training Batch [PPO 1]:  86%|████████▌ | 87/101 [00:18<00:02,  4.75timesteps/s][A
+Training Batch [PPO 1]:  87%|████████▋ | 88/101 [00:18<00:02,  4.74timesteps/s][A
+Training Batch [PPO 1]:  88%|████████▊ | 89/101 [00:18<00:02,  4.74timesteps/s][A
+Training Batch [PPO 1]:  89%|████████▉ | 90/101 [00:18<00:02,  4.74timesteps/s][A
+Training Batch [PPO 1]:  90%|█████████ | 91/101 [00:19<00:02,  4.75timesteps/s][A
+Training Batch [PPO 1]:  91%|█████████ | 92/101 [00:19<00:01,  4.76timesteps/s][A
+Training Batch [PPO 1]:  92%|█████████▏| 93/101 [00:19<00:01,  4.76timesteps/s][A
+Training Batch [PPO 1]:  93%|█████████▎| 94/101 [00:19<00:01,  4.78timesteps/s][A
+Training Batch [PPO 1]:  94%|█████████▍| 95/101 [00:19<00:01,  4.78timesteps/s][A
+Training Batch [PPO 1]:  95%|█████████▌| 96/101 [00:20<00:01,  4.76timesteps/s][A
+Training Batch [PPO 1]:  96%|█████████▌| 97/101 [00:20<00:00,  4.78timesteps/s][A
+Training Batch [PPO 1]:  97%|█████████▋| 98/101 [00:20<00:00,  4.77timesteps/s][A
+Training Batch [PPO 1]:  98%|█████████▊| 99/101 [00:20<00:00,  4.74timesteps/s][A
+Training Batch [PPO 1]:  99%|█████████▉| 100/101 [00:20<00:00,  4.75timesteps/s][A
+Training Batch [PPO 1]: 100%|██████████| 101/101 [00:21<00:00,  4.75timesteps/s][A
+                                                                                [ATraining [PPO 1]: 1Batch [00:21, 21.19s/Batch]                                              Training [PPO 2]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 2]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 2]:   1%|          | 1/101 [00:00<00:20,  4.81timesteps/s][A
+Training Batch [PPO 2]:   2%|▏         | 2/101 [00:00<00:20,  4.78timesteps/s][A
+Training Batch [PPO 2]:   3%|▎         | 3/101 [00:00<00:20,  4.76timesteps/s][A
+Training Batch [PPO 2]:   4%|▍         | 4/101 [00:00<00:20,  4.74timesteps/s][A
+Training Batch [PPO 2]:   5%|▍         | 5/101 [00:01<00:20,  4.75timesteps/s][A
+Training Batch [PPO 2]:   6%|▌         | 6/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 2]:   7%|▋         | 7/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 2]:   8%|▊         | 8/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 2]:   9%|▉         | 9/101 [00:01<00:19,  4.77timesteps/s][A
+Training Batch [PPO 2]:  10%|▉         | 10/101 [00:02<00:19,  4.76timesteps/s][A
+Training Batch [PPO 2]:  11%|█         | 11/101 [00:02<00:18,  4.74timesteps/s][A
+Training Batch [PPO 2]:  12%|█▏        | 12/101 [00:02<00:18,  4.71timesteps/s][A
+Training Batch [PPO 2]:  13%|█▎        | 13/101 [00:02<00:18,  4.72timesteps/s][A
+Training Batch [PPO 2]:  14%|█▍        | 14/101 [00:02<00:18,  4.70timesteps/s][A
+Training Batch [PPO 2]:  15%|█▍        | 15/101 [00:03<00:18,  4.72timesteps/s][A
+Training Batch [PPO 2]:  16%|█▌        | 16/101 [00:03<00:18,  4.71timesteps/s][A
+Training Batch [PPO 2]:  17%|█▋        | 17/101 [00:03<00:17,  4.74timesteps/s][A
+Training Batch [PPO 2]:  18%|█▊        | 18/101 [00:03<00:17,  4.73timesteps/s][A
+Training Batch [PPO 2]:  19%|█▉        | 19/101 [00:04<00:17,  4.74timesteps/s][A
+Training Batch [PPO 2]:  20%|█▉        | 20/101 [00:04<00:17,  4.74timesteps/s][A
+Training Batch [PPO 2]:  21%|██        | 21/101 [00:04<00:16,  4.73timesteps/s][A
+Training Batch [PPO 2]:  22%|██▏       | 22/101 [00:04<00:16,  4.72timesteps/s][A
+Training Batch [PPO 2]:  23%|██▎       | 23/101 [00:04<00:16,  4.73timesteps/s][A
+Training Batch [PPO 2]:  24%|██▍       | 24/101 [00:05<00:16,  4.73timesteps/s][A
+Training Batch [PPO 2]:  25%|██▍       | 25/101 [00:05<00:16,  4.73timesteps/s][A
+Training Batch [PPO 2]:  26%|██▌       | 26/101 [00:05<00:15,  4.72timesteps/s][A
+Training Batch [PPO 2]:  27%|██▋       | 27/101 [00:05<00:15,  4.72timesteps/s][A
+Training Batch [PPO 2]:  28%|██▊       | 28/101 [00:05<00:15,  4.72timesteps/s][A
+Training Batch [PPO 2]:  29%|██▊       | 29/101 [00:06<00:15,  4.73timesteps/s][A
+Training Batch [PPO 2]:  30%|██▉       | 30/101 [00:06<00:15,  4.73timesteps/s][A
+Training Batch [PPO 2]:  31%|███       | 31/101 [00:06<00:14,  4.74timesteps/s][A
+Training Batch [PPO 2]:  32%|███▏      | 32/101 [00:06<00:14,  4.75timesteps/s][A
+Training Batch [PPO 2]:  33%|███▎      | 33/101 [00:06<00:14,  4.75timesteps/s][A
+Training Batch [PPO 2]:  34%|███▎      | 34/101 [00:07<00:14,  4.75timesteps/s][A
+Training Batch [PPO 2]:  35%|███▍      | 35/101 [00:07<00:13,  4.74timesteps/s][A
+Training Batch [PPO 2]:  36%|███▌      | 36/101 [00:07<00:13,  4.75timesteps/s][A
+Training Batch [PPO 2]:  37%|███▋      | 37/101 [00:07<00:13,  4.71timesteps/s][A
+Training Batch [PPO 2]:  38%|███▊      | 38/101 [00:08<00:13,  4.72timesteps/s][A
+Training Batch [PPO 2]:  39%|███▊      | 39/101 [00:08<00:13,  4.73timesteps/s][A
+Training Batch [PPO 2]:  40%|███▉      | 40/101 [00:08<00:12,  4.71timesteps/s][A
+Training Batch [PPO 2]:  41%|████      | 41/101 [00:08<00:12,  4.70timesteps/s][A
+Training Batch [PPO 2]:  42%|████▏     | 42/101 [00:08<00:12,  4.66timesteps/s][A
+Training Batch [PPO 2]:  43%|████▎     | 43/101 [00:09<00:12,  4.68timesteps/s][A
+Training Batch [PPO 2]:  44%|████▎     | 44/101 [00:09<00:12,  4.69timesteps/s][A
+Training Batch [PPO 2]:  45%|████▍     | 45/101 [00:09<00:11,  4.68timesteps/s][A
+Training Batch [PPO 2]:  46%|████▌     | 46/101 [00:09<00:11,  4.70timesteps/s][A
+Training Batch [PPO 2]:  47%|████▋     | 47/101 [00:09<00:11,  4.72timesteps/s][A
+Training Batch [PPO 2]:  48%|████▊     | 48/101 [00:10<00:11,  4.72timesteps/s][A
+Training Batch [PPO 2]:  49%|████▊     | 49/101 [00:10<00:11,  4.72timesteps/s][A
+Training Batch [PPO 2]:  50%|████▉     | 50/101 [00:10<00:10,  4.72timesteps/s][A
+Training Batch [PPO 2]:  50%|█████     | 51/101 [00:10<00:10,  4.72timesteps/s][A
+Training Batch [PPO 2]:  51%|█████▏    | 52/101 [00:11<00:10,  4.72timesteps/s][A
+Training Batch [PPO 2]:  52%|█████▏    | 53/101 [00:11<00:10,  4.74timesteps/s][A
+Training Batch [PPO 2]:  53%|█████▎    | 54/101 [00:11<00:09,  4.74timesteps/s][A
+Training Batch [PPO 2]:  54%|█████▍    | 55/101 [00:11<00:09,  4.74timesteps/s][A
+Training Batch [PPO 2]:  55%|█████▌    | 56/101 [00:11<00:09,  4.72timesteps/s][A
+Training Batch [PPO 2]:  56%|█████▋    | 57/101 [00:12<00:09,  4.71timesteps/s][A
+Training Batch [PPO 2]:  57%|█████▋    | 58/101 [00:12<00:09,  4.73timesteps/s][A
+Training Batch [PPO 2]:  58%|█████▊    | 59/101 [00:12<00:08,  4.75timesteps/s][A
+Training Batch [PPO 2]:  59%|█████▉    | 60/101 [00:12<00:08,  4.74timesteps/s][A
+Training Batch [PPO 2]:  60%|██████    | 61/101 [00:12<00:08,  4.73timesteps/s][A
+Training Batch [PPO 2]:  61%|██████▏   | 62/101 [00:13<00:08,  4.72timesteps/s][A
+Training Batch [PPO 2]:  62%|██████▏   | 63/101 [00:13<00:08,  4.73timesteps/s][A
+Training Batch [PPO 2]:  63%|██████▎   | 64/101 [00:13<00:07,  4.73timesteps/s][A
+Training Batch [PPO 2]:  64%|██████▍   | 65/101 [00:13<00:07,  4.74timesteps/s][A
+Training Batch [PPO 2]:  65%|██████▌   | 66/101 [00:13<00:07,  4.69timesteps/s][A
+Training Batch [PPO 2]:  66%|██████▋   | 67/101 [00:14<00:07,  4.70timesteps/s][A
+Training Batch [PPO 2]:  67%|██████▋   | 68/101 [00:14<00:07,  4.71timesteps/s][A
+Training Batch [PPO 2]:  68%|██████▊   | 69/101 [00:14<00:06,  4.72timesteps/s][A
+Training Batch [PPO 2]:  69%|██████▉   | 70/101 [00:14<00:06,  4.73timesteps/s][A
+Training Batch [PPO 2]:  70%|███████   | 71/101 [00:15<00:06,  4.73timesteps/s][A
+Training Batch [PPO 2]:  71%|███████▏  | 72/101 [00:15<00:06,  4.73timesteps/s][A
+Training Batch [PPO 2]:  72%|███████▏  | 73/101 [00:15<00:05,  4.71timesteps/s][A
+Training Batch [PPO 2]:  73%|███████▎  | 74/101 [00:15<00:05,  4.70timesteps/s][A
+Training Batch [PPO 2]:  74%|███████▍  | 75/101 [00:15<00:05,  4.70timesteps/s][A
+Training Batch [PPO 2]:  75%|███████▌  | 76/101 [00:16<00:05,  4.72timesteps/s][A
+Training Batch [PPO 2]:  76%|███████▌  | 77/101 [00:16<00:05,  4.72timesteps/s][A
+Training Batch [PPO 2]:  77%|███████▋  | 78/101 [00:16<00:04,  4.72timesteps/s][A
+Training Batch [PPO 2]:  78%|███████▊  | 79/101 [00:16<00:04,  4.72timesteps/s][A
+Training Batch [PPO 2]:  79%|███████▉  | 80/101 [00:16<00:04,  4.70timesteps/s][A
+Training Batch [PPO 2]:  80%|████████  | 81/101 [00:17<00:04,  4.70timesteps/s][A
+Training Batch [PPO 2]:  81%|████████  | 82/101 [00:17<00:04,  4.70timesteps/s][A
+Training Batch [PPO 2]:  82%|████████▏ | 83/101 [00:17<00:03,  4.72timesteps/s][A
+Training Batch [PPO 2]:  83%|████████▎ | 84/101 [00:17<00:03,  4.68timesteps/s][A
+Training Batch [PPO 2]:  84%|████████▍ | 85/101 [00:18<00:03,  4.66timesteps/s][A
+Training Batch [PPO 2]:  85%|████████▌ | 86/101 [00:18<00:03,  4.67timesteps/s][A
+Training Batch [PPO 2]:  86%|████████▌ | 87/101 [00:18<00:02,  4.70timesteps/s][A
+Training Batch [PPO 2]:  87%|████████▋ | 88/101 [00:18<00:02,  4.70timesteps/s][A
+Training Batch [PPO 2]:  88%|████████▊ | 89/101 [00:18<00:02,  4.71timesteps/s][A
+Training Batch [PPO 2]:  89%|████████▉ | 90/101 [00:19<00:02,  4.71timesteps/s][A
+Training Batch [PPO 2]:  90%|█████████ | 91/101 [00:19<00:02,  4.68timesteps/s][A
+Training Batch [PPO 2]:  91%|█████████ | 92/101 [00:19<00:01,  4.69timesteps/s][A
+Training Batch [PPO 2]:  92%|█████████▏| 93/101 [00:19<00:01,  4.68timesteps/s][A
+Training Batch [PPO 2]:  93%|█████████▎| 94/101 [00:19<00:01,  4.70timesteps/s][A
+Training Batch [PPO 2]:  94%|█████████▍| 95/101 [00:20<00:01,  4.70timesteps/s][A
+Training Batch [PPO 2]:  95%|█████████▌| 96/101 [00:20<00:01,  4.71timesteps/s][A
+Training Batch [PPO 2]:  96%|█████████▌| 97/101 [00:20<00:00,  4.72timesteps/s][A
+Training Batch [PPO 2]:  97%|█████████▋| 98/101 [00:20<00:00,  4.73timesteps/s][A
+Training Batch [PPO 2]:  98%|█████████▊| 99/101 [00:20<00:00,  4.73timesteps/s][A
+Training Batch [PPO 2]:  99%|█████████▉| 100/101 [00:21<00:00,  4.71timesteps/s][A
+Training Batch [PPO 2]: 100%|██████████| 101/101 [00:21<00:00,  4.72timesteps/s][A
+                                                                                [ATraining [PPO 2]: 1Batch [00:21, 21.40s/Batch]                                              Training [PPO 3]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 3]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 3]:   1%|          | 1/101 [00:00<00:21,  4.75timesteps/s][A
+Training Batch [PPO 3]:   2%|▏         | 2/101 [00:00<00:20,  4.72timesteps/s][A
+Training Batch [PPO 3]:   3%|▎         | 3/101 [00:00<00:21,  4.66timesteps/s][A
+Training Batch [PPO 3]:   4%|▍         | 4/101 [00:00<00:20,  4.68timesteps/s][A
+Training Batch [PPO 3]:   5%|▍         | 5/101 [00:01<00:20,  4.71timesteps/s][A
+Training Batch [PPO 3]:   6%|▌         | 6/101 [00:01<00:20,  4.71timesteps/s][A
+Training Batch [PPO 3]:   7%|▋         | 7/101 [00:01<00:19,  4.71timesteps/s][A
+Training Batch [PPO 3]:   8%|▊         | 8/101 [00:01<00:19,  4.71timesteps/s][A
+Training Batch [PPO 3]:   9%|▉         | 9/101 [00:01<00:19,  4.71timesteps/s][A
+Training Batch [PPO 3]:  10%|▉         | 10/101 [00:02<00:19,  4.72timesteps/s][A
+Training Batch [PPO 3]:  11%|█         | 11/101 [00:02<00:19,  4.66timesteps/s][A
+Training Batch [PPO 3]:  12%|█▏        | 12/101 [00:02<00:19,  4.66timesteps/s][A
+Training Batch [PPO 3]:  13%|█▎        | 13/101 [00:02<00:18,  4.65timesteps/s][A
+Training Batch [PPO 3]:  14%|█▍        | 14/101 [00:02<00:18,  4.67timesteps/s][A
+Training Batch [PPO 3]:  15%|█▍        | 15/101 [00:03<00:18,  4.69timesteps/s][A
+Training Batch [PPO 3]:  16%|█▌        | 16/101 [00:03<00:18,  4.70timesteps/s][A
+Training Batch [PPO 3]:  17%|█▋        | 17/101 [00:03<00:17,  4.71timesteps/s][A
+Training Batch [PPO 3]:  18%|█▊        | 18/101 [00:03<00:17,  4.69timesteps/s][A
+Training Batch [PPO 3]:  19%|█▉        | 19/101 [00:04<00:17,  4.69timesteps/s][A
+Training Batch [PPO 3]:  20%|█▉        | 20/101 [00:04<00:17,  4.71timesteps/s][A
+Training Batch [PPO 3]:  21%|██        | 21/101 [00:04<00:16,  4.71timesteps/s][A
+Training Batch [PPO 3]:  22%|██▏       | 22/101 [00:04<00:16,  4.72timesteps/s][A
+Training Batch [PPO 3]:  23%|██▎       | 23/101 [00:04<00:16,  4.71timesteps/s][A
+Training Batch [PPO 3]:  24%|██▍       | 24/101 [00:05<00:16,  4.71timesteps/s][A
+Training Batch [PPO 3]:  25%|██▍       | 25/101 [00:05<00:16,  4.68timesteps/s][A
+Training Batch [PPO 3]:  26%|██▌       | 26/101 [00:05<00:15,  4.70timesteps/s][A
+Training Batch [PPO 3]:  27%|██▋       | 27/101 [00:05<00:15,  4.69timesteps/s][A
+Training Batch [PPO 3]:  28%|██▊       | 28/101 [00:05<00:15,  4.69timesteps/s][A
+Training Batch [PPO 3]:  29%|██▊       | 29/101 [00:06<00:15,  4.70timesteps/s][A
+Training Batch [PPO 3]:  30%|██▉       | 30/101 [00:06<00:15,  4.69timesteps/s][A
+Training Batch [PPO 3]:  31%|███       | 31/101 [00:06<00:14,  4.70timesteps/s][A
+Training Batch [PPO 3]:  32%|███▏      | 32/101 [00:06<00:14,  4.70timesteps/s][A
+Training Batch [PPO 3]:  33%|███▎      | 33/101 [00:07<00:14,  4.70timesteps/s][A
+Training Batch [PPO 3]:  34%|███▎      | 34/101 [00:07<00:14,  4.72timesteps/s][A
+Training Batch [PPO 3]:  35%|███▍      | 35/101 [00:07<00:14,  4.70timesteps/s][A
+Training Batch [PPO 3]:  36%|███▌      | 36/101 [00:07<00:13,  4.72timesteps/s][A
+Training Batch [PPO 3]:  37%|███▋      | 37/101 [00:07<00:13,  4.72timesteps/s][A
+Training Batch [PPO 3]:  38%|███▊      | 38/101 [00:08<00:13,  4.71timesteps/s][A
+Training Batch [PPO 3]:  39%|███▊      | 39/101 [00:08<00:13,  4.70timesteps/s][A
+Training Batch [PPO 3]:  40%|███▉      | 40/101 [00:08<00:12,  4.70timesteps/s][A
+Training Batch [PPO 3]:  41%|████      | 41/101 [00:08<00:12,  4.71timesteps/s][A
+Training Batch [PPO 3]:  42%|████▏     | 42/101 [00:08<00:12,  4.72timesteps/s][A
+Training Batch [PPO 3]:  43%|████▎     | 43/101 [00:09<00:12,  4.71timesteps/s][A
+Training Batch [PPO 3]:  44%|████▎     | 44/101 [00:09<00:12,  4.71timesteps/s][A
+Training Batch [PPO 3]:  45%|████▍     | 45/101 [00:09<00:11,  4.68timesteps/s][A
+Training Batch [PPO 3]:  46%|████▌     | 46/101 [00:09<00:11,  4.67timesteps/s][A
+Training Batch [PPO 3]:  47%|████▋     | 47/101 [00:10<00:11,  4.68timesteps/s][A
+Training Batch [PPO 3]:  48%|████▊     | 48/101 [00:10<00:11,  4.68timesteps/s][A
+Training Batch [PPO 3]:  49%|████▊     | 49/101 [00:10<00:11,  4.67timesteps/s][A
+Training Batch [PPO 3]:  50%|████▉     | 50/101 [00:10<00:10,  4.65timesteps/s][A
+Training Batch [PPO 3]:  50%|█████     | 51/101 [00:10<00:10,  4.67timesteps/s][A
+Training Batch [PPO 3]:  51%|█████▏    | 52/101 [00:11<00:10,  4.69timesteps/s][A
+Training Batch [PPO 3]:  52%|█████▏    | 53/101 [00:11<00:10,  4.70timesteps/s][A
+Training Batch [PPO 3]:  53%|█████▎    | 54/101 [00:11<00:10,  4.66timesteps/s][A
+Training Batch [PPO 3]:  54%|█████▍    | 55/101 [00:11<00:09,  4.68timesteps/s][A
+Training Batch [PPO 3]:  55%|█████▌    | 56/101 [00:11<00:09,  4.66timesteps/s][A
+Training Batch [PPO 3]:  56%|█████▋    | 57/101 [00:12<00:09,  4.68timesteps/s][A
+Training Batch [PPO 3]:  57%|█████▋    | 58/101 [00:12<00:09,  4.63timesteps/s][A
+Training Batch [PPO 3]:  58%|█████▊    | 59/101 [00:12<00:09,  4.58timesteps/s][A
+Training Batch [PPO 3]:  59%|█████▉    | 60/101 [00:12<00:08,  4.61timesteps/s][A
+Training Batch [PPO 3]:  60%|██████    | 61/101 [00:13<00:08,  4.64timesteps/s][A
+Training Batch [PPO 3]:  61%|██████▏   | 62/101 [00:13<00:08,  4.65timesteps/s][A
+Training Batch [PPO 3]:  62%|██████▏   | 63/101 [00:13<00:08,  4.64timesteps/s][A
+Training Batch [PPO 3]:  63%|██████▎   | 64/101 [00:13<00:07,  4.64timesteps/s][A
+Training Batch [PPO 3]:  64%|██████▍   | 65/101 [00:13<00:07,  4.65timesteps/s][A
+Training Batch [PPO 3]:  65%|██████▌   | 66/101 [00:14<00:07,  4.67timesteps/s][A
+Training Batch [PPO 3]:  66%|██████▋   | 67/101 [00:14<00:07,  4.68timesteps/s][A
+Training Batch [PPO 3]:  67%|██████▋   | 68/101 [00:14<00:07,  4.69timesteps/s][A
+Training Batch [PPO 3]:  68%|██████▊   | 69/101 [00:14<00:06,  4.68timesteps/s][A
+Training Batch [PPO 3]:  69%|██████▉   | 70/101 [00:14<00:06,  4.69timesteps/s][A
+Training Batch [PPO 3]:  70%|███████   | 71/101 [00:15<00:06,  4.70timesteps/s][A
+Training Batch [PPO 3]:  71%|███████▏  | 72/101 [00:15<00:06,  4.70timesteps/s][A
+Training Batch [PPO 3]:  72%|███████▏  | 73/101 [00:15<00:05,  4.67timesteps/s][A
+Training Batch [PPO 3]:  73%|███████▎  | 74/101 [00:15<00:05,  4.62timesteps/s][A
+Training Batch [PPO 3]:  74%|███████▍  | 75/101 [00:16<00:05,  4.65timesteps/s][A
+Training Batch [PPO 3]:  75%|███████▌  | 76/101 [00:16<00:05,  4.63timesteps/s][A
+Training Batch [PPO 3]:  76%|███████▌  | 77/101 [00:16<00:05,  4.66timesteps/s][A
+Training Batch [PPO 3]:  77%|███████▋  | 78/101 [00:16<00:04,  4.67timesteps/s][A
+Training Batch [PPO 3]:  78%|███████▊  | 79/101 [00:16<00:04,  4.68timesteps/s][A
+Training Batch [PPO 3]:  79%|███████▉  | 80/101 [00:17<00:04,  4.69timesteps/s][A
+Training Batch [PPO 3]:  80%|████████  | 81/101 [00:17<00:04,  4.66timesteps/s][A
+Training Batch [PPO 3]:  81%|████████  | 82/101 [00:17<00:04,  4.59timesteps/s][A
+Training Batch [PPO 3]:  82%|████████▏ | 83/101 [00:17<00:03,  4.56timesteps/s][A
+Training Batch [PPO 3]:  83%|████████▎ | 84/101 [00:17<00:03,  4.60timesteps/s][A
+Training Batch [PPO 3]:  84%|████████▍ | 85/101 [00:18<00:03,  4.63timesteps/s][A
+Training Batch [PPO 3]:  85%|████████▌ | 86/101 [00:18<00:03,  4.64timesteps/s][A
+Training Batch [PPO 3]:  86%|████████▌ | 87/101 [00:18<00:03,  4.64timesteps/s][A
+Training Batch [PPO 3]:  87%|████████▋ | 88/101 [00:18<00:02,  4.66timesteps/s][A
+Training Batch [PPO 3]:  88%|████████▊ | 89/101 [00:19<00:02,  4.68timesteps/s][A
+Training Batch [PPO 3]:  89%|████████▉ | 90/101 [00:19<00:02,  4.69timesteps/s][A
+Training Batch [PPO 3]:  90%|█████████ | 91/101 [00:19<00:02,  4.70timesteps/s][A
+Training Batch [PPO 3]:  91%|█████████ | 92/101 [00:19<00:01,  4.69timesteps/s][A
+Training Batch [PPO 3]:  92%|█████████▏| 93/101 [00:19<00:01,  4.69timesteps/s][A
+Training Batch [PPO 3]:  93%|█████████▎| 94/101 [00:20<00:01,  4.69timesteps/s][A
+Training Batch [PPO 3]:  94%|█████████▍| 95/101 [00:20<00:01,  4.68timesteps/s][A
+Training Batch [PPO 3]:  95%|█████████▌| 96/101 [00:20<00:01,  4.66timesteps/s][A
+Training Batch [PPO 3]:  96%|█████████▌| 97/101 [00:20<00:00,  4.67timesteps/s][A
+Training Batch [PPO 3]:  97%|█████████▋| 98/101 [00:20<00:00,  4.66timesteps/s][A
+Training Batch [PPO 3]:  98%|█████████▊| 99/101 [00:21<00:00,  4.65timesteps/s][A
+Training Batch [PPO 3]:  99%|█████████▉| 100/101 [00:21<00:00,  4.66timesteps/s][A
+Training Batch [PPO 3]: 100%|██████████| 101/101 [00:21<00:00,  4.67timesteps/s][A
+                                                                                [ATraining [PPO 3]: 1Batch [00:21, 21.59s/Batch]                                              [MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[MolecularDescriptors] Loaded 1,550,090 reference 6D vectors from /data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz
+[Epoch 1/25]
+  Generated Total  : 168
+  RDKit Validity   : 114 / 168 (67.86%)
+  Loss             :  0.6905
+  PPO Loss         :  0.6905
+  Reward           :  0.0000
+  Avg Docking    : -7.8032
+  ── Timings (sec) ──
+  annotate                 :   0.115
+  dataloader               :   0.006
+  filter                   :   0.002
+  generate                 :   8.339
+  reward                   :   0.000
+  reward_chembl_classifier :   0.210
+  reward_docking           :   9.036
+  reward_normalize         :   3.978
+  train                    :  85.503
+  ────────────────────────────────────
+  epoch_total              : 107.189
+[Epoch ?] 生成中: 12分子/卡, 0% (0/100步)  [Epoch ?] 生成中: 1% (1/100步)  [Epoch ?] 生成中: 10% (10/100步)  [Epoch ?] 生成中: 20% (20/100步)  [Epoch ?] 生成中: 30% (30/100步)  [Epoch ?] 生成中: 40% (40/100步)  [Epoch ?] 生成中: 50% (50/100步)  [Epoch ?] 生成中: 60% (60/100步)  [Epoch ?] 生成中: 70% (70/100步)  [Epoch ?] 生成中: 80% (80/100步)  [Epoch ?] 生成中: 90% (90/100步)  [Epoch ?] 生成中: 100% (100/100步)  [Epoch ?] 生成完成: 12分子/卡, 100步 (100%)  
+[Epoch ?] 生成中: 12分子/卡, 0% (0/100步)  [Epoch ?] 生成中: 1% (1/100步)  [Epoch ?] 生成中: 10% (10/100步)  [Epoch ?] 生成中: 20% (20/100步)  [Epoch ?] 生成中: 30% (30/100步)  [Epoch ?] 生成中: 40% (40/100步)  [Epoch ?] 生成中: 50% (50/100步)  [Epoch ?] 生成中: 60% (60/100步)  [Epoch ?] 生成中: 70% (70/100步)  [Epoch ?] 生成中: 80% (80/100步)  [Epoch ?] 生成中: 90% (90/100步)  [Epoch ?] 生成中: 100% (100/100步)  [Epoch ?] 生成完成: 12分子/卡, 100步 (100%)  
+Training: 0Batch [00:00, ?Batch/s]
+Training Batch:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch:   1%|          | 1/101 [00:00<00:30,  3.23timesteps/s][A
+Training Batch:   2%|▏         | 2/101 [00:00<00:24,  3.99timesteps/s][A
+Training Batch:   3%|▎         | 3/101 [00:00<00:22,  4.36timesteps/s][A
+Training Batch:   4%|▍         | 4/101 [00:00<00:21,  4.52timesteps/s][A
+Training Batch:   5%|▍         | 5/101 [00:01<00:20,  4.66timesteps/s][A
+Training Batch:   6%|▌         | 6/101 [00:01<00:20,  4.72timesteps/s][A
+Training Batch:   7%|▋         | 7/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch:   8%|▊         | 8/101 [00:01<00:19,  4.79timesteps/s][A
+Training Batch:   9%|▉         | 9/101 [00:01<00:19,  4.83timesteps/s][A
+Training Batch:  10%|▉         | 10/101 [00:02<00:18,  4.84timesteps/s][A
+Training Batch:  11%|█         | 11/101 [00:02<00:18,  4.84timesteps/s][A
+Training Batch:  12%|█▏        | 12/101 [00:02<00:18,  4.84timesteps/s][A
+Training Batch:  13%|█▎        | 13/101 [00:02<00:18,  4.86timesteps/s][A
+Training Batch:  14%|█▍        | 14/101 [00:02<00:18,  4.83timesteps/s][A
+Training Batch:  15%|█▍        | 15/101 [00:03<00:17,  4.85timesteps/s][A
+Training Batch:  16%|█▌        | 16/101 [00:03<00:17,  4.86timesteps/s][A
+Training Batch:  17%|█▋        | 17/101 [00:03<00:17,  4.86timesteps/s][A
+Training Batch:  18%|█▊        | 18/101 [00:03<00:17,  4.83timesteps/s][A
+Training Batch:  19%|█▉        | 19/101 [00:04<00:16,  4.85timesteps/s][A
+Training Batch:  20%|█▉        | 20/101 [00:04<00:16,  4.86timesteps/s][A
+Training Batch:  21%|██        | 21/101 [00:04<00:16,  4.86timesteps/s][A
+Training Batch:  22%|██▏       | 22/101 [00:04<00:16,  4.87timesteps/s][A
+Training Batch:  23%|██▎       | 23/101 [00:04<00:16,  4.86timesteps/s][A
+Training Batch:  24%|██▍       | 24/101 [00:05<00:15,  4.84timesteps/s][A
+Training Batch:  25%|██▍       | 25/101 [00:05<00:15,  4.85timesteps/s][A
+Training Batch:  26%|██▌       | 26/101 [00:05<00:15,  4.87timesteps/s][A
+Training Batch:  27%|██▋       | 27/101 [00:05<00:15,  4.88timesteps/s][A
+Training Batch:  28%|██▊       | 28/101 [00:05<00:15,  4.86timesteps/s][A
+Training Batch:  29%|██▊       | 29/101 [00:06<00:14,  4.87timesteps/s][A
+Training Batch:  30%|██▉       | 30/101 [00:06<00:14,  4.88timesteps/s][A
+Training Batch:  31%|███       | 31/101 [00:06<00:14,  4.87timesteps/s][A
+Training Batch:  32%|███▏      | 32/101 [00:06<00:14,  4.88timesteps/s][A
+Training Batch:  33%|███▎      | 33/101 [00:06<00:13,  4.88timesteps/s][A
+Training Batch:  34%|███▎      | 34/101 [00:07<00:13,  4.88timesteps/s][A
+Training Batch:  35%|███▍      | 35/101 [00:07<00:13,  4.88timesteps/s][A
+Training Batch:  36%|███▌      | 36/101 [00:07<00:13,  4.87timesteps/s][A
+Training Batch:  37%|███▋      | 37/101 [00:07<00:13,  4.86timesteps/s][A
+Training Batch:  38%|███▊      | 38/101 [00:07<00:12,  4.87timesteps/s][A
+Training Batch:  39%|███▊      | 39/101 [00:08<00:12,  4.87timesteps/s][A
+Training Batch:  40%|███▉      | 40/101 [00:08<00:12,  4.87timesteps/s][A
+Training Batch:  41%|████      | 41/101 [00:08<00:12,  4.88timesteps/s][A
+Training Batch:  42%|████▏     | 42/101 [00:08<00:12,  4.86timesteps/s][A
+Training Batch:  43%|████▎     | 43/101 [00:08<00:11,  4.87timesteps/s][A
+Training Batch:  44%|████▎     | 44/101 [00:09<00:11,  4.84timesteps/s][A
+Training Batch:  45%|████▍     | 45/101 [00:09<00:11,  4.85timesteps/s][A
+Training Batch:  46%|████▌     | 46/101 [00:09<00:11,  4.85timesteps/s][A
+Training Batch:  47%|████▋     | 47/101 [00:09<00:11,  4.83timesteps/s][A
+Training Batch:  48%|████▊     | 48/101 [00:09<00:10,  4.85timesteps/s][A
+Training Batch:  49%|████▊     | 49/101 [00:10<00:10,  4.84timesteps/s][A
+Training Batch:  50%|████▉     | 50/101 [00:10<00:10,  4.86timesteps/s][A
+Training Batch:  50%|█████     | 51/101 [00:10<00:10,  4.86timesteps/s][A
+Training Batch:  51%|█████▏    | 52/101 [00:10<00:10,  4.87timesteps/s][A
+Training Batch:  52%|█████▏    | 53/101 [00:11<00:09,  4.87timesteps/s][A
+Training Batch:  53%|█████▎    | 54/101 [00:11<00:09,  4.84timesteps/s][A
+Training Batch:  54%|█████▍    | 55/101 [00:11<00:09,  4.86timesteps/s][A
+Training Batch:  55%|█████▌    | 56/101 [00:11<00:09,  4.84timesteps/s][A
+Training Batch:  56%|█████▋    | 57/101 [00:11<00:09,  4.82timesteps/s][A
+Training Batch:  57%|█████▋    | 58/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch:  58%|█████▊    | 59/101 [00:12<00:08,  4.83timesteps/s][A
+Training Batch:  59%|█████▉    | 60/101 [00:12<00:08,  4.84timesteps/s][A
+Training Batch:  60%|██████    | 61/101 [00:12<00:08,  4.80timesteps/s][A
+Training Batch:  61%|██████▏   | 62/101 [00:12<00:08,  4.81timesteps/s][A
+Training Batch:  62%|██████▏   | 63/101 [00:13<00:07,  4.84timesteps/s][A
+Training Batch:  63%|██████▎   | 64/101 [00:13<00:07,  4.85timesteps/s][A
+Training Batch:  64%|██████▍   | 65/101 [00:13<00:07,  4.85timesteps/s][A
+Training Batch:  65%|██████▌   | 66/101 [00:13<00:07,  4.86timesteps/s][A
+Training Batch:  66%|██████▋   | 67/101 [00:13<00:07,  4.86timesteps/s][A
+Training Batch:  67%|██████▋   | 68/101 [00:14<00:06,  4.85timesteps/s][A
+Training Batch:  68%|██████▊   | 69/101 [00:14<00:06,  4.86timesteps/s][A
+Training Batch:  69%|██████▉   | 70/101 [00:14<00:06,  4.83timesteps/s][A
+Training Batch:  70%|███████   | 71/101 [00:14<00:06,  4.82timesteps/s][A
+Training Batch:  71%|███████▏  | 72/101 [00:14<00:06,  4.83timesteps/s][A
+Training Batch:  72%|███████▏  | 73/101 [00:15<00:05,  4.84timesteps/s][A
+Training Batch:  73%|███████▎  | 74/101 [00:15<00:05,  4.85timesteps/s][A
+Training Batch:  74%|███████▍  | 75/101 [00:15<00:05,  4.85timesteps/s][A
+Training Batch:  75%|███████▌  | 76/101 [00:15<00:05,  4.86timesteps/s][A
+Training Batch:  76%|███████▌  | 77/101 [00:15<00:04,  4.85timesteps/s][A
+Training Batch:  77%|███████▋  | 78/101 [00:16<00:04,  4.82timesteps/s][A
+Training Batch:  78%|███████▊  | 79/101 [00:16<00:04,  4.84timesteps/s][A
+Training Batch:  79%|███████▉  | 80/101 [00:16<00:04,  4.82timesteps/s][A
+Training Batch:  80%|████████  | 81/101 [00:16<00:04,  4.82timesteps/s][A
+Training Batch:  81%|████████  | 82/101 [00:17<00:03,  4.80timesteps/s][A
+Training Batch:  82%|████████▏ | 83/101 [00:17<00:03,  4.80timesteps/s][A
+Training Batch:  83%|████████▎ | 84/101 [00:17<00:03,  4.79timesteps/s][A
+Training Batch:  84%|████████▍ | 85/101 [00:17<00:03,  4.80timesteps/s][A
+Training Batch:  85%|████████▌ | 86/101 [00:17<00:03,  4.80timesteps/s][A
+Training Batch:  86%|████████▌ | 87/101 [00:18<00:02,  4.83timesteps/s][A
+Training Batch:  87%|████████▋ | 88/101 [00:18<00:02,  4.84timesteps/s][A
+Training Batch:  88%|████████▊ | 89/101 [00:18<00:02,  4.83timesteps/s][A
+Training Batch:  89%|████████▉ | 90/101 [00:18<00:02,  4.82timesteps/s][A
+Training Batch:  90%|█████████ | 91/101 [00:18<00:02,  4.80timesteps/s][A
+Training Batch:  91%|█████████ | 92/101 [00:19<00:01,  4.83timesteps/s][A
+Training Batch:  92%|█████████▏| 93/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch:  93%|█████████▎| 94/101 [00:19<00:01,  4.84timesteps/s][A
+Training Batch:  94%|█████████▍| 95/101 [00:19<00:01,  4.84timesteps/s][A
+Training Batch:  95%|█████████▌| 96/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch:  96%|█████████▌| 97/101 [00:20<00:00,  4.83timesteps/s][A
+Training Batch:  97%|█████████▋| 98/101 [00:20<00:00,  4.83timesteps/s][A
+Training Batch:  98%|█████████▊| 99/101 [00:20<00:00,  4.83timesteps/s][A
+Training Batch:  99%|█████████▉| 100/101 [00:20<00:00,  4.84timesteps/s][A
+Training Batch: 100%|██████████| 101/101 [00:20<00:00,  4.85timesteps/s][A
+                                                                        [ATraining: 1Batch [00:20, 20.95s/Batch]                                      Training [PPO 1]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 1]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 1]:   1%|          | 1/101 [00:00<00:20,  4.91timesteps/s][A
+Training Batch [PPO 1]:   2%|▏         | 2/101 [00:00<00:20,  4.84timesteps/s][A
+Training Batch [PPO 1]:   3%|▎         | 3/101 [00:00<00:20,  4.82timesteps/s][A
+Training Batch [PPO 1]:   4%|▍         | 4/101 [00:00<00:20,  4.83timesteps/s][A
+Training Batch [PPO 1]:   5%|▍         | 5/101 [00:01<00:19,  4.83timesteps/s][A
+Training Batch [PPO 1]:   6%|▌         | 6/101 [00:01<00:19,  4.84timesteps/s][A
+Training Batch [PPO 1]:   7%|▋         | 7/101 [00:01<00:19,  4.84timesteps/s][A
+Training Batch [PPO 1]:   8%|▊         | 8/101 [00:01<00:19,  4.84timesteps/s][A
+Training Batch [PPO 1]:   9%|▉         | 9/101 [00:01<00:18,  4.85timesteps/s][A
+Training Batch [PPO 1]:  10%|▉         | 10/101 [00:02<00:18,  4.85timesteps/s][A
+Training Batch [PPO 1]:  11%|█         | 11/101 [00:02<00:18,  4.83timesteps/s][A
+Training Batch [PPO 1]:  12%|█▏        | 12/101 [00:02<00:18,  4.82timesteps/s][A
+Training Batch [PPO 1]:  13%|█▎        | 13/101 [00:02<00:18,  4.83timesteps/s][A
+Training Batch [PPO 1]:  14%|█▍        | 14/101 [00:02<00:18,  4.83timesteps/s][A
+Training Batch [PPO 1]:  15%|█▍        | 15/101 [00:03<00:17,  4.85timesteps/s][A
+Training Batch [PPO 1]:  16%|█▌        | 16/101 [00:03<00:17,  4.85timesteps/s][A
+Training Batch [PPO 1]:  17%|█▋        | 17/101 [00:03<00:17,  4.83timesteps/s][A
+Training Batch [PPO 1]:  18%|█▊        | 18/101 [00:03<00:17,  4.81timesteps/s][A
+Training Batch [PPO 1]:  19%|█▉        | 19/101 [00:03<00:17,  4.82timesteps/s][A
+Training Batch [PPO 1]:  20%|█▉        | 20/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 1]:  21%|██        | 21/101 [00:04<00:16,  4.82timesteps/s][A
+Training Batch [PPO 1]:  22%|██▏       | 22/101 [00:04<00:16,  4.82timesteps/s][A
+Training Batch [PPO 1]:  23%|██▎       | 23/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 1]:  24%|██▍       | 24/101 [00:04<00:15,  4.82timesteps/s][A
+Training Batch [PPO 1]:  25%|██▍       | 25/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch [PPO 1]:  26%|██▌       | 26/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch [PPO 1]:  27%|██▋       | 27/101 [00:05<00:15,  4.82timesteps/s][A
+Training Batch [PPO 1]:  28%|██▊       | 28/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch [PPO 1]:  29%|██▊       | 29/101 [00:06<00:14,  4.82timesteps/s][A
+Training Batch [PPO 1]:  30%|██▉       | 30/101 [00:06<00:14,  4.80timesteps/s][A
+Training Batch [PPO 1]:  31%|███       | 31/101 [00:06<00:14,  4.80timesteps/s][A
+Training Batch [PPO 1]:  32%|███▏      | 32/101 [00:06<00:14,  4.81timesteps/s][A
+Training Batch [PPO 1]:  33%|███▎      | 33/101 [00:06<00:14,  4.80timesteps/s][A
+Training Batch [PPO 1]:  34%|███▎      | 34/101 [00:07<00:13,  4.80timesteps/s][A
+Training Batch [PPO 1]:  35%|███▍      | 35/101 [00:07<00:13,  4.81timesteps/s][A
+Training Batch [PPO 1]:  36%|███▌      | 36/101 [00:07<00:13,  4.82timesteps/s][A
+Training Batch [PPO 1]:  37%|███▋      | 37/101 [00:07<00:13,  4.80timesteps/s][A
+Training Batch [PPO 1]:  38%|███▊      | 38/101 [00:07<00:13,  4.81timesteps/s][A
+Training Batch [PPO 1]:  39%|███▊      | 39/101 [00:08<00:12,  4.79timesteps/s][A
+Training Batch [PPO 1]:  40%|███▉      | 40/101 [00:08<00:12,  4.78timesteps/s][A
+Training Batch [PPO 1]:  41%|████      | 41/101 [00:08<00:12,  4.80timesteps/s][A
+Training Batch [PPO 1]:  42%|████▏     | 42/101 [00:08<00:12,  4.80timesteps/s][A
+Training Batch [PPO 1]:  43%|████▎     | 43/101 [00:08<00:12,  4.78timesteps/s][A
+Training Batch [PPO 1]:  44%|████▎     | 44/101 [00:09<00:11,  4.80timesteps/s][A
+Training Batch [PPO 1]:  45%|████▍     | 45/101 [00:09<00:11,  4.81timesteps/s][A
+Training Batch [PPO 1]:  46%|████▌     | 46/101 [00:09<00:11,  4.82timesteps/s][A
+Training Batch [PPO 1]:  47%|████▋     | 47/101 [00:09<00:11,  4.83timesteps/s][A
+Training Batch [PPO 1]:  48%|████▊     | 48/101 [00:09<00:10,  4.84timesteps/s][A
+Training Batch [PPO 1]:  49%|████▊     | 49/101 [00:10<00:10,  4.85timesteps/s][A
+Training Batch [PPO 1]:  50%|████▉     | 50/101 [00:10<00:10,  4.84timesteps/s][A
+Training Batch [PPO 1]:  50%|█████     | 51/101 [00:10<00:10,  4.85timesteps/s][A
+Training Batch [PPO 1]:  51%|█████▏    | 52/101 [00:10<00:10,  4.85timesteps/s][A
+Training Batch [PPO 1]:  52%|█████▏    | 53/101 [00:10<00:09,  4.86timesteps/s][A
+Training Batch [PPO 1]:  53%|█████▎    | 54/101 [00:11<00:09,  4.83timesteps/s][A
+Training Batch [PPO 1]:  54%|█████▍    | 55/101 [00:11<00:09,  4.83timesteps/s][A
+Training Batch [PPO 1]:  55%|█████▌    | 56/101 [00:11<00:09,  4.84timesteps/s][A
+Training Batch [PPO 1]:  56%|█████▋    | 57/101 [00:11<00:09,  4.83timesteps/s][A
+Training Batch [PPO 1]:  57%|█████▋    | 58/101 [00:12<00:08,  4.83timesteps/s][A
+Training Batch [PPO 1]:  58%|█████▊    | 59/101 [00:12<00:08,  4.83timesteps/s][A
+Training Batch [PPO 1]:  59%|█████▉    | 60/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 1]:  60%|██████    | 61/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 1]:  61%|██████▏   | 62/101 [00:12<00:08,  4.83timesteps/s][A
+Training Batch [PPO 1]:  62%|██████▏   | 63/101 [00:13<00:07,  4.83timesteps/s][A
+Training Batch [PPO 1]:  63%|██████▎   | 64/101 [00:13<00:07,  4.82timesteps/s][A
+Training Batch [PPO 1]:  64%|██████▍   | 65/101 [00:13<00:07,  4.81timesteps/s][A
+Training Batch [PPO 1]:  65%|██████▌   | 66/101 [00:13<00:07,  4.82timesteps/s][A
+Training Batch [PPO 1]:  66%|██████▋   | 67/101 [00:13<00:07,  4.79timesteps/s][A
+Training Batch [PPO 1]:  67%|██████▋   | 68/101 [00:14<00:06,  4.80timesteps/s][A
+Training Batch [PPO 1]:  68%|██████▊   | 69/101 [00:14<00:06,  4.80timesteps/s][A
+Training Batch [PPO 1]:  69%|██████▉   | 70/101 [00:14<00:06,  4.81timesteps/s][A
+Training Batch [PPO 1]:  70%|███████   | 71/101 [00:14<00:06,  4.81timesteps/s][A
+Training Batch [PPO 1]:  71%|███████▏  | 72/101 [00:14<00:06,  4.81timesteps/s][A
+Training Batch [PPO 1]:  72%|███████▏  | 73/101 [00:15<00:05,  4.81timesteps/s][A
+Training Batch [PPO 1]:  73%|███████▎  | 74/101 [00:15<00:05,  4.80timesteps/s][A
+Training Batch [PPO 1]:  74%|███████▍  | 75/101 [00:15<00:05,  4.81timesteps/s][A
+Training Batch [PPO 1]:  75%|███████▌  | 76/101 [00:15<00:05,  4.82timesteps/s][A
+Training Batch [PPO 1]:  76%|███████▌  | 77/101 [00:15<00:04,  4.82timesteps/s][A
+Training Batch [PPO 1]:  77%|███████▋  | 78/101 [00:16<00:04,  4.82timesteps/s][A
+Training Batch [PPO 1]:  78%|███████▊  | 79/101 [00:16<00:04,  4.81timesteps/s][A
+Training Batch [PPO 1]:  79%|███████▉  | 80/101 [00:16<00:04,  4.82timesteps/s][A
+Training Batch [PPO 1]:  80%|████████  | 81/101 [00:16<00:04,  4.83timesteps/s][A
+Training Batch [PPO 1]:  81%|████████  | 82/101 [00:17<00:03,  4.83timesteps/s][A
+Training Batch [PPO 1]:  82%|████████▏ | 83/101 [00:17<00:03,  4.83timesteps/s][A
+Training Batch [PPO 1]:  83%|████████▎ | 84/101 [00:17<00:03,  4.83timesteps/s][A
+Training Batch [PPO 1]:  84%|████████▍ | 85/101 [00:17<00:03,  4.82timesteps/s][A
+Training Batch [PPO 1]:  85%|████████▌ | 86/101 [00:17<00:03,  4.83timesteps/s][A
+Training Batch [PPO 1]:  86%|████████▌ | 87/101 [00:18<00:02,  4.83timesteps/s][A
+Training Batch [PPO 1]:  87%|████████▋ | 88/101 [00:18<00:02,  4.82timesteps/s][A
+Training Batch [PPO 1]:  88%|████████▊ | 89/101 [00:18<00:02,  4.84timesteps/s][A
+Training Batch [PPO 1]:  89%|████████▉ | 90/101 [00:18<00:02,  4.82timesteps/s][A
+Training Batch [PPO 1]:  90%|█████████ | 91/101 [00:18<00:02,  4.83timesteps/s][A
+Training Batch [PPO 1]:  91%|█████████ | 92/101 [00:19<00:01,  4.84timesteps/s][A
+Training Batch [PPO 1]:  92%|█████████▏| 93/101 [00:19<00:01,  4.83timesteps/s][A
+Training Batch [PPO 1]:  93%|█████████▎| 94/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch [PPO 1]:  94%|█████████▍| 95/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch [PPO 1]:  95%|█████████▌| 96/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch [PPO 1]:  96%|█████████▌| 97/101 [00:20<00:00,  4.82timesteps/s][A
+Training Batch [PPO 1]:  97%|█████████▋| 98/101 [00:20<00:00,  4.82timesteps/s][A
+Training Batch [PPO 1]:  98%|█████████▊| 99/101 [00:20<00:00,  4.82timesteps/s][A
+Training Batch [PPO 1]:  99%|█████████▉| 100/101 [00:20<00:00,  4.79timesteps/s][A
+Training Batch [PPO 1]: 100%|██████████| 101/101 [00:20<00:00,  4.81timesteps/s][A
+                                                                                [ATraining [PPO 1]: 1Batch [00:20, 20.95s/Batch]                                              Training [PPO 2]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 2]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 2]:   1%|          | 1/101 [00:00<00:20,  4.84timesteps/s][A
+Training Batch [PPO 2]:   2%|▏         | 2/101 [00:00<00:20,  4.78timesteps/s][A
+Training Batch [PPO 2]:   3%|▎         | 3/101 [00:00<00:20,  4.82timesteps/s][A
+Training Batch [PPO 2]:   4%|▍         | 4/101 [00:00<00:20,  4.81timesteps/s][A
+Training Batch [PPO 2]:   5%|▍         | 5/101 [00:01<00:19,  4.82timesteps/s][A
+Training Batch [PPO 2]:   6%|▌         | 6/101 [00:01<00:19,  4.81timesteps/s][A
+Training Batch [PPO 2]:   7%|▋         | 7/101 [00:01<00:19,  4.82timesteps/s][A
+Training Batch [PPO 2]:   8%|▊         | 8/101 [00:01<00:19,  4.83timesteps/s][A
+Training Batch [PPO 2]:   9%|▉         | 9/101 [00:01<00:19,  4.82timesteps/s][A
+Training Batch [PPO 2]:  10%|▉         | 10/101 [00:02<00:18,  4.81timesteps/s][A
+Training Batch [PPO 2]:  11%|█         | 11/101 [00:02<00:18,  4.81timesteps/s][A
+Training Batch [PPO 2]:  12%|█▏        | 12/101 [00:02<00:18,  4.80timesteps/s][A
+Training Batch [PPO 2]:  13%|█▎        | 13/101 [00:02<00:18,  4.82timesteps/s][A
+Training Batch [PPO 2]:  14%|█▍        | 14/101 [00:02<00:18,  4.82timesteps/s][A
+Training Batch [PPO 2]:  15%|█▍        | 15/101 [00:03<00:17,  4.81timesteps/s][A
+Training Batch [PPO 2]:  16%|█▌        | 16/101 [00:03<00:17,  4.81timesteps/s][A
+Training Batch [PPO 2]:  17%|█▋        | 17/101 [00:03<00:17,  4.81timesteps/s][A
+Training Batch [PPO 2]:  18%|█▊        | 18/101 [00:03<00:17,  4.82timesteps/s][A
+Training Batch [PPO 2]:  19%|█▉        | 19/101 [00:03<00:17,  4.81timesteps/s][A
+Training Batch [PPO 2]:  20%|█▉        | 20/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 2]:  21%|██        | 21/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 2]:  22%|██▏       | 22/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 2]:  23%|██▎       | 23/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 2]:  24%|██▍       | 24/101 [00:04<00:16,  4.79timesteps/s][A
+Training Batch [PPO 2]:  25%|██▍       | 25/101 [00:05<00:15,  4.81timesteps/s][A
+Training Batch [PPO 2]:  26%|██▌       | 26/101 [00:05<00:15,  4.79timesteps/s][A
+Training Batch [PPO 2]:  27%|██▋       | 27/101 [00:05<00:15,  4.80timesteps/s][A
+Training Batch [PPO 2]:  28%|██▊       | 28/101 [00:05<00:15,  4.82timesteps/s][A
+Training Batch [PPO 2]:  29%|██▊       | 29/101 [00:06<00:14,  4.81timesteps/s][A
+Training Batch [PPO 2]:  30%|██▉       | 30/101 [00:06<00:14,  4.83timesteps/s][A
+Training Batch [PPO 2]:  31%|███       | 31/101 [00:06<00:14,  4.84timesteps/s][A
+Training Batch [PPO 2]:  32%|███▏      | 32/101 [00:06<00:14,  4.84timesteps/s][A
+Training Batch [PPO 2]:  33%|███▎      | 33/101 [00:06<00:14,  4.84timesteps/s][A
+Training Batch [PPO 2]:  34%|███▎      | 34/101 [00:07<00:13,  4.83timesteps/s][A
+Training Batch [PPO 2]:  35%|███▍      | 35/101 [00:07<00:13,  4.83timesteps/s][A
+Training Batch [PPO 2]:  36%|███▌      | 36/101 [00:07<00:13,  4.83timesteps/s][A
+Training Batch [PPO 2]:  37%|███▋      | 37/101 [00:07<00:13,  4.83timesteps/s][A
+Training Batch [PPO 2]:  38%|███▊      | 38/101 [00:07<00:13,  4.79timesteps/s][A
+Training Batch [PPO 2]:  39%|███▊      | 39/101 [00:08<00:12,  4.79timesteps/s][A
+Training Batch [PPO 2]:  40%|███▉      | 40/101 [00:08<00:12,  4.80timesteps/s][A
+Training Batch [PPO 2]:  41%|████      | 41/101 [00:08<00:12,  4.81timesteps/s][A
+Training Batch [PPO 2]:  42%|████▏     | 42/101 [00:08<00:12,  4.80timesteps/s][A
+Training Batch [PPO 2]:  43%|████▎     | 43/101 [00:08<00:12,  4.82timesteps/s][A
+Training Batch [PPO 2]:  44%|████▎     | 44/101 [00:09<00:11,  4.83timesteps/s][A
+Training Batch [PPO 2]:  45%|████▍     | 45/101 [00:09<00:11,  4.83timesteps/s][A
+Training Batch [PPO 2]:  46%|████▌     | 46/101 [00:09<00:11,  4.84timesteps/s][A
+Training Batch [PPO 2]:  47%|████▋     | 47/101 [00:09<00:11,  4.84timesteps/s][A
+Training Batch [PPO 2]:  48%|████▊     | 48/101 [00:09<00:10,  4.84timesteps/s][A
+Training Batch [PPO 2]:  49%|████▊     | 49/101 [00:10<00:10,  4.84timesteps/s][A
+Training Batch [PPO 2]:  50%|████▉     | 50/101 [00:10<00:10,  4.84timesteps/s][A
+Training Batch [PPO 2]:  50%|█████     | 51/101 [00:10<00:10,  4.84timesteps/s][A
+Training Batch [PPO 2]:  51%|█████▏    | 52/101 [00:10<00:10,  4.85timesteps/s][A
+Training Batch [PPO 2]:  52%|█████▏    | 53/101 [00:10<00:09,  4.85timesteps/s][A
+Training Batch [PPO 2]:  53%|█████▎    | 54/101 [00:11<00:09,  4.82timesteps/s][A
+Training Batch [PPO 2]:  54%|█████▍    | 55/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch [PPO 2]:  55%|█████▌    | 56/101 [00:11<00:09,  4.82timesteps/s][A
+Training Batch [PPO 2]:  56%|█████▋    | 57/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch [PPO 2]:  57%|█████▋    | 58/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 2]:  58%|█████▊    | 59/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 2]:  59%|█████▉    | 60/101 [00:12<00:08,  4.84timesteps/s][A
+Training Batch [PPO 2]:  60%|██████    | 61/101 [00:12<00:08,  4.83timesteps/s][A
+Training Batch [PPO 2]:  61%|██████▏   | 62/101 [00:12<00:08,  4.83timesteps/s][A
+Training Batch [PPO 2]:  62%|██████▏   | 63/101 [00:13<00:07,  4.84timesteps/s][A
+Training Batch [PPO 2]:  63%|██████▎   | 64/101 [00:13<00:07,  4.85timesteps/s][A
+Training Batch [PPO 2]:  64%|██████▍   | 65/101 [00:13<00:07,  4.83timesteps/s][A
+Training Batch [PPO 2]:  65%|██████▌   | 66/101 [00:13<00:07,  4.83timesteps/s][A
+Training Batch [PPO 2]:  66%|██████▋   | 67/101 [00:13<00:07,  4.84timesteps/s][A
+Training Batch [PPO 2]:  67%|██████▋   | 68/101 [00:14<00:06,  4.83timesteps/s][A
+Training Batch [PPO 2]:  68%|██████▊   | 69/101 [00:14<00:06,  4.83timesteps/s][A
+Training Batch [PPO 2]:  69%|██████▉   | 70/101 [00:14<00:06,  4.83timesteps/s][A
+Training Batch [PPO 2]:  70%|███████   | 71/101 [00:14<00:06,  4.83timesteps/s][A
+Training Batch [PPO 2]:  71%|███████▏  | 72/101 [00:14<00:05,  4.84timesteps/s][A
+Training Batch [PPO 2]:  72%|███████▏  | 73/101 [00:15<00:05,  4.83timesteps/s][A
+Training Batch [PPO 2]:  73%|███████▎  | 74/101 [00:15<00:05,  4.82timesteps/s][A
+Training Batch [PPO 2]:  74%|███████▍  | 75/101 [00:15<00:05,  4.83timesteps/s][A
+Training Batch [PPO 2]:  75%|███████▌  | 76/101 [00:15<00:05,  4.83timesteps/s][A
+Training Batch [PPO 2]:  76%|███████▌  | 77/101 [00:15<00:04,  4.83timesteps/s][A
+Training Batch [PPO 2]:  77%|███████▋  | 78/101 [00:16<00:04,  4.84timesteps/s][A
+Training Batch [PPO 2]:  78%|███████▊  | 79/101 [00:16<00:04,  4.85timesteps/s][A
+Training Batch [PPO 2]:  79%|███████▉  | 80/101 [00:16<00:04,  4.84timesteps/s][A
+Training Batch [PPO 2]:  80%|████████  | 81/101 [00:16<00:04,  4.85timesteps/s][A
+Training Batch [PPO 2]:  81%|████████  | 82/101 [00:16<00:03,  4.85timesteps/s][A
+Training Batch [PPO 2]:  82%|████████▏ | 83/101 [00:17<00:03,  4.84timesteps/s][A
+Training Batch [PPO 2]:  83%|████████▎ | 84/101 [00:17<00:03,  4.83timesteps/s][A
+Training Batch [PPO 2]:  84%|████████▍ | 85/101 [00:17<00:03,  4.84timesteps/s][A
+Training Batch [PPO 2]:  85%|████████▌ | 86/101 [00:17<00:03,  4.83timesteps/s][A
+Training Batch [PPO 2]:  86%|████████▌ | 87/101 [00:18<00:02,  4.84timesteps/s][A
+Training Batch [PPO 2]:  87%|████████▋ | 88/101 [00:18<00:02,  4.84timesteps/s][A
+Training Batch [PPO 2]:  88%|████████▊ | 89/101 [00:18<00:02,  4.84timesteps/s][A
+Training Batch [PPO 2]:  89%|████████▉ | 90/101 [00:18<00:02,  4.85timesteps/s][A
+Training Batch [PPO 2]:  90%|█████████ | 91/101 [00:18<00:02,  4.84timesteps/s][A
+Training Batch [PPO 2]:  91%|█████████ | 92/101 [00:19<00:01,  4.81timesteps/s][A
+Training Batch [PPO 2]:  92%|█████████▏| 93/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch [PPO 2]:  93%|█████████▎| 94/101 [00:19<00:01,  4.81timesteps/s][A
+Training Batch [PPO 2]:  94%|█████████▍| 95/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch [PPO 2]:  95%|█████████▌| 96/101 [00:19<00:01,  4.82timesteps/s][A
+Training Batch [PPO 2]:  96%|█████████▌| 97/101 [00:20<00:00,  4.75timesteps/s][A
+Training Batch [PPO 2]:  97%|█████████▋| 98/101 [00:20<00:00,  4.77timesteps/s][A
+Training Batch [PPO 2]:  98%|█████████▊| 99/101 [00:20<00:00,  4.80timesteps/s][A
+Training Batch [PPO 2]:  99%|█████████▉| 100/101 [00:20<00:00,  4.76timesteps/s][A
+Training Batch [PPO 2]: 100%|██████████| 101/101 [00:20<00:00,  4.78timesteps/s][A
+                                                                                [ATraining [PPO 2]: 1Batch [00:20, 20.95s/Batch]                                              Training [PPO 3]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 3]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 3]:   1%|          | 1/101 [00:00<00:20,  4.85timesteps/s][A
+Training Batch [PPO 3]:   2%|▏         | 2/101 [00:00<00:20,  4.80timesteps/s][A
+Training Batch [PPO 3]:   3%|▎         | 3/101 [00:00<00:20,  4.81timesteps/s][A
+Training Batch [PPO 3]:   4%|▍         | 4/101 [00:00<00:20,  4.81timesteps/s][A
+Training Batch [PPO 3]:   5%|▍         | 5/101 [00:01<00:19,  4.83timesteps/s][A
+Training Batch [PPO 3]:   6%|▌         | 6/101 [00:01<00:19,  4.84timesteps/s][A
+Training Batch [PPO 3]:   7%|▋         | 7/101 [00:01<00:19,  4.83timesteps/s][A
+Training Batch [PPO 3]:   8%|▊         | 8/101 [00:01<00:19,  4.82timesteps/s][A
+Training Batch [PPO 3]:   9%|▉         | 9/101 [00:01<00:19,  4.83timesteps/s][A
+Training Batch [PPO 3]:  10%|▉         | 10/101 [00:02<00:18,  4.84timesteps/s][A
+Training Batch [PPO 3]:  11%|█         | 11/101 [00:02<00:18,  4.84timesteps/s][A
+Training Batch [PPO 3]:  12%|█▏        | 12/101 [00:02<00:18,  4.83timesteps/s][A
+Training Batch [PPO 3]:  13%|█▎        | 13/101 [00:02<00:18,  4.84timesteps/s][A
+Training Batch [PPO 3]:  14%|█▍        | 14/101 [00:02<00:17,  4.85timesteps/s][A
+Training Batch [PPO 3]:  15%|█▍        | 15/101 [00:03<00:17,  4.84timesteps/s][A
+Training Batch [PPO 3]:  16%|█▌        | 16/101 [00:03<00:17,  4.85timesteps/s][A
+Training Batch [PPO 3]:  17%|█▋        | 17/101 [00:03<00:17,  4.84timesteps/s][A
+Training Batch [PPO 3]:  18%|█▊        | 18/101 [00:03<00:17,  4.83timesteps/s][A
+Training Batch [PPO 3]:  19%|█▉        | 19/101 [00:03<00:16,  4.83timesteps/s][A
+Training Batch [PPO 3]:  20%|█▉        | 20/101 [00:04<00:16,  4.79timesteps/s][A
+Training Batch [PPO 3]:  21%|██        | 21/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 3]:  22%|██▏       | 22/101 [00:04<00:16,  4.82timesteps/s][A
+Training Batch [PPO 3]:  23%|██▎       | 23/101 [00:04<00:16,  4.81timesteps/s][A
+Training Batch [PPO 3]:  24%|██▍       | 24/101 [00:04<00:15,  4.83timesteps/s][A
+Training Batch [PPO 3]:  25%|██▍       | 25/101 [00:05<00:15,  4.84timesteps/s][A
+Training Batch [PPO 3]:  26%|██▌       | 26/101 [00:05<00:15,  4.85timesteps/s][A
+Training Batch [PPO 3]:  27%|██▋       | 27/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch [PPO 3]:  28%|██▊       | 28/101 [00:05<00:15,  4.83timesteps/s][A
+Training Batch [PPO 3]:  29%|██▊       | 29/101 [00:06<00:14,  4.83timesteps/s][A
+Training Batch [PPO 3]:  30%|██▉       | 30/101 [00:06<00:14,  4.82timesteps/s][A
+Training Batch [PPO 3]:  31%|███       | 31/101 [00:06<00:14,  4.83timesteps/s][A
+Training Batch [PPO 3]:  32%|███▏      | 32/101 [00:06<00:14,  4.82timesteps/s][A
+Training Batch [PPO 3]:  33%|███▎      | 33/101 [00:06<00:14,  4.81timesteps/s][A
+Training Batch [PPO 3]:  34%|███▎      | 34/101 [00:07<00:13,  4.81timesteps/s][A
+Training Batch [PPO 3]:  35%|███▍      | 35/101 [00:07<00:13,  4.80timesteps/s][A
+Training Batch [PPO 3]:  36%|███▌      | 36/101 [00:07<00:13,  4.80timesteps/s][A
+Training Batch [PPO 3]:  37%|███▋      | 37/101 [00:07<00:13,  4.77timesteps/s][A
+Training Batch [PPO 3]:  38%|███▊      | 38/101 [00:07<00:13,  4.78timesteps/s][A
+Training Batch [PPO 3]:  39%|███▊      | 39/101 [00:08<00:12,  4.79timesteps/s][A
+Training Batch [PPO 3]:  40%|███▉      | 40/101 [00:08<00:12,  4.80timesteps/s][A
+Training Batch [PPO 3]:  41%|████      | 41/101 [00:08<00:12,  4.79timesteps/s][A
+Training Batch [PPO 3]:  42%|████▏     | 42/101 [00:08<00:12,  4.79timesteps/s][A
+Training Batch [PPO 3]:  43%|████▎     | 43/101 [00:08<00:12,  4.79timesteps/s][A
+Training Batch [PPO 3]:  44%|████▎     | 44/101 [00:09<00:11,  4.79timesteps/s][A
+Training Batch [PPO 3]:  45%|████▍     | 45/101 [00:09<00:11,  4.79timesteps/s][A
+Training Batch [PPO 3]:  46%|████▌     | 46/101 [00:09<00:11,  4.81timesteps/s][A
+Training Batch [PPO 3]:  47%|████▋     | 47/101 [00:09<00:11,  4.79timesteps/s][A
+Training Batch [PPO 3]:  48%|████▊     | 48/101 [00:09<00:11,  4.80timesteps/s][A
+Training Batch [PPO 3]:  49%|████▊     | 49/101 [00:10<00:10,  4.82timesteps/s][A
+Training Batch [PPO 3]:  50%|████▉     | 50/101 [00:10<00:10,  4.83timesteps/s][A
+Training Batch [PPO 3]:  50%|█████     | 51/101 [00:10<00:10,  4.81timesteps/s][A
+Training Batch [PPO 3]:  51%|█████▏    | 52/101 [00:10<00:10,  4.80timesteps/s][A
+Training Batch [PPO 3]:  52%|█████▏    | 53/101 [00:11<00:10,  4.77timesteps/s][A
+Training Batch [PPO 3]:  53%|█████▎    | 54/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch [PPO 3]:  54%|█████▍    | 55/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch [PPO 3]:  55%|█████▌    | 56/101 [00:11<00:09,  4.80timesteps/s][A
+Training Batch [PPO 3]:  56%|█████▋    | 57/101 [00:11<00:09,  4.82timesteps/s][A
+Training Batch [PPO 3]:  57%|█████▋    | 58/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 3]:  58%|█████▊    | 59/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 3]:  59%|█████▉    | 60/101 [00:12<00:08,  4.81timesteps/s][A
+Training Batch [PPO 3]:  60%|██████    | 61/101 [00:12<00:08,  4.81timesteps/s][A
+Training Batch [PPO 3]:  61%|██████▏   | 62/101 [00:12<00:08,  4.82timesteps/s][A
+Training Batch [PPO 3]:  62%|██████▏   | 63/101 [00:13<00:07,  4.82timesteps/s][A
+Training Batch [PPO 3]:  63%|██████▎   | 64/101 [00:13<00:07,  4.82timesteps/s][A
+Training Batch [PPO 3]:  64%|██████▍   | 65/101 [00:13<00:07,  4.83timesteps/s][A
+Training Batch [PPO 3]:  65%|██████▌   | 66/101 [00:13<00:07,  4.81timesteps/s][A
+Training Batch [PPO 3]:  66%|██████▋   | 67/101 [00:13<00:07,  4.80timesteps/s][A
+Training Batch [PPO 3]:  67%|██████▋   | 68/101 [00:14<00:06,  4.80timesteps/s][A
+Training Batch [PPO 3]:  68%|██████▊   | 69/101 [00:14<00:06,  4.80timesteps/s][A
+Training Batch [PPO 3]:  69%|██████▉   | 70/101 [00:14<00:06,  4.80timesteps/s][A
+Training Batch [PPO 3]:  70%|███████   | 71/101 [00:14<00:06,  4.78timesteps/s][A
+Training Batch [PPO 3]:  71%|███████▏  | 72/101 [00:14<00:06,  4.79timesteps/s][A
+Training Batch [PPO 3]:  72%|███████▏  | 73/101 [00:15<00:05,  4.80timesteps/s][A
+Training Batch [PPO 3]:  73%|███████▎  | 74/101 [00:15<00:05,  4.80timesteps/s][A
+Training Batch [PPO 3]:  74%|███████▍  | 75/101 [00:15<00:05,  4.78timesteps/s][A
+Training Batch [PPO 3]:  75%|███████▌  | 76/101 [00:15<00:05,  4.77timesteps/s][A
+Training Batch [PPO 3]:  76%|███████▌  | 77/101 [00:16<00:05,  4.77timesteps/s][A
+Training Batch [PPO 3]:  77%|███████▋  | 78/101 [00:16<00:04,  4.79timesteps/s][A
+Training Batch [PPO 3]:  78%|███████▊  | 79/101 [00:16<00:04,  4.80timesteps/s][A
+Training Batch [PPO 3]:  79%|███████▉  | 80/101 [00:16<00:04,  4.82timesteps/s][A
+Training Batch [PPO 3]:  80%|████████  | 81/101 [00:16<00:04,  4.80timesteps/s][A
+Training Batch [PPO 3]:  81%|████████  | 82/101 [00:17<00:03,  4.81timesteps/s][A
+Training Batch [PPO 3]:  82%|████████▏ | 83/101 [00:17<00:03,  4.81timesteps/s][A
+Training Batch [PPO 3]:  83%|████████▎ | 84/101 [00:17<00:03,  4.81timesteps/s][A
+Training Batch [PPO 3]:  84%|████████▍ | 85/101 [00:17<00:03,  4.81timesteps/s][A
+Training Batch [PPO 3]:  85%|████████▌ | 86/101 [00:17<00:03,  4.81timesteps/s][A
+Training Batch [PPO 3]:  86%|████████▌ | 87/101 [00:18<00:02,  4.79timesteps/s][A
+Training Batch [PPO 3]:  87%|████████▋ | 88/101 [00:18<00:02,  4.81timesteps/s][A
+Training Batch [PPO 3]:  88%|████████▊ | 89/101 [00:18<00:02,  4.81timesteps/s][A
+Training Batch [PPO 3]:  89%|████████▉ | 90/101 [00:18<00:02,  4.78timesteps/s][A
+Training Batch [PPO 3]:  90%|█████████ | 91/101 [00:18<00:02,  4.81timesteps/s][A
+Training Batch [PPO 3]:  91%|█████████ | 92/101 [00:19<00:01,  4.81timesteps/s][A
+Training Batch [PPO 3]:  92%|█████████▏| 93/101 [00:19<00:01,  4.81timesteps/s][A
+Training Batch [PPO 3]:  93%|█████████▎| 94/101 [00:19<00:01,  4.80timesteps/s][A
+Training Batch [PPO 3]:  94%|█████████▍| 95/101 [00:19<00:01,  4.80timesteps/s][A
+Training Batch [PPO 3]:  95%|█████████▌| 96/101 [00:19<00:01,  4.80timesteps/s][A
+Training Batch [PPO 3]:  96%|█████████▌| 97/101 [00:20<00:00,  4.79timesteps/s][A
+Training Batch [PPO 3]:  97%|█████████▋| 98/101 [00:20<00:00,  4.81timesteps/s][A
+Training Batch [PPO 3]:  98%|█████████▊| 99/101 [00:20<00:00,  4.79timesteps/s][A
+Training Batch [PPO 3]:  99%|█████████▉| 100/101 [00:20<00:00,  4.77timesteps/s][A
+Training Batch [PPO 3]: 100%|██████████| 101/101 [00:21<00:00,  4.76timesteps/s][A
+                                                                                [ATraining [PPO 3]: 1Batch [00:21, 21.01s/Batch]                                              [Epoch 2/25]
+  Generated Total  : 168
+  RDKit Validity   : 116 / 168 (69.05%)
+  Loss             :  0.6683
+  PPO Loss         :  0.6683
+  Reward           : -0.0474
+  Avg Docking    : -7.8250
+  ── Timings (sec) ──
+  annotate                 :   0.073
+  dataloader               :   0.004
+  filter                   :   0.001
+  generate                 :   8.140
+  reward                   :   0.000
+  reward_chembl_classifier :   0.216
+  reward_docking           :   9.019
+  reward_normalize         :   2.859
+  train                    :  83.908
+  ────────────────────────────────────
+  epoch_total              : 104.220
+[Epoch ?] 生成中: 12分子/卡, 0% (0/100步)  [Epoch ?] 生成中: 1% (1/100步)  [Epoch ?] 生成中: 10% (10/100步)  [Epoch ?] 生成中: 20% (20/100步)  [Epoch ?] 生成中: 30% (30/100步)  [Epoch ?] 生成中: 40% (40/100步)  [Epoch ?] 生成中: 50% (50/100步)  [Epoch ?] 生成中: 60% (60/100步)  [Epoch ?] 生成中: 70% (70/100步)  [Epoch ?] 生成中: 80% (80/100步)  [Epoch ?] 生成中: 90% (90/100步)  [Epoch ?] 生成中: 100% (100/100步)  [Epoch ?] 生成完成: 12分子/卡, 100步 (100%)  
+[Epoch ?] 生成中: 12分子/卡, 0% (0/100步)  [Epoch ?] 生成中: 1% (1/100步)  [Epoch ?] 生成中: 10% (10/100步)  [Epoch ?] 生成中: 20% (20/100步)  [Epoch ?] 生成中: 30% (30/100步)  [Epoch ?] 生成中: 40% (40/100步)  [Epoch ?] 生成中: 50% (50/100步)  [Epoch ?] 生成中: 60% (60/100步)  [Epoch ?] 生成中: 70% (70/100步)  [Epoch ?] 生成中: 80% (80/100步)  [Epoch ?] 生成中: 90% (90/100步)  [Epoch ?] 生成中: 100% (100/100步)  [Epoch ?] 生成完成: 12分子/卡, 100步 (100%)  
+/data/disk6/DiffB110/ddpo/rewards/docking_backends/unidock.py:133: UserWarning: [UniDockBackend] unidock exited 1:
+
+
+An error occurred: CUDA Runtime Error. 
+
+Please report bugs through the Issue Tracker on GitHub 
+(https://github.com/dptech-corp/Uni-Dock/issues)., so
+that this problem can be resolved. The reproducibility of the
+error may be vital, so please remember to include the following in
+your problem report:
+* the EXACT error message,
+* your version of the program,
+* the type of computer system you are running it on,
+* all command line options,
+* configuration file (if used),
+* ligand file as PDBQT,
+* 
+  warnings.warn(
+Training: 0Batch [00:00, ?Batch/s]
+Training Batch:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch:   1%|          | 1/101 [00:00<00:31,  3.20timesteps/s][A
+Training Batch:   2%|▏         | 2/101 [00:00<00:24,  3.99timesteps/s][A
+Training Batch:   3%|▎         | 3/101 [00:00<00:22,  4.34timesteps/s][A
+Training Batch:   4%|▍         | 4/101 [00:00<00:21,  4.50timesteps/s][A
+Training Batch:   5%|▍         | 5/101 [00:01<00:20,  4.60timesteps/s][A
+Training Batch:   6%|▌         | 6/101 [00:01<00:20,  4.67timesteps/s][A
+Training Batch:   7%|▋         | 7/101 [00:01<00:19,  4.71timesteps/s][A
+Training Batch:   8%|▊         | 8/101 [00:01<00:19,  4.73timesteps/s][A
+Training Batch:   9%|▉         | 9/101 [00:01<00:19,  4.74timesteps/s][A
+Training Batch:  10%|▉         | 10/101 [00:02<00:19,  4.76timesteps/s][A
+Training Batch:  11%|█         | 11/101 [00:02<00:18,  4.78timesteps/s][A
+Training Batch:  12%|█▏        | 12/101 [00:02<00:18,  4.79timesteps/s][A
+Training Batch:  13%|█▎        | 13/101 [00:02<00:18,  4.80timesteps/s][A
+Training Batch:  14%|█▍        | 14/101 [00:03<00:18,  4.80timesteps/s][A
+Training Batch:  15%|█▍        | 15/101 [00:03<00:17,  4.78timesteps/s][A
+Training Batch:  16%|█▌        | 16/101 [00:03<00:17,  4.79timesteps/s][A
+Training Batch:  17%|█▋        | 17/101 [00:03<00:17,  4.80timesteps/s][A
+Training Batch:  18%|█▊        | 18/101 [00:03<00:17,  4.82timesteps/s][A
+Training Batch:  19%|█▉        | 19/101 [00:04<00:17,  4.82timesteps/s][A
+Training Batch:  20%|█▉        | 20/101 [00:04<00:16,  4.80timesteps/s][A
+Training Batch:  21%|██        | 21/101 [00:04<00:16,  4.77timesteps/s][A
+Training Batch:  22%|██▏       | 22/101 [00:04<00:16,  4.78timesteps/s][A
+Training Batch:  23%|██▎       | 23/101 [00:04<00:16,  4.78timesteps/s][A
+Training Batch:  24%|██▍       | 24/101 [00:05<00:16,  4.78timesteps/s][A
+Training Batch:  25%|██▍       | 25/101 [00:05<00:15,  4.76timesteps/s][A
+Training Batch:  26%|██▌       | 26/101 [00:05<00:15,  4.75timesteps/s][A
+Training Batch:  27%|██▋       | 27/101 [00:05<00:15,  4.76timesteps/s][A
+Training Batch:  28%|██▊       | 28/101 [00:05<00:15,  4.77timesteps/s][A
+Training Batch:  29%|██▊       | 29/101 [00:06<00:15,  4.75timesteps/s][A
+Training Batch:  30%|██▉       | 30/101 [00:06<00:14,  4.77timesteps/s][A
+Training Batch:  31%|███       | 31/101 [00:06<00:14,  4.77timesteps/s][A
+Training Batch:  32%|███▏      | 32/101 [00:06<00:14,  4.78timesteps/s][A
+Training Batch:  33%|███▎      | 33/101 [00:06<00:14,  4.78timesteps/s][A
+Training Batch:  34%|███▎      | 34/101 [00:07<00:14,  4.75timesteps/s][A
+Training Batch:  35%|███▍      | 35/101 [00:07<00:13,  4.74timesteps/s][A
+Training Batch:  36%|███▌      | 36/101 [00:07<00:13,  4.75timesteps/s][A
+Training Batch:  37%|███▋      | 37/101 [00:07<00:13,  4.76timesteps/s][A
+Training Batch:  38%|███▊      | 38/101 [00:08<00:13,  4.75timesteps/s][A
+Training Batch:  39%|███▊      | 39/101 [00:08<00:13,  4.73timesteps/s][A
+Training Batch:  40%|███▉      | 40/101 [00:08<00:12,  4.73timesteps/s][A
+Training Batch:  41%|████      | 41/101 [00:08<00:12,  4.75timesteps/s][A
+Training Batch:  42%|████▏     | 42/101 [00:08<00:12,  4.75timesteps/s][A
+Training Batch:  43%|████▎     | 43/101 [00:09<00:12,  4.77timesteps/s][A
+Training Batch:  44%|████▎     | 44/101 [00:09<00:11,  4.77timesteps/s][A
+Training Batch:  45%|████▍     | 45/101 [00:09<00:11,  4.75timesteps/s][A
+Training Batch:  46%|████▌     | 46/101 [00:09<00:11,  4.75timesteps/s][A
+Training Batch:  47%|████▋     | 47/101 [00:09<00:11,  4.77timesteps/s][A
+Training Batch:  48%|████▊     | 48/101 [00:10<00:11,  4.77timesteps/s][A
+Training Batch:  49%|████▊     | 49/101 [00:10<00:10,  4.77timesteps/s][A
+Training Batch:  50%|████▉     | 50/101 [00:10<00:10,  4.76timesteps/s][A
+Training Batch:  50%|█████     | 51/101 [00:10<00:10,  4.76timesteps/s][A
+Training Batch:  51%|█████▏    | 52/101 [00:10<00:10,  4.73timesteps/s][A
+Training Batch:  52%|█████▏    | 53/101 [00:11<00:10,  4.75timesteps/s][A
+Training Batch:  53%|█████▎    | 54/101 [00:11<00:09,  4.74timesteps/s][A
+Training Batch:  54%|█████▍    | 55/101 [00:11<00:09,  4.76timesteps/s][A
+Training Batch:  55%|█████▌    | 56/101 [00:11<00:09,  4.76timesteps/s][A
+Training Batch:  56%|█████▋    | 57/101 [00:12<00:09,  4.78timesteps/s][A
+Training Batch:  57%|█████▋    | 58/101 [00:12<00:09,  4.77timesteps/s][A
+Training Batch:  58%|█████▊    | 59/101 [00:12<00:08,  4.77timesteps/s][A
+Training Batch:  59%|█████▉    | 60/101 [00:12<00:08,  4.77timesteps/s][A
+Training Batch:  60%|██████    | 61/101 [00:12<00:08,  4.78timesteps/s][A
+Training Batch:  61%|██████▏   | 62/101 [00:13<00:08,  4.78timesteps/s][A
+Training Batch:  62%|██████▏   | 63/101 [00:13<00:07,  4.77timesteps/s][A
+Training Batch:  63%|██████▎   | 64/101 [00:13<00:07,  4.78timesteps/s][A
+Training Batch:  64%|██████▍   | 65/101 [00:13<00:07,  4.78timesteps/s][A
+Training Batch:  65%|██████▌   | 66/101 [00:13<00:07,  4.79timesteps/s][A
+Training Batch:  66%|██████▋   | 67/101 [00:14<00:07,  4.78timesteps/s][A
+Training Batch:  67%|██████▋   | 68/101 [00:14<00:06,  4.78timesteps/s][A
+Training Batch:  68%|██████▊   | 69/101 [00:14<00:06,  4.77timesteps/s][A
+Training Batch:  69%|██████▉   | 70/101 [00:14<00:06,  4.78timesteps/s][A
+Training Batch:  70%|███████   | 71/101 [00:14<00:06,  4.77timesteps/s][A
+Training Batch:  71%|███████▏  | 72/101 [00:15<00:06,  4.77timesteps/s][A
+Training Batch:  72%|███████▏  | 73/101 [00:15<00:05,  4.75timesteps/s][A
+Training Batch:  73%|███████▎  | 74/101 [00:15<00:05,  4.77timesteps/s][A
+Training Batch:  74%|███████▍  | 75/101 [00:15<00:05,  4.74timesteps/s][A
+Training Batch:  75%|███████▌  | 76/101 [00:16<00:05,  4.75timesteps/s][A
+Training Batch:  76%|███████▌  | 77/101 [00:16<00:05,  4.77timesteps/s][A
+Training Batch:  77%|███████▋  | 78/101 [00:16<00:04,  4.77timesteps/s][A
+Training Batch:  78%|███████▊  | 79/101 [00:16<00:04,  4.77timesteps/s][A
+Training Batch:  79%|███████▉  | 80/101 [00:16<00:04,  4.78timesteps/s][A
+Training Batch:  80%|████████  | 81/101 [00:17<00:04,  4.78timesteps/s][A
+Training Batch:  81%|████████  | 82/101 [00:17<00:03,  4.77timesteps/s][A
+Training Batch:  82%|████████▏ | 83/101 [00:17<00:03,  4.76timesteps/s][A
+Training Batch:  83%|████████▎ | 84/101 [00:17<00:03,  4.74timesteps/s][A
+Training Batch:  84%|████████▍ | 85/101 [00:17<00:03,  4.75timesteps/s][A
+Training Batch:  85%|████████▌ | 86/101 [00:18<00:03,  4.75timesteps/s][A
+Training Batch:  86%|████████▌ | 87/101 [00:18<00:02,  4.75timesteps/s][A
+Training Batch:  87%|████████▋ | 88/101 [00:18<00:02,  4.76timesteps/s][A
+Training Batch:  88%|████████▊ | 89/101 [00:18<00:02,  4.76timesteps/s][A
+Training Batch:  89%|████████▉ | 90/101 [00:18<00:02,  4.77timesteps/s][A
+Training Batch:  90%|█████████ | 91/101 [00:19<00:02,  4.77timesteps/s][A
+Training Batch:  91%|█████████ | 92/101 [00:19<00:01,  4.77timesteps/s][A
+Training Batch:  92%|█████████▏| 93/101 [00:19<00:01,  4.76timesteps/s][A
+Training Batch:  93%|█████████▎| 94/101 [00:19<00:01,  4.76timesteps/s][A
+Training Batch:  94%|█████████▍| 95/101 [00:20<00:01,  4.76timesteps/s][A
+Training Batch:  95%|█████████▌| 96/101 [00:20<00:01,  4.77timesteps/s][A
+Training Batch:  96%|█████████▌| 97/101 [00:20<00:00,  4.76timesteps/s][A
+Training Batch:  97%|█████████▋| 98/101 [00:20<00:00,  4.77timesteps/s][A
+Training Batch:  98%|█████████▊| 99/101 [00:20<00:00,  4.77timesteps/s][A
+Training Batch:  99%|█████████▉| 100/101 [00:21<00:00,  4.77timesteps/s][A
+Training Batch: 100%|██████████| 101/101 [00:21<00:00,  4.77timesteps/s][A
+                                                                        [ATraining: 1Batch [00:21, 21.27s/Batch]                                      Training [PPO 1]: 0Batch [00:00, ?Batch/s]
+Training Batch [PPO 1]:   0%|          | 0/101 [00:00<?, ?timesteps/s][A
+Training Batch [PPO 1]:   1%|          | 1/101 [00:00<00:20,  4.81timesteps/s][A
+Training Batch [PPO 1]:   2%|▏         | 2/101 [00:00<00:20,  4.78timesteps/s][A
+Training Batch [PPO 1]:   3%|▎         | 3/101 [00:00<00:20,  4.77timesteps/s][A
+Training Batch [PPO 1]:   4%|▍         | 4/101 [00:00<00:20,  4.77timesteps/s][A
+Training Batch [PPO 1]:   5%|▍         | 5/101 [00:01<00:20,  4.77timesteps/s][A
+Training Batch [PPO 1]:   6%|▌         | 6/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 1]:   7%|▋         | 7/101 [00:01<00:19,  4.74timesteps/s][A
+Training Batch [PPO 1]:   8%|▊         | 8/101 [00:01<00:19,  4.75timesteps/s][A
+Training Batch [PPO 1]:   9%|▉         | 9/101 [00:01<00:19,  4.76timesteps/s][A
+Training Batch [PPO 1]:  10%|▉         | 10/101 [00:02<00:19,  4.77timesteps/s][A
+Training Batch [PPO 1]:  11%|█         | 11/101 [00:02<00:18,  4.76timesteps/s][A
+Training Batch [PPO 1]:  12%|█▏        | 12/101 [00:02<00:18,  4.76timesteps/s][A
+Training Batch [PPO 1]:  13%|█▎        | 13/101 [00:02<00:18,  4.75timesteps/s][A
+Training Batch [PPO 1]:  14%|█▍        | 14/101 [00:02<00:18,  4.76timesteps/s][A
+Training Batch [PPO 1]:  15%|█▍        | 15/101 [00:03<00:18,  4.76timesteps/s][A
+Training Batch [PPO 1]:  16%|█▌        | 16/101 [00:03<00:17,  4.77timesteps/s][A
+Training Batch [PPO 1]:  17%|█▋        | 17/101 [00:03<00:17,  4.78timesteps/s][A
+Training Batch [PPO 1]:  18%|█▊        | 18/101 [00:03<00:17,  4.76timesteps/s][A
+Training Batch [PPO 1]:  19%|█▉        | 19/101 [00:03<00:17,  4.76timesteps/s][A
+Training Batch [PPO 1]:  20%|█▉        | 20/101 [00:04<00:16,  4.77timesteps/s][A
+Training Batch [PPO 1]:  21%|██        | 21/101 [00:04<00:16,  4.76timesteps/s][A
+Training Batch [PPO 1]:  22%|██▏       | 22/101 [00:04<00:16,  4.75timesteps/s][A
+Training Batch [PPO 1]:  23%|██▎       | 23/101 [00:04<00:16,  4.75timesteps/s][A
+Training Batch [PPO 1]:  24%|██▍       | 24/101 [00:05<00:16,  4.75timesteps/s][A
+Training Batch [PPO 1]:  25%|██▍       | 25/101 [00:05<00:15,  4.75timesteps/s][A
+Training Batch [PPO 1]:  26%|██▌       | 26/101 [00:05<00:15,  4.75timesteps/s][A
+Training Batch [PPO 1]:  27%|██▋       | 27/101 [00:05<00:15,  4.73timesteps/s][A
+Training Batch [PPO 1]:  28%|██▊       | 28/101 [00:05<00:15,  4.75timesteps/s][A
+Training Batch [PPO 1]:  29%|██▊       | 29/101 [00:06<00:15,  4.73timesteps/s][A
+Training Batch [PPO 1]:  30%|██▉       | 30/101 [00:06<00:15,  4.73timesteps/s][A
+Training Batch [PPO 1]:  31%|███       | 31/101 [00:06<00:14,  4.74timesteps/s][AERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: -9) local_rank: 0 (pid: 935287) of binary: /home/md666/miniforge3/envs/dif/bin/python
+Traceback (most recent call last):
+  File "/home/md666/miniforge3/envs/dif/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 346, in wrapper
+    return f(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/distributed/run.py", line 794, in main
+    run(args)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/distributed/run.py", line 785, in run
+    elastic_launch(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 134, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 250, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+=======================================================
+ddpo/main_diffsbdd_ddp.py FAILED
+-------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 1 (local_rank: 1)
+  exitcode  : -9 (pid: 935288)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935288
+[2]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 2 (local_rank: 2)
+  exitcode  : -9 (pid: 935289)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935289
+[3]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 3 (local_rank: 3)
+  exitcode  : -9 (pid: 935290)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935290
+[4]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 4 (local_rank: 4)
+  exitcode  : -9 (pid: 935291)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935291
+[5]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 5 (local_rank: 5)
+  exitcode  : -9 (pid: 935292)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935292
+[6]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 6 (local_rank: 6)
+  exitcode  : -9 (pid: 935293)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935293
+-------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-05-27_19:21:08
+  host      : md
+  rank      : 0 (local_rank: 0)
+  exitcode  : -9 (pid: 935287)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 935287
+=======================================================

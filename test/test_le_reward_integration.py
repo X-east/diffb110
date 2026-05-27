@@ -388,16 +388,27 @@ def test_ligand_efficiency_enabled_without_docking():
 
 
 def test_factory_get_enabled_rewards():
-    """验证 get_enabled_rewards 正确识别 LE 启用/禁用。"""
+    """验证 get_enabled_rewards 正确识别 LE 启用/禁用，以及 docking 自动启用。"""
     from ddpo.rewards.factory import get_enabled_rewards
 
     # LE weight=0 → not enabled
     cfg = {"reward": {"weights": {"docking": 0.5, "ligand_efficiency": 0}}}
     assert "ligand_efficiency" not in get_enabled_rewards(cfg)
 
-    # LE weight=0.2 → enabled
+    # LE weight=0.2 → enabled (docking already present)
     cfg2 = {"reward": {"weights": {"docking": 0.5, "ligand_efficiency": 0.2}}}
     assert "ligand_efficiency" in get_enabled_rewards(cfg2)
+
+    # LE enabled, docking NOT in weights → docking auto-enabled as provider
+    cfg3 = {"reward": {"weights": {"ligand_efficiency": 0.3, "qed": 0.5}}}
+    enabled3 = get_enabled_rewards(cfg3)
+    assert "ligand_efficiency" in enabled3
+    assert "docking" in enabled3, "docking should be auto-enabled when LE is on"
+    assert "qed" in enabled3
+
+    # LE disabled → docking not auto-enabled
+    cfg4 = {"reward": {"weights": {"ligand_efficiency": 0, "qed": 0.5}}}
+    assert "docking" not in get_enabled_rewards(cfg4)
 
     print("[PASS] test_factory_get_enabled_rewards")
 

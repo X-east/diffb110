@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-05-27T16:35:16",
+  "target_positives": 100000,
+  "target_negatives": 70000,
+  "selected_positives": 100000,
+  "selected_negatives": 70000,
+  "positive_aromatic_class_counts": {
+    "mixed_aromatic": 56694,
+    "benzene_like_only": 24703,
+    "heteroaromatic_only": 15429,
+    "no_aromatic": 3174
+  },
+  "negative_label_counts": {
+    "three_member_ring": 52249,
+    "ring_complex": 40498,
+    "aromatic_deficient_bad_topology": 28612,
+    "co_only_mostly_carbon": 26217,
+    "non_oxygen_hetero_loss": 23468,
+    "hydrophobic_low_polarity": 21208,
+    "high_carbon_low_hetero": 18199,
+    "high_reward_bad": 9068
+  },
+  "max_positives_per_scaffold": 10
+}
