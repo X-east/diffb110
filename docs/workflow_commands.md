@@ -211,8 +211,8 @@ python analysis/analyze_7gpu_dock_ecfp4_fcfp4_20260526.py
 python analysis/analyze_reward_influence.py
 python analysis/analyze_fingerprint_exps.py
 
-# Historical EDM evaluation from the reference RLPF tree
-python RLPF-verl_diffusion/Model/EDM/eval_analyze.py
+# Historical EDM evaluation from the reference RLPF tree (git-ignored)
+python "reference project/RLPF-verl_diffusion/Model/EDM/eval_analyze.py"
 ~~~
 
 ## 10. Current Operational Status

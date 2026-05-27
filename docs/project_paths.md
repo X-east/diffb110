@@ -36,9 +36,9 @@
 
 - `analysis_root=/data/disk6/DiffB110/analysis`
 
-- `rlpf_root=/data/disk6/DiffB110/RLPF-verl_diffusion`
-- `rlpf_exp_root=/data/disk6/DiffB110/RLPF-verl_diffusion/exp`
-- `rlpf_model_root=/data/disk6/DiffB110/RLPF-verl_diffusion/Model`
+- `rlpf_root=/data/disk6/DiffB110/reference project/RLPF-verl_diffusion`  *(历史参考，已移出 git 跟踪)*
+- `rlpf_exp_root=/data/disk6/DiffB110/reference project/RLPF-verl_diffusion/exp`
+- `rlpf_model_root=/data/disk6/DiffB110/reference project/RLPF-verl_diffusion/Model`
 
 - `unidock_repo_root=/data/disk6/DiffB110/Uni-Dock`
 - `unidock_tools_root=/data/disk6/DiffB110/Uni-Dock/unidock_tools`
@@ -68,5 +68,6 @@
 ## Notes
 - Use canonical paths under `/data/disk6/DiffB110` for documentation and code changes.
 - The user's daily runtime launch scripts are in `launch/*.sh` (torchrun-based DDP).
-- The repository contains multiple subprojects: `ddpo`, `chembl_classifier`, `DiffSBDD`, `RLPF-verl_diffusion`, `Uni-Dock`, and `molformer-main`.
+- The repository contains multiple subprojects: `ddpo`, `chembl_classifier`, `DiffSBDD`, `Uni-Dock`, and `molformer-main`.
+- `RLPF-verl_diffusion` 已迁移至 `reference project/` 作为历史参考，不再由 git 跟踪。
 - Launch configs (`launch/*.yaml`) are the primary configuration entrypoints, not `configs/`.
