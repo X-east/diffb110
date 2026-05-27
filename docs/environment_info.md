@@ -121,5 +121,5 @@ Not automatically a problem — driver is new enough, toolkit is 12.0, PyTorch w
 - `CUDA_VISIBLE_DEVICES` is not set; all GPUs visible by default
 - `pip` launcher is broken; use `python -m pip ...` as workaround
 - Some packages emit compatibility warnings (PyTorch >= 2.2 expected)
-- AutoDock-GPU binary at `/home/md666/data/disk6/DiffB110/AutoDock-GPU/AutoDock-GPU-develop/bin/autodock_gpu_64wi` (see `docs/autodock_gpu_binary_debug.md` for access issues)
 - Current primary docking backend is **UniDock** (conda-installed), not AutoDock-GPU
+- AutoDock-GPU local binary directory has been removed from the project root (see `docs/autodock_gpu_binary_debug.md` for historical debug record)
