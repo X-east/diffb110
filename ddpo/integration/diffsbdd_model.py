@@ -1,14 +1,14 @@
 """
-DiffSBDDModel: Adapter wrapping DiffSBDD for RLPF interface.
+DiffSBDDModel: Adapter wrapping DiffSBDD for local DDPO interface.
 
 This module provides a wrapper around DiffSBDD's LigandPocketDDPM model
-that implements the RLPF BaseModel interface, enabling integration with
+that implements the local DDPO BaseModel interface, enabling integration with
 the DDPO training framework.
 
 Key features:
 - Loads DiffSBDD checkpoint and pocket data
-- Implements RLPF-compatible sample(), sample_p_zs_given_zt(), compute_log_p_zs_given_zt()
-- Handles format conversion between DiffSBDD and RLPF tensor formats
+- Implements DDPO-compatible sample(), sample_p_zs_given_zt(), compute_log_p_zs_given_zt()
+- Handles format conversion between DiffSBDD and padded DDPO tensor formats
 - Caches pocket data for efficient batch processing
 """
 
@@ -30,7 +30,12 @@ from DiffSBDD import utils as diffsbdd_utils
 
 from ddpo.integration.model_base import BaseModel
 
-from ddpo.runtime.logging_utils import log_cuda_memory
+
+def _log_cuda_memory(*args, **kwargs):
+    """Lazy import runtime logging to avoid package import cycles."""
+    from ddpo.runtime.logging_utils import log_cuda_memory
+
+    return log_cuda_memory(*args, **kwargs)
 
 # Import mask conversion utilities
 from ddpo.integration.mask_utils import (
@@ -43,10 +48,10 @@ from ddpo.integration.mask_utils import (
 
 class DiffSBDDModel(nn.Module, BaseModel):
     """
-    Adapter wrapping DiffSBDD's LigandPocketDDPM for RLPF interface.
+    Adapter wrapping DiffSBDD's LigandPocketDDPM for local DDPO interface.
     
-    This class implements the BaseModel interface required by RLPF's
-    EDMActor and EDMRollout components, while internally using DiffSBDD's
+    This class implements the BaseModel interface required by the local
+    EDMActor and DiffSBDDRollout components, while internally using DiffSBDD's
     ConditionalDDPM for molecular generation.
     
     Attributes:
@@ -257,11 +262,11 @@ class DiffSBDDModel(nn.Module, BaseModel):
         max_n_nodes: int
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
-        Generate RLPF-format node_mask and edge_mask.
+        Generate padded DDPO-format node_mask and edge_mask.
         
         This method is called by EDMActor.calculate_loss() to create masks
         for the policy gradient computation. The implementation follows
-        RLPF EDMModel.get_mask() exactly for compatibility.
+        the original EDMModel.get_mask() semantics for compatibility.
         
         Args:
             nodesxsample: [B] tensor or list with number of nodes per sample
@@ -274,9 +279,9 @@ class DiffSBDDModel(nn.Module, BaseModel):
             
         Note:
             DiffSBDD doesn't use edge_mask internally, but we generate it
-            for interface compatibility with RLPF EDMActor.
+            for interface compatibility with local EDMActor.
         """
-        # Create node_mask [B, N] - following RLPF EDMModel exactly
+        # Create node_mask [B, N] - following the original EDMModel semantics
         node_mask = torch.zeros(batch_size, max_n_nodes)
         for i in range(batch_size):
             # Handle both tensor and list inputs
@@ -289,7 +294,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         # edge_mask[b, i, j] = 1 if both node i and j are valid and i != j
         edge_mask = node_mask.unsqueeze(1) * node_mask.unsqueeze(2)  # [B, N, N]
         
-        # Remove self-loops (diagonal) - following RLPF EDMModel exactly
+        # Remove self-loops (diagonal) - following the original EDMModel semantics
         diag_mask = ~torch.eye(edge_mask.size(1), dtype=torch.bool).unsqueeze(0)
         edge_mask *= diag_mask
         
@@ -301,23 +306,23 @@ class DiffSBDDModel(nn.Module, BaseModel):
         
         return node_mask, edge_mask
     
-    def _rlpf_to_diffsbdd_format(
+    def _padded_to_diffsbdd_format(
         self, 
         x: torch.Tensor, 
         node_mask: torch.Tensor
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
-        Convert RLPF padded format to DiffSBDD flat format.
+        Convert padded DDPO format to DiffSBDD flat format.
         
-        RLPF uses [B, N, D] padded tensors where invalid positions are zeros.
+        The actor uses [B, N, D] padded tensors where invalid positions are zeros.
         DiffSBDD uses [total_nodes, D] flat tensors with batch_mask indices.
         
         This conversion is necessary because:
-        - RLPF EDMActor works with padded batches for efficient GPU computation
+        - local EDMActor works with padded batches for efficient GPU computation
         - DiffSBDD's ConditionalDDPM expects flat tensors with scatter operations
         
         Args:
-            x: [B, N, D] padded tensor from RLPF
+            x: [B, N, D] padded tensor from DDPO
             node_mask: [B, N, 1] mask tensor (1=valid, 0=padding)
             
         Returns:
@@ -328,7 +333,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             >>> x = torch.randn(2, 5, 3)  # 2 samples, max 5 nodes, 3D coords
             >>> node_mask = torch.tensor([[[1],[1],[1],[0],[0]],
             ...                           [[1],[1],[0],[0],[0]]])  # 3 and 2 nodes
-            >>> x_flat, batch_mask = model._rlpf_to_diffsbdd_format(x, node_mask)
+            >>> x_flat, batch_mask = model._padded_to_diffsbdd_format(x, node_mask)
             >>> x_flat.shape  # [5, 3] - total 5 valid nodes
             >>> batch_mask  # tensor([0, 0, 0, 1, 1])
         """
@@ -344,17 +349,17 @@ class DiffSBDDModel(nn.Module, BaseModel):
         
         return x_flat, batch_mask
     
-    def _diffsbdd_to_rlpf_format(
+    def _diffsbdd_to_padded_format(
         self, 
         x: torch.Tensor, 
         batch_mask: torch.Tensor, 
         max_nodes: int
     ) -> torch.Tensor:
         """
-        Convert DiffSBDD flat format to RLPF padded format.
+        Convert DiffSBDD flat format to padded DDPO format.
         
         DiffSBDD uses [total_nodes, D] flat tensors with batch_mask indices.
-        RLPF uses [B, N, D] padded tensors where invalid positions are zeros.
+        The actor uses [B, N, D] padded tensors where invalid positions are zeros.
         
         Args:
             x: [total_nodes, D] flat tensor from DiffSBDD
@@ -362,7 +367,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             max_nodes: Maximum number of nodes N for padding
             
         Returns:
-            x_padded: [B, N, D] padded tensor for RLPF
+            x_padded: [B, N, D] padded tensor for actor
         """
         batch_size = batch_mask.max().item() + 1
         D = x.shape[-1] if x.dim() > 1 else 1
@@ -448,7 +453,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         - EDMActor.calculate_loss() indirectly via sample_p_zs_given_zt()
         
         Args:
-            zs: [B, N, D] sampled latent at time s (RLPF format)
+            zs: [B, N, D] sampled latent at time s (padded DDPO format)
             mu: [B, N, D] mean of the Gaussian distribution
             sigma: Scalar, [B, 1, 1], or [B, N, D] standard deviation
             node_mask: [B, N, 1] mask tensor (1=valid, 0=padding)
@@ -535,10 +540,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
         This method implements the final step of the diffusion process,
         converting the latent z0 to actual molecular coordinates (x) and
         atom types (h). It adapts DiffSBDD's sample_p_xh_given_z0 to
-        the RLPF interface expected by EDMRollout.
+        the local DDPO rollout interface.
         
         Args:
-            z0: [B, N, D] latent at time 0 (RLPF format)
+            z0: [B, N, D] latent at time 0 (padded DDPO format)
             node_mask: [B, N, 1] node mask (1=valid, 0=padding)
             edge_mask: [B*N*N, 1] edge mask (not used by DiffSBDD)
             context: Optional context tensor (not used)
@@ -558,8 +563,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
             
         Note:
             - DiffSBDD returns (x_lig, h_lig, x_pocket, h_pocket) - 4 values
-            - RLPF expects (x, h, mu, sigma, log_prob, zeros, xh) - 7 values
-            - h is returned as dict for RLPF compatibility, but DiffSBDD
+            - DDPO expects (x, h, mu, sigma, log_prob, zeros, xh) - 7 values
+            - h is returned as dict for actor compatibility, but DiffSBDD
               doesn't use charges, so h['integer'] is zeros
         """
         import torch.nn.functional as F
@@ -569,9 +574,9 @@ class DiffSBDDModel(nn.Module, BaseModel):
         device = z0.device
         
         # =====================================================================
-        # Step 1: Convert RLPF format to DiffSBDD format
+        # Step 1: Convert padded DDPO format to DiffSBDD format
         # =====================================================================
-        z0_flat, ligand_mask = self._rlpf_to_diffsbdd_format(z0, node_mask)
+        z0_flat, ligand_mask = self._padded_to_diffsbdd_format(z0, node_mask)
         
         # =====================================================================
         # Step 2: Prepare pocket data
@@ -625,17 +630,17 @@ class DiffSBDDModel(nn.Module, BaseModel):
         ).float()
         
         # =====================================================================
-        # Step 8: Convert back to RLPF format
+        # Step 8: Convert back to padded DDPO format
         # =====================================================================
-        x = self._diffsbdd_to_rlpf_format(x_lig_flat, ligand_mask, max_nodes)
-        h_cat = self._diffsbdd_to_rlpf_format(h_lig_onehot_flat, ligand_mask, max_nodes)
-        mu = self._diffsbdd_to_rlpf_format(mu_x_flat, ligand_mask, max_nodes)
-        xh = self._diffsbdd_to_rlpf_format(xh_flat, ligand_mask, max_nodes)
+        x = self._diffsbdd_to_padded_format(x_lig_flat, ligand_mask, max_nodes)
+        h_cat = self._diffsbdd_to_padded_format(h_lig_onehot_flat, ligand_mask, max_nodes)
+        mu = self._diffsbdd_to_padded_format(mu_x_flat, ligand_mask, max_nodes)
+        xh = self._diffsbdd_to_padded_format(xh_flat, ligand_mask, max_nodes)
         
         # Apply node_mask to h_cat
         h_cat = h_cat * node_mask
         
-        # Create h dict (RLPF format)
+        # Create h dict (padded DDPO format)
         # DiffSBDD doesn't use charges, so h['integer'] is zeros
         h_int = torch.zeros(batch_size, max_nodes, 1, device=device)
         h = {'integer': h_int, 'categorical': h_cat}
@@ -657,7 +662,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         # =====================================================================
         zeros = t_zeros  # [B, 1]
         
-        # Squeeze sigma for return (RLPF expects scalar or [B])
+        # Squeeze sigma for return (DDPO expects scalar or [B])
         sigma_out = sigma_x.squeeze(-1) if sigma_x.dim() > 1 else sigma_x
         
         return x, h, mu, sigma_out, log_prob, zeros, xh
@@ -678,12 +683,12 @@ class DiffSBDDModel(nn.Module, BaseModel):
         
         This method implements the reverse diffusion step p(zs | zt),
         adapting DiffSBDD's ConditionalDDPM.sample_p_zs_given_zt to
-        the RLPF interface expected by EDMActor.
+        the local EDMActor interface.
         
         Args:
             s: [B, 1] normalized time step s (target, s < t)
             t: [B, 1] normalized time step t (current)
-            zt: [B, N, D] latent at time t (RLPF format)
+            zt: [B, N, D] latent at time t (padded DDPO format)
             node_mask: [B, N, 1] node mask (1=valid, 0=padding)
             edge_mask: [B*N*N, 1] edge mask (not used by DiffSBDD)
             context: Optional context tensor (not used, for interface compatibility)
@@ -698,7 +703,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             sigma: Gaussian standard deviation (scalar or broadcastable)
             
         Note:
-            - Internally converts between RLPF [B,N,D] and DiffSBDD [total_nodes,D] formats
+            - Internally converts between padded DDPO [B,N,D] and DiffSBDD [total_nodes,D] formats
             - Pocket data is automatically replicated to match batch size
             - Coordinates are kept zero-centered via DiffSBDD's sample_normal_zero_com
         """
@@ -719,10 +724,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
         )
         
         # =====================================================================
-        # Step 9: Convert back to RLPF format
+        # Step 9: Convert back to padded DDPO format
         # =====================================================================
-        zs = self._diffsbdd_to_rlpf_format(zs_flat, ligand_mask, max_nodes)
-        mu = self._diffsbdd_to_rlpf_format(mu_flat, ligand_mask, max_nodes)
+        zs = self._diffsbdd_to_padded_format(zs_flat, ligand_mask, max_nodes)
+        mu = self._diffsbdd_to_padded_format(mu_flat, ligand_mask, max_nodes)
         
         # =====================================================================
         # Step 10: Compute log probability
@@ -755,8 +760,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
         """
         batch_size = zt.shape[0]
 
-        # RLPF: [B, N, D] padded -> DiffSBDD: [total_nodes, D] flat
-        zt_flat, ligand_mask = self._rlpf_to_diffsbdd_format(zt, node_mask)
+        # Padded DDPO: [B, N, D] padded -> DiffSBDD: [total_nodes, D] flat
+        zt_flat, ligand_mask = self._padded_to_diffsbdd_format(zt, node_mask)
 
         pocket = self._replicate_pocket(batch_size)
         xh0_pocket = torch.cat([pocket['x'], pocket['one_hot']], dim=1)
@@ -822,7 +827,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             zt=zt,
             node_mask=node_mask,
         )
-        mu = self._diffsbdd_to_rlpf_format(mu_flat, ligand_mask, max_nodes)
+        mu = self._diffsbdd_to_padded_format(mu_flat, ligand_mask, max_nodes)
         log_prob = self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask)
         return log_prob, mu, sigma
 
@@ -848,7 +853,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         iteratively sampling p(z_s | z_t) for t = T, ..., 1, then
         sampling p(x, h | z_0) to get the final molecular structure.
         
-        The implementation follows RLPF EDMModel.sample() interface while
+        The implementation follows original EDMModel.sample() interface while
         internally using DiffSBDD's ConditionalDDPM for the actual sampling.
         
         Args:
@@ -872,7 +877,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         Note:
             - Trajectory recording is essential for DDPO training
             - Coordinates are kept zero-centered via DiffSBDD's remove_mean_batch
-            - h is returned as dict for RLPF compatibility
+            - h is returned as dict for actor compatibility
         """
         from torch_scatter import scatter_mean, scatter_add
         
@@ -883,7 +888,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         try:
             device = node_mask.device
             max_nodes = node_mask.shape[1]
-            log_cuda_memory("sample:start", component="model", device=device)
+            _log_cuda_memory("sample:start", component="model", device=device)
             
             # =====================================================================
             # Step 1: Initialize - Sample initial noise z_T in pocket center
@@ -914,8 +919,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
                 mu_lig_flat, xh0_pocket, sigma_init, ligand_mask, pocket_mask, fix_noise
             )
             
-            # Convert to RLPF format [B, N, D]
-            z = self._diffsbdd_to_rlpf_format(z_flat, ligand_mask, max_nodes)
+            # Convert to padded DDPO format [B, N, D]
+            z = self._diffsbdd_to_padded_format(z_flat, ligand_mask, max_nodes)
             
             # =====================================================================
             # Step 2: Initialize trajectory recording
@@ -943,7 +948,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
                     progress = (self.T - s) / self.T * 100
                     print(f"\r[{_epoch_str}] 生成中: {progress:.0f}% ({self.T-s}/{self.T}步)  ", end="", flush=True)
                 if s % memory_interval == 0 or s == self.T - 1:
-                    log_cuda_memory(f"sample:step_{self.T - s}_of_{self.T}", component="model", device=device)
+                    _log_cuda_memory(f"sample:step_{self.T - s}_of_{self.T}", component="model", device=device)
                 s_array = torch.full((n_samples, 1), fill_value=s, device=device)
                 t_array = s_array + 1
                 s_array = s_array / self.T
@@ -969,7 +974,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             x, h, mu_final, sigma_final, logp_final, zeros, xh = self.sample_p_xh_given_z0(
                 z, node_mask, edge_mask, context=context, fix_noise=fix_noise
             )
-            log_cuda_memory("sample:after_final_decode", component="model", device=device)
+            _log_cuda_memory("sample:after_final_decode", component="model", device=device)
             
             # Record final step
             latents.append(xh.clone().cpu())
@@ -1050,7 +1055,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         """
         Return model parameters for optimizer.
         
-        Required by RLPF's EDMActor for PPO training.
+        Required by the local EDMActor for PPO training.
         
         Returns:
             Iterator over model parameters

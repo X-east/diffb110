@@ -6,7 +6,7 @@ import argparse
 def parse_args() -> argparse.Namespace:
     """Parse CLI arguments for DiffSBDD training entrypoints."""
     parser = argparse.ArgumentParser(
-        description="DiffSBDD + RLPF RL training entrypoint"
+        description="DiffSBDD + DDPO RL training entrypoint"
     )
     parser.add_argument(
         "--config_path",

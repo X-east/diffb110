@@ -1,5 +1,5 @@
 """
-Training Logger for DiffSBDD-RLPF.
+Training logger for DiffSBDD + DDPO.
 
 Provides unified logging to:
 - Console (real-time)

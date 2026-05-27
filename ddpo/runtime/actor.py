@@ -19,7 +19,7 @@ from ddpo.runtime.protocol import DataProto
 
 
 class BaseActor(ABC):
-    """Minimal local actor interface retained from the RLPF integration."""
+    """Minimal local actor interface for DDPO policy updates."""
 
     @abstractmethod
     def update_policy(self, data: DataProto) -> Dict:

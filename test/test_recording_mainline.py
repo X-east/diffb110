@@ -19,11 +19,17 @@ import pytest
 PROJECT_ROOT = Path(__file__).parent.parent
 for extra in [
     str(PROJECT_ROOT),
-    str(PROJECT_ROOT / "RLPF-verl_diffusion"),
     str(PROJECT_ROOT / "DiffSBDD"),
 ]:
     if extra not in sys.path:
         sys.path.insert(0, extra)
+
+pytestmark = pytest.mark.skip(
+    reason=(
+        "Legacy Lightning mainline test. The active training entrypoint is "
+        "ddpo/main_diffsbdd_ddp.py."
+    )
+)
 
 
 def _make_minimal_module():

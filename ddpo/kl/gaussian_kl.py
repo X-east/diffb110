@@ -1,7 +1,7 @@
 """
 Gaussian KL divergence for diffusion policy regularization.
 
-Stateless utility — zero dependencies on ddpo / verl_diffusion business objects.
+Stateless utility with zero dependencies on higher-level ddpo business objects.
 Only operates on raw torch tensors.
 """
 

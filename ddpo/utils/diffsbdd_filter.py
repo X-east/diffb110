@@ -19,7 +19,7 @@ from constants import dataset_params
 from ddpo.utils.molecule_semantics import annotate_batch_molecule_semantics
 
 if TYPE_CHECKING:
-    from verl_diffusion.protocol import DataProto
+    from ddpo.runtime.protocol import DataProto
 
 
 # ============================================================================

@@ -1,8 +1,8 @@
 """
-Mask format conversion utilities between DiffSBDD and RLPF.
+Mask format conversion utilities between DiffSBDD and padded DDPO batches.
 
 DiffSBDD uses batch_mask format: [total_nodes] tensor with batch indices
-RLPF uses node_mask format: [B, N, 1] tensor with 0/1 values
+The local actor uses node_mask format: [B, N, 1] tensor with 0/1 values
 
 This module provides bidirectional conversion between these formats.
 """
@@ -13,7 +13,7 @@ from typing import Optional
 
 def batch_mask_to_node_mask(batch_mask: torch.Tensor) -> torch.Tensor:
     """
-    Convert DiffSBDD batch_mask to RLPF node_mask.
+    Convert DiffSBDD batch_mask to padded node_mask.
     
     Args:
         batch_mask: [total_nodes] tensor with batch indices (0, 0, 0, 1, 1, 2, 2, 2, ...)
@@ -77,7 +77,7 @@ def batch_mask_to_node_mask(batch_mask: torch.Tensor) -> torch.Tensor:
 
 def node_mask_to_batch_mask(node_mask: torch.Tensor) -> torch.Tensor:
     """
-    Convert RLPF node_mask to DiffSBDD batch_mask.
+    Convert padded node_mask to DiffSBDD batch_mask.
     
     Args:
         node_mask: [B, N, 1] tensor with 0/1 values

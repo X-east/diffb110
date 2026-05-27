@@ -130,7 +130,7 @@ Underlying modules still used by the active DDP path:
 - `ddpo/runtime/rollout.py` — rollout logic
 - `ddpo/runtime/train_helpers.py` — training loop orchestration + molecular descriptor computation
 - `ddpo/integration/diffsbdd_model.py` — DiffSBDD model adapter
-- `RLPF-verl_diffusion/verl_diffusion/worker/actor/edm_actor.py` — policy update
+- `ddpo/runtime/actor.py` — 当前 policy update（从 RLPF actor 本地化）
 
 ## 5. Repository-Internal or Legacy Launchers
 
@@ -211,7 +211,7 @@ python analysis/analyze_7gpu_dock_ecfp4_fcfp4_20260526.py
 python analysis/analyze_reward_influence.py
 python analysis/analyze_fingerprint_exps.py
 
-# EDM evaluation
+# Historical EDM evaluation from the reference RLPF tree
 python RLPF-verl_diffusion/Model/EDM/eval_analyze.py
 ~~~
 

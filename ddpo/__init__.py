@@ -1,8 +1,7 @@
 """
-DDPO Integration Layer for DiffSBDD-RLPF.
+DDPO integration layer for DiffSBDD.
 
-This package provides the integration between DiffSBDD (E(n)-equivariant diffusion model)
-and RLPF (verl_diffusion) framework for DDPO training.
+This package provides the native DiffSBDD + DDPO training integration.
 """
 
 __version__ = "0.1.0"

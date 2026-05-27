@@ -2,8 +2,8 @@
 Integration module for DiffSBDD model wrapper and utilities.
 
 Contains:
-- mask_utils: Mask format conversion between DiffSBDD and RLPF
-- DiffSBDDModel: Adapter wrapping DiffSBDD for RLPF interface
+- mask_utils: Mask format conversion between DiffSBDD and the local DDPO actor
+- DiffSBDDModel: Adapter wrapping DiffSBDD for the local DDPO interface
 """
 
 from .mask_utils import (

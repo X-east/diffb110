@@ -63,7 +63,7 @@ from .docking_config import (
 from .docking_preparation import prepare_batch_sdf_inputs
 
 if TYPE_CHECKING:
-    from verl_diffusion.protocol import DataProto
+    from ddpo.runtime.protocol import DataProto
 
 
 # Legacy alias kept for any external code that imports USE_RAY from here.
