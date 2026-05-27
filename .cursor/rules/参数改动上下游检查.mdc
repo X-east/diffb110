@@ -1,0 +1,67 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-05-21T02:59:15.845Z
+provider: 
+---
+
+# 参数改动上下游检查
+
+## 原则
+
+**改一个参数，必须追踪从调用方到所有实现方的完整数据流动链条。** 不要假设 IDE 跳转或 grep 就能覆盖全部——对于多态/抽象基类场景，必须手动枚举所有子类。
+
+## 检查清单
+
+修改任何函数/方法的参数时，逐一确认：
+
+### 1. 调用链路（上游）
+
+找出 **所有** 调用该函数的地方，确认它们传的参数匹配：
+- 显式参数：`func(a, b, timer=timer)` → 签名是否接受 `timer`
+- 如果调用方用 `**kwargs` 透传，检查更上层的调用方
+
+### 2. 实现链路（下游）—— 重点！
+
+对于**抽象基类 / 接口**定义的方法（如 `BaseReward.calculate_rewards`），**所有子类**都必须同步适配：
+1. grep `def calculate_rewards` 找所有实现
+2. 每个实现要么显式接受新参数，要么用 `**kwargs` 兜底
+3. 如果是包装器（如 `StabilityAwareReward`→`base_reward`），必须把参数**透传**给被包装对象
+
+### 3. 透传完整性
+
+对于包装/代理/装饰器模式：
+- `wrapper.calculate_rewards(data, timer=timer)` 必须能 → `inner.calculate_rewards(data, timer=timer)`
+- 不可接受的写法：包装器签名加了参数但没传给内部
+
+### 4. 配置/接口层
+
+参数如果来自配置文件（YAML）、命令行参数或环境变量：
+- 配置读取处 → 配置传递处 → 最终使用处的链条必须一致
+- 新增可选参数时确保有合理默认值，不破坏已有配置
+
+## 典型错误模式
+
+| 错误模式 | 后果 | 检查方法 |
+|----------|------|----------|
+| 改接口签名，只更新了部分子类 | `TypeError: unexpected keyword argument` | grep 所有 `def method_name` |
+| 包装器接受新参数但不透传 | 被包装对象拿不到参数 | 检查 wrapper 中调用内部对象的每行代码 |
+| 新增参数无默认值 | 所有旧调用点报错 `missing required argument` | 搜索所有调用点 |
+| 改参数名不同步改调用点 | `TypeError: unexpected keyword argument` + 旧名报错 | 新旧参数名都搜索 |
+
+## 操作流程
+
+```
+修改参数
+  ↓
+grep 所有子类/实现
+  ├─ 签名加参数 or **kwargs 兜底
+  └─ 检查透传路径
+  ↓
+grep 所有调用点
+  └─ 确认传参匹配
+  ↓
+grep 配置层（如有）
+  └─ 确认配置项与参数名一致
+```

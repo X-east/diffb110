@@ -343,3 +343,22 @@ training_summary.csv  ← 新增 22 列
 - ❌ 漏 `git add` 部分文件就 commit
 - ❌ 多个不相关的任务混在同一个 commit 里
 - ❌ 不经用户确认就 force push / hard reset
+
+## 十六、规则文件保护（2026-05-27 制定）
+
+**`.codebuddy/rules/` 和 `.cursor/rules/` 目录及其内容绝对不可删除。**
+
+| 规则 | 说明 |
+|------|------|
+| 不可删除 | 这两个目录是 IDE/项目的行为配置，删除会导致规则丢失 |
+| 保持同步 | 两个目录中的规则文件应保持一致，新增规则需同时复制到两边 |
+| 定期检查 | 每次文档/项目清理时确认这两个目录存在且内容完整 |
+
+当前规则文件清单（两边应保持一致）：
+- `diffusion_rl_rewards.mdc` — 扩散模型与 RL 奖励规则
+- `gpu_docking_pipeline.mdc` — GPU 对接管线规则
+- `project_context.mdc` — 项目上下文与文档引用规则
+- `scientific-coding.mdc` — 科学编码通用规范
+- `参数改动上下游检查.mdc` — 参数修改全链路检查
+- `环境.mdc` — dif 环境激活提醒
+- `项目规则.mdc` — 本文档（完整编程规范）
