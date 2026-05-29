@@ -8,7 +8,7 @@ dataset: crossdock
 
 model:
   checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
-  time_step: 100
+  time_step: 200
   device: "cuda"
 
 pocket:
@@ -76,16 +76,16 @@ reward:
     device: "cuda"
 
 dataloader:
-  batch_size: 24
+  batch_size: 64
   min_nodes: 10
   max_nodes: 30
   max_n_nodes: 106
   node_sampling: size_distribution
-  rollout_micro_batch_size: 12
+  rollout_micro_batch_size: 64
 
 train:
   timer: true
-  train_micro_batch_size: 24
+  train_micro_batch_size: 16  
   learning_rate: 1.0e-5
   kl_coef: 0
   adam_beta1: 0.9
