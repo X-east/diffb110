@@ -14,6 +14,8 @@ from ddpo.field_registry import (
     append_registered_molecule_fields,
     compute_registered_epoch_aggregates,
 )
+from ddpo.runtime.logging_utils import log_cuda_memory, log_dataproto_memory
+from ddpo.runtime.protocol import DataProto
 from ddpo.runtime.recording import BatchFacts, EpochFacts, RunLifecycleFacts, RunStatus
 from ddpo.utils import PerfTimer, annotate_batch_molecule_semantics
 from ddpo.utils.molecular_descriptors import compute_molecular_descriptors as _compute_molecular_descriptors
@@ -84,29 +86,66 @@ class BatchStats:
     extra_epoch_metrics: dict[str, float] | None = None
 
 
+def _rollout_accum_steps(config: dict[str, Any]) -> int:
+    """Return the number of per-rank rollout batches to collect per update."""
+    value = config.get("dataloader", {}).get("rollout_accum_steps", 1)
+    try:
+        steps = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"dataloader.rollout_accum_steps must be an integer, got {value!r}") from exc
+    if steps < 1:
+        raise ValueError(f"dataloader.rollout_accum_steps must be >= 1, got {steps}")
+    return steps
+
+
 def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None = None) -> PreparedSamples:
     logger = runtime.logger
-    logger.info("[Epoch %d/%d] generate_batch", epoch, runtime.max_epochs)
-    if timer: timer.start("dataloader")
-    prompts = runtime.dataloader.generate_batch()
-    if timer: timer.stop()
-    logger.info("[Epoch %d/%d] generate_minibatch", epoch, runtime.max_epochs)
-    if timer: timer.start("generate")
-    samples = runtime.rollout.generate_samples(prompts)
-    if timer: timer.stop()
-    logger.info("[Epoch %d/%d] annotate_batch_molecule_semantics", epoch, runtime.max_epochs)
-    if timer: timer.start("annotate")
-    samples = annotate_batch_molecule_semantics(samples, dataset_info=runtime.dataset_info)
-    if timer: timer.stop()
+    accum_steps = _rollout_accum_steps(runtime.config)
+    rollout_chunks: list[DataProto] = []
+
+    for accum_idx in range(accum_steps):
+        suffix = "" if accum_steps == 1 else f" accum={accum_idx + 1}/{accum_steps}"
+        logger.info("[Epoch %d/%d] generate_batch%s", epoch, runtime.max_epochs, suffix)
+        if timer: timer.start("dataloader")
+        prompts = runtime.dataloader.generate_batch()
+        if timer: timer.stop()
+        log_dataproto_memory(prompts, f"generate_batch_done{suffix}", component="train_helpers", logger=logger)
+        logger.info("[Epoch %d/%d] generate_minibatch%s", epoch, runtime.max_epochs, suffix)
+        if timer: timer.start("generate")
+        samples = runtime.rollout.generate_samples(prompts)
+        if timer: timer.stop()
+        log_dataproto_memory(samples, f"generate_samples_done{suffix}", component="train_helpers", logger=logger)
+        logger.info("[Epoch %d/%d] annotate_batch_molecule_semantics%s", epoch, runtime.max_epochs, suffix)
+        if timer: timer.start("annotate")
+        samples = annotate_batch_molecule_semantics(samples, dataset_info=runtime.dataset_info)
+        if timer: timer.stop()
+        log_dataproto_memory(samples, f"annotate_done{suffix}", component="train_helpers", logger=logger)
+        rollout_chunks.append(samples.to("cpu"))
+        log_cuda_memory(f"chunk_cpu_staged{suffix}", component="train_helpers", device=getattr(runtime.dist_ctx, "device", None), logger=logger)
+
+    if len(rollout_chunks) == 1:
+        samples = rollout_chunks[0]
+    else:
+        logger.info(
+            "[Epoch %d/%d] concat_rollout_chunks accum_steps=%d",
+            epoch,
+            runtime.max_epochs,
+            accum_steps,
+        )
+        samples = DataProto.concat(rollout_chunks)
+        log_dataproto_memory(samples, "concat_rollout_chunks_done", component="train_helpers", logger=logger)
+
     logger.info("[Epoch %d/%d] filters.filter", epoch, runtime.max_epochs)
     if timer: timer.start("filter")
     samples, filtering_ratio, novelty_penalty_ratio = runtime.filters.filter(samples)
     if timer: timer.stop()
+    log_dataproto_memory(samples, "filter_done", component="train_helpers", logger=logger)
     logger.info("[Epoch %d/%d] rewarder.calculate_rewards", epoch, runtime.max_epochs)
     if timer: timer.start("reward")
     # Pass timer to CompositeReward for per-component profiling
     samples = runtime.rewarder.calculate_rewards(samples, timer=timer)
     if timer: timer.stop()
+    log_dataproto_memory(samples, "reward_done", component="train_helpers", logger=logger)
     reward_normalizer = getattr(runtime, "reward_normalizer", None)
     if reward_normalizer is not None:
         logger.info("[Epoch %d/%d] reward_normalizer.apply", epoch, runtime.max_epochs)
@@ -114,9 +153,11 @@ def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None =
         dist_ctx = getattr(runtime, "dist_ctx", None)
         samples = reward_normalizer.apply(samples, dist_ctx=dist_ctx)
         if timer: timer.stop()
+        log_dataproto_memory(samples, "reward_normalize_done", component="train_helpers", logger=logger)
     if "advantages" not in samples.batch:
         logger.info("[Epoch %d/%d] advantages = reward_total", epoch, runtime.max_epochs)
         samples.batch["advantages"] = samples.batch.get("reward_total_clamped", samples.batch.get("reward_total"))
+        log_dataproto_memory(samples, "advantages_added", component="train_helpers", logger=logger)
     return PreparedSamples(samples=samples, filtering_ratio=filtering_ratio, novelty_penalty_ratio=novelty_penalty_ratio)
 
 

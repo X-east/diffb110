@@ -97,17 +97,23 @@ class DiffSBDDRollout:
 
         h_categorical = h["categorical"] if isinstance(h, dict) else h
 
+        # Rollout trajectories are stored for PPO old-policy replay.  They do not
+        # require gradients after sampling, so keep the exchange object on CPU to
+        # make large effective rollout batches feasible.
         batch_data = {
-            "x": x,
-            "categorical": h_categorical,
-            "latents": latents_stacked,
-            "logps": logps_stacked,
-            "nodesxsample": nodesxsample,
-            "timesteps": expanded_timesteps,
+            "x": x.detach().to("cpu"),
+            "categorical": h_categorical.detach().to("cpu"),
+            "latents": latents_stacked.detach().to("cpu"),
+            "logps": logps_stacked.detach().to("cpu"),
+            "nodesxsample": nodesxsample.detach().to("cpu"),
+            "timesteps": expanded_timesteps.detach().to("cpu"),
         }
 
-        log_cuda_memory("generate_minibatch:before_return", component="rollout", device=device)
-        return DataProto(
+        result = DataProto(
             batch=TensorDict(batch_data, batch_size=batch_size),
             meta_info=prompts.meta_info.copy(),
         )
+        del x, h, h_categorical, latents, logps, latents_stacked, logps_stacked
+        del timesteps_tensor, expanded_timesteps, node_mask, edge_mask, batch_data
+        log_cuda_memory("generate_minibatch:before_return", component="rollout", device=device)
+        return result

@@ -70,7 +70,7 @@ class PerfTimer:
         """Finalise the current step and return its elapsed time (seconds)."""
         if self._current_step is not None and self._current_start is not None:
             elapsed = time.perf_counter() - self._current_start
-            self._timings[self._current_step] = elapsed
+            self._timings[self._current_step] = self._timings.get(self._current_step, 0.0) + elapsed
             step = self._current_step
             self._current_step = None
             self._current_start = None

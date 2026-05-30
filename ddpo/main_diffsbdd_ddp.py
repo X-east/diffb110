@@ -71,6 +71,7 @@ from ddpo.runtime import (
 )
 from ddpo.runtime.recording import RunRecorder, RunStatus, create_run_context
 from ddpo.runtime.recording.run_context import RunContext
+from ddpo.runtime.logging_utils import log_cuda_memory, reset_cuda_peak_memory
 from ddpo.utils import PerfTimer
 
 
@@ -563,8 +564,32 @@ def record_epoch_ddp(
 
 def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepResult:
     timer = PerfTimer() if bool(runtime.config.get("train", {}).get("timer", False)) else None
+    reset_cuda_peak_memory(
+        f"epoch_{epoch:04d}:start",
+        component="epoch",
+        device=runtime.dist_ctx.device,
+        logger=runtime.logger,
+    )
+    log_cuda_memory(
+        f"epoch_{epoch:04d}:before_prepare",
+        component="epoch",
+        device=runtime.dist_ctx.device,
+        logger=runtime.logger,
+    )
     prepared = prepare_training_samples(runtime, epoch, timer=timer)
+    log_cuda_memory(
+        f"epoch_{epoch:04d}:after_prepare",
+        component="epoch",
+        device=runtime.dist_ctx.device,
+        logger=runtime.logger,
+    )
     metrics = update_policy(runtime, prepared, epoch, timer=timer)
+    log_cuda_memory(
+        f"epoch_{epoch:04d}:after_update_policy",
+        component="epoch",
+        device=runtime.dist_ctx.device,
+        logger=runtime.logger,
+    )
     maybe_log_ddp_probe(runtime, epoch)
     maybe_check_param_sync(runtime, epoch)
     # Merge timing metrics into the metrics dict for recording

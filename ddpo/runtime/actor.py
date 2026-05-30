@@ -71,6 +71,64 @@ class EDMActor(BaseActor):
     def set_model_impl(self, model_impl) -> None:
         self.model_impl = model_impl
 
+    def _training_device(self) -> torch.device:
+        """Return the device that owns trainable model parameters."""
+        try:
+            return next(self.model.parameters()).device
+        except StopIteration as exc:
+            raise RuntimeError("EDMActor model has no parameters; cannot infer training device") from exc
+
+    def _loss_scale(self, batch_size: int) -> float:
+        """Scale accumulated micro-batch gradients to a reference local batch."""
+        train_cfg = self.config.get("train", {})
+        explicit = train_cfg.get("loss_scale")
+        if explicit is not None:
+            return float(explicit)
+
+        reference = train_cfg.get("gradient_reference_batch_size")
+        if reference is None:
+            return 1.0
+
+        reference_value = float(reference)
+        if reference_value <= 0:
+            raise ValueError(f"train.gradient_reference_batch_size must be > 0, got {reference!r}")
+        return min(1.0, reference_value / float(max(batch_size, 1)))
+
+    def _microbatch_indices(self, batch_size: int) -> list[torch.Tensor]:
+        """Build CPU index tensors for streaming training micro-batches."""
+        micro_batch = max(1, int(self.train_micro_batch_size))
+        return [
+            torch.arange(start, min(start + micro_batch, batch_size), dtype=torch.long)
+            for start in range(0, batch_size, micro_batch)
+        ]
+
+    @staticmethod
+    def _take_to_device(tensor: torch.Tensor, indices: torch.Tensor, device: torch.device) -> torch.Tensor:
+        """Index a batch tensor and move only that slice to the training device."""
+        index = indices.to(tensor.device) if tensor.device.type != "cpu" else indices
+        return tensor[index].to(device, non_blocking=(tensor.device.type == "cpu" and device.type == "cuda"))
+
+    def _training_microbatch(
+        self,
+        data: DataProto,
+        indices: torch.Tensor,
+        device: torch.device,
+    ) -> dict[str, torch.Tensor]:
+        """Materialize one PPO training micro-batch on the target device."""
+        batch = data.batch
+        latents = self._take_to_device(batch["latents"], indices, device)
+        sample = {
+            "advantages": self._take_to_device(batch["advantages"], indices, device),
+            "latents": latents[:, : self.num_timesteps + 1],
+            "next_latents": latents[:, 1:],
+            "timesteps": self._take_to_device(batch["timesteps"], indices, device),
+            "logps": self._take_to_device(batch["logps"], indices, device),
+            "nodesxsample": self._take_to_device(batch["nodesxsample"], indices, device),
+        }
+        if self.condition:
+            sample["context"] = self._take_to_device(batch["context"], indices, device)
+        return sample
+
     def capture_grad_probe(self):
         """Capture a small local gradient summary before optimizer.step()."""
         probe_cfg = self.config.get("ddp", {})
@@ -96,12 +154,23 @@ class EDMActor(BaseActor):
         self.last_grad_probe = grad_probe
         return grad_probe
 
-    def train_batched_samples(self, batched_samples, ppo_epoch_idx: int = 0):
+    def train_batched_samples(
+        self,
+        data: DataProto,
+        microbatch_indices: list[torch.Tensor],
+        device: torch.device,
+        loss_scale: float,
+        ppo_epoch_idx: int = 0,
+    ):
         """
-        Train on a batch of samples. Main training segment.
+        Train on rollout samples by streaming one micro-batch to GPU at a time.
 
         Args:
-            batched_samples (list[dict[str, torch.Tensor]]): The batched samples to train on.
+            data: Full rollout batch, typically stored on CPU.
+            microbatch_indices: CPU index tensors defining the micro-batch slices.
+            device: Device that owns the training model.
+            loss_scale: Scalar multiplier applied before backward to preserve
+                the configured update scale when effective rollout batch grows.
             ppo_epoch_idx (int): Zero-based index of the current PPO inner epoch (for logging).
 
         Side Effects:
@@ -114,14 +183,27 @@ class EDMActor(BaseActor):
         info = defaultdict(list)
         num_steps = self.num_timesteps + 1
         desc_suffix = f" [PPO {ppo_epoch_idx}]" if ppo_epoch_idx > 0 else ""
-        for _i, sample in tq(
-            enumerate(batched_samples),
+        for _i, indices in tq(
+            enumerate(microbatch_indices),
             desc=f"Training{desc_suffix}",
             unit="Batch",
             leave=False,
             file=sys.stdout,
             disable=(self._rank != 0),
         ):
+            if _i == 0:
+                log_cuda_memory(
+                    f"train_batched_samples:ppo{ppo_epoch_idx}:before_first_microbatch",
+                    component="actor",
+                    device=device,
+                )
+            sample = self._training_microbatch(data, indices, device)
+            if _i == 0:
+                log_cuda_memory(
+                    f"train_batched_samples:ppo{ppo_epoch_idx}:after_first_microbatch_materialized",
+                    component="actor",
+                    device=device,
+                )
             for j in tq(
                 range(num_steps),
                 desc=f"Training Batch{desc_suffix}",
@@ -148,8 +230,15 @@ class EDMActor(BaseActor):
                 info["ppo_loss"].append(ppo_loss_val.item())
                 if self.kl_coef > 0.0:
                     info["kl_penalty"].append(kl_val.item())
-                loss.backward()
+                (loss * loss_scale).backward()
                 clip_grad_norm_(self.model.parameters(), max_norm=self.max_grad_norm)
+            del sample
+            if _i == 0:
+                log_cuda_memory(
+                    f"train_batched_samples:ppo{ppo_epoch_idx}:after_first_microbatch_released",
+                    component="actor",
+                    device=device,
+                )
         self.capture_grad_probe()
         self.optimizer.step()
         self.optimizer.zero_grad()
@@ -161,6 +250,8 @@ class EDMActor(BaseActor):
         if info["kl_penalty"]:
             metric["KL_Penalty"] = np.mean(np.array(info["kl_penalty"]))
         metric["PPO_Epoch"] = ppo_epoch_idx
+        metric["LossScale"] = float(loss_scale)
+        metric["TrainMicroBatches"] = float(len(microbatch_indices))
 
         return metric
 
@@ -273,52 +364,16 @@ class EDMActor(BaseActor):
                 (``Loss``, ``ClipFrac``, ``PPO_Loss``, ``KL_Penalty``,
                  ``PPO_Epochs``).
         """
-        # ── Step 1: extract and prepare raw data ──────────────────────
-        samples: dict[str, torch.Tensor] = {}
+        # ── Step 1: inspect rollout batch and build streaming plan ─────
         self.max_n_nodes = data.meta_info["max_n_nodes"]
         self.batch_size = data.batch.batch_size[0]
         self.condition = data.meta_info["condition"]
         log_cuda_memory("update_policy:start", component="actor")
-        samples["advantages"] = data.batch["advantages"]
-        device = samples["advantages"].device
+        device = self._training_device()
+        loss_scale = self._loss_scale(int(self.batch_size))
+        microbatch_indices = self._microbatch_indices(int(self.batch_size))
 
-        latents = data.batch["latents"].to(device)
-        samples["latents"] = latents[:, : self.num_timesteps + 1]
-        samples["next_latents"] = latents[:, 1:]
-        samples["timesteps"] = data.batch["timesteps"].to(device)
-        samples["logps"] = data.batch["logps"].to(device)
-        samples["nodesxsample"] = data.batch["nodesxsample"].to(device)
-        if self.condition:
-            samples["context"] = data.batch["context"].to(device)
-
-        log_cuda_memory("update_policy:after_view_setup", component="actor")
-
-        # ── Step 2: split into micro-batches ─────────────────────────
-        original_keys = list(samples.keys())
-        original_values = list(samples.values())
-        samples_batched: list[dict[str, torch.Tensor]] = []
-
-        if self.train_micro_batch_size >= self.batch_size:
-            samples_batched.append(samples)
-        else:
-            n_complete_batches = self.batch_size // self.train_micro_batch_size
-            remaining_samples = self.batch_size % self.train_micro_batch_size
-
-            if n_complete_batches > 0:
-                n_complete = n_complete_batches * self.train_micro_batch_size
-                complete_values = [
-                    v[:n_complete].reshape(-1, self.train_micro_batch_size, *v.shape[1:])
-                    for v in original_values
-                ]
-                transposed_values = zip(*complete_values)
-                samples_batched.extend(
-                    dict(zip(original_keys, row_values))
-                    for row_values in transposed_values
-                )
-
-            if remaining_samples > 0:
-                remaining_values = [v[n_complete:].unsqueeze(0) for v in original_values]
-                samples_batched.append(dict(zip(original_keys, remaining_values)))
+        log_cuda_memory("update_policy:after_streaming_plan", component="actor", device=device)
 
         # ── Step 3: multi-epoch PPO training ──────────────────────────
         # Each inner epoch performs a full gradient accumulation + optimizer step
@@ -327,10 +382,17 @@ class EDMActor(BaseActor):
 
         for ppo_epoch in range(self.num_ppo_epochs):
             # Optional micro-batch shuffle for gradient diversity
-            if self.ppo_shuffle_microbatch and len(samples_batched) > 1:
-                random.shuffle(samples_batched)
+            epoch_indices = list(microbatch_indices)
+            if self.ppo_shuffle_microbatch and len(epoch_indices) > 1:
+                random.shuffle(epoch_indices)
 
-            metric = self.train_batched_samples(samples_batched, ppo_epoch_idx=ppo_epoch)
+            metric = self.train_batched_samples(
+                data=data,
+                microbatch_indices=epoch_indices,
+                device=device,
+                loss_scale=loss_scale,
+                ppo_epoch_idx=ppo_epoch,
+            )
 
             for key, value in metric.items():
                 all_metrics[key].append(value)
@@ -342,6 +404,7 @@ class EDMActor(BaseActor):
                 continue  # metadata, not an averaged scalar
             final_metric[key] = float(np.mean(values))
         final_metric["PPO_Epochs"] = self.num_ppo_epochs
+        final_metric["TrainBatchSize"] = float(self.batch_size)
 
         log_cuda_memory("update_policy:after_train", component="actor")
         return final_metric
