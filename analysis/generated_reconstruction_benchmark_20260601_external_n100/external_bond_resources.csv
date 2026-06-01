@@ -1,0 +1,4 @@
+name,kind,checkpoint,checkpoint_exists,config,config_exists,source,source_exists,status
+diffgui_pretrained_bond_predictor,external_pretrained_bond_predictor,/data/disk6/DiffB110/reference project/DiffGui/ckpt/bond_trained.pt,1,/data/disk6/DiffB110/reference project/DiffGui/configs/train/train_bond.yml,1,/data/disk6/DiffB110/reference project/DiffGui/models/bond_predictor.py,1,resource_found_adapter_available
+molsnapper_pretrained_bond_predictor,external_pretrained_bond_predictor,/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/ckpt/bondpred.pt,1,,0,/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/models/bond_predictor.py,1,resource_found_adapter_available
+decompopt_generated_with_bond_reconstruct,external_reconstruction_with_predicted_bonds,,0,,0,/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/scripts/sample_diffusion_decomp_compose.py,1,source_found_no_checkpoint

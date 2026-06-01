@@ -40,6 +40,53 @@ from reconstruction_benchmark import (
 
 RDLogger.DisableLog("rdApp.*")
 
+DIFFGUI_PROTEIN_ATOMIC_NUMBERS = ["H", "C", "N", "O", "S", "Se"]
+DIFFGUI_AA_NAME_NUMBER = {
+    "ALA": 0,
+    "CYS": 1,
+    "ASP": 2,
+    "GLU": 3,
+    "PHE": 4,
+    "GLY": 5,
+    "HIS": 6,
+    "ILE": 7,
+    "LYS": 8,
+    "LEU": 9,
+    "MET": 10,
+    "ASN": 11,
+    "PRO": 12,
+    "GLN": 13,
+    "ARG": 14,
+    "SER": 15,
+    "THR": 16,
+    "VAL": 17,
+    "TRP": 18,
+    "TYR": 19,
+}
+DIFFGUI_BACKBONE_NAMES = {"CA", "C", "N", "O"}
+
+
+def _diffgui_protein_features(model: LigandPocketDDPM, residues: list[Any]) -> torch.Tensor | None:
+    """Build DiffGui-style 28D protein atom features for one full-atom pocket."""
+    if model.pocket_representation != "full-atom":
+        return None
+    features = []
+    for residue in residues:
+        residue_name = residue.get_resname().upper()
+        aa_idx = DIFFGUI_AA_NAME_NUMBER.get(residue_name, len(DIFFGUI_AA_NAME_NUMBER))
+        for atom in residue.get_atoms():
+            element = atom.element.capitalize()
+            if element not in model.pocket_type_encoder and element == "H":
+                continue
+            element_feature = [float(element == item) for item in DIFFGUI_PROTEIN_ATOMIC_NUMBERS]
+            aa_feature = [0.0] * (len(DIFFGUI_AA_NAME_NUMBER) + 1)
+            aa_feature[aa_idx] = 1.0
+            backbone_feature = [float(atom.get_name() in DIFFGUI_BACKBONE_NAMES)]
+            features.append(element_feature + aa_feature + backbone_feature)
+    if not features:
+        return torch.zeros((0, 28), device=model.device, dtype=constants.FLOAT_TYPE)
+    return torch.tensor(features, device=model.device, dtype=constants.FLOAT_TYPE)
+
 
 def _load_pocket(model: LigandPocketDDPM, pdb_file: Path, pocket_ids: list[str] | None, ref_ligand: str | None, repeats: int) -> dict[str, torch.Tensor]:
     """Load and encode a pocket for repeated ligand generation."""
@@ -53,7 +100,11 @@ def _load_pocket(model: LigandPocketDDPM, pdb_file: Path, pocket_ids: list[str] 
         residues = utils.get_pocket_from_ligand(pdb_struct, ref_ligand)
     else:
         raise ValueError("Exactly one of pocket_ids or ref_ligand must be provided.")
-    return model.prepare_pocket(residues, repeats=repeats)
+    pocket = model.prepare_pocket(residues, repeats=repeats)
+    diffgui_features = _diffgui_protein_features(model, residues)
+    if diffgui_features is not None:
+        pocket["diffgui_protein_node"] = diffgui_features.repeat(repeats, 1)
+    return pocket
 
 
 @torch.no_grad()
@@ -123,13 +174,28 @@ def _sample_point_clouds(
         coords = xh_lig[:, :model.x_dims].detach().cpu()
         atom_types = xh_lig[:, model.x_dims:].argmax(1).detach().cpu()
         lig_mask_cpu = lig_mask.detach().cpu()
+        pocket_mask_cpu = pocket_mask.detach().cpu()
         coord_list = utils.batch_to_list(coords, lig_mask_cpu)
         atom_type_list = utils.batch_to_list(atom_types, lig_mask_cpu)
+        protein_pos_list = utils.batch_to_list(
+            xh_pocket[:, :model.x_dims].detach().cpu(),
+            pocket_mask_cpu,
+        )
+        protein_node = pocket.get("diffgui_protein_node")
+        protein_node_list = (
+            utils.batch_to_list(protein_node.detach().cpu(), pocket_mask_cpu)
+            if protein_node is not None
+            else [None] * len(coord_list)
+        )
         for local_idx, (sample_coords, sample_atom_types) in enumerate(zip(coord_list, atom_type_list)):
             outputs.append({
                 "sample_idx": batch_start + local_idx,
                 "coords": sample_coords,
                 "atom_types": sample_atom_types.long(),
+                "context": {
+                    "protein_pos": protein_pos_list[local_idx],
+                    "protein_node": protein_node_list[local_idx],
+                },
             })
     return outputs
 
@@ -151,7 +217,15 @@ def generate_report(args: argparse.Namespace) -> Path:
     model = LigandPocketDDPM.load_from_checkpoint(args.checkpoint, map_location=device)
     model = model.to(device)
     dataset_info = model.dataset_info
-    method_objects = create_reconstruction_methods(args.methods, dataset_info)
+    method_objects = create_reconstruction_methods(
+        args.methods,
+        dataset_info,
+        project_root=PROJECT_ROOT,
+        cache_dir=outdir / "external_bond_predictor_cache",
+        external_device=args.external_bond_device,
+        diffgui_env=args.diffgui_env,
+        molsnapper_env=args.molsnapper_env,
+    )
     method_names = [method.name for method in method_objects]
     external_resources = [] if args.skip_external_probe else probe_external_bond_resources(PROJECT_ROOT)
     point_clouds = _sample_point_clouds(
@@ -169,16 +243,30 @@ def generate_report(args: argparse.Namespace) -> Path:
 
     rows: list[dict[str, object]] = []
     molecules_by_method: dict[str, list[Chem.Mol]] = defaultdict(list)
-    for sample in point_clouds:
-        coords = sample["coords"]
-        atom_types = sample["atom_types"]
-        atom_symbols = [dataset_info["atom_decoder"][int(atom_idx)] for atom_idx in atom_types]
-        for method in method_objects:
-            attempt = method.reconstruct(coords, atom_types, dataset_info)
+    for method in method_objects:
+        reconstruct_many = getattr(method, "reconstruct_many", None)
+        if callable(reconstruct_many):
+            method_attempts = reconstruct_many(point_clouds, dataset_info)
+        else:
+            method_attempts = [
+                (
+                    sample,
+                    method.reconstruct(
+                        sample["coords"],
+                        sample["atom_types"],
+                        dataset_info,
+                        context=sample.get("context"),
+                    ),
+                )
+                for sample in point_clouds
+            ]
+        for sample, attempt in method_attempts:
+            atom_types = sample["atom_types"]
+            atom_symbols = [dataset_info["atom_decoder"][int(atom_idx)] for atom_idx in atom_types]
             row, sanitized_mol = evaluate_reconstruction_attempt(
                 sample_idx=int(sample["sample_idx"]),
                 attempt=attempt,
-                coords=coords,
+                coords=sample["coords"],
                 atom_symbols=atom_symbols,
                 length_tolerance=args.length_tolerance,
             )
@@ -224,6 +312,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--length-tolerance", type=float, default=0.25)
     parser.add_argument("--seed", type=int, default=20260601)
     parser.add_argument("--device", type=str, default=None)
+    parser.add_argument("--external-bond-device", type=str, default="cpu")
+    parser.add_argument("--diffgui-env", type=str, default="diffgui")
+    parser.add_argument("--molsnapper-env", type=str, default="molsnapper_modern_ref")
     parser.add_argument("--skip-external-probe", action="store_true")
     return parser.parse_args()
 
