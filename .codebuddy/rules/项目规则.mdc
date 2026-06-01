@@ -245,6 +245,15 @@ training_summary.csv  ← 新增 22 列
 - **Mermaid 图**：仅当有复杂分支/状态流转且纯文字描述不清时使用
 - **完全参考**：前文 "ChEMBL 155 万分子性质分析" 的 8 节输出是正面示例
 
+### 每日/任务报告数据要求
+
+- 每天或每次任务的 Markdown 报告必须包含可复查的数据，而不只写结论。
+- 有实验/分析输出时，至少写入关键 summary 表：样本数、成功率、主要错误、速度、核心性质指标、输出文件路径。
+- 有 CSV/JSON/SDF/日志/图像等产物时，报告中必须用 Markdown 相对链接连接到同一文件夹下的原始文件，例如 `[summary](generated_reconstruction_summary.csv)`。
+- 有助于判断趋势或对比时，应在同一分析文件夹生成 `.png` 图，并在报告中用相对路径嵌入，例如 `![sanitize](sanitize_success_by_method.png)`。
+- 图和数据文件名要稳定、可读，优先使用 `metric_by_method.png`、`distribution_comparison.png`、`failure_modes.csv` 这类描述性命名。
+- 报告里的数据要和原始文件一致；如果只做 smoke 或小样本测试，必须标明样本数和局限。
+
 ## 十五、改动后验证与提交流程（2026-05-26 制定，2026-05-26 更新冒烟清理）
 
 **每次代码改动完成后，必须执行以下流程，不得跳过任何步骤：**

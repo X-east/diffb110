@@ -41,8 +41,9 @@ Before changing project code, read:
   analysis.
 - Save plots into the same analysis directory as the report, preferably as
   `.png` for quick viewing and `.svg` when vector output is useful.
-- Reference the generated plots from the Markdown report so rendered previews
-  show the figures inline.
+- Reference generated plots and data files from the Markdown report with
+  relative links to files in the same analysis directory, so rendered previews
+  show figures inline and readers can open the exact CSV/JSON/SDF evidence.
 - Plot filenames should be descriptive and stable, such as
   `global_distribution_comparison.png`, `run_drift_summary.png`, or
   `top_reward_failure_modes.png`.
@@ -55,6 +56,11 @@ Before changing project code, read:
   example `260601-14 为什么要先做数据构建.md`.
 - The record should briefly cover motivation, relevant existing code/data,
   changes or commands, verification results, output files, and remaining risks.
+- Daily/task reports must include detailed quantitative data when available:
+  summary tables, key counts/rates/timings, and links to the exact generated
+  CSV/JSON/SDF files. When plots are useful, save them beside the report and
+  embed them with Markdown relative links such as
+  `![caption](metric_by_method.png)`.
 
 ## Code Style
 
