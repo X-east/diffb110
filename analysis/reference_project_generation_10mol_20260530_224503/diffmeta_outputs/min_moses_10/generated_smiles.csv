@@ -1,0 +1,11 @@
+sample_id,smiles,valid
+0,OCCSc1nccn1-c1ccc(Cl)c(Cl)c1,True
+1,CCOc1ccc(CN2CCOCC2C)cc1OCC,True
+2,O=Cc1ccccc1NC(=O)c1cccnc1OCC(F)F,True
+3,,False
+4,,False
+5,O=C(NCCOc1ccc(Cl)cn1)Nc1ccccc1,True
+6,O=c1c2c(F)cccc2ncn1CC1(c2cccc(F)c2)CC1,True
+7,Cc1cc(Br)cc(NCc2cnc(C)nc2)c1,True
+8,Nc1ccnc2nnc(C(=O)Nc3ccccc3)cc12,True
+9,C=CCN(CC1CCCO1)c1ccc2cc1NC(=O)CS2,True

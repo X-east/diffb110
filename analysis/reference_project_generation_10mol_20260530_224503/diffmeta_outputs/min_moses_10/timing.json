@@ -1,0 +1,35 @@
+{
+  "num_samples": 10,
+  "num_nodes": null,
+  "diffusion_steps": 500,
+  "setup_load_seconds": 0.5300172900315374,
+  "sample_seconds": 22.643080060952343,
+  "total_seconds": 23.17309735098388,
+  "valid_ratio": 0.8,
+  "unique_ratio": 0.9999999987499999,
+  "num_unique": 8,
+  "freq_list": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "smiles": [
+    "OCCSc1nccn1-c1ccc(Cl)c(Cl)c1",
+    "CCOc1ccc(CN2CCOCC2C)cc1OCC",
+    "O=Cc1ccccc1NC(=O)c1cccnc1OCC(F)F",
+    null,
+    null,
+    "O=C(NCCOc1ccc(Cl)cn1)Nc1ccccc1",
+    "O=c1c2c(F)cccc2ncn1CC1(c2cccc(F)c2)CC1",
+    "Cc1cc(Br)cc(NCc2cnc(C)nc2)c1",
+    "Nc1ccnc2nnc(C(=O)Nc3ccccc3)cc12",
+    "C=CCN(CC1CCCO1)c1ccc2cc1NC(=O)CS2"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "duplicate_smiles": 8,
+  "manifest_path": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/aggregated/steps_1000/manifest.csv",
+  "merged_sdf_count": 500,
+  "merged_sdf_path": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/aggregated/steps_1000/all_molecules.sdf",
+  "per_gpu": [
+    {
+      "copied_sdf": 84,
+      "gpu_id": 0,
+      "produced_smiles": 84,
+      "run_dir": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/outputs/steps_1000/gpu_0/diffgui_steps1000_gpu0_20260531_102257",
+      "selected_count": 84,
+      "target_count": 84
+    },
+    {
+      "copied_sdf": 84,
+      "gpu_id": 1,
+      "produced_smiles": 85,
+      "run_dir": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/outputs/steps_1000/gpu_1/diffgui_steps1000_gpu1_20260531_102256",
+      "selected_count": 84,
+      "target_count": 84
+    },
+    {
+      "copied_sdf": 83,
+      "gpu_id": 2,
+      "produced_smiles": 83,
+      "run_dir": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/outputs/steps_1000/gpu_2/diffgui_steps1000_gpu2_20260531_102256",
+      "selected_count": 83,
+      "target_count": 83
+    },
+    {
+      "copied_sdf": 83,
+      "gpu_id": 3,
+      "produced_smiles": 84,
+      "run_dir": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/outputs/steps_1000/gpu_3/diffgui_steps1000_gpu3_20260531_102256",
+      "selected_count": 83,
+      "target_count": 83
+    },
+    {
+      "copied_sdf": 83,
+      "gpu_id": 4,
+      "produced_smiles": 83,
+      "run_dir": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/outputs/steps_1000/gpu_4/diffgui_steps1000_gpu4_20260531_102256",
+      "selected_count": 83,
+      "target_count": 83
+    },
+    {
+      "copied_sdf": 83,
+      "gpu_id": 5,
+      "produced_smiles": 84,
+      "run_dir": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/outputs/steps_1000/gpu_5/diffgui_steps1000_gpu5_20260531_102257",
+      "selected_count": 83,
+      "target_count": 83
+    }
+  ],
+  "selected_total": 500,
+  "smiles_path": "/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/aggregated/steps_1000/all_SMILES.txt",
+  "steps": 1000,
+  "target_total": 500,
+  "unique_smiles": 492
+}

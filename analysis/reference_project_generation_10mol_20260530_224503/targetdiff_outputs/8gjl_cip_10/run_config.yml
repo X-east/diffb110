@@ -1,0 +1,20 @@
+model:
+  checkpoint: ./pretrained_models/pretrained_diffusion.pt
+
+input:
+  protein_path: /home/md666/data/disk6/XDC/targetdiff/examples/8GJL-minimized.pdb
+  ligand_path: /home/md666/data/disk6/XDC/targetdiff/examples/cip.sdf
+  pocket_radius: 10.0
+
+runtime:
+  device: cuda:0
+  batch_size: 5
+  result_path: /home/md666/data/disk6/DiffB110/analysis/reference_project_generation_10mol_20260530_224503/targetdiff_outputs/8gjl_cip_10
+
+sample:
+  seed: 2026
+  num_samples: 10
+  num_steps: 500
+  pos_only: False
+  center_pos_mode: protein
+  sample_num_atoms: prior

@@ -1,0 +1,25 @@
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/utils/data.py:293: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at ../torch/csrc/utils/tensor_new.cpp:230.)
+  rotations    = torch.tensor(quats, dtype=torch.float32)  # (M,4) 四元数
+
+sampling:   0%|          | 0/5 [00:00<?, ?it/s]
+sampling:  20%|██        | 1/5 [00:01<00:06,  1.66s/it]
+sampling:  60%|██████    | 3/5 [00:01<00:00,  2.07it/s]
+sampling: 100%|██████████| 5/5 [00:01<00:00,  3.69it/s]
+sampling: 100%|██████████| 5/5 [00:01<00:00,  2.57it/s][22:11:50] Explicit valence for atom # 0 Cl, 3, is greater than permitted
+[22:11:50] Explicit valence for atom # 11 Cl, 2, is greater than permitted
+
+
+Restored from /data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/pretrained_models/PMINet with 0 missing and 0 unexpected keys
+device=cuda:0
+num_samples=2
+batch_size=2
+num_steps=5
+diffusion_seconds_total=1.9770
+diffusion_seconds_per_sample=0.9885
+reconstruct_success=0
+complete=0
+sdf=/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/apo2mol_smoke_2_steps5/output/apo2mol_generated.sdf
+
+real 9.54
+user 12.00
+sys 7.00

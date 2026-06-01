@@ -1,0 +1,41 @@
+model:
+  checkpoint: ckpt/trained.pt
+  target: sample/3ztx_pocket.pdb
+  ligand: None
+  frag: None
+  gen_mode: denovo
+  logp: 2.0
+  tpsa: 100
+  sa: 1.0
+  qed: 0.8
+  aff: 12.0
+bond_predictor: ckpt/bond_trained.pt
+sample:
+  seed: 20330531
+  batch_size: 5
+  num_mols: 84
+  save_traj_prob: 0.0
+  sample: true
+  sample_method: priori
+  mode: pocket
+  test_id: 0
+  add_edge: None
+  gui_strength: 3.0
+  guidance:
+  - uncertainty
+  - 0.0001
+data:
+  name: protein_ligand
+  path: data/PDBbind_v2020_pocket10
+  split: data/PDBbind_pocket10_split.pt
+  protein_root: data/PDBbind_v2020
+  dataset: pdbbind
+  transform:
+    ligand_atom_mode: aromatic
+    random_rot: false
+    sample: false
+runtime:
+  diffusion_steps: 1000
+  gpu_id: 0
+  target_count: 84
+  total_target_for_step: 500

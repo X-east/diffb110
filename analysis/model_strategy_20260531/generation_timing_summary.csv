@@ -1,0 +1,8 @@
+model,steps,outputs,rdkit_selected_outputs,parallel_gpus,wall_seconds_for_outputs,sum_gpu_real_seconds,wall_sec_per_output_on_6gpu,single_gpu_equiv_sec_per_output,mol_per_hour_wall_6gpu,reconstruction_finished_log,reconstruction_failed_log,reconstruction_fail_frac
+DiffGui_100steps_6gpu,100,500,500,6,1594.86,9277.82,3.18972,18.55564,1128.6257100936762,12,0,0.0
+DiffGui_200steps_6gpu,200,500,500,6,3422.5,18246.03,6.845,36.492059999999995,525.9313367421476,10,2,0.16666666666666666
+DiffGui_1000steps_6gpu,1000,500,500,6,13960.05,80253.97,27.920099999999998,160.50794,128.93936626301482,10,2,0.16666666666666666
+DePPA_10mol,500,10,10,1,23.67,,,2.367,,10,0,0.0
+BInD_50sdf,1000,50,27,1,634.41,,,12.688,,27,23,0.46
+TargetDiff_10samples,500,10,1,1,192.88,,,19.288,,1,9,0.9
+DiffMeta_10mol_2D,500,10,8,1,32.98,,,3.298,,8,2,0.2

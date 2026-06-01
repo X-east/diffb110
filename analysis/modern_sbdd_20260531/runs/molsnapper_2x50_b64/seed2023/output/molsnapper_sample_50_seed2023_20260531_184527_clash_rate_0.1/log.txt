@@ -1,0 +1,70 @@
+[2026-05-31 18:45:27,272::sample::INFO] Namespace(config='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/molsnapper_sample_50_seed2023.yml', outdir='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/molsnapper_2x50_b64/seed2023/output', pocket_path='/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/data/example_1h00/processed_pocket_1h00.pkl', sdf_path='/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/data/example_1h00/ref_points.sdf', device='cuda:0', batch_size=64, mol_size=None, use_pharma=False, pharma_th=0.5, clash_rate=0.1, distance_th=1.0)
+[2026-05-31 18:45:27,273::sample::INFO] {'model': {'checkpoint': 'ckpt/MolDiff.pt'}, 'bond_predictor': 'ckpt/bondpred.pt', 'sample': {'seed': 2023, 'batch_size': 64, 'num_mols': 50, 'save_traj_prob': 0.0, 'guidance': ['uncertainty', 0.0001]}}
+[2026-05-31 18:45:27,273::sample::INFO] Loading data placeholder...
+[2026-05-31 18:45:27,280::sample::INFO] Loading diffusion model...
+[2026-05-31 18:45:27,515::sample::INFO] Building bond predictor...
+[2026-05-31 18:49:34,327::sample::INFO] Success: CC(C)C1N=C(N)c2ccc(-c3ccccc3)cc21
+[2026-05-31 18:49:34,328::sample::INFO] Success: CCC(C)CNSCCCC(C)C
+[2026-05-31 18:49:34,329::sample::INFO] Success: COc1ccc(-c2nsc(Sc3cccc(C)c3)n2)cc1
+[2026-05-31 18:49:34,341::sample::INFO] Success: COc1ccc(-c2nncc(C3CCC4CCCC4C3)n2)cc1
+[2026-05-31 18:49:34,342::sample::INFO] Success: CC1(C)CC=C(C(=O)N=C(N)Nc2ccccc2)CC1
+[2026-05-31 18:49:34,357::sample::INFO] Success: N#CCCOc1ccc(-c2nncc(C3CCCC4(C3)c3ccccc34)n2)cc1
+[2026-05-31 18:49:34,358::sample::INFO] Success: C(=C1N[SH]=C1c1ccc(-c2ccccc2)o1)c1ccccc1
+[2026-05-31 18:49:34,360::sample::INFO] Success: COc1ccc(C=C2[SH]=C(Nc3ccc(NC(C)=O)cc3)C(C#N)=C2N)cc1
+[2026-05-31 18:49:34,361::sample::INFO] Success: CC1CC1[SH]=C(N)C=Cc1ccccc1
+[2026-05-31 18:49:34,362::sample::INFO] Success: N#CC=Cc1ccc(NN=C(N)c2ccc3ccccc3n2)cc1
+[2026-05-31 18:49:34,371::sample::INFO] Success: CC1CC1NC1NNC(Nc2ccccc2)N1
+[2026-05-31 18:49:34,382::sample::INFO] Success: C#CC=Cc1cccc(NC2NNC(c3ccc(-c4ccccc4)nn3)N2)c1
+[2026-05-31 18:49:34,383::sample::INFO] Success: CCCCNSCCc1ccccc1
+[2026-05-31 18:49:34,394::sample::INFO] Success: COc1ccc(N2N=C3C(C2=O)C(N)NN3c2ccc(C)cc2)cc1
+[2026-05-31 18:49:34,396::sample::INFO] Success: CCc1ccccc1-c1ccc2cnnc(-c3ccc(Cl)cc3)c2n1
+[2026-05-31 18:49:34,397::sample::INFO] Success: Oc1ccc(C=NNc2nc(-c3ccc(Cl)cc3)cs2)cc1
+[2026-05-31 18:49:34,399::sample::INFO] Success: Nc1nn(-c2ccccc2)cc1C=Nc1ccccc1
+[2026-05-31 18:49:34,400::sample::INFO] Success: N#CC=Cc1ccc(N=NC(=O)c2ccc(-c3ccccc3)o2)cc1
+[2026-05-31 18:49:34,408::sample::INFO] Success: NC1NC(c2ccccc2)NC1C(=O)Nc1ccccc1
+[2026-05-31 18:49:34,409::sample::INFO] Success: NC(C=Cc1ccccc1)=Nc1ccccc1
+[2026-05-31 18:49:34,424::sample::INFO] Success: c1ccc(C2CC3C(N=NC45CCCC6(CC4)CC6C5)NCNC3N2)cc1
+[2026-05-31 18:49:34,478::sample::INFO] Success: N#CCCOc1ccc([N+]2=NC23C2C4NN(c5ccc(C(=O)O)cc5)CC4CC23N)cc1
+[2026-05-31 18:49:34,480::sample::INFO] Success: CCOc1ccc(-n2cc(C(=O)NN=Cc3ccc(C(=O)OC)cc3)c(N)n2)cc1
+[2026-05-31 18:49:34,482::sample::INFO] Success: Cc1ccc(NC(=O)c2ccc3ncc(Nc4ccc(OCC#N)cc4)nc3c2)cc1
+[2026-05-31 18:49:34,482::sample::INFO] Success: CCCCC1SS1
+[2026-05-31 18:49:34,483::sample::INFO] Success: CCC(=N)n1nc(-c2ccccc2)cc1N
+[2026-05-31 18:49:34,485::sample::INFO] Success: Oc1ccc2ccccc2c1-c1nc(-c2ccc(-c3cccc(Cl)c3)cc2)ns1
+[2026-05-31 18:49:34,487::sample::INFO] Success: COc1ccc(-c2nc(C#N)c3c(n2)C2CN(c4ccccc4)CCN2C3)cc1
+[2026-05-31 18:49:34,489::sample::INFO] Success: NC1=NC2(N=C1CN1CCN(c3ccc(F)cc3)CC1)c1ccc(-c3ccccc3)cc12
+[2026-05-31 18:49:34,490::sample::INFO] Success: NC(=CC(=O)c1ccccc1)Nc1ccccc1
+[2026-05-31 18:49:34,497::sample::INFO] Success: Cc1ccccc1C=NNC1NC2CCCCC2N[SH+]1
+[2026-05-31 18:49:34,502::sample::INFO] Success: N=C(N)C=Cc1ccccc1
+[2026-05-31 18:49:34,503::sample::INFO] Success: Cc1ccc(-n2nc(N)c3ccc(-c4ccccc4)nc32)cc1
+[2026-05-31 18:49:34,511::sample::INFO] Success: CCOc1ccc(NC(=O)C2NNC(c3ccc(CCCCCl)cc3)N2)cc1
+[2026-05-31 18:49:34,522::sample::INFO] Success: CC12CCC3CCC(NC=S)CC31C2
+[2026-05-31 18:49:34,524::sample::INFO] Success: COc1ccc(NC(=O)c2cnnc(-c3ccc(OCCCCCCN)cc3)n2)cc1
+[2026-05-31 18:49:34,525::sample::INFO] Success: COc1ccc(C=Nn2cnnc2-c2ccc(C(C)C)cc2)cc1
+[2026-05-31 18:49:34,526::sample::INFO] Success: Cc1ccc(NN[SH]=Cc2ccc(C(C)(C)C)cc2)cc1
+[2026-05-31 18:49:34,539::sample::INFO] Success: CC1CCC2NC(c3cccc4nnc(-c5ccc(OCCCl)cc5)nc34)CC2C1
+[2026-05-31 18:49:34,540::sample::INFO] Success: O=C(Nc1ccc(Nc2cccc(Cl)c2)cc1)c1cn(-c2ccccc2)c2ccccc12
+[2026-05-31 18:49:34,542::sample::INFO] Success: Oc1ccc(C=NNc2ccc3nc4ccccc4nc3c2)cc1
+[2026-05-31 18:49:34,543::sample::INFO] Success: C(=Cc1ccccc1)C=[SH]NC1CCCC1
+[2026-05-31 18:49:34,554::sample::INFO] Success: CC1NN(c2ccc(Cl)cc2)C(=O)C1C(N)=NNc1ccc(Oc2cccc(Cl)c2)cc1
+[2026-05-31 18:49:34,571::sample::INFO] Success: Clc1cccc(-c2ccc(C3NNC4C5CCCC(c6ccccc6)C5NN34)cc2)c1
+[2026-05-31 18:49:34,572::sample::INFO] Success: CCc1ccc(-c2cnnc(-c3ccccc3)n2)o1
+[2026-05-31 18:49:34,580::sample::INFO] Success: COc1ccc(C(=O)NC2CNNC2c2ccccc2)cc1
+[2026-05-31 18:49:34,581::sample::INFO] Success: CCCC=CCNC1=[SH]S1
+[2026-05-31 18:49:34,589::sample::INFO] Success: CCOc1ccc(NC(=O)C2CNNC2c2ccccc2)cc1
+[2026-05-31 18:49:34,590::sample::INFO] Success: O=C(NC1C2C3CC45CC3C2C4C15)c1cnnc(-c2ccc(OCCCCCl)cc2)n1
+[2026-05-31 18:49:34,592::sample::INFO] Success: COc1ccc(C(=O)NNc2cc(-c3ccc(C=CC#N)cc3)ncn2)cc1
+[2026-05-31 18:49:34,593::sample::INFO] Success: c1ccc(-c2nsc3cn(-c4ccccc4)nc23)cc1
+[2026-05-31 18:49:34,595::sample::INFO] Success: NC(=Nc1cccc(-n2cccn2)c1)c1ccc2nc3ccccc3nc2c1
+[2026-05-31 18:49:34,596::sample::INFO] Success: NC(=Nc1ccccc1)c1cccc(-c2ccccc2)c1
+[2026-05-31 18:49:34,597::sample::INFO] Success: CC(=O)Nc1ccc(Nc2nccc(-c3ccc(-c4ccccc4)cc3)n2)cc1
+[2026-05-31 18:49:34,598::sample::INFO] Success: NC(C=Cc1ccccc1)=Nc1ccccc1
+[2026-05-31 18:49:34,600::sample::INFO] Success: Cc1ccc(-c2ncnc3sc(-c4ccccc4)cc23)cc1
+[2026-05-31 18:49:34,603::sample::INFO] Success: O=C1C=CC(=Cc2ccco2)C=CN1c1ccc([N+](=O)O)c(N2CCN(c3ccccc3)CC2)c1
+[2026-05-31 18:49:34,748::sample::WARNING] Reconstruction error encountered.
+[2026-05-31 18:49:34,756::sample::INFO] Success: Cc1ccc(N2CCC2C=CC(=O)NN=Cc2ccccc2)cc1
+[2026-05-31 18:49:34,757::sample::INFO] Success: CCCOc1ccc(NN=C(N)C(=O)Nc2ccccc2)cc1
+[2026-05-31 18:49:34,759::sample::INFO] Success: CNc1nn(-c2ccc(OC)cc2)c(C(=O)NC2C3C4CC56CC4C3C5C26)c1C#N
+[2026-05-31 18:49:34,762::sample::INFO] Success: COc1ccc(C=[N+]2N=C(N)c3ccc(-c4ccccc4)cc32)c(C)c1
+[2026-05-31 18:49:34,763::sample::INFO] Success: c1ccc(C2=N[SH]=C(c3ccc(-c4ccccc4)o3)N2)cc1
+[2026-05-31 18:49:34,764::sample::INFO] Success: CCC(C)CNSCCCC1CC1
+[2026-05-31 18:49:34,786::sample::INFO] [Pool] Finished 63 | Failed 1

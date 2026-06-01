@@ -1,0 +1,41 @@
+[2026-05-30 19:01:49,142 - INFO]
+{'bond_angle_guidance': 0.0,
+ 'bond_distance_guidance': 0.0,
+ 'bs': 1,
+ 'data_id': 1,
+ 'extracted_interaction_fn': None,
+ 'get_trajectory': False,
+ 'given_reference_interaction': 'none',
+ 'inter_distance_guidance': 0.0,
+ 'model_cut': 'best',
+ 'model_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/public',
+ 'n_generate': 1,
+ 'nci_predictor_model_fn': None,
+ 'prior_atom': {'method': 'povme',
+                'povme_n_sigma': 2.0,
+                'povme_test_result_fn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/povme/sequence_split_test.csv',
+                'povme_train_result_fn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/povme/sequence_split_train.csv',
+                'povme_v_sigma': 50.0},
+ 'repaint_end_step': 1000,
+ 'repaint_iter': 1,
+ 'repaint_start_step': 600,
+ 'save_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_outputs/min_test',
+ 'save_mol_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_outputs/min_test/gen',
+ 'seed': 2024,
+ 'steric_guidance': 0.0,
+ 'test_data_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/crossdocked_sequence_split_onlytest',
+ 'trajectory_fn': None}
+[2026-05-30 19:01:51,145 - INFO]
+seed fixed to 2024
+[2026-05-30 19:01:51,243 - INFO]
+prior atom sampler loaded: <main.model.prior_atom.POVMESampler object at 0x71aa7ffe3fa0>
+[2026-05-30 19:01:53,246 - INFO]
+100 data loaded for generation
+[2026-05-30 19:01:55,248 - INFO]
+Generating with 1 test data
+[2026-05-30 19:02:01,106 - INFO]
+<All keys matched successfully>
+[2026-05-30 19:02:01,106 - INFO]
+model loaded
+[2026-05-30 19:02:46,256 - INFO]
+NCc1ccc2c(c1O)C2(CO)C(O)NC(=O)C1=CNC=NC1

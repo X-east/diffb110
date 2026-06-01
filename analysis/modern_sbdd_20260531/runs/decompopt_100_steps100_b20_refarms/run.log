@@ -1,0 +1,1157 @@
+pocket pdb path:  ./data/crossdocked_v1.1_rmsd1.0_processed/GUX1_HYPJE_18_451_0/2v3r_A_rec_1dy4_snp_lig_tt_docked_1_pocket.pdb
+[2026-06-01 09:15:00,705::evaluate::INFO] Namespace(batch_size=20, beta_prior_path='./pregen_info/beta_priors', bp_num_atoms_mode='v2', ckpt_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/decompopt.pt', config='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/decompopt_sample_100_steps100.yml', data_id=4, device='cuda:0', dup_id=0, final_test=False, index_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/test_index.pkl', natom_models_path='./pregen_info/natom_models.pkl', num_atoms_mode='ref', ori_data_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/extracted/data/crossdocked_v1.1_rmsd1.0_eval', outdir='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/decompopt_100_steps100_b20_refarms', prior_mode='ref_prior', recon_with_bond=True, reference_arm_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/reference_arms_dataid004_top3.pt', suffix=None)
+[2026-06-01 09:15:00,705::evaluate::INFO] {'data': {'name': 'pl', 'path': '/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/crossdocked_v1.1_rmsd1.0_processed', 'split': '/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/split_by_name.pt', 'mode': 'full', 'include_dummy_atoms': False, 'version': 'similarity', 'prior_mode': 'ref_prior', 'transform': {'add_ord_feat': False, 'add_retrieved_feat': True, 'top_k_sim': 3, 'ligand_atom_mode': 'basic', 'ligand_bond_mode': 'fc', 'max_num_arms': 10, 'random_rot': False}}, 'model': {'checkpoint': None}, 'sample': {'seed': 2024, 'gen_mode': 'complete', 'init_pos_mode': 'protein_center', 'prior_mode': 'ref_prior', 'num_samples': 100, 'num_steps': 100, 'pos_only': False, 'center_pos_mode': 'protein', 'sample_num_atoms': 'prior', 'arms_num_atoms_config': '/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/arm_num_config.pkl', 'scaffold_num_atoms_config': '/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/scaffold_num_config.pkl', 'energy_drift': [{'type': 'armsca_prox', 'min_d': 1.2, 'max_d': 1.9}, {'type': 'clash', 'sigma': 2, 'gamma': 4}]}}
+[2026-06-01 09:15:03,533::evaluate::INFO] Training Config: {'data': {'name': 'pl', 'path': '/mnt/bn/sbdd-lq/data/crossdocked_v1.1_rmsd1.0_processed', 'split': '/mnt/bn/sbdd-lq/data/split_by_name.pt', 'mode': 'full', 'include_dummy_atoms': False, 'version': 'similarity', 'prior_mode': 'ref_prior', 'transform': {'add_ord_feat': False, 'add_retrieved_feat': True, 'top_k_sim': 11, 'ligand_atom_mode': 'basic', 'ligand_bond_mode': 'fc', 'max_num_arms': 10, 'random_rot': False}}, 'model': {'model_mean_type': 'C0', 'beta_schedule': 'sigmoid', 'beta_start': 1e-07, 'beta_end': 0.002, 'v_beta_schedule': 'cosine', 'v_beta_s': 0.01, 'num_diffusion_timesteps': 1000, 'v_mode': 'categorical', 'v_net_type': 'mlp', 'loss_pos_type': 'mse', 'sample_time_method': 'symmetric', 'bond_diffusion': True, 'bond_net_type': 'lin', 'num_bond_classes': 5, 'prior_types': False, 'h_node_in_bond_net': True, 'add_prior_node': False, 'time_emb_dim': 0, 'time_emb_mode': 'simple', 'center_pos_mode': 'protein', 'node_indicator': True, 'model_type': 'uni_o2_bond', 'num_blocks': 1, 'num_layers': 6, 'hidden_dim': 128, 'n_heads': 16, 'edge_feat_dim': 4, 'num_r_gaussian': 20, 'knn': 32, 'act_fn': 'relu', 'norm': True, 'cutoff_mode': 'knn', 'r_max': 10.0, 'x2h_out_fc': False, 'sync_twoup': False, 'fusion_net': {'model_type': 'uni_o2_bond', 'num_blocks': 1, 'num_layers': 2, 'hidden_dim': 128, 'n_heads': 16, 'knn': 32, 'edge_feat_dim': 4, 'num_r_gaussian': 20, 'act_fn': 'relu', 'norm': True, 'cutoff_mode': 'knn', 'r_max': 10.0, 'x2h_out_fc': False, 'sync_twoup': False, 'h_node_in_bond_net': True}, 'add_retrieved_feat': True}, 'train': {'seed': 2021, 'loss_weights': {'pos': 1.0, 'v': 100.0, 'bond': 100.0}, 'batch_size': 16, 'num_workers': 16, 'n_acc_batch': 1, 'max_iters': 250000, 'val_freq': 1000, 'pos_noise_std': 0.1, 'prior_noise_std': 0.5, 'max_grad_norm': 8.0, 'bond_loss_weight': 1.0, 'optimizer': {'type': 'adam', 'lr': 0.0005, 'weight_decay': 0, 'beta1': 0.95, 'beta2': 0.999}, 'scheduler': {'type': 'plateau', 'factor': 0.6, 'patience': 10, 'min_lr': 1e-06}}}
+ref_prior prior mode is applied in ComputeLigandAtomNoiseDist transform!
+Loss pos mode mse applied!
+cosine v alpha schedule applied!
+cosine v alpha schedule applied!
+Node indicator:  True
+[2026-06-01 09:15:03,702::evaluate::INFO] Successfully load the model! /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/decompopt.pt
+[2026-06-01 09:15:03,703::evaluate::INFO] Successfully load arms num atoms config from /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/arm_num_config.pkl
+[2026-06-01 09:15:03,703::evaluate::INFO] Successfully load scaffold num atoms config from /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/scaffold_num_config.pkl
+Load dataset from /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/crossdocked_v1.1_rmsd1.0_processed_full_similarity.lmdb
+check pocket path:  ./data/crossdocked_v1.1_rmsd1.0_processed/GUX1_HYPJE_18_451_0/2v3r_A_rec_1dy4_snp_lig_tt_docked_1_pocket.pdb
+[2026-06-01 09:15:04,277::evaluate::INFO] Apply golden prior for data id 4
+Check path for reference arms: /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/reference_arms_dataid004_top3.pt
+Load arms from: /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/reference_arms_dataid004_top3.pt
+[2026-06-01 09:15:04,538::evaluate::INFO] ligand_num_atoms=[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+[2026-06-01 09:15:57,568::evaluate::INFO] ligand_num_atoms=[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+[2026-06-01 09:16:48,804::evaluate::INFO] ligand_num_atoms=[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+[2026-06-01 09:17:40,023::evaluate::INFO] ligand_num_atoms=[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+[2026-06-01 09:18:31,357::evaluate::INFO] ligand_num_atoms=[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+[2026-06-01 09:19:26,881::evaluate::WARNING] Reconstruct failed 0
+[2026-06-01 09:19:27,332::evaluate::WARNING] Reconstruct failed 1
+[2026-06-01 09:19:27,742::evaluate::WARNING] Reconstruct failed 2
+[2026-06-01 09:19:28,457::evaluate::WARNING] Reconstruct failed 3
+[2026-06-01 09:19:28,868::evaluate::WARNING] Reconstruct failed 4
+[2026-06-01 09:19:29,138::evaluate::WARNING] Reconstruct failed 5
+[2026-06-01 09:19:29,429::evaluate::WARNING] Reconstruct failed 6
+[2026-06-01 09:19:29,785::evaluate::WARNING] Reconstruct failed 7
+[2026-06-01 09:19:30,471::evaluate::WARNING] Reconstruct failed 8
+[2026-06-01 09:19:31,256::evaluate::WARNING] Reconstruct failed 9
+[2026-06-01 09:19:31,629::evaluate::WARNING] Reconstruct failed 10
+[2026-06-01 09:19:31,950::evaluate::WARNING] Reconstruct failed 11
+[2026-06-01 09:19:32,398::evaluate::WARNING] Reconstruct failed 12
+[2026-06-01 09:19:33,163::evaluate::WARNING] Reconstruct failed 13
+[2026-06-01 09:19:33,601::evaluate::WARNING] Reconstruct failed 14
+[2026-06-01 09:19:33,895::evaluate::WARNING] Reconstruct failed 15
+[2026-06-01 09:19:34,307::evaluate::WARNING] Reconstruct failed 16
+[2026-06-01 09:19:34,773::evaluate::WARNING] Reconstruct failed 17
+[2026-06-01 09:19:36,284::evaluate::WARNING] Reconstruct failed 18
+[2026-06-01 09:19:36,978::evaluate::WARNING] Reconstruct failed 19
+[2026-06-01 09:19:38,583::evaluate::WARNING] Reconstruct failed 20
+[2026-06-01 09:19:39,032::evaluate::WARNING] Reconstruct failed 21
+[2026-06-01 09:19:39,729::evaluate::WARNING] Reconstruct failed 22
+[2026-06-01 09:19:40,378::evaluate::WARNING] Reconstruct failed 23
+[2026-06-01 09:19:40,752::evaluate::WARNING] Reconstruct failed 24
+[2026-06-01 09:19:41,161::evaluate::WARNING] Reconstruct failed 25
+[2026-06-01 09:19:41,664::evaluate::WARNING] Reconstruct failed 26
+[2026-06-01 09:19:45,851::evaluate::WARNING] Reconstruct failed 27
+[2026-06-01 09:19:46,363::evaluate::WARNING] Reconstruct failed 28
+[2026-06-01 09:19:47,000::evaluate::WARNING] Reconstruct failed 29
+[2026-06-01 09:19:47,364::evaluate::WARNING] Reconstruct failed 30
+[2026-06-01 09:19:51,418::evaluate::WARNING] Reconstruct failed 31
+[2026-06-01 09:19:51,740::evaluate::WARNING] Reconstruct failed 32
+[2026-06-01 09:19:52,212::evaluate::WARNING] Reconstruct failed 33
+[2026-06-01 09:19:52,604::evaluate::WARNING] Reconstruct failed 34
+[2026-06-01 09:19:52,955::evaluate::WARNING] Reconstruct failed 35
+[2026-06-01 09:19:53,260::evaluate::WARNING] Reconstruct failed 36
+[2026-06-01 09:19:53,566::evaluate::WARNING] Reconstruct failed 37
+[2026-06-01 09:19:54,070::evaluate::WARNING] Reconstruct failed 38
+[2026-06-01 09:20:06,027::evaluate::WARNING] Reconstruct failed 39
+[2026-06-01 09:20:07,371::evaluate::WARNING] Reconstruct failed 40
+[2026-06-01 09:20:08,152::evaluate::WARNING] Reconstruct failed 41
+[2026-06-01 09:20:09,792::evaluate::WARNING] Reconstruct failed 42
+[2026-06-01 09:20:14,018::evaluate::WARNING] Reconstruct failed 43
+[2026-06-01 09:20:14,333::evaluate::WARNING] Reconstruct failed 44
+[2026-06-01 09:20:14,763::evaluate::WARNING] Reconstruct failed 45
+[2026-06-01 09:20:15,147::evaluate::WARNING] Reconstruct failed 46
+[2026-06-01 09:20:15,541::evaluate::WARNING] Reconstruct failed 47
+[2026-06-01 09:20:15,841::evaluate::WARNING] Reconstruct failed 48
+[2026-06-01 09:20:16,131::evaluate::WARNING] Reconstruct failed 49
+[2026-06-01 09:20:16,465::evaluate::WARNING] Reconstruct failed 50
+[2026-06-01 09:20:17,956::evaluate::WARNING] Reconstruct failed 51
+[2026-06-01 09:20:18,448::evaluate::WARNING] Reconstruct failed 52
+[2026-06-01 09:20:18,868::evaluate::WARNING] Reconstruct failed 53
+[2026-06-01 09:20:19,554::evaluate::WARNING] Reconstruct failed 54
+[2026-06-01 09:20:19,964::evaluate::WARNING] Reconstruct failed 55
+[2026-06-01 09:20:20,805::evaluate::WARNING] Reconstruct failed 56
+[2026-06-01 09:20:21,118::evaluate::WARNING] Reconstruct failed 57
+[2026-06-01 09:20:21,515::evaluate::WARNING] Reconstruct failed 58
+[2026-06-01 09:20:21,908::evaluate::WARNING] Reconstruct failed 59
+[2026-06-01 09:20:23,025::evaluate::WARNING] Reconstruct failed 60
+[2026-06-01 09:20:23,461::evaluate::WARNING] Reconstruct failed 61
+[2026-06-01 09:20:23,874::evaluate::WARNING] Reconstruct failed 62
+[2026-06-01 09:20:24,230::evaluate::WARNING] Reconstruct failed 63
+[2026-06-01 09:20:24,609::evaluate::WARNING] Reconstruct failed 64
+[2026-06-01 09:20:25,298::evaluate::WARNING] Reconstruct failed 65
+[2026-06-01 09:20:25,824::evaluate::WARNING] Reconstruct failed 66
+[2026-06-01 09:20:26,249::evaluate::WARNING] Reconstruct failed 67
+[2026-06-01 09:20:26,647::evaluate::WARNING] Reconstruct failed 68
+[2026-06-01 09:20:30,779::evaluate::WARNING] Reconstruct failed 69
+[2026-06-01 09:20:31,305::evaluate::WARNING] Reconstruct failed 70
+[2026-06-01 09:20:31,979::evaluate::WARNING] Reconstruct failed 71
+[2026-06-01 09:20:32,646::evaluate::WARNING] Reconstruct failed 72
+[2026-06-01 09:20:32,920::evaluate::WARNING] Reconstruct failed 73
+[2026-06-01 09:20:37,122::evaluate::WARNING] Reconstruct failed 74
+[2026-06-01 09:20:38,689::evaluate::WARNING] Reconstruct failed 75
+[2026-06-01 09:20:39,634::evaluate::WARNING] Reconstruct failed 76
+[2026-06-01 09:20:41,149::evaluate::WARNING] Reconstruct failed 77
+[2026-06-01 09:20:41,901::evaluate::WARNING] Reconstruct failed 78
+[2026-06-01 09:20:42,169::evaluate::WARNING] Reconstruct failed 79
+[2026-06-01 09:20:42,421::evaluate::WARNING] Reconstruct failed 80
+[2026-06-01 09:20:43,951::evaluate::WARNING] Reconstruct failed 81
+[2026-06-01 09:20:45,464::evaluate::WARNING] Reconstruct failed 82
+[2026-06-01 09:20:46,254::evaluate::WARNING] Reconstruct failed 83
+[2026-06-01 09:20:47,739::evaluate::WARNING] Reconstruct failed 84
+[2026-06-01 09:20:48,508::evaluate::WARNING] Reconstruct failed 85
+[2026-06-01 09:20:48,832::evaluate::WARNING] Reconstruct failed 86
+[2026-06-01 09:20:50,351::evaluate::WARNING] Reconstruct failed 87
+[2026-06-01 09:20:50,653::evaluate::WARNING] Reconstruct failed 88
+[2026-06-01 09:20:51,045::evaluate::WARNING] Reconstruct failed 89
+[2026-06-01 09:20:51,473::evaluate::WARNING] Reconstruct failed 90
+[2026-06-01 09:20:52,318::evaluate::WARNING] Reconstruct failed 91
+[2026-06-01 09:20:52,996::evaluate::WARNING] Reconstruct failed 92
+[2026-06-01 09:20:53,615::evaluate::WARNING] Reconstruct failed 93
+[2026-06-01 09:20:54,278::evaluate::WARNING] Reconstruct failed 94
+[2026-06-01 09:21:28,683::evaluate::WARNING] Reconstruct failed 95
+[2026-06-01 09:21:30,331::evaluate::WARNING] Reconstruct failed 96
+[2026-06-01 09:21:31,896::evaluate::WARNING] Reconstruct failed 97
+[2026-06-01 09:21:32,683::evaluate::WARNING] Reconstruct failed 98
+[2026-06-01 09:21:34,202::evaluate::WARNING] Reconstruct failed 99
+[2026-06-01 09:21:34,279::evaluate::INFO] n_reconstruct: 0 n_complete: 0
+[2026-06-01 09:21:34,292::evaluate::INFO] Sample done!
+
+  0%|          | 0/5 [00:00<?, ?it/s]
+
+sampling:   0%|          | 0/100 [00:00<?, ?it/s][A
+
+sampling:   1%|          | 1/100 [00:00<00:49,  2.02it/s][A
+
+sampling:   2%|▏         | 2/100 [00:00<00:47,  2.06it/s][A
+
+sampling:   3%|▎         | 3/100 [00:01<00:46,  2.07it/s][A
+
+sampling:   4%|▍         | 4/100 [00:01<00:46,  2.05it/s][A
+
+sampling:   5%|▌         | 5/100 [00:02<00:47,  2.02it/s][A
+
+sampling:   6%|▌         | 6/100 [00:02<00:46,  2.01it/s][A
+
+sampling:   7%|▋         | 7/100 [00:03<00:46,  1.99it/s][A
+
+sampling:   8%|▊         | 8/100 [00:03<00:46,  1.98it/s][A
+
+sampling:   9%|▉         | 9/100 [00:04<00:46,  1.97it/s][A
+
+sampling:  10%|█         | 10/100 [00:05<00:45,  1.96it/s][A
+
+sampling:  11%|█         | 11/100 [00:05<00:45,  1.96it/s][A
+
+sampling:  12%|█▏        | 12/100 [00:06<00:45,  1.95it/s][A
+
+sampling:  13%|█▎        | 13/100 [00:06<00:44,  1.94it/s][A
+
+sampling:  14%|█▍        | 14/100 [00:07<00:44,  1.93it/s][A
+
+sampling:  15%|█▌        | 15/100 [00:07<00:44,  1.93it/s][A
+
+sampling:  16%|█▌        | 16/100 [00:08<00:43,  1.93it/s][A
+
+sampling:  17%|█▋        | 17/100 [00:08<00:43,  1.93it/s][A
+
+sampling:  18%|█▊        | 18/100 [00:09<00:42,  1.92it/s][A
+
+sampling:  19%|█▉        | 19/100 [00:09<00:41,  1.93it/s][A
+
+sampling:  20%|██        | 20/100 [00:10<00:41,  1.92it/s][A
+
+sampling:  21%|██        | 21/100 [00:10<00:40,  1.93it/s][A
+
+sampling:  22%|██▏       | 22/100 [00:11<00:40,  1.93it/s][A
+
+sampling:  23%|██▎       | 23/100 [00:11<00:39,  1.93it/s][A
+
+sampling:  24%|██▍       | 24/100 [00:12<00:39,  1.94it/s][A
+
+sampling:  25%|██▌       | 25/100 [00:12<00:38,  1.94it/s][A
+
+sampling:  26%|██▌       | 26/100 [00:13<00:38,  1.94it/s][A
+
+sampling:  27%|██▋       | 27/100 [00:13<00:37,  1.93it/s][A
+
+sampling:  28%|██▊       | 28/100 [00:14<00:37,  1.92it/s][A
+
+sampling:  29%|██▉       | 29/100 [00:14<00:36,  1.92it/s][A
+
+sampling:  30%|███       | 30/100 [00:15<00:36,  1.92it/s][A
+
+sampling:  31%|███       | 31/100 [00:15<00:35,  1.92it/s][A
+
+sampling:  32%|███▏      | 32/100 [00:16<00:35,  1.93it/s][A
+
+sampling:  33%|███▎      | 33/100 [00:16<00:34,  1.93it/s][A
+
+sampling:  34%|███▍      | 34/100 [00:17<00:34,  1.93it/s][A
+
+sampling:  35%|███▌      | 35/100 [00:17<00:33,  1.93it/s][A
+
+sampling:  36%|███▌      | 36/100 [00:18<00:33,  1.93it/s][A
+
+sampling:  37%|███▋      | 37/100 [00:19<00:32,  1.93it/s][A
+
+sampling:  38%|███▊      | 38/100 [00:19<00:32,  1.93it/s][A
+
+sampling:  39%|███▉      | 39/100 [00:20<00:31,  1.94it/s][A
+
+sampling:  40%|████      | 40/100 [00:20<00:31,  1.93it/s][A
+
+sampling:  41%|████      | 41/100 [00:21<00:30,  1.95it/s][A
+
+sampling:  42%|████▏     | 42/100 [00:21<00:29,  1.95it/s][A
+
+sampling:  43%|████▎     | 43/100 [00:22<00:29,  1.95it/s][A
+
+sampling:  44%|████▍     | 44/100 [00:22<00:28,  1.95it/s][A
+
+sampling:  45%|████▌     | 45/100 [00:23<00:28,  1.94it/s][A
+
+sampling:  46%|████▌     | 46/100 [00:23<00:27,  1.94it/s][A
+
+sampling:  47%|████▋     | 47/100 [00:24<00:27,  1.94it/s][A
+
+sampling:  48%|████▊     | 48/100 [00:24<00:27,  1.92it/s][A
+
+sampling:  49%|████▉     | 49/100 [00:25<00:26,  1.93it/s][A
+
+sampling:  50%|█████     | 50/100 [00:25<00:25,  1.94it/s][A
+
+sampling:  51%|█████     | 51/100 [00:26<00:25,  1.94it/s][A
+
+sampling:  52%|█████▏    | 52/100 [00:26<00:24,  1.95it/s][A
+
+sampling:  53%|█████▎    | 53/100 [00:27<00:24,  1.95it/s][A
+
+sampling:  54%|█████▍    | 54/100 [00:27<00:23,  1.96it/s][A
+
+sampling:  55%|█████▌    | 55/100 [00:28<00:22,  1.96it/s][A
+
+sampling:  56%|█████▌    | 56/100 [00:28<00:22,  1.97it/s][A
+
+sampling:  57%|█████▋    | 57/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  58%|█████▊    | 58/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  59%|█████▉    | 59/100 [00:30<00:20,  1.96it/s][A
+
+sampling:  60%|██████    | 60/100 [00:30<00:20,  1.97it/s][A
+
+sampling:  61%|██████    | 61/100 [00:31<00:19,  1.96it/s][A
+
+sampling:  62%|██████▏   | 62/100 [00:31<00:19,  1.97it/s][A
+
+sampling:  63%|██████▎   | 63/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  64%|██████▍   | 64/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  65%|██████▌   | 65/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  66%|██████▌   | 66/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  67%|██████▋   | 67/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  68%|██████▊   | 68/100 [00:34<00:16,  1.96it/s][A
+
+sampling:  69%|██████▉   | 69/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  70%|███████   | 70/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  71%|███████   | 71/100 [00:36<00:14,  1.98it/s][A
+
+sampling:  72%|███████▏  | 72/100 [00:36<00:14,  1.98it/s][A
+
+sampling:  73%|███████▎  | 73/100 [00:37<00:13,  1.99it/s][A
+
+sampling:  74%|███████▍  | 74/100 [00:37<00:13,  1.99it/s][A
+
+sampling:  75%|███████▌  | 75/100 [00:38<00:12,  1.99it/s][A
+
+sampling:  76%|███████▌  | 76/100 [00:38<00:12,  1.99it/s][A
+
+sampling:  77%|███████▋  | 77/100 [00:39<00:11,  1.99it/s][A
+
+sampling:  78%|███████▊  | 78/100 [00:39<00:11,  1.99it/s][A
+
+sampling:  79%|███████▉  | 79/100 [00:40<00:10,  1.99it/s][A
+
+sampling:  80%|████████  | 80/100 [00:40<00:10,  1.99it/s][A
+
+sampling:  81%|████████  | 81/100 [00:41<00:09,  1.99it/s][A
+
+sampling:  82%|████████▏ | 82/100 [00:41<00:09,  1.99it/s][A
+
+sampling:  83%|████████▎ | 83/100 [00:42<00:08,  1.99it/s][A
+
+sampling:  84%|████████▍ | 84/100 [00:42<00:08,  1.99it/s][A
+
+sampling:  85%|████████▌ | 85/100 [00:43<00:07,  1.98it/s][A
+
+sampling:  86%|████████▌ | 86/100 [00:43<00:07,  1.98it/s][A
+
+sampling:  87%|████████▋ | 87/100 [00:44<00:06,  1.97it/s][A
+
+sampling:  88%|████████▊ | 88/100 [00:44<00:06,  1.97it/s][A
+
+sampling:  89%|████████▉ | 89/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  90%|█████████ | 90/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  91%|█████████ | 91/100 [00:46<00:04,  1.98it/s][A
+
+sampling:  92%|█████████▏| 92/100 [00:46<00:04,  1.98it/s][A
+
+sampling:  93%|█████████▎| 93/100 [00:47<00:03,  1.98it/s][A
+
+sampling:  94%|█████████▍| 94/100 [00:47<00:03,  1.98it/s][A
+
+sampling:  95%|█████████▌| 95/100 [00:48<00:02,  1.98it/s][A
+
+sampling:  96%|█████████▌| 96/100 [00:48<00:02,  1.98it/s][A
+
+sampling:  97%|█████████▋| 97/100 [00:49<00:01,  1.98it/s][A
+
+sampling:  98%|█████████▊| 98/100 [00:50<00:01,  1.98it/s][A
+
+sampling:  99%|█████████▉| 99/100 [00:50<00:00,  1.98it/s][A
+
+sampling: 100%|██████████| 100/100 [00:51<00:00,  1.98it/s][A
+sampling: 100%|██████████| 100/100 [00:51<00:00,  1.96it/s]
+
+ 20%|██        | 1/5 [00:53<03:32, 53.11s/it]
+
+sampling:   0%|          | 0/100 [00:00<?, ?it/s][A
+
+sampling:   1%|          | 1/100 [00:00<00:50,  1.97it/s][A
+
+sampling:   2%|▏         | 2/100 [00:01<00:49,  1.98it/s][A
+
+sampling:   3%|▎         | 3/100 [00:01<00:48,  1.98it/s][A
+
+sampling:   4%|▍         | 4/100 [00:02<00:48,  1.98it/s][A
+
+sampling:   5%|▌         | 5/100 [00:02<00:48,  1.98it/s][A
+
+sampling:   6%|▌         | 6/100 [00:03<00:47,  1.98it/s][A
+
+sampling:   7%|▋         | 7/100 [00:03<00:46,  1.98it/s][A
+
+sampling:   8%|▊         | 8/100 [00:04<00:46,  1.98it/s][A
+
+sampling:   9%|▉         | 9/100 [00:04<00:46,  1.97it/s][A
+
+sampling:  10%|█         | 10/100 [00:05<00:45,  1.97it/s][A
+
+sampling:  11%|█         | 11/100 [00:05<00:45,  1.97it/s][A
+
+sampling:  12%|█▏        | 12/100 [00:06<00:44,  1.98it/s][A
+
+sampling:  13%|█▎        | 13/100 [00:06<00:44,  1.97it/s][A
+
+sampling:  14%|█▍        | 14/100 [00:07<00:43,  1.97it/s][A
+
+sampling:  15%|█▌        | 15/100 [00:07<00:43,  1.98it/s][A
+
+sampling:  16%|█▌        | 16/100 [00:08<00:42,  1.98it/s][A
+
+sampling:  17%|█▋        | 17/100 [00:08<00:41,  1.98it/s][A
+
+sampling:  18%|█▊        | 18/100 [00:09<00:41,  1.98it/s][A
+
+sampling:  19%|█▉        | 19/100 [00:09<00:40,  1.98it/s][A
+
+sampling:  20%|██        | 20/100 [00:10<00:40,  1.98it/s][A
+
+sampling:  21%|██        | 21/100 [00:10<00:39,  1.98it/s][A
+
+sampling:  22%|██▏       | 22/100 [00:11<00:39,  1.97it/s][A
+
+sampling:  23%|██▎       | 23/100 [00:11<00:38,  1.98it/s][A
+
+sampling:  24%|██▍       | 24/100 [00:12<00:38,  1.97it/s][A
+
+sampling:  25%|██▌       | 25/100 [00:12<00:38,  1.97it/s][A
+
+sampling:  26%|██▌       | 26/100 [00:13<00:37,  1.97it/s][A
+
+sampling:  27%|██▋       | 27/100 [00:13<00:37,  1.96it/s][A
+
+sampling:  28%|██▊       | 28/100 [00:14<00:36,  1.97it/s][A
+
+sampling:  29%|██▉       | 29/100 [00:14<00:36,  1.96it/s][A
+
+sampling:  30%|███       | 30/100 [00:15<00:35,  1.96it/s][A
+
+sampling:  31%|███       | 31/100 [00:15<00:35,  1.96it/s][A
+
+sampling:  32%|███▏      | 32/100 [00:16<00:34,  1.96it/s][A
+
+sampling:  33%|███▎      | 33/100 [00:16<00:34,  1.96it/s][A
+
+sampling:  34%|███▍      | 34/100 [00:17<00:33,  1.96it/s][A
+
+sampling:  35%|███▌      | 35/100 [00:17<00:33,  1.97it/s][A
+
+sampling:  36%|███▌      | 36/100 [00:18<00:32,  1.97it/s][A
+
+sampling:  37%|███▋      | 37/100 [00:18<00:31,  1.97it/s][A
+
+sampling:  38%|███▊      | 38/100 [00:19<00:31,  1.97it/s][A
+
+sampling:  39%|███▉      | 39/100 [00:19<00:30,  1.97it/s][A
+
+sampling:  40%|████      | 40/100 [00:20<00:30,  1.97it/s][A
+
+sampling:  41%|████      | 41/100 [00:20<00:29,  1.98it/s][A
+
+sampling:  42%|████▏     | 42/100 [00:21<00:29,  1.97it/s][A
+
+sampling:  43%|████▎     | 43/100 [00:21<00:28,  1.97it/s][A
+
+sampling:  44%|████▍     | 44/100 [00:22<00:28,  1.96it/s][A
+
+sampling:  45%|████▌     | 45/100 [00:22<00:28,  1.96it/s][A
+
+sampling:  46%|████▌     | 46/100 [00:23<00:27,  1.96it/s][A
+
+sampling:  47%|████▋     | 47/100 [00:23<00:27,  1.96it/s][A
+
+sampling:  48%|████▊     | 48/100 [00:24<00:26,  1.96it/s][A
+
+sampling:  49%|████▉     | 49/100 [00:24<00:26,  1.95it/s][A
+
+sampling:  50%|█████     | 50/100 [00:25<00:25,  1.96it/s][A
+
+sampling:  51%|█████     | 51/100 [00:25<00:25,  1.95it/s][A
+
+sampling:  52%|█████▏    | 52/100 [00:26<00:24,  1.95it/s][A
+
+sampling:  53%|█████▎    | 53/100 [00:26<00:23,  1.96it/s][A
+
+sampling:  54%|█████▍    | 54/100 [00:27<00:23,  1.97it/s][A
+
+sampling:  55%|█████▌    | 55/100 [00:27<00:22,  1.97it/s][A
+
+sampling:  56%|█████▌    | 56/100 [00:28<00:22,  1.97it/s][A
+
+sampling:  57%|█████▋    | 57/100 [00:28<00:21,  1.97it/s][A
+
+sampling:  58%|█████▊    | 58/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  59%|█████▉    | 59/100 [00:29<00:20,  1.97it/s][A
+
+sampling:  60%|██████    | 60/100 [00:30<00:20,  1.97it/s][A
+
+sampling:  61%|██████    | 61/100 [00:30<00:19,  1.96it/s][A
+
+sampling:  62%|██████▏   | 62/100 [00:31<00:19,  1.96it/s][A
+
+sampling:  63%|██████▎   | 63/100 [00:32<00:18,  1.96it/s][A
+
+sampling:  64%|██████▍   | 64/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  65%|██████▌   | 65/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  66%|██████▌   | 66/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  67%|██████▋   | 67/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  68%|██████▊   | 68/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  69%|██████▉   | 69/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  70%|███████   | 70/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  71%|███████   | 71/100 [00:36<00:14,  1.97it/s][A
+
+sampling:  72%|███████▏  | 72/100 [00:36<00:14,  1.97it/s][A
+
+sampling:  73%|███████▎  | 73/100 [00:37<00:13,  1.97it/s][A
+
+sampling:  74%|███████▍  | 74/100 [00:37<00:13,  1.97it/s][A
+
+sampling:  75%|███████▌  | 75/100 [00:38<00:12,  1.97it/s][A
+
+sampling:  76%|███████▌  | 76/100 [00:38<00:12,  1.96it/s][A
+
+sampling:  77%|███████▋  | 77/100 [00:39<00:11,  1.96it/s][A
+
+sampling:  78%|███████▊  | 78/100 [00:39<00:11,  1.96it/s][A
+
+sampling:  79%|███████▉  | 79/100 [00:40<00:10,  1.96it/s][A
+
+sampling:  80%|████████  | 80/100 [00:40<00:10,  1.95it/s][A
+
+sampling:  81%|████████  | 81/100 [00:41<00:09,  1.95it/s][A
+
+sampling:  82%|████████▏ | 82/100 [00:41<00:09,  1.95it/s][A
+
+sampling:  83%|████████▎ | 83/100 [00:42<00:08,  1.95it/s][A
+
+sampling:  84%|████████▍ | 84/100 [00:42<00:08,  1.95it/s][A
+
+sampling:  85%|████████▌ | 85/100 [00:43<00:07,  1.95it/s][A
+
+sampling:  86%|████████▌ | 86/100 [00:43<00:07,  1.96it/s][A
+
+sampling:  87%|████████▋ | 87/100 [00:44<00:06,  1.96it/s][A
+
+sampling:  88%|████████▊ | 88/100 [00:44<00:06,  1.96it/s][A
+
+sampling:  89%|████████▉ | 89/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  90%|█████████ | 90/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  91%|█████████ | 91/100 [00:46<00:04,  1.97it/s][A
+
+sampling:  92%|█████████▏| 92/100 [00:46<00:04,  1.97it/s][A
+
+sampling:  93%|█████████▎| 93/100 [00:47<00:03,  1.97it/s][A
+
+sampling:  94%|█████████▍| 94/100 [00:47<00:03,  1.97it/s][A
+
+sampling:  95%|█████████▌| 95/100 [00:48<00:02,  1.97it/s][A
+
+sampling:  96%|█████████▌| 96/100 [00:48<00:02,  1.97it/s][A
+
+sampling:  97%|█████████▋| 97/100 [00:49<00:01,  1.97it/s][A
+
+sampling:  98%|█████████▊| 98/100 [00:49<00:01,  1.97it/s][A
+
+sampling:  99%|█████████▉| 99/100 [00:50<00:00,  1.97it/s][A
+
+sampling: 100%|██████████| 100/100 [00:50<00:00,  1.97it/s][A
+sampling: 100%|██████████| 100/100 [00:50<00:00,  1.97it/s]
+
+ 40%|████      | 2/5 [01:44<02:36, 52.01s/it]
+
+sampling:   0%|          | 0/100 [00:00<?, ?it/s][A
+
+sampling:   1%|          | 1/100 [00:00<00:50,  1.96it/s][A
+
+sampling:   2%|▏         | 2/100 [00:01<00:49,  1.97it/s][A
+
+sampling:   3%|▎         | 3/100 [00:01<00:49,  1.97it/s][A
+
+sampling:   4%|▍         | 4/100 [00:02<00:48,  1.97it/s][A
+
+sampling:   5%|▌         | 5/100 [00:02<00:48,  1.97it/s][A
+
+sampling:   6%|▌         | 6/100 [00:03<00:47,  1.97it/s][A
+
+sampling:   7%|▋         | 7/100 [00:03<00:47,  1.97it/s][A
+
+sampling:   8%|▊         | 8/100 [00:04<00:46,  1.97it/s][A
+
+sampling:   9%|▉         | 9/100 [00:04<00:46,  1.97it/s][A
+
+sampling:  10%|█         | 10/100 [00:05<00:45,  1.96it/s][A
+
+sampling:  11%|█         | 11/100 [00:05<00:45,  1.96it/s][A
+
+sampling:  12%|█▏        | 12/100 [00:06<00:44,  1.96it/s][A
+
+sampling:  13%|█▎        | 13/100 [00:06<00:44,  1.95it/s][A
+
+sampling:  14%|█▍        | 14/100 [00:07<00:44,  1.95it/s][A
+
+sampling:  15%|█▌        | 15/100 [00:07<00:43,  1.95it/s][A
+
+sampling:  16%|█▌        | 16/100 [00:08<00:43,  1.95it/s][A
+
+sampling:  17%|█▋        | 17/100 [00:08<00:42,  1.95it/s][A
+
+sampling:  18%|█▊        | 18/100 [00:09<00:42,  1.95it/s][A
+
+sampling:  19%|█▉        | 19/100 [00:09<00:41,  1.95it/s][A
+
+sampling:  20%|██        | 20/100 [00:10<00:40,  1.95it/s][A
+
+sampling:  21%|██        | 21/100 [00:10<00:40,  1.96it/s][A
+
+sampling:  22%|██▏       | 22/100 [00:11<00:39,  1.96it/s][A
+
+sampling:  23%|██▎       | 23/100 [00:11<00:39,  1.96it/s][A
+
+sampling:  24%|██▍       | 24/100 [00:12<00:38,  1.97it/s][A
+
+sampling:  25%|██▌       | 25/100 [00:12<00:38,  1.97it/s][A
+
+sampling:  26%|██▌       | 26/100 [00:13<00:37,  1.97it/s][A
+
+sampling:  27%|██▋       | 27/100 [00:13<00:37,  1.97it/s][A
+
+sampling:  28%|██▊       | 28/100 [00:14<00:36,  1.97it/s][A
+
+sampling:  29%|██▉       | 29/100 [00:14<00:36,  1.97it/s][A
+
+sampling:  30%|███       | 30/100 [00:15<00:35,  1.97it/s][A
+
+sampling:  31%|███       | 31/100 [00:15<00:35,  1.97it/s][A
+
+sampling:  32%|███▏      | 32/100 [00:16<00:34,  1.97it/s][A
+
+sampling:  33%|███▎      | 33/100 [00:16<00:34,  1.97it/s][A
+
+sampling:  34%|███▍      | 34/100 [00:17<00:33,  1.97it/s][A
+
+sampling:  35%|███▌      | 35/100 [00:17<00:33,  1.97it/s][A
+
+sampling:  36%|███▌      | 36/100 [00:18<00:32,  1.97it/s][A
+
+sampling:  37%|███▋      | 37/100 [00:18<00:31,  1.97it/s][A
+
+sampling:  38%|███▊      | 38/100 [00:19<00:31,  1.97it/s][A
+
+sampling:  39%|███▉      | 39/100 [00:19<00:31,  1.97it/s][A
+
+sampling:  40%|████      | 40/100 [00:20<00:30,  1.96it/s][A
+
+sampling:  41%|████      | 41/100 [00:20<00:30,  1.97it/s][A
+
+sampling:  42%|████▏     | 42/100 [00:21<00:29,  1.96it/s][A
+
+sampling:  43%|████▎     | 43/100 [00:21<00:28,  1.97it/s][A
+
+sampling:  44%|████▍     | 44/100 [00:22<00:28,  1.97it/s][A
+
+sampling:  45%|████▌     | 45/100 [00:22<00:27,  1.97it/s][A
+
+sampling:  46%|████▌     | 46/100 [00:23<00:27,  1.97it/s][A
+
+sampling:  47%|████▋     | 47/100 [00:23<00:26,  1.97it/s][A
+
+sampling:  48%|████▊     | 48/100 [00:24<00:26,  1.97it/s][A
+
+sampling:  49%|████▉     | 49/100 [00:24<00:25,  1.97it/s][A
+
+sampling:  50%|█████     | 50/100 [00:25<00:25,  1.97it/s][A
+
+sampling:  51%|█████     | 51/100 [00:25<00:24,  1.97it/s][A
+
+sampling:  52%|█████▏    | 52/100 [00:26<00:24,  1.97it/s][A
+
+sampling:  53%|█████▎    | 53/100 [00:26<00:23,  1.97it/s][A
+
+sampling:  54%|█████▍    | 54/100 [00:27<00:23,  1.97it/s][A
+
+sampling:  55%|█████▌    | 55/100 [00:27<00:22,  1.97it/s][A
+
+sampling:  56%|█████▌    | 56/100 [00:28<00:22,  1.97it/s][A
+
+sampling:  57%|█████▋    | 57/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  58%|█████▊    | 58/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  59%|█████▉    | 59/100 [00:30<00:20,  1.97it/s][A
+
+sampling:  60%|██████    | 60/100 [00:30<00:20,  1.97it/s][A
+
+sampling:  61%|██████    | 61/100 [00:31<00:19,  1.97it/s][A
+
+sampling:  62%|██████▏   | 62/100 [00:31<00:19,  1.97it/s][A
+
+sampling:  63%|██████▎   | 63/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  64%|██████▍   | 64/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  65%|██████▌   | 65/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  66%|██████▌   | 66/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  67%|██████▋   | 67/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  68%|██████▊   | 68/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  69%|██████▉   | 69/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  70%|███████   | 70/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  71%|███████   | 71/100 [00:36<00:14,  1.97it/s][A
+
+sampling:  72%|███████▏  | 72/100 [00:36<00:14,  1.99it/s][A
+
+sampling:  73%|███████▎  | 73/100 [00:37<00:13,  1.99it/s][A
+
+sampling:  74%|███████▍  | 74/100 [00:37<00:13,  1.99it/s][A
+
+sampling:  75%|███████▌  | 75/100 [00:38<00:12,  1.99it/s][A
+
+sampling:  76%|███████▌  | 76/100 [00:38<00:12,  1.98it/s][A
+
+sampling:  77%|███████▋  | 77/100 [00:39<00:11,  1.98it/s][A
+
+sampling:  78%|███████▊  | 78/100 [00:39<00:11,  1.97it/s][A
+
+sampling:  79%|███████▉  | 79/100 [00:40<00:10,  1.97it/s][A
+
+sampling:  80%|████████  | 80/100 [00:40<00:10,  1.97it/s][A
+
+sampling:  81%|████████  | 81/100 [00:41<00:09,  1.97it/s][A
+
+sampling:  82%|████████▏ | 82/100 [00:41<00:09,  1.97it/s][A
+
+sampling:  83%|████████▎ | 83/100 [00:42<00:08,  1.97it/s][A
+
+sampling:  84%|████████▍ | 84/100 [00:42<00:08,  1.97it/s][A
+
+sampling:  85%|████████▌ | 85/100 [00:43<00:07,  1.97it/s][A
+
+sampling:  86%|████████▌ | 86/100 [00:43<00:07,  1.97it/s][A
+
+sampling:  87%|████████▋ | 87/100 [00:44<00:06,  1.97it/s][A
+
+sampling:  88%|████████▊ | 88/100 [00:44<00:06,  1.97it/s][A
+
+sampling:  89%|████████▉ | 89/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  90%|█████████ | 90/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  91%|█████████ | 91/100 [00:46<00:04,  1.97it/s][A
+
+sampling:  92%|█████████▏| 92/100 [00:46<00:04,  1.97it/s][A
+
+sampling:  93%|█████████▎| 93/100 [00:47<00:03,  1.97it/s][A
+
+sampling:  94%|█████████▍| 94/100 [00:47<00:03,  1.97it/s][A
+
+sampling:  95%|█████████▌| 95/100 [00:48<00:02,  1.97it/s][A
+
+sampling:  96%|█████████▌| 96/100 [00:48<00:02,  1.97it/s][A
+
+sampling:  97%|█████████▋| 97/100 [00:49<00:01,  1.97it/s][A
+
+sampling:  98%|█████████▊| 98/100 [00:49<00:01,  1.97it/s][A
+
+sampling:  99%|█████████▉| 99/100 [00:50<00:00,  1.97it/s][A
+
+sampling: 100%|██████████| 100/100 [00:50<00:00,  1.97it/s][A
+sampling: 100%|██████████| 100/100 [00:50<00:00,  1.97it/s]
+
+ 60%|██████    | 3/5 [02:35<01:43, 51.65s/it]
+
+sampling:   0%|          | 0/100 [00:00<?, ?it/s][A
+
+sampling:   1%|          | 1/100 [00:00<00:50,  1.96it/s][A
+
+sampling:   2%|▏         | 2/100 [00:01<00:49,  1.96it/s][A
+
+sampling:   3%|▎         | 3/100 [00:01<00:49,  1.97it/s][A
+
+sampling:   4%|▍         | 4/100 [00:02<00:48,  1.97it/s][A
+
+sampling:   5%|▌         | 5/100 [00:02<00:48,  1.97it/s][A
+
+sampling:   6%|▌         | 6/100 [00:03<00:47,  1.97it/s][A
+
+sampling:   7%|▋         | 7/100 [00:03<00:47,  1.97it/s][A
+
+sampling:   8%|▊         | 8/100 [00:04<00:46,  1.97it/s][A
+
+sampling:   9%|▉         | 9/100 [00:04<00:46,  1.96it/s][A
+
+sampling:  10%|█         | 10/100 [00:05<00:45,  1.96it/s][A
+
+sampling:  11%|█         | 11/100 [00:05<00:45,  1.96it/s][A
+
+sampling:  12%|█▏        | 12/100 [00:06<00:45,  1.95it/s][A
+
+sampling:  13%|█▎        | 13/100 [00:06<00:44,  1.96it/s][A
+
+sampling:  14%|█▍        | 14/100 [00:07<00:44,  1.95it/s][A
+
+sampling:  15%|█▌        | 15/100 [00:07<00:43,  1.95it/s][A
+
+sampling:  16%|█▌        | 16/100 [00:08<00:43,  1.95it/s][A
+
+sampling:  17%|█▋        | 17/100 [00:08<00:42,  1.95it/s][A
+
+sampling:  18%|█▊        | 18/100 [00:09<00:41,  1.96it/s][A
+
+sampling:  19%|█▉        | 19/100 [00:09<00:41,  1.96it/s][A
+
+sampling:  20%|██        | 20/100 [00:10<00:40,  1.96it/s][A
+
+sampling:  21%|██        | 21/100 [00:10<00:40,  1.96it/s][A
+
+sampling:  22%|██▏       | 22/100 [00:11<00:39,  1.96it/s][A
+
+sampling:  23%|██▎       | 23/100 [00:11<00:39,  1.97it/s][A
+
+sampling:  24%|██▍       | 24/100 [00:12<00:38,  1.96it/s][A
+
+sampling:  25%|██▌       | 25/100 [00:12<00:38,  1.96it/s][A
+
+sampling:  26%|██▌       | 26/100 [00:13<00:37,  1.96it/s][A
+
+sampling:  27%|██▋       | 27/100 [00:13<00:37,  1.97it/s][A
+
+sampling:  28%|██▊       | 28/100 [00:14<00:36,  1.97it/s][A
+
+sampling:  29%|██▉       | 29/100 [00:14<00:36,  1.97it/s][A
+
+sampling:  30%|███       | 30/100 [00:15<00:35,  1.97it/s][A
+
+sampling:  31%|███       | 31/100 [00:15<00:35,  1.97it/s][A
+
+sampling:  32%|███▏      | 32/100 [00:16<00:34,  1.97it/s][A
+
+sampling:  33%|███▎      | 33/100 [00:16<00:34,  1.97it/s][A
+
+sampling:  34%|███▍      | 34/100 [00:17<00:33,  1.97it/s][A
+
+sampling:  35%|███▌      | 35/100 [00:17<00:33,  1.97it/s][A
+
+sampling:  36%|███▌      | 36/100 [00:18<00:32,  1.97it/s][A
+
+sampling:  37%|███▋      | 37/100 [00:18<00:32,  1.96it/s][A
+
+sampling:  38%|███▊      | 38/100 [00:19<00:31,  1.96it/s][A
+
+sampling:  39%|███▉      | 39/100 [00:19<00:31,  1.95it/s][A
+
+sampling:  40%|████      | 40/100 [00:20<00:30,  1.96it/s][A
+
+sampling:  41%|████      | 41/100 [00:20<00:30,  1.96it/s][A
+
+sampling:  42%|████▏     | 42/100 [00:21<00:29,  1.96it/s][A
+
+sampling:  43%|████▎     | 43/100 [00:21<00:29,  1.96it/s][A
+
+sampling:  44%|████▍     | 44/100 [00:22<00:28,  1.95it/s][A
+
+sampling:  45%|████▌     | 45/100 [00:22<00:28,  1.95it/s][A
+
+sampling:  46%|████▌     | 46/100 [00:23<00:27,  1.96it/s][A
+
+sampling:  47%|████▋     | 47/100 [00:23<00:27,  1.96it/s][A
+
+sampling:  48%|████▊     | 48/100 [00:24<00:26,  1.96it/s][A
+
+sampling:  49%|████▉     | 49/100 [00:24<00:26,  1.96it/s][A
+
+sampling:  50%|█████     | 50/100 [00:25<00:25,  1.96it/s][A
+
+sampling:  51%|█████     | 51/100 [00:26<00:24,  1.96it/s][A
+
+sampling:  52%|█████▏    | 52/100 [00:26<00:24,  1.96it/s][A
+
+sampling:  53%|█████▎    | 53/100 [00:27<00:23,  1.97it/s][A
+
+sampling:  54%|█████▍    | 54/100 [00:27<00:23,  1.97it/s][A
+
+sampling:  55%|█████▌    | 55/100 [00:28<00:22,  1.97it/s][A
+
+sampling:  56%|█████▌    | 56/100 [00:28<00:22,  1.97it/s][A
+
+sampling:  57%|█████▋    | 57/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  58%|█████▊    | 58/100 [00:29<00:21,  1.97it/s][A
+
+sampling:  59%|█████▉    | 59/100 [00:30<00:20,  1.97it/s][A
+
+sampling:  60%|██████    | 60/100 [00:30<00:20,  1.97it/s][A
+
+sampling:  61%|██████    | 61/100 [00:31<00:19,  1.97it/s][A
+
+sampling:  62%|██████▏   | 62/100 [00:31<00:19,  1.97it/s][A
+
+sampling:  63%|██████▎   | 63/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  64%|██████▍   | 64/100 [00:32<00:18,  1.97it/s][A
+
+sampling:  65%|██████▌   | 65/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  66%|██████▌   | 66/100 [00:33<00:17,  1.97it/s][A
+
+sampling:  67%|██████▋   | 67/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  68%|██████▊   | 68/100 [00:34<00:16,  1.97it/s][A
+
+sampling:  69%|██████▉   | 69/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  70%|███████   | 70/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  71%|███████   | 71/100 [00:36<00:14,  1.97it/s][A
+
+sampling:  72%|███████▏  | 72/100 [00:36<00:14,  1.97it/s][A
+
+sampling:  73%|███████▎  | 73/100 [00:37<00:13,  1.96it/s][A
+
+sampling:  74%|███████▍  | 74/100 [00:37<00:13,  1.96it/s][A
+
+sampling:  75%|███████▌  | 75/100 [00:38<00:12,  1.96it/s][A
+
+sampling:  76%|███████▌  | 76/100 [00:38<00:12,  1.96it/s][A
+
+sampling:  77%|███████▋  | 77/100 [00:39<00:11,  1.96it/s][A
+
+sampling:  78%|███████▊  | 78/100 [00:39<00:11,  1.96it/s][A
+
+sampling:  79%|███████▉  | 79/100 [00:40<00:10,  1.97it/s][A
+
+sampling:  80%|████████  | 80/100 [00:40<00:10,  1.97it/s][A
+
+sampling:  81%|████████  | 81/100 [00:41<00:09,  1.97it/s][A
+
+sampling:  82%|████████▏ | 82/100 [00:41<00:09,  1.97it/s][A
+
+sampling:  83%|████████▎ | 83/100 [00:42<00:08,  1.97it/s][A
+
+sampling:  84%|████████▍ | 84/100 [00:42<00:08,  1.97it/s][A
+
+sampling:  85%|████████▌ | 85/100 [00:43<00:07,  1.97it/s][A
+
+sampling:  86%|████████▌ | 86/100 [00:43<00:07,  1.97it/s][A
+
+sampling:  87%|████████▋ | 87/100 [00:44<00:06,  1.97it/s][A
+
+sampling:  88%|████████▊ | 88/100 [00:44<00:06,  1.97it/s][A
+
+sampling:  89%|████████▉ | 89/100 [00:45<00:05,  1.97it/s][A
+
+sampling:  90%|█████████ | 90/100 [00:45<00:05,  1.96it/s][A
+
+sampling:  91%|█████████ | 91/100 [00:46<00:04,  1.97it/s][A
+
+sampling:  92%|█████████▏| 92/100 [00:46<00:04,  1.96it/s][A
+
+sampling:  93%|█████████▎| 93/100 [00:47<00:03,  1.96it/s][A
+
+sampling:  94%|█████████▍| 94/100 [00:47<00:03,  1.96it/s][A
+
+sampling:  95%|█████████▌| 95/100 [00:48<00:02,  1.96it/s][A
+
+sampling:  96%|█████████▌| 96/100 [00:48<00:02,  1.96it/s][A
+
+sampling:  97%|█████████▋| 97/100 [00:49<00:01,  1.96it/s][A
+
+sampling:  98%|█████████▊| 98/100 [00:49<00:01,  1.96it/s][A
+
+sampling:  99%|█████████▉| 99/100 [00:50<00:00,  1.96it/s][A
+
+sampling: 100%|██████████| 100/100 [00:50<00:00,  1.96it/s][A
+sampling: 100%|██████████| 100/100 [00:50<00:00,  1.96it/s]
+
+ 80%|████████  | 4/5 [03:26<00:51, 51.52s/it]
+
+sampling:   0%|          | 0/100 [00:00<?, ?it/s][A
+
+sampling:   1%|          | 1/100 [00:00<00:50,  1.96it/s][A
+
+sampling:   2%|▏         | 2/100 [00:01<00:49,  1.96it/s][A
+
+sampling:   3%|▎         | 3/100 [00:01<00:49,  1.96it/s][A
+
+sampling:   4%|▍         | 4/100 [00:02<00:49,  1.96it/s][A
+
+sampling:   5%|▌         | 5/100 [00:02<00:48,  1.96it/s][A
+
+sampling:   6%|▌         | 6/100 [00:03<00:47,  1.96it/s][A
+
+sampling:   7%|▋         | 7/100 [00:03<00:47,  1.96it/s][A
+
+sampling:   8%|▊         | 8/100 [00:04<00:46,  1.97it/s][A
+
+sampling:   9%|▉         | 9/100 [00:04<00:46,  1.97it/s][A
+
+sampling:  10%|█         | 10/100 [00:05<00:45,  1.97it/s][A
+
+sampling:  11%|█         | 11/100 [00:05<00:45,  1.97it/s][A
+
+sampling:  12%|█▏        | 12/100 [00:06<00:44,  1.97it/s][A
+
+sampling:  13%|█▎        | 13/100 [00:06<00:44,  1.97it/s][A
+
+sampling:  14%|█▍        | 14/100 [00:07<00:43,  1.97it/s][A
+
+sampling:  15%|█▌        | 15/100 [00:07<00:43,  1.97it/s][A
+
+sampling:  16%|█▌        | 16/100 [00:08<00:42,  1.97it/s][A
+
+sampling:  17%|█▋        | 17/100 [00:08<00:42,  1.97it/s][A
+
+sampling:  18%|█▊        | 18/100 [00:09<00:41,  1.97it/s][A
+
+sampling:  19%|█▉        | 19/100 [00:09<00:41,  1.97it/s][A
+
+sampling:  20%|██        | 20/100 [00:10<00:40,  1.97it/s][A
+
+sampling:  21%|██        | 21/100 [00:10<00:40,  1.97it/s][A
+
+sampling:  22%|██▏       | 22/100 [00:11<00:39,  1.97it/s][A
+
+sampling:  23%|██▎       | 23/100 [00:11<00:39,  1.97it/s][A
+
+sampling:  24%|██▍       | 24/100 [00:12<00:38,  1.97it/s][A
+
+sampling:  25%|██▌       | 25/100 [00:12<00:38,  1.97it/s][A
+
+sampling:  26%|██▌       | 26/100 [00:13<00:37,  1.96it/s][A
+
+sampling:  27%|██▋       | 27/100 [00:13<00:37,  1.96it/s][A
+
+sampling:  28%|██▊       | 28/100 [00:14<00:36,  1.96it/s][A
+
+sampling:  29%|██▉       | 29/100 [00:14<00:36,  1.95it/s][A
+
+sampling:  30%|███       | 30/100 [00:15<00:35,  1.95it/s][A
+
+sampling:  31%|███       | 31/100 [00:15<00:35,  1.96it/s][A
+
+sampling:  32%|███▏      | 32/100 [00:16<00:34,  1.96it/s][A
+
+sampling:  33%|███▎      | 33/100 [00:16<00:34,  1.96it/s][A
+
+sampling:  34%|███▍      | 34/100 [00:17<00:33,  1.96it/s][A
+
+sampling:  35%|███▌      | 35/100 [00:17<00:33,  1.97it/s][A
+
+sampling:  36%|███▌      | 36/100 [00:18<00:32,  1.97it/s][A
+
+sampling:  37%|███▋      | 37/100 [00:18<00:32,  1.97it/s][A
+
+sampling:  38%|███▊      | 38/100 [00:19<00:31,  1.97it/s][A
+
+sampling:  39%|███▉      | 39/100 [00:19<00:30,  1.97it/s][A
+
+sampling:  40%|████      | 40/100 [00:20<00:30,  1.97it/s][A
+
+sampling:  41%|████      | 41/100 [00:20<00:29,  1.97it/s][A
+
+sampling:  42%|████▏     | 42/100 [00:21<00:29,  1.97it/s][A
+
+sampling:  43%|████▎     | 43/100 [00:21<00:28,  1.97it/s][A
+
+sampling:  44%|████▍     | 44/100 [00:22<00:28,  1.97it/s][A
+
+sampling:  45%|████▌     | 45/100 [00:22<00:27,  1.97it/s][A
+
+sampling:  46%|████▌     | 46/100 [00:23<00:27,  1.97it/s][A
+
+sampling:  47%|████▋     | 47/100 [00:23<00:26,  1.97it/s][A
+
+sampling:  48%|████▊     | 48/100 [00:24<00:26,  1.97it/s][A
+
+sampling:  49%|████▉     | 49/100 [00:24<00:25,  1.97it/s][A
+
+sampling:  50%|█████     | 50/100 [00:25<00:25,  1.97it/s][A
+
+sampling:  51%|█████     | 51/100 [00:25<00:24,  1.97it/s][A
+
+sampling:  52%|█████▏    | 52/100 [00:26<00:24,  1.97it/s][A
+
+sampling:  53%|█████▎    | 53/100 [00:26<00:23,  1.97it/s][A
+
+sampling:  54%|█████▍    | 54/100 [00:27<00:23,  1.97it/s][A
+
+sampling:  55%|█████▌    | 55/100 [00:27<00:22,  1.97it/s][A
+
+sampling:  56%|█████▌    | 56/100 [00:28<00:22,  1.96it/s][A
+
+sampling:  57%|█████▋    | 57/100 [00:29<00:21,  1.96it/s][A
+
+sampling:  58%|█████▊    | 58/100 [00:29<00:21,  1.96it/s][A
+
+sampling:  59%|█████▉    | 59/100 [00:30<00:20,  1.96it/s][A
+
+sampling:  60%|██████    | 60/100 [00:30<00:20,  1.96it/s][A
+
+sampling:  61%|██████    | 61/100 [00:31<00:19,  1.95it/s][A
+
+sampling:  62%|██████▏   | 62/100 [00:31<00:19,  1.95it/s][A
+
+sampling:  63%|██████▎   | 63/100 [00:32<00:18,  1.96it/s][A
+
+sampling:  64%|██████▍   | 64/100 [00:32<00:18,  1.96it/s][A
+
+sampling:  65%|██████▌   | 65/100 [00:33<00:17,  1.96it/s][A
+
+sampling:  66%|██████▌   | 66/100 [00:33<00:17,  1.96it/s][A
+
+sampling:  67%|██████▋   | 67/100 [00:34<00:16,  1.96it/s][A
+
+sampling:  68%|██████▊   | 68/100 [00:34<00:16,  1.96it/s][A
+
+sampling:  69%|██████▉   | 69/100 [00:35<00:15,  1.97it/s][A
+
+sampling:  70%|███████   | 70/100 [00:35<00:15,  1.96it/s][A
+
+sampling:  71%|███████   | 71/100 [00:36<00:14,  1.96it/s][A
+
+sampling:  72%|███████▏  | 72/100 [00:36<00:14,  1.96it/s][A
+
+sampling:  73%|███████▎  | 73/100 [00:37<00:13,  1.96it/s][A
+
+sampling:  74%|███████▍  | 74/100 [00:37<00:13,  1.96it/s][A
+
+sampling:  75%|███████▌  | 75/100 [00:38<00:12,  1.96it/s][A
+
+sampling:  76%|███████▌  | 76/100 [00:38<00:12,  1.96it/s][A
+
+sampling:  77%|███████▋  | 77/100 [00:39<00:11,  1.95it/s][A
+
+sampling:  78%|███████▊  | 78/100 [00:39<00:11,  1.94it/s][A
+
+sampling:  79%|███████▉  | 79/100 [00:40<00:10,  1.94it/s][A
+
+sampling:  80%|████████  | 80/100 [00:40<00:10,  1.94it/s][A
+
+sampling:  81%|████████  | 81/100 [00:41<00:09,  1.93it/s][A
+
+sampling:  82%|████████▏ | 82/100 [00:41<00:09,  1.92it/s][A
+
+sampling:  83%|████████▎ | 83/100 [00:42<00:08,  1.92it/s][A
+
+sampling:  84%|████████▍ | 84/100 [00:42<00:08,  1.91it/s][A
+
+sampling:  85%|████████▌ | 85/100 [00:43<00:07,  1.91it/s][A
+
+sampling:  86%|████████▌ | 86/100 [00:43<00:07,  1.91it/s][A
+
+sampling:  87%|████████▋ | 87/100 [00:44<00:06,  1.91it/s][A
+
+sampling:  88%|████████▊ | 88/100 [00:44<00:06,  1.91it/s][A
+
+sampling:  89%|████████▉ | 89/100 [00:45<00:05,  1.91it/s][A
+
+sampling:  90%|█████████ | 90/100 [00:46<00:05,  1.91it/s][A
+
+sampling:  91%|█████████ | 91/100 [00:46<00:04,  1.91it/s][A
+
+sampling:  92%|█████████▏| 92/100 [00:47<00:04,  1.91it/s][A
+
+sampling:  93%|█████████▎| 93/100 [00:47<00:03,  1.91it/s][A
+
+sampling:  94%|█████████▍| 94/100 [00:48<00:03,  1.91it/s][A
+
+sampling:  95%|█████████▌| 95/100 [00:48<00:02,  1.91it/s][A
+
+sampling:  96%|█████████▌| 96/100 [00:49<00:02,  1.92it/s][A
+
+sampling:  97%|█████████▋| 97/100 [00:49<00:01,  1.92it/s][A
+
+sampling:  98%|█████████▊| 98/100 [00:50<00:01,  1.92it/s][A
+
+sampling:  99%|█████████▉| 99/100 [00:50<00:00,  1.92it/s][A
+
+sampling: 100%|██████████| 100/100 [00:51<00:00,  1.92it/s][A
+sampling: 100%|██████████| 100/100 [00:51<00:00,  1.95it/s]
+
+100%|██████████| 5/5 [04:18<00:00, 51.56s/it]
+100%|██████████| 5/5 [04:18<00:00, 51.70s/it]
+
+
+real 399.13
+user 950.00
+sys 23.52

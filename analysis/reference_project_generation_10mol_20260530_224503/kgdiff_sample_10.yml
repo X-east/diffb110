@@ -1,0 +1,13 @@
+model:
+  policy_ckpt: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/kgdiff_assets/logs_diffusion/training_2023_06_06__19_20_16/checkpoints/671000.pt
+  value_ckpt: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/kgdiff_assets/logs_diffusion/training_2023_06_06__16_05_56/checkpoints/1292000.pt
+  joint_ckpt: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/kgdiff_assets/logs_diffusion/training_2023_06_06__20_16_16/checkpoints/642000.pt
+  pdbbind_random: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/kgdiff_assets/logs_diffusion/training_2023_09_29__14_08_47/checkpoints/1415000.pt
+
+sample:
+  seed: 2021
+  num_samples: 10
+  num_steps: 1000
+  pos_only: false
+  center_pos_mode: protein
+  sample_num_atoms: prior

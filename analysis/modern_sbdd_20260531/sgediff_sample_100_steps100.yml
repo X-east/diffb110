@@ -1,0 +1,13 @@
+sample:
+  seed: 2024
+  num_samples: 100
+  num_steps: 100
+  pos_only: False
+  center_pos_mode: protein
+  sample_num_atoms: prior
+
+model:
+  target_diff: "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/SGEDiff/trained_model/KGDiff/985000.pt"
+  kg_diff: "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/SGEDiff/trained_model/KGDiff/985000.pt"
+  SGEDiff: "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/SGEDiff/trained_model/SGEDiff/1000000.pt"
+  SGEDiff-NG: "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/SGEDiff/trained_model/SGEDiff/1000000.pt"

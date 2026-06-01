@@ -1,0 +1,76 @@
+/home/md666/miniforge3/envs/gcdm_sbdd_modern_ref/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+/home/md666/miniforge3/envs/gcdm_sbdd_modern_ref/lib/python3.10/site-packages/pytorch_lightning/utilities/migration/utils.py:49: PossibleUserWarning: The loaded checkpoint was produced with Lightning v2.0.2, which is newer than your current Lightning version: v1.9.4
+  rank_zero_warn(
+/home/md666/miniforge3/envs/gcdm_sbdd_modern_ref/lib/python3.10/site-packages/Bio/PDB/Polypeptide.py:144: BiopythonDeprecationWarning: 'three_to_one' will be deprecated in a future release of Biopython in favor of 'Bio.PDB.Polypeptide.protein_letters_3to1'.
+  warnings.warn(
+[21:48:07] Explicit valence for atom # 8 C, 7, is greater than permitted
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/GCDM-SBDD/analysis/molecule_builder.py:174: UserWarning: Sanitization failed. Returning None.
+  warnings.warn('Sanitization failed. Returning None.')
+[21:48:07] Explicit valence for atom # 17 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 2 N, 4, is greater than permitted
+[21:48:07] Explicit valence for atom # 21 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 0 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 11 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 20 N, 4, is greater than permitted
+[21:48:07] Explicit valence for atom # 0 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 4 N, 4, is greater than permitted
+[21:48:07] Explicit valence for atom # 16 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 11 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 0 N, 4, is greater than permitted
+[21:48:07] Explicit valence for atom # 5 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 18 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 2 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 1 N, 4, is greater than permitted
+[21:48:07] Explicit valence for atom # 2 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 14 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 5 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 4 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 7 P, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 8 P, 7, is greater than permitted
+[21:48:07] Explicit valence for atom # 20 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 4 P, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 15 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 15 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 2 C, 7, is greater than permitted
+[21:48:07] Explicit valence for atom # 20 N, 4, is greater than permitted
+[21:48:07] Explicit valence for atom # 1 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 21 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 21 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 7 P, 7, is greater than permitted
+[21:48:07] Explicit valence for atom # 11 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 14 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 9 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 2 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 23 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 9 C, 6, is greater than permitted
+[21:48:07] Explicit valence for atom # 8 C, 5, is greater than permitted
+[21:48:07] Explicit valence for atom # 23 C, 5, is greater than permitted
+[21:48:08] Explicit valence for atom # 13 C, 5, is greater than permitted
+[21:48:08] Explicit valence for atom # 7 O, 3, is greater than permitted
+[21:48:08] Explicit valence for atom # 0 C, 5, is greater than permitted
+[21:48:08] Explicit valence for atom # 0 O, 3, is greater than permitted
+[21:48:08] Explicit valence for atom # 4 C, 6, is greater than permitted
+[21:48:08] Explicit valence for atom # 0 N, 4, is greater than permitted
+[21:48:08] Explicit valence for atom # 4 C, 6, is greater than permitted
+[21:48:08] Explicit valence for atom # 1 N, 5, is greater than permitted
+[21:48:08] Explicit valence for atom # 6 O, 3, is greater than permitted
+[21:48:08] Explicit valence for atom # 4 C, 7, is greater than permitted
+[21:48:08] Explicit valence for atom # 0 N, 4, is greater than permitted
+[21:48:08] Explicit valence for atom # 1 N, 4, is greater than permitted
+[21:48:08] Explicit valence for atom # 15 C, 5, is greater than permitted
+[21:48:08] Explicit valence for atom # 17 C, 5, is greater than permitted
+[21:48:08] Explicit valence for atom # 2 C, 7, is greater than permitted
+
+alphas2 [9.99990000e-01 9.99988000e-01 9.99982000e-01 ... 2.59676966e-05
+ 1.39959211e-05 1.00039959e-05]
+gamma [-11.51291546 -11.33059532 -10.92513058 ...  10.55863126  11.17673063
+  11.51251595]
+Entropy of n_nodes: H[N] 7.055830001831055
+Wrote SDF file to /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/gcdm_100_steps100_crossdock_gcpnet/output/14gs_mol.sdf
+
+real 117.08
+user 113.83
+sys 11.01

@@ -1,0 +1,11 @@
+[2026-05-30 22:35:01,782::sample::INFO] Namespace(batch_size=1, config='/home/md666/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/diffgui_sample_min.yml', device='cuda:0', logdir='logs', outdir='/home/md666/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/diffgui_outputs_gpu')
+[2026-05-30 22:35:01,782::sample::INFO] {'model': {'checkpoint': 'ckpt/trained.pt', 'target': 'sample/3ztx_pocket.pdb', 'ligand': 'None', 'frag': 'None', 'gen_mode': 'denovo', 'logp': 2.0, 'tpsa': 100, 'sa': 1.0, 'qed': 0.8, 'aff': 12.0}, 'bond_predictor': 'ckpt/bond_trained.pt', 'sample': {'seed': 2023, 'batch_size': 1, 'num_mols': 1, 'save_traj_prob': 0.0, 'sample': True, 'sample_method': 'priori', 'mode': 'pocket', 'test_id': 0, 'add_edge': 'None', 'gui_strength': 3.0, 'guidance': ['uncertainty', 0.0001]}, 'data': {'name': 'protein_ligand', 'path': 'data/PDBbind_v2020_pocket10', 'split': 'data/PDBbind_pocket10_split.pt', 'protein_root': 'data/PDBbind_v2020', 'dataset': 'pdbbind', 'transform': {'ligand_atom_mode': 'aromatic', 'random_rot': False, 'sample': False}}}
+[2026-05-30 22:35:01,783::sample::INFO] Loading data placeholder...
+[2026-05-30 22:35:01,783::sample::INFO] Loading diffusion model...
+[2026-05-30 22:35:02,055::sample::INFO] Building bond predictor...
+[2026-05-30 22:35:02,557::sample::INFO] Protein Pocket: sample/3ztx_pocket.pdb
+[2026-05-30 22:35:02,557::sample::INFO] Reference Ligand: None
+[2026-05-30 22:35:02,557::sample::INFO] Optimization Fragment: None
+[2026-05-30 22:35:02,568::sample::INFO] ligand_num_atoms: [19]
+[2026-05-30 22:38:24,959::sample::INFO] Success: O=c1c2ccccc2oc2cccc3nccc1c32
+[2026-05-30 22:38:26,197::sample::INFO] [Pool] Finished 1 | Failed 0

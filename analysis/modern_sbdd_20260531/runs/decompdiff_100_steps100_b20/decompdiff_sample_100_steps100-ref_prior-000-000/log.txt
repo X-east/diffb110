@@ -1,0 +1,81 @@
+[2026-05-31 22:39:07,821::evaluate::INFO] Namespace(batch_size=20, beta_prior_path='./pregen_info/beta_priors', bp_num_atoms_mode='v2', ckpt_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/decompdiff.pt', config='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/decompdiff_sample_100_steps100.yml', data_id=0, device='cuda:0', dup_id=0, final_test=False, index_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/test_index.pkl', natom_models_path='./pregen_info/natom_models.pkl', num_atoms_mode='ref', ori_data_path='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/extracted/data/crossdocked_v1.1_rmsd1.0_eval', outdir='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/decompdiff_100_steps100_b20', prior_mode='ref_prior', recon_with_bond=True, reference_arm_path='none', suffix=None)
+[2026-05-31 22:39:07,821::evaluate::INFO] {'data': {'name': 'pl', 'path': '/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/crossdocked_v1.1_rmsd1.0_processed', 'split': '/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/split_by_name.pt', 'mode': 'full', 'include_dummy_atoms': False, 'version': 'similarity', 'prior_mode': 'ref_prior', 'transform': {'add_ord_feat': False, 'add_retrieved_feat': False, 'top_k_sim': 1, 'ligand_atom_mode': 'basic', 'ligand_bond_mode': 'fc', 'max_num_arms': 10, 'random_rot': False}}, 'model': {'checkpoint': None}, 'sample': {'seed': 2024, 'gen_mode': 'complete', 'init_pos_mode': 'protein_center', 'prior_mode': 'ref_prior', 'num_samples': 100, 'num_steps': 100, 'pos_only': False, 'center_pos_mode': 'protein', 'sample_num_atoms': 'prior', 'arms_num_atoms_config': '/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/arm_num_config.pkl', 'scaffold_num_atoms_config': '/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/scaffold_num_config.pkl', 'energy_drift': [{'type': 'armsca_prox', 'min_d': 1.2, 'max_d': 1.9}, {'type': 'clash', 'sigma': 2, 'gamma': 4}]}}
+[2026-05-31 22:39:10,516::evaluate::INFO] Training Config: {'data': {'name': 'pl', 'path': './data/crossdocked_v1.1_rmsd1.0_processed', 'split': './data/split_by_name.pt', 'mode': 'full', 'include_dummy_atoms': False, 'version': 'ref_prior_aromatic', 'prior_mode': 'ref_prior', 'transform': {'add_ord_feat': False, 'ligand_atom_mode': 'basic', 'ligand_bond_mode': 'fc', 'max_num_arms': 10, 'random_rot': False}}, 'model': {'model_mean_type': 'C0', 'beta_schedule': 'sigmoid', 'beta_start': 1e-07, 'beta_end': 0.002, 'v_beta_schedule': 'cosine', 'v_beta_s': 0.01, 'num_diffusion_timesteps': 1000, 'v_mode': 'categorical', 'v_net_type': 'mlp', 'loss_pos_type': 'mse', 'sample_time_method': 'symmetric', 'bond_diffusion': True, 'bond_net_type': 'lin', 'num_bond_classes': 5, 'prior_types': False, 'h_node_in_bond_net': True, 'add_prior_node': False, 'time_emb_dim': 0, 'time_emb_mode': 'simple', 'center_pos_mode': 'protein', 'node_indicator': True, 'model_type': 'uni_o2_bond', 'num_blocks': 1, 'num_layers': 6, 'hidden_dim': 128, 'n_heads': 16, 'edge_feat_dim': 4, 'num_r_gaussian': 20, 'knn': 32, 'act_fn': 'relu', 'norm': True, 'cutoff_mode': 'knn', 'r_max': 10.0, 'x2h_out_fc': False, 'sync_twoup': False}, 'train': {'seed': 2021, 'loss_weights': {'pos': 1.0, 'v': 100.0, 'bond': 100.0}, 'batch_size': 4, 'num_workers': 4, 'n_acc_batch': 1, 'max_iters': 500000, 'val_freq': 2000, 'pos_noise_std': 0.1, 'prior_noise_std': 0.5, 'max_grad_norm': 8.0, 'bond_loss_weight': 1.0, 'optimizer': {'type': 'adam', 'lr': 0.0005, 'weight_decay': 0, 'beta1': 0.95, 'beta2': 0.999}, 'scheduler': {'type': 'plateau', 'factor': 0.6, 'patience': 10, 'min_lr': 1e-06}}}
+[2026-05-31 22:39:10,627::evaluate::INFO] Successfully load the model! /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/assets/DecompOpt/decompdiff.pt
+[2026-05-31 22:39:10,627::evaluate::INFO] Successfully load arms num atoms config from /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/arm_num_config.pkl
+[2026-05-31 22:39:10,628::evaluate::INFO] Successfully load scaffold num atoms config from /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DecompOpt/utils/evaluation/scaffold_num_config.pkl
+[2026-05-31 22:39:11,220::evaluate::INFO] Apply golden prior for data id 0
+[2026-05-31 22:39:11,365::evaluate::INFO] ligand_num_atoms=[31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31]
+[2026-05-31 22:40:16,487::evaluate::INFO] ligand_num_atoms=[31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31]
+[2026-05-31 22:41:20,913::evaluate::INFO] ligand_num_atoms=[31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31]
+[2026-05-31 22:42:25,270::evaluate::INFO] ligand_num_atoms=[31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31]
+[2026-05-31 22:43:29,167::evaluate::INFO] ligand_num_atoms=[31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31]
+[2026-05-31 22:44:35,157::evaluate::WARNING] Reconstruct failed 0
+[2026-05-31 22:44:35,880::evaluate::WARNING] Reconstruct failed 1
+[2026-05-31 22:44:37,856::evaluate::WARNING] Reconstruct failed 2
+[2026-05-31 22:44:38,454::evaluate::WARNING] Reconstruct failed 3
+[2026-05-31 22:44:39,354::evaluate::WARNING] Reconstruct failed 4
+[2026-05-31 22:44:44,060::evaluate::WARNING] Reconstruct failed 5
+[2026-05-31 22:44:44,703::evaluate::WARNING] Reconstruct failed 6
+[2026-05-31 22:44:46,191::evaluate::WARNING] Reconstruct failed 7
+[2026-05-31 22:44:48,463::evaluate::WARNING] Reconstruct failed 8
+[2026-05-31 22:44:49,205::evaluate::WARNING] Reconstruct failed 9
+[2026-05-31 22:44:50,452::evaluate::WARNING] Reconstruct failed 10
+[2026-05-31 22:46:51,071::evaluate::WARNING] Reconstruct failed 11
+[2026-05-31 22:46:53,133::evaluate::WARNING] Reconstruct failed 12
+[2026-05-31 22:52:52,441::evaluate::WARNING] Reconstruct failed 13
+[2026-05-31 22:52:57,340::evaluate::WARNING] Reconstruct failed 14
+[2026-05-31 22:53:03,187::evaluate::WARNING] Reconstruct failed 15
+[2026-05-31 22:53:16,556::evaluate::WARNING] Reconstruct failed 16
+[2026-05-31 22:53:18,417::evaluate::WARNING] Reconstruct failed 17
+[2026-05-31 22:53:32,637::evaluate::WARNING] Reconstruct failed 18
+[2026-05-31 22:53:33,223::evaluate::WARNING] Reconstruct failed 19
+[2026-05-31 22:54:13,702::evaluate::WARNING] Reconstruct failed 20
+[2026-05-31 22:54:15,560::evaluate::WARNING] Reconstruct failed 21
+[2026-05-31 22:54:16,618::evaluate::WARNING] Reconstruct failed 22
+[2026-05-31 22:54:17,661::evaluate::WARNING] Reconstruct failed 23
+[2026-05-31 22:54:31,608::evaluate::WARNING] Reconstruct failed 24
+[2026-05-31 22:54:33,622::evaluate::WARNING] Reconstruct failed 25
+[2026-05-31 22:54:38,956::evaluate::WARNING] Reconstruct failed 26
+[2026-05-31 22:54:39,651::evaluate::WARNING] Reconstruct failed 27
+[2026-05-31 22:54:53,130::evaluate::WARNING] Reconstruct failed 28
+[2026-05-31 22:54:53,886::evaluate::WARNING] Reconstruct failed 29
+[2026-05-31 22:54:54,533::evaluate::WARNING] Reconstruct failed 30
+[2026-05-31 22:54:56,667::evaluate::WARNING] Reconstruct failed 31
+[2026-05-31 23:00:43,904::evaluate::WARNING] Reconstruct failed 32
+[2026-05-31 23:00:45,329::evaluate::WARNING] Reconstruct failed 33
+[2026-05-31 23:00:59,216::evaluate::WARNING] Reconstruct failed 34
+[2026-05-31 23:01:01,196::evaluate::WARNING] Reconstruct failed 35
+[2026-05-31 23:01:03,128::evaluate::WARNING] Reconstruct failed 36
+[2026-05-31 23:01:42,565::evaluate::WARNING] Reconstruct failed 37
+[2026-05-31 23:01:43,246::evaluate::WARNING] Reconstruct failed 38
+[2026-05-31 23:01:43,830::evaluate::WARNING] Reconstruct failed 39
+[2026-05-31 23:01:49,748::evaluate::WARNING] Reconstruct failed 40
+[2026-05-31 23:02:03,747::evaluate::WARNING] Reconstruct failed 41
+[2026-05-31 23:02:05,696::evaluate::WARNING] Reconstruct failed 42
+[2026-05-31 23:02:06,309::evaluate::WARNING] Reconstruct failed 43
+[2026-05-31 23:02:08,240::evaluate::WARNING] Reconstruct failed 44
+[2026-05-31 23:02:08,840::evaluate::WARNING] Reconstruct failed 45
+[2026-05-31 23:02:13,889::evaluate::WARNING] Reconstruct failed 46
+[2026-05-31 23:02:14,446::evaluate::WARNING] Reconstruct failed 47
+[2026-05-31 23:02:15,458::evaluate::WARNING] Reconstruct failed 48
+[2026-05-31 23:02:17,487::evaluate::WARNING] Reconstruct failed 49
+[2026-05-31 23:02:18,283::evaluate::WARNING] Reconstruct failed 50
+[2026-05-31 23:02:19,191::evaluate::WARNING] Reconstruct failed 51
+[2026-05-31 23:02:20,299::evaluate::WARNING] Reconstruct failed 52
+[2026-05-31 23:02:20,918::evaluate::WARNING] Reconstruct failed 53
+[2026-05-31 23:02:22,104::evaluate::WARNING] Reconstruct failed 54
+[2026-05-31 23:02:23,176::evaluate::WARNING] Reconstruct failed 55
+[2026-05-31 23:02:24,001::evaluate::WARNING] Reconstruct failed 56
+[2026-05-31 23:02:25,427::evaluate::WARNING] Reconstruct failed 57
+[2026-05-31 23:02:39,259::evaluate::WARNING] Reconstruct failed 58
+[2026-05-31 23:02:39,979::evaluate::WARNING] Reconstruct failed 59
+[2026-05-31 23:02:46,459::evaluate::WARNING] Reconstruct failed 60
+[2026-05-31 23:02:47,328::evaluate::WARNING] Reconstruct failed 61
+[2026-05-31 23:02:48,021::evaluate::WARNING] Reconstruct failed 62
+[2026-05-31 23:02:48,988::evaluate::WARNING] Reconstruct failed 63
+[2026-05-31 23:02:53,970::evaluate::WARNING] Reconstruct failed 64
+[2026-05-31 23:02:58,857::evaluate::WARNING] Reconstruct failed 65
+[2026-05-31 23:03:00,981::evaluate::WARNING] Reconstruct failed 66
+[2026-05-31 23:03:14,855::evaluate::WARNING] Reconstruct failed 67
+[2026-05-31 23:03:20,024::evaluate::WARNING] Reconstruct failed 68

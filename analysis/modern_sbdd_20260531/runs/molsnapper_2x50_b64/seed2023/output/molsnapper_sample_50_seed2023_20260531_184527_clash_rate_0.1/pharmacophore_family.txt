@@ -1,0 +1,4 @@
+pharmacophore mean[ 2.09833333 28.25944444  8.71833333]
+Donor
+Donor
+Donor

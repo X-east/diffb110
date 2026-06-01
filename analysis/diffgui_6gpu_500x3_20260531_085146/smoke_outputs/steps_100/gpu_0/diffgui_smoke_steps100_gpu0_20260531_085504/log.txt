@@ -1,0 +1,9 @@
+[2026-05-31 08:55:04,185::sample::INFO] Namespace(batch_size=1, config='/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/configs/diffgui_smoke_steps100_gpu0.yml', device='cuda:0', logdir='logs', outdir='/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/smoke_outputs/steps_100/gpu_0')
+[2026-05-31 08:55:04,185::sample::INFO] {'model': {'checkpoint': 'ckpt/trained.pt', 'target': 'sample/3ztx_pocket.pdb', 'ligand': 'None', 'frag': 'None', 'gen_mode': 'denovo', 'logp': 2.0, 'tpsa': 100, 'sa': 1.0, 'qed': 0.8, 'aff': 12.0}, 'bond_predictor': 'ckpt/bond_trained.pt', 'sample': {'seed': 2026053101, 'batch_size': 1, 'num_mols': 1, 'save_traj_prob': 0.0, 'sample': True, 'sample_method': 'priori', 'mode': 'pocket', 'test_id': 0, 'add_edge': 'None', 'gui_strength': 3.0, 'guidance': ['uncertainty', 0.0001]}, 'data': {'name': 'protein_ligand', 'path': 'data/PDBbind_v2020_pocket10', 'split': 'data/PDBbind_pocket10_split.pt', 'protein_root': 'data/PDBbind_v2020', 'dataset': 'pdbbind', 'transform': {'ligand_atom_mode': 'aromatic', 'random_rot': False, 'sample': False}}, 'runtime': {'diffusion_steps': 100, 'gpu_id': 0, 'target_count': 1, 'total_target_for_step': 500}}
+[2026-05-31 08:55:04,185::sample::INFO] Loading data placeholder...
+[2026-05-31 08:55:04,185::sample::INFO] Loading diffusion model...
+[2026-05-31 08:55:04,512::sample::INFO] Building bond predictor...
+[2026-05-31 08:55:05,042::sample::INFO] Protein Pocket: sample/3ztx_pocket.pdb
+[2026-05-31 08:55:05,043::sample::INFO] Reference Ligand: None
+[2026-05-31 08:55:05,043::sample::INFO] Optimization Fragment: None
+[2026-05-31 08:55:05,054::sample::INFO] ligand_num_atoms: [23]

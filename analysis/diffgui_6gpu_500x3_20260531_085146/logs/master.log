@@ -1,0 +1,45 @@
+Wrote 18 configs to /data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146/configs
+
+[launch] starting diffusion steps=100
+[launch] steps=100 gpu=0 pid=1078281 target=84
+[launch] steps=100 gpu=1 pid=1078284 target=84
+[launch] steps=100 gpu=2 pid=1078287 target=83
+[launch] steps=100 gpu=3 pid=1078290 target=83
+[launch] steps=100 gpu=4 pid=1078293 target=83
+[launch] steps=100 gpu=5 pid=1078296 target=83
+[launch] steps=100 gpu=0 completed
+[launch] steps=100 gpu=1 completed
+[launch] steps=100 gpu=2 completed
+[launch] steps=100 gpu=3 completed
+[launch] steps=100 gpu=4 completed
+[launch] steps=100 gpu=5 completed
+[launch] aggregated steps=100
+[launch] starting diffusion steps=200
+[launch] steps=200 gpu=0 pid=1097315 target=84
+[launch] steps=200 gpu=1 pid=1097318 target=84
+[launch] steps=200 gpu=2 pid=1097321 target=83
+[launch] steps=200 gpu=3 pid=1097324 target=83
+[launch] steps=200 gpu=4 pid=1097327 target=83
+[launch] steps=200 gpu=5 pid=1097330 target=83
+[launch] steps=200 gpu=0 completed
+[launch] steps=200 gpu=1 completed
+[launch] steps=200 gpu=2 completed
+[launch] steps=200 gpu=3 completed
+[launch] steps=200 gpu=4 completed
+[launch] steps=200 gpu=5 completed
+[launch] aggregated steps=200
+[launch] starting diffusion steps=1000
+[launch] steps=1000 gpu=0 pid=1133879 target=84
+[launch] steps=1000 gpu=1 pid=1133881 target=84
+[launch] steps=1000 gpu=2 pid=1133885 target=83
+[launch] steps=1000 gpu=3 pid=1133888 target=83
+[launch] steps=1000 gpu=4 pid=1133891 target=83
+[launch] steps=1000 gpu=5 pid=1133894 target=83
+[launch] steps=1000 gpu=0 completed
+[launch] steps=1000 gpu=1 completed
+[launch] steps=1000 gpu=2 completed
+[launch] steps=1000 gpu=3 completed
+[launch] steps=1000 gpu=4 completed
+[launch] steps=1000 gpu=5 completed
+[launch] aggregated steps=1000
+[launch] all DiffGui batches finished

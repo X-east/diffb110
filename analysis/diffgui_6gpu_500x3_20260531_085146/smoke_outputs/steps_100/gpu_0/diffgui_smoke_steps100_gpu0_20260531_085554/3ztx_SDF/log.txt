@@ -1,0 +1,2 @@
+number, smiles, sa, qed, vina, score:
+0, O=C1N=CN=c2c1c1ccccc1c1c2=c2cccc(O)c2=N1, 0.73, 0.5382744573164749, -6.848, -8.116274457316475

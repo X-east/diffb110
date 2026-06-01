@@ -1,0 +1,3 @@
+number, smiles, sa, qed, vina, score:
+0, O=C(O)c1ccc(Nc2nc3c(c(-c4cccc5ccccc45)n2)C=N3)cc1, 0.83, 0.476835045097582, -7.215, -8.521835045097582
+1, CCNS(=O)(=O)c1ccc(Nc2ncc(F)c(-c3ccccc3OCCNC=O)n2)cc1, 0.82, 0.2973448975616653, -5.019, -6.136344897561666

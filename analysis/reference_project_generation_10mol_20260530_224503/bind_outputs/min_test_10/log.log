@@ -1,0 +1,139 @@
+[2026-05-30 23:22:45,184 - INFO]
+{'bond_angle_guidance': 0.0,
+ 'bond_distance_guidance': 0.0,
+ 'bs': 5,
+ 'data_id': 1,
+ 'extracted_interaction_fn': None,
+ 'get_trajectory': False,
+ 'given_reference_interaction': 'none',
+ 'inter_distance_guidance': 0.0,
+ 'model_cut': 'best',
+ 'model_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/public',
+ 'n_generate': 10,
+ 'nci_predictor_model_fn': None,
+ 'prior_atom': {'method': 'povme',
+                'povme_n_sigma': 2.0,
+                'povme_test_result_fn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/povme/sequence_split_test.csv',
+                'povme_train_result_fn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/povme/sequence_split_train.csv',
+                'povme_v_sigma': 50.0},
+ 'repaint_end_step': 1000,
+ 'repaint_iter': 1,
+ 'repaint_start_step': 600,
+ 'save_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_10mol_20260530_224503/bind_outputs/min_test_10',
+ 'save_mol_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_10mol_20260530_224503/bind_outputs/min_test_10/gen',
+ 'seed': 2024,
+ 'steric_guidance': 0.0,
+ 'test_data_dirn': '/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/crossdocked_sequence_split_onlytest',
+ 'trajectory_fn': None}
+[2026-05-30 23:22:47,187 - INFO]
+seed fixed to 2024
+[2026-05-30 23:22:47,281 - INFO]
+prior atom sampler loaded: <main.model.prior_atom.POVMESampler object at 0x72a55f027fa0>
+[2026-05-30 23:22:49,284 - INFO]
+100 data loaded for generation
+[2026-05-30 23:22:51,287 - INFO]
+Generating with 5 test data
+[2026-05-30 23:22:57,478 - INFO]
+<All keys matched successfully>
+[2026-05-30 23:22:57,478 - INFO]
+model loaded
+[2026-05-30 23:24:02,990 - INFO]
+CN.N#Cc1c(c2ccc(N)nc2=O)c12c1c-2ccc(O)c1O
+[2026-05-30 23:24:03,028 - INFO]
+Cc1c(C(CO)ON)cccc1C(C)C(=O)C1=C2NC(=O)NCC=C21
+[2026-05-30 23:24:03,052 - INFO]
+NC(=O)c1ccc(C(=O)F)cc1
+[2026-05-30 23:24:03,086 - INFO]
+NC(=O)Cc1cccc(F)c1Cl
+[2026-05-30 23:24:03,124 - INFO]
+C=C1(N)N=CC2(C(C)COC)=CC12
+[2026-05-30 23:25:04,818 - INFO]
+O=C(CO)NC1C=C(O)C(Cl)=C1
+[2026-05-30 23:25:04,874 - INFO]
+COc1cccc(C2COC3C(Cc4ccc(O)cc4O)C(=O)OC23)cc1
+[2026-05-30 23:25:04,935 - INFO]
+C1CO1.O=C1CCC(N2C3(c4ccc(O)c(O)c43)C2(=O)O)CN1
+[2026-05-30 23:25:04,994 - INFO]
+CCc1c(O)cncn1C(=O)C1Oc2conc(C3CCN(Cc4ccccc4)CC3)c2CC1OC
+[2026-05-30 23:25:05,030 - INFO]
+Cn1ccc(c(c2c=C2)C(O)OC(CO)c2ccnc(=O)c3cc23)c1
+[2026-05-30 23:26:06,734 - INFO]
+NCN1CC(OCC(O)(F)F)=CC1N
+[2026-05-30 23:26:06,747 - INFO]
+Nc1ccc(C(=O)NO)ccn1
+[2026-05-30 23:26:06,799 - INFO]
+CC(=O)Nc1cccc(C2CN(C(C)C3C(C(=O)O)N3C(=O)c3ccc(CO)c(F)c3)C(=O)O2)cc1
+[2026-05-30 23:26:06,834 - INFO]
+N=c1cccc(CC(=O)C(F)(F)F)c1
+[2026-05-30 23:26:06,867 - INFO]
+CC(N)N1C(=O)C1CC1C(=O)CCC1F
+[2026-05-30 23:27:08,434 - INFO]
+NC1=C(CC(CO)OC(=O)O)C=NC1N
+[2026-05-30 23:27:08,460 - INFO]
+CCNCCC(O)(CO)C1CC(O)N(C(=O)c2cnc(N)nc2)C2OC21
+[2026-05-30 23:27:08,475 - INFO]
+O=C1C2=CC2(CO)CN1CCCCO
+[2026-05-30 23:27:08,510 - INFO]
+CO.OC1CCN(O)C(Cc2cc(F)cc(F)c2)C1
+[2026-05-30 23:27:08,570 - INFO]
+CCCC(=O)CC=Cc1cc(NCC2C=CC(=O)C(NCC)CC2=O)c(C(=O)O)cn1
+[2026-05-30 23:28:10,139 - INFO]
+COC1CCC(O)C1(O)CC1=CC=C(CO)NC1=O
+[2026-05-30 23:28:10,165 - INFO]
+cccccc1ccn(CO)c1
+[2026-05-30 23:28:10,181 - INFO]
+Cn1c(N)cc(NC2(O)C3Oc4cc(O)c(O)cc4C32)cc1=O
+[2026-05-30 23:28:10,236 - INFO]
+NCc1ccc(NC(=O)C(c(ccc(c2cn2)c2nc2N)OCO)C2CC2)cc1
+[2026-05-30 23:28:10,265 - INFO]
+CC#CC1=CC(c2cnc(NO)(C3=CNC=C(c4cnc(=O)n(CC)c4=O)C3)c2)CC1
+[2026-05-30 23:29:11,855 - INFO]
+O=C1C=C(C(=S)CCO)CC=N1
+[2026-05-30 23:29:11,874 - INFO]
+CNc1noc(C(=O)N(CO)c2ccc(C(C)=N)nc2=O)n1
+[2026-05-30 23:29:11,887 - INFO]
+CC(CN1C(=CC2CCN=NC2=N)C1CO)C(=O)O.CO
+[2026-05-30 23:29:11,952 - INFO]
+CCc(c=CCc1ccn(C)cc1)n1cN=CNC(c2cc(O)c(C)nc2=O)CC1C(=O)O
+[2026-05-30 23:29:12,001 - INFO]
+CC1=C(CN)NC(=C2CC3OC3C2)C1
+[2026-05-30 23:30:11,974 - INFO]
+OCC1OC12C(O)CC2C1C2CN(O)=NCN21
+[2026-05-30 23:30:12,001 - INFO]
+Nc1ncn(C2OC(O)CCC2O)cc1=O
+[2026-05-30 23:30:12,037 - INFO]
+CC1(O)CCCC2(c(cccc(C(=O)O)-c3ccccc3)c2c2c#c2)C(O)C(=O)N1
+[2026-05-30 23:30:12,068 - INFO]
+CCOCC(O)C1C(C(=O)O)CSc2c3c(cc(CO)n21)C3.NC1=NCN=C2C(=O)N12
+[2026-05-30 23:30:12,114 - INFO]
+Cc1ccc2c(c(C)c1)N2C1CCC(n2ccc(=O)n(C)c2=O)C1O
+[2026-05-30 23:31:12,760 - INFO]
+CC(=O)NC1C(N)N1C(=O)C1CC(O)CC(C(F)F)C1Cl
+[2026-05-30 23:31:12,819 - INFO]
+CC=C1C(=O)N1=CN1C(=O)C12C(O)C1N(C(=O)O1C(CCCC(N)=O)C(=O)O)C2C
+[2026-05-30 23:31:12,847 - INFO]
+CC(O)(CO)c1ccn(CCN)c(=O)c1
+[2026-05-30 23:31:12,868 - INFO]
+Cc1cc(OC(C=O)C2C=CC(C3(=O)NC3=O)C2)cc2ccccc12
+[2026-05-30 23:31:12,890 - INFO]
+CC12C(O)=CNC(=O)C1N2CC(CO)CCC(=O)O
+[2026-05-30 23:32:12,290 - INFO]
+NCC(CO)C1Cc2c(O)ccc(C(F)(F)F)c2OC1=O
+[2026-05-30 23:32:12,338 - INFO]
+CC(=O)C(NCN)C1=NC(=O)C(C(O)C(C)C)=C1
+[2026-05-30 23:32:12,389 - INFO]
+Cc1cc(C2CCC3OC(c4nc(N)nc(=O)c5nc45)CC(O)CC32O)cn1
+[2026-05-30 23:32:12,405 - INFO]
+NC(=O)Nc1ccc(Cl)c(Cl)c1
+[2026-05-30 23:32:12,450 - INFO]
+C#Cc1ncc(-c2cc(Cl)ccc2NC(=O)CC(=O)O)cc1O
+[2026-05-30 23:33:12,176 - INFO]
+Cn1c(=O)n(CC(O)c2cccc(O)c2O)c1=O
+[2026-05-30 23:33:12,193 - INFO]
+Cc1cn(C2OC(C)C(O)C(NCCCC#N)C2O)c(=O)nc1N
+[2026-05-30 23:33:12,232 - INFO]
+Cc1cc(O)c(COc2cnc(N)c(Cl)c2)c(O)c1C(=O)OCCCC(=O)O.O
+[2026-05-30 23:33:12,253 - INFO]
+NC(=O)n1cncc(C(CO)C(O)CO)c1
+[2026-05-30 23:33:12,294 - INFO]
+Cc1ccc(CO)c(O)cc1O

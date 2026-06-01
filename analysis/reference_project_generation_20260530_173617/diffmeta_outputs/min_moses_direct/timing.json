@@ -1,0 +1,17 @@
+{
+  "num_samples": 1,
+  "num_nodes": null,
+  "diffusion_steps": 500,
+  "setup_load_seconds": 0.44329194398596883,
+  "sample_seconds": 18.925337997963652,
+  "total_seconds": 19.36862994194962,
+  "valid_ratio": 1.0,
+  "unique_ratio": 0.9999999900000002,
+  "num_unique": 1,
+  "freq_list": [
+    1
+  ],
+  "smiles": [
+    "Cc1ccccc1NC(=O)CCn1cccc1"
+  ]
+}

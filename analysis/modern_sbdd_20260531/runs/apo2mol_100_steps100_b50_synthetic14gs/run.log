@@ -1,0 +1,42 @@
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/utils/data.py:293: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at ../torch/csrc/utils/tensor_new.cpp:230.)
+  rotations    = torch.tensor(quats, dtype=torch.float32)  # (M,4) 四元数
+
+sampling:   0%|          | 0/100 [00:00<?, ?it/s]
+sampling:   0%|          | 0/100 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/run_apo2mol_single.py", line 208, in <module>
+    main()
+  File "/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/run_apo2mol_single.py", line 170, in main
+    result = model.sample_diffusion(
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/models/molopt_score_model.py", line 919, in sample_diffusion
+    hbap_ligand, hbap_protein = net_cond.extract_features(pred_ligand_pos, pred_protein_pos, pred_lig_a_h, gt_protein_a_h, gt_protein_r_h, batch_ligand, batch_protein)
+  File "/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/graphbap/bapnet.py", line 222, in extract_features
+    O_P, pocket_coords = PocketLayer(O_P, pocket_coords, pocket_edge_index, node_mask=None, edge_mask=None,
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/graphbap/bapnet.py", line 375, in forward
+    h, _ = self._modules["gcl_%d" % i](h, edge_index, edge_attr=edge_attr,
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/graphbap/bapnet.py", line 292, in forward
+    edge_feat, mij = self.edge_model(h[row], h[col], edge_attr, edge_mask)
+  File "/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/graphbap/bapnet.py", line 266, in edge_model
+    mij = self.edge_mlp(out)
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/nn/modules/container.py", line 204, in forward
+    input = module(input)
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/md666/miniforge3/envs/apo2mol_modern_ref/lib/python3.8/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.55 GiB (GPU 0; 9.65 GiB total capacity; 6.48 GiB already allocated; 928.81 MiB free; 7.65 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+ERROR conda.cli.main_run:execute(127): `conda run python /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/run_apo2mol_single.py --repo /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol --pdb /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/example/14gs.pdb --sdf /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/example/14gs.sdf --out-dir /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/apo2mol_100_steps100_b50_synthetic14gs/output --num-samples 100 --batch-size 50 --num-steps 100 --device cuda:0` failed. (See above for error)
+Restored from /data/disk6/DiffB110/reference project/modern_sbdd_20260531/Apo2Mol/pretrained_models/PMINet with 0 missing and 0 unexpected keys
+
+real 10.27
+user 11.56
+sys 7.28

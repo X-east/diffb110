@@ -1,0 +1,35 @@
+/home/md666/miniforge3/envs/molsnapper_modern_ref/lib/python3.9/site-packages/scipy/__init__.py:155: UserWarning: A NumPy version >=1.18.5 and <1.25.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+[2026-05-31 18:39:27,329::sample::INFO] Namespace(config='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/molsnapper_sample_100.yml', outdir='/home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/molsnapper_100_b256/output', pocket_path='/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/data/example_1h00/processed_pocket_1h00.pkl', sdf_path='/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/data/example_1h00/ref_points.sdf', device='cuda:0', batch_size=256, mol_size=None, use_pharma=False, pharma_th=0.5, clash_rate=0.1, distance_th=1.0)
+[2026-05-31 18:39:27,329::sample::INFO] {'model': {'checkpoint': 'ckpt/MolDiff.pt'}, 'bond_predictor': 'ckpt/bondpred.pt', 'sample': {'seed': 2023, 'batch_size': 256, 'num_mols': 100, 'save_traj_prob': 0.0, 'guidance': ['uncertainty', 0.0001]}}
+[2026-05-31 18:39:27,330::sample::INFO] Loading data placeholder...
+[2026-05-31 18:39:27,336::sample::INFO] Loading diffusion model...
+[2026-05-31 18:39:27,570::sample::INFO] Building bond predictor...
+
+  0%|          | 0/1000 [00:00<?, ?it/s]
+  0%|          | 0/1000 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/scripts/sample_single_pocket.py", line 208, in <module>
+    outputs = model.sample_in_pocket(
+  File "/home/md666/miniforge3/envs/molsnapper_modern_ref/lib/python3.9/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/models/model.py", line 495, in sample_in_pocket
+    pred_bondpredictor = bond_predictor(h_node_in, pos_in, batch_node,
+  File "/home/md666/miniforge3/envs/molsnapper_modern_ref/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/models/bond_predictor.py", line 146, in forward
+    h_node, _, h_edge = self.encoder(
+  File "/home/md666/miniforge3/envs/molsnapper_modern_ref/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/models/graph.py", line 360, in forward
+    h_node_with_edge = self.node_blocks_with_edge[i](h_node, edge_index, h_edge, node_time)
+  File "/home/md666/miniforge3/envs/molsnapper_modern_ref/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/models/graph.py", line 46, in forward
+    gate = self.gate(torch.cat([edge_attr, x[col], node_time[col]], dim=-1))
+RuntimeError: CUDA out of memory. Tried to allocate 122.00 MiB (GPU 0; 9.65 GiB total capacity; 8.45 GiB already allocated; 24.81 MiB free; 8.61 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+ERROR conda.cli.main_run:execute(127): `conda run python /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/scripts/sample_single_pocket.py --outdir /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/runs/molsnapper_100_b256/output --config /home/md666/data/disk6/DiffB110/analysis/modern_sbdd_20260531/molsnapper_sample_100.yml --device cuda:0 --batch_size 256 --pocket_path /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/data/example_1h00/processed_pocket_1h00.pkl --sdf_path /home/md666/data/disk6/DiffB110/reference project/modern_sbdd_20260531/MolSnapper/data/example_1h00/ref_points.sdf --use_pharma False --clash_rate 0.1` failed. (See above for error)
+real 11.08
+user 12.15
+sys 7.01

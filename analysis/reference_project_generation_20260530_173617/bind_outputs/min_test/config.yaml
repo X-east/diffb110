@@ -1,0 +1,45 @@
+# seed
+seed: 2024
+
+# dirs
+save_dirn: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_outputs/min_test
+
+# debug
+data_id: 1
+
+# trajectory
+get_trajectory: no
+trajectory_fn:
+
+# model dirns
+test_data_dirn: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/crossdocked_sequence_split_onlytest
+model_dirn: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/public
+model_cut: best
+
+# prior atom sampling
+prior_atom:
+  method: povme
+  povme_train_result_fn: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/povme/sequence_split_train.csv
+  povme_test_result_fn: /data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/bind_assets/povme/sequence_split_test.csv
+  povme_v_sigma: 50.0
+  povme_n_sigma: 2.0
+
+# inpainting / restricted generations
+given_reference_interaction: none
+extracted_interaction_fn:
+nci_predictor_model_fn:
+
+# resampling
+repaint_iter: 1
+repaint_start_step: 600
+repaint_end_step: 1000
+
+# guidance terms
+bond_distance_guidance: 0.0
+bond_angle_guidance: 0.0
+inter_distance_guidance: 0.0
+steric_guidance: 0.0
+
+# params
+bs: 1
+n_generate: 1
