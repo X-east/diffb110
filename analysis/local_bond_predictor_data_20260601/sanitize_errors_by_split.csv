@@ -1,0 +1,7 @@
+split,error,count
+train,AtomValenceException,158
+train,KekulizeException,1190
+val,AtomValenceException,5
+val,KekulizeException,32
+test,AtomValenceException,3
+test,KekulizeException,8
