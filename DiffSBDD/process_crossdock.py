@@ -23,6 +23,46 @@ import constants
 from constants import covalent_radii, dataset_params
 
 
+BOND_TYPE_TO_ID = {
+    Chem.rdchem.BondType.SINGLE: 1,
+    Chem.rdchem.BondType.DOUBLE: 2,
+    Chem.rdchem.BondType.TRIPLE: 3,
+    Chem.rdchem.BondType.AROMATIC: 4,
+}
+
+
+def extract_ligand_bonds(ligand, atom_index_map):
+    """Return directed ligand bond indices and categorical bond types."""
+    rows = []
+    cols = []
+    bond_types = []
+
+    for bond in ligand.GetBonds():
+        begin = bond.GetBeginAtomIdx()
+        end = bond.GetEndAtomIdx()
+        if begin not in atom_index_map or end not in atom_index_map:
+            continue
+        bond_type = BOND_TYPE_TO_ID.get(bond.GetBondType())
+        if bond_type is None:
+            raise ValueError(f'Unsupported bond type: {bond.GetBondType()}')
+        begin_new = atom_index_map[begin]
+        end_new = atom_index_map[end]
+        rows.extend([begin_new, end_new])
+        cols.extend([end_new, begin_new])
+        bond_types.extend([bond_type, bond_type])
+
+    if len(rows) == 0:
+        return (
+            np.zeros((2, 0), dtype=np.int64),
+            np.zeros((0,), dtype=np.int64),
+        )
+
+    bond_index = np.array([rows, cols], dtype=np.int64)
+    bond_type = np.array(bond_types, dtype=np.int64)
+    order = (bond_index[0] * len(atom_index_map) + bond_index[1]).argsort()
+    return bond_index[:, order], bond_type[order]
+
+
 def process_ligand_and_pocket(pdbfile, sdffile,
                               atom_dict, dist_cutoff, ca_only):
     pdb_struct = PDBParser(QUIET=True).get_structure('', pdbfile)
@@ -34,10 +74,16 @@ def process_ligand_and_pocket(pdbfile, sdffile,
 
     # remove H atoms if not in atom_dict, other atom types that aren't allowed
     # should stay so that the entire ligand can be removed from the dataset
-    lig_atoms = [a.GetSymbol() for a in ligand.GetAtoms()
-                 if (a.GetSymbol().capitalize() in atom_dict or a.element != 'H')]
+    keep_atom_ids = [
+        atom.GetIdx()
+        for atom in ligand.GetAtoms()
+        if atom.GetSymbol().capitalize() in atom_dict or atom.GetSymbol() != 'H'
+    ]
+    atom_index_map = {old_idx: new_idx for new_idx, old_idx in enumerate(keep_atom_ids)}
+    lig_atoms = [ligand.GetAtomWithIdx(idx).GetSymbol() for idx in keep_atom_ids]
     lig_coords = np.array([list(ligand.GetConformer(0).GetAtomPosition(idx))
-                           for idx in range(ligand.GetNumAtoms())])
+                           for idx in keep_atom_ids])
+    lig_bond_index, lig_bond_type = extract_ligand_bonds(ligand, atom_index_map)
 
     try:
         lig_one_hot = np.stack([
@@ -61,6 +107,8 @@ def process_ligand_and_pocket(pdbfile, sdffile,
     ligand_data = {
         'lig_coords': lig_coords,
         'lig_one_hot': lig_one_hot,
+        'lig_bond_index': lig_bond_index,
+        'lig_bond_type': lig_bond_type,
     }
     if ca_only:
         try:
@@ -233,16 +281,24 @@ def get_type_histograms(lig_one_hot, pocket_one_hot, atom_encoder, aa_encoder):
 
 
 def saveall(filename, pdb_and_mol_ids, lig_coords, lig_one_hot, lig_mask,
-            pocket_coords, pocket_one_hot, pocket_mask):
-    np.savez(filename,
-             names=pdb_and_mol_ids,
-             lig_coords=lig_coords,
-             lig_one_hot=lig_one_hot,
-             lig_mask=lig_mask,
-             pocket_coords=pocket_coords,
-             pocket_one_hot=pocket_one_hot,
-             pocket_mask=pocket_mask
-             )
+            pocket_coords, pocket_one_hot, pocket_mask,
+            lig_bond_index=None, lig_bond_type=None, lig_bond_mask=None,
+            num_lig_bonds=None):
+    payload = {
+        'names': pdb_and_mol_ids,
+        'lig_coords': lig_coords,
+        'lig_one_hot': lig_one_hot,
+        'lig_mask': lig_mask,
+        'pocket_coords': pocket_coords,
+        'pocket_one_hot': pocket_one_hot,
+        'pocket_mask': pocket_mask,
+    }
+    if lig_bond_index is not None:
+        payload['lig_bond_index'] = lig_bond_index
+        payload['lig_bond_type'] = lig_bond_type
+        payload['lig_bond_mask'] = lig_bond_mask
+        payload['num_lig_bonds'] = num_lig_bonds
+    np.savez(filename, **payload)
     return True
 
 
@@ -297,6 +353,10 @@ if __name__ == '__main__':
         lig_coords = []
         lig_one_hot = []
         lig_mask = []
+        lig_bond_index = []
+        lig_bond_type = []
+        lig_bond_mask = []
+        num_lig_bonds = []
         pocket_coords = []
         pocket_one_hot = []
         pocket_mask = []
@@ -305,6 +365,7 @@ if __name__ == '__main__':
         count_ligand = []
         count_total = []
         count = 0
+        ligand_atom_offset = 0
 
         pdb_sdf_dir = processed_dir / split
         pdb_sdf_dir.mkdir(exist_ok=True)
@@ -343,6 +404,12 @@ if __name__ == '__main__':
             lig_coords.append(ligand_data['lig_coords'])
             lig_one_hot.append(ligand_data['lig_one_hot'])
             lig_mask.append(count * np.ones(len(ligand_data['lig_coords'])))
+            sample_bond_index = ligand_data['lig_bond_index'] + ligand_atom_offset
+            sample_bond_type = ligand_data['lig_bond_type']
+            lig_bond_index.append(sample_bond_index)
+            lig_bond_type.append(sample_bond_type)
+            lig_bond_mask.append(count * np.ones(len(sample_bond_type), dtype=np.int64))
+            num_lig_bonds.append(len(sample_bond_type) // 2)
             pocket_coords.append(pocket_data['pocket_coords'])
             pocket_one_hot.append(pocket_data['pocket_one_hot'])
             pocket_mask.append(
@@ -351,6 +418,7 @@ if __name__ == '__main__':
             count_ligand.append(ligand_data['lig_coords'].shape[0])
             count_total.append(pocket_data['pocket_coords'].shape[0] +
                                ligand_data['lig_coords'].shape[0])
+            ligand_atom_offset += ligand_data['lig_coords'].shape[0]
             count += 1
 
             if split in {'val', 'test'}:
@@ -371,13 +439,18 @@ if __name__ == '__main__':
         lig_coords = np.concatenate(lig_coords, axis=0)
         lig_one_hot = np.concatenate(lig_one_hot, axis=0)
         lig_mask = np.concatenate(lig_mask, axis=0)
+        lig_bond_index = np.concatenate(lig_bond_index, axis=1)
+        lig_bond_type = np.concatenate(lig_bond_type, axis=0)
+        lig_bond_mask = np.concatenate(lig_bond_mask, axis=0)
+        num_lig_bonds = np.array(num_lig_bonds, dtype=np.int64)
         pocket_coords = np.concatenate(pocket_coords, axis=0)
         pocket_one_hot = np.concatenate(pocket_one_hot, axis=0)
         pocket_mask = np.concatenate(pocket_mask, axis=0)
 
         saveall(processed_dir / f'{split}.npz', pdb_and_mol_ids, lig_coords,
                 lig_one_hot, lig_mask, pocket_coords,
-                pocket_one_hot, pocket_mask)
+                pocket_one_hot, pocket_mask, lig_bond_index,
+                lig_bond_type, lig_bond_mask, num_lig_bonds)
 
         n_samples_after[split] = len(pdb_and_mol_ids)
         print(f"Processing {split} set took {(time() - tic) / 60.0:.2f} minutes")
