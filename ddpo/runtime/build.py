@@ -109,6 +109,7 @@ def build_filter(config: dict[str, Any], dataset_info: dict[str, Any]) -> DiffSB
         novelty_penalty_coef=float(
             config.get("filter", {}).get("novelty_penalty_coef", 0.1)
         ),
+        reconstruction_method=str(config.get("reconstruction", {}).get("method", "openbabel")),
     )
 
 

@@ -98,9 +98,15 @@ def _rollout_accum_steps(config: dict[str, Any]) -> int:
     return steps
 
 
+def _reconstruction_method(config: dict[str, Any]) -> str:
+    """Return the configured molecule reconstruction backend."""
+    return str(config.get("reconstruction", {}).get("method", "openbabel"))
+
+
 def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None = None) -> PreparedSamples:
     logger = runtime.logger
     accum_steps = _rollout_accum_steps(runtime.config)
+    reconstruction_method = _reconstruction_method(runtime.config)
     rollout_chunks: list[DataProto] = []
 
     for accum_idx in range(accum_steps):
@@ -117,7 +123,11 @@ def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None =
         log_dataproto_memory(samples, f"generate_samples_done{suffix}", component="train_helpers", logger=logger)
         logger.info("[Epoch %d/%d] annotate_batch_molecule_semantics%s", epoch, runtime.max_epochs, suffix)
         if timer: timer.start("annotate")
-        samples = annotate_batch_molecule_semantics(samples, dataset_info=runtime.dataset_info)
+        samples = annotate_batch_molecule_semantics(
+            samples,
+            dataset_info=runtime.dataset_info,
+            reconstruction_method=reconstruction_method,
+        )
         if timer: timer.stop()
         log_dataproto_memory(samples, f"annotate_done{suffix}", component="train_helpers", logger=logger)
         rollout_chunks.append(samples.to("cpu"))

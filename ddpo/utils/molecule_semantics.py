@@ -15,9 +15,9 @@ from rdkit.Chem import AllChem
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "DiffSBDD"))
 
 import utils as diffsbdd_utils
-from analysis.molecule_builder import build_molecule
 from analysis.metrics import rdmol_to_smiles
 from constants import dataset_params
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
 from ddpo.utils.suppress_warnings import redirect_stderr_to_log
 
@@ -59,23 +59,30 @@ def build_rdmol_from_geometry(
     positions: torch.Tensor,
     atom_types: torch.Tensor,
     dataset_info: Optional[dict] = None,
+    reconstruction_method: str = DEFAULT_RECONSTRUCTION_METHOD,
 ) -> Tuple[Optional[Chem.Mol], bool, Optional[str]]:
+    """Reconstruct one RDKit molecule from generated atom geometry."""
     dataset_info = dataset_info or dataset_params["crossdock"]
     try:
         with redirect_stderr_to_log():
-            mol = build_molecule(
+            mol = reconstruct_molecule(
                 positions=positions,
                 atom_types=atom_types,
                 dataset_info=dataset_info,
                 add_coords=True,
-                use_openbabel=True,
+                method=reconstruction_method,
             )
         if mol is None:
             return None, False, FAILURE_OPENBABEL_RECONSTRUCT
         return mol, True, None
     except Exception as exc:
-        log.warning("[OPENBABEL-RECONSTRUCT-ERROR] error=%s: %s", type(exc).__name__, exc)
-        warnings.warn(f"Failed to reconstruct molecule with OpenBabel: {exc}")
+        log.warning(
+            "[RECONSTRUCT-ERROR] method=%s error=%s: %s",
+            reconstruction_method,
+            type(exc).__name__,
+            exc,
+        )
+        warnings.warn(f"Failed to reconstruct molecule with {reconstruction_method}: {exc}")
         return None, False, FAILURE_OPENBABEL_RECONSTRUCT
 
 def sanitize_rdmol(
@@ -132,6 +139,7 @@ def build_canonical_rdmol_from_sample(
     nodesxsample: torch.Tensor,
     sample_idx: int,
     dataset_info: Optional[dict] = None,
+    reconstruction_method: str = DEFAULT_RECONSTRUCTION_METHOD,
 ) -> Tuple[Optional[Chem.Mol], bool, bool, bool, Optional[str]]:
     """
     Build the canonical downstream RDKit molecule for one sample.
@@ -144,7 +152,12 @@ def build_canonical_rdmol_from_sample(
         failure_type
     """
     positions, atom_types, _ = extract_sample_geometry(x, categorical, nodesxsample, sample_idx)
-    mol, build_ok, build_failure = build_rdmol_from_geometry(positions, atom_types, dataset_info)
+    mol, build_ok, build_failure = build_rdmol_from_geometry(
+        positions,
+        atom_types,
+        dataset_info,
+        reconstruction_method=reconstruction_method,
+    )
     if not build_ok or mol is None:
         return None, False, False, False, build_failure or FAILURE_OPENBABEL_RECONSTRUCT
 
@@ -165,6 +178,7 @@ def compute_sample_molecule_semantics(
     nodesxsample: torch.Tensor,
     sample_idx: int,
     dataset_info: Optional[dict] = None,
+    reconstruction_method: str = DEFAULT_RECONSTRUCTION_METHOD,
 ) -> SampleMoleculeSemantics:
     """Compute the full canonical molecule semantics for one sample."""
     mol, obabel_ok, build_ok, is_valid, failure_type = build_canonical_rdmol_from_sample(
@@ -173,6 +187,7 @@ def compute_sample_molecule_semantics(
         nodesxsample=nodesxsample,
         sample_idx=sample_idx,
         dataset_info=dataset_info,
+        reconstruction_method=reconstruction_method,
     )
     smiles = compute_smiles_from_rdmol(mol) if is_valid and mol is not None else None
     return SampleMoleculeSemantics(
@@ -278,7 +293,9 @@ def annotate_batch_molecule_semantics(
     data: Any,
     dataset_info: Optional[dict] = None,
     include_legacy_valid_alias: bool = True,
+    reconstruction_method: str = DEFAULT_RECONSTRUCTION_METHOD,
 ) -> Any:
+    """Annotate generated samples with canonical RDKit molecule semantics."""
     dataset_info = dataset_info or dataset_params["crossdock"]
     batch = data.batch
 
@@ -302,6 +319,7 @@ def annotate_batch_molecule_semantics(
             nodesxsample=nodesxsample,
             sample_idx=sample_idx,
             dataset_info=dataset_info,
+            reconstruction_method=reconstruction_method,
         )
         all_semantics.append(semantics)
         obabel_reconstruct_success.append(1 if semantics.obabel_reconstruct_success else 0)

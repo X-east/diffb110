@@ -39,6 +39,7 @@ from analysis.metrics import BasicMolecularMetrics, CategoricalDistribution, \
     MoleculeProperties
 from analysis.molecule_builder import build_molecule, process_molecule
 from analysis.docking import smina_score
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
 
 class LigandPocketDDPM(pl.LightningModule):
@@ -767,7 +768,9 @@ class LigandPocketDDPM(pl.LightningModule):
     def generate_ligands(self, pdb_file, n_samples, pocket_ids=None,
                          ref_ligand=None, num_nodes_lig=None, sanitize=False,
                          largest_frag=False, relax_iter=0, timesteps=None,
-                         n_nodes_bias=0, n_nodes_min=0, **kwargs):
+                         n_nodes_bias=0, n_nodes_min=0,
+                         reconstruction_method=DEFAULT_RECONSTRUCTION_METHOD,
+                         **kwargs):
         """
         Generate ligands given a pocket
         Args:
@@ -786,6 +789,8 @@ class LigandPocketDDPM(pl.LightningModule):
             timesteps: number of denoising steps, use training value if None
             n_nodes_bias: added to the sampled (or provided) number of nodes
             n_nodes_min: lower bound on the number of sampled nodes
+            reconstruction_method: bond inference backend for RDKit molecule
+                reconstruction
             kwargs: additional inpainting parameters
         Returns:
             list of molecules
@@ -873,7 +878,12 @@ class LigandPocketDDPM(pl.LightningModule):
         for mol_pc in zip(utils.batch_to_list(x, lig_mask),
                           utils.batch_to_list(atom_type, lig_mask)):
 
-            mol = build_molecule(*mol_pc, self.dataset_info, add_coords=True)
+            mol = reconstruct_molecule(
+                *mol_pc,
+                self.dataset_info,
+                method=reconstruction_method,
+                add_coords=True,
+            )
             mol = process_molecule(mol,
                                    add_hydrogens=False,
                                    sanitize=sanitize,

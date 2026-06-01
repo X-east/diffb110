@@ -16,6 +16,7 @@ import numpy as np
 import torch
 
 from constants import dataset_params
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD
 from ddpo.utils.molecule_semantics import annotate_batch_molecule_semantics
 
 if TYPE_CHECKING:
@@ -77,12 +78,14 @@ class DiffSBDDFilter:
         enable_filtering: bool = DEFAULT_ENABLE_FILTERING,
         enable_penalty: bool = DEFAULT_ENABLE_PENALTY,
         novelty_penalty_coef: float = NOVELTY_PENALTY_COEF,
+        reconstruction_method: str = DEFAULT_RECONSTRUCTION_METHOD,
     ):
         self.dataset_info = dataset_info or dataset_params['crossdock']
         self.dataset_smiles_list = set(dataset_smiles_list) if dataset_smiles_list else set()
         self.enable_filtering = enable_filtering
         self.enable_penalty = enable_penalty
         self.novelty_penalty_coef = novelty_penalty_coef
+        self.reconstruction_method = reconstruction_method
 
     def filter(self, data: "DataProto") -> tuple["DataProto", float, float]:
         """
@@ -91,7 +94,11 @@ class DiffSBDDFilter:
         ntb = data.non_tensor_batch if hasattr(data, "non_tensor_batch") else None
         src = ntb if isinstance(ntb, dict) else data.batch
         if "rdkit_valid" not in src or "smiles" not in src:
-            data = annotate_batch_molecule_semantics(data, dataset_info=self.dataset_info)
+            data = annotate_batch_molecule_semantics(
+                data,
+                dataset_info=self.dataset_info,
+                reconstruction_method=self.reconstruction_method,
+            )
             ntb = data.non_tensor_batch if hasattr(data, "non_tensor_batch") else None
             src = ntb if isinstance(ntb, dict) else data.batch
 
@@ -150,7 +157,11 @@ class DiffSBDDFilter:
     def get_validity_ratio(self, data: "DataProto") -> float:
         """Compute validity ratio from canonical semantics."""
         if "rdkit_valid" not in data.batch:
-            data = annotate_batch_molecule_semantics(data, dataset_info=self.dataset_info)
+            data = annotate_batch_molecule_semantics(
+                data,
+                dataset_info=self.dataset_info,
+                reconstruction_method=self.reconstruction_method,
+            )
         valid_flags = list(data.batch.get("rdkit_valid", []))
         total = len(valid_flags)
         if total == 0:

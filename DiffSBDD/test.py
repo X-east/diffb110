@@ -9,6 +9,7 @@ from tqdm import tqdm
 
 from lightning_modules import LigandPocketDDPM
 from analysis.molecule_builder import process_molecule
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD
 import utils
 
 MAXITER = 10
@@ -32,6 +33,12 @@ if __name__ == "__main__":
     parser.add_argument('--fix_n_nodes', action='store_true')
     parser.add_argument('--n_nodes_bias', type=int, default=0)
     parser.add_argument('--n_nodes_min', type=int, default=0)
+    parser.add_argument(
+        '--reconstruction_method',
+        type=str,
+        default=DEFAULT_RECONSTRUCTION_METHOD,
+        choices=('openbabel', 'obabel', 'edm', 'distance', 'distance_rule'),
+    )
     parser.add_argument('--skip_existing', action='store_true')
     args = parser.parse_args()
 
@@ -115,6 +122,7 @@ if __name__ == "__main__":
                         largest_frag=False, relax_iter=0,
                         n_nodes_bias=args.n_nodes_bias,
                         n_nodes_min=args.n_nodes_min,
+                        reconstruction_method=args.reconstruction_method,
                         resamplings=args.resamplings,
                         jump_length=args.jump_length)
 

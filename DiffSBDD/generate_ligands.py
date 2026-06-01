@@ -7,6 +7,7 @@ openbabel.obErrorLog.StopLogging()  # suppress OpenBabel messages
 
 import utils
 from lightning_modules import LigandPocketDDPM
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD
 
 
 if __name__ == "__main__":
@@ -25,6 +26,13 @@ if __name__ == "__main__":
     parser.add_argument('--resamplings', type=int, default=10)
     parser.add_argument('--jump_length', type=int, default=1)
     parser.add_argument('--timesteps', type=int, default=None)
+    parser.add_argument(
+        '--reconstruction_method',
+        type=str,
+        default=DEFAULT_RECONSTRUCTION_METHOD,
+        choices=('openbabel', 'obabel', 'edm', 'distance', 'distance_rule'),
+        help='Bond inference backend used when rebuilding RDKit molecules.',
+    )
     args = parser.parse_args()
 
     pdb_id = Path(args.pdbfile).stem
@@ -53,7 +61,8 @@ if __name__ == "__main__":
             num_nodes_lig, args.sanitize, largest_frag=not args.all_frags,
             relax_iter=(200 if args.relax else 0),
             resamplings=args.resamplings, jump_length=args.jump_length,
-            timesteps=args.timesteps)
+            timesteps=args.timesteps,
+            reconstruction_method=args.reconstruction_method)
         molecules.extend(molecules_batch)
 
     # Make SDF files

@@ -47,6 +47,7 @@ RELAX = False                     # force-field relaxation (slow)
 RESAMPLINGS = 10
 JUMP_LENGTH = 1
 TIMESTEPS: int | None = None      # None uses training value
+RECONSTRUCTION_METHOD = "openbabel"
 
 # Reproducibility
 BASE_SEED = 20260407
@@ -75,6 +76,7 @@ openbabel.obErrorLog.StopLogging()  # suppress OpenBabel messages
 
 import utils
 from lightning_modules import LigandPocketDDPM
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD
 
 
 @dataclass(frozen=True)
@@ -95,6 +97,7 @@ class JobConfig:
     resamplings: int
     jump_length: int
     timesteps: int | None
+    reconstruction_method: str
     base_seed: int
 
 
@@ -190,6 +193,7 @@ def _worker_generate_shard(
             resamplings=cfg.resamplings,
             jump_length=cfg.jump_length,
             timesteps=cfg.timesteps,
+            reconstruction_method=cfg.reconstruction_method,
         )
         molecules.extend(batch_mols)
 
@@ -299,6 +303,13 @@ def build_argparser() -> argparse.ArgumentParser:
     p.add_argument("--resamplings", type=int, default=RESAMPLINGS)
     p.add_argument("--jump_length", type=int, default=JUMP_LENGTH)
     p.add_argument("--timesteps", type=int, default=TIMESTEPS)
+    p.add_argument(
+        "--reconstruction_method",
+        type=str,
+        default=RECONSTRUCTION_METHOD or DEFAULT_RECONSTRUCTION_METHOD,
+        choices=("openbabel", "obabel", "edm", "distance", "distance_rule"),
+        help="Bond inference backend used when rebuilding RDKit molecules.",
+    )
     p.add_argument("--seed", type=int, default=BASE_SEED)
     return p
 
@@ -329,6 +340,7 @@ def main() -> None:
         resamplings=int(args.resamplings),
         jump_length=int(args.jump_length),
         timesteps=args.timesteps,
+        reconstruction_method=args.reconstruction_method,
         base_seed=int(args.seed),
     )
 

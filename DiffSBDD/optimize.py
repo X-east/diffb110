@@ -15,8 +15,9 @@ openbabel.obErrorLog.StopLogging()  # suppress OpenBabel messages
 import utils
 from lightning_modules import LigandPocketDDPM
 from constants import FLOAT_TYPE, INT_TYPE
-from analysis.molecule_builder import build_molecule, process_molecule
+from analysis.molecule_builder import process_molecule
 from analysis.metrics import MoleculeProperties
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
 
 def prepare_from_sdf_files(sdf_files, atom_encoder):
@@ -92,7 +93,8 @@ def prepare_substructure(ref_ligand, fix_atoms, pdb_model):
 def diversify_ligands(model, pocket, mols, timesteps,
                     sanitize=False,
                     largest_frag=False,
-                    relax_iter=0):
+                    relax_iter=0,
+                    reconstruction_method=DEFAULT_RECONSTRUCTION_METHOD):
     """
     Diversify ligands for a specified pocket.
     
@@ -104,6 +106,7 @@ def diversify_ligands(model, pocket, mols, timesteps,
         sanitize: If True, performs molecule sanitization post-generation (default: False).
         largest_frag: If True, only the largest fragment of the generated molecule is returned (default: False).
         relax_iter: Number of iterations for force field relaxation of the generated molecules (default: 0).
+        reconstruction_method: Bond inference backend for RDKit reconstruction.
     
     Returns:
         A list of diversified RDKit molecule objects.
@@ -135,7 +138,12 @@ def diversify_ligands(model, pocket, mols, timesteps,
     for mol_pc in zip(utils.batch_to_list(x, lig_mask),
                       utils.batch_to_list(atom_type, lig_mask)):
 
-        mol = build_molecule(*mol_pc, model.dataset_info, add_coords=True)
+        mol = reconstruct_molecule(
+            *mol_pc,
+            model.dataset_info,
+            method=reconstruction_method,
+            add_coords=True,
+        )
         mol = process_molecule(mol,
                                add_hydrogens=False,
                                sanitize=sanitize,
@@ -160,6 +168,12 @@ if __name__ == "__main__":
     parser.add_argument('--top_k', type=int, default=7)
     parser.add_argument('--outfile', type=Path, default='output.sdf')
     parser.add_argument('--relax', action='store_true')
+    parser.add_argument(
+        '--reconstruction_method',
+        type=str,
+        default=DEFAULT_RECONSTRUCTION_METHOD,
+        choices=('openbabel', 'obabel', 'edm', 'distance', 'distance_rule'),
+    )
 
 
     args = parser.parse_args()
@@ -230,7 +244,8 @@ if __name__ == "__main__":
                                     molecules,
                                 timesteps=args.timesteps,
                                 sanitize=True,
-                                relax_iter=(200 if args.relax else 0))
+                                relax_iter=(200 if args.relax else 0),
+                                reconstruction_method=args.reconstruction_method)
         
         
         # Evaluate and save molecules

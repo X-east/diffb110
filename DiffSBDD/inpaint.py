@@ -13,7 +13,8 @@ openbabel.obErrorLog.StopLogging()  # suppress OpenBabel messages
 import utils
 from lightning_modules import LigandPocketDDPM
 from constants import FLOAT_TYPE, INT_TYPE
-from analysis.molecule_builder import build_molecule, process_molecule
+from analysis.molecule_builder import process_molecule
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
 
 def prepare_from_sdf_files(sdf_files, atom_encoder):
@@ -63,7 +64,8 @@ def prepare_substructure(ref_ligand, fix_atoms, pdb_model):
 def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
                    add_n_nodes=None, center='ligand', sanitize=False,
                    largest_frag=False, relax_iter=0, timesteps=None,
-                   resamplings=1, save_traj=False):
+                   resamplings=1, save_traj=False,
+                   reconstruction_method=DEFAULT_RECONSTRUCTION_METHOD):
     """
     Generate ligands given a pocket
     Args:
@@ -82,6 +84,7 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
         timesteps: number of denoising steps, use training value if None
         resamplings: number of resampling iterations
         save_traj: save intermediate states to visualize a denoising trajectory
+        reconstruction_method: bond inference backend for RDKit reconstruction
     Returns:
         list of molecules
     """
@@ -177,7 +180,12 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
     for mol_pc in zip(utils.batch_to_list(x, lig_mask),
                       utils.batch_to_list(atom_type, lig_mask)):
 
-        mol = build_molecule(*mol_pc, model.dataset_info, add_coords=True)
+        mol = reconstruct_molecule(
+            *mol_pc,
+            model.dataset_info,
+            method=reconstruction_method,
+            add_coords=True,
+        )
         mol = process_molecule(mol,
                                add_hydrogens=False,
                                sanitize=sanitize,
@@ -205,6 +213,12 @@ if __name__ == "__main__":
     parser.add_argument('--resamplings', type=int, default=20)
     parser.add_argument('--timesteps', type=int, default=50)
     parser.add_argument('--save_traj', action='store_true')
+    parser.add_argument(
+        '--reconstruction_method',
+        type=str,
+        default=DEFAULT_RECONSTRUCTION_METHOD,
+        choices=('openbabel', 'obabel', 'edm', 'distance', 'distance_rule'),
+    )
     args = parser.parse_args()
 
     pdb_id = Path(args.pdbfile).stem
@@ -224,7 +238,8 @@ if __name__ == "__main__":
                                relax_iter=(200 if args.relax else 0),
                                timesteps=args.timesteps,
                                resamplings=args.resamplings,
-                               save_traj=args.save_traj)
+                               save_traj=args.save_traj,
+                               reconstruction_method=args.reconstruction_method)
 
     # Make SDF files
     utils.write_sdf_file(args.outfile, molecules)

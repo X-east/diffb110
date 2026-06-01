@@ -47,6 +47,15 @@ Before changing project code, read:
   `global_distribution_comparison.png`, `run_drift_summary.png`, or
   `top_reward_failure_modes.png`.
 
+## Work Records
+
+- For substantial coding, analysis, preprocessing, or experiment tasks, create a
+  durable Markdown work record under `analysis/work_records/<YYMMDD>/`.
+- Use one file per task, named `<YYMMDD>-<seq> <short Chinese title>.md`, for
+  example `260601-14 为什么要先做数据构建.md`.
+- The record should briefly cover motivation, relevant existing code/data,
+  changes or commands, verification results, output files, and remaining risks.
+
 ## Code Style
 
 - Classes: `PascalCase`.
