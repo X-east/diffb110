@@ -3,6 +3,8 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
+from edge_utils import build_ligand_halfedges
+
 
 class ProcessedLigandPocketDataset(Dataset):
     def __init__(self, npz_path, center=True, transform=None):
@@ -78,7 +80,7 @@ class ProcessedLigandPocketDataset(Dataset):
     def __getitem__(self, idx):
         data = {key: val[idx] for key, val in self.data.items()}
         if 'lig_bond_index' in data and 'lig_bond_type' in data:
-            data.update(self.build_ligand_halfedges(
+            data.update(build_ligand_halfedges(
                 int(data['num_lig_atoms']),
                 data['lig_bond_index'],
                 data['lig_bond_type'],
@@ -86,27 +88,6 @@ class ProcessedLigandPocketDataset(Dataset):
         if self.transform is not None:
             data = self.transform(data)
         return data
-
-    @staticmethod
-    def build_ligand_halfedges(num_atoms, bond_index, bond_type):
-        """Build DiffGui-style upper-triangle halfedge labels."""
-        edge_type_mat = torch.zeros((num_atoms, num_atoms), dtype=torch.long)
-        if bond_index.numel() > 0:
-            edge_type_mat[bond_index[0].long(), bond_index[1].long()] = bond_type.long()
-
-        halfedge_index = torch.triu_indices(num_atoms, num_atoms, offset=1)
-        halfedge_type = edge_type_mat[halfedge_index[0], halfedge_index[1]]
-        expected_bonds = int((bond_type > 0).sum().item() // 2)
-        actual_bonds = int((halfedge_type > 0).sum().item())
-        if actual_bonds != expected_bonds:
-            raise ValueError(
-                f'Halfedge bond mismatch: expected {expected_bonds}, got {actual_bonds}'
-            )
-        return {
-            'ligand_halfedge_index': halfedge_index,
-            'ligand_halfedge_type': halfedge_type,
-            'num_ligand_halfedges': torch.tensor(len(halfedge_type), dtype=torch.long),
-        }
 
     @staticmethod
     def collate_fn(batch):

@@ -30,15 +30,7 @@ for extra in (PROJECT_ROOT, DIFFSBDD_ROOT):
 
 import constants
 from dataset import ProcessedLigandPocketDataset
-
-
-BOND_TYPE_NAMES = {
-    0: "no_bond",
-    1: "single",
-    2: "double",
-    3: "triple",
-    4: "aromatic",
-}
+from edge_utils import BOND_TYPE_NAMES, RDKIT_BOND_TYPE_BY_ID
 
 REFERENCE_BOND_LENGTHS = {
     1: constants.bonds1,
@@ -97,7 +89,7 @@ def _build_oracle_mol(
         rw_mol.AddAtom(atom)
 
     for atom_i, atom_j, edge_type in bonds_to_add:
-        rdkit_bond_type = constants.bond_dict[edge_type]
+        rdkit_bond_type = RDKIT_BOND_TYPE_BY_ID[edge_type]
         rw_mol.AddBond(atom_i, atom_j, rdkit_bond_type)
         if edge_type == 4:
             bond = rw_mol.GetBondBetweenAtoms(atom_i, atom_j)

@@ -21,46 +21,7 @@ from analysis.molecule_builder import build_molecule
 from analysis.metrics import rdmol_to_smiles
 import constants
 from constants import covalent_radii, dataset_params
-
-
-BOND_TYPE_TO_ID = {
-    Chem.rdchem.BondType.SINGLE: 1,
-    Chem.rdchem.BondType.DOUBLE: 2,
-    Chem.rdchem.BondType.TRIPLE: 3,
-    Chem.rdchem.BondType.AROMATIC: 4,
-}
-
-
-def extract_ligand_bonds(ligand, atom_index_map):
-    """Return directed ligand bond indices and categorical bond types."""
-    rows = []
-    cols = []
-    bond_types = []
-
-    for bond in ligand.GetBonds():
-        begin = bond.GetBeginAtomIdx()
-        end = bond.GetEndAtomIdx()
-        if begin not in atom_index_map or end not in atom_index_map:
-            continue
-        bond_type = BOND_TYPE_TO_ID.get(bond.GetBondType())
-        if bond_type is None:
-            raise ValueError(f'Unsupported bond type: {bond.GetBondType()}')
-        begin_new = atom_index_map[begin]
-        end_new = atom_index_map[end]
-        rows.extend([begin_new, end_new])
-        cols.extend([end_new, begin_new])
-        bond_types.extend([bond_type, bond_type])
-
-    if len(rows) == 0:
-        return (
-            np.zeros((2, 0), dtype=np.int64),
-            np.zeros((0,), dtype=np.int64),
-        )
-
-    bond_index = np.array([rows, cols], dtype=np.int64)
-    bond_type = np.array(bond_types, dtype=np.int64)
-    order = (bond_index[0] * len(atom_index_map) + bond_index[1]).argsort()
-    return bond_index[:, order], bond_type[order]
+from edge_utils import extract_ligand_bonds
 
 
 def process_ligand_and_pocket(pdbfile, sdffile,
