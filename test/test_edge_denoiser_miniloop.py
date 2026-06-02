@@ -14,6 +14,7 @@ from DiffSBDD.edge_diffusion import (
     EdgeBundleDataset,
     EdgeDenoiserConfig,
     EdgeDenoiserMLP,
+    EdgeDenoiserNodeEdge,
 )
 from DiffSBDD.edge_diffusion.denoiser import (
     edge_focal_cross_entropy,
@@ -55,6 +56,25 @@ class TestEdgeDenoiserMiniLoop(unittest.TestCase):
                 class_weight=class_weight,
                 gamma=1.0,
             )
+
+            self.assertEqual(tuple(logits.shape), (4, 5))
+            self.assertTrue(torch.isfinite(loss))
+
+    def test_node_edge_denoiser_forward_and_loss(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            edge_npz = _write_toy_edge_bundle(Path(tmpdir) / "toy_edge.npz")
+            dataset = EdgeBundleDataset(edge_npz)
+            batch = EdgeBatchCollator()([dataset[0], dataset[1]])
+            model = EdgeDenoiserNodeEdge(EdgeDenoiserConfig(
+                num_atom_types=4,
+                hidden_dim=16,
+                num_layers=2,
+                distance_basis_dim=8,
+            ))
+            noised_edge_type = torch.zeros_like(batch.target_edge_type)
+
+            logits = model(batch, noised_edge_type, torch.tensor([3, 5]))
+            loss = edge_focal_cross_entropy(logits, batch.target_edge_type)
 
             self.assertEqual(tuple(logits.shape), (4, 5))
             self.assertTrue(torch.isfinite(loss))

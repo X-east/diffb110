@@ -36,6 +36,7 @@ from edge_diffusion import (  # noqa: E402
     EdgeCategoricalTransition,
     EdgeDenoiserConfig,
     EdgeDenoiserMLP,
+    EdgeDenoiserNodeEdge,
     EdgeTransitionConfig,
 )
 from edge_diffusion.denoiser import (  # noqa: E402
@@ -71,13 +72,7 @@ def run_overfit(args: argparse.Namespace) -> Path:
     )
     class_counts = _count_classes(dataset, args.num_edge_types)
     class_weight = make_inverse_sqrt_class_weight(class_counts).to(device)
-    model = EdgeDenoiserMLP(EdgeDenoiserConfig(
-        num_atom_types=_infer_num_atom_types(dataset),
-        num_edge_types=args.num_edge_types,
-        num_timesteps=args.num_timesteps,
-        hidden_dim=args.hidden_dim,
-        num_layers=args.num_layers,
-    )).to(device)
+    model = _build_model(args, _infer_num_atom_types(dataset)).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     transition = EdgeCategoricalTransition(EdgeTransitionConfig(
         num_classes=args.num_edge_types,
@@ -136,7 +131,7 @@ def run_overfit(args: argparse.Namespace) -> Path:
 
 
 def _train_one_epoch(
-    model: EdgeDenoiserMLP,
+    model: torch.nn.Module,
     dataloader: DataLoader,
     optimizer: torch.optim.Optimizer,
     transition: EdgeCategoricalTransition,
@@ -176,7 +171,7 @@ def _train_one_epoch(
 
 @torch.no_grad()
 def _evaluate(
-    model: EdgeDenoiserMLP,
+    model: torch.nn.Module,
     dataloader: DataLoader,
     transition: EdgeCategoricalTransition,
     args: argparse.Namespace,
@@ -260,6 +255,24 @@ def _infer_num_atom_types(dataset: EdgeBundleDataset) -> int:
     return max_atom_type + 1
 
 
+def _build_model(args: argparse.Namespace, num_atom_types: int) -> torch.nn.Module:
+    """Build the requested edge denoiser architecture."""
+    config = EdgeDenoiserConfig(
+        num_atom_types=num_atom_types,
+        num_edge_types=args.num_edge_types,
+        num_timesteps=args.num_timesteps,
+        hidden_dim=args.hidden_dim,
+        num_layers=args.num_layers,
+        distance_basis_dim=args.distance_basis_dim,
+        dropout=args.dropout,
+    )
+    if args.model_kind == "mlp":
+        return EdgeDenoiserMLP(config)
+    if args.model_kind == "node_edge":
+        return EdgeDenoiserNodeEdge(config)
+    raise ValueError(f"Unsupported model kind: {args.model_kind}")
+
+
 def _choose_device(force_cpu: bool) -> torch.device:
     """Choose CUDA when available unless CPU is forced."""
     if force_cpu or not torch.cuda.is_available():
@@ -289,7 +302,7 @@ def _build_summary(
     dataset: EdgeBundleDataset,
     class_counts: torch.Tensor,
     class_weight: torch.Tensor,
-    model: EdgeDenoiserMLP,
+    model: torch.nn.Module,
     metrics_rows: list[dict[str, float]],
 ) -> dict[str, object]:
     """Build JSON summary for the overfit run."""
@@ -306,6 +319,7 @@ def _build_summary(
         "lr": args.lr,
         "focal_gamma": args.focal_gamma,
         "num_timesteps": args.num_timesteps,
+        "model_kind": args.model_kind,
         "model_config": asdict(model.config),
         "class_counts": {
             BOND_TYPE_NAMES[idx]: int(value)
@@ -349,6 +363,7 @@ def _write_report(outdir: Path, summary: dict[str, object]) -> Path:
         handle.write(f"- max_molecules: {summary['max_molecules']}\n")
         handle.write(f"- epochs: {summary['epochs']}\n")
         handle.write(f"- batch_size: {summary['batch_size']}\n")
+        handle.write(f"- model_kind: `{summary['model_kind']}`\n")
         handle.write(f"- focal_gamma: {summary['focal_gamma']}\n\n")
         handle.write("## Class Counts And Weights\n\n")
         handle.write("| bond type | count | weight |\n")
@@ -401,6 +416,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--hidden-dim", type=int, default=128)
     parser.add_argument("--num-layers", type=int, default=3)
+    parser.add_argument("--model-kind", choices=["mlp", "node_edge"], default="mlp")
+    parser.add_argument("--distance-basis-dim", type=int, default=32)
+    parser.add_argument("--dropout", type=float, default=0.0)
     parser.add_argument("--num-edge-types", type=int, default=5)
     parser.add_argument("--num-timesteps", type=int, default=1000)
     parser.add_argument("--focal-gamma", type=float, default=1.0)
