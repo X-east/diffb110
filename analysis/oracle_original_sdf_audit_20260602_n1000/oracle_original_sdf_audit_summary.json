@@ -1,0 +1,156 @@
+{
+  "npz_path": "data/crossdocked_raw/processed_edge_noH_full/train.npz",
+  "raw_ligand_root": "data/crossdocked_raw/crossdocked_pocket10",
+  "dataset": "crossdock_full",
+  "samples": 1000,
+  "summary": [
+    {
+      "kind": "rate",
+      "metric": "original_load_success",
+      "value": "1.00000000",
+      "count": 1000,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "oracle_sanitize_success",
+      "value": "1.00000000",
+      "count": 1000,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "smiles_no_stereo_match",
+      "value": "0.87000000",
+      "count": 870,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "smiles_iso_match",
+      "value": "0.39400000",
+      "count": 394,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "num_atoms_match",
+      "value": "1.00000000",
+      "count": 1000,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "num_bonds_match",
+      "value": "1.00000000",
+      "count": 1000,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "total_formal_charge_match",
+      "value": "0.98900000",
+      "count": 989,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "formal_charge_vector_match",
+      "value": "0.98900000",
+      "count": 989,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "aromatic_atom_count_match",
+      "value": "0.88100000",
+      "count": 881,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "aromatic_atom_vector_match",
+      "value": "0.88100000",
+      "count": 881,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "aromatic_bond_count_match",
+      "value": "0.88100000",
+      "count": 881,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "bond_pair_set_match",
+      "value": "1.00000000",
+      "count": 1000,
+      "denominator": 1000
+    },
+    {
+      "kind": "rate",
+      "metric": "bond_type_map_match",
+      "value": "0.88100000",
+      "count": 881,
+      "denominator": 1000
+    },
+    {
+      "kind": "original_load_error",
+      "metric": "success",
+      "value": "1.00000000",
+      "count": 1000,
+      "denominator": 1000
+    },
+    {
+      "kind": "repair_strategy",
+      "metric": "fix_aromatic",
+      "value": "0.00300000",
+      "count": 3,
+      "denominator": 1000
+    },
+    {
+      "kind": "repair_strategy",
+      "metric": "fix_valence",
+      "value": "0.12700000",
+      "count": 127,
+      "denominator": 1000
+    },
+    {
+      "kind": "repair_strategy",
+      "metric": "none",
+      "value": "0.87000000",
+      "count": 870,
+      "denominator": 1000
+    }
+  ],
+  "by_repair_strategy": [
+    {
+      "repair_strategy": "fix_aromatic",
+      "count": 3,
+      "smiles_no_stereo_match_rate": "0.00000000",
+      "smiles_iso_match_rate": "0.00000000",
+      "charge_vector_match_rate": "1.00000000",
+      "aromatic_atom_vector_match_rate": "0.00000000",
+      "bond_type_map_match_rate": "0.00000000"
+    },
+    {
+      "repair_strategy": "fix_valence",
+      "count": 127,
+      "smiles_no_stereo_match_rate": "0.00000000",
+      "smiles_iso_match_rate": "0.00000000",
+      "charge_vector_match_rate": "0.91338583",
+      "aromatic_atom_vector_match_rate": "0.08661417",
+      "bond_type_map_match_rate": "0.08661417"
+    },
+    {
+      "repair_strategy": "none",
+      "count": 870,
+      "smiles_no_stereo_match_rate": "1.00000000",
+      "smiles_iso_match_rate": "0.45287356",
+      "charge_vector_match_rate": "1.00000000",
+      "aromatic_atom_vector_match_rate": "1.00000000",
+      "bond_type_map_match_rate": "1.00000000"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+repair_strategy,count,smiles_no_stereo_match_rate,smiles_iso_match_rate,charge_vector_match_rate,aromatic_atom_vector_match_rate,bond_type_map_match_rate
+fix_aromatic,3,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000
+fix_valence,127,0.00000000,0.00000000,0.91338583,0.08661417,0.08661417
+none,870,1.00000000,0.45287356,1.00000000,1.00000000,1.00000000
