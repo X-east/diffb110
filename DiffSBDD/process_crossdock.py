@@ -1,4 +1,5 @@
 from pathlib import Path
+from multiprocessing import Pool
 from time import time
 import argparse
 import shutil
@@ -22,6 +23,49 @@ from analysis.metrics import rdmol_to_smiles
 import constants
 from constants import covalent_radii, dataset_params
 from edge_utils import extract_ligand_bonds
+
+
+_WORKER_CONTEXT = {}
+
+
+def _set_worker_context(datadir, atom_dict, dist_cutoff, ca_only):
+    _WORKER_CONTEXT['datadir'] = datadir
+    _WORKER_CONTEXT['atom_dict'] = atom_dict
+    _WORKER_CONTEXT['dist_cutoff'] = dist_cutoff
+    _WORKER_CONTEXT['ca_only'] = ca_only
+
+
+def _process_crossdock_pair(pair):
+    pocket_fn, ligand_fn = pair
+    datadir = _WORKER_CONTEXT['datadir']
+    pdbfile = datadir / pocket_fn
+    sdffile = datadir / ligand_fn
+
+    try:
+        ligand_data, pocket_data = process_ligand_and_pocket(
+            pdbfile,
+            sdffile,
+            atom_dict=_WORKER_CONTEXT['atom_dict'],
+            dist_cutoff=_WORKER_CONTEXT['dist_cutoff'],
+            ca_only=_WORKER_CONTEXT['ca_only'])
+    except Exception as exc:
+        return {
+            'ok': False,
+            'pocket_fn': pocket_fn,
+            'ligand_fn': ligand_fn,
+            'error_type': type(exc).__name__,
+            'error': str(exc),
+        }
+
+    return {
+        'ok': True,
+        'pocket_fn': pocket_fn,
+        'ligand_fn': ligand_fn,
+        'ligand_data': ligand_data,
+        'pocket_data': pocket_data,
+        'pdbfile': pdbfile,
+        'sdffile': sdffile,
+    }
 
 
 def process_ligand_and_pocket(pdbfile, sdffile,
@@ -271,6 +315,8 @@ if __name__ == '__main__':
     parser.add_argument('--ca_only', action='store_true')
     parser.add_argument('--dist_cutoff', type=float, default=8.0)
     parser.add_argument('--random_seed', type=int, default=42)
+    parser.add_argument('--num_workers', type=int, default=1)
+    parser.add_argument('--worker_chunksize', type=int, default=32)
     args = parser.parse_args()
 
     datadir = args.basedir / 'crossdocked_pocket10/'
@@ -333,69 +379,83 @@ if __name__ == '__main__':
 
         tic = time()
         num_failed = 0
-        pbar = tqdm(data_split[split])
+        _set_worker_context(datadir, atom_dict, args.dist_cutoff, args.ca_only)
+        if args.num_workers > 1:
+            pool = Pool(
+                processes=args.num_workers,
+                initializer=_set_worker_context,
+                initargs=(datadir, atom_dict, args.dist_cutoff, args.ca_only))
+            result_iter = pool.imap(
+                _process_crossdock_pair,
+                data_split[split],
+                chunksize=args.worker_chunksize)
+        else:
+            pool = None
+            result_iter = map(_process_crossdock_pair, data_split[split])
+
+        pbar = tqdm(result_iter, total=len(data_split[split]))
         pbar.set_description(f'#failed: {num_failed}')
-        for pocket_fn, ligand_fn in pbar:
+        try:
+            for result in pbar:
+                pocket_fn = result['pocket_fn']
+                ligand_fn = result['ligand_fn']
 
-            sdffile = datadir / f'{ligand_fn}'
-            pdbfile = datadir / f'{pocket_fn}'
+                if not result['ok']:
+                    print(result['error_type'], result['error'], pocket_fn, ligand_fn)
+                    num_failed += 1
+                    failed_save.append((pocket_fn, ligand_fn))
+                    pbar.set_description(f'#failed: {num_failed}')
+                    continue
 
-            try:
-                struct_copy = PDBParser(QUIET=True).get_structure('', pdbfile)
-            except:
-                num_failed += 1
-                failed_save.append((pocket_fn, ligand_fn))
-                print(failed_save[-1])
-                pbar.set_description(f'#failed: {num_failed}')
-                continue
+                ligand_data = result['ligand_data']
+                pocket_data = result['pocket_data']
+                pdbfile = result['pdbfile']
+                sdffile = result['sdffile']
 
-            try:
-                ligand_data, pocket_data = process_ligand_and_pocket(
-                    pdbfile, sdffile,
-                    atom_dict=atom_dict, dist_cutoff=args.dist_cutoff,
-                    ca_only=args.ca_only)
-            except (KeyError, AssertionError, FileNotFoundError, IndexError,
-                    ValueError) as e:
-                print(type(e).__name__, e, pocket_fn, ligand_fn)
-                num_failed += 1
-                pbar.set_description(f'#failed: {num_failed}')
-                continue
+                pdb_and_mol_ids.append(f"{pocket_fn}_{ligand_fn}")
+                lig_coords.append(ligand_data['lig_coords'])
+                lig_one_hot.append(ligand_data['lig_one_hot'])
+                lig_mask.append(count * np.ones(len(ligand_data['lig_coords'])))
+                sample_bond_index = ligand_data['lig_bond_index'] + ligand_atom_offset
+                sample_bond_type = ligand_data['lig_bond_type']
+                lig_bond_index.append(sample_bond_index)
+                lig_bond_type.append(sample_bond_type)
+                lig_bond_mask.append(count * np.ones(len(sample_bond_type), dtype=np.int64))
+                num_lig_bonds.append(len(sample_bond_type) // 2)
+                pocket_coords.append(pocket_data['pocket_coords'])
+                pocket_one_hot.append(pocket_data['pocket_one_hot'])
+                pocket_mask.append(
+                    count * np.ones(len(pocket_data['pocket_coords'])))
+                count_protein.append(pocket_data['pocket_coords'].shape[0])
+                count_ligand.append(ligand_data['lig_coords'].shape[0])
+                count_total.append(pocket_data['pocket_coords'].shape[0] +
+                                   ligand_data['lig_coords'].shape[0])
+                ligand_atom_offset += ligand_data['lig_coords'].shape[0]
+                count += 1
 
-            pdb_and_mol_ids.append(f"{pocket_fn}_{ligand_fn}")
-            lig_coords.append(ligand_data['lig_coords'])
-            lig_one_hot.append(ligand_data['lig_one_hot'])
-            lig_mask.append(count * np.ones(len(ligand_data['lig_coords'])))
-            sample_bond_index = ligand_data['lig_bond_index'] + ligand_atom_offset
-            sample_bond_type = ligand_data['lig_bond_type']
-            lig_bond_index.append(sample_bond_index)
-            lig_bond_type.append(sample_bond_type)
-            lig_bond_mask.append(count * np.ones(len(sample_bond_type), dtype=np.int64))
-            num_lig_bonds.append(len(sample_bond_type) // 2)
-            pocket_coords.append(pocket_data['pocket_coords'])
-            pocket_one_hot.append(pocket_data['pocket_one_hot'])
-            pocket_mask.append(
-                count * np.ones(len(pocket_data['pocket_coords'])))
-            count_protein.append(pocket_data['pocket_coords'].shape[0])
-            count_ligand.append(ligand_data['lig_coords'].shape[0])
-            count_total.append(pocket_data['pocket_coords'].shape[0] +
-                               ligand_data['lig_coords'].shape[0])
-            ligand_atom_offset += ligand_data['lig_coords'].shape[0]
-            count += 1
+                if split in {'val', 'test'}:
+                    # Copy PDB file
+                    new_rec_name = Path(pdbfile).stem.replace('_', '-')
+                    pdb_file_out = Path(pdb_sdf_dir, f"{new_rec_name}.pdb")
+                    shutil.copy(pdbfile, pdb_file_out)
 
-            if split in {'val', 'test'}:
-                # Copy PDB file
-                new_rec_name = Path(pdbfile).stem.replace('_', '-')
-                pdb_file_out = Path(pdb_sdf_dir, f"{new_rec_name}.pdb")
-                shutil.copy(pdbfile, pdb_file_out)
+                    # Copy SDF file
+                    new_lig_name = new_rec_name + '_' + Path(sdffile).stem.replace('_', '-')
+                    sdf_file_out = Path(pdb_sdf_dir, f'{new_lig_name}.sdf')
+                    shutil.copy(sdffile, sdf_file_out)
 
-                # Copy SDF file
-                new_lig_name = new_rec_name + '_' + Path(sdffile).stem.replace('_', '-')
-                sdf_file_out = Path(pdb_sdf_dir, f'{new_lig_name}.sdf')
-                shutil.copy(sdffile, sdf_file_out)
-
-                # specify pocket residues
-                with open(Path(pdb_sdf_dir, f'{new_lig_name}.txt'), 'w') as f:
-                    f.write(' '.join(pocket_data['pocket_ids']))
+                    # specify pocket residues
+                    with open(Path(pdb_sdf_dir, f'{new_lig_name}.txt'), 'w') as f:
+                        f.write(' '.join(pocket_data['pocket_ids']))
+        except BaseException:
+            if pool is not None:
+                pool.terminate()
+                pool.join()
+            raise
+        else:
+            if pool is not None:
+                pool.close()
+                pool.join()
 
         lig_coords = np.concatenate(lig_coords, axis=0)
         lig_one_hot = np.concatenate(lig_one_hot, axis=0)

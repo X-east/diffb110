@@ -30,6 +30,13 @@ Before changing project code, read:
   task is expected to run faster on GPU. Fall back to CPU only when CUDA is not
   visible, GPU memory is insufficient, or the task is CPU-bound; record the
   fallback reason in reports.
+- For molecule generation specifically, do not treat sandboxed
+  `torch.cuda.is_available() == False` as proof that GPU generation is
+  impossible when `nvidia-smi` shows usable GPUs. In that case, request
+  escalated/non-sandbox execution and run generation on GPU; CPU molecule
+  generation is only acceptable after a real GPU attempt fails or the user
+  explicitly asks for CPU. CPU-only generation attempts must not be used for
+  speed conclusions.
 - For CPU-parallel analysis, preprocessing, descriptor calculation, dataset
   building, and similar project tasks, default to 18 CPU cores unless the user
   specifies another value or the tool has a safer project-specific limit.
@@ -56,7 +63,7 @@ Before changing project code, read:
 ## Work Records
 
 - For substantial coding, analysis, preprocessing, or experiment tasks, create a
-  durable Markdown work record under `analysis/work_records/<YYMMDD>/`.
+  durable Markdown work record under `work_records/<YYMMDD>/`.
 - Use one file per task, named `<YYMMDD>-<seq> <short Chinese title>.md`, for
   example `260601-14 为什么要先做数据构建.md`.
 - The record should briefly cover motivation, relevant existing code/data,

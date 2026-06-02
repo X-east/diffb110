@@ -128,6 +128,7 @@ DiffB110/
 ├── scripts/                           # 启动脚本
 │   └── run_rl_qed_sa_docking_8gjl_8gpu.sh  # ★ 当前 8 卡启动
 ├── test/                              # 测试
+├── work_records/                      # 每日任务记录 Markdown，按 YYMMDD 分目录
 ├── materials/                         # 设计笔记（流形/判别器方案）
 └── OUT/                               # 训练输出
 ```

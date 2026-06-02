@@ -6,6 +6,7 @@ import torch.nn.functional as F
 from torch_scatter import scatter_add, scatter_mean
 
 import utils
+from generation_refinement import apply_atom_score_bias, apply_local_atom_score_mask
 from equivariant_diffusion.en_diffusion import EnVariationalDiffusion
 
 
@@ -110,7 +111,10 @@ class ConditionalDDPM(EnVariationalDiffusion):
         return log_p_x_given_z0_without_constants_ligand, log_ph_given_z0_ligand
 
     def sample_p_xh_given_z0(self, z0_lig, xh0_pocket, lig_mask, pocket_mask,
-                             batch_size, fix_noise=False):
+                             batch_size, fix_noise=False,
+                             atom_score_bias=None, atom_temperature=1.0,
+                             atom_local_mask_config=None, atom_decoder=None,
+                             atom_score_diagnostics=None):
         """Samples x ~ p(x|z0)."""
         t_zeros = torch.zeros(size=(batch_size, 1), device=z0_lig.device)
         gamma_0 = self.gamma(t_zeros)
@@ -129,6 +133,21 @@ class ConditionalDDPM(EnVariationalDiffusion):
         x_pocket, h_pocket = self.unnormalize(
             xh0_pocket[:, :self.n_dims], xh0_pocket[:, self.n_dims:])
 
+        raw_h_lig = h_lig
+        h_lig = apply_atom_score_bias(
+            h_lig, atom_score_bias, temperature=atom_temperature)
+        if atom_local_mask_config is not None:
+            if getattr(atom_local_mask_config, "enabled", False) and atom_decoder is None:
+                raise ValueError("atom_decoder is required when atom_local_mask_config is enabled.")
+            h_lig = apply_local_atom_score_mask(
+                h_lig,
+                x_lig,
+                lig_mask,
+                atom_decoder if atom_decoder is not None else [],
+                atom_local_mask_config,
+            )
+        if atom_score_diagnostics is not None:
+            atom_score_diagnostics.update(raw_h_lig, h_lig)
         h_lig = F.one_hot(torch.argmax(h_lig, dim=1), self.atom_nf)
         # h_pocket = F.one_hot(torch.argmax(h_pocket, dim=1), self.residue_nf)
 
@@ -477,7 +496,11 @@ class ConditionalDDPM(EnVariationalDiffusion):
 
     @torch.no_grad()
     def sample_given_pocket(self, pocket, num_nodes_lig, return_frames=1,
-                            timesteps=None):
+                            timesteps=None, atom_score_bias=None,
+                            atom_temperature=1.0,
+                            atom_local_mask_config=None,
+                            atom_decoder=None,
+                            atom_score_diagnostics=None):
         """
         Draw samples from the generative model. Optionally, return intermediate
         states for visualization purposes.
@@ -533,7 +556,12 @@ class ConditionalDDPM(EnVariationalDiffusion):
 
         # Finally sample p(x, h | z_0).
         x_lig, h_lig, x_pocket, h_pocket = self.sample_p_xh_given_z0(
-            z_lig, xh_pocket, lig_mask, pocket['mask'], n_samples)
+            z_lig, xh_pocket, lig_mask, pocket['mask'], n_samples,
+            atom_score_bias=atom_score_bias,
+            atom_temperature=atom_temperature,
+            atom_local_mask_config=atom_local_mask_config,
+            atom_decoder=atom_decoder,
+            atom_score_diagnostics=atom_score_diagnostics)
 
         self.assert_mean_zero_with_mask(x_lig, lig_mask)
 
@@ -736,11 +764,20 @@ class SimpleConditionalDDPM(ConditionalDDPM):
 
     @torch.no_grad()
     def sample_given_pocket(self, pocket, num_nodes_lig, return_frames=1,
-                            timesteps=None):
+                            timesteps=None, atom_score_bias=None,
+                            atom_temperature=1.0,
+                            atom_local_mask_config=None,
+                            atom_decoder=None,
+                            atom_score_diagnostics=None):
 
         # Subtract pocket center of mass
         pocket_com = scatter_mean(pocket['x'], pocket['mask'], dim=0)
         pocket['x'] = pocket['x'] - pocket_com[pocket['mask']]
 
         return super(SimpleConditionalDDPM, self).sample_given_pocket(
-            pocket, num_nodes_lig, return_frames, timesteps)
+            pocket, num_nodes_lig, return_frames, timesteps,
+            atom_score_bias=atom_score_bias,
+            atom_temperature=atom_temperature,
+            atom_local_mask_config=atom_local_mask_config,
+            atom_decoder=atom_decoder,
+            atom_score_diagnostics=atom_score_diagnostics)

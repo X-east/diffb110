@@ -1,0 +1,4 @@
+method,samples,mean_sanitize_success,mean_pred_bonds,mean_matched_bonds,mean_extra_bonds,mean_missed_bonds,mean_edge_precision,mean_edge_recall,mean_edge_f1,mean_bad_bond_length_rate,mean_mean_bond_length_abs_error,mean_num_fragments,mean_largest_fragment_atom_frac,mean_bond_type_accuracy_on_matched
+openbabel_current,5000,0.676800,25.378200,25.378000,0.000200,0.000400,0.999988,0.999978,0.999983,0.005051,0.053323,1.000200,0.999933,0.780689
+edm_distance_rule,5000,0.916800,24.678600,24.671800,0.006800,0.706600,0.999720,0.972135,0.984350,0.001063,0.080739,1.520800,0.933163,0.522302
+true_bond_oracle,5000,0.866800,25.378400,25.378400,0.000000,0.000000,1.000000,1.000000,1.000000,0.007894,0.043362,1.000000,1.000000,1.000000

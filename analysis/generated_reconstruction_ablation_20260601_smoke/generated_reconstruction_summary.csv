@@ -1,0 +1,3 @@
+method,samples,mean_sanitize_success,mean_num_atoms,mean_num_bonds,mean_checked_bond_lengths,mean_bad_bond_lengths,mean_bad_bond_length_rate,mean_mean_bond_length_abs_error,mean_num_fragments,mean_largest_fragment_atom_frac,mean_ring_count,mean_aromatic_ring_count,mean_three_member_ring_count,mean_carbon_fraction,mean_hetero_atom_count,mean_halogen_count,mean_reconstruction_seconds
+openbabel,10,1.000000,24.300000,26.300000,26.300000,4.500000,0.163410,0.145335,1.300000,0.940571,3.300000,0.200000,0.900000,0.802862,4.600000,1.300000,0.006621
+edm,10,0.200000,24.300000,21.200000,21.200000,0.800000,0.045411,0.091143,4.600000,0.600382,0.200000,0.000000,0.000000,0.802862,4.600000,1.300000,0.002855

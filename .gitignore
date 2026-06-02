@@ -211,3 +211,6 @@ analysis/**/external_bond_predictor_cache/
 
 # cookie file (not project code)
 url
+
+# work records (persistent Markdown task logs)
+work_records/

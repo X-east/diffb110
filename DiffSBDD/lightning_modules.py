@@ -39,6 +39,14 @@ from analysis.metrics import BasicMolecularMetrics, CategoricalDistribution, \
     MoleculeProperties
 from analysis.molecule_builder import build_molecule, process_molecule
 from analysis.docking import smina_score
+from generation_refinement import (
+    AtomBiasConfig,
+    AtomLocalMaskConfig,
+    AtomScoreDiagnosticsCollector,
+    GeometryRefineConfig,
+    atom_bias_tensor,
+    refine_ligand_batch_positions,
+)
 from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
 
@@ -770,6 +778,10 @@ class LigandPocketDDPM(pl.LightningModule):
                          largest_frag=False, relax_iter=0, timesteps=None,
                          n_nodes_bias=0, n_nodes_min=0,
                          reconstruction_method=DEFAULT_RECONSTRUCTION_METHOD,
+                         atom_bias_config: Optional[AtomBiasConfig] = None,
+                         atom_local_mask_config: Optional[AtomLocalMaskConfig] = None,
+                         geometry_refine_config: Optional[GeometryRefineConfig] = None,
+                         atom_score_diagnostics: Optional[AtomScoreDiagnosticsCollector] = None,
                          **kwargs):
         """
         Generate ligands given a pocket
@@ -791,6 +803,10 @@ class LigandPocketDDPM(pl.LightningModule):
             n_nodes_min: lower bound on the number of sampled nodes
             reconstruction_method: bond inference backend for RDKit molecule
                 reconstruction
+            atom_bias_config: optional pre-argmax atom prior correction
+            atom_local_mask_config: optional local chemistry-aware atom masking
+            geometry_refine_config: optional final-only coordinate refinement
+            atom_score_diagnostics: optional raw/corrected atom score collector
             kwargs: additional inpainting parameters
         Returns:
             list of molecules
@@ -830,6 +846,17 @@ class LigandPocketDDPM(pl.LightningModule):
 
         # Use inpainting
         if type(self.ddpm) == EnVariationalDiffusion:
+            if atom_bias_config is not None:
+                raise ValueError(
+                    "atom_bias_config is only implemented for conditional "
+                    "generation, where atom scores are available before argmax."
+                )
+            if atom_local_mask_config is not None and atom_local_mask_config.enabled:
+                raise ValueError(
+                    "atom_local_mask_config is only implemented for conditional "
+                    "generation, where atom scores are available before argmax."
+                )
+
             lig_mask = utils.num_nodes_to_batch_mask(
                 len(num_nodes_lig), num_nodes_lig, self.device)
 
@@ -852,10 +879,24 @@ class LigandPocketDDPM(pl.LightningModule):
                 timesteps=timesteps, **kwargs)
 
         # Use conditional generation
-        elif type(self.ddpm) == ConditionalDDPM:
+        elif isinstance(self.ddpm, ConditionalDDPM):
+            atom_score_bias = atom_bias_tensor(
+                self.lig_type_decoder,
+                atom_bias_config,
+                device=self.device,
+                dtype=FLOAT_TYPE,
+            )
+            atom_temperature = (
+                atom_bias_config.temperature if atom_bias_config is not None else 1.0
+            )
             xh_lig, xh_pocket, lig_mask, pocket_mask = \
                 self.ddpm.sample_given_pocket(pocket, num_nodes_lig,
-                                              timesteps=timesteps)
+                                              timesteps=timesteps,
+                                              atom_score_bias=atom_score_bias,
+                                              atom_temperature=atom_temperature,
+                                              atom_local_mask_config=atom_local_mask_config,
+                                              atom_decoder=self.lig_type_decoder,
+                                              atom_score_diagnostics=atom_score_diagnostics)
 
         else:
             raise NotImplementedError
@@ -869,9 +910,20 @@ class LigandPocketDDPM(pl.LightningModule):
         xh_lig[:, :self.x_dims] += \
             (pocket_com_before - pocket_com_after)[lig_mask]
 
+        atom_type_device = xh_lig[:, self.x_dims:].argmax(1).detach()
+        x_refined, _ = refine_ligand_batch_positions(
+            xh_lig[:, :self.x_dims],
+            atom_type_device,
+            lig_mask,
+            self.dataset_info,
+            geometry_refine_config,
+            pocket_positions=xh_pocket[:, :self.x_dims],
+            pocket_mask=pocket_mask,
+        )
+
         # Build mol objects
-        x = xh_lig[:, :self.x_dims].detach().cpu()
-        atom_type = xh_lig[:, self.x_dims:].argmax(1).detach().cpu()
+        x = x_refined.detach().cpu()
+        atom_type = atom_type_device.cpu()
         lig_mask = lig_mask.cpu()
 
         molecules = []

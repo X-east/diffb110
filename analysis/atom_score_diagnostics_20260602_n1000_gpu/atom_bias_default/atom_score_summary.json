@@ -1,0 +1,37 @@
+{
+  "atom_decoder": [
+    "C",
+    "N",
+    "O",
+    "S",
+    "B",
+    "Br",
+    "Cl",
+    "P",
+    "I",
+    "F"
+  ],
+  "n_atom_scores": 27247,
+  "n_elements": 10,
+  "changed_count": 3455,
+  "changed_fraction": 0.1268029510974884,
+  "extra": {
+    "checkpoint": "DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt",
+    "pdbfile": "data/8GJL.pdb",
+    "ref_ligand": "data/cip.sdf",
+    "n_samples": 1000,
+    "batch_size": 50,
+    "timesteps": 100,
+    "atom_bias": {
+      "C": 0.015582711198877846,
+      "N": 0.5,
+      "O": -0.15142871799900137,
+      "S": -0.5,
+      "Cl": 0.5,
+      "P": 0.5,
+      "F": -0.5
+    },
+    "atom_temperature": 1.0,
+    "outfile": "analysis/atom_score_diagnostics_20260602_n1000_gpu/atom_bias_default/generated.sdf"
+  }
+}

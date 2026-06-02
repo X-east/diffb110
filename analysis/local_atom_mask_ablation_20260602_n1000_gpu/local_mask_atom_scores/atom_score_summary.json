@@ -1,0 +1,46 @@
+{
+  "atom_decoder": [
+    "C",
+    "N",
+    "O",
+    "S",
+    "B",
+    "Br",
+    "Cl",
+    "P",
+    "I",
+    "F"
+  ],
+  "n_atom_scores": 27123,
+  "n_elements": 10,
+  "changed_count": 1237,
+  "changed_fraction": 0.04560704901814461,
+  "extra": {
+    "checkpoint": "DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt",
+    "pdbfile": "data/8GJL.pdb",
+    "ref_ligand": "data/cip.sdf",
+    "n_samples": 1000,
+    "batch_size": 50,
+    "timesteps": 100,
+    "atom_bias": {},
+    "atom_temperature": 1.0,
+    "atom_local_mask": {
+      "enabled": true,
+      "candidate_cutoff": 2.2,
+      "terminal_degree_max": 1,
+      "terminal_only_elements": [
+        "F",
+        "Cl",
+        "Br",
+        "I"
+      ],
+      "disable_elements": [
+        "P",
+        "Br",
+        "I",
+        "B"
+      ]
+    },
+    "outfile": "analysis/local_atom_mask_ablation_20260602_n1000_gpu/local_mask.sdf"
+  }
+}

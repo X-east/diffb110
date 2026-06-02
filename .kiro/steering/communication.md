@@ -22,6 +22,19 @@
 - **Python files (.py)**: Always English
 - **Configuration files (.yaml, .json)**: Always English
 
+## Work Records
+
+For substantial coding, analysis, preprocessing, or experiment tasks, create a
+durable Markdown work record under `work_records/<YYMMDD>/`.
+
+Use one file per task, named `<YYMMDD>-<seq> <short Chinese title>.md`, for
+example `260601-14 为什么要先做数据构建.md`.
+
+Each record should briefly cover motivation/background, relevant existing
+code/data, commands or changes, verification results, output files, and
+remaining risks. Reports should include quantitative data and links to exact
+CSV/JSON/SDF/plot artifacts when available.
+
 ## Consistency
 
 Maintain consistent language throughout a single response:
