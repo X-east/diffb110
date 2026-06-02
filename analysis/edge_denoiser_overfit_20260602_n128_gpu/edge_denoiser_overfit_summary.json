@@ -1,0 +1,74 @@
+{
+  "edge_npz": "analysis/edge_data_chain_20260602_n1000/train_edge.npz",
+  "semantic_npz": "analysis/edge_semantic_bundle_20260602_n1000/train_edge_semantic.npz",
+  "device": "cuda",
+  "max_molecules": 128,
+  "batch_size": 16,
+  "epochs": 120,
+  "lr": 0.002,
+  "focal_gamma": 1.0,
+  "num_timesteps": 1000,
+  "model_config": {
+    "num_atom_types": 10,
+    "num_edge_types": 5,
+    "num_timesteps": 1000,
+    "hidden_dim": 128,
+    "num_layers": 3
+  },
+  "class_counts": {
+    "no_bond": 34810,
+    "single": 1691,
+    "double": 273,
+    "triple": 7,
+    "aromatic": 1220
+  },
+  "class_weight": {
+    "no_bond": 0.05674607306718826,
+    "single": 0.2573913037776947,
+    "double": 0.6396151185035706,
+    "triple": 3.7432518005371094,
+    "aromatic": 0.3029955327510834
+  },
+  "first_epoch": {
+    "epoch": 1,
+    "train_loss": 0.06155841829146556,
+    "eval_loss": 0.6895502570701183,
+    "accuracy": 0.826794031736007,
+    "balanced_accuracy": 0.4141307473182678,
+    "real_bond_recall": 0.5565653400188029,
+    "no_bond_recall": 0.8515656590461731,
+    "recall_no_bond": 0.8515656590461731,
+    "recall_single": 0.6203429698944092,
+    "recall_double": 0.0036630036775022745,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.5950819849967957
+  },
+  "final_epoch": {
+    "epoch": 120,
+    "train_loss": 0.008982340266231514,
+    "eval_loss": 0.04896018137276833,
+    "accuracy": 0.9793952790716034,
+    "balanced_accuracy": 0.8370826840400696,
+    "real_bond_recall": 0.758382952052648,
+    "no_bond_recall": 0.9996552467346191,
+    "recall_no_bond": 0.9996552467346191,
+    "recall_single": 0.6623299717903137,
+    "recall_double": 0.7802197933197021,
+    "recall_triple": 0.8571428656578064,
+    "recall_aromatic": 0.8860656023025513
+  },
+  "best_balanced_accuracy_epoch": {
+    "epoch": 102,
+    "train_loss": 0.009780161717840864,
+    "eval_loss": 0.05473158897194391,
+    "accuracy": 0.9795005394594879,
+    "balanced_accuracy": 0.8433958888053894,
+    "real_bond_recall": 0.7680977749921655,
+    "no_bond_recall": 0.998879611492157,
+    "recall_no_bond": 0.998879611492157,
+    "recall_single": 0.6664695739746094,
+    "recall_double": 0.791208803653717,
+    "recall_triple": 0.8571428656578064,
+    "recall_aromatic": 0.9032787084579468
+  }
+}
