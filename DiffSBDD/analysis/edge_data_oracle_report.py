@@ -20,7 +20,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import torch
 from rdkit import Chem, RDLogger
-from rdkit.Geometry import Point3D
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DIFFSBDD_ROOT = Path(__file__).resolve().parents[1]
@@ -30,7 +29,8 @@ for extra in (PROJECT_ROOT, DIFFSBDD_ROOT):
 
 import constants
 from dataset import ProcessedLigandPocketDataset
-from edge_utils import BOND_TYPE_NAMES, RDKIT_BOND_TYPE_BY_ID
+from edge_diffusion.oracle_reconstruction import build_oracle_mol
+from edge_utils import BOND_TYPE_NAMES
 
 RDLogger.DisableLog("rdApp.*")
 
@@ -67,48 +67,13 @@ def _build_oracle_mol(
     halfedge_index: torch.Tensor,
     halfedge_type: torch.Tensor,
 ) -> tuple[Chem.Mol | None, str | None]:
-    """Build an RDKit molecule using true halfedge labels."""
-    if any(symbol == "others" for symbol in atom_symbols):
-        return None, "unsupported_atom_type"
+    """Build an RDKit molecule using true halfedge labels.
 
-    rw_mol = Chem.RWMol()
-    aromatic_atoms = set()
-    bonds_to_add = []
-    for edge_idx, edge_type_tensor in enumerate(halfedge_type):
-        edge_type = int(edge_type_tensor)
-        if edge_type <= 0:
-            continue
-        atom_i = int(halfedge_index[0, edge_idx])
-        atom_j = int(halfedge_index[1, edge_idx])
-        bonds_to_add.append((atom_i, atom_j, edge_type))
-        if edge_type == 4:
-            aromatic_atoms.update((atom_i, atom_j))
-
-    for atom_idx, symbol in enumerate(atom_symbols):
-        atom = Chem.Atom(symbol)
-        if atom_idx in aromatic_atoms:
-            atom.SetIsAromatic(True)
-        rw_mol.AddAtom(atom)
-
-    for atom_i, atom_j, edge_type in bonds_to_add:
-        rdkit_bond_type = RDKIT_BOND_TYPE_BY_ID[edge_type]
-        rw_mol.AddBond(atom_i, atom_j, rdkit_bond_type)
-        if edge_type == 4:
-            bond = rw_mol.GetBondBetweenAtoms(atom_i, atom_j)
-            if bond is not None:
-                bond.SetIsAromatic(True)
-
-    mol = rw_mol.GetMol()
-    conformer = Chem.Conformer(len(atom_symbols))
-    for atom_idx, coord in enumerate(positions.cpu().tolist()):
-        conformer.SetAtomPosition(atom_idx, Point3D(*map(float, coord)))
-    mol.AddConformer(conformer)
-
-    try:
-        Chem.SanitizeMol(mol)
-    except Exception as exc:  # noqa: BLE001 - report exact RDKit sanitize issue
-        return mol, type(exc).__name__
-    return mol, None
+    Kept as a compatibility wrapper for existing analysis scripts. New code
+    should call ``edge_diffusion.oracle_reconstruction.build_oracle_mol``.
+    """
+    result = build_oracle_mol(atom_symbols, positions, halfedge_index, halfedge_type)
+    return result.mol, result.sanitize_error
 
 
 def _write_csv(path: Path, rows: list[dict[str, object]], fieldnames: list[str]) -> None:
@@ -179,6 +144,8 @@ def generate_report(args: argparse.Namespace) -> Path:
     sdf_write_success = 0
     sdf_write_error = 0
     sanitize_error_counts: Counter[str] = Counter()
+    initial_sanitize_error_counts: Counter[str] = Counter()
+    repair_strategy_counts: Counter[str] = Counter()
     bad_length_count = 0
     checked_length_count = 0
     pair_length_values: dict[str, list[float]] = defaultdict(list)
@@ -223,7 +190,13 @@ def generate_report(args: argparse.Namespace) -> Path:
                     "is_bad_length": int(is_bad),
                 })
 
-            mol, sanitize_error = _build_oracle_mol(atom_symbols, coords, halfedge_index, halfedge_type)
+            reconstruction = build_oracle_mol(atom_symbols, coords, halfedge_index, halfedge_type)
+            mol = reconstruction.mol
+            sanitize_error = reconstruction.sanitize_error
+            initial_sanitize_error = reconstruction.initial_sanitize_error
+            repair_strategy = reconstruction.repair_strategy
+            initial_sanitize_error_counts[initial_sanitize_error or "success"] += 1
+            repair_strategy_counts[repair_strategy] += 1
             if sanitize_error is None:
                 sanitize_success += 1
                 sanitize_error_counts["success"] += 1
@@ -240,7 +213,9 @@ def generate_report(args: argparse.Namespace) -> Path:
                             "_Name": str(sample["names"]),
                             "sample_idx": sample_idx,
                             "oracle_sanitize_success": int(sanitize_error is None),
+                            "initial_sanitize_error": "" if initial_sanitize_error is None else initial_sanitize_error,
                             "sanitize_error": "" if sanitize_error is None else sanitize_error,
+                            "repair_strategy": repair_strategy,
                         },
                     )
                     sdf_write_success += 1
@@ -253,7 +228,9 @@ def generate_report(args: argparse.Namespace) -> Path:
                 "num_bonds": int((halfedge_type > 0).sum().item()),
                 "num_halfedges": int(len(halfedge_type)),
                 "oracle_sanitize_success": int(sanitize_error is None),
+                "initial_sanitize_error": "" if initial_sanitize_error is None else initial_sanitize_error,
                 "sanitize_error": "" if sanitize_error is None else sanitize_error,
+                "repair_strategy": repair_strategy,
                 "smiles": "" if mol is None or sanitize_error is not None else Chem.MolToSmiles(mol),
             })
     finally:
@@ -289,13 +266,30 @@ def generate_report(args: argparse.Namespace) -> Path:
         }
         for error_name, count in sorted(sanitize_error_counts.items())
     ]
+    initial_sanitize_error_rows = [
+        {
+            "initial_sanitize_error": error_name,
+            "count": count,
+            "fraction": f"{count / max(1, limit):.8f}",
+        }
+        for error_name, count in sorted(initial_sanitize_error_counts.items())
+    ]
+    repair_strategy_rows = [
+        {
+            "repair_strategy": strategy,
+            "count": count,
+            "fraction": f"{count / max(1, limit):.8f}",
+        }
+        for strategy, count in sorted(repair_strategy_counts.items())
+    ]
 
     _write_csv(
         outdir / "oracle_reconstruction.csv",
         molecule_rows,
         [
             "sample_idx", "name", "num_atoms", "num_bonds", "num_halfedges",
-            "oracle_sanitize_success", "sanitize_error", "smiles",
+            "oracle_sanitize_success", "initial_sanitize_error",
+            "sanitize_error", "repair_strategy", "smiles",
         ],
     )
     _write_csv(
@@ -320,6 +314,16 @@ def generate_report(args: argparse.Namespace) -> Path:
         outdir / "sanitize_error_counts.csv",
         sanitize_error_rows,
         ["sanitize_error", "count", "fraction"],
+    )
+    _write_csv(
+        outdir / "initial_sanitize_error_counts.csv",
+        initial_sanitize_error_rows,
+        ["initial_sanitize_error", "count", "fraction"],
+    )
+    _write_csv(
+        outdir / "repair_strategy_counts.csv",
+        repair_strategy_rows,
+        ["repair_strategy", "count", "fraction"],
     )
     _plot_bond_type_counts(outdir / "bond_type_distribution.png", bond_type_counts)
     _plot_bond_lengths(outdir / "bond_length_distribution.png", length_values)
@@ -348,11 +352,28 @@ def generate_report(args: argparse.Namespace) -> Path:
             f" ({bad_length_count}/{checked_length_count})\n\n"
         )
         handle.write("## Sanitize Error Counts\n\n")
+        handle.write("Final sanitize status after oracle reconstruction repairs.\n\n")
         handle.write("| sanitize_error | count | fraction |\n")
         handle.write("|---|---:|---:|\n")
         for row in sanitize_error_rows:
             handle.write(
                 f"| {row['sanitize_error']} | {row['count']} | {row['fraction']} |\n"
+            )
+        handle.write("\n")
+        handle.write("## Initial Sanitize Error Counts\n\n")
+        handle.write("| initial_sanitize_error | count | fraction |\n")
+        handle.write("|---|---:|---:|\n")
+        for row in initial_sanitize_error_rows:
+            handle.write(
+                f"| {row['initial_sanitize_error']} | {row['count']} | {row['fraction']} |\n"
+            )
+        handle.write("\n")
+        handle.write("## Repair Strategy Counts\n\n")
+        handle.write("| repair_strategy | count | fraction |\n")
+        handle.write("|---|---:|---:|\n")
+        for row in repair_strategy_rows:
+            handle.write(
+                f"| {row['repair_strategy']} | {row['count']} | {row['fraction']} |\n"
             )
         handle.write("\n")
         handle.write("![bond type distribution](bond_type_distribution.png)\n\n")

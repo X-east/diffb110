@@ -1,0 +1,17 @@
+{
+  "edge_npz": "analysis/edge_data_chain_20260602_repair_n1000/train_edge.npz",
+  "source_npz": "data/crossdocked_raw/processed_edge_noH_full/train.npz",
+  "dataset": "crossdock_full",
+  "molecules": 1000,
+  "total_atoms": 23456,
+  "total_halfedges": 301578,
+  "total_real_bonds": 25161,
+  "no_bond_fraction": 0.916568847860255,
+  "bond_type_counts": {
+    "no_bond": 276417,
+    "single": 12966,
+    "double": 2096,
+    "triple": 61,
+    "aromatic": 10038
+  }
+}
