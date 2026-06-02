@@ -19,7 +19,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import torch
-from rdkit import Chem
+from rdkit import Chem, RDLogger
 from rdkit.Geometry import Point3D
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -31,6 +31,8 @@ for extra in (PROJECT_ROOT, DIFFSBDD_ROOT):
 import constants
 from dataset import ProcessedLigandPocketDataset
 from edge_utils import BOND_TYPE_NAMES, RDKIT_BOND_TYPE_BY_ID
+
+RDLogger.DisableLog("rdApp.*")
 
 REFERENCE_BOND_LENGTHS = {
     1: constants.bonds1,
@@ -117,6 +119,21 @@ def _write_csv(path: Path, rows: list[dict[str, object]], fieldnames: list[str])
         writer.writerows(rows)
 
 
+def _write_sdf_record(
+    handle,
+    mol: Chem.Mol,
+    properties: dict[str, object],
+) -> None:
+    """Write one SDF record without forcing RDKit kekulization."""
+    mol_block = Chem.MolToMolBlock(mol, kekulize=False)
+    handle.write(mol_block)
+    if not mol_block.endswith("\n"):
+        handle.write("\n")
+    for key, value in properties.items():
+        handle.write(f">  <{key}>\n{value}\n\n")
+    handle.write("$$$$\n")
+
+
 def _plot_bond_type_counts(path: Path, counts: Counter[int]) -> None:
     """Save a bond type count bar plot."""
     keys = sorted(BOND_TYPE_NAMES)
@@ -149,6 +166,8 @@ def generate_report(args: argparse.Namespace) -> Path:
     dataset = ProcessedLigandPocketDataset(args.npz_path, center=False)
     outdir = args.outdir
     outdir.mkdir(parents=True, exist_ok=True)
+    sdf_path = getattr(args, "sdf_path", None)
+    sdf_handle = Path(sdf_path).open("w") if sdf_path is not None else None
 
     limit = len(dataset) if args.max_samples is None else min(args.max_samples, len(dataset))
     bond_type_counts: Counter[int] = Counter()
@@ -157,64 +176,89 @@ def generate_report(args: argparse.Namespace) -> Path:
     length_values = []
     sanitize_success = 0
     unsupported = 0
+    sdf_write_success = 0
+    sdf_write_error = 0
+    sanitize_error_counts: Counter[str] = Counter()
     bad_length_count = 0
     checked_length_count = 0
     pair_length_values: dict[str, list[float]] = defaultdict(list)
 
-    for sample_idx in range(limit):
-        sample = dataset[sample_idx]
-        atom_symbols = _atom_symbols(sample["lig_one_hot"], dataset_info["atom_decoder"])
-        halfedge_type = sample["ligand_halfedge_type"]
-        halfedge_index = sample["ligand_halfedge_index"]
-        coords = sample["lig_coords"].float()
+    try:
+        for sample_idx in range(limit):
+            sample = dataset[sample_idx]
+            atom_symbols = _atom_symbols(sample["lig_one_hot"], dataset_info["atom_decoder"])
+            halfedge_type = sample["ligand_halfedge_type"]
+            halfedge_index = sample["ligand_halfedge_index"]
+            coords = sample["lig_coords"].float()
 
-        sample_counts = Counter(int(x) for x in halfedge_type.tolist())
-        bond_type_counts.update(sample_counts)
+            sample_counts = Counter(int(x) for x in halfedge_type.tolist())
+            bond_type_counts.update(sample_counts)
 
-        for edge_pos, edge_type_tensor in enumerate(halfedge_type):
-            edge_type = int(edge_type_tensor)
-            if edge_type <= 0:
-                continue
-            atom_i = int(halfedge_index[0, edge_pos])
-            atom_j = int(halfedge_index[1, edge_pos])
-            length = float(torch.linalg.norm(coords[atom_i] - coords[atom_j]).item())
-            length_values.append(length)
-            atom_a, atom_b = atom_symbols[atom_i], atom_symbols[atom_j]
-            pair_key = "-".join(sorted((atom_a, atom_b))) + f"|{BOND_TYPE_NAMES[edge_type]}"
-            pair_length_values[pair_key].append(length)
-            ref_length = _lookup_reference_length(atom_a, atom_b, edge_type)
-            is_bad = False
-            if ref_length is not None:
-                checked_length_count += 1
-                is_bad = abs(length - ref_length) > args.length_tolerance
-                bad_length_count += int(is_bad)
-            length_rows.append({
+            for edge_pos, edge_type_tensor in enumerate(halfedge_type):
+                edge_type = int(edge_type_tensor)
+                if edge_type <= 0:
+                    continue
+                atom_i = int(halfedge_index[0, edge_pos])
+                atom_j = int(halfedge_index[1, edge_pos])
+                length = float(torch.linalg.norm(coords[atom_i] - coords[atom_j]).item())
+                length_values.append(length)
+                atom_a, atom_b = atom_symbols[atom_i], atom_symbols[atom_j]
+                pair_key = "-".join(sorted((atom_a, atom_b))) + f"|{BOND_TYPE_NAMES[edge_type]}"
+                pair_length_values[pair_key].append(length)
+                ref_length = _lookup_reference_length(atom_a, atom_b, edge_type)
+                is_bad = False
+                if ref_length is not None:
+                    checked_length_count += 1
+                    is_bad = abs(length - ref_length) > args.length_tolerance
+                    bad_length_count += int(is_bad)
+                length_rows.append({
+                    "sample_idx": sample_idx,
+                    "atom_i": atom_i,
+                    "atom_j": atom_j,
+                    "atom_a": atom_a,
+                    "atom_b": atom_b,
+                    "bond_type": BOND_TYPE_NAMES[edge_type],
+                    "length": f"{length:.6f}",
+                    "reference_length": "" if ref_length is None else f"{ref_length:.6f}",
+                    "is_bad_length": int(is_bad),
+                })
+
+            mol, sanitize_error = _build_oracle_mol(atom_symbols, coords, halfedge_index, halfedge_type)
+            if sanitize_error is None:
+                sanitize_success += 1
+                sanitize_error_counts["success"] += 1
+            if sanitize_error == "unsupported_atom_type":
+                unsupported += 1
+            if sanitize_error is not None:
+                sanitize_error_counts[sanitize_error] += 1
+            if sdf_handle is not None and mol is not None:
+                try:
+                    _write_sdf_record(
+                        sdf_handle,
+                        mol,
+                        {
+                            "_Name": str(sample["names"]),
+                            "sample_idx": sample_idx,
+                            "oracle_sanitize_success": int(sanitize_error is None),
+                            "sanitize_error": "" if sanitize_error is None else sanitize_error,
+                        },
+                    )
+                    sdf_write_success += 1
+                except Exception:  # noqa: BLE001 - keep report running and count failures
+                    sdf_write_error += 1
+            molecule_rows.append({
                 "sample_idx": sample_idx,
-                "atom_i": atom_i,
-                "atom_j": atom_j,
-                "atom_a": atom_a,
-                "atom_b": atom_b,
-                "bond_type": BOND_TYPE_NAMES[edge_type],
-                "length": f"{length:.6f}",
-                "reference_length": "" if ref_length is None else f"{ref_length:.6f}",
-                "is_bad_length": int(is_bad),
+                "name": sample["names"],
+                "num_atoms": int(sample["num_lig_atoms"]),
+                "num_bonds": int((halfedge_type > 0).sum().item()),
+                "num_halfedges": int(len(halfedge_type)),
+                "oracle_sanitize_success": int(sanitize_error is None),
+                "sanitize_error": "" if sanitize_error is None else sanitize_error,
+                "smiles": "" if mol is None or sanitize_error is not None else Chem.MolToSmiles(mol),
             })
-
-        mol, sanitize_error = _build_oracle_mol(atom_symbols, coords, halfedge_index, halfedge_type)
-        if sanitize_error is None:
-            sanitize_success += 1
-        if sanitize_error == "unsupported_atom_type":
-            unsupported += 1
-        molecule_rows.append({
-            "sample_idx": sample_idx,
-            "name": sample["names"],
-            "num_atoms": int(sample["num_lig_atoms"]),
-            "num_bonds": int((halfedge_type > 0).sum().item()),
-            "num_halfedges": int(len(halfedge_type)),
-            "oracle_sanitize_success": int(sanitize_error is None),
-            "sanitize_error": "" if sanitize_error is None else sanitize_error,
-            "smiles": "" if mol is None or sanitize_error is not None else Chem.MolToSmiles(mol),
-        })
+    finally:
+        if sdf_handle is not None:
+            sdf_handle.close()
 
     bond_count_rows = [
         {
@@ -236,6 +280,14 @@ def generate_report(args: argparse.Namespace) -> Path:
             "max_length": f"{max(values):.6f}",
         }
         for key, values in sorted(pair_length_values.items())
+    ]
+    sanitize_error_rows = [
+        {
+            "sanitize_error": error_name,
+            "count": count,
+            "fraction": f"{count / max(1, limit):.8f}",
+        }
+        for error_name, count in sorted(sanitize_error_counts.items())
     ]
 
     _write_csv(
@@ -264,6 +316,11 @@ def generate_report(args: argparse.Namespace) -> Path:
         pair_rows,
         ["pair_bond_type", "count", "mean_length", "min_length", "max_length"],
     )
+    _write_csv(
+        outdir / "sanitize_error_counts.csv",
+        sanitize_error_rows,
+        ["sanitize_error", "count", "fraction"],
+    )
     _plot_bond_type_counts(outdir / "bond_type_distribution.png", bond_type_counts)
     _plot_bond_lengths(outdir / "bond_length_distribution.png", length_values)
 
@@ -277,6 +334,10 @@ def generate_report(args: argparse.Namespace) -> Path:
         handle.write(f"- samples: {limit}\n")
         handle.write(f"- oracle_sanitize_success: {sanitize_success}/{limit}\n")
         handle.write(f"- unsupported_atom_type: {unsupported}\n")
+        if sdf_path is not None:
+            handle.write(f"- oracle_sdf: `{sdf_path}`\n")
+            handle.write(f"- oracle_sdf_write_success: {sdf_write_success}/{limit}\n")
+            handle.write(f"- oracle_sdf_write_error: {sdf_write_error}\n")
         handle.write(f"- total_halfedges: {total_halfedges}\n")
         handle.write(f"- total_real_bonds: {total_real_bonds}\n")
         handle.write(
@@ -286,6 +347,14 @@ def generate_report(args: argparse.Namespace) -> Path:
             f"- bad_bond_length_rate: {bad_length_count / max(1, checked_length_count):.6f}"
             f" ({bad_length_count}/{checked_length_count})\n\n"
         )
+        handle.write("## Sanitize Error Counts\n\n")
+        handle.write("| sanitize_error | count | fraction |\n")
+        handle.write("|---|---:|---:|\n")
+        for row in sanitize_error_rows:
+            handle.write(
+                f"| {row['sanitize_error']} | {row['count']} | {row['fraction']} |\n"
+            )
+        handle.write("\n")
         handle.write("![bond type distribution](bond_type_distribution.png)\n\n")
         handle.write("![bond length distribution](bond_length_distribution.png)\n")
 
@@ -308,6 +377,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--max-samples", type=int, default=None)
     parser.add_argument("--length-tolerance", type=float, default=0.25)
+    parser.add_argument("--sdf-path", type=Path, default=None)
     return parser.parse_args()
 
 

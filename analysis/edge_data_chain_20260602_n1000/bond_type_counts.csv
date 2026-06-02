@@ -1,0 +1,6 @@
+bond_type_id,bond_type,count,fraction
+0,no_bond,276417,0.91656885
+1,single,12966,0.04299385
+2,double,2096,0.00695011
+3,triple,61,0.00020227
+4,aromatic,10038,0.03328492

@@ -1,0 +1,4 @@
+sanitize_error,count,fraction
+AtomValenceException,11,0.01100000
+KekulizeException,119,0.11900000
+success,870,0.87000000
