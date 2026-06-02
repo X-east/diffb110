@@ -2,6 +2,8 @@
   "npz_path": "data/crossdocked_raw/processed_edge_noH_full/train.npz",
   "raw_ligand_root": "data/crossdocked_raw/crossdocked_pocket10",
   "dataset": "crossdock_full",
+  "mol_block_mode": "maestro",
+  "preserve_stereo_in_molblock": false,
   "samples": 1000,
   "all_pairs_sdf": "analysis/oracle_original_sdf_audit_20260602_n1000/original_vs_repaired_oracle_pairs.sdf",
   "all_pair_records": 2000,
@@ -13,5 +15,11 @@
     "fix_aromatic": 3,
     "fix_valence": 127,
     "none": 870
+  },
+  "all_pairs_export_mode_counts": {
+    "kekulized": 2000
+  },
+  "mismatch_export_mode_counts": {
+    "kekulized": 260
   }
 }

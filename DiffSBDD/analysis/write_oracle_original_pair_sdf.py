@@ -6,6 +6,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 from collections import Counter
 from dataclasses import dataclass
@@ -66,7 +67,14 @@ def format_pair_id(sample_idx: int) -> str:
 def make_record_name(pair_id: str, variant: str, original_sdf: str) -> str:
     """Return the SDF molecule title used for one variant record."""
     stem = Path(original_sdf).stem if original_sdf else "unknown_ligand"
-    return f"{pair_id}|{variant}|{stem}"
+    safe_stem = _safe_sdf_title_part(stem)
+    return f"{pair_id}_{variant}_{safe_stem}"
+
+
+def _safe_sdf_title_part(value: str, max_length: int = 96) -> str:
+    """Return an SDF title-safe token for broad external viewer compatibility."""
+    safe_value = re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("_")
+    return (safe_value or "unknown")[:max_length]
 
 
 def build_sdf_properties(
@@ -159,6 +167,8 @@ def run_pair_sdf_export(args: argparse.Namespace) -> PairSdfResult:
 
     rows: list[dict[str, object]] = []
     repair_strategy_counts: Counter[str] = Counter()
+    all_export_mode_counts: Counter[str] = Counter()
+    mismatch_export_mode_counts: Counter[str] = Counter()
     mismatch_pair_count = 0
     all_record_count = 0
     mismatch_record_count = 0
@@ -174,29 +184,46 @@ def run_pair_sdf_export(args: argparse.Namespace) -> PairSdfResult:
 
             original_props = build_sdf_properties(row, "original", args)
             oracle_props = build_sdf_properties(row, "repaired_oracle", args)
-            _write_sdf_record(all_handle, original_mol, str(row["original_record_name"]), original_props)
-            _write_sdf_record(
+            original_export_mode = _write_sdf_record(
+                all_handle,
+                original_mol,
+                str(row["original_record_name"]),
+                original_props,
+                mol_block_mode=args.mol_block_mode,
+                preserve_stereo_in_molblock=args.preserve_stereo_in_molblock,
+            )
+            oracle_export_mode = _write_sdf_record(
                 all_handle,
                 oracle_result.mol,
                 str(row["repaired_oracle_record_name"]),
                 oracle_props,
+                mol_block_mode=args.mol_block_mode,
+                preserve_stereo_in_molblock=args.preserve_stereo_in_molblock,
             )
+            all_export_mode_counts[original_export_mode] += 1
+            all_export_mode_counts[oracle_export_mode] += 1
             all_record_count += 2
 
             if int(row["smiles_no_stereo_match"]) == 0:
                 mismatch_pair_count += 1
-                _write_sdf_record(
+                original_mismatch_export_mode = _write_sdf_record(
                     mismatch_handle,
                     original_mol,
                     str(row["original_record_name"]),
                     original_props,
+                    mol_block_mode=args.mol_block_mode,
+                    preserve_stereo_in_molblock=args.preserve_stereo_in_molblock,
                 )
-                _write_sdf_record(
+                oracle_mismatch_export_mode = _write_sdf_record(
                     mismatch_handle,
                     oracle_result.mol,
                     str(row["repaired_oracle_record_name"]),
                     oracle_props,
+                    mol_block_mode=args.mol_block_mode,
+                    preserve_stereo_in_molblock=args.preserve_stereo_in_molblock,
                 )
+                mismatch_export_mode_counts[original_mismatch_export_mode] += 1
+                mismatch_export_mode_counts[oracle_mismatch_export_mode] += 1
                 mismatch_record_count += 2
 
     _write_manifest(manifest_csv, rows)
@@ -204,6 +231,8 @@ def run_pair_sdf_export(args: argparse.Namespace) -> PairSdfResult:
         "npz_path": str(args.npz_path),
         "raw_ligand_root": str(args.raw_ligand_root),
         "dataset": args.dataset,
+        "mol_block_mode": args.mol_block_mode,
+        "preserve_stereo_in_molblock": args.preserve_stereo_in_molblock,
         "samples": limit,
         "all_pairs_sdf": str(all_pairs_sdf),
         "all_pair_records": all_record_count,
@@ -212,6 +241,8 @@ def run_pair_sdf_export(args: argparse.Namespace) -> PairSdfResult:
         "mismatch_pair_records": mismatch_record_count,
         "manifest_csv": str(manifest_csv),
         "repair_strategy_counts": dict(sorted(repair_strategy_counts.items())),
+        "all_pairs_export_mode_counts": dict(sorted(all_export_mode_counts.items())),
+        "mismatch_export_mode_counts": dict(sorted(mismatch_export_mode_counts.items())),
     }
     summary_json.write_text(json.dumps(summary, indent=2, ensure_ascii=False))
     report_path = _write_report(args, summary)
@@ -339,22 +370,71 @@ def _write_sdf_record(
     mol: Chem.Mol,
     name: str,
     properties: dict[str, object],
-) -> None:
+    mol_block_mode: str,
+    preserve_stereo_in_molblock: bool,
+) -> str:
     """Write one SDF record with a stable molecule title and properties."""
     mol_to_write = Chem.Mol(mol)
     mol_to_write.SetProp("_Name", name)
-    handle.write(_mol_to_mol_block(mol_to_write))
-    for key, value in properties.items():
+    stereo_display = "preserved" if preserve_stereo_in_molblock else "removed_for_display"
+    if not preserve_stereo_in_molblock:
+        Chem.RemoveStereochemistry(mol_to_write)
+    mol_block, export_mode, export_warning = _mol_to_mol_block(
+        mol_to_write,
+        mode=mol_block_mode,
+    )
+    record_properties = {
+        **properties,
+        "molblock_export_mode": export_mode,
+        "molblock_export_warning": export_warning,
+        "molblock_stereo_display": stereo_display,
+    }
+    handle.write(mol_block)
+    for key, value in record_properties.items():
         handle.write(f">  <{key}>\n{_format_sdf_value(value)}\n\n")
     handle.write("$$$$\n")
+    return export_mode
 
 
-def _mol_to_mol_block(mol: Chem.Mol) -> str:
-    """Return a MolBlock, avoiding forced kekulization when RDKit supports it."""
+def _mol_to_mol_block(mol: Chem.Mol, mode: str) -> tuple[str, str, str]:
+    """Return a MolBlock plus export diagnostics for the selected writer mode."""
+    if mode == "rdkit_aromatic":
+        return _ensure_mol_block_newline(_mol_to_rdkit_aromatic_block(mol)), "rdkit_aromatic", ""
+    if mode != "maestro":
+        raise ValueError(f"Unsupported mol block mode: {mode}")
+
     try:
-        mol_block = Chem.MolToMolBlock(mol, kekulize=False)
+        return _ensure_mol_block_newline(Chem.MolToMolBlock(mol, kekulize=True)), "kekulized", ""
+    except Exception as exc:  # noqa: BLE001 - RDKit exposes several kekulization exceptions
+        fallback = _copy_with_aromatic_bonds_as_single(mol)
+        warning = f"{type(exc).__name__}: aromatic bonds exported as single for display"
+        return _ensure_mol_block_newline(Chem.MolToMolBlock(fallback, kekulize=False)), (
+            "aromatic_to_single_fallback"
+        ), warning
+
+
+def _mol_to_rdkit_aromatic_block(mol: Chem.Mol) -> str:
+    """Return the old RDKit-oriented aromatic MolBlock representation."""
+    try:
+        return Chem.MolToMolBlock(mol, kekulize=False)
     except TypeError:
-        mol_block = Chem.MolToMolBlock(mol)
+        return Chem.MolToMolBlock(mol)
+
+
+def _copy_with_aromatic_bonds_as_single(mol: Chem.Mol) -> Chem.Mol:
+    """Return a display-only copy with aromatic flags cleared and bonds set single."""
+    candidate = Chem.RWMol(Chem.Mol(mol))
+    for bond in candidate.GetBonds():
+        if bond.GetIsAromatic() or bond.GetBondType() == Chem.rdchem.BondType.AROMATIC:
+            bond.SetBondType(Chem.rdchem.BondType.SINGLE)
+            bond.SetIsAromatic(False)
+    for atom in candidate.GetAtoms():
+        atom.SetIsAromatic(False)
+    return candidate.GetMol()
+
+
+def _ensure_mol_block_newline(mol_block: str) -> str:
+    """Ensure MolBlock text ends with one newline before properties."""
     if not mol_block.endswith("\n"):
         mol_block += "\n"
     return mol_block
@@ -438,6 +518,8 @@ def _write_report(args: argparse.Namespace, summary: dict[str, object]) -> Path:
         handle.write(f"- npz_path: `{args.npz_path}`\n")
         handle.write(f"- raw_ligand_root: `{args.raw_ligand_root}`\n")
         handle.write(f"- dataset: `{args.dataset}`\n")
+        handle.write(f"- mol_block_mode: `{args.mol_block_mode}`\n")
+        handle.write(f"- preserve_stereo_in_molblock: `{args.preserve_stereo_in_molblock}`\n")
         handle.write(f"- samples: {samples}\n\n")
         handle.write("## Outputs\n\n")
         handle.write(f"- [all paired SDF]({PAIR_SDF_NAME}): {summary['all_pair_records']} records\n")
@@ -450,20 +532,32 @@ def _write_report(args: argparse.Namespace, summary: dict[str, object]) -> Path:
         handle.write("## Record Layout\n\n")
         handle.write(
             "Each pair is written as two consecutive records: first `original`, then "
-            "`repaired_oracle`. The SDF molecule title uses "
-            "`sample_XXXXXX|variant|ligand_stem`.\n\n"
+            "`repaired_oracle`. The SDF molecule title uses a Maestro-safe form: "
+            "`sample_XXXXXX_variant_ligand_stem`.\n\n"
         )
         handle.write("Important properties on every record include:\n\n")
         handle.write("- `pair_id`, `sample_idx`, `variant`, `counterpart_variant`\n")
         handle.write("- `processed_name`, `original_sdf`, `repair_strategy`\n")
         handle.write("- `this_smiles_*`, `counterpart_smiles_*`\n")
         handle.write("- `comparison_smiles_no_stereo_match`, `comparison_bond_type_map_match`\n")
+        handle.write("- `molblock_export_mode`, `molblock_export_warning`\n")
+        handle.write("- `molblock_stereo_display`\n")
         handle.write("- `semantic_warning`, `visual_priority`\n\n")
         handle.write("## Repair Strategy Counts\n\n")
         handle.write("| repair_strategy | count |\n")
         handle.write("|---|---:|\n")
         for strategy, count in dict(summary["repair_strategy_counts"]).items():
             handle.write(f"| {strategy} | {count} |\n")
+        handle.write("\n## MolBlock Export Mode Counts\n\n")
+        handle.write("| export_mode | all paired records | mismatch records |\n")
+        handle.write("|---|---:|---:|\n")
+        all_counts = dict(summary["all_pairs_export_mode_counts"])
+        mismatch_counts = dict(summary["mismatch_export_mode_counts"])
+        for export_mode in sorted(set(all_counts) | set(mismatch_counts)):
+            handle.write(
+                f"| {export_mode} | {all_counts.get(export_mode, 0)} | "
+                f"{mismatch_counts.get(export_mode, 0)} |\n"
+            )
         handle.write("\n## Interpretation Warning\n\n")
         handle.write(
             "The `repaired_oracle` records are visual comparison objects, not guaranteed "
@@ -471,6 +565,17 @@ def _write_report(args: argparse.Namespace, summary: dict[str, object]) -> Path:
             "aligned, but repaired molecules can change aromatic/bond/charge semantics after "
             "RDKit sanitization. Prioritize the mismatch SDF for manual inspection.\n"
         )
+        if args.mol_block_mode == "maestro":
+            handle.write(
+                "\nThis export uses Maestro-compatible MolBlocks by default: normal records are "
+                "Kekulized, and records that RDKit cannot Kekulize are written with aromatic "
+                "bonds converted to single bonds for display only.\n"
+            )
+            if not args.preserve_stereo_in_molblock:
+                handle.write(
+                    "SDF MolBlock stereochemical wedge/hash annotations are removed for display "
+                    "compatibility; isomeric SMILES are preserved in SDF properties.\n"
+                )
     return report_path
 
 
@@ -495,6 +600,23 @@ def parse_args() -> argparse.Namespace:
         / f"oracle_original_pair_sdf_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
     )
     parser.add_argument("--max-samples", type=int, default=None)
+    parser.add_argument(
+        "--mol-block-mode",
+        choices=["maestro", "rdkit_aromatic"],
+        default="maestro",
+        help=(
+            "maestro writes Kekule/single-display MolBlocks without aromatic bond type 4; "
+            "rdkit_aromatic preserves RDKit aromatic bond type 4."
+        ),
+    )
+    parser.add_argument(
+        "--preserve-stereo-in-molblock",
+        action="store_true",
+        help=(
+            "Keep SDF MolBlock chiral/wedge annotations. By default they are removed for "
+            "Maestro/Open Babel display compatibility while isomeric SMILES stay in properties."
+        ),
+    )
     return parser.parse_args()
 
 

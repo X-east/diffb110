@@ -6,8 +6,11 @@ import argparse
 import unittest
 from pathlib import Path
 
+from rdkit import Chem
+
 from DiffSBDD.analysis.write_oracle_original_pair_sdf import (
     _format_sdf_value,
+    _mol_to_mol_block,
     build_sdf_properties,
     format_pair_id,
     make_record_name,
@@ -23,7 +26,7 @@ class TestOraclePairSdf(unittest.TestCase):
         self.assertEqual(pair_id, "sample_000012")
         self.assertEqual(
             make_record_name(pair_id, "original", "/tmp/example_lig.sdf"),
-            "sample_000012|original|example_lig",
+            "sample_000012_original_example_lig",
         )
 
     def test_build_sdf_properties_switches_variant_perspective(self):
@@ -46,6 +49,15 @@ class TestOraclePairSdf(unittest.TestCase):
     def test_format_sdf_value_is_single_line(self):
         self.assertEqual(_format_sdf_value("a\nb"), "a b")
         self.assertEqual(_format_sdf_value({"b": 2, "a": 1}), '{"a": 1, "b": 2}')
+
+    def test_maestro_mol_block_avoids_aromatic_bond_type_four(self):
+        mol = Chem.MolFromSmiles("c1ccccc1")
+
+        mol_block, export_mode, warning = _mol_to_mol_block(mol, mode="maestro")
+
+        self.assertEqual(export_mode, "kekulized")
+        self.assertEqual(warning, "")
+        self.assertNotIn("  4  0", mol_block)
 
 
 def _example_row() -> dict[str, object]:
