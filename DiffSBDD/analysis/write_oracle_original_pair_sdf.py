@@ -1,0 +1,503 @@
+"""Write paired original and repaired-oracle SDF records for inspection."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import sys
+from collections import Counter
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+
+import torch
+from rdkit import Chem, RDLogger
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DIFFSBDD_ROOT = Path(__file__).resolve().parents[1]
+for extra in (PROJECT_ROOT, DIFFSBDD_ROOT):
+    if str(extra) not in sys.path:
+        sys.path.insert(0, str(extra))
+
+import constants
+from dataset import ProcessedLigandPocketDataset
+from edge_diffusion.oracle_reconstruction import OracleReconstructionResult, build_oracle_mol
+
+from DiffSBDD.analysis.oracle_original_sdf_audit import (
+    _atom_symbols,
+    _compare_bond_maps,
+    _count_vector_differences,
+    _empty_comparison_fields,
+    _load_original_sdf,
+    _molecule_facts,
+    ligand_sdf_relpath_from_name,
+)
+
+RDLogger.DisableLog("rdApp.*")
+
+PAIR_SDF_NAME = "original_vs_repaired_oracle_pairs.sdf"
+MISMATCH_SDF_NAME = "original_vs_repaired_oracle_smiles_mismatches.sdf"
+MANIFEST_CSV_NAME = "original_vs_repaired_oracle_pair_manifest.csv"
+SUMMARY_JSON_NAME = "original_vs_repaired_oracle_pair_summary.json"
+REPORT_MD_NAME = "original_vs_repaired_oracle_pair_report.md"
+
+
+@dataclass(frozen=True)
+class PairSdfResult:
+    """Paths and counts produced by paired SDF export."""
+
+    report_path: Path
+    all_pairs_sdf: Path
+    mismatch_pairs_sdf: Path
+    manifest_csv: Path
+    summary_json: Path
+    samples: int
+    all_pair_records: int
+    mismatch_pair_records: int
+
+
+def format_pair_id(sample_idx: int) -> str:
+    """Return a stable per-sample pair identifier."""
+    return f"sample_{sample_idx:06d}"
+
+
+def make_record_name(pair_id: str, variant: str, original_sdf: str) -> str:
+    """Return the SDF molecule title used for one variant record."""
+    stem = Path(original_sdf).stem if original_sdf else "unknown_ligand"
+    return f"{pair_id}|{variant}|{stem}"
+
+
+def build_sdf_properties(
+    row: dict[str, object],
+    variant: str,
+    args: argparse.Namespace,
+) -> dict[str, object]:
+    """Build SDF properties shared by original and repaired-oracle records."""
+    if variant not in {"original", "repaired_oracle"}:
+        raise ValueError(f"Unsupported variant: {variant}")
+
+    other_variant = "repaired_oracle" if variant == "original" else "original"
+    this_prefix = "original" if variant == "original" else "oracle"
+    other_prefix = "oracle" if variant == "original" else "original"
+    smiles_mismatch = int(row.get("smiles_no_stereo_match", 0)) == 0
+    semantic_warning = (
+        "no_stereo_smiles_mismatch_or_failed_load"
+        if smiles_mismatch
+        else "no_stereo_smiles_match"
+    )
+
+    properties: dict[str, object] = {
+        "pair_id": row["pair_id"],
+        "sample_idx": row["sample_idx"],
+        "variant": variant,
+        "counterpart_variant": other_variant,
+        "record_name": row[f"{variant}_record_name"],
+        "counterpart_record_name": row[f"{other_variant}_record_name"],
+        "processed_name": row["name"],
+        "original_sdf": row["original_sdf"],
+        "npz_path": str(args.npz_path),
+        "dataset": args.dataset,
+        "repair_strategy": row["repair_strategy"],
+        "initial_sanitize_error": row["initial_sanitize_error"],
+        "oracle_sanitize_error": row["oracle_sanitize_error"],
+        "oracle_sanitize_success": row["oracle_sanitize_success"],
+        "original_load_success": row["original_load_success"],
+        "original_load_error": row["original_load_error"],
+        "visual_priority": "mismatch" if smiles_mismatch else "match",
+        "semantic_warning": semantic_warning,
+        "this_smiles_iso": row[f"{this_prefix}_smiles_iso"],
+        "counterpart_smiles_iso": row[f"{other_prefix}_smiles_iso"],
+        "this_smiles_no_stereo": row[f"{this_prefix}_smiles_no_stereo"],
+        "counterpart_smiles_no_stereo": row[f"{other_prefix}_smiles_no_stereo"],
+        "this_num_atoms": row[f"num_atoms_{this_prefix}"],
+        "counterpart_num_atoms": row[f"num_atoms_{other_prefix}"],
+        "this_num_bonds": row[f"num_bonds_{this_prefix}"],
+        "counterpart_num_bonds": row[f"num_bonds_{other_prefix}"],
+        "this_total_formal_charge": row[f"total_formal_charge_{this_prefix}"],
+        "counterpart_total_formal_charge": row[f"total_formal_charge_{other_prefix}"],
+        "this_aromatic_atom_count": row[f"aromatic_atom_count_{this_prefix}"],
+        "counterpart_aromatic_atom_count": row[f"aromatic_atom_count_{other_prefix}"],
+        "this_aromatic_bond_count": row[f"aromatic_bond_count_{this_prefix}"],
+        "counterpart_aromatic_bond_count": row[f"aromatic_bond_count_{other_prefix}"],
+    }
+
+    for key in [
+        "smiles_iso_match",
+        "smiles_no_stereo_match",
+        "num_atoms_match",
+        "num_bonds_match",
+        "total_formal_charge_match",
+        "formal_charge_vector_match",
+        "formal_charge_diff_count",
+        "aromatic_atom_count_match",
+        "aromatic_atom_vector_match",
+        "aromatic_atom_diff_count",
+        "aromatic_bond_count_match",
+        "bond_pair_set_match",
+        "bond_type_map_match",
+        "missing_bond_count",
+        "extra_bond_count",
+        "bond_type_mismatch_count",
+    ]:
+        properties[f"comparison_{key}"] = row[key]
+    return properties
+
+
+def run_pair_sdf_export(args: argparse.Namespace) -> PairSdfResult:
+    """Write paired SDF records and a manifest for visual comparison."""
+    dataset_info = constants.dataset_params[args.dataset]
+    dataset = ProcessedLigandPocketDataset(args.npz_path, center=False)
+    args.outdir.mkdir(parents=True, exist_ok=True)
+    limit = len(dataset) if args.max_samples is None else min(args.max_samples, len(dataset))
+
+    all_pairs_sdf = args.outdir / PAIR_SDF_NAME
+    mismatch_pairs_sdf = args.outdir / MISMATCH_SDF_NAME
+    manifest_csv = args.outdir / MANIFEST_CSV_NAME
+    summary_json = args.outdir / SUMMARY_JSON_NAME
+
+    rows: list[dict[str, object]] = []
+    repair_strategy_counts: Counter[str] = Counter()
+    mismatch_pair_count = 0
+    all_record_count = 0
+    mismatch_record_count = 0
+
+    with all_pairs_sdf.open("w") as all_handle, mismatch_pairs_sdf.open("w") as mismatch_handle:
+        for sample_idx in range(limit):
+            row, original_mol, oracle_result = _build_pair_row(args, dataset_info, dataset, sample_idx)
+            rows.append(row)
+            repair_strategy_counts[str(row["repair_strategy"])] += 1
+
+            if original_mol is None or oracle_result.mol is None:
+                continue
+
+            original_props = build_sdf_properties(row, "original", args)
+            oracle_props = build_sdf_properties(row, "repaired_oracle", args)
+            _write_sdf_record(all_handle, original_mol, str(row["original_record_name"]), original_props)
+            _write_sdf_record(
+                all_handle,
+                oracle_result.mol,
+                str(row["repaired_oracle_record_name"]),
+                oracle_props,
+            )
+            all_record_count += 2
+
+            if int(row["smiles_no_stereo_match"]) == 0:
+                mismatch_pair_count += 1
+                _write_sdf_record(
+                    mismatch_handle,
+                    original_mol,
+                    str(row["original_record_name"]),
+                    original_props,
+                )
+                _write_sdf_record(
+                    mismatch_handle,
+                    oracle_result.mol,
+                    str(row["repaired_oracle_record_name"]),
+                    oracle_props,
+                )
+                mismatch_record_count += 2
+
+    _write_manifest(manifest_csv, rows)
+    summary = {
+        "npz_path": str(args.npz_path),
+        "raw_ligand_root": str(args.raw_ligand_root),
+        "dataset": args.dataset,
+        "samples": limit,
+        "all_pairs_sdf": str(all_pairs_sdf),
+        "all_pair_records": all_record_count,
+        "mismatch_pairs_sdf": str(mismatch_pairs_sdf),
+        "mismatch_pairs": mismatch_pair_count,
+        "mismatch_pair_records": mismatch_record_count,
+        "manifest_csv": str(manifest_csv),
+        "repair_strategy_counts": dict(sorted(repair_strategy_counts.items())),
+    }
+    summary_json.write_text(json.dumps(summary, indent=2, ensure_ascii=False))
+    report_path = _write_report(args, summary)
+    return PairSdfResult(
+        report_path=report_path,
+        all_pairs_sdf=all_pairs_sdf,
+        mismatch_pairs_sdf=mismatch_pairs_sdf,
+        manifest_csv=manifest_csv,
+        summary_json=summary_json,
+        samples=limit,
+        all_pair_records=all_record_count,
+        mismatch_pair_records=mismatch_record_count,
+    )
+
+
+def _build_pair_row(
+    args: argparse.Namespace,
+    dataset_info: dict[str, object],
+    dataset: ProcessedLigandPocketDataset,
+    sample_idx: int,
+) -> tuple[dict[str, object], Chem.Mol | None, OracleReconstructionResult]:
+    """Build one manifest row plus original/oracle molecule objects."""
+    sample = dataset[sample_idx]
+    name = str(sample["names"])
+    pair_id = format_pair_id(sample_idx)
+    row: dict[str, object] = {
+        "pair_id": pair_id,
+        "sample_idx": sample_idx,
+        "name": name,
+    }
+
+    try:
+        ligand_relpath = ligand_sdf_relpath_from_name(name)
+        original_path = args.raw_ligand_root / ligand_relpath
+        row["original_sdf"] = str(original_path)
+    except ValueError as exc:
+        original_path = None
+        row["original_sdf"] = ""
+        row["original_load_error"] = type(exc).__name__
+
+    row["original_record_name"] = make_record_name(pair_id, "original", str(row["original_sdf"]))
+    row["repaired_oracle_record_name"] = make_record_name(
+        pair_id,
+        "repaired_oracle",
+        str(row["original_sdf"]),
+    )
+
+    atom_symbols = _atom_symbols(sample["lig_one_hot"], dataset_info["atom_decoder"])
+    oracle_result = build_oracle_mol(
+        atom_symbols=atom_symbols,
+        positions=sample["lig_coords"].float(),
+        halfedge_index=sample["ligand_halfedge_index"],
+        halfedge_type=sample["ligand_halfedge_type"],
+    )
+    row["oracle_sanitize_success"] = int(oracle_result.sanitize_success)
+    row["initial_sanitize_error"] = oracle_result.initial_sanitize_error or ""
+    row["oracle_sanitize_error"] = oracle_result.sanitize_error or ""
+    row["repair_strategy"] = oracle_result.repair_strategy
+
+    original_mol = None
+    original_error = row.get("original_load_error", "")
+    if original_path is not None:
+        original_mol, original_error = _load_original_sdf(original_path)
+    row["original_load_success"] = int(original_mol is not None)
+    row["original_load_error"] = original_error or ""
+
+    if original_mol is None or oracle_result.mol is None or not oracle_result.sanitize_success:
+        row.update(_empty_comparison_fields())
+        return row, original_mol, oracle_result
+
+    original = _molecule_facts(original_mol)
+    oracle = _molecule_facts(oracle_result.mol)
+    bond_comparison = _compare_bond_maps(original.bond_map, oracle.bond_map)
+    formal_charge_diff_count = _count_vector_differences(
+        original.formal_charges,
+        oracle.formal_charges,
+    )
+    aromatic_atom_diff_count = _count_vector_differences(
+        original.aromatic_atom_flags,
+        oracle.aromatic_atom_flags,
+    )
+    row.update(
+        {
+            "original_smiles_iso": original.smiles_iso,
+            "oracle_smiles_iso": oracle.smiles_iso,
+            "original_smiles_no_stereo": original.smiles_no_stereo,
+            "oracle_smiles_no_stereo": oracle.smiles_no_stereo,
+            "smiles_iso_match": int(original.smiles_iso == oracle.smiles_iso),
+            "smiles_no_stereo_match": int(original.smiles_no_stereo == oracle.smiles_no_stereo),
+            "num_atoms_original": original.num_atoms,
+            "num_atoms_oracle": oracle.num_atoms,
+            "num_atoms_match": int(original.num_atoms == oracle.num_atoms),
+            "num_bonds_original": original.num_bonds,
+            "num_bonds_oracle": oracle.num_bonds,
+            "num_bonds_match": int(original.num_bonds == oracle.num_bonds),
+            "total_formal_charge_original": original.total_formal_charge,
+            "total_formal_charge_oracle": oracle.total_formal_charge,
+            "total_formal_charge_match": int(
+                original.total_formal_charge == oracle.total_formal_charge
+            ),
+            "formal_charge_vector_match": int(original.formal_charges == oracle.formal_charges),
+            "formal_charge_diff_count": formal_charge_diff_count,
+            "aromatic_atom_count_original": original.aromatic_atom_count,
+            "aromatic_atom_count_oracle": oracle.aromatic_atom_count,
+            "aromatic_atom_count_match": int(
+                original.aromatic_atom_count == oracle.aromatic_atom_count
+            ),
+            "aromatic_atom_vector_match": int(
+                original.aromatic_atom_flags == oracle.aromatic_atom_flags
+            ),
+            "aromatic_atom_diff_count": aromatic_atom_diff_count,
+            "aromatic_bond_count_original": original.aromatic_bond_count,
+            "aromatic_bond_count_oracle": oracle.aromatic_bond_count,
+            "aromatic_bond_count_match": int(
+                original.aromatic_bond_count == oracle.aromatic_bond_count
+            ),
+            **bond_comparison,
+        }
+    )
+    return row, original_mol, oracle_result
+
+
+def _write_sdf_record(
+    handle,
+    mol: Chem.Mol,
+    name: str,
+    properties: dict[str, object],
+) -> None:
+    """Write one SDF record with a stable molecule title and properties."""
+    mol_to_write = Chem.Mol(mol)
+    mol_to_write.SetProp("_Name", name)
+    handle.write(_mol_to_mol_block(mol_to_write))
+    for key, value in properties.items():
+        handle.write(f">  <{key}>\n{_format_sdf_value(value)}\n\n")
+    handle.write("$$$$\n")
+
+
+def _mol_to_mol_block(mol: Chem.Mol) -> str:
+    """Return a MolBlock, avoiding forced kekulization when RDKit supports it."""
+    try:
+        mol_block = Chem.MolToMolBlock(mol, kekulize=False)
+    except TypeError:
+        mol_block = Chem.MolToMolBlock(mol)
+    if not mol_block.endswith("\n"):
+        mol_block += "\n"
+    return mol_block
+
+
+def _format_sdf_value(value: object) -> str:
+    """Format values as single SDF property strings."""
+    if value is None:
+        return ""
+    if isinstance(value, (dict, list, tuple)):
+        return json.dumps(value, ensure_ascii=False, sort_keys=True)
+    return str(value).replace("\r", " ").replace("\n", " ")
+
+
+def _write_manifest(path: Path, rows: list[dict[str, object]]) -> None:
+    """Write the paired SDF manifest with stable columns."""
+    fieldnames = [
+        "pair_id",
+        "sample_idx",
+        "name",
+        "original_sdf",
+        "original_record_name",
+        "repaired_oracle_record_name",
+        "original_load_success",
+        "original_load_error",
+        "oracle_sanitize_success",
+        "initial_sanitize_error",
+        "oracle_sanitize_error",
+        "repair_strategy",
+        "original_smiles_iso",
+        "oracle_smiles_iso",
+        "original_smiles_no_stereo",
+        "oracle_smiles_no_stereo",
+        "smiles_iso_match",
+        "smiles_no_stereo_match",
+        "num_atoms_original",
+        "num_atoms_oracle",
+        "num_atoms_match",
+        "num_bonds_original",
+        "num_bonds_oracle",
+        "num_bonds_match",
+        "total_formal_charge_original",
+        "total_formal_charge_oracle",
+        "total_formal_charge_match",
+        "formal_charge_vector_match",
+        "formal_charge_diff_count",
+        "aromatic_atom_count_original",
+        "aromatic_atom_count_oracle",
+        "aromatic_atom_count_match",
+        "aromatic_atom_vector_match",
+        "aromatic_atom_diff_count",
+        "aromatic_bond_count_original",
+        "aromatic_bond_count_oracle",
+        "aromatic_bond_count_match",
+        "bond_pair_set_match",
+        "bond_type_map_match",
+        "missing_bond_count",
+        "extra_bond_count",
+        "bond_type_mismatch_count",
+    ]
+    with path.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _write_report(args: argparse.Namespace, summary: dict[str, object]) -> Path:
+    """Write a Markdown report describing the paired SDF outputs."""
+    report_path = args.outdir / REPORT_MD_NAME
+    mismatch_pairs = int(summary["mismatch_pairs"])
+    samples = int(summary["samples"])
+    with report_path.open("w") as handle:
+        handle.write("# Original vs Repaired Oracle Paired SDF\n\n")
+        handle.write("## Purpose\n\n")
+        handle.write(
+            "This export writes original ligand SDF records next to repaired oracle records "
+            "built from processed coordinates and true halfedge labels. It is meant for "
+            "visual inspection of reconstruction/repair differences.\n\n"
+        )
+        handle.write("## Inputs\n\n")
+        handle.write(f"- npz_path: `{args.npz_path}`\n")
+        handle.write(f"- raw_ligand_root: `{args.raw_ligand_root}`\n")
+        handle.write(f"- dataset: `{args.dataset}`\n")
+        handle.write(f"- samples: {samples}\n\n")
+        handle.write("## Outputs\n\n")
+        handle.write(f"- [all paired SDF]({PAIR_SDF_NAME}): {summary['all_pair_records']} records\n")
+        handle.write(
+            f"- [SMILES mismatch paired SDF]({MISMATCH_SDF_NAME}): "
+            f"{summary['mismatch_pair_records']} records from {mismatch_pairs} pairs\n"
+        )
+        handle.write(f"- [manifest CSV]({MANIFEST_CSV_NAME})\n")
+        handle.write(f"- [summary JSON]({SUMMARY_JSON_NAME})\n\n")
+        handle.write("## Record Layout\n\n")
+        handle.write(
+            "Each pair is written as two consecutive records: first `original`, then "
+            "`repaired_oracle`. The SDF molecule title uses "
+            "`sample_XXXXXX|variant|ligand_stem`.\n\n"
+        )
+        handle.write("Important properties on every record include:\n\n")
+        handle.write("- `pair_id`, `sample_idx`, `variant`, `counterpart_variant`\n")
+        handle.write("- `processed_name`, `original_sdf`, `repair_strategy`\n")
+        handle.write("- `this_smiles_*`, `counterpart_smiles_*`\n")
+        handle.write("- `comparison_smiles_no_stereo_match`, `comparison_bond_type_map_match`\n")
+        handle.write("- `semantic_warning`, `visual_priority`\n\n")
+        handle.write("## Repair Strategy Counts\n\n")
+        handle.write("| repair_strategy | count |\n")
+        handle.write("|---|---:|\n")
+        for strategy, count in dict(summary["repair_strategy_counts"]).items():
+            handle.write(f"| {strategy} | {count} |\n")
+        handle.write("\n## Interpretation Warning\n\n")
+        handle.write(
+            "The `repaired_oracle` records are visual comparison objects, not guaranteed "
+            "faithful target molecules. Previous audit showed connectivity/atom counts are "
+            "aligned, but repaired molecules can change aromatic/bond/charge semantics after "
+            "RDKit sanitization. Prioritize the mismatch SDF for manual inspection.\n"
+        )
+    return report_path
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse CLI arguments."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--npz-path",
+        type=Path,
+        default=Path("data/crossdocked_raw/processed_edge_noH_full/train.npz"),
+    )
+    parser.add_argument(
+        "--raw-ligand-root",
+        type=Path,
+        default=Path("data/crossdocked_raw/crossdocked_pocket10"),
+    )
+    parser.add_argument("--dataset", choices=sorted(constants.dataset_params.keys()), default="crossdock_full")
+    parser.add_argument(
+        "--outdir",
+        type=Path,
+        default=Path("analysis")
+        / f"oracle_original_pair_sdf_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+    )
+    parser.add_argument("--max-samples", type=int, default=None)
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    result = run_pair_sdf_export(parse_args())
+    print(f"Wrote paired SDF report to {result.report_path}")

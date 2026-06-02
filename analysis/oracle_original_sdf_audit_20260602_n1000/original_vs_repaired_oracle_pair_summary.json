@@ -1,0 +1,17 @@
+{
+  "npz_path": "data/crossdocked_raw/processed_edge_noH_full/train.npz",
+  "raw_ligand_root": "data/crossdocked_raw/crossdocked_pocket10",
+  "dataset": "crossdock_full",
+  "samples": 1000,
+  "all_pairs_sdf": "analysis/oracle_original_sdf_audit_20260602_n1000/original_vs_repaired_oracle_pairs.sdf",
+  "all_pair_records": 2000,
+  "mismatch_pairs_sdf": "analysis/oracle_original_sdf_audit_20260602_n1000/original_vs_repaired_oracle_smiles_mismatches.sdf",
+  "mismatch_pairs": 130,
+  "mismatch_pair_records": 260,
+  "manifest_csv": "analysis/oracle_original_sdf_audit_20260602_n1000/original_vs_repaired_oracle_pair_manifest.csv",
+  "repair_strategy_counts": {
+    "fix_aromatic": 3,
+    "fix_valence": 127,
+    "none": 870
+  }
+}
