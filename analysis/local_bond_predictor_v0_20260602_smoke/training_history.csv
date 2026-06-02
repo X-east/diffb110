@@ -1,0 +1,2 @@
+epoch,train_loss,train_macro_f1,train_positive_recall,val_loss,val_macro_f1,val_positive_recall
+1,1.16378180,0.29832880,0.98957840,0.65957818,0.49968118,1.00000000

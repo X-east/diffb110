@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-06-02T10:06:53",
+  "processed_dir": "data/crossdocked_raw/processed_edge_noH_full",
+  "feature_config": {
+    "rbf_min": 0.0,
+    "rbf_max": 6.0,
+    "rbf_count": 32,
+    "rbf_gamma": null
+  },
+  "input_dim": 55,
+  "num_edge_types": 5,
+  "bond_type_names": {
+    "0": "no_bond",
+    "1": "single",
+    "2": "double",
+    "3": "triple",
+    "4": "aromatic"
+  },
+  "class_weights": [
+    0.1,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "device": "cpu",
+  "args": {
+    "processed_dir": "data/crossdocked_raw/processed_edge_noH_full",
+    "outdir": "analysis/local_bond_predictor_v0_20260602_smoke",
+    "train_max_samples": 200,
+    "val_max_samples": 50,
+    "test_max_samples": 50,
+    "train_negative_ratio": 4.0,
+    "pos_noise_std": 0.05,
+    "rbf_min": 0.0,
+    "rbf_max": 6.0,
+    "rbf_count": 32,
+    "rbf_gamma": null,
+    "hidden_dim": 128,
+    "num_layers": 3,
+    "dropout": 0.1,
+    "epochs": 1,
+    "batch_size": 16,
+    "num_workers": 0,
+    "pin_memory": false,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "class_weights": [
+      0.1,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "max_train_steps_per_epoch": 10,
+    "max_eval_steps": null,
+    "device": "cpu",
+    "seed": 42,
+    "log_level": "INFO"
+  }
+}

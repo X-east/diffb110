@@ -1,0 +1,6 @@
+true_label,no_bond,single,double,triple,aromatic
+no_bond,11385,0,0,0,0
+single,3,595,0,0,109
+double,0,31,0,0,65
+triple,0,0,0,0,1
+aromatic,0,59,0,0,266
