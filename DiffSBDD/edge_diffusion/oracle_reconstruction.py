@@ -50,6 +50,11 @@ def build_oracle_mol(
     return _sanitize_with_repairs(mol)
 
 
+def sanitize_with_repairs(mol: Chem.Mol) -> OracleReconstructionResult:
+    """Sanitize an RDKit molecule using the shared oracle repair policy."""
+    return _sanitize_with_repairs(mol)
+
+
 def _build_raw_mol(
     atom_symbols: list[str],
     positions: torch.Tensor,

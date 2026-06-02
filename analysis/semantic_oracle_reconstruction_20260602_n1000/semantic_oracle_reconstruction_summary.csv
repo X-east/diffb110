@@ -1,0 +1,6 @@
+metric,default_count,semantic_count,denominator,default_rate,semantic_rate,delta_count,delta_rate
+smiles_no_stereo_match,870,1000,1000,0.87,1.0,130,0.13
+smiles_iso_match,394,586,1000,0.394,0.586,192,0.192
+formal_charge_vector_match,989,1000,1000,0.989,1.0,11,0.011
+aromatic_atom_vector_match,881,1000,1000,0.881,1.0,119,0.119
+bond_type_map_match,881,1000,1000,0.881,1.0,119,0.119

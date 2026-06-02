@@ -1,0 +1,68 @@
+{
+  "npz_path": "data/crossdocked_raw/processed_edge_noH_full/train.npz",
+  "semantic_npz": "analysis/edge_semantic_bundle_20260602_n1000/train_edge_semantic.npz",
+  "raw_ligand_root": "data/crossdocked_raw/crossdocked_pocket10",
+  "dataset": "crossdock_full",
+  "samples": 1000,
+  "name_mismatch_count": 0,
+  "original_error_counts": {
+    "success": 1000
+  },
+  "match_rates": {
+    "smiles_no_stereo_match": {
+      "default_count": 870,
+      "semantic_count": 1000,
+      "denominator": 1000,
+      "default_rate": 0.87,
+      "semantic_rate": 1.0,
+      "delta_count": 130,
+      "delta_rate": 0.13
+    },
+    "smiles_iso_match": {
+      "default_count": 394,
+      "semantic_count": 586,
+      "denominator": 1000,
+      "default_rate": 0.394,
+      "semantic_rate": 0.586,
+      "delta_count": 192,
+      "delta_rate": 0.192
+    },
+    "formal_charge_vector_match": {
+      "default_count": 989,
+      "semantic_count": 1000,
+      "denominator": 1000,
+      "default_rate": 0.989,
+      "semantic_rate": 1.0,
+      "delta_count": 11,
+      "delta_rate": 0.011
+    },
+    "aromatic_atom_vector_match": {
+      "default_count": 881,
+      "semantic_count": 1000,
+      "denominator": 1000,
+      "default_rate": 0.881,
+      "semantic_rate": 1.0,
+      "delta_count": 119,
+      "delta_rate": 0.119
+    },
+    "bond_type_map_match": {
+      "default_count": 881,
+      "semantic_count": 1000,
+      "denominator": 1000,
+      "default_rate": 0.881,
+      "semantic_rate": 1.0,
+      "delta_count": 119,
+      "delta_rate": 0.119
+    }
+  },
+  "default_strategy_counts": {
+    "fix_aromatic": 3,
+    "fix_valence": 127,
+    "none": 870
+  },
+  "semantic_strategy_counts": {
+    "none": 1000
+  },
+  "smiles_no_stereo_improvements": 130,
+  "smiles_no_stereo_regressions": 0
+}
