@@ -12,8 +12,15 @@ from typing import Any, Protocol
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from rdkit import Chem, Geometry
 
+from local_bond_predictor.dataset import (
+    PairFeatureConfig,
+    build_pair_features,
+    pair_feature_dim,
+)
+from local_bond_predictor.model import PairBondPredictor
 from reconstruction import reconstruct_molecule
 
 
@@ -114,6 +121,8 @@ _BOND_TYPE_BY_ID = {
     3: Chem.BondType.TRIPLE,
     4: Chem.BondType.AROMATIC,
 }
+
+DEFAULT_LOCAL_BOND_CHECKPOINT = Path("analysis/local_bond_predictor_v0_20260602_small/best_model.pt")
 
 
 @dataclass(frozen=True)
@@ -281,6 +290,150 @@ class ExternalBondPredictorBatchMethod:
         )
 
 
+@dataclass
+class LocalBondPredictorMethod:
+    """Batch adapter for the decoupled local pair-wise bond predictor."""
+
+    name: str
+    checkpoint: Path
+    device: str = "cpu"
+
+    def __post_init__(self) -> None:
+        """Load the predictor checkpoint once for all reconstruction calls."""
+        if not self.checkpoint.exists():
+            raise FileNotFoundError(f"Local bond predictor checkpoint not found: {self.checkpoint}")
+
+        self.torch_device = torch.device(self.device)
+        checkpoint = torch.load(self.checkpoint, map_location=self.torch_device)
+        feature_config_raw = checkpoint.get("feature_config", {})
+        self.feature_config = PairFeatureConfig(**feature_config_raw)
+        self.input_dim = int(checkpoint["input_dim"])
+        distance_dim = self.feature_config.distance_feature_dim
+        if (self.input_dim - distance_dim) % 2 != 0:
+            raise ValueError(
+                f"Invalid local bond predictor input_dim={self.input_dim} "
+                f"for distance_dim={distance_dim}."
+            )
+        self.atom_feature_dim = (self.input_dim - distance_dim) // 2
+        expected_input_dim = pair_feature_dim(self.atom_feature_dim, self.feature_config)
+        if expected_input_dim != self.input_dim:
+            raise ValueError(
+                f"Local bond predictor input mismatch: checkpoint={self.input_dim}, "
+                f"expected={expected_input_dim}."
+            )
+
+        args = checkpoint.get("args", {})
+        model = PairBondPredictor(
+            self.input_dim,
+            hidden_dim=int(args.get("hidden_dim", 256)),
+            num_layers=int(args.get("num_layers", 3)),
+            dropout=float(args.get("dropout", 0.1)),
+            num_edge_types=int(args.get("num_edge_types", 5)),
+        )
+        model.load_state_dict(checkpoint["model_state_dict"])
+        model.to(self.torch_device)
+        model.eval()
+        self.model = model
+
+    def reconstruct(
+        self,
+        coords: torch.Tensor,
+        atom_types: torch.Tensor,
+        dataset_info: dict[str, Any],
+        context: dict[str, Any] | None = None,
+    ) -> ReconstructionAttempt:
+        """Predict bonds and reconstruct one RDKit molecule."""
+        sample = {
+            "sample_idx": 0,
+            "coords": coords,
+            "atom_types": atom_types,
+            "context": context or {},
+        }
+        return self.reconstruct_many([sample], dataset_info)[0][1]
+
+    @torch.no_grad()
+    def reconstruct_many(
+        self,
+        samples: list[dict[str, Any]],
+        dataset_info: dict[str, Any],
+    ) -> list[tuple[dict[str, Any], ReconstructionAttempt]]:
+        """Predict local bond types for many generated atom clouds."""
+        attempts: list[tuple[dict[str, Any], ReconstructionAttempt]] = []
+        for sample in samples:
+            started_at = time.perf_counter()
+            try:
+                halfedge_index, predicted_type = self._predict_halfedges(
+                    sample["coords"],
+                    sample["atom_types"],
+                )
+                atom_symbols = [
+                    dataset_info["atom_decoder"][int(atom_idx)]
+                    for atom_idx in sample["atom_types"]
+                ]
+                mol = _build_molecule_from_predicted_halfedges(
+                    sample["coords"],
+                    atom_symbols,
+                    halfedge_index.detach().cpu().numpy(),
+                    predicted_type.detach().cpu().numpy(),
+                )
+                build_error = ""
+            except Exception as exc:  # noqa: BLE001 - benchmark records failed predictions.
+                mol = None
+                build_error = type(exc).__name__
+            attempts.append((
+                sample,
+                ReconstructionAttempt(
+                    method=self.name,
+                    raw_mol=mol,
+                    build_error=build_error,
+                    seconds=time.perf_counter() - started_at,
+                ),
+            ))
+        return attempts
+
+    def _predict_halfedges(
+        self,
+        coords: torch.Tensor,
+        atom_types: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Return upper-triangle halfedge indices and predicted bond-type ids."""
+        coords_device = coords.to(self.torch_device, dtype=torch.float32)
+        atom_types_device = atom_types.to(self.torch_device, dtype=torch.long)
+        if atom_types_device.numel() == 0:
+            return (
+                torch.zeros((2, 0), dtype=torch.long, device=self.torch_device),
+                torch.zeros((0,), dtype=torch.long, device=self.torch_device),
+            )
+        max_atom_type = int(atom_types_device.max().item())
+        if max_atom_type >= self.atom_feature_dim:
+            raise ValueError(
+                f"Generated atom type id {max_atom_type} exceeds local predictor "
+                f"atom feature dim {self.atom_feature_dim}."
+            )
+
+        num_atoms = int(atom_types_device.shape[0])
+        halfedge_index = torch.triu_indices(
+            num_atoms,
+            num_atoms,
+            offset=1,
+            device=self.torch_device,
+        )
+        atom_features = F.one_hot(
+            atom_types_device,
+            num_classes=self.atom_feature_dim,
+        ).to(dtype=coords_device.dtype)
+        features = build_pair_features(
+            coords_device,
+            atom_features,
+            halfedge_index,
+            self.feature_config,
+        )
+        if features.numel() == 0:
+            return halfedge_index, torch.zeros((0,), dtype=torch.long, device=self.torch_device)
+        logits = self.model(features)
+        return halfedge_index, logits.argmax(dim=-1)
+
+
 def _build_molecule_from_predicted_halfedges(
     coords: torch.Tensor,
     atom_symbols: list[str],
@@ -333,6 +486,8 @@ def create_reconstruction_methods(
     project_root: Path | None = None,
     cache_dir: Path | None = None,
     external_device: str = "cpu",
+    local_bond_checkpoint: Path | None = None,
+    local_bond_device: str = "cpu",
     diffgui_env: str = "diffgui",
     molsnapper_env: str = "molsnapper_modern_ref",
 ) -> list[ReconstructionMethod]:
@@ -365,6 +520,28 @@ def create_reconstruction_methods(
         cache_dir=external_cache_dir / "molsnapper",
         device=external_device,
     )
+    local_checkpoint = DEFAULT_LOCAL_BOND_CHECKPOINT if local_bond_checkpoint is None else local_bond_checkpoint
+    if not local_checkpoint.is_absolute():
+        local_checkpoint = root / local_checkpoint
+    local_method: LocalBondPredictorMethod | None = None
+
+    def get_local_method() -> LocalBondPredictorMethod:
+        """Lazily load the local predictor only when the benchmark requests it."""
+        nonlocal local_method
+        if local_method is None:
+            local_method = LocalBondPredictorMethod(
+                name="local_bond_v0",
+                checkpoint=local_checkpoint,
+                device=local_bond_device,
+            )
+        return local_method
+
+    local_aliases = {
+        "local",
+        "local_bond",
+        "local_bond_v0",
+        "local_bond_predictor",
+    }
     aliases = {
         "openbabel": DiffSBDDReconstructionMethod("openbabel", "openbabel"),
         "obabel": DiffSBDDReconstructionMethod("openbabel", "openbabel"),
@@ -382,10 +559,13 @@ def create_reconstruction_methods(
     seen: set[str] = set()
     for requested_name in method_names:
         key = requested_name.strip().lower().replace("-", "_")
-        if key not in aliases:
-            supported = ", ".join(sorted(aliases))
+        if key in local_aliases:
+            method = get_local_method()
+        elif key in aliases:
+            method = aliases[key]
+        else:
+            supported = ", ".join(sorted(set(aliases) | local_aliases))
             raise ValueError(f"Unsupported reconstruction benchmark method {requested_name!r}. Supported: {supported}")
-        method = aliases[key]
         if method.name not in seen:
             methods.append(method)
             seen.add(method.name)

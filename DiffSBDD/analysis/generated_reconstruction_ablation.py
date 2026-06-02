@@ -223,6 +223,8 @@ def generate_report(args: argparse.Namespace) -> Path:
         project_root=PROJECT_ROOT,
         cache_dir=outdir / "external_bond_predictor_cache",
         external_device=args.external_bond_device,
+        local_bond_checkpoint=args.local_bond_checkpoint,
+        local_bond_device=args.local_bond_device,
         diffgui_env=args.diffgui_env,
         molsnapper_env=args.molsnapper_env,
     )
@@ -283,6 +285,8 @@ def generate_report(args: argparse.Namespace) -> Path:
         "timesteps": args.timesteps,
         "length_tolerance": args.length_tolerance,
         "methods": " ".join(method_names),
+        "local_bond_checkpoint": args.local_bond_checkpoint,
+        "local_bond_device": args.local_bond_device,
     }
     return write_benchmark_outputs(
         outdir=outdir,
@@ -313,6 +317,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=20260601)
     parser.add_argument("--device", type=str, default=None)
     parser.add_argument("--external-bond-device", type=str, default="cpu")
+    parser.add_argument(
+        "--local-bond-checkpoint",
+        type=Path,
+        default=Path("analysis/local_bond_predictor_v0_20260602_small/best_model.pt"),
+    )
+    parser.add_argument("--local-bond-device", type=str, default="cpu")
     parser.add_argument("--diffgui-env", type=str, default="diffgui")
     parser.add_argument("--molsnapper-env", type=str, default="molsnapper_modern_ref")
     parser.add_argument("--skip-external-probe", action="store_true")

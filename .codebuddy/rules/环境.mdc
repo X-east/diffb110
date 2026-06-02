@@ -7,3 +7,5 @@ provider:
 ---
 
 每次请打开dif环境再运行
+
+生成、benchmark、模型推理和训练任务：如果 `dif` 环境里 CUDA 实际可用，并且 GPU 预期更快，优先使用 GPU。只有 CUDA 不可见、显存不足或任务本身更适合 CPU 时才退回 CPU，并在报告中说明原因。

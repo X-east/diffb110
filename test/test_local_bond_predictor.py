@@ -12,10 +12,12 @@ import torch
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DIFFSBDD_ROOT = PROJECT_ROOT / "DiffSBDD"
-for extra in (PROJECT_ROOT, DIFFSBDD_ROOT):
+ANALYSIS_ROOT = DIFFSBDD_ROOT / "analysis"
+for extra in (PROJECT_ROOT, DIFFSBDD_ROOT, ANALYSIS_ROOT):
     if str(extra) not in sys.path:
         sys.path.insert(0, str(extra))
 
+from local_bond_predictor.model import PairBondPredictor  # noqa: E402
 from local_bond_predictor.dataset import (  # noqa: E402
     HalfedgePairDataset,
     PairFeatureConfig,
@@ -24,6 +26,7 @@ from local_bond_predictor.dataset import (  # noqa: E402
     pair_feature_dim,
 )
 from local_bond_predictor.metrics import confusion_matrix, summarize_confusion  # noqa: E402
+from reconstruction_benchmark.methods import LocalBondPredictorMethod  # noqa: E402
 
 
 def _one_hot(indices: list[int], width: int = 5) -> np.ndarray:
@@ -106,6 +109,50 @@ class TestLocalBondPredictor(unittest.TestCase):
         self.assertGreater(metrics.accuracy, 0.0)
         self.assertGreater(metrics.positive_recall, 0.0)
         self.assertEqual(metrics.triple_recall, 0.0)
+
+    def test_local_predictor_reconstruction_adapter(self) -> None:
+        """A saved predictor checkpoint should reconstruct a simple two-atom bond."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            checkpoint_path = Path(tmpdir) / "toy_bond_predictor.pt"
+            config = PairFeatureConfig(rbf_count=4)
+            input_dim = pair_feature_dim(atom_feature_dim=2, config=config)
+            model = PairBondPredictor(input_dim, num_layers=1, num_edge_types=5)
+            with torch.no_grad():
+                linear = model.network[0]
+                linear.weight.zero_()
+                linear.bias.fill_(-10.0)
+                linear.bias[1] = 10.0
+            torch.save(
+                {
+                    "model_state_dict": model.state_dict(),
+                    "input_dim": input_dim,
+                    "feature_config": {
+                        "rbf_min": config.rbf_min,
+                        "rbf_max": config.rbf_max,
+                        "rbf_count": config.rbf_count,
+                        "rbf_gamma": config.rbf_gamma,
+                    },
+                    "args": {
+                        "hidden_dim": 256,
+                        "num_layers": 1,
+                        "dropout": 0.0,
+                    },
+                },
+                checkpoint_path,
+            )
+            method = LocalBondPredictorMethod(
+                name="local_bond_toy",
+                checkpoint=checkpoint_path,
+                device="cpu",
+            )
+            attempt = method.reconstruct(
+                coords=torch.tensor([[0.0, 0.0, 0.0], [1.5, 0.0, 0.0]], dtype=torch.float32),
+                atom_types=torch.tensor([0, 0], dtype=torch.long),
+                dataset_info={"atom_decoder": ["C", "N"]},
+            )
+            self.assertEqual(attempt.build_error, "")
+            self.assertIsNotNone(attempt.raw_mol)
+            self.assertEqual(attempt.raw_mol.GetNumBonds(), 1)
 
 
 if __name__ == "__main__":

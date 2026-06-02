@@ -25,6 +25,11 @@ Before changing project code, read:
 - Run project Python, tests, and training commands in the `dif` environment.
 - Prefer `conda run -n dif <command>` for one-off commands when activation state
   is uncertain.
+- For generation, benchmark, model inference, and training tasks, prefer GPU
+  execution when CUDA is actually available in the selected environment and the
+  task is expected to run faster on GPU. Fall back to CPU only when CUDA is not
+  visible, GPU memory is insufficient, or the task is CPU-bound; record the
+  fallback reason in reports.
 - For CPU-parallel analysis, preprocessing, descriptor calculation, dataset
   building, and similar project tasks, default to 18 CPU cores unless the user
   specifies another value or the tool has a safer project-specific limit.

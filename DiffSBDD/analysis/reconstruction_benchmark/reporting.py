@@ -145,10 +145,11 @@ def _plot_summary(outdir: Path, summary_rows: list[dict[str, object]]) -> None:
         ("mean_logp", "LogP", "logp_by_method.png"),
         ("mean_reconstruction_seconds", "seconds / molecule", "time_by_method.png"),
     ]
+    palette = ["#4C78A8", "#F58518", "#54A24B", "#B279A2", "#E45756", "#72B7B2", "#FF9DA6"]
     for field, ylabel, filename in plot_specs:
         values = [float(row[field]) for row in summary_rows]
         plt.figure(figsize=(7, 4))
-        plt.bar(methods, values, color=["#4C78A8", "#F58518", "#54A24B", "#B279A2"][:len(methods)])
+        plt.bar(methods, values, color=palette[:len(methods)])
         plt.ylabel(ylabel)
         plt.xticks(rotation=15, ha="right")
         lower = min(0.0, min(values) * 1.15) if values else 0.0

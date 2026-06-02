@@ -206,5 +206,8 @@ reference project/
 # generated logs
 chem_warnings.log
 
+# reconstruction benchmark worker caches
+analysis/**/external_bond_predictor_cache/
+
 # cookie file (not project code)
 url
