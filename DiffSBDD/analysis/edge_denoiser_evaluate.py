@@ -38,9 +38,11 @@ from edge_diffusion import (  # noqa: E402
     EdgeDenoiserConfig,
     EdgeDenoiserMLP,
     EdgeDenoiserNodeEdge,
+    EdgeReconstructionEvalConfig,
     EdgeTransitionConfig,
     build_oracle_mol,
     build_semantic_oracle_mol,
+    evaluate_edge_reconstruction,
 )
 from edge_utils import BOND_TYPE_NAMES  # noqa: E402
 
@@ -274,72 +276,25 @@ def _run_reconstruction(
     max_bond_length: float,
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
     """Predict bonds for validation molecules and reconstruct RDKit molecules."""
-    edge_data = np.load(edge_npz, allow_pickle=True)
-    semantic_data = None if semantic_npz is None else np.load(semantic_npz, allow_pickle=True)
-    selected_indices = eval_indices if limit is None else eval_indices[:limit]
-    generator = torch.Generator(device=device)
-    generator.manual_seed(seed + int(timestep))
-    plain_writer = Chem.SDWriter(str(outdir / f"predicted_bond_plain_t{timestep}.sdf"))
-    semantic_writer = Chem.SDWriter(str(outdir / f"predicted_bond_semantic_t{timestep}.sdf"))
-    rows: list[dict[str, object]] = []
-    strategy_counts: Counter[str] = Counter()
-
-    try:
-        for global_idx in selected_indices:
-            sample = dataset[global_idx]
-            batch = EdgeBatchCollator()([sample]).to(device)
-            t = torch.tensor([int(timestep)], dtype=torch.long, device=device)
-            noised_edge_type = transition.q_sample(
-                batch.target_edge_type,
-                t[batch.edge_batch],
-                generator=generator,
-            )
-            logits = model(batch, noised_edge_type, t)
-            pred_edge_type = logits.argmax(dim=-1).detach().cpu()
-            target_edge_type = batch.target_edge_type.detach().cpu()
-            halfedge_index = batch.halfedge_index.detach().cpu()
-            positions = batch.ligand_pos.detach().cpu()
-            atom_symbols = [str(value) for value in edge_data["ligand_atom_symbol"][global_idx]]
-            plain_result = build_oracle_mol(
-                atom_symbols=atom_symbols,
-                positions=positions,
-                halfedge_index=halfedge_index,
-                halfedge_type=pred_edge_type,
-            )
-            semantic_result = _build_semantic_result(
-                semantic_data=semantic_data,
-                global_idx=global_idx,
-                atom_symbols=atom_symbols,
-                positions=positions,
-                halfedge_index=halfedge_index,
-                halfedge_type=pred_edge_type,
-            )
-            row = _build_reconstruction_row(
-                global_idx=global_idx,
-                name=str(sample["name"]),
-                atom_symbols=atom_symbols,
-                positions=positions,
-                halfedge_index=halfedge_index,
-                target_edge_type=target_edge_type,
-                pred_edge_type=pred_edge_type,
-                plain_result=plain_result,
-                semantic_result=semantic_result,
-                original_smiles=(
-                    "" if semantic_data is None
-                    else str(semantic_data["original_smiles_no_stereo"][global_idx])
-                ),
-                min_bond_length=min_bond_length,
-                max_bond_length=max_bond_length,
-            )
-            rows.append(row)
-            strategy_counts[f"plain:{plain_result.repair_strategy}"] += 1
-            strategy_counts[f"semantic:{semantic_result.repair_strategy}"] += 1
-            _write_result_mol(plain_writer, plain_result.mol, row, prefix="plain")
-            _write_result_mol(semantic_writer, semantic_result.mol, row, prefix="semantic")
-    finally:
-        plain_writer.close()
-        semantic_writer.close()
-    return rows, _summarize_reconstruction(rows, strategy_counts)
+    return evaluate_edge_reconstruction(
+        model=model,
+        dataset=dataset,
+        eval_indices=eval_indices,
+        edge_npz=edge_npz,
+        semantic_npz=semantic_npz,
+        transition=transition,
+        config=EdgeReconstructionEvalConfig(
+            timestep=timestep,
+            limit=limit,
+            seed=seed,
+            min_bond_length=min_bond_length,
+            max_bond_length=max_bond_length,
+            write_sdf=True,
+            sdf_prefix="predicted_bond",
+        ),
+        device=device,
+        outdir=outdir,
+    )
 
 
 def _build_semantic_result(

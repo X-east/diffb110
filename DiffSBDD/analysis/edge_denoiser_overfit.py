@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import os
 import random
 import sys
@@ -37,11 +38,17 @@ from edge_diffusion import (  # noqa: E402
     EdgeDenoiserConfig,
     EdgeDenoiserMLP,
     EdgeDenoiserNodeEdge,
+    EdgeReconstructionEvalConfig,
     EdgeTransitionConfig,
+    batch_confusion,
+    classification_metrics,
+    evaluate_edge_reconstruction,
+    make_edge_class_weight,
+    reconstruction_metric_defaults,
+    reconstruction_summary_for_training,
 )
 from edge_diffusion.denoiser import (  # noqa: E402
     edge_focal_cross_entropy,
-    make_inverse_sqrt_class_weight,
 )
 from edge_utils import BOND_TYPE_NAMES  # noqa: E402
 
@@ -73,7 +80,11 @@ def run_overfit(args: argparse.Namespace) -> Path:
     )
     class_counts = _count_classes(train_dataset, args.num_edge_types)
     eval_class_counts = _count_classes(eval_dataset, args.num_edge_types)
-    class_weight = make_inverse_sqrt_class_weight(class_counts).to(device)
+    class_weight = make_edge_class_weight(
+        class_counts,
+        mode=args.class_weight_mode,
+        no_bond_weight=args.no_bond_weight,
+    ).to(device)
     model = _build_model(args, _infer_num_atom_types(dataset)).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     transition = EdgeCategoricalTransition(EdgeTransitionConfig(
@@ -104,6 +115,15 @@ def run_overfit(args: argparse.Namespace) -> Path:
             "epoch": epoch,
             "train_loss": train_loss,
             **eval_metrics,
+            **_maybe_evaluate_reconstruction(
+                model=model,
+                dataset=dataset,
+                split_info=split_info,
+                args=args,
+                transition=transition,
+                epoch=epoch,
+                device=device,
+            ),
         }
         metrics_rows.append(row)
 
@@ -149,6 +169,7 @@ def _train_one_epoch(
     total_edges = 0
     for batch in dataloader:
         batch = batch.to(device)
+        batch = _maybe_add_position_noise(batch, args.pos_noise_std)
         t = torch.randint(
             low=0,
             high=args.num_timesteps,
@@ -171,6 +192,21 @@ def _train_one_epoch(
         total_loss += float(loss.detach().item()) * edge_count
         total_edges += edge_count
     return total_loss / max(1, total_edges)
+
+
+def _maybe_add_position_noise(batch: EdgeBatch, pos_noise_std: float) -> EdgeBatch:
+    """Add DiffGui-style coordinate noise during training when requested."""
+    if pos_noise_std <= 0:
+        return batch
+    return EdgeBatch(
+        ligand_pos=batch.ligand_pos + torch.randn_like(batch.ligand_pos) * float(pos_noise_std),
+        ligand_atom_type=batch.ligand_atom_type,
+        halfedge_index=batch.halfedge_index,
+        target_edge_type=batch.target_edge_type,
+        atom_batch=batch.atom_batch,
+        edge_batch=batch.edge_batch,
+        names=batch.names,
+    )
 
 
 @torch.no_grad()
@@ -206,17 +242,52 @@ def _evaluate(
         logits = model(batch, noised_edge_type, t)
         loss = edge_focal_cross_entropy(logits, batch.target_edge_type, gamma=0.0)
         pred = logits.argmax(dim=-1)
-        for target_class in range(args.num_edge_types):
-            mask = batch.target_edge_type == target_class
-            if not bool(mask.any()):
-                continue
-            pred_counts = torch.bincount(pred[mask], minlength=args.num_edge_types)
-            confusion[target_class] += pred_counts
+        confusion += batch_confusion(
+            target=batch.target_edge_type,
+            pred=pred,
+            num_classes=args.num_edge_types,
+        )
         edge_count = int(batch.target_edge_type.numel())
         total_loss += float(loss.detach().item()) * edge_count
         total_edges += edge_count
 
     return _metrics_from_confusion(confusion, total_loss / max(1, total_edges))
+
+
+def _maybe_evaluate_reconstruction(
+    model: torch.nn.Module,
+    dataset: EdgeBundleDataset,
+    split_info: dict[str, object],
+    args: argparse.Namespace,
+    transition: EdgeCategoricalTransition,
+    epoch: int,
+    device: torch.device,
+) -> dict[str, float]:
+    """Run optional reconstruction validation on fixed evaluation indices."""
+    defaults = reconstruction_metric_defaults()
+    if args.reconstruction_every <= 0:
+        return defaults
+    if epoch % args.reconstruction_every != 0 and epoch != args.epochs:
+        return defaults
+    eval_indices = [int(idx) for idx in split_info["eval_indices"]]
+    _, summary = evaluate_edge_reconstruction(
+        model=model,
+        dataset=dataset,
+        eval_indices=eval_indices,
+        edge_npz=args.edge_npz,
+        semantic_npz=args.semantic_npz,
+        transition=transition,
+        config=EdgeReconstructionEvalConfig(
+            timestep=args.reconstruction_timestep,
+            limit=args.reconstruction_limit,
+            seed=args.seed + 100_000 + epoch,
+            min_bond_length=args.min_bond_length,
+            max_bond_length=args.max_bond_length,
+            write_sdf=False,
+        ),
+        device=device,
+    )
+    return reconstruction_summary_for_training(summary)
 
 
 def _split_dataset(
@@ -261,24 +332,14 @@ def _split_dataset(
 
 
 def _metrics_from_confusion(confusion: torch.Tensor, eval_loss: float) -> dict[str, float]:
-    """Compute accuracy, balanced accuracy, and per-class recall."""
-    confusion_cpu = confusion.detach().cpu()
-    correct = torch.diag(confusion_cpu)
-    support = confusion_cpu.sum(dim=1).clamp_min(1)
-    recall = correct.float() / support.float()
-    total = int(confusion_cpu.sum().item())
-    accuracy = float(correct.sum().item() / max(1, total))
-    real_support = confusion_cpu[1:].sum().item()
-    real_correct = correct[1:].sum().item()
-    metrics = {
-        "eval_loss": eval_loss,
-        "accuracy": accuracy,
-        "balanced_accuracy": float(recall.mean().item()),
-        "real_bond_recall": float(real_correct / max(1, real_support)),
-        "no_bond_recall": float(recall[0].item()),
-    }
-    for class_idx, value in enumerate(recall.tolist()):
-        metrics[f"recall_{BOND_TYPE_NAMES[class_idx]}"] = float(value)
+    """Compute accuracy, balanced accuracy, and per-class precision/recall/F1."""
+    metrics, class_rows = classification_metrics(confusion.detach().cpu(), eval_loss)
+    metrics["no_bond_recall"] = float(class_rows[0]["recall"])
+    for row in class_rows:
+        class_name = str(row["class_name"])
+        metrics[f"precision_{class_name}"] = float(row["precision"])
+        metrics[f"recall_{class_name}"] = float(row["recall"])
+        metrics[f"f1_{class_name}"] = float(row["f1"])
     return metrics
 
 
@@ -366,9 +427,20 @@ def _build_summary(
         "epochs": args.epochs,
         "lr": args.lr,
         "focal_gamma": args.focal_gamma,
+        "class_weight_mode": args.class_weight_mode,
+        "no_bond_weight": args.no_bond_weight,
+        "pos_noise_std": args.pos_noise_std,
         "num_timesteps": args.num_timesteps,
         "model_kind": args.model_kind,
         "model_config": asdict(model.config),
+        "reconstruction_validation": {
+            "enabled": args.reconstruction_every > 0,
+            "every": args.reconstruction_every,
+            "timestep": args.reconstruction_timestep,
+            "limit": args.reconstruction_limit,
+            "min_bond_length": args.min_bond_length,
+            "max_bond_length": args.max_bond_length,
+        },
         "class_counts": {
             BOND_TYPE_NAMES[idx]: int(value)
             for idx, value in enumerate(class_counts.tolist())
@@ -395,11 +467,30 @@ def _plot_training_curves(path: Path, rows: list[dict[str, float]]) -> None:
     plt.plot(epochs, [float(row["eval_loss"]) for row in rows], label="eval loss")
     plt.plot(epochs, [float(row["balanced_accuracy"]) for row in rows], label="balanced acc")
     plt.plot(epochs, [float(row["real_bond_recall"]) for row in rows], label="real bond recall")
+    if _has_finite_metric(rows, "recon_semantic_sanitize_success_rate"):
+        plt.plot(
+            epochs,
+            [float(row["recon_semantic_sanitize_success_rate"]) for row in rows],
+            marker="o",
+            label="recon semantic sanitize",
+        )
+    if _has_finite_metric(rows, "recon_bond_type_map_match_rate"):
+        plt.plot(
+            epochs,
+            [float(row["recon_bond_type_map_match_rate"]) for row in rows],
+            marker="o",
+            label="recon bond type match",
+        )
     plt.xlabel("epoch")
     plt.legend()
     plt.tight_layout()
     plt.savefig(path, dpi=180)
     plt.close()
+
+
+def _has_finite_metric(rows: list[dict[str, float]], key: str) -> bool:
+    """Return whether any row contains a finite metric value."""
+    return any(math.isfinite(float(row.get(key, float("nan")))) for row in rows)
 
 
 def _write_report(outdir: Path, summary: dict[str, object]) -> Path:
@@ -422,7 +513,13 @@ def _write_report(outdir: Path, summary: dict[str, object]) -> Path:
         handle.write(f"- epochs: {summary['epochs']}\n")
         handle.write(f"- batch_size: {summary['batch_size']}\n")
         handle.write(f"- model_kind: `{summary['model_kind']}`\n")
-        handle.write(f"- focal_gamma: {summary['focal_gamma']}\n\n")
+        handle.write(f"- focal_gamma: {summary['focal_gamma']}\n")
+        handle.write(f"- class_weight_mode: `{summary['class_weight_mode']}`\n")
+        handle.write(f"- no_bond_weight: {summary['no_bond_weight']}\n")
+        handle.write(f"- pos_noise_std: {summary['pos_noise_std']}\n")
+        handle.write(f"- reconstruction_validation: `{summary['reconstruction_validation']['enabled']}`\n")
+        handle.write(f"- reconstruction_timestep: {summary['reconstruction_validation']['timestep']}\n")
+        handle.write(f"- reconstruction_limit: {summary['reconstruction_validation']['limit']}\n\n")
         handle.write("## Class Counts And Weights\n\n")
         handle.write("| bond type | count | weight |\n")
         handle.write("|---|---:|---:|\n")
@@ -438,10 +535,29 @@ def _write_report(outdir: Path, summary: dict[str, object]) -> Path:
         handle.write("|---|---:|\n")
         for metric in [
             "train_loss", "eval_loss", "accuracy", "balanced_accuracy",
-            "real_bond_recall", "no_bond_recall", "recall_single",
-            "recall_double", "recall_triple", "recall_aromatic",
+            "macro_precision", "macro_f1", "real_bond_precision",
+            "real_bond_recall", "real_bond_f1", "no_bond_recall",
+            "precision_single", "recall_single", "f1_single",
+            "precision_double", "recall_double", "f1_double",
+            "precision_triple", "recall_triple", "f1_triple",
+            "precision_aromatic", "recall_aromatic", "f1_aromatic",
         ]:
             handle.write(f"| {metric} | {float(final[metric]):.6f} |\n")
+        if summary["reconstruction_validation"]["enabled"]:
+            handle.write("\n## Final Reconstruction Metrics\n\n")
+            handle.write("| metric | value |\n")
+            handle.write("|---|---:|\n")
+            for metric in [
+                "recon_molecules", "recon_exact_halfedge_match_rate",
+                "recon_bond_pair_set_match_rate", "recon_bond_type_map_match_rate",
+                "recon_plain_sanitize_success_rate", "recon_semantic_sanitize_success_rate",
+                "recon_plain_smiles_no_stereo_match_rate",
+                "recon_semantic_smiles_no_stereo_match_rate",
+                "recon_mean_bad_bond_length_fraction",
+            ]:
+                value = float(final[metric])
+                value_text = "nan" if math.isnan(value) else f"{value:.6f}"
+                handle.write(f"| {metric} | {value_text} |\n")
         handle.write("\n## Best Balanced Accuracy Epoch\n\n")
         handle.write(f"- epoch: {int(best['epoch'])}\n")
         handle.write(f"- balanced_accuracy: {float(best['balanced_accuracy']):.6f}\n")
@@ -487,6 +603,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--num-edge-types", type=int, default=5)
     parser.add_argument("--num-timesteps", type=int, default=1000)
     parser.add_argument("--focal-gamma", type=float, default=1.0)
+    parser.add_argument(
+        "--class-weight-mode",
+        choices=["inverse_sqrt", "diffgui", "none"],
+        default="inverse_sqrt",
+    )
+    parser.add_argument("--no-bond-weight", type=float, default=0.1)
+    parser.add_argument("--pos-noise-std", type=float, default=0.0)
+    parser.add_argument("--reconstruction-every", type=int, default=0)
+    parser.add_argument("--reconstruction-timestep", type=int, default=500)
+    parser.add_argument("--reconstruction-limit", type=int, default=32)
+    parser.add_argument("--min-bond-length", type=float, default=0.7)
+    parser.add_argument("--max-bond-length", type=float, default=2.1)
     parser.add_argument("--grad-clip", type=float, default=5.0)
     parser.add_argument("--num-workers", type=int, default=0)
     parser.add_argument("--seed", type=int, default=0)

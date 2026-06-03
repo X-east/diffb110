@@ -268,6 +268,23 @@ def make_inverse_sqrt_class_weight(counts: torch.Tensor, eps: float = 1.0) -> to
     return weights / weights.mean().clamp_min(1e-8)
 
 
+def make_edge_class_weight(
+    counts: torch.Tensor,
+    mode: str = "inverse_sqrt",
+    no_bond_weight: float = 0.1,
+) -> torch.Tensor:
+    """Return edge class weights using selected mature-model-inspired strategy."""
+    if mode == "inverse_sqrt":
+        return make_inverse_sqrt_class_weight(counts)
+    if mode == "diffgui":
+        weights = torch.ones_like(counts, dtype=torch.float32)
+        weights[0] = float(no_bond_weight)
+        return weights
+    if mode == "none":
+        return torch.ones_like(counts, dtype=torch.float32)
+    raise ValueError(f"Unsupported edge class weight mode: {mode}")
+
+
 def _time_features(t: torch.Tensor, edge_batch: torch.Tensor, num_timesteps: int) -> torch.Tensor:
     """Return simple sinusoidal timestep features per edge."""
     if t.ndim == 0 or t.numel() == 1:

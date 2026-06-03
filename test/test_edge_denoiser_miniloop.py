@@ -18,6 +18,7 @@ from DiffSBDD.edge_diffusion import (
 )
 from DiffSBDD.edge_diffusion.denoiser import (
     edge_focal_cross_entropy,
+    make_edge_class_weight,
     make_inverse_sqrt_class_weight,
 )
 
@@ -78,6 +79,18 @@ class TestEdgeDenoiserMiniLoop(unittest.TestCase):
 
             self.assertEqual(tuple(logits.shape), (4, 5))
             self.assertTrue(torch.isfinite(loss))
+
+    def test_edge_class_weight_modes(self):
+        counts = torch.tensor([100, 10, 5, 1, 20])
+
+        diffgui_weight = make_edge_class_weight(counts, mode="diffgui", no_bond_weight=0.1)
+        none_weight = make_edge_class_weight(counts, mode="none")
+        inverse_weight = make_edge_class_weight(counts, mode="inverse_sqrt")
+
+        self.assertTrue(torch.equal(diffgui_weight, torch.tensor([0.1, 1.0, 1.0, 1.0, 1.0])))
+        self.assertTrue(torch.equal(none_weight, torch.ones(5)))
+        self.assertEqual(tuple(inverse_weight.shape), (5,))
+        self.assertGreater(float(inverse_weight[3]), float(inverse_weight[0]))
 
 
 def _object_array(values: list[object]) -> np.ndarray:

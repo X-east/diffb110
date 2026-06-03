@@ -2,36 +2,25 @@
 
 from __future__ import annotations
 
-import importlib.util
 import unittest
-from pathlib import Path
 
 import torch
 
-
-def _load_evaluate_module():
-    """Load the standalone analysis script as a module."""
-    script_path = Path(__file__).resolve().parents[1] / "DiffSBDD" / "analysis" / "edge_denoiser_evaluate.py"
-    spec = importlib.util.spec_from_file_location("edge_denoiser_evaluate", script_path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+from DiffSBDD.edge_diffusion import (
+    batch_confusion,
+    classification_metrics,
+    compare_halfedge_bond_maps,
+)
 
 
 class TestEdgeDenoiserEvaluate(unittest.TestCase):
     """Check core evaluation metric helpers."""
 
-    @classmethod
-    def setUpClass(cls):
-        """Load the analysis module once."""
-        cls.module = _load_evaluate_module()
-
     def test_batch_confusion(self):
         target = torch.tensor([0, 1, 1, 4])
         pred = torch.tensor([0, 1, 2, 4])
 
-        confusion = self.module._batch_confusion(target, pred, num_classes=5)
+        confusion = batch_confusion(target, pred, num_classes=5)
 
         self.assertEqual(int(confusion[0, 0]), 1)
         self.assertEqual(int(confusion[1, 1]), 1)
@@ -47,7 +36,7 @@ class TestEdgeDenoiserEvaluate(unittest.TestCase):
             [0, 0, 0, 1, 9],
         ])
 
-        metrics, class_rows = self.module._classification_metrics(confusion, eval_loss=0.5)
+        metrics, class_rows = classification_metrics(confusion, eval_loss=0.5)
 
         self.assertAlmostEqual(metrics["accuracy"], 33 / 40)
         self.assertEqual(len(class_rows), 5)
@@ -60,7 +49,7 @@ class TestEdgeDenoiserEvaluate(unittest.TestCase):
         target_edge_type = torch.tensor([1, 0, 2])
         pred_edge_type = torch.tensor([1, 1, 2])
 
-        metrics = self.module._compare_halfedge_bond_maps(
+        metrics = compare_halfedge_bond_maps(
             halfedge_index,
             target_edge_type,
             pred_edge_type,
