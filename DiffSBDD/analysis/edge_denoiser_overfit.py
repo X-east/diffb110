@@ -21,7 +21,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset, Subset
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DIFFSBDD_ROOT = Path(__file__).resolve().parents[1]
@@ -56,21 +56,23 @@ def run_overfit(args: argparse.Namespace) -> Path:
         semantic_npz=args.semantic_npz,
         max_molecules=args.max_molecules,
     )
+    train_dataset, eval_dataset, split_info = _split_dataset(dataset, args)
     dataloader = DataLoader(
-        dataset,
+        train_dataset,
         batch_size=args.batch_size,
         shuffle=True,
         num_workers=args.num_workers,
         collate_fn=EdgeBatchCollator(),
     )
     eval_loader = DataLoader(
-        dataset,
+        eval_dataset,
         batch_size=args.batch_size,
         shuffle=False,
         num_workers=0,
         collate_fn=EdgeBatchCollator(),
     )
-    class_counts = _count_classes(dataset, args.num_edge_types)
+    class_counts = _count_classes(train_dataset, args.num_edge_types)
+    eval_class_counts = _count_classes(eval_dataset, args.num_edge_types)
     class_weight = make_inverse_sqrt_class_weight(class_counts).to(device)
     model = _build_model(args, _infer_num_atom_types(dataset)).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
@@ -111,7 +113,9 @@ def run_overfit(args: argparse.Namespace) -> Path:
         args=args,
         device=device,
         dataset=dataset,
+        split_info=split_info,
         class_counts=class_counts,
+        eval_class_counts=eval_class_counts,
         class_weight=class_weight.detach().cpu(),
         model=model,
         metrics_rows=metrics_rows,
@@ -215,6 +219,47 @@ def _evaluate(
     return _metrics_from_confusion(confusion, total_loss / max(1, total_edges))
 
 
+def _split_dataset(
+    dataset: EdgeBundleDataset,
+    args: argparse.Namespace,
+) -> tuple[Dataset, Dataset, dict[str, object]]:
+    """Return train/eval datasets and split metadata."""
+    num_molecules = len(dataset)
+    val_molecules = int(args.val_molecules)
+    if val_molecules <= 0:
+        indices = list(range(num_molecules))
+        return dataset, dataset, {
+            "mode": "overfit",
+            "train_molecules": num_molecules,
+            "eval_molecules": num_molecules,
+            "val_molecules": 0,
+            "split_seed": None,
+            "train_indices": indices,
+            "eval_indices": indices,
+        }
+    if val_molecules >= num_molecules:
+        raise ValueError("val_molecules must be smaller than max_molecules")
+
+    generator = torch.Generator()
+    generator.manual_seed(int(args.split_seed))
+    permutation = torch.randperm(num_molecules, generator=generator).tolist()
+    eval_indices = sorted(permutation[:val_molecules])
+    train_indices = sorted(permutation[val_molecules:])
+    return (
+        Subset(dataset, train_indices),
+        Subset(dataset, eval_indices),
+        {
+            "mode": "train_val",
+            "train_molecules": len(train_indices),
+            "eval_molecules": len(eval_indices),
+            "val_molecules": val_molecules,
+            "split_seed": int(args.split_seed),
+            "train_indices": train_indices,
+            "eval_indices": eval_indices,
+        },
+    )
+
+
 def _metrics_from_confusion(confusion: torch.Tensor, eval_loss: float) -> dict[str, float]:
     """Compute accuracy, balanced accuracy, and per-class recall."""
     confusion_cpu = confusion.detach().cpu()
@@ -237,7 +282,7 @@ def _metrics_from_confusion(confusion: torch.Tensor, eval_loss: float) -> dict[s
     return metrics
 
 
-def _count_classes(dataset: EdgeBundleDataset, num_classes: int) -> torch.Tensor:
+def _count_classes(dataset: Dataset, num_classes: int) -> torch.Tensor:
     """Count target edge classes in the exposed dataset subset."""
     counts = torch.zeros((num_classes,), dtype=torch.long)
     for idx in range(len(dataset)):
@@ -300,7 +345,9 @@ def _build_summary(
     args: argparse.Namespace,
     device: torch.device,
     dataset: EdgeBundleDataset,
+    split_info: dict[str, object],
     class_counts: torch.Tensor,
+    eval_class_counts: torch.Tensor,
     class_weight: torch.Tensor,
     model: torch.nn.Module,
     metrics_rows: list[dict[str, float]],
@@ -314,6 +361,7 @@ def _build_summary(
         "semantic_npz": "" if args.semantic_npz is None else str(args.semantic_npz),
         "device": str(device),
         "max_molecules": len(dataset),
+        "split": split_info,
         "batch_size": args.batch_size,
         "epochs": args.epochs,
         "lr": args.lr,
@@ -324,6 +372,10 @@ def _build_summary(
         "class_counts": {
             BOND_TYPE_NAMES[idx]: int(value)
             for idx, value in enumerate(class_counts.tolist())
+        },
+        "eval_class_counts": {
+            BOND_TYPE_NAMES[idx]: int(value)
+            for idx, value in enumerate(eval_class_counts.tolist())
         },
         "class_weight": {
             BOND_TYPE_NAMES[idx]: float(value)
@@ -355,12 +407,18 @@ def _write_report(outdir: Path, summary: dict[str, object]) -> Path:
     report_path = outdir / "edge_denoiser_overfit_report.md"
     final = summary["final_epoch"]
     best = summary["best_balanced_accuracy_epoch"]
+    title = "Edge Denoiser Train/Val Report"
+    if summary["split"]["mode"] == "overfit":
+        title = "Edge Denoiser Overfit Report"
     with report_path.open("w") as handle:
-        handle.write("# Edge Denoiser Overfit Report\n\n")
+        handle.write(f"# {title}\n\n")
         handle.write(f"- edge_npz: `{summary['edge_npz']}`\n")
         handle.write(f"- semantic_npz: `{summary['semantic_npz']}`\n")
         handle.write(f"- device: `{summary['device']}`\n")
         handle.write(f"- max_molecules: {summary['max_molecules']}\n")
+        handle.write(f"- split_mode: `{summary['split']['mode']}`\n")
+        handle.write(f"- train_molecules: {summary['split']['train_molecules']}\n")
+        handle.write(f"- eval_molecules: {summary['split']['eval_molecules']}\n")
         handle.write(f"- epochs: {summary['epochs']}\n")
         handle.write(f"- batch_size: {summary['batch_size']}\n")
         handle.write(f"- model_kind: `{summary['model_kind']}`\n")
@@ -370,6 +428,11 @@ def _write_report(outdir: Path, summary: dict[str, object]) -> Path:
         handle.write("|---|---:|---:|\n")
         for bond_name, count in summary["class_counts"].items():
             handle.write(f"| {bond_name} | {count} | {summary['class_weight'][bond_name]:.6f} |\n")
+        handle.write("\n## Eval Class Counts\n\n")
+        handle.write("| bond type | count |\n")
+        handle.write("|---|---:|\n")
+        for bond_name, count in summary["eval_class_counts"].items():
+            handle.write(f"| {bond_name} | {count} |\n")
         handle.write("\n## Final Metrics\n\n")
         handle.write("| metric | value |\n")
         handle.write("|---|---:|\n")
@@ -410,6 +473,8 @@ def parse_args() -> argparse.Namespace:
         default=Path("analysis") / f"edge_denoiser_overfit_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
     )
     parser.add_argument("--max-molecules", type=int, default=128)
+    parser.add_argument("--val-molecules", type=int, default=0)
+    parser.add_argument("--split-seed", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=2e-3)
