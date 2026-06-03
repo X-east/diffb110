@@ -5,6 +5,7 @@ from .builder import (
     ReconstructionConfig,
     normalize_reconstruction_method,
     reconstruct_molecule,
+    reconstruct_molecule_from_edges,
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "ReconstructionConfig",
     "normalize_reconstruction_method",
     "reconstruct_molecule",
+    "reconstruct_molecule_from_edges",
 ]

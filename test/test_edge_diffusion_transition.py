@@ -38,6 +38,44 @@ class TestEdgeCategoricalTransition(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "outside configured classes"):
             transition.q_sample(torch.tensor([5], dtype=torch.long), torch.tensor(0))
 
+    def test_add_noise_returns_diffusion_training_triplet(self):
+        transition = EdgeCategoricalTransition(
+            EdgeTransitionConfig(num_classes=5, num_timesteps=10, prior="absorb")
+        )
+        edge_type = torch.tensor([0, 1, 2, 4], dtype=torch.long)
+        one_hot_t, log_t, log_0 = transition.add_noise(edge_type, torch.tensor(3))
+
+        self.assertEqual(tuple(one_hot_t.shape), (4, 5))
+        self.assertEqual(tuple(log_t.shape), (4, 5))
+        self.assertEqual(tuple(log_0.shape), (4, 5))
+        self.assertTrue(torch.isfinite(log_t).all())
+
+    def test_posterior_shape_and_t0_identity(self):
+        transition = EdgeCategoricalTransition(
+            EdgeTransitionConfig(num_classes=5, num_timesteps=10, prior="absorb")
+        )
+        edge_type = torch.tensor([0, 1, 2, 4], dtype=torch.long)
+        log_v0 = transition.index_to_log_onehot(edge_type)
+        _, log_vt = transition.q_vt_sample(log_v0, torch.tensor(5))
+        posterior = transition.q_v_posterior(log_v0, log_vt, torch.tensor(5))
+        posterior_t0 = transition.q_v_posterior(log_v0, log_v0, torch.tensor(0))
+
+        self.assertEqual(tuple(posterior.shape), (4, 5))
+        self.assertTrue(torch.isfinite(posterior).all())
+        self.assertTrue(torch.allclose(posterior_t0, log_v0))
+
+    def test_sample_init_uses_absorb_prior(self):
+        transition = EdgeCategoricalTransition(
+            EdgeTransitionConfig(num_classes=5, num_timesteps=10, prior="absorb")
+        )
+        sampled, one_hot, log_sampled = transition.sample_init(64)
+
+        self.assertEqual(tuple(sampled.shape), (64,))
+        self.assertEqual(tuple(one_hot.shape), (64, 5))
+        self.assertEqual(tuple(log_sampled.shape), (64, 5))
+        self.assertGreaterEqual(int(sampled.min()), 0)
+        self.assertLess(int(sampled.max()), 5)
+
 
 if __name__ == "__main__":
     unittest.main()

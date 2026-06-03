@@ -22,6 +22,29 @@ The user wants a shorter, more concise coding specification - just the key rules
 
 禁止在未通知用户的情况下直接覆盖或混合现有未提交改动。
 
+## 零点五、有依据改造原则（强制）
+
+所有模型内部、采样、成键、几何修正、原子类型 prior、edge diffusion、强化学习 reward/guidance 等改动方向，必须先能追溯到现有程序参考或公开网上程序参考，不能只凭直觉改。
+
+允许的依据来源：
+
+| 来源 | 示例 |
+|------|------|
+| 本项目现有代码 | DiffB110 / DiffSBDD 当前模块、已有 ddpo 训练流程 |
+| 本地参考项目源码 | `reference project/` 下的 DiffGui、MolSnapper、DecompDiff、TargetDiff 等 |
+| 已下载第三方源码 | 独立环境中已安装/测试过的公开项目 |
+| 网上公开参考 | 论文、GitHub 仓库、官方文档、作者发布的 benchmark 或 checkpoint 说明 |
+
+每个非平凡科学改动在实现前必须写清：
+
+1. 参考来源是什么；
+2. 借鉴的是数据链、模型结构、loss、sampling guidance、decoder/reconstruction，还是评价方式；
+3. 与 DiffB110 当前流程的差异和不兼容风险；
+4. 预期解决哪个痛点；
+5. 用什么 ablation / 指标判断是否保留。
+
+如果找不到成熟参考，只能先做隔离 prototype，并在报告中明确标注“探索性/高风险”，不得直接并入主训练或主生成流程。
+
 | 元素 | 规则 | 示例 |
 |------|------|------|
 | 类 | PascalCase | `DiffSBDDModel` |

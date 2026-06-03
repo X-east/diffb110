@@ -31,11 +31,27 @@ PER_MOLECULE_FIELDS = [
     "largest_fragment_atom_frac",
     "ring_count",
     "aromatic_ring_count",
+    "six_member_ring_count",
+    "aromatic_six_ring_count",
+    "benzene_like_ring_count",
+    "non_six_aromatic_ring_count",
+    "abnormal_aromatic_ring_count",
     "three_member_ring_count",
     "fused_ring_pair_count",
     "carbon_fraction",
     "hetero_atom_count",
     "halogen_count",
+    "c_fraction",
+    "n_fraction",
+    "o_fraction",
+    "s_fraction",
+    "f_fraction",
+    "cl_fraction",
+    "br_fraction",
+    "i_fraction",
+    "p_fraction",
+    "b_fraction",
+    "others_fraction",
     "formal_charge_abs_sum",
     "drug_metrics_available",
     "qed",
@@ -65,11 +81,27 @@ SUMMARY_NUMERIC_FIELDS = [
     "largest_fragment_atom_frac",
     "ring_count",
     "aromatic_ring_count",
+    "six_member_ring_count",
+    "aromatic_six_ring_count",
+    "benzene_like_ring_count",
+    "non_six_aromatic_ring_count",
+    "abnormal_aromatic_ring_count",
     "three_member_ring_count",
     "fused_ring_pair_count",
     "carbon_fraction",
     "hetero_atom_count",
     "halogen_count",
+    "c_fraction",
+    "n_fraction",
+    "o_fraction",
+    "s_fraction",
+    "f_fraction",
+    "cl_fraction",
+    "br_fraction",
+    "i_fraction",
+    "p_fraction",
+    "b_fraction",
+    "others_fraction",
     "formal_charge_abs_sum",
     "drug_metrics_available",
     "qed",
@@ -138,6 +170,8 @@ def _plot_summary(outdir: Path, summary_rows: list[dict[str, object]]) -> None:
         ("mean_num_fragments", "fragments", "fragment_count_by_method.png"),
         ("mean_largest_fragment_atom_frac", "largest fragment fraction", "largest_fragment_by_method.png"),
         ("mean_aromatic_ring_count", "aromatic rings", "aromatic_ring_by_method.png"),
+        ("mean_benzene_like_ring_count", "benzene-like rings", "benzene_like_ring_by_method.png"),
+        ("mean_abnormal_aromatic_ring_count", "abnormal aromatic rings", "abnormal_aromatic_ring_by_method.png"),
         ("mean_three_member_ring_count", "three-member rings", "three_member_ring_by_method.png"),
         ("mean_qed", "QED", "qed_by_method.png"),
         ("mean_sa", "SA", "sa_by_method.png"),
@@ -158,6 +192,42 @@ def _plot_summary(outdir: Path, summary_rows: list[dict[str, object]]) -> None:
         plt.tight_layout()
         plt.savefig(outdir / filename, dpi=180)
         plt.close()
+    _plot_element_fractions(outdir, summary_rows)
+
+
+def _plot_element_fractions(outdir: Path, summary_rows: list[dict[str, object]]) -> None:
+    """Write a compact per-element atom fraction plot."""
+    element_fields = [
+        ("C", "mean_c_fraction"),
+        ("N", "mean_n_fraction"),
+        ("O", "mean_o_fraction"),
+        ("S", "mean_s_fraction"),
+        ("F", "mean_f_fraction"),
+        ("Cl", "mean_cl_fraction"),
+        ("Br", "mean_br_fraction"),
+        ("I", "mean_i_fraction"),
+        ("P", "mean_p_fraction"),
+        ("B", "mean_b_fraction"),
+        ("others", "mean_others_fraction"),
+    ]
+    methods = [str(row["method"]) for row in summary_rows]
+    x_positions = list(range(len(element_fields)))
+    width = 0.8 / max(1, len(methods))
+
+    plt.figure(figsize=(9, 4.5))
+    for method_idx, row in enumerate(summary_rows):
+        values = [float(row[field]) for _, field in element_fields]
+        offsets = [
+            x - 0.4 + width / 2 + method_idx * width
+            for x in x_positions
+        ]
+        plt.bar(offsets, values, width=width, label=str(row["method"]))
+    plt.xticks(x_positions, [label for label, _ in element_fields])
+    plt.ylabel("atom fraction")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(outdir / "element_fraction_by_method.png", dpi=180)
+    plt.close()
 
 
 def _write_sdf_outputs(outdir: Path, molecules_by_method: dict[str, list[Chem.Mol]]) -> None:
@@ -185,9 +255,9 @@ def _write_markdown_report(
             handle.write(f"- {key}: `{value}`\n")
         handle.write("\n")
         handle.write(
-            "| method | sanitize | bad_bond_length | fragments | largest_frag | aromatic | QED | SA | TPSA | sec/mol |\n"
+            "| method | sanitize | bad_bond_length | fragments | largest_frag | aromatic | benzene6 | bad_arom | QED | SA | TPSA | sec/mol |\n"
         )
-        handle.write("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
+        handle.write("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
         for row in summary_rows:
             handle.write(
                 f"| {row['method']} "
@@ -196,6 +266,8 @@ def _write_markdown_report(
                 f"| {float(row['mean_num_fragments']):.3f} "
                 f"| {float(row['mean_largest_fragment_atom_frac']):.3f} "
                 f"| {float(row['mean_aromatic_ring_count']):.3f} "
+                f"| {float(row['mean_benzene_like_ring_count']):.3f} "
+                f"| {float(row['mean_abnormal_aromatic_ring_count']):.3f} "
                 f"| {float(row['mean_qed']):.3f} "
                 f"| {float(row['mean_sa']):.3f} "
                 f"| {float(row['mean_tpsa']):.3f} "
@@ -220,6 +292,9 @@ def _write_markdown_report(
         handle.write("![fragment count](fragment_count_by_method.png)\n\n")
         handle.write("![largest fragment](largest_fragment_by_method.png)\n\n")
         handle.write("![aromatic rings](aromatic_ring_by_method.png)\n\n")
+        handle.write("![benzene-like rings](benzene_like_ring_by_method.png)\n\n")
+        handle.write("![abnormal aromatic rings](abnormal_aromatic_ring_by_method.png)\n\n")
+        handle.write("![element fractions](element_fraction_by_method.png)\n\n")
         handle.write("![QED](qed_by_method.png)\n\n")
         handle.write("![SA](sa_by_method.png)\n\n")
         handle.write("![TPSA](tpsa_by_method.png)\n\n")

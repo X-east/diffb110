@@ -12,6 +12,22 @@ Before changing project code, read:
 - `docs/workflow_commands.md`
 - the relevant module near the requested change
 
+## Evidence-Based Change Rule
+
+- All model, sampler, reconstruction, geometry, atom-prior, edge-diffusion, and
+  reinforcement-learning change directions must be grounded in an existing
+  program reference before implementation.
+- Acceptable references are: existing DiffB110/DiffSBDD code, local reference
+  projects under `reference project/`, downloaded third-party source code, or a
+  public paper/repository/documentation page.
+- Before implementing a nontrivial scientific change, record the reference
+  source, what is being borrowed, what is different in this project, expected
+  benefit, risk, and the validation metric or ablation that will decide whether
+  the change stays.
+- Do not introduce model-internal scientific mechanisms only from intuition. If
+  no suitable reference exists, first create an isolated exploratory prototype
+  and report it as speculative rather than merging it into the main pipeline.
+
 ## Worktree Safety
 
 - Run `git status --short` before code changes.

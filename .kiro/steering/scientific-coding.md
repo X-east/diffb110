@@ -17,6 +17,11 @@ Prioritize:
 
 - Do not make silent scientific assumptions.
 - Do not silently change experimental behavior.
+- Ground every nontrivial model, sampler, reconstruction, geometry, atom-prior,
+  edge-diffusion, or RL/guidance change in an existing code or public reference
+  before implementation.
+- For each scientific change, record the reference source, borrowed mechanism,
+  project-specific differences, expected benefit, risks, and validation metric.
 - Prefer minimal, local, reversible code changes.
 - Preserve existing APIs unless change is necessary.
 - Follow the existing project style.

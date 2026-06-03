@@ -214,3 +214,13 @@ url
 
 # work records (persistent Markdown task logs)
 work_records/
+
+# edge denoiser experimental output (not source code)
+analysis/edge_denoiser_*
+analysis/generated_edge_denoiser_*
+analysis/refinement_ablation_*
+analysis/oracle_original_sdf_audit_*/*.sdf
+analysis/edge_denoiser_ablation_summary_*
+analysis/edge_diffusion_xhe_*
+analysis/edge_transition_smoke_*
+analysis/oracle_original_sdf_audit_*/*.py

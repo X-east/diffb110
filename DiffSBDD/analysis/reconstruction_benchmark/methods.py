@@ -21,6 +21,12 @@ from local_bond_predictor.dataset import (
     pair_feature_dim,
 )
 from local_bond_predictor.model import PairBondPredictor
+from edge_diffusion import (
+    EdgeBatch,
+    EdgeDenoiserConfig,
+    EdgeDenoiserMLP,
+    EdgeDenoiserNodeEdge,
+)
 from reconstruction import reconstruct_molecule
 
 
@@ -123,6 +129,12 @@ _BOND_TYPE_BY_ID = {
 }
 
 DEFAULT_LOCAL_BOND_CHECKPOINT = Path("analysis/local_bond_predictor_v0_20260602_small/best_model.pt")
+DEFAULT_EDGE_DENOISER_B_CHECKPOINT = Path(
+    "analysis/edge_denoiser_ablation_20260603_B_diffgui_noise005/edge_denoiser_overfit.pt"
+)
+DEFAULT_EDGE_DENOISER_C_CHECKPOINT = Path(
+    "analysis/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2_gpu/edge_denoiser_overfit.pt"
+)
 
 
 @dataclass(frozen=True)
@@ -434,6 +446,163 @@ class LocalBondPredictorMethod:
         return halfedge_index, logits.argmax(dim=-1)
 
 
+@dataclass
+class EdgeDenoiserReconstructionMethod:
+    """Use a standalone edge denoiser checkpoint to reconstruct generated atom clouds."""
+
+    name: str
+    checkpoint: Path
+    device: str = "cpu"
+    timestep: int = 999
+    init_mode: str = "uniform_random"
+    seed: int = 20260603
+
+    def __post_init__(self) -> None:
+        """Load the edge denoiser checkpoint once for all samples."""
+        if not self.checkpoint.exists():
+            raise FileNotFoundError(f"Edge denoiser checkpoint not found: {self.checkpoint}")
+        if self.init_mode not in {"uniform_random", "all_no_bond"}:
+            raise ValueError(
+                "edge denoiser init_mode must be one of: uniform_random, all_no_bond"
+            )
+
+        self.torch_device = torch.device(self.device)
+        checkpoint = torch.load(self.checkpoint, map_location=self.torch_device)
+        config = EdgeDenoiserConfig(**checkpoint["config"])
+        summary = checkpoint.get("summary", {})
+        model_kind = str(summary.get("model_kind", "node_edge"))
+        if model_kind == "node_edge":
+            model = EdgeDenoiserNodeEdge(config)
+        elif model_kind == "mlp":
+            model = EdgeDenoiserMLP(config)
+        else:
+            raise ValueError(f"Unsupported edge denoiser model_kind: {model_kind}")
+        model.load_state_dict(checkpoint["model_state_dict"])
+        model.to(self.torch_device)
+        model.eval()
+        self.model = model
+        self.config = config
+
+    def reconstruct(
+        self,
+        coords: torch.Tensor,
+        atom_types: torch.Tensor,
+        dataset_info: dict[str, Any],
+        context: dict[str, Any] | None = None,
+    ) -> ReconstructionAttempt:
+        """Predict generated-cloud halfedge types and build one RDKit molecule."""
+        sample = {
+            "sample_idx": 0,
+            "coords": coords,
+            "atom_types": atom_types,
+            "context": context or {},
+        }
+        return self.reconstruct_many([sample], dataset_info)[0][1]
+
+    @torch.no_grad()
+    def reconstruct_many(
+        self,
+        samples: list[dict[str, Any]],
+        dataset_info: dict[str, Any],
+    ) -> list[tuple[dict[str, Any], ReconstructionAttempt]]:
+        """Predict edge-denoiser bond types for many generated atom clouds."""
+        attempts: list[tuple[dict[str, Any], ReconstructionAttempt]] = []
+        for sample in samples:
+            started_at = time.perf_counter()
+            try:
+                halfedge_index, predicted_type = self._predict_halfedges(
+                    sample["coords"],
+                    sample["atom_types"],
+                    int(sample.get("sample_idx", 0)),
+                )
+                atom_symbols = [
+                    dataset_info["atom_decoder"][int(atom_idx)]
+                    for atom_idx in sample["atom_types"]
+                ]
+                mol = _build_molecule_from_predicted_halfedges(
+                    sample["coords"],
+                    atom_symbols,
+                    halfedge_index.detach().cpu().numpy(),
+                    predicted_type.detach().cpu().numpy(),
+                )
+                build_error = ""
+            except Exception as exc:  # noqa: BLE001 - benchmark records failed predictions.
+                mol = None
+                build_error = type(exc).__name__
+            attempts.append((
+                sample,
+                ReconstructionAttempt(
+                    method=self.name,
+                    raw_mol=mol,
+                    build_error=build_error,
+                    seconds=time.perf_counter() - started_at,
+                ),
+            ))
+        return attempts
+
+    def _predict_halfedges(
+        self,
+        coords: torch.Tensor,
+        atom_types: torch.Tensor,
+        sample_idx: int,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Return upper-triangle halfedge indices and generated bond-type ids."""
+        coords_device = coords.to(self.torch_device, dtype=torch.float32)
+        atom_types_device = atom_types.to(self.torch_device, dtype=torch.long)
+        num_atoms = int(atom_types_device.shape[0])
+        halfedge_index = torch.triu_indices(
+            num_atoms,
+            num_atoms,
+            offset=1,
+            device=self.torch_device,
+        )
+        if num_atoms == 0 or halfedge_index.shape[1] == 0:
+            return halfedge_index, torch.zeros((0,), dtype=torch.long, device=self.torch_device)
+
+        max_atom_type = int(atom_types_device.max().item())
+        if max_atom_type >= int(self.config.num_atom_types):
+            raise ValueError(
+                f"Generated atom type id {max_atom_type} exceeds edge denoiser "
+                f"num_atom_types {self.config.num_atom_types}."
+            )
+
+        target_edge_type = torch.zeros(
+            (halfedge_index.shape[1],),
+            dtype=torch.long,
+            device=self.torch_device,
+        )
+        batch = EdgeBatch(
+            ligand_pos=coords_device,
+            ligand_atom_type=atom_types_device,
+            halfedge_index=halfedge_index,
+            target_edge_type=target_edge_type,
+            atom_batch=torch.zeros((num_atoms,), dtype=torch.long, device=self.torch_device),
+            edge_batch=torch.zeros((halfedge_index.shape[1],), dtype=torch.long, device=self.torch_device),
+            names=[str(sample_idx)],
+        )
+        noised_edge_type = self._initial_edge_type(
+            halfedge_index.shape[1],
+            sample_idx=sample_idx,
+        )
+        t = torch.tensor([int(self.timestep)], dtype=torch.long, device=self.torch_device)
+        logits = self.model(batch, noised_edge_type, t)
+        return halfedge_index, logits.argmax(dim=-1)
+
+    def _initial_edge_type(self, num_halfedges: int, *, sample_idx: int) -> torch.Tensor:
+        """Create generated-time edge inputs without using unavailable true labels."""
+        if self.init_mode == "all_no_bond":
+            return torch.zeros((num_halfedges,), dtype=torch.long, device=self.torch_device)
+        generator = torch.Generator(device=self.torch_device)
+        generator.manual_seed(int(self.seed) + int(sample_idx))
+        return torch.randint(
+            low=0,
+            high=int(self.config.num_edge_types),
+            size=(num_halfedges,),
+            device=self.torch_device,
+            generator=generator,
+        )
+
+
 def _build_molecule_from_predicted_halfedges(
     coords: torch.Tensor,
     atom_symbols: list[str],
@@ -488,6 +657,12 @@ def create_reconstruction_methods(
     external_device: str = "cpu",
     local_bond_checkpoint: Path | None = None,
     local_bond_device: str = "cpu",
+    edge_denoiser_b_checkpoint: Path | None = None,
+    edge_denoiser_c_checkpoint: Path | None = None,
+    edge_denoiser_device: str = "cpu",
+    edge_denoiser_timestep: int = 999,
+    edge_denoiser_init_mode: str = "uniform_random",
+    edge_denoiser_seed: int = 20260603,
     diffgui_env: str = "diffgui",
     molsnapper_env: str = "molsnapper_modern_ref",
 ) -> list[ReconstructionMethod]:
@@ -524,6 +699,22 @@ def create_reconstruction_methods(
     if not local_checkpoint.is_absolute():
         local_checkpoint = root / local_checkpoint
     local_method: LocalBondPredictorMethod | None = None
+    edge_b_checkpoint = (
+        DEFAULT_EDGE_DENOISER_B_CHECKPOINT
+        if edge_denoiser_b_checkpoint is None
+        else edge_denoiser_b_checkpoint
+    )
+    edge_c_checkpoint = (
+        DEFAULT_EDGE_DENOISER_C_CHECKPOINT
+        if edge_denoiser_c_checkpoint is None
+        else edge_denoiser_c_checkpoint
+    )
+    if not edge_b_checkpoint.is_absolute():
+        edge_b_checkpoint = root / edge_b_checkpoint
+    if not edge_c_checkpoint.is_absolute():
+        edge_c_checkpoint = root / edge_c_checkpoint
+    edge_b_method: EdgeDenoiserReconstructionMethod | None = None
+    edge_c_method: EdgeDenoiserReconstructionMethod | None = None
 
     def get_local_method() -> LocalBondPredictorMethod:
         """Lazily load the local predictor only when the benchmark requests it."""
@@ -536,12 +727,42 @@ def create_reconstruction_methods(
             )
         return local_method
 
+    def get_edge_b_method() -> EdgeDenoiserReconstructionMethod:
+        """Lazily load the B edge denoiser only when requested."""
+        nonlocal edge_b_method
+        if edge_b_method is None:
+            edge_b_method = EdgeDenoiserReconstructionMethod(
+                name="edge_denoiser_b",
+                checkpoint=edge_b_checkpoint,
+                device=edge_denoiser_device,
+                timestep=edge_denoiser_timestep,
+                init_mode=edge_denoiser_init_mode,
+                seed=edge_denoiser_seed,
+            )
+        return edge_b_method
+
+    def get_edge_c_method() -> EdgeDenoiserReconstructionMethod:
+        """Lazily load the C edge denoiser only when requested."""
+        nonlocal edge_c_method
+        if edge_c_method is None:
+            edge_c_method = EdgeDenoiserReconstructionMethod(
+                name="edge_denoiser_c",
+                checkpoint=edge_c_checkpoint,
+                device=edge_denoiser_device,
+                timestep=edge_denoiser_timestep,
+                init_mode=edge_denoiser_init_mode,
+                seed=edge_denoiser_seed,
+            )
+        return edge_c_method
+
     local_aliases = {
         "local",
         "local_bond",
         "local_bond_v0",
         "local_bond_predictor",
     }
+    edge_b_aliases = {"edge_b", "edge_denoiser_b", "edge_denoiser_bond_b"}
+    edge_c_aliases = {"edge_c", "edge_denoiser_c", "edge_denoiser_bond_c"}
     aliases = {
         "openbabel": DiffSBDDReconstructionMethod("openbabel", "openbabel"),
         "obabel": DiffSBDDReconstructionMethod("openbabel", "openbabel"),
@@ -561,10 +782,14 @@ def create_reconstruction_methods(
         key = requested_name.strip().lower().replace("-", "_")
         if key in local_aliases:
             method = get_local_method()
+        elif key in edge_b_aliases:
+            method = get_edge_b_method()
+        elif key in edge_c_aliases:
+            method = get_edge_c_method()
         elif key in aliases:
             method = aliases[key]
         else:
-            supported = ", ".join(sorted(set(aliases) | local_aliases))
+            supported = ", ".join(sorted(set(aliases) | local_aliases | edge_b_aliases | edge_c_aliases))
             raise ValueError(f"Unsupported reconstruction benchmark method {requested_name!r}. Supported: {supported}")
         if method.name not in seen:
             methods.append(method)
