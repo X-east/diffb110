@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import math
+import inspect
 
 import pytest
 import torch
 
-from ddpo.integration.diffsbdd_model import DiffSBDDModel
+from ddpo.integration.diffsbdd_model import DEFAULT_LOGPROB_MODE, DiffSBDDModel
+from ddpo.runtime import build as runtime_build
 
 
 def _make_model(logprob_mode: str) -> DiffSBDDModel:
@@ -59,3 +61,29 @@ def test_batch_sigma_broadcast_and_padding_mask() -> None:
 
     assert log_prob.shape == (2,)
     assert log_prob.tolist() == pytest.approx([-1.0, -1.0])
+
+
+def test_mean_per_atom_is_default_logprob_mode(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Implicit model configs should use atom-normalized transition logprobs."""
+    signature = inspect.signature(DiffSBDDModel)
+    assert signature.parameters["logprob_mode"].default == DEFAULT_LOGPROB_MODE
+    assert DEFAULT_LOGPROB_MODE == "mean_per_atom"
+
+    captured_kwargs = {}
+
+    def _fake_model(**kwargs):
+        captured_kwargs.update(kwargs)
+        return object()
+
+    monkeypatch.setattr(runtime_build, "DiffSBDDModel", _fake_model)
+    config = {
+        "model": {"checkpoint": "checkpoint.ckpt"},
+        "pocket": {
+            "pdb_path": "protein.pdb",
+            "ref_ligand": "ligand.sdf",
+        },
+    }
+
+    runtime_build.build_model(config, device="cuda", dataset_name="crossdock")
+
+    assert captured_kwargs["logprob_mode"] == DEFAULT_LOGPROB_MODE

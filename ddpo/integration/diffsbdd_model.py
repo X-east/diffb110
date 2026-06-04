@@ -38,6 +38,7 @@ VALID_LOGPROB_MODES = frozenset({
     "full_mean_per_element",
     "full_mean_per_atom",
 })
+DEFAULT_LOGPROB_MODE = "mean_per_atom"
 
 
 def _log_cuda_memory(*args, **kwargs):
@@ -94,7 +95,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         ref_ligand_path: str,
         device: str = "cuda",
         dataset_name: str = "crossdock",
-        logprob_mode: str = "mean_per_element",
+        logprob_mode: str = DEFAULT_LOGPROB_MODE,
         logprob_clamp_min: float | None = -100.0,
         logprob_clamp_max: float | None = 0.0,
     ):
@@ -109,7 +110,9 @@ class DiffSBDDModel(nn.Module, BaseModel):
             device: Device to load model on ("cuda" or "cpu")
             dataset_name: Dataset name for constants ("crossdock" or "bindingmoad")
             logprob_mode: DDPO transition log-probability aggregation mode.
-                ``mean_per_element`` preserves the historical implementation.
+                ``mean_per_atom`` normalizes by valid ligand atoms and is the
+                current default; ``mean_per_element`` preserves the historical
+                implementation.
             logprob_clamp_min: Optional lower clamp for log-probability values.
             logprob_clamp_max: Optional upper clamp for log-probability values.
         """

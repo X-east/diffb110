@@ -7,7 +7,7 @@ from typing import Any
 import torch
 import yaml
 
-from ddpo.integration import DiffSBDDModel
+from ddpo.integration.diffsbdd_model import DEFAULT_LOGPROB_MODE, DiffSBDDModel
 from ddpo.rewards.normalization import RewardNormalizationConfig, RewardNormalizer
 from ddpo.runtime.data_loader import DiffSBDDDataLoader
 from ddpo.utils import DiffSBDDFilter
@@ -54,7 +54,7 @@ def build_model(config: dict[str, Any], device: str, dataset_name: str) -> DiffS
         ref_ligand_path=config["pocket"]["ref_ligand"],
         device=device,
         dataset_name=dataset_name,
-        logprob_mode=str(model_cfg.get("logprob_mode", "mean_per_element")),
+        logprob_mode=str(model_cfg.get("logprob_mode", DEFAULT_LOGPROB_MODE)),
         logprob_clamp_min=model_cfg.get("logprob_clamp_min", -100.0),
         logprob_clamp_max=model_cfg.get("logprob_clamp_max", 0.0),
     )
