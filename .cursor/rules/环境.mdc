@@ -8,6 +8,8 @@ provider:
 
 每次请打开dif环境再运行
 
+本机不要使用 `rg` / `rg --files`。当前 ripgrep 会触发 snap 权限问题（`snap-confine` capability error），搜索文件和内容请改用 `grep`、`find`、`sed`、`ls` 等命令。
+
 生成、benchmark、模型推理和训练任务：如果 `dif` 环境里 CUDA 实际可用，并且 GPU 预期更快，优先使用 GPU。只有 CUDA 不可见、显存不足或任务本身更适合 CPU 时才退回 CPU，并在报告中说明原因。
 
 分子生成任务必须优先使用 GPU。若 Codex/sandbox 内 `torch.cuda.is_available()` 显示 False，但 `nvidia-smi` 能看到可用 GPU，应视为沙箱可见性/权限问题，必须请求非沙箱/批准执行后用 GPU 生成；不能直接把 CPU 生成结果当作正式速度或质量结论。只有真实 GPU 尝试失败、显存不足，或用户明确要求 CPU 时，才允许 CPU 生成，并必须在报告中说明。

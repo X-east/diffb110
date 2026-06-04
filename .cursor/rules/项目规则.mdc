@@ -22,6 +22,8 @@ The user wants a shorter, more concise coding specification - just the key rules
 
 禁止在未通知用户的情况下直接覆盖或混合现有未提交改动。
 
+**搜索命令规则：** 本机不要用 `rg` / `rg --files`，会触发 snap 权限问题；查文件用 `find`，查内容用 `grep -R -n`，查看片段用 `sed`。
+
 ## 零点五、有依据改造原则（强制）
 
 所有模型内部、采样、成键、几何修正、原子类型 prior、edge diffusion、强化学习 reward/guidance 等改动方向，必须先能追溯到现有程序参考或公开网上程序参考，不能只凭直觉改。

@@ -26,6 +26,8 @@ Prioritize:
 - Preserve existing APIs unless change is necessary.
 - Follow the existing project style.
 - Keep code explicit and debuggable.
+- Do not use `rg` or `rg --files` on this machine; use `grep`, `find`, and
+  `sed` because ripgrep is snap-wrapped here and can fail on permissions.
 - Do not fabricate results, metrics, docking scores, or molecule validity.
 
 # Coding Style

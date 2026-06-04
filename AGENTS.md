@@ -41,6 +41,9 @@ Before changing project code, read:
 - Run project Python, tests, and training commands in the `dif` environment.
 - Prefer `conda run -n dif <command>` for one-off commands when activation state
   is uncertain.
+- On this machine, do not use `rg` / `rg --files`: the installed ripgrep is
+  launched through snap and may fail with `snap-confine` capability errors.
+  Use `grep`, `find`, `sed`, `ls`, or small targeted shell commands instead.
 - For generation, benchmark, model inference, and training tasks, prefer GPU
   execution when CUDA is actually available in the selected environment and the
   task is expected to run faster on GPU. Fall back to CPU only when CUDA is not

@@ -6,6 +6,9 @@
 - **Conda Environment**: `dif` (actual environment name)
 - **Shell**: bash
 - **OpenBabel Plugin Path**: `~/miniforge3/envs/dif/lib/openbabel/3.1.0`
+- **Search command caveat**: do not use `rg` / `rg --files` on this machine.
+  The installed ripgrep can fail through snap permission checks; use `grep`,
+  `find`, `sed`, or `ls` instead.
 
 ## Version Priority Rule
 
