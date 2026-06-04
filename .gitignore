@@ -219,6 +219,7 @@ work_records/
 analysis/edge_denoiser_*
 analysis/generated_edge_denoiser_*
 analysis/edge_diffusion_sampler_smoke_*
+analysis/edge_diffusion_ddp_*
 analysis/refinement_ablation_*
 analysis/oracle_original_sdf_audit_*/*.sdf
 analysis/edge_denoiser_ablation_summary_*

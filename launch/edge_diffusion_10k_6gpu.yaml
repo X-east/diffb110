@@ -1,0 +1,56 @@
+name: edge_diffusion_10k_6gpu
+
+data:
+  edge_npz: analysis/edge_data_chain_20260604_repair_n10000/train_edge.npz
+  semantic_npz: analysis/edge_semantic_bundle_20260604_n10000/train_edge_semantic.npz
+  max_molecules: 10000
+  val_molecules: 1000
+  split_seed: 260604
+
+model:
+  hidden_dim: 128
+  num_layers: 3
+  distance_basis_dim: 32
+  dropout: 0.0
+  coordinate_scale: 0.1
+
+diffusion:
+  num_edge_types: 5
+  num_timesteps: 1000
+  edge_prior: uniform
+  pos_noise_std: 0.05
+  pos_noise_mode: t_scaled
+  atom_corruption_prob: 0.05
+
+loss:
+  pos_weight: 1.0
+  atom_weight: 1.0
+  edge_weight: 1.0
+  bond_length_weight: 0.5
+  edge_class_weight_mode: inverse_sqrt
+  no_bond_weight: 0.1
+
+dataloader:
+  batch_size: 8
+  eval_batch_size: 8
+  num_workers: 2
+
+train:
+  seed: 260604
+  epochs: 30
+  lr: 0.002
+  weight_decay: 0.0001
+  grad_clip: 5.0
+  checkpoint_interval: 5
+  force_cpu: false
+
+evaluation:
+  eval_timestep: 500
+
+ddp:
+  enabled: true
+  num_gpus: 6
+  gpus: [0, 1, 2, 3, 4, 5]
+
+output:
+  outdir: analysis/edge_diffusion_ddp_20260604_10k_6gpu
