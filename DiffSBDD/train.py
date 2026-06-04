@@ -86,7 +86,9 @@ if __name__ == "__main__":
         mode=args.mode,
         node_histogram=histogram,
         pocket_representation=args.pocket_representation,
-        virtual_nodes=args.virtual_nodes
+        virtual_nodes=args.virtual_nodes,
+        diffusion_mode=getattr(args, 'diffusion_mode', 'xh'),
+        bond_diffusion=getattr(args, 'bond_diffusion', None),
     )
 
     logger = pl.loggers.WandbLogger(

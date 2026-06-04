@@ -29,9 +29,12 @@ except ImportError:
 
 from constants import dataset_params, FLOAT_TYPE, INT_TYPE
 from equivariant_diffusion.dynamics import EGNNDynamics
+from equivariant_diffusion.dynamics_xhe import EGNNDynamicsXHE, XHEEdgeHeadConfig
 from equivariant_diffusion.en_diffusion import EnVariationalDiffusion
 from equivariant_diffusion.conditional_model import ConditionalDDPM, \
     SimpleConditionalDDPM
+from equivariant_diffusion.conditional_model_xhe import BondDiffusionConfig, \
+    ConditionalDDPMXHE
 from dataset import ProcessedLigandPocketDataset
 import utils
 from analysis.visualization import save_xyz_file, visualize, visualize_chain
@@ -73,7 +76,9 @@ class LigandPocketDDPM(pl.LightningModule):
             mode,
             node_histogram,
             pocket_representation='CA',
-            virtual_nodes=False
+            virtual_nodes=False,
+            diffusion_mode='xh',
+            bond_diffusion=None
     ):
         super(LigandPocketDDPM, self).__init__()
         self.save_hyperparameters()
@@ -85,6 +90,23 @@ class LigandPocketDDPM(pl.LightningModule):
         self.mode = mode
         assert pocket_representation in {'CA', 'full-atom'}
         self.pocket_representation = pocket_representation
+        self.diffusion_mode = getattr(diffusion_params, 'diffusion_mode',
+                                      diffusion_mode)
+        if self.diffusion_mode not in {'xh', 'xhe'}:
+            raise ValueError("diffusion_mode must be either 'xh' or 'xhe'")
+        raw_bond_diffusion = getattr(diffusion_params, 'bond_diffusion',
+                                     bond_diffusion)
+        self.bond_diffusion_config = BondDiffusionConfig.from_config(
+            raw_bond_diffusion,
+            default_enabled=(self.diffusion_mode == 'xhe'))
+        if self.diffusion_mode == 'xh' and self.bond_diffusion_config.enabled:
+            raise ValueError(
+                "bond_diffusion.enabled=True requires diffusion_mode='xhe'")
+        self.bond_diffusion_enabled = self.diffusion_mode == 'xhe'
+        if self.bond_diffusion_enabled and self.mode != 'pocket_conditioning':
+            raise ValueError(
+                "P1 xhe smoke path currently supports only "
+                "mode='pocket_conditioning'")
 
         self.dataset_name = dataset
         self.datadir = datadir
@@ -156,7 +178,19 @@ class LigandPocketDDPM(pl.LightningModule):
         self.aa_nf = len(self.pocket_type_decoder)
         self.x_dims = 3
 
-        net_dynamics = EGNNDynamics(
+        dynamics_cls = EGNNDynamicsXHE if self.bond_diffusion_enabled \
+            else EGNNDynamics
+        dynamics_kwargs = {}
+        if self.bond_diffusion_enabled:
+            dynamics_kwargs['xhe_edge_head_config'] = XHEEdgeHeadConfig(
+                num_edge_types=self.bond_diffusion_config.num_edge_types,
+                num_timesteps=diffusion_params.diffusion_steps,
+                hidden_dim=self.bond_diffusion_config.edge_hidden_dim,
+                distance_basis_dim=self.bond_diffusion_config.distance_basis_dim,
+                dropout=self.bond_diffusion_config.edge_head_dropout,
+            )
+
+        net_dynamics = dynamics_cls(
             atom_nf=self.atom_nf,
             residue_nf=self.aa_nf,
             n_dims=self.x_dims,
@@ -178,20 +212,28 @@ class LigandPocketDDPM(pl.LightningModule):
             update_pocket_coords=(self.mode == 'joint'),
             reflection_equivariant=egnn_params.reflection_equivariant,
             edge_embedding_dim=egnn_params.__dict__.get('edge_embedding_dim'),
+            **dynamics_kwargs,
         )
 
-        self.ddpm = ddpm_models[self.mode](
-                dynamics=net_dynamics,
-                atom_nf=self.atom_nf,
-                residue_nf=self.aa_nf,
-                n_dims=self.x_dims,
-                timesteps=diffusion_params.diffusion_steps,
-                noise_schedule=diffusion_params.diffusion_noise_schedule,
-                noise_precision=diffusion_params.diffusion_noise_precision,
-                loss_type=diffusion_params.diffusion_loss_type,
-                norm_values=diffusion_params.normalize_factors,
-                size_histogram=node_histogram,
-                virtual_node_idx=self.lig_type_encoder[symbol] if virtual_nodes else None
+        ddpm_cls = ConditionalDDPMXHE if self.bond_diffusion_enabled \
+            else ddpm_models[self.mode]
+        ddpm_kwargs = {}
+        if self.bond_diffusion_enabled:
+            ddpm_kwargs['bond_diffusion_config'] = self.bond_diffusion_config
+
+        self.ddpm = ddpm_cls(
+            dynamics=net_dynamics,
+            atom_nf=self.atom_nf,
+            residue_nf=self.aa_nf,
+            n_dims=self.x_dims,
+            timesteps=diffusion_params.diffusion_steps,
+            noise_schedule=diffusion_params.diffusion_noise_schedule,
+            noise_precision=diffusion_params.diffusion_noise_precision,
+            loss_type=diffusion_params.diffusion_loss_type,
+            norm_values=diffusion_params.normalize_factors,
+            size_histogram=node_histogram,
+            virtual_node_idx=self.lig_type_encoder[symbol] if virtual_nodes else None,
+            **ddpm_kwargs,
         )
 
         self.auxiliary_loss = auxiliary_loss
@@ -246,6 +288,8 @@ class LigandPocketDDPM(pl.LightningModule):
         if self.virtual_nodes:
             ligand['num_virtual_atoms'] = data['num_virtual_atoms'].to(
                 self.device, INT_TYPE)
+        if self.bond_diffusion_enabled:
+            self._attach_ligand_halfedges(ligand, data)
 
         pocket = {
             'x': data['pocket_coords'].to(self.device, FLOAT_TYPE),
@@ -254,6 +298,23 @@ class LigandPocketDDPM(pl.LightningModule):
             'mask': data['pocket_mask'].to(self.device, INT_TYPE)
         }
         return ligand, pocket
+
+    def _attach_ligand_halfedges(self, ligand, data):
+        required_fields = {
+            'ligand_halfedge_index': 'halfedge_index',
+            'ligand_halfedge_type': 'halfedge_type',
+            'ligand_halfedge_type_batch': 'edge_batch',
+        }
+        missing = [field for field in required_fields if field not in data]
+        if missing:
+            raise ValueError(
+                "diffusion_mode='xhe' requires halfedge batch fields: "
+                + ", ".join(missing))
+        for source, target in required_fields.items():
+            ligand[target] = data[source].to(self.device, INT_TYPE)
+        if 'num_ligand_halfedges' in data:
+            ligand['num_halfedges'] = data['num_ligand_halfedges'].to(
+                self.device, INT_TYPE)
 
     def forward(self, data):
         ligand, pocket = self.get_ligand_and_pocket(data)

@@ -317,6 +317,20 @@ model:
 
 目标：在 DiffSBDD dynamics 中增加 edge head，但不改 sampler。
 
+2026-06-04 已完成 P1/P2 的最小解耦实现：
+
+- 新增 `EGNNDynamicsXHE`，默认 forward 仍返回原 `x/h` 输出；只有显式
+  `return_edge_logits=True` 时才要求 halfedge 字段并输出 `[E, 5]` bond
+  logits。
+- 新增 `ConditionalDDPMXHE.edge_forward_smoke()`，使用
+  `EdgeCategoricalTransition` 给真实 halfedge type 加噪，再从 DiffSBDD 的
+  EGNN hidden state 解码 clean bond type logits。
+- `LigandPocketDDPM` 默认仍为 `diffusion_mode='xh'`，只有显式设置
+  `diffusion_mode='xhe'` 才启用 xhe dynamics / DDPM，并要求
+  `ligand_halfedge_index/type/type_batch`。
+- 当前 smoke loss 只作为诊断指标记录，尚未加入训练目标；P3 才进入
+  edge loss / joint loss 训练。
+
 成功标准：
 
 - `diffusion_mode=xh` 行为不变。
