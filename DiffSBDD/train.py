@@ -45,6 +45,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument('--config', type=str, required=True)
     p.add_argument('--resume', type=str, default=None)
+    p.add_argument('--warm-start', type=str, default=None)
     args = p.parse_args()
 
     with open(args.config, 'r') as f:
@@ -90,6 +91,22 @@ if __name__ == "__main__":
         diffusion_mode=getattr(args, 'diffusion_mode', 'xh'),
         bond_diffusion=getattr(args, 'bond_diffusion', None),
     )
+    warm_start_checkpoint = args.warm_start or getattr(
+        args, 'warm_start_checkpoint', None)
+    if warm_start_checkpoint is not None:
+        checkpoint = torch.load(
+            warm_start_checkpoint, map_location=torch.device('cpu'))
+        state_dict = checkpoint.get('state_dict', checkpoint)
+        incompatible = pl_module.load_state_dict(state_dict, strict=False)
+        print(
+            "Warm-started from "
+            f"{warm_start_checkpoint}: "
+            f"missing={len(incompatible.missing_keys)}, "
+            f"unexpected={len(incompatible.unexpected_keys)}")
+        if incompatible.missing_keys:
+            print("Missing keys sample:", incompatible.missing_keys[:20])
+        if incompatible.unexpected_keys:
+            print("Unexpected keys sample:", incompatible.unexpected_keys[:20])
 
     logger = pl.loggers.WandbLogger(
         save_dir=args.logdir,
