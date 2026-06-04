@@ -18,6 +18,13 @@ from ddpo.runtime.logging_utils import log_cuda_memory
 from ddpo.runtime.protocol import DataProto
 
 
+VALID_KL_MODES = frozenset({
+    "analytic_ref_current",
+    "analytic_current_ref",
+    "pretrained_logprob_k3",
+})
+
+
 class BaseActor(ABC):
     """Minimal local actor interface for DDPO policy updates."""
 
@@ -46,7 +53,15 @@ class EDMActor(BaseActor):
         self.model = model
         self.model_impl = model_impl if model_impl is not None else self._unwrap_model(model)
         self.ref_model = ref_model
-        self.kl_coef = float(config.get("train", {}).get("kl_coef", 0.0))
+        train_cfg = config.get("train", {})
+        self.kl_coef = float(train_cfg.get("kl_coef", 0.0))
+        self.kl_mode = str(train_cfg.get("kl_mode", "analytic_ref_current"))
+        if self.kl_mode not in VALID_KL_MODES:
+            raise ValueError(
+                f"Unsupported train.kl_mode={self.kl_mode!r}; "
+                f"expected one of {sorted(VALID_KL_MODES)}"
+            )
+        self.kl_k3_logratio_clip = train_cfg.get("kl_k3_logratio_clip", 30.0)
         self.config = config
         self.last_grad_probe = []
         optimizer_cls = torch.optim.AdamW
@@ -330,10 +345,13 @@ class EDMActor(BaseActor):
         Calculate the loss for a batch of an unpacked sample.
 
         When ``self.kl_coef > 0`` and ``self.ref_model`` is not None,
-        a Gaussian KL penalty term is added to prevent policy drift away
-        from the frozen pretrained reference model:
+        a configurable KL penalty term is added to prevent policy drift away
+        from the frozen pretrained reference model.
 
-            total_loss = ppo_loss + kl_coef * KL(ref || current)
+        Available ``train.kl_mode`` values:
+            - ``analytic_ref_current``: historical KL(ref || current).
+            - ``analytic_current_ref``: Gaussian KL(current || ref).
+            - ``pretrained_logprob_k3``: DePPA-style sampled K3 estimator.
 
         Args:
             latents:     [B, N, D]  latent at time t.
@@ -383,16 +401,16 @@ class EDMActor(BaseActor):
         kl_penalty = torch.tensor(0.0, device=latents.device)
         if self.kl_coef > 0.0 and self.ref_model is not None:
             with torch.no_grad():
-                _, mu_ref, sigma_ref = self.ref_model(**kwargs)
+                log_prob_ref, mu_ref, sigma_ref = self.ref_model(**kwargs)
 
-            from ddpo.kl import compute_gaussian_kl
-
-            kl_penalty = compute_gaussian_kl(
-                mu_ref=mu_ref,
-                sigma_ref=sigma_ref,
+            kl_penalty = self._pretrained_kl_penalty(
+                log_prob_current=log_prob_current,
+                log_prob_ref=log_prob_ref,
                 mu_new=mu_new,
                 sigma_new=sigma_new,
-                mask=node_mask,
+                mu_ref=mu_ref,
+                sigma_ref=sigma_ref,
+                node_mask=node_mask,
             )
 
         diagnostics = self._ppo_diagnostics(
@@ -405,6 +423,38 @@ class EDMActor(BaseActor):
 
         loss = ppo_loss + self.kl_coef * kl_penalty
         return loss, clipfrac, ppo_loss, kl_penalty, diagnostics
+
+    def _pretrained_kl_penalty(
+        self,
+        log_prob_current: torch.Tensor,
+        log_prob_ref: torch.Tensor,
+        mu_new: torch.Tensor,
+        sigma_new: torch.Tensor,
+        mu_ref: torch.Tensor,
+        sigma_ref: torch.Tensor,
+        node_mask: torch.Tensor,
+    ) -> torch.Tensor:
+        """Compute the configured KL regularizer against the frozen reference."""
+        if self.kl_mode == "pretrained_logprob_k3":
+            from ddpo.kl import compute_logprob_k3_kl
+
+            return compute_logprob_k3_kl(
+                log_prob_current=log_prob_current,
+                log_prob_ref=log_prob_ref,
+                logratio_clip=self.kl_k3_logratio_clip,
+            )
+
+        from ddpo.kl import compute_gaussian_kl
+
+        direction = "current_ref" if self.kl_mode == "analytic_current_ref" else "ref_current"
+        return compute_gaussian_kl(
+            mu_ref=mu_ref,
+            sigma_ref=sigma_ref,
+            mu_new=mu_new,
+            sigma_new=sigma_new,
+            mask=node_mask,
+            direction=direction,
+        )
 
     def _ppo_diagnostics(
         self,

@@ -10,5 +10,6 @@ Usage:
 """
 
 from .gaussian_kl import compute_gaussian_kl
+from .logprob_kl import compute_logprob_k3_kl
 
-__all__ = ["compute_gaussian_kl"]
+__all__ = ["compute_gaussian_kl", "compute_logprob_k3_kl"]
