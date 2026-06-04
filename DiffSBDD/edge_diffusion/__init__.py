@@ -24,6 +24,7 @@ from .losses import (
 )
 from .model import EdgeDiffusionModel, EdgeDiffusionModelConfig
 from .oracle_reconstruction import OracleReconstructionResult, build_oracle_mol
+from .sampler import EdgeDiffusionSampler, EdgeSamplerConfig, EdgeSamplerResult
 from .schema import EdgeDiffusionInputs, EdgeDiffusionOutput
 from .semantic_oracle_reconstruction import build_semantic_oracle_mol
 from .transitions import EdgeCategoricalTransition, EdgeTransitionConfig
@@ -42,7 +43,10 @@ __all__ = [
     "EdgeDiffusionModel",
     "EdgeDiffusionModelConfig",
     "EdgeDiffusionOutput",
+    "EdgeDiffusionSampler",
     "EdgeReconstructionEvalConfig",
+    "EdgeSamplerConfig",
+    "EdgeSamplerResult",
     "EdgeTransitionConfig",
     "OracleReconstructionResult",
     "batch_confusion",
