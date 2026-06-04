@@ -47,12 +47,16 @@ def save_config_snapshot(config: dict[str, Any], snapshot_path: str) -> None:
 
 def build_model(config: dict[str, Any], device: str, dataset_name: str) -> DiffSBDDModel:
     """Construct the DiffSBDD model wrapper."""
+    model_cfg = config.get("model", {})
     return DiffSBDDModel(
-        checkpoint_path=config["model"]["checkpoint"],
+        checkpoint_path=model_cfg["checkpoint"],
         pocket_pdb_path=config["pocket"]["pdb_path"],
         ref_ligand_path=config["pocket"]["ref_ligand"],
         device=device,
         dataset_name=dataset_name,
+        logprob_mode=str(model_cfg.get("logprob_mode", "mean_per_element")),
+        logprob_clamp_min=model_cfg.get("logprob_clamp_min", -100.0),
+        logprob_clamp_max=model_cfg.get("logprob_clamp_max", 0.0),
     )
 
 

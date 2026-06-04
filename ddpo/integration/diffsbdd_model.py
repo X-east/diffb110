@@ -13,6 +13,7 @@ Key features:
 """
 
 import logging
+import math
 import sys
 import torch
 import torch.nn as nn
@@ -29,6 +30,14 @@ from DiffSBDD.constants import dataset_params, FLOAT_TYPE, INT_TYPE
 from DiffSBDD import utils as diffsbdd_utils
 
 from ddpo.integration.model_base import BaseModel
+
+
+VALID_LOGPROB_MODES = frozenset({
+    "mean_per_element",
+    "mean_per_atom",
+    "full_mean_per_element",
+    "full_mean_per_atom",
+})
 
 
 def _log_cuda_memory(*args, **kwargs):
@@ -85,6 +94,9 @@ class DiffSBDDModel(nn.Module, BaseModel):
         ref_ligand_path: str,
         device: str = "cuda",
         dataset_name: str = "crossdock",
+        logprob_mode: str = "mean_per_element",
+        logprob_clamp_min: float | None = -100.0,
+        logprob_clamp_max: float | None = 0.0,
     ):
         """
         Initialize DiffSBDDModel with checkpoint and pocket data.
@@ -96,11 +108,23 @@ class DiffSBDDModel(nn.Module, BaseModel):
                             Used to define the binding pocket
             device: Device to load model on ("cuda" or "cpu")
             dataset_name: Dataset name for constants ("crossdock" or "bindingmoad")
+            logprob_mode: DDPO transition log-probability aggregation mode.
+                ``mean_per_element`` preserves the historical implementation.
+            logprob_clamp_min: Optional lower clamp for log-probability values.
+            logprob_clamp_max: Optional upper clamp for log-probability values.
         """
         super().__init__()
         
         self.device = device
         self.dataset_name = dataset_name
+        if logprob_mode not in VALID_LOGPROB_MODES:
+            raise ValueError(
+                f"Unsupported logprob_mode={logprob_mode!r}; "
+                f"expected one of {sorted(VALID_LOGPROB_MODES)}"
+            )
+        self.logprob_mode = logprob_mode
+        self.logprob_clamp_min = logprob_clamp_min
+        self.logprob_clamp_max = logprob_clamp_max
         self.dataset_info = dataset_params[dataset_name]
         
         # Load DiffSBDD model from checkpoint
@@ -462,8 +486,11 @@ class DiffSBDDModel(nn.Module, BaseModel):
             log_prob: [B] log probability for each sample in batch
             
         Note:
-            - Uses simplified formula without constant terms (only relative
-              probabilities matter for PPO ratio computation)
+            - ``mean_per_element`` keeps the historical simplified formula:
+              normalized squared error without Normal constants.
+            - ``mean_per_atom`` follows the DePPA-style scale: feature terms are
+              summed per atom, then averaged over valid atoms.
+            - ``full_*`` modes include ``-log(sigma)`` and the Normal constant.
             - Detaches zs to prevent gradients flowing through sampling path
             - Feature dimension D = n_dims (3) + atom_nf (ligand atom types)
         """
@@ -493,9 +520,11 @@ class DiffSBDDModel(nn.Module, BaseModel):
         # (gradients should only flow through mu and sigma from the network)
         zs_detached = zs.detach()
         
-        # Compute log probability: -0.5 * ((zs - mu)^2 / sigma^2)
+        # Compute log probability contribution.
         # Apply node_mask to ignore padding positions
         log_p = -0.5 * ((zs_detached - mu) ** 2) / (sigma_safe ** 2)
+        if self.logprob_mode.startswith("full_"):
+            log_p = log_p - torch.log(sigma_safe) - 0.5 * math.log(2.0 * math.pi)
         
         if node_mask is not None:
             log_p = log_p * node_mask
@@ -509,17 +538,30 @@ class DiffSBDDModel(nn.Module, BaseModel):
         log_p_sum = log_p.sum(dim=tuple(range(1, log_p.ndim)))
         
         if node_mask is not None:
-            # Count valid elements per sample
-            valid_count = node_mask.sum(dim=tuple(range(1, node_mask.ndim))) * D
+            valid_nodes = node_mask.sum(dim=tuple(range(1, node_mask.ndim)))
         else:
-            # All elements are valid
-            valid_count = zs.shape[1] * D
+            valid_nodes = torch.full(
+                (zs.shape[0],),
+                float(zs.shape[1]),
+                device=zs.device,
+                dtype=log_p_sum.dtype,
+            )
+        if self.logprob_mode.endswith("per_element"):
+            valid_count = valid_nodes * D
+        else:
+            valid_count = valid_nodes
         
         # Normalize by number of valid elements
         log_prob = log_p_sum / (valid_count + epsilon)
         
         # NaN/Inf 保护：log_prob 异常会导致 PPO ratio 爆炸，进而导致 backward 挂死
-        log_prob = torch.clamp(log_prob, min=-100.0, max=0.0)
+        if self.logprob_clamp_min is not None or self.logprob_clamp_max is not None:
+            clamp_kwargs = {}
+            if self.logprob_clamp_min is not None:
+                clamp_kwargs["min"] = float(self.logprob_clamp_min)
+            if self.logprob_clamp_max is not None:
+                clamp_kwargs["max"] = float(self.logprob_clamp_max)
+            log_prob = torch.clamp(log_prob, **clamp_kwargs)
         log_prob = torch.where(torch.isfinite(log_prob), log_prob,
                                torch.full_like(log_prob, -100.0))
         
