@@ -22,6 +22,7 @@ from ddpo.rewards.docking_factory import build_docking_reward
 from ddpo.rewards.ligand_efficiency_reward import LigandEfficiencyReward
 from ddpo.rewards.molskill_reward import MolSkillReward
 from ddpo.rewards.chembl_classifier_reward import ChemblClassifierReward
+from ddpo.rewards.chemistry_guard_reward import ChemistryGuardReward
 from ddpo.rewards.stability import StabilityAwareReward
 
 
@@ -41,6 +42,8 @@ def get_enabled_rewards(config: dict) -> list[str]:
     # LE 依赖 docking 产生数据，自动启用 docking 作为数据提供者
     if "ligand_efficiency" in enabled and "docking" not in enabled:
         enabled.append("docking")
+    if bool(reward_cfg.get("chemistry_guard", {}).get("enabled", False)) and "chemistry_guard" not in enabled:
+        enabled.append("chemistry_guard")
     return enabled if enabled else ["qed", "sa"]
 
 
@@ -239,6 +242,26 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             device=cc_cfg.get("device", None),
         )
         weights_dict["chembl_classifier"] = float(weights_cfg.get("chembl_classifier", 1.0))
+
+    if "chemistry_guard" in enabled:
+        guard_cfg = reward_cfg.get("chemistry_guard", {})
+        rewards_dict["chemistry_guard"] = ChemistryGuardReward(
+            failure_penalty=float(guard_cfg.get("failure_penalty", -1.0)),
+            base_reward=float(guard_cfg.get("base_reward", 1.0)),
+            violation_penalty=float(guard_cfg.get("violation_penalty", 0.2)),
+            min_reward=float(guard_cfg.get("min_reward", -1.0)),
+            max_reward=float(guard_cfg.get("max_reward", 1.0)),
+            max_carbon_fraction=float(guard_cfg.get("max_carbon_fraction", 0.85)),
+            min_hetero_atom_fraction=float(guard_cfg.get("min_hetero_atom_fraction", 0.0)),
+            max_three_member_ring_count=int(guard_cfg.get("max_three_member_ring_count", 0)),
+            max_fragment_count=int(guard_cfg.get("max_fragment_count", 1)),
+            max_bad_bond_length_fraction=float(guard_cfg.get("max_bad_bond_length_fraction", 0.05)),
+            max_halogen_bad_position_count=int(guard_cfg.get("max_halogen_bad_position_count", 0)),
+            bond_length_relative_tolerance=float(guard_cfg.get("bond_length_relative_tolerance", 0.30)),
+            bond_length_absolute_tolerance=float(guard_cfg.get("bond_length_absolute_tolerance", 0.20)),
+            max_halogen_neighbor_heavy_degree=guard_cfg.get("max_halogen_neighbor_heavy_degree", None),
+        )
+        weights_dict["chemistry_guard"] = float(weights_cfg.get("chemistry_guard", 0.0))
 
     if not rewards_dict:
         raise ValueError("No reward components enabled for Lightning training")

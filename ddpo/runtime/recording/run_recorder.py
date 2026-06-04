@@ -41,6 +41,7 @@ _REWARD_DISPLAY_REGISTRY: dict[str, dict[str, str]] = {
     "diversity_fcfp4": {"label": "FCFP4 Div",   "field": "avg_diversity_fcfp4_diversity", "fmt": ".4f"},
     "logp_distribution": {"label": "LogP Dist Rwd", "field": "avg_logp_distribution_reward", "fmt": ".4f"},
     "ligand_efficiency": {"label": "Ligand Eff", "field": "avg_ligand_efficiency", "fmt": ".4f"},
+    "chemistry_guard": {"label": "Chem Guard", "field": "avg_chemistry_guard_reward", "fmt": ".4f"},
 }
 
 

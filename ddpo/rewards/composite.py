@@ -155,7 +155,7 @@ class CompositeReward(BaseReward):
         
         # Define rewards that must always run regardless of weight because
         # downstream rewards depend on their output fields.
-        _PROVIDER_REWARDS = frozenset({"docking"})
+        _PROVIDER_REWARDS = frozenset({"docking", "chemistry_guard"})
 
         # Calculate each component reward
         for name, reward_fn in self.rewards.items():
