@@ -286,6 +286,8 @@ model:
 
 目标：明确 DiffSBDD-xhe 改哪些点，不动代码。
 
+详细接口图和字段清单见：[DiffSBDD-xhe_P0接口图与实施计划.md](DiffSBDD-xhe_P0接口图与实施计划.md)。
+
 检查文件：
 
 - `DiffSBDD/equivariant_diffusion/conditional_model.py`
