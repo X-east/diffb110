@@ -103,6 +103,64 @@ class EDMActor(BaseActor):
         ]
 
     @staticmethod
+    def _finite_values(values: torch.Tensor) -> torch.Tensor:
+        """Return finite flattened values for robust diagnostic aggregation."""
+        flat = values.detach().float().reshape(-1)
+        return flat[torch.isfinite(flat)]
+
+    @classmethod
+    def _finite_mean(cls, values: torch.Tensor, fallback: torch.Tensor) -> torch.Tensor:
+        """Compute a finite-only mean without changing training tensors."""
+        finite = cls._finite_values(values)
+        if finite.numel() == 0:
+            return fallback.detach().float()
+        return finite.mean()
+
+    @classmethod
+    def _finite_std(cls, values: torch.Tensor, fallback: torch.Tensor) -> torch.Tensor:
+        """Compute a finite-only population std for scalar diagnostics."""
+        finite = cls._finite_values(values)
+        if finite.numel() <= 1:
+            return fallback.detach().float().new_tensor(0.0)
+        return finite.std(unbiased=False)
+
+    @classmethod
+    def _finite_quantile(cls, values: torch.Tensor, q: float, fallback: torch.Tensor) -> torch.Tensor:
+        """Compute a finite-only quantile for scalar diagnostics."""
+        finite = cls._finite_values(values)
+        if finite.numel() == 0:
+            return fallback.detach().float()
+        return torch.quantile(finite, q)
+
+    @classmethod
+    def _finite_nonzero_fraction(cls, values: torch.Tensor, eps: float, fallback: torch.Tensor) -> torch.Tensor:
+        """Compute a finite-only non-zero fraction for scalar diagnostics."""
+        finite = cls._finite_values(values)
+        if finite.numel() == 0:
+            return fallback.detach().float()
+        return (finite.abs() > eps).float().mean()
+
+    @staticmethod
+    def _metric_item(value: torch.Tensor | float) -> float:
+        """Convert a scalar tensor or float to a Python float for metric logs."""
+        if isinstance(value, torch.Tensor):
+            return float(value.detach().float().cpu().item())
+        return float(value)
+
+    def _timestep_bucket(self, timesteps: torch.Tensor) -> str:
+        """Map diffusion timesteps to coarse buckets for PPO diagnostics."""
+        mean_t = self._finite_mean(
+            timesteps,
+            fallback=torch.zeros((), device=timesteps.device),
+        )
+        frac = float((mean_t / max(float(self.num_timesteps), 1.0)).detach().cpu().item())
+        if frac > (2.0 / 3.0):
+            return "HighT"
+        if frac > (1.0 / 3.0):
+            return "MidT"
+        return "LowT"
+
+    @staticmethod
     def _take_to_device(tensor: torch.Tensor, indices: torch.Tensor, device: torch.device) -> torch.Tensor:
         """Index a batch tensor and move only that slice to the training device."""
         index = indices.to(tensor.device) if tensor.device.type != "cpu" else indices
@@ -216,7 +274,7 @@ class EDMActor(BaseActor):
                     context = sample["context"]
                 else:
                     context = None
-                loss, clipfrac, ppo_loss_val, kl_val = self.calculate_loss(
+                loss, clipfrac, ppo_loss_val, kl_val, diagnostics = self.calculate_loss(
                     sample["latents"][:, j],
                     sample["timesteps"][:, j],
                     sample["next_latents"][:, j],
@@ -230,6 +288,13 @@ class EDMActor(BaseActor):
                 info["ppo_loss"].append(ppo_loss_val.item())
                 if self.kl_coef > 0.0:
                     info["kl_penalty"].append(kl_val.item())
+                for key, value in diagnostics.items():
+                    info[key].append(self._metric_item(value))
+                timestep_bucket = self._timestep_bucket(sample["timesteps"][:, j])
+                for key in ("PPO_ApproxKL", "PPO_ApproxKL_K3", "KL_Penalty_Weighted"):
+                    if key in diagnostics:
+                        info[f"{key}_{timestep_bucket}"].append(self._metric_item(diagnostics[key]))
+                info[f"ClipFrac_{timestep_bucket}"].append(clipfrac.item())
                 (loss * loss_scale).backward()
                 clip_grad_norm_(self.model.parameters(), max_norm=self.max_grad_norm)
             del sample
@@ -252,6 +317,11 @@ class EDMActor(BaseActor):
         metric["PPO_Epoch"] = ppo_epoch_idx
         metric["LossScale"] = float(loss_scale)
         metric["TrainMicroBatches"] = float(len(microbatch_indices))
+        consumed_info_keys = {"clipfrac", "loss", "ppo_loss", "kl_penalty"}
+        for key in sorted(k for k in info if k not in consumed_info_keys):
+            values = np.array(info[key], dtype=np.float64)
+            if values.size > 0:
+                metric[key] = float(np.mean(values))
 
         return metric
 
@@ -275,7 +345,9 @@ class EDMActor(BaseActor):
             context:     optional   condition embedding.
 
         Returns:
-            (loss, clipfrac, ppo_loss, kl_penalty) — all scalar tensors.
+            (loss, clipfrac, ppo_loss, kl_penalty, diagnostics) where the first
+            four items are scalar tensors used by training and diagnostics is a
+            scalar metric dict that does not affect gradients.
         """
         s_array = timesteps
         t_array = s_array + 1
@@ -323,8 +395,52 @@ class EDMActor(BaseActor):
                 mask=node_mask,
             )
 
+        diagnostics = self._ppo_diagnostics(
+            logratio=dif_logp,
+            ratio=ratio,
+            advantages=advantages,
+            kl_penalty=kl_penalty,
+            device=latents.device,
+        )
+
         loss = ppo_loss + self.kl_coef * kl_penalty
-        return loss, clipfrac, ppo_loss, kl_penalty
+        return loss, clipfrac, ppo_loss, kl_penalty, diagnostics
+
+    def _ppo_diagnostics(
+        self,
+        logratio: torch.Tensor,
+        ratio: torch.Tensor,
+        advantages: torch.Tensor,
+        kl_penalty: torch.Tensor,
+        device: torch.device,
+    ) -> dict[str, torch.Tensor]:
+        """Compute PPO/KL scalar diagnostics without affecting optimization."""
+        zero = torch.zeros((), device=device)
+        logratio_detached = logratio.detach().float()
+        ratio_detached = ratio.detach().float()
+        abs_logratio = logratio_detached.abs()
+        abs_advantages = advantages.detach().float().abs()
+        k3_approx = ratio_detached - 1.0 - logratio_detached
+
+        return {
+            "PPO_ApproxKL": 0.5 * self._finite_mean(logratio_detached ** 2, zero),
+            "PPO_ApproxKL_K3": self._finite_mean(k3_approx, zero),
+            "PPO_LogRatio_Mean": self._finite_mean(logratio_detached, zero),
+            "PPO_LogRatio_Std": self._finite_std(logratio_detached, zero),
+            "PPO_LogRatio_AbsMean": self._finite_mean(abs_logratio, zero),
+            "PPO_LogRatio_AbsP95": self._finite_quantile(abs_logratio, 0.95, zero),
+            "PPO_LogRatio_AbsMax": self._finite_quantile(abs_logratio, 1.0, zero),
+            "PPO_Ratio_Mean": self._finite_mean(ratio_detached, zero),
+            "PPO_Ratio_Std": self._finite_std(ratio_detached, zero),
+            "PPO_Ratio_P95": self._finite_quantile(ratio_detached, 0.95, zero),
+            "PPO_Ratio_Max": self._finite_quantile(ratio_detached, 1.0, zero),
+            "Advantage_Mean": self._finite_mean(advantages.detach().float(), zero),
+            "Advantage_Std": self._finite_std(advantages.detach().float(), zero),
+            "Advantage_AbsMean": self._finite_mean(abs_advantages, zero),
+            "Advantage_NonZeroFrac": self._finite_nonzero_fraction(advantages.detach().float(), 1e-8, zero),
+            "KL_Coef": torch.tensor(float(self.kl_coef), device=device),
+            "KL_Penalty_Weighted": kl_penalty.detach().float() * float(self.kl_coef),
+        }
 
     def loss(
         self,
