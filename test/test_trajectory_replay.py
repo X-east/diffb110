@@ -16,9 +16,14 @@ from ddpo.runtime.replay import (
 )
 
 
-def _make_rollout_batch(scores: list[float] | None = None) -> DataProto:
+def _make_rollout_batch(
+    scores: list[float] | None = None,
+    smiles: list[str] | None = None,
+    quality_values: list[float] | None = None,
+) -> DataProto:
     """Build a tiny CPU DataProto with the tensors needed by PPO replay."""
     scores = scores or [0.1, 0.9, 0.8, -0.2]
+    smiles = smiles or ["A", "B", "B", "D"]
     batch_size = len(scores)
     timesteps = 3
     nodes = 2
@@ -37,6 +42,10 @@ def _make_rollout_batch(scores: list[float] | None = None) -> DataProto:
             "advantages": torch.tensor(scores, dtype=torch.float32),
             "reward_total_clamped": torch.tensor(scores, dtype=torch.float32),
             "reward_total_raw": torch.tensor(scores, dtype=torch.float32),
+            "bad_bond_length_fraction": torch.tensor(
+                quality_values if quality_values is not None else [0.0] * batch_size,
+                dtype=torch.float32,
+            ),
             "x": torch.zeros(batch_size, nodes, 3),
             "categorical": torch.zeros(batch_size, nodes, dims),
         },
@@ -45,7 +54,7 @@ def _make_rollout_batch(scores: list[float] | None = None) -> DataProto:
     return DataProto(
         batch=batch,
         non_tensor_batch={
-            "smiles": ["A", "B", "B", "D"],
+            "smiles": smiles,
             "rdkit_valid": [1, 1, 1, 0],
             "failure_type": ["success", "success", "success", "sanitize_failed"],
         },
@@ -69,6 +78,22 @@ def test_good_molecule_selector_filters_top_valid_unique() -> None:
     assert [record["score"] for record in selection.records] == pytest.approx([0.9, 0.1])
 
 
+def test_good_molecule_selector_applies_quality_filters() -> None:
+    """Configured guard fields should reject chemically unreasonable candidates."""
+    selector = GoodMoleculeSelector(
+        {
+            "top_k_per_epoch": 3,
+            "quality_filters": {"bad_bond_length_fraction": {"max": 0.0}},
+        }
+    )
+    data = _make_rollout_batch(quality_values=[0.0, 0.5, 0.0, 0.0])
+
+    selection = selector.select(data, epoch=1, rank=0)
+
+    assert selection.indices == [2, 0]
+    assert [record["bad_bond_length_fraction"] for record in selection.records] == pytest.approx([0.0, 0.0])
+
+
 def test_good_molecule_pool_writes_jsonl_manifest(tmp_path) -> None:
     """GoodMoleculePool should persist compact molecule records without tensors."""
     selector = GoodMoleculeSelector({"top_k_per_epoch": 2})
@@ -82,6 +107,30 @@ def test_good_molecule_pool_writes_jsonl_manifest(tmp_path) -> None:
     assert [record["rank"] for record in records] == [2, 2]
     assert [record["epoch"] for record in records] == [3, 3]
     assert [record["smiles"] for record in records] == ["B", "A"]
+    retained_lines = pool.retained_path.read_text(encoding="utf-8").strip().splitlines()
+    assert len(retained_lines) == 2
+
+
+def test_good_molecule_pool_retains_best_records_in_rolling_window(tmp_path) -> None:
+    """Retained snapshot should keep best reasonable molecules from the recent window."""
+    selector = GoodMoleculeSelector({"top_k_per_epoch": 2})
+    pool = GoodMoleculePool(
+        tmp_path,
+        selector=selector,
+        enabled=True,
+        retention_window_epochs=2,
+        retained_top_k=2,
+    )
+
+    pool.add_batch(_make_rollout_batch([0.5, 0.7, 0.6, -0.1], smiles=["A1", "B1", "C1", "D1"]), epoch=1)
+    pool.add_batch(_make_rollout_batch([0.2, 0.9, 0.1, -0.1], smiles=["A2", "B2", "C2", "D2"]), epoch=2)
+    pool.add_batch(_make_rollout_batch([0.8, 0.4, 0.3, -0.1], smiles=["A3", "B3", "C3", "D3"]), epoch=3)
+
+    records = [json.loads(line) for line in pool.retained_path.read_text(encoding="utf-8").strip().splitlines()]
+
+    assert [record["epoch"] for record in records] == [2, 3]
+    assert [record["smiles"] for record in records] == ["B2", "A3"]
+    assert [record["score"] for record in records] == pytest.approx([0.9, 0.8])
 
 
 def test_disk_trajectory_replay_roundtrip_keeps_tensors_on_cpu(tmp_path) -> None:

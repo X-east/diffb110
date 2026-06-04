@@ -123,6 +123,36 @@ def _select_tensor_training_view(data: DataProto) -> DataProto:
     return data.select(batch_keys=selected_keys, non_tensor_batch_keys=[]).to("cpu")
 
 
+def _record_smiles_key(record: dict[str, Any]) -> str | None:
+    """Return a deduplication key for record SMILES."""
+    smiles_value = record.get("smiles")
+    if smiles_value in (None, ""):
+        return None
+    return str(smiles_value)
+
+
+def _sort_and_dedupe_records(
+    records: list[dict[str, Any]],
+    *,
+    deduplicate_smiles: bool,
+) -> list[dict[str, Any]]:
+    """Sort records by score descending and optionally keep one per SMILES."""
+    sorted_records = sorted(records, key=lambda record: float(record.get("score", 0.0)), reverse=True)
+    if not deduplicate_smiles:
+        return sorted_records
+
+    retained: list[dict[str, Any]] = []
+    seen_smiles: set[str] = set()
+    for record in sorted_records:
+        smiles_key = _record_smiles_key(record)
+        if smiles_key is not None and smiles_key in seen_smiles:
+            continue
+        if smiles_key is not None:
+            seen_smiles.add(smiles_key)
+        retained.append(record)
+    return retained
+
+
 class GoodMoleculeSelector:
     """Select high-quality molecules from a rewarded DiffSBDD rollout batch."""
 
@@ -133,20 +163,46 @@ class GoodMoleculeSelector:
         self.min_score = cfg.get("min_score")
         self.require_valid = bool(cfg.get("require_valid", True))
         self.deduplicate_smiles = bool(cfg.get("deduplicate_smiles", True))
+        self.quality_filters = dict(cfg.get("quality_filters", {}) or {})
+        self.missing_quality_filter_policy = str(cfg.get("missing_quality_filter_policy", "ignore"))
+        quality_filter_fields = tuple(str(field_name) for field_name in self.quality_filters.keys())
         self.extra_record_fields = tuple(
-            str(field_name)
-            for field_name in cfg.get(
-                "record_fields",
-                (
-                    "reward_total_raw",
-                    "reward_total",
-                    "reward_total_clamped",
-                    "qed_raw",
-                    "sa_raw",
-                    "docking_raw",
-                ),
+            dict.fromkeys(
+                str(field_name)
+                for field_name in (
+                    *cfg.get(
+                        "record_fields",
+                        (
+                            "reward_total_raw",
+                            "reward_total",
+                            "reward_total_clamped",
+                            "qed_raw",
+                            "sa_raw",
+                            "docking_raw",
+                        ),
+                    ),
+                    *quality_filter_fields,
+                )
             )
         )
+
+    def _passes_quality_filters(self, idx: int, values_by_field: dict[str, list[Any]]) -> bool:
+        """Return whether a molecule passes configured numeric quality filters."""
+        for field_name, limits in self.quality_filters.items():
+            values = values_by_field.get(str(field_name), [])
+            raw_value = values[idx] if idx < len(values) else None
+            value = _float_or_none(raw_value)
+            if value is None:
+                if self.missing_quality_filter_policy == "reject":
+                    return False
+                continue
+            if "min" in limits and value < float(limits["min"]):
+                return False
+            if "max" in limits and value > float(limits["max"]):
+                return False
+            if "equals" in limits and value != float(limits["equals"]):
+                return False
+        return True
 
     def select(self, data: DataProto, epoch: int, rank: int) -> GoodMoleculeSelection:
         """Return top valid molecules and compact records for manifest writing."""
@@ -174,6 +230,8 @@ class GoodMoleculeSelector:
             is_valid = bool(int(valid[idx])) if valid[idx] is not None else False
             if self.require_valid and not is_valid:
                 continue
+            if not self._passes_quality_filters(idx, extra_values):
+                continue
             record = {
                 "epoch": int(epoch),
                 "rank": int(rank),
@@ -193,8 +251,7 @@ class GoodMoleculeSelector:
         selected_records: list[dict[str, Any]] = []
         seen_smiles: set[str] = set()
         for idx, _score, record in candidates:
-            smiles_value = record.get("smiles")
-            smiles_key = str(smiles_value) if smiles_value not in (None, "") else None
+            smiles_key = _record_smiles_key(record)
             if self.deduplicate_smiles and smiles_key is not None and smiles_key in seen_smiles:
                 continue
             if smiles_key is not None:
@@ -208,7 +265,7 @@ class GoodMoleculeSelector:
 
 
 class GoodMoleculePool:
-    """Append-only JSONL pool of selected high-quality molecules."""
+    """Append-only JSONL pool plus rolling top-quality retained snapshot."""
 
     def __init__(
         self,
@@ -217,24 +274,79 @@ class GoodMoleculePool:
         *,
         rank: int = 0,
         enabled: bool = False,
+        retention_window_epochs: int = 10,
+        retained_top_k: int | None = None,
+        deduplicate_retained_smiles: bool = True,
     ) -> None:
         self.root_dir = Path(root_dir)
         self.selector = selector
         self.rank = int(rank)
         self.enabled = bool(enabled)
+        self.retention_window_epochs = max(1, int(retention_window_epochs))
+        self.retained_top_k = (
+            max(0, int(retained_top_k))
+            if retained_top_k is not None
+            else int(selector.top_k_per_epoch)
+        )
+        self.deduplicate_retained_smiles = bool(deduplicate_retained_smiles)
         self.manifest_path = self.root_dir / f"good_molecules_rank{self.rank:02d}.jsonl"
+        self.retained_path = self.root_dir / f"good_molecules_retained_rank{self.rank:02d}.jsonl"
+        self.last_retained_records: list[dict[str, Any]] = []
         if self.enabled:
             self.root_dir.mkdir(parents=True, exist_ok=True)
+
+    def _load_manifest_records(self) -> list[dict[str, Any]]:
+        """Load all append-only manifest records for this rank."""
+        if not self.manifest_path.exists():
+            return []
+        records: list[dict[str, Any]] = []
+        with open(self.manifest_path, "r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+        return records
+
+    def retained_records(self, epoch: int) -> list[dict[str, Any]]:
+        """Return best records inside the rolling retention epoch window."""
+        min_epoch = int(epoch) - self.retention_window_epochs + 1
+        window_records = [
+            record
+            for record in self._load_manifest_records()
+            if min_epoch <= int(record.get("epoch", -1)) <= int(epoch)
+        ]
+        retained = _sort_and_dedupe_records(
+            window_records,
+            deduplicate_smiles=self.deduplicate_retained_smiles,
+        )
+        if self.retained_top_k > 0:
+            retained = retained[: self.retained_top_k]
+        return retained
+
+    def _write_retained_snapshot(self, epoch: int) -> list[dict[str, Any]]:
+        """Rewrite the rolling retained top-molecule snapshot."""
+        retained = self.retained_records(epoch)
+        with open(self.retained_path, "w", encoding="utf-8") as handle:
+            for record in retained:
+                handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+        self.last_retained_records = retained
+        return retained
 
     def add_batch(self, data: DataProto, epoch: int) -> GoodMoleculeSelection:
         """Select and optionally persist good-molecule records for one epoch."""
         selection = self.selector.select(data=data, epoch=epoch, rank=self.rank)
-        if not self.enabled or len(selection) == 0:
+        if not self.enabled:
             return selection
 
-        with open(self.manifest_path, "a", encoding="utf-8") as handle:
-            for record in selection.records:
-                handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+        if len(selection) > 0:
+            with open(self.manifest_path, "a", encoding="utf-8") as handle:
+                for record in selection.records:
+                    handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+        self._write_retained_snapshot(epoch)
         return selection
 
 
@@ -249,7 +361,8 @@ class DiskTrajectoryReplayBuffer:
         enabled: bool = False,
         replay_ratio: float = 0.0,
         sample_size: int | None = None,
-        max_age_epochs: int = 3,
+        max_age_epochs: int = 10,
+        sample_strategy: str = "top_score",
         seed: int = 0,
     ) -> None:
         self.root_dir = Path(root_dir)
@@ -258,6 +371,7 @@ class DiskTrajectoryReplayBuffer:
         self.replay_ratio = max(0.0, float(replay_ratio))
         self.sample_size = None if sample_size is None else max(0, int(sample_size))
         self.max_age_epochs = max(1, int(max_age_epochs))
+        self.sample_strategy = str(sample_strategy)
         self.rng = random.Random(int(seed) + self.rank)
         self.shards_dir = self.root_dir / f"rank_{self.rank:02d}" / "shards"
         self.manifest_path = self.root_dir / f"trajectory_manifest_rank{self.rank:02d}.jsonl"
@@ -351,7 +465,18 @@ class DiskTrajectoryReplayBuffer:
         if not eligible:
             return None, {"replay_sample_count": 0.0, "replay_eligible_shards": 0.0}
 
-        self.rng.shuffle(eligible)
+        if self.sample_strategy == "random":
+            self.rng.shuffle(eligible)
+        elif self.sample_strategy == "recent":
+            eligible.sort(key=lambda record: int(record.get("epoch", -1)), reverse=True)
+        else:
+            eligible.sort(
+                key=lambda record: (
+                    float(record.get("score_max", 0.0)),
+                    int(record.get("epoch", -1)),
+                ),
+                reverse=True,
+            )
         loaded: list[DataProto] = []
         loaded_count = 0
         for record in eligible:
@@ -421,6 +546,16 @@ class ReplayCoordinator:
         if self.good_molecule_pool is not None:
             selection = self.good_molecule_pool.add_batch(current_samples, epoch=epoch)
             metrics["good_pool_selected_count"] = float(len(selection))
+            retained_records = self.good_molecule_pool.last_retained_records
+            retained_scores = [
+                float(record["score"])
+                for record in retained_records
+                if _float_or_none(record.get("score")) is not None
+            ]
+            metrics["good_pool_retained_count"] = float(len(retained_records))
+            if retained_scores:
+                metrics["good_pool_retained_score_mean"] = float(sum(retained_scores) / len(retained_scores))
+                metrics["good_pool_retained_score_max"] = float(max(retained_scores))
 
         if self.trajectory_replay is not None:
             store_metrics = self.trajectory_replay.add_batch(
@@ -454,13 +589,31 @@ def build_replay_coordinator(
 
     root = Path(output_dir)
     selector_cfg = dict(pool_cfg)
-    selector_cfg.update({k: v for k, v in replay_cfg.items() if k in {"score_key", "top_k_per_epoch", "store_top_k", "min_score", "require_valid", "deduplicate_smiles"}})
+    selector_cfg.update({
+        k: v
+        for k, v in replay_cfg.items()
+        if k in {
+            "score_key",
+            "top_k_per_epoch",
+            "store_top_k",
+            "min_score",
+            "require_valid",
+            "deduplicate_smiles",
+            "quality_filters",
+            "missing_quality_filter_policy",
+            "record_fields",
+        }
+    })
     selector = GoodMoleculeSelector(selector_cfg)
+    retention_window_epochs = int(pool_cfg.get("retention_window_epochs", 10))
     pool = GoodMoleculePool(
         root_dir=root / str(pool_cfg.get("subdir", "good_molecule_pool")),
         selector=selector,
         rank=rank,
         enabled=pool_enabled or replay_enabled,
+        retention_window_epochs=retention_window_epochs,
+        retained_top_k=pool_cfg.get("retained_top_k"),
+        deduplicate_retained_smiles=bool(pool_cfg.get("deduplicate_retained_smiles", True)),
     )
     replay = DiskTrajectoryReplayBuffer(
         root_dir=root / str(replay_cfg.get("subdir", "trajectory_replay")),
@@ -468,7 +621,8 @@ def build_replay_coordinator(
         enabled=replay_enabled,
         replay_ratio=float(replay_cfg.get("replay_ratio", 0.0)),
         sample_size=replay_cfg.get("sample_size"),
-        max_age_epochs=int(replay_cfg.get("max_age_epochs", 3)),
+        max_age_epochs=int(replay_cfg.get("max_age_epochs", retention_window_epochs)),
+        sample_strategy=str(replay_cfg.get("sample_strategy", "top_score")),
         seed=int(config.get("train", {}).get("seed", 42)),
     )
 
