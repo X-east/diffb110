@@ -27,8 +27,10 @@ class _LigandPocketHarness:
     device = torch.device("cpu")
     virtual_nodes = False
     bond_diffusion_enabled = False
+    bond_diffusion_config = BondDiffusionConfig(edge_loss_weight=1.0)
     get_ligand_and_pocket = LigandPocketDDPM.get_ligand_and_pocket
     _attach_ligand_halfedges = LigandPocketDDPM._attach_ligand_halfedges
+    _apply_bond_diffusion_loss = LigandPocketDDPM._apply_bond_diffusion_loss
 
 
 class TestDiffSBDDXHEInterfaces(unittest.TestCase):
@@ -123,9 +125,37 @@ class TestDiffSBDDXHEInterfaces(unittest.TestCase):
         output.loss.backward()
 
         self.assertEqual(tuple(output.pred_edge_logits.shape), (3, 5))
+        self.assertEqual(tuple(output.loss_per_molecule.shape), (1,))
         self.assertTrue(torch.isfinite(output.loss))
+        self.assertTrue(torch.isfinite(output.real_bond_accuracy))
         first_grad = next(parameter.grad for parameter in ddpm.parameters() if parameter.grad is not None)
         self.assertTrue(torch.isfinite(first_grad).all())
+
+    def test_edge_loss_is_added_to_nll_only_in_xhe_mode(self):
+        module = _LigandPocketHarness()
+        module.bond_diffusion_enabled = True
+        module.bond_diffusion_config = BondDiffusionConfig(edge_loss_weight=2.0)
+        nll = torch.tensor([1.0, 2.0])
+        info = {"_edge_loss_batch": torch.tensor([0.5, 1.0])}
+
+        updated = module._apply_bond_diffusion_loss(nll, info)
+
+        self.assertTrue(torch.equal(updated, torch.tensor([2.0, 4.0])))
+        self.assertNotIn("_edge_loss_batch", info)
+        self.assertEqual(float(info["edge_loss_weight"]), 2.0)
+        self.assertEqual(float(info["edge_loss_weighted"]), 1.5)
+
+    def test_edge_loss_private_field_is_ignored_in_xh_mode(self):
+        module = _LigandPocketHarness()
+        module.bond_diffusion_enabled = False
+        nll = torch.tensor([1.0, 2.0])
+        info = {"_edge_loss_batch": torch.tensor([0.5, 1.0])}
+
+        updated = module._apply_bond_diffusion_loss(nll, info)
+
+        self.assertTrue(torch.equal(updated, nll))
+        self.assertNotIn("_edge_loss_batch", info)
+        self.assertNotIn("edge_loss_weighted", info)
 
 
 def _make_batch(include_halfedges: bool) -> dict[str, torch.Tensor]:
@@ -193,4 +223,3 @@ def _make_dynamics() -> EGNNDynamicsXHE:
 
 if __name__ == "__main__":
     unittest.main()
-

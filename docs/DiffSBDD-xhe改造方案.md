@@ -342,6 +342,18 @@ model:
 
 目标：在 DiffSBDD training step 中加入 edge loss。
 
+2026-06-04 已完成 P3 的最小解耦实现：
+
+- `ConditionalDDPMXHE` 输出 per-molecule `_edge_loss_batch`，由
+  `LigandPocketDDPM._apply_bond_diffusion_loss()` 根据
+  `bond_diffusion.edge_loss_weight` 加到 `nll`。
+- edge loss 支持 `edge_class_weight_mode='diffgui'`，即 no-bond 类按
+  `no_bond_weight` 降权；也支持 `edge_focal_gamma`。
+- `_edge_loss_batch` 是私有字段，会在 Lightning 层 `pop` 掉，不进入
+  logger；日志只保留 `edge_smoke_loss`、`edge_smoke_acc`、
+  `edge_smoke_real_bond_acc`、`edge_loss_weighted` 等标量。
+- 默认 `diffusion_mode='xh'` 不会看到 edge loss，旧 DDPO smoke 已通过。
+
 成功标准：
 
 - 旧 checkpoint 可加载。

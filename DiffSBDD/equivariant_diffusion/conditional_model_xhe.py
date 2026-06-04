@@ -8,16 +8,24 @@ import sys
 from typing import Any
 
 import torch
+import torch.nn.functional as F
+from torch_scatter import scatter_mean
 
 from equivariant_diffusion.conditional_model import ConditionalDDPM
 
 try:
-    from DiffSBDD.edge_diffusion.transitions import EdgeCategoricalTransition, EdgeTransitionConfig
+    from DiffSBDD.edge_diffusion.transitions import (
+        EdgeCategoricalTransition,
+        EdgeTransitionConfig,
+    )
 except ModuleNotFoundError:
     project_root = Path(__file__).resolve().parents[2]
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
-    from DiffSBDD.edge_diffusion.transitions import EdgeCategoricalTransition, EdgeTransitionConfig
+    from DiffSBDD.edge_diffusion.transitions import (
+        EdgeCategoricalTransition,
+        EdgeTransitionConfig,
+    )
 
 
 @dataclass(frozen=True)
@@ -33,6 +41,10 @@ class BondDiffusionConfig:
     edge_hidden_dim: int = 128
     distance_basis_dim: int = 32
     edge_head_dropout: float = 0.0
+    edge_loss_weight: float = 1.0
+    edge_class_weight_mode: str = "diffgui"
+    no_bond_weight: float = 0.1
+    edge_focal_gamma: float = 0.0
 
     @classmethod
     def from_config(
@@ -52,6 +64,14 @@ class BondDiffusionConfig:
             edge_hidden_dim=int(_config_get(config, "edge_hidden_dim", cls.edge_hidden_dim)),
             distance_basis_dim=int(_config_get(config, "distance_basis_dim", cls.distance_basis_dim)),
             edge_head_dropout=float(_config_get(config, "edge_head_dropout", cls.edge_head_dropout)),
+            edge_loss_weight=float(_config_get(config, "edge_loss_weight", cls.edge_loss_weight)),
+            edge_class_weight_mode=str(_config_get(
+                config,
+                "edge_class_weight_mode",
+                cls.edge_class_weight_mode,
+            )),
+            no_bond_weight=float(_config_get(config, "no_bond_weight", cls.no_bond_weight)),
+            edge_focal_gamma=float(_config_get(config, "edge_focal_gamma", cls.edge_focal_gamma)),
         )
 
 
@@ -63,7 +83,9 @@ class XHEEdgeSmokeOutput:
     noised_edge_type: torch.Tensor
     target_edge_type: torch.Tensor
     loss: torch.Tensor
+    loss_per_molecule: torch.Tensor
     accuracy: torch.Tensor
+    real_bond_accuracy: torch.Tensor
 
 
 class ConditionalDDPMXHE(ConditionalDDPM):
@@ -98,8 +120,10 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         info = dict(old_terms[-1])
 
         edge_output = self.edge_forward_smoke(edge_ligand, edge_pocket)
+        info["_edge_loss_batch"] = edge_output.loss_per_molecule
         info["edge_smoke_loss"] = edge_output.loss
         info["edge_smoke_acc"] = edge_output.accuracy
+        info["edge_smoke_real_bond_acc"] = edge_output.real_bond_accuracy
         info["edge_smoke_logits_abs"] = edge_output.pred_edge_logits.abs().mean() \
             if edge_output.pred_edge_logits.numel() > 0 else edge_output.loss.detach()
 
@@ -164,20 +188,39 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             return_edge_logits=True,
         )
         if target_edge_type.numel() == 0:
-            loss = pred_edge_logits.sum() * 0.0
+            loss_per_molecule = ligand["size"].new_zeros(
+                batch_size,
+                dtype=pred_edge_logits.dtype,
+            )
+            loss = loss_per_molecule.sum()
             accuracy = loss.detach()
+            real_bond_accuracy = loss.detach()
         else:
-            loss = self.edge_transition.negative_log_likelihood(
+            per_edge_loss = _edge_classification_loss(
                 pred_edge_logits,
                 target_edge_type,
-            ).mean()
-            accuracy = (pred_edge_logits.argmax(dim=-1) == target_edge_type).float().mean()
+                self.bond_diffusion_config,
+            )
+            loss_per_molecule = scatter_mean(
+                per_edge_loss,
+                edge_batch,
+                dim=0,
+                dim_size=batch_size,
+            )
+            loss = loss_per_molecule.mean()
+            pred_edge_type = pred_edge_logits.argmax(dim=-1)
+            accuracy = (pred_edge_type == target_edge_type).float().mean()
+            real_bond_mask = target_edge_type > 0
+            real_bond_accuracy = (pred_edge_type[real_bond_mask] == target_edge_type[real_bond_mask]).float().mean() \
+                if bool(real_bond_mask.any()) else loss.detach() * 0.0
         return XHEEdgeSmokeOutput(
             pred_edge_logits=pred_edge_logits,
             noised_edge_type=noised_edge_type,
             target_edge_type=target_edge_type,
             loss=loss,
+            loss_per_molecule=loss_per_molecule,
             accuracy=accuracy,
+            real_bond_accuracy=real_bond_accuracy,
         )
 
 
@@ -222,3 +265,37 @@ def _validate_ligand_halfedges(ligand: dict[str, torch.Tensor]) -> None:
         raise ValueError("halfedge_type length must match halfedge_index")
     if edge_batch.numel() != num_halfedges:
         raise ValueError("edge_batch length must match halfedge_index")
+
+
+def _edge_classification_loss(
+    logits: torch.Tensor,
+    target: torch.Tensor,
+    config: BondDiffusionConfig,
+) -> torch.Tensor:
+    """Return per-halfedge weighted CE/focal loss for imbalanced bond labels."""
+    if logits.ndim != 2:
+        raise ValueError("pred_edge_logits must have shape [num_halfedges, num_edge_types]")
+    nll = F.cross_entropy(logits, target.long(), reduction="none")
+    if config.edge_focal_gamma > 0:
+        prob = torch.exp(-nll)
+        nll = ((1.0 - prob).clamp_min(0.0) ** config.edge_focal_gamma) * nll
+    class_weight = _edge_class_weight(config, logits.device, logits.dtype)
+    if class_weight is not None:
+        nll = class_weight[target.long()] * nll
+    return nll
+
+
+def _edge_class_weight(
+    config: BondDiffusionConfig,
+    device: torch.device,
+    dtype: torch.dtype,
+) -> torch.Tensor | None:
+    """Return class weights borrowed from the existing edge-denoiser strategy."""
+    mode = config.edge_class_weight_mode
+    if mode == "none":
+        return None
+    if mode == "diffgui":
+        weights = torch.ones(config.num_edge_types, device=device, dtype=dtype)
+        weights[0] = float(config.no_bond_weight)
+        return weights
+    raise ValueError(f"Unsupported edge_class_weight_mode: {mode}")

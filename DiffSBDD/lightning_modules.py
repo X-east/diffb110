@@ -374,6 +374,8 @@ class LigandPocketDDPM(pl.LightningModule):
             nll = nll + weighted_lj_potential
             info['weighted_lj'] = weighted_lj_potential.mean(0)
 
+        nll = self._apply_bond_diffusion_loss(nll, info)
+
         info['error_t_lig'] = error_t_lig.mean(0)
         info['error_t_pocket'] = error_t_pocket.mean(0)
         info['SNR_weight'] = SNR_weight.mean(0)
@@ -383,6 +385,19 @@ class LigandPocketDDPM(pl.LightningModule):
         info['neg_log_const_0'] = neg_log_const_0.mean(0)
         info['log_pN'] = log_pN.mean(0)
         return nll, info
+
+    def _apply_bond_diffusion_loss(self, nll, info):
+        edge_loss_batch = info.pop('_edge_loss_batch', None)
+        if not self.bond_diffusion_enabled or edge_loss_batch is None:
+            return nll
+        edge_loss_batch = edge_loss_batch.to(device=nll.device, dtype=nll.dtype)
+        if edge_loss_batch.shape != nll.shape:
+            raise ValueError("edge loss batch shape must match nll shape")
+        weight = float(self.bond_diffusion_config.edge_loss_weight)
+        weighted_edge_loss = weight * edge_loss_batch
+        info['edge_loss_weight'] = nll.new_tensor(weight)
+        info['edge_loss_weighted'] = weighted_edge_loss.mean(0)
+        return nll + weighted_edge_loss
 
     def lj_potential(self, atom_x, atom_one_hot, batch_mask):
         adj = batch_mask[:, None] == batch_mask[None, :]
