@@ -72,6 +72,7 @@ from ddpo.runtime import (
 from ddpo.runtime.recording import RunRecorder, RunStatus, create_run_context
 from ddpo.runtime.recording.run_context import RunContext
 from ddpo.runtime.logging_utils import log_cuda_memory, reset_cuda_peak_memory
+from ddpo.runtime.replay import build_replay_coordinator
 from ddpo.utils import PerfTimer
 
 
@@ -94,6 +95,7 @@ class DistributedRuntimeBundle:
     reward_normalizer: Any
     filters: Any
     actor: Any
+    replay_coordinator: Any
     run_recorder: RunRecorder
     max_epochs: int
     checkpoint_interval: int
@@ -249,6 +251,12 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
     actor = build_actor(model_train, config, dataset_info,
                         model_impl=model_impl, ref_model=ref_model)
     run_recorder = RunRecorder(run_context=run_context, logger=logger, world_size=dist_ctx.world_size)
+    replay_coordinator = build_replay_coordinator(
+        config=config,
+        output_dir=run_context.output_dir,
+        rank=dist_ctx.rank,
+        logger=logger,
+    )
 
     per_rank_batch_size = int(dataloader.batch_size)
     global_batch_size = int(per_rank_batch_size * dist_ctx.world_size)
@@ -288,6 +296,7 @@ def build_runtime_ddp(args, config: dict[str, Any], dist_ctx: DistributedContext
         reward_normalizer=reward_normalizer,
         filters=filters,
         actor=actor,
+        replay_coordinator=replay_coordinator,
         run_recorder=run_recorder,
         ref_model=ref_model,
         max_epochs=max_epochs,
@@ -511,7 +520,8 @@ def record_epoch_ddp(
     runtime.run_recorder.on_batch_end(batch_facts)
 
     # Write per-rank SDF with original 3D coordinates
-    ntb = getattr(prepared.samples, "non_tensor_batch", None)
+    record_samples = prepared.generated_samples if prepared.generated_samples is not None else prepared.samples
+    ntb = getattr(record_samples, "non_tensor_batch", None)
     if isinstance(ntb, dict):
         rdmols = ntb.get("rdmols")
         if rdmols is not None and len(rdmols) > 0:
@@ -601,6 +611,7 @@ def run_epoch_ddp(runtime: DistributedRuntimeBundle, epoch: int) -> EpochStepRes
     # _merge_metrics in reduce_batch_stats averages them across all ranks.
     descriptor_metrics = compute_epoch_molecular_descriptors(prepared)
     metrics.update(descriptor_metrics)
+    metrics.update(prepared.replay_metrics)
     global_stats = reduce_batch_stats(local_stats, prepared, metrics, runtime.dist_ctx)
     import sys; sys.stderr.flush()  # 刷新 stderr 确保 tqdm 残留完全写出后再打印 epoch 汇总
     record_epoch_ddp(runtime, epoch, prepared, local_stats, global_stats)

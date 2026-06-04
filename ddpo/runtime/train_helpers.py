@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
@@ -27,6 +27,8 @@ class PreparedSamples:
     samples: Any
     filtering_ratio: float
     novelty_penalty_ratio: float
+    generated_samples: Any | None = None
+    replay_metrics: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -103,6 +105,11 @@ def _reconstruction_method(config: dict[str, Any]) -> str:
     return str(config.get("reconstruction", {}).get("method", "openbabel"))
 
 
+def _generated_samples(prepared: PreparedSamples) -> Any:
+    """Return current generated samples, excluding historical replay data."""
+    return prepared.generated_samples if prepared.generated_samples is not None else prepared.samples
+
+
 def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None = None) -> PreparedSamples:
     logger = runtime.logger
     accum_steps = _rollout_accum_steps(runtime.config)
@@ -168,7 +175,24 @@ def prepare_training_samples(runtime: Any, epoch: int, timer: PerfTimer | None =
         logger.info("[Epoch %d/%d] advantages = reward_total", epoch, runtime.max_epochs)
         samples.batch["advantages"] = samples.batch.get("reward_total_clamped", samples.batch.get("reward_total"))
         log_dataproto_memory(samples, "advantages_added", component="train_helpers", logger=logger)
-    return PreparedSamples(samples=samples, filtering_ratio=filtering_ratio, novelty_penalty_ratio=novelty_penalty_ratio)
+    generated_samples = samples
+    replay_metrics: dict[str, float] = {}
+    replay_coordinator = getattr(runtime, "replay_coordinator", None)
+    if replay_coordinator is not None and getattr(replay_coordinator, "enabled", False):
+        logger.info("[Epoch %d/%d] replay_coordinator.stage_for_training", epoch, runtime.max_epochs)
+        if timer: timer.start("replay")
+        stage_result = replay_coordinator.stage_for_training(current_samples=generated_samples, epoch=epoch)
+        if timer: timer.stop()
+        samples = stage_result.samples
+        replay_metrics = stage_result.metrics
+        log_dataproto_memory(samples, "replay_stage_done", component="train_helpers", logger=logger)
+    return PreparedSamples(
+        samples=samples,
+        filtering_ratio=filtering_ratio,
+        novelty_penalty_ratio=novelty_penalty_ratio,
+        generated_samples=generated_samples,
+        replay_metrics=replay_metrics,
+    )
 
 
 def update_policy(runtime: Any, prepared: PreparedSamples, epoch: int, timer: PerfTimer | None = None) -> dict[str, Any]:
@@ -292,7 +316,7 @@ def compute_batch_stats(
     config: dict[str, Any] | None = None,
     field_specs: list[FieldSpec] | None = None,
 ) -> BatchStats:
-    samples = prepared.samples
+    samples = _generated_samples(prepared)
     ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
     src = ntb if isinstance(ntb, dict) else samples.batch
     rewards = _to_float_list(samples.batch.get("reward_total_clamped", samples.batch.get("reward_total")))
@@ -401,7 +425,7 @@ def build_batch_facts(
     config: dict[str, Any] | None = None,
     field_specs: list[FieldSpec] | None = None,
 ) -> BatchFacts:
-    samples = prepared.samples
+    samples = _generated_samples(prepared)
     ntb = getattr(samples, "non_tensor_batch", None) if hasattr(samples, "non_tensor_batch") else None
     src = ntb if isinstance(ntb, dict) else samples.batch
     smiles_values = list(src.get("smiles", []))
@@ -545,7 +569,7 @@ def compute_epoch_molecular_descriptors(prepared: PreparedSamples,
                                         reference_vectors: np.ndarray | None = None) -> dict[str, float]:
     """Compute molecular descriptors from the prepared samples.
 
-    Extracts *rdmols* and *rdkit_valid* mask from ``prepared.samples``
+    Extracts *rdmols* and *rdkit_valid* mask from current generated samples
     and delegates to :func:`ddpo.utils.molecular_descriptors.compute_molecular_descriptors`.
 
     Args:
@@ -557,7 +581,8 @@ def compute_epoch_molecular_descriptors(prepared: PreparedSamples,
         Flat dict of descriptor metrics, or empty dict if required keys
         are missing from the non-tensor batch.
     """
-    ntb = getattr(prepared.samples, "non_tensor_batch", None)
+    samples = _generated_samples(prepared)
+    ntb = getattr(samples, "non_tensor_batch", None)
     if ntb is None:
         return {}
     rdmols = ntb.get("rdmols")
