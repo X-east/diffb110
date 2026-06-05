@@ -9,9 +9,11 @@ from typing import Any
 
 import torch
 import torch.nn.functional as F
-from torch_scatter import scatter_mean
+from torch_scatter import scatter_add, scatter_mean
 
 from equivariant_diffusion.conditional_model import ConditionalDDPM
+import utils
+from generation_refinement import apply_atom_score_bias, apply_local_atom_score_mask
 
 try:
     from DiffSBDD.edge_diffusion.transitions import (
@@ -45,6 +47,10 @@ class BondDiffusionConfig:
     edge_class_weight_mode: str = "diffgui"
     no_bond_weight: float = 0.1
     edge_focal_gamma: float = 0.0
+    use_edge_message_passing: bool = False
+    edge_message_dim: int = 32
+    edge_message_scale: float = 1.0
+    bond_length_loss_weight: float = 0.0
 
     @classmethod
     def from_config(
@@ -72,6 +78,18 @@ class BondDiffusionConfig:
             )),
             no_bond_weight=float(_config_get(config, "no_bond_weight", cls.no_bond_weight)),
             edge_focal_gamma=float(_config_get(config, "edge_focal_gamma", cls.edge_focal_gamma)),
+            use_edge_message_passing=bool(_config_get(
+                config,
+                "use_edge_message_passing",
+                cls.use_edge_message_passing,
+            )),
+            edge_message_dim=int(_config_get(config, "edge_message_dim", cls.edge_message_dim)),
+            edge_message_scale=float(_config_get(config, "edge_message_scale", cls.edge_message_scale)),
+            bond_length_loss_weight=float(_config_get(
+                config,
+                "bond_length_loss_weight",
+                cls.bond_length_loss_weight,
+            )),
         )
 
 
@@ -111,6 +129,309 @@ class ConditionalDDPMXHE(ConditionalDDPM):
                 beta_end=self.bond_diffusion_config.beta_end,
             )
         )
+
+    def sample_p_zs_given_zt_xhe(
+        self,
+        s: torch.Tensor,
+        t: torch.Tensor,
+        zt_lig: torch.Tensor,
+        xh0_pocket: torch.Tensor,
+        ligand_mask: torch.Tensor,
+        pocket_mask: torch.Tensor,
+        *,
+        halfedge_index: torch.Tensor,
+        edge_type_t: torch.Tensor,
+        edge_batch: torch.Tensor,
+        edge_temperature: float = 1.0,
+        generator: torch.Generator | None = None,
+        fix_noise: bool = False,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Sample joint x/h/e state z_s, e_s from z_t, e_t."""
+        gamma_s = self.gamma(s)
+        gamma_t = self.gamma(t)
+
+        sigma2_t_given_s, sigma_t_given_s, alpha_t_given_s = \
+            self.sigma_and_alpha_t_given_s(gamma_t, gamma_s, zt_lig)
+
+        sigma_s = self.sigma(gamma_s, target_tensor=zt_lig)
+        sigma_t = self.sigma(gamma_t, target_tensor=zt_lig)
+
+        eps_t_lig, _, pred_edge_logits = self.dynamics(
+            zt_lig,
+            xh0_pocket,
+            t,
+            ligand_mask,
+            pocket_mask,
+            halfedge_index=halfedge_index,
+            noised_edge_type=edge_type_t,
+            edge_batch=edge_batch,
+            return_edge_logits=True,
+        )
+
+        mu_lig = zt_lig / alpha_t_given_s[ligand_mask] - \
+            (sigma2_t_given_s / alpha_t_given_s / sigma_t)[ligand_mask] * eps_t_lig
+        sigma = sigma_t_given_s * sigma_s / sigma_t
+        zs_lig, xh0_pocket = self.sample_normal_zero_com(
+            mu_lig,
+            xh0_pocket,
+            sigma,
+            ligand_mask,
+            pocket_mask,
+            fix_noise,
+        )
+        edge_type_s = self._sample_edge_posterior(
+            pred_edge_logits=pred_edge_logits,
+            edge_type_t=edge_type_t,
+            t=t,
+            edge_batch=edge_batch,
+            edge_temperature=edge_temperature,
+            generator=generator,
+        )
+
+        self.assert_mean_zero_with_mask(zt_lig[:, :self.n_dims], ligand_mask)
+        return zs_lig, xh0_pocket, edge_type_s
+
+    def sample_p_xh_given_z0_xhe(
+        self,
+        z0_lig: torch.Tensor,
+        xh0_pocket: torch.Tensor,
+        lig_mask: torch.Tensor,
+        pocket_mask: torch.Tensor,
+        batch_size: int,
+        *,
+        halfedge_index: torch.Tensor,
+        edge_type_0: torch.Tensor,
+        edge_batch: torch.Tensor,
+        edge_temperature: float = 1.0,
+        generator: torch.Generator | None = None,
+        fix_noise: bool = False,
+        atom_score_bias: torch.Tensor | None = None,
+        atom_temperature: float = 1.0,
+        atom_local_mask_config: Any | None = None,
+        atom_decoder: list[str] | None = None,
+        atom_score_diagnostics: Any | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Sample final x/h and predicted edge labels from z_0 and e_0."""
+        t_zeros = torch.zeros(size=(batch_size, 1), device=z0_lig.device)
+        gamma_0 = self.gamma(t_zeros)
+        sigma_x = self.SNR(-0.5 * gamma_0)
+        net_out_lig, _, pred_edge_logits = self.dynamics(
+            z0_lig,
+            xh0_pocket,
+            t_zeros,
+            lig_mask,
+            pocket_mask,
+            halfedge_index=halfedge_index,
+            noised_edge_type=edge_type_0,
+            edge_batch=edge_batch,
+            return_edge_logits=True,
+        )
+
+        mu_x_lig = self.compute_x_pred(net_out_lig, z0_lig, gamma_0, lig_mask)
+        xh_lig, xh0_pocket = self.sample_normal_zero_com(
+            mu_x_lig,
+            xh0_pocket,
+            sigma_x,
+            lig_mask,
+            pocket_mask,
+            fix_noise,
+        )
+
+        x_lig, h_lig = self.unnormalize(
+            xh_lig[:, :self.n_dims],
+            z0_lig[:, self.n_dims:],
+        )
+        x_pocket, h_pocket = self.unnormalize(
+            xh0_pocket[:, :self.n_dims],
+            xh0_pocket[:, self.n_dims:],
+        )
+
+        raw_h_lig = h_lig
+        h_lig = apply_atom_score_bias(
+            h_lig,
+            atom_score_bias,
+            temperature=atom_temperature,
+        )
+        if atom_local_mask_config is not None:
+            if getattr(atom_local_mask_config, "enabled", False) and atom_decoder is None:
+                raise ValueError("atom_decoder is required when atom_local_mask_config is enabled.")
+            h_lig = apply_local_atom_score_mask(
+                h_lig,
+                x_lig,
+                lig_mask,
+                atom_decoder if atom_decoder is not None else [],
+                atom_local_mask_config,
+            )
+        if atom_score_diagnostics is not None:
+            atom_score_diagnostics.update(raw_h_lig, h_lig)
+        h_lig = F.one_hot(torch.argmax(h_lig, dim=1), self.atom_nf)
+        edge_type = _sample_logits(
+            pred_edge_logits,
+            temperature=edge_temperature,
+            generator=generator,
+        )
+        return x_lig, h_lig, x_pocket, h_pocket, edge_type
+
+    @torch.no_grad()
+    def sample_given_pocket(
+        self,
+        pocket: dict[str, torch.Tensor],
+        num_nodes_lig: torch.Tensor,
+        return_frames: int = 1,
+        timesteps: int | None = None,
+        atom_score_bias: torch.Tensor | None = None,
+        atom_temperature: float = 1.0,
+        atom_local_mask_config: Any | None = None,
+        atom_decoder: list[str] | None = None,
+        atom_score_diagnostics: Any | None = None,
+        *,
+        return_edges: bool = False,
+        edge_temperature: float = 1.0,
+        generator: torch.Generator | None = None,
+    ):
+        """Draw joint x/h/e samples while preserving the old return contract."""
+        timesteps = self.T if timesteps is None else timesteps
+        assert 0 < return_frames <= timesteps
+        assert timesteps % return_frames == 0
+
+        n_samples = len(pocket["size"])
+        device = pocket["x"].device
+        generator = generator or torch.Generator(device=device)
+
+        _, pocket = self.normalize(pocket=pocket)
+        xh0_pocket = torch.cat([pocket["x"], pocket["one_hot"]], dim=1)
+
+        lig_mask = utils.num_nodes_to_batch_mask(
+            n_samples,
+            num_nodes_lig,
+            device,
+        )
+        halfedge_index, edge_batch, num_halfedges = _build_sample_halfedges(
+            num_nodes_lig,
+            device=device,
+        )
+        edge_type_t, _, _ = self.edge_transition.sample_init(
+            int(halfedge_index.shape[1]),
+            device=device,
+            generator=generator,
+        )
+
+        mu_lig_x = scatter_mean(pocket["x"], pocket["mask"], dim=0)
+        mu_lig_h = torch.zeros((n_samples, self.atom_nf), device=device)
+        mu_lig = torch.cat((mu_lig_x, mu_lig_h), dim=1)[lig_mask]
+        sigma = torch.ones_like(pocket["size"]).unsqueeze(1)
+
+        z_lig, xh_pocket = self.sample_normal_zero_com(
+            mu_lig,
+            xh0_pocket,
+            sigma,
+            lig_mask,
+            pocket["mask"],
+        )
+
+        self.assert_mean_zero_with_mask(z_lig[:, :self.n_dims], lig_mask)
+
+        out_lig = torch.zeros((return_frames,) + z_lig.size(), device=z_lig.device)
+        out_pocket = torch.zeros((return_frames,) + xh_pocket.size(), device=device)
+
+        for s_step in reversed(range(0, timesteps)):
+            s_array = torch.full((n_samples, 1), fill_value=s_step, device=z_lig.device)
+            t_array = s_array + 1
+            s_array = s_array / timesteps
+            t_array = t_array / timesteps
+
+            z_lig, xh_pocket, edge_type_t = self.sample_p_zs_given_zt_xhe(
+                s_array,
+                t_array,
+                z_lig,
+                xh_pocket,
+                lig_mask,
+                pocket["mask"],
+                halfedge_index=halfedge_index,
+                edge_type_t=edge_type_t,
+                edge_batch=edge_batch,
+                edge_temperature=edge_temperature,
+                generator=generator,
+            )
+
+            if (s_step * return_frames) % timesteps == 0:
+                idx = (s_step * return_frames) // timesteps
+                out_lig[idx], out_pocket[idx] = self.unnormalize_z(z_lig, xh_pocket)
+
+        x_lig, h_lig, x_pocket, h_pocket, edge_type = self.sample_p_xh_given_z0_xhe(
+            z_lig,
+            xh_pocket,
+            lig_mask,
+            pocket["mask"],
+            n_samples,
+            halfedge_index=halfedge_index,
+            edge_type_0=edge_type_t,
+            edge_batch=edge_batch,
+            edge_temperature=edge_temperature,
+            generator=generator,
+            atom_score_bias=atom_score_bias,
+            atom_temperature=atom_temperature,
+            atom_local_mask_config=atom_local_mask_config,
+            atom_decoder=atom_decoder,
+            atom_score_diagnostics=atom_score_diagnostics,
+        )
+
+        self.assert_mean_zero_with_mask(x_lig, lig_mask)
+
+        if return_frames == 1:
+            max_cog = scatter_add(x_lig, lig_mask, dim=0).abs().max().item()
+            if max_cog > 5e-2:
+                print(f"Warning CoG drift with error {max_cog:.3f}. Projecting the positions down.")
+                x_lig, x_pocket = self.remove_mean_batch(
+                    x_lig,
+                    x_pocket,
+                    lig_mask,
+                    pocket["mask"],
+                )
+
+        out_lig[0] = torch.cat([x_lig, h_lig], dim=1)
+        out_pocket[0] = torch.cat([x_pocket, h_pocket], dim=1)
+
+        result = (
+            out_lig.squeeze(0),
+            out_pocket.squeeze(0),
+            lig_mask,
+            pocket["mask"],
+        )
+        if not return_edges:
+            return result
+        edge_bundle = {
+            "halfedge_index": halfedge_index.detach(),
+            "halfedge_type": edge_type.detach(),
+            "edge_batch": edge_batch.detach(),
+            "num_halfedges": num_halfedges.detach(),
+        }
+        return (*result, edge_bundle)
+
+    def _sample_edge_posterior(
+        self,
+        *,
+        pred_edge_logits: torch.Tensor,
+        edge_type_t: torch.Tensor,
+        t: torch.Tensor,
+        edge_batch: torch.Tensor,
+        edge_temperature: float,
+        generator: torch.Generator | None,
+    ) -> torch.Tensor:
+        """Sample e_{t-1} from the discrete posterior using predicted e_0 logits."""
+        if edge_type_t.numel() == 0:
+            return edge_type_t
+        t_int = _normalized_t_to_edge_timestep(t, self.T)
+        log_v0 = F.log_softmax(pred_edge_logits / float(edge_temperature), dim=-1)
+        log_vt = self.edge_transition.index_to_log_onehot(edge_type_t)
+        posterior = self.edge_transition.q_v_posterior(
+            log_v0,
+            log_vt,
+            t_int,
+            batch=edge_batch.long(),
+            v0_prob=True,
+        )
+        return self.edge_transition.log_sample_categorical(posterior, generator=generator)
 
     def forward(self, ligand: dict[str, torch.Tensor], pocket: dict[str, torch.Tensor], return_info: bool = False):
         """Run one denoiser pass that predicts x/h noise and clean edge logits."""
@@ -193,6 +514,14 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             gamma_t,
             ligand["mask"],
         )
+        bond_geometry_loss_batch = self._bond_length_loss_per_molecule(
+            pred_x=xh_lig_hat[:, :self.n_dims],
+            target_x=ligand["x"],
+            halfedge_index=ligand["halfedge_index"],
+            target_edge_type=target_edge_type,
+            edge_batch=edge_batch,
+            batch_size=int(ligand["size"].shape[0]),
+        )
 
         squared_error = (eps_t_lig - net_out_lig) ** 2
         if self.vnode_idx is not None:
@@ -262,9 +591,11 @@ class ConditionalDDPMXHE(ConditionalDDPM):
                 dim=0,
             ).mean(),
             "_edge_loss_batch": edge_output.loss_per_molecule,
+            "_bond_geometry_loss_batch": bond_geometry_loss_batch,
             "edge_smoke_loss": edge_output.loss.detach(),
             "edge_smoke_acc": edge_output.accuracy.detach(),
             "edge_smoke_real_bond_acc": edge_output.real_bond_accuracy.detach(),
+            "bond_length_loss": bond_geometry_loss_batch.detach().mean(),
             "edge_smoke_logits_abs": edge_output.pred_edge_logits.detach().abs().mean()
             if edge_output.pred_edge_logits.numel() > 0 else edge_output.loss.detach(),
         }
@@ -393,6 +724,41 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             real_bond_accuracy=real_bond_accuracy,
         )
 
+    def _bond_length_loss_per_molecule(
+        self,
+        *,
+        pred_x: torch.Tensor,
+        target_x: torch.Tensor,
+        halfedge_index: torch.Tensor,
+        target_edge_type: torch.Tensor,
+        edge_batch: torch.Tensor,
+        batch_size: int,
+    ) -> torch.Tensor:
+        """Return smooth L1 x0 bond-length loss for true ligand bonds."""
+        if (
+            self.bond_diffusion_config.bond_length_loss_weight <= 0
+            or target_edge_type.numel() == 0
+        ):
+            return pred_x.new_zeros(batch_size)
+        bond_mask = target_edge_type.long() > 0
+        if not bool(bond_mask.any()):
+            return pred_x.new_zeros(batch_size)
+        bond_index = halfedge_index[:, bond_mask].long()
+        src, dst = bond_index
+        pred_distance = torch.linalg.norm(pred_x[src] - pred_x[dst], dim=-1)
+        target_distance = torch.linalg.norm(target_x[src] - target_x[dst], dim=-1)
+        per_bond_loss = F.smooth_l1_loss(
+            pred_distance,
+            target_distance.detach(),
+            reduction="none",
+        )
+        return scatter_mean(
+            per_bond_loss,
+            edge_batch[bond_mask].long(),
+            dim=0,
+            dim_size=batch_size,
+        )
+
 
 def _config_get(config: Any, key: str, default: Any) -> Any:
     """Return one value from a config object without assuming its concrete type."""
@@ -469,3 +835,61 @@ def _edge_class_weight(
         weights[0] = float(config.no_bond_weight)
         return weights
     raise ValueError(f"Unsupported edge_class_weight_mode: {mode}")
+
+
+def _build_sample_halfedges(
+    num_nodes_lig: torch.Tensor,
+    *,
+    device: torch.device,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Build concatenated upper-triangle halfedges for generated ligand sizes."""
+    edge_indices = []
+    edge_batches = []
+    edge_counts = []
+    node_offset = 0
+    for batch_idx, num_nodes_tensor in enumerate(num_nodes_lig.detach().cpu().long().tolist()):
+        num_nodes = int(num_nodes_tensor)
+        if num_nodes < 0:
+            raise ValueError("num_nodes_lig must be non-negative")
+        local_edges = torch.triu_indices(num_nodes, num_nodes, offset=1, device=device)
+        edge_count = int(local_edges.shape[1])
+        if edge_count > 0:
+            edge_indices.append(local_edges + int(node_offset))
+            edge_batches.append(torch.full((edge_count,), batch_idx, dtype=torch.long, device=device))
+        edge_counts.append(edge_count)
+        node_offset += num_nodes
+    if edge_indices:
+        halfedge_index = torch.cat(edge_indices, dim=1)
+        edge_batch = torch.cat(edge_batches, dim=0)
+    else:
+        halfedge_index = torch.zeros((2, 0), dtype=torch.long, device=device)
+        edge_batch = torch.zeros((0,), dtype=torch.long, device=device)
+    return (
+        halfedge_index,
+        edge_batch,
+        torch.tensor(edge_counts, dtype=torch.long, device=device),
+    )
+
+
+def _normalized_t_to_edge_timestep(t: torch.Tensor, total_steps: int) -> torch.Tensor:
+    """Convert normalized continuous diffusion t values to edge transition ids."""
+    if t.ndim == 0:
+        t_flat = t.reshape(1)
+    else:
+        t_flat = t.reshape(t.shape[0], -1)[:, 0]
+    return torch.round(t_flat.float() * float(total_steps)).long().clamp(0, total_steps - 1)
+
+
+def _sample_logits(
+    logits: torch.Tensor,
+    *,
+    temperature: float,
+    generator: torch.Generator | None,
+) -> torch.Tensor:
+    """Sample class labels from logits, falling back to argmax at zero temperature."""
+    if logits.numel() == 0:
+        return logits.new_zeros((logits.shape[0],), dtype=torch.long)
+    if temperature <= 1e-8:
+        return logits.argmax(dim=-1)
+    probabilities = torch.softmax(logits / float(temperature), dim=-1)
+    return torch.multinomial(probabilities, num_samples=1, generator=generator).squeeze(-1)

@@ -99,6 +99,37 @@ class TestDiffSBDDXHEInterfaces(unittest.TestCase):
         self.assertEqual(tuple(edge_logits.shape), (3, 5))
         self.assertTrue(torch.isfinite(edge_logits).all())
 
+    def test_edge_message_passing_changes_xh_outputs(self):
+        dynamics = _make_dynamics(use_edge_message_passing=True)
+        ligand, pocket = _make_ligand_pocket()
+        xh_atoms = torch.cat([ligand["x"], ligand["one_hot"]], dim=-1)
+        xh_residues = torch.cat([pocket["x"], pocket["one_hot"]], dim=-1)
+
+        atoms_zero, _, _ = dynamics(
+            xh_atoms,
+            xh_residues,
+            torch.tensor([[0.25]]),
+            ligand["mask"],
+            pocket["mask"],
+            halfedge_index=ligand["halfedge_index"],
+            noised_edge_type=torch.zeros_like(ligand["halfedge_type"]),
+            edge_batch=ligand["edge_batch"],
+            return_edge_logits=True,
+        )
+        atoms_bond, _, _ = dynamics(
+            xh_atoms,
+            xh_residues,
+            torch.tensor([[0.25]]),
+            ligand["mask"],
+            pocket["mask"],
+            halfedge_index=ligand["halfedge_index"],
+            noised_edge_type=ligand["halfedge_type"],
+            edge_batch=ligand["edge_batch"],
+            return_edge_logits=True,
+        )
+
+        self.assertFalse(torch.allclose(atoms_zero, atoms_bond))
+
     def test_conditional_ddpm_xhe_edge_smoke_loss_is_finite_and_backwardable(self):
         dynamics = _make_dynamics()
         ddpm = ConditionalDDPMXHE(
@@ -130,6 +161,62 @@ class TestDiffSBDDXHEInterfaces(unittest.TestCase):
         self.assertTrue(torch.isfinite(output.real_bond_accuracy))
         first_grad = next(parameter.grad for parameter in ddpm.parameters() if parameter.grad is not None)
         self.assertTrue(torch.isfinite(first_grad).all())
+
+    def test_conditional_ddpm_xhe_sampler_can_return_edge_bundle(self):
+        dynamics = _make_dynamics(use_edge_message_passing=True)
+        ddpm = ConditionalDDPMXHE(
+            dynamics=dynamics,
+            atom_nf=4,
+            residue_nf=3,
+            n_dims=3,
+            timesteps=4,
+            noise_schedule="polynomial_2",
+            noise_precision=1e-4,
+            loss_type="l2",
+            norm_values=(1.0, 1.0),
+            size_histogram=np.ones((5, 5), dtype=np.float32),
+            bond_diffusion_config=BondDiffusionConfig(
+                enabled=True,
+                num_edge_types=5,
+                edge_hidden_dim=16,
+                distance_basis_dim=8,
+                use_edge_message_passing=True,
+                edge_message_dim=8,
+            ),
+        )
+        pocket = {
+            "x": torch.tensor([[0.0, 0.0, 1.0], [0.5, 1.0, 1.0]], dtype=torch.float32),
+            "one_hot": torch.eye(3, dtype=torch.float32)[:2],
+            "size": torch.tensor([2], dtype=torch.long),
+            "mask": torch.zeros(2, dtype=torch.long),
+        }
+
+        xh_lig, xh_pocket, lig_mask, pocket_mask, edge_bundle = ddpm.sample_given_pocket(
+            pocket,
+            torch.tensor([3], dtype=torch.long),
+            timesteps=2,
+            return_edges=True,
+            edge_temperature=0.0,
+            generator=torch.Generator().manual_seed(3),
+        )
+        old_contract = ddpm.sample_given_pocket(
+            pocket,
+            torch.tensor([3], dtype=torch.long),
+            timesteps=2,
+            return_edges=False,
+            edge_temperature=0.0,
+            generator=torch.Generator().manual_seed(3),
+        )
+
+        self.assertEqual(tuple(xh_lig.shape), (3, 7))
+        self.assertEqual(tuple(xh_pocket.shape), (2, 6))
+        self.assertEqual(tuple(lig_mask.shape), (3,))
+        self.assertEqual(tuple(pocket_mask.shape), (2,))
+        self.assertEqual(tuple(edge_bundle["halfedge_index"].shape), (2, 3))
+        self.assertEqual(tuple(edge_bundle["halfedge_type"].shape), (3,))
+        self.assertEqual(tuple(edge_bundle["edge_batch"].shape), (3,))
+        self.assertEqual(tuple(edge_bundle["num_halfedges"].shape), (1,))
+        self.assertEqual(len(old_contract), 4)
 
     def test_edge_loss_is_added_to_nll_only_in_xhe_mode(self):
         module = _LigandPocketHarness()
@@ -195,7 +282,7 @@ def _make_ligand_pocket() -> tuple[dict[str, torch.Tensor], dict[str, torch.Tens
     return module.get_ligand_and_pocket(batch)
 
 
-def _make_dynamics() -> EGNNDynamicsXHE:
+def _make_dynamics(use_edge_message_passing: bool = False) -> EGNNDynamicsXHE:
     """Build a tiny xhe dynamics module for CPU smoke tests."""
     return EGNNDynamicsXHE(
         atom_nf=4,
@@ -217,6 +304,8 @@ def _make_dynamics() -> EGNNDynamicsXHE:
             num_timesteps=8,
             hidden_dim=16,
             distance_basis_dim=8,
+            use_edge_message_passing=use_edge_message_passing,
+            edge_message_dim=8,
         ),
     )
 

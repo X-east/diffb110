@@ -30,6 +30,9 @@ class XHEEdgeHeadConfig:
     hidden_dim: int = 128
     distance_basis_dim: int = 32
     dropout: float = 0.0
+    use_edge_message_passing: bool = False
+    edge_message_dim: int = 32
+    edge_message_scale: float = 1.0
 
 
 class EGNNDynamicsXHE(EGNNDynamics):
@@ -46,16 +49,25 @@ class EGNNDynamicsXHE(EGNNDynamics):
         """Initialize the original EGNN dynamics and optional edge head."""
         positional_joint_nf = args[3] if len(args) > 3 else 16
         self._xhe_joint_nf = int(kwargs.get("joint_nf", positional_joint_nf))
+        config = xhe_edge_head_config or XHEEdgeHeadConfig()
+        if config.use_edge_message_passing and kwargs.get("edge_embedding_dim") is None:
+            kwargs["edge_embedding_dim"] = int(config.edge_message_dim)
         super().__init__(*args, **kwargs)
-        self.xhe_edge_head_config = xhe_edge_head_config or XHEEdgeHeadConfig()
-        config = self.xhe_edge_head_config
+        self.xhe_edge_head_config = config
         if config.num_edge_types <= 1:
             raise ValueError("num_edge_types must be greater than 1")
         if config.distance_basis_dim < 4:
             raise ValueError("distance_basis_dim must be at least 4")
+        if config.edge_message_dim <= 0:
+            raise ValueError("edge_message_dim must be positive")
         self.chemical_edge_embedding = nn.Embedding(
             config.num_edge_types,
             self._xhe_joint_nf,
+        )
+        self.chemical_message_embedding = (
+            nn.Embedding(config.num_edge_types, self.edge_nf)
+            if config.use_edge_message_passing and self.edge_nf > 0
+            else None
         )
         self.edge_time_mlp = _make_mlp(
             input_dim=4,
@@ -121,6 +133,13 @@ class EGNNDynamicsXHE(EGNNDynamics):
         assert torch.all(mask[edges[0]] == mask[edges[1]])
 
         edge_types = self._graph_edge_types(edges, len(mask_atoms)) if self.edge_nf > 0 else None
+        edge_types = self._add_chemical_edge_messages(
+            edge_attr=edge_types,
+            graph_edges=edges,
+            num_ligand_atoms=len(mask_atoms),
+            halfedge_index=halfedge_index,
+            noised_edge_type=noised_edge_type,
+        )
 
         if self.mode == "egnn_dynamics":
             update_coords_mask = None if self.update_pocket_coords else torch.cat((
@@ -186,6 +205,77 @@ class EGNNDynamicsXHE(EGNNDynamics):
         edge_types[(edges[0] < num_ligand_atoms) & (edges[1] < num_ligand_atoms)] = 1
         edge_types[(edges[0] >= num_ligand_atoms) & (edges[1] >= num_ligand_atoms)] = 2
         return self.edge_embedding(edge_types)
+
+    def _add_chemical_edge_messages(
+        self,
+        *,
+        edge_attr: torch.Tensor | None,
+        graph_edges: torch.Tensor,
+        num_ligand_atoms: int,
+        halfedge_index: torch.Tensor | None,
+        noised_edge_type: torch.Tensor | None,
+    ) -> torch.Tensor | None:
+        """Inject noised ligand halfedge labels into EGNN graph-edge features."""
+        config = self.xhe_edge_head_config
+        if (
+            not config.use_edge_message_passing
+            or self.chemical_message_embedding is None
+            or halfedge_index is None
+            or noised_edge_type is None
+        ):
+            return edge_attr
+        if self.edge_nf <= 0:
+            return edge_attr
+        if edge_attr is None:
+            edge_attr = graph_edges.new_zeros((graph_edges.shape[1], self.edge_nf), dtype=torch.float32)
+        if halfedge_index.numel() == 0 or graph_edges.numel() == 0:
+            return edge_attr
+
+        graph_src, graph_dst = graph_edges.long()
+        ligand_graph_mask = (
+            (graph_src < num_ligand_atoms)
+            & (graph_dst < num_ligand_atoms)
+            & (graph_src != graph_dst)
+        )
+        if not bool(ligand_graph_mask.any()):
+            return edge_attr
+
+        graph_u = torch.minimum(graph_src[ligand_graph_mask], graph_dst[ligand_graph_mask])
+        graph_v = torch.maximum(graph_src[ligand_graph_mask], graph_dst[ligand_graph_mask])
+        graph_keys = graph_u * int(num_ligand_atoms) + graph_v
+
+        half_src, half_dst = halfedge_index.long()
+        half_u = torch.minimum(half_src, half_dst)
+        half_v = torch.maximum(half_src, half_dst)
+        half_keys = half_u * int(num_ligand_atoms) + half_v
+        order = torch.argsort(half_keys)
+        sorted_keys = half_keys.index_select(0, order)
+        positions = torch.searchsorted(sorted_keys, graph_keys)
+        valid = positions < sorted_keys.numel()
+        if bool(valid.any()):
+            matched = sorted_keys.index_select(0, positions[valid]) == graph_keys[valid]
+            valid_indices = valid.nonzero(as_tuple=False).flatten()[matched]
+            matched_positions = positions[valid][matched]
+            graph_edge_type = torch.zeros(
+                graph_keys.shape[0],
+                dtype=torch.long,
+                device=graph_edges.device,
+            )
+            graph_edge_type[valid_indices] = noised_edge_type.long().index_select(
+                0,
+                order.index_select(0, matched_positions),
+            )
+        else:
+            graph_edge_type = torch.zeros(
+                graph_keys.shape[0],
+                dtype=torch.long,
+                device=graph_edges.device,
+            )
+
+        chemical_attr = self.chemical_message_embedding(graph_edge_type)
+        updated = edge_attr.clone()
+        updated[ligand_graph_mask] = updated[ligand_graph_mask] + float(config.edge_message_scale) * chemical_attr
+        return updated
 
     def _predict_edge_logits(
         self,

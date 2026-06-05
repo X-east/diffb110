@@ -11,6 +11,23 @@ import numpy as np
 from lightning_modules import LigandPocketDDPM
 
 
+def filter_shape_compatible_state_dict(module, state_dict):
+    """Return checkpoint tensors whose names and shapes match the target module."""
+    target_state = module.state_dict()
+    compatible = {}
+    skipped = []
+    for key, value in state_dict.items():
+        target_value = target_state.get(key)
+        if target_value is None:
+            skipped.append(key)
+            continue
+        if tuple(target_value.shape) != tuple(value.shape):
+            skipped.append(key)
+            continue
+        compatible[key] = value
+    return compatible, skipped
+
+
 def merge_args_and_yaml(args, config_dict):
     arg_dict = args.__dict__
     for key, value in config_dict.items():
@@ -97,16 +114,23 @@ if __name__ == "__main__":
         checkpoint = torch.load(
             warm_start_checkpoint, map_location=torch.device('cpu'))
         state_dict = checkpoint.get('state_dict', checkpoint)
+        state_dict, skipped_shape_keys = filter_shape_compatible_state_dict(
+            pl_module,
+            state_dict,
+        )
         incompatible = pl_module.load_state_dict(state_dict, strict=False)
         print(
             "Warm-started from "
             f"{warm_start_checkpoint}: "
             f"missing={len(incompatible.missing_keys)}, "
-            f"unexpected={len(incompatible.unexpected_keys)}")
+            f"unexpected={len(incompatible.unexpected_keys)}, "
+            f"skipped_shape_or_missing={len(skipped_shape_keys)}")
         if incompatible.missing_keys:
             print("Missing keys sample:", incompatible.missing_keys[:20])
         if incompatible.unexpected_keys:
             print("Unexpected keys sample:", incompatible.unexpected_keys[:20])
+        if skipped_shape_keys:
+            print("Skipped incompatible keys sample:", skipped_shape_keys[:20])
 
     logger = pl.loggers.WandbLogger(
         save_dir=args.logdir,

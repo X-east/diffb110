@@ -50,7 +50,7 @@ from generation_refinement import (
     atom_bias_tensor,
     refine_ligand_batch_positions,
 )
-from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
+from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, normalize_reconstruction_method, reconstruct_molecule
 
 
 class LigandPocketDDPM(pl.LightningModule):
@@ -188,6 +188,9 @@ class LigandPocketDDPM(pl.LightningModule):
                 hidden_dim=self.bond_diffusion_config.edge_hidden_dim,
                 distance_basis_dim=self.bond_diffusion_config.distance_basis_dim,
                 dropout=self.bond_diffusion_config.edge_head_dropout,
+                use_edge_message_passing=self.bond_diffusion_config.use_edge_message_passing,
+                edge_message_dim=self.bond_diffusion_config.edge_message_dim,
+                edge_message_scale=self.bond_diffusion_config.edge_message_scale,
             )
 
         net_dynamics = dynamics_cls(
@@ -388,16 +391,29 @@ class LigandPocketDDPM(pl.LightningModule):
 
     def _apply_bond_diffusion_loss(self, nll, info):
         edge_loss_batch = info.pop('_edge_loss_batch', None)
-        if not self.bond_diffusion_enabled or edge_loss_batch is None:
+        geometry_loss_batch = info.pop('_bond_geometry_loss_batch', None)
+        if not self.bond_diffusion_enabled:
             return nll
-        edge_loss_batch = edge_loss_batch.to(device=nll.device, dtype=nll.dtype)
-        if edge_loss_batch.shape != nll.shape:
-            raise ValueError("edge loss batch shape must match nll shape")
-        weight = float(self.bond_diffusion_config.edge_loss_weight)
-        weighted_edge_loss = weight * edge_loss_batch
-        info['edge_loss_weight'] = nll.new_tensor(weight)
-        info['edge_loss_weighted'] = weighted_edge_loss.mean(0)
-        return nll + weighted_edge_loss
+        total_extra_loss = nll.new_zeros(nll.shape)
+        if edge_loss_batch is not None:
+            edge_loss_batch = edge_loss_batch.to(device=nll.device, dtype=nll.dtype)
+            if edge_loss_batch.shape != nll.shape:
+                raise ValueError("edge loss batch shape must match nll shape")
+            weight = float(self.bond_diffusion_config.edge_loss_weight)
+            weighted_edge_loss = weight * edge_loss_batch
+            total_extra_loss = total_extra_loss + weighted_edge_loss
+            info['edge_loss_weight'] = nll.new_tensor(weight)
+            info['edge_loss_weighted'] = weighted_edge_loss.mean(0)
+        if geometry_loss_batch is not None:
+            geometry_loss_batch = geometry_loss_batch.to(device=nll.device, dtype=nll.dtype)
+            if geometry_loss_batch.shape != nll.shape:
+                raise ValueError("geometry loss batch shape must match nll shape")
+            weight = float(self.bond_diffusion_config.bond_length_loss_weight)
+            weighted_geometry_loss = weight * geometry_loss_batch
+            total_extra_loss = total_extra_loss + weighted_geometry_loss
+            info['bond_length_loss_weight'] = nll.new_tensor(weight)
+            info['bond_length_loss_weighted'] = weighted_geometry_loss.mean(0)
+        return nll + total_extra_loss
 
     def lj_potential(self, atom_x, atom_one_hot, batch_mask):
         adj = batch_mask[:, None] == batch_mask[None, :]
@@ -919,6 +935,7 @@ class LigandPocketDDPM(pl.LightningModule):
 
         # Apply minimum ligand size
         num_nodes_lig = torch.clamp(num_nodes_lig, min=n_nodes_min)
+        edge_bundle = None
 
         # Use inpainting
         if type(self.ddpm) == EnVariationalDiffusion:
@@ -965,14 +982,26 @@ class LigandPocketDDPM(pl.LightningModule):
             atom_temperature = (
                 atom_bias_config.temperature if atom_bias_config is not None else 1.0
             )
-            xh_lig, xh_pocket, lig_mask, pocket_mask = \
-                self.ddpm.sample_given_pocket(pocket, num_nodes_lig,
-                                              timesteps=timesteps,
-                                              atom_score_bias=atom_score_bias,
-                                              atom_temperature=atom_temperature,
-                                              atom_local_mask_config=atom_local_mask_config,
-                                              atom_decoder=self.lig_type_decoder,
-                                              atom_score_diagnostics=atom_score_diagnostics)
+            selected_reconstruction_method = normalize_reconstruction_method(reconstruction_method)
+            request_predicted_edges = (
+                self.bond_diffusion_enabled
+                and selected_reconstruction_method == 'predicted_edge'
+            )
+            sample_output = self.ddpm.sample_given_pocket(
+                pocket,
+                num_nodes_lig,
+                timesteps=timesteps,
+                atom_score_bias=atom_score_bias,
+                atom_temperature=atom_temperature,
+                atom_local_mask_config=atom_local_mask_config,
+                atom_decoder=self.lig_type_decoder,
+                atom_score_diagnostics=atom_score_diagnostics,
+                return_edges=request_predicted_edges,
+            )
+            if request_predicted_edges:
+                xh_lig, xh_pocket, lig_mask, pocket_mask, edge_bundle = sample_output
+            else:
+                xh_lig, xh_pocket, lig_mask, pocket_mask = sample_output
 
         else:
             raise NotImplementedError
@@ -1003,14 +1032,22 @@ class LigandPocketDDPM(pl.LightningModule):
         lig_mask = lig_mask.cpu()
 
         molecules = []
-        for mol_pc in zip(utils.batch_to_list(x, lig_mask),
-                          utils.batch_to_list(atom_type, lig_mask)):
+        position_list = utils.batch_to_list(x, lig_mask)
+        atom_type_list = utils.batch_to_list(atom_type, lig_mask)
+        edge_reconstruction_fields = _split_generated_edge_bundle(
+            edge_bundle,
+            [len(item) for item in position_list],
+        )
+        for mol_idx, mol_pc in enumerate(zip(position_list, atom_type_list)):
+            edge_fields = edge_reconstruction_fields[mol_idx] \
+                if edge_reconstruction_fields is not None else {}
 
             mol = reconstruct_molecule(
                 *mol_pc,
                 self.dataset_info,
                 method=reconstruction_method,
                 add_coords=True,
+                **edge_fields,
             )
             mol = process_molecule(mol,
                                    add_hydrogens=False,
@@ -1063,3 +1100,22 @@ class WeightSchedule:
     def __call__(self, t_array):
         """ all values in t_array are assumed to be integers in [0, T] """
         return self.weights[t_array].to(t_array.device)
+
+
+def _split_generated_edge_bundle(edge_bundle, molecule_sizes):
+    """Split generated halfedge tensors into per-molecule reconstruction kwargs."""
+    if edge_bundle is None:
+        return None
+    halfedge_index = edge_bundle["halfedge_index"].detach().cpu().long()
+    halfedge_type = edge_bundle["halfedge_type"].detach().cpu().long()
+    edge_batch = edge_bundle["edge_batch"].detach().cpu().long()
+    fields = []
+    node_offset = 0
+    for molecule_idx, molecule_size in enumerate(molecule_sizes):
+        edge_mask = edge_batch == molecule_idx
+        fields.append({
+            "halfedge_index": halfedge_index[:, edge_mask] - int(node_offset),
+            "halfedge_type": halfedge_type[edge_mask],
+        })
+        node_offset += int(molecule_size)
+    return fields

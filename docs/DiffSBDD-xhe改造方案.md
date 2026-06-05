@@ -1,6 +1,6 @@
 # DiffSBDD-xhe 改造方案
 
-> 最后更新：2026-06-04
+> 最后更新：2026-06-05
 
 ## 1. 核心结论
 
@@ -195,6 +195,35 @@ EGNNDynamicsXHE       # 新增，支持 e_t 输入和 edge logits 输出
 pred_edge_logits = edge_head(node_h_i, node_h_j, edge_h_ij, distance_ij, t)
 ```
 
+2026-06-05 已新增可选 joint message passing：
+
+```text
+x_t, h_t, e_t, pocket, t
+        ↓
+ligand-ligand graph edge_attr += chemical e_t embedding
+        ↓
+EGNN message passing
+        ↓
+同时输出 x/h denoising 与 pred_edge_logits
+```
+
+对应配置：
+
+```yaml
+diffusion_mode: xhe
+bond_diffusion:
+  enabled: true
+  use_edge_message_passing: true
+  edge_message_dim: 32
+  edge_message_scale: 1.0
+```
+
+兼容模式：
+
+- `diffusion_mode=xh`：继续使用原始 `EGNNDynamics`。
+- `diffusion_mode=xhe` 且 `use_edge_message_passing=false`：保留旧 auxiliary edge head 行为，便于复现实验和旧 checkpoint 对比。
+- `diffusion_mode=xhe` 且 `use_edge_message_passing=true`：`e_t` 进入 EGNN message passing，成键状态会影响 x/h hidden state 与坐标更新。
+
 ### 5.4 diffusion 改造
 
 不建议把现有 `ConditionalDDPM` 直接改烂。应新增子类或模式分支：
@@ -219,7 +248,27 @@ ConditionalDDPMXHE    # 新 x/h/e
 - `q(e_t | e_0)`
 - `q(e_{t-1} | e_t, pred_e0)`
 - edge KL/CE loss
+- x0 bond length geometry loss
+- `sample_given_pocket(..., return_edges=True)` 返回 generated halfedge bundle
 - predicted-edge reconstruction 输出
+
+当前训练目标应写成：
+
+```text
+loss = x/h_loss
+     + edge_loss_weight * edge_CE
+     + bond_length_loss_weight * x0_bond_length_loss
+```
+
+其中：
+
+```yaml
+bond_diffusion:
+  edge_loss_weight: 1.0
+  bond_length_loss_weight: 0.1
+```
+
+`bond_length_loss_weight=0.0` 时关闭 geometry loss，可用于 ablation。
 
 ### 5.5 checkpoint warm-start
 
@@ -331,6 +380,14 @@ model:
 - 当前 smoke loss 只作为诊断指标记录，尚未加入训练目标；P3 才进入
   edge loss / joint loss 训练。
 
+2026-06-05 继续完成 P2 joint 化接口：
+
+- `use_edge_message_passing=true` 时，noised halfedge type `e_t` 会被嵌入并加入
+  ligand-ligand EGNN graph edge attributes。
+- 这使 edge state 不再只是 EGNN 之后的 decoder 输入，而是会影响 x/h denoising
+  的 message passing。
+- `use_edge_message_passing=false` 保留 2026-06-04 auxiliary head 行为。
+
 成功标准：
 
 - `diffusion_mode=xh` 行为不变。
@@ -354,6 +411,13 @@ model:
   `edge_smoke_real_bond_acc`、`edge_loss_weighted` 等标量。
 - 默认 `diffusion_mode='xh'` 不会看到 edge loss，旧 DDPO smoke 已通过。
 
+2026-06-05 补充：
+
+- 新增 `_bond_geometry_loss_batch`，由 `bond_diffusion.bond_length_loss_weight`
+  独立加权后进入 `nll`。
+- geometry loss 使用 predicted x0 与真实 x0 在真实 bond 上的距离差
+  `smooth_l1_loss`，不与 edge CE 混在一起，便于后续 ablation。
+
 成功标准：
 
 - 旧 checkpoint 可加载。
@@ -364,6 +428,28 @@ model:
 ### P4：sampler
 
 目标：`sample_given_pocket()` 同时采样 x/h/e。
+
+2026-06-05 已完成 P4 接口骨架：
+
+- `ConditionalDDPMXHE.sample_given_pocket()` 现在在 xhe 模式下维护
+  `x_t/h_t/e_t`。
+- 每步调用 `sample_p_zs_given_zt_xhe()` 同时更新连续 x/h 状态和离散
+  edge posterior。
+- `return_edges=False` 时保持旧四元组返回契约。
+- `return_edges=True` 时额外返回：
+
+```python
+edge_bundle = {
+    "halfedge_index": ...,
+    "halfedge_type": ...,
+    "edge_batch": ...,
+    "num_halfedges": ...,
+}
+```
+
+- `generate_ligands(..., reconstruction_method="predicted_edge")` 会在 xhe 模式下
+  请求 edge bundle，并把 batch halfedge 拆回单分子后交给
+  `reconstruct_molecule(method="predicted_edge")`。
 
 成功标准：
 
