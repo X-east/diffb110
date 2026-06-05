@@ -1,0 +1,46 @@
+{
+  "input_sdf_files": 7,
+  "limit": 500,
+  "model": "DiffPharma",
+  "output": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/aggregated/diffpharma.sdf",
+  "per_file": [
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_0/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 70
+    },
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_1/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 71
+    },
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_2/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 70
+    },
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_3/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 68
+    },
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_4/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 70
+    },
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_5/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 68
+    },
+    {
+      "path": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffpharma/gpu_6/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 69
+    }
+  ],
+  "readable_records_seen": 500,
+  "write_failed_records": 14,
+  "written_records": 486
+}

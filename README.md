@@ -4,18 +4,27 @@
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 
-> **基于 DiffSBDD 扩散模型 + DDPO 强化学习的口袋特异性分子优化**
+> **基于 DiffSBDD 的口袋特异性 3D 分子生成、模型内部改造与 DDPO 强化学习优化**
 
 ---
 
 ## 项目概述
 
-本项目将 DiffSBDD（E(n)-等变3D分子扩散模型）与 DDPO/PPO 强化学习框架结合，对 RE-CmeB 蛋白质靶点进行分子生成优化。核心目标是生成具有高结合亲和力、良好类药性的候选分子。
+本项目面向 RE-CmeB / CmeB 口袋，围绕 DiffSBDD 进行 3D 分子生成、模型内部质量改造和 DDPO/PPO 强化学习优化。核心目标是生成具有潜在结合能力、化学结构合理、可继续筛选和优化的候选分子。
+
+当前项目分为三条并行路线：
+
+1. **小改路线**：保留 DiffSBDD 生成主链，在模型内部加入 atom prior、x0 geometry/bond length loss、bond-aware auxiliary head 等轻量增强，暂不引入完整 edge diffusion。
+2. **大改路线**：把 DiffSBDD 本体升级为可选 DiffSBDD-xhe 模式，在原有 `x/h` 扩散链中加入 bond type / halfedge 的 `e` 扩散；standalone edge diffusion 只作为隔离验证工具，不作为最终替代底座。
+3. **强化学习路线**：继续维护 DDPO/PPO 主线，升级 reward function，引入 docking、classifier、QED/SA、化学几何护栏和分布约束；高分且结构合理的分子会进入候选池，用于 replay buffer、自训练或偏好微调。
 
 ### 已完成核心能力
 
 - **DDP 多卡训练** — `torchrun` + `main_diffsbdd_ddp.py`，8卡生产环境已验证
 - **UniDock/QED/SA 奖励** — 完整的 Docking + 类药性多目标奖励管线
+- **高维 ChEMBL classifier reward** — 2220 维分子特征 MLP 奖励已接入
+- **模型质量诊断与多模型横评** — 已对 DiffSBDD、DiffGui、DePPA、PMDM、DiffInt、DiffPharma 在 8GJL/C1101 上进行统一生成与 docking 对比
+- **DiffSBDD-xhe 数据链基础** — 已建立 halfedge 数据、oracle reconstruction、edge semantic bundle、standalone edge denoiser/DDP/sampler 验证闭环，下一步迁移进 DiffSBDD 本体
 - **KL 散度约束** — 已接入 Actor loss，`kl_coef` 可配置（当前默认 0.0，未实际测试）
 - **代码大规模解耦重构** — Docking 模块 4 层分离、分子语义管线统一、加氢+Gasteiger 电荷
 - **配置驱动** — YAML 配置 + 工厂模式构建全部组件
@@ -92,15 +101,25 @@ DiffB110/
 ## 技术路线
 
 ```
-DiffSBDD 扩散模型 → 口袋约束下采样分子 → DDPO/PPO 策略优化
-                                              ↓
-                              ┌──────────────────────────────┐
-                              │       奖励系统               │
-                              │  UniDock 对接分 + QED + SA   │
-                              │  + z-score 归一化            │
-                              │  + KL 散度约束（已接入未测）  │
-                              └──────────────────────────────┘
+                    ┌──────────────────────────────────┐
+                    │ DiffSBDD 快速生成主线             │
+                    └──────────────────────────────────┘
+                                  ↓
+        ┌─────────────────────────┼─────────────────────────┐
+        ↓                         ↓                         ↓
+ 小改路线                  大改路线                  强化学习路线
+ atom prior               edge diffusion             DDPO/PPO
+ geometry loss            x/h/e denoiser             docking/classifier
+ bond-aware head          DiffSBDD-xhe mode           chemistry guards
+        ↓                         ↓                         ↓
+ 短期改善质量              长期升级 DiffSBDD          高分好分子回流训练
 ```
+
+三条路线保持解耦：
+
+- 小改路线优先服务六个月内稳定产出。
+- 大改路线以可选 `DiffSBDD-xhe` 模式推进，standalone edge diffusion 仅作为验证平台，不破坏当前可运行 RL 主线。
+- 强化学习路线负责 reward、筛选、top-N/replay/self-training，但不盲目用高分分子直接重训。
 
 ### 训练入口
 
@@ -138,10 +157,10 @@ DiffSBDD 扩散模型 → 口袋约束下采样分子 → DDPO/PPO 策略优化
 
 ### 下一阶段研究目标
 
-1. **训练正确性验证** — 完整训练流程跑通，KL 启用后行为验证
-2. **奖励漂移治理** — 引入正常分子参考流形约束（见 `materials/` 设计笔记）
-3. **奖励函数更新设计** — 3D 几何惩罚 → descriptor Mahalanobis → 可选判别器奖励
-4. **高维特征约束奖励模型** — 多视图分子特征（descriptor + fingerprint + 3D）
+1. **小改路线** — atom composition prior、x0 geometry/bond length loss、bond-aware auxiliary head。
+2. **大改路线** — 将 halfedge 数据链、edge transition、edge head、sampler、predicted-edge decoder 迁移进 DiffSBDD 本体，形成可选 DiffSBDD-xhe 模式，并在 supervised generation 稳定后再考虑 RL logprob 接入。
+3. **强化学习路线** — docking/classifier + 化学几何护栏，保存高分合法分子用于 replay buffer、自训练或偏好微调。
+4. **评价体系** — 对生成分子统一计算 validity、ring、atom composition、bad bond length、docking、classifier、top-N pose 检查。
 
 ---
 
@@ -156,4 +175,4 @@ DiffSBDD 扩散模型 → 口袋约束下采样分子 → DDPO/PPO 策略优化
 
 ---
 
-**Last Updated**: 2026-05-08
+**Last Updated**: 2026-06-04

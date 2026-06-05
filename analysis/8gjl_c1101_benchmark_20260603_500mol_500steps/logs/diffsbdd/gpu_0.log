@@ -1,0 +1,56 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file ../../../home/md666/data/disk6/DiffB110/DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpr8fds3cd)
+
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmp12bhh224)
+
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpau3l_6ay)
+
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpyf40ri5p)
+
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpexzkcs2e)
+
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+
+Entropy of n_nodes: H[N] 9.266731262207031
+{
+  "batch_size": 10,
+  "device": "cuda",
+  "outfile": "/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffsbdd/gpu_0/generated.sdf",
+  "requested": 72,
+  "seconds": 136.51772379875183,
+  "timesteps": 500,
+  "written_candidates": 72
+}
+
+real 145.30
+user 142.50
+sys 3.83

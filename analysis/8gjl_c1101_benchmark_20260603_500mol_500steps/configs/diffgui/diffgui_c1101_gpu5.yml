@@ -1,0 +1,36 @@
+model:
+  checkpoint: ckpt/trained.pt
+  target: /data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+  ligand: None
+  frag: None
+  gen_mode: denovo
+  logp: 2.0
+  tpsa: 100
+  sa: 1.0
+  qed: 0.8
+  aff: 12.0
+bond_predictor: ckpt/bond_trained.pt
+sample:
+  seed: 20261108
+  batch_size: 2
+  num_mols: 71
+  save_traj_prob: 0.0
+  sample: true
+  sample_method: priori
+  mode: pocket
+  test_id: 0
+  add_edge: None
+  gui_strength: 3.0
+  guidance:
+  - uncertainty
+  - 0.0001
+data:
+  name: protein_ligand
+  path: data/PDBbind_v2020_pocket10
+  split: data/PDBbind_pocket10_split.pt
+  protein_root: data/PDBbind_v2020
+  dataset: pdbbind
+  transform:
+    ligand_atom_mode: aromatic
+    random_rot: false
+    sample: false

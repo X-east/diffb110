@@ -1,0 +1,335 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING The anonymous setting has no effect and will be removed in a future version.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/6
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/6
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/6
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/6
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/6
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/6
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 6 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 3080') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 4 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 5 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+
+  | Name | Type               | Params
+--------------------------------------------
+0 | ddpm | ConditionalDDPMXHE | 1.0 M 
+--------------------------------------------
+1.0 M     Trainable params
+501       Non-trainable params
+1.0 M     Total params
+4.195     Total estimated model params size (MB)
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+Traceback (most recent call last):
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 38, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1112, in _run
+    results = self._run_stage()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1191, in _run_stage
+    self._run_train()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1214, in _run_train
+    self.fit_loop.run()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
+    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 370, in _optimizer_step
+    self.trainer._call_lightning_module_hook(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1356, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/core/module.py", line 1742, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 280, in optimizer_step
+    optimizer_output = super().optimizer_step(optimizer, opt_idx, closure, model, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/strategy.py", line 234, in optimizer_step
+    return self.precision_plugin.optimizer_step(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/precision_plugin.py", line 119, in optimizer_step
+    return optimizer.step(closure=closure, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/optim/optimizer.py", line 280, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/optim/optimizer.py", line 33, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/optim/adamw.py", line 148, in step
+    loss = closure()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/precision_plugin.py", line 105, in _wrap_closure
+    closure_result = closure()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1494, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
+    return self.model(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1156, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1110, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])  # type: ignore[index]
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
+    output = self._forward_module.training_step(*inputs, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 454, in training_step
+    raise e
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 447, in training_step
+    nll, info = self.forward(data)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 327, in forward
+    self.ddpm(ligand, pocket, return_info=True)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/conditional_model_xhe.py", line 122, in forward
+    edge_output = self.edge_forward_smoke(edge_ligand, edge_pocket)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/conditional_model_xhe.py", line 179, in edge_forward_smoke
+    _, _, pred_edge_logits = self.dynamics(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/dynamics_xhe.py", line 130, in forward
+    h_final, x_final = self.egnn(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 235, in forward
+    h, x = self._modules["e_block_%d" % i](
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 176, in forward
+    h, _ = self._modules["gcl_%d" % i](h, edge_index, edge_attr=edge_attr,
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 62, in forward
+    edge_feat, mij = self.edge_model(h[row], h[col], edge_attr, edge_mask)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 36, in edge_model
+    mij = self.edge_mlp(out)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/activation.py", line 396, in forward
+    return F.silu(input, inplace=self.inplace)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/functional.py", line 2059, in silu
+    return torch._C._nn.silu(input)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 68.00 MiB (GPU 3; 9.65 GiB total capacity; 9.20 GiB already allocated; 46.50 MiB free; 9.24 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/disk6/DiffB110/DiffSBDD/train.py", line 141, in <module>
+    trainer.fit(model=pl_module, ckpt_path=ckpt_path)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 608, in fit
+    call._call_and_handle_interrupt(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 59, in _call_and_handle_interrupt
+    trainer.strategy.reconciliate_processes(traceback.format_exc())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 460, in reconciliate_processes
+    raise DeadlockDetectedException(f"DeadLock detected from rank: {self.global_rank} \n {trace}")
+pytorch_lightning.utilities.exceptions.DeadlockDetectedException: DeadLock detected from rank: 3 
+ Traceback (most recent call last):
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 38, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1112, in _run
+    results = self._run_stage()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1191, in _run_stage
+    self._run_train()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1214, in _run_train
+    self.fit_loop.run()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
+    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 370, in _optimizer_step
+    self.trainer._call_lightning_module_hook(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1356, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/core/module.py", line 1742, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 280, in optimizer_step
+    optimizer_output = super().optimizer_step(optimizer, opt_idx, closure, model, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/strategy.py", line 234, in optimizer_step
+    return self.precision_plugin.optimizer_step(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/precision_plugin.py", line 119, in optimizer_step
+    return optimizer.step(closure=closure, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/optim/optimizer.py", line 280, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/optim/optimizer.py", line 33, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/optim/adamw.py", line 148, in step
+    loss = closure()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/precision_plugin.py", line 105, in _wrap_closure
+    closure_result = closure()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1494, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
+    return self.model(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1156, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1110, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])  # type: ignore[index]
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
+    output = self._forward_module.training_step(*inputs, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 454, in training_step
+    raise e
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 447, in training_step
+    nll, info = self.forward(data)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 327, in forward
+    self.ddpm(ligand, pocket, return_info=True)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/conditional_model_xhe.py", line 122, in forward
+    edge_output = self.edge_forward_smoke(edge_ligand, edge_pocket)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/conditional_model_xhe.py", line 179, in edge_forward_smoke
+    _, _, pred_edge_logits = self.dynamics(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/dynamics_xhe.py", line 130, in forward
+    h_final, x_final = self.egnn(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 235, in forward
+    h, x = self._modules["e_block_%d" % i](
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 176, in forward
+    h, _ = self._modules["gcl_%d" % i](h, edge_index, edge_attr=edge_attr,
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 62, in forward
+    edge_feat, mij = self.edge_model(h[row], h[col], edge_attr, edge_mask)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 36, in edge_model
+    mij = self.edge_mlp(out)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/activation.py", line 396, in forward
+    return F.silu(input, inplace=self.inplace)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/functional.py", line 2059, in silu
+    return torch._C._nn.silu(input)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 68.00 MiB (GPU 3; 9.65 GiB total capacity; 9.20 GiB already allocated; 46.50 MiB free; 9.24 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+/tmp/tmpraxrsx04: line 3: 1773023 Killed                  python DiffSBDD/train.py --config analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/diffsbdd_xhe_20k_6gpu_b4_3ep.yaml
+
+ERROR conda.cli.main_run:execute(127): `conda run python DiffSBDD/train.py --config analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/diffsbdd_xhe_20k_6gpu_b4_3ep.yaml` failed. (See above for error)
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+
+real 205.71
+user 258.48
+sys 13.27

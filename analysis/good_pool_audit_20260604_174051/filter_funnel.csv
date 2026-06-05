@@ -1,0 +1,8 @@
+step,label,count,fraction_of_total,fraction_of_valid
+valid,RDKit valid,199,0.621875,1.0
+carbon_ok,carbon <= 0.85,156,0.4875,0.7839195979899497
+hetero_ok,hetero >= 0.05,156,0.4875,0.7839195979899497
+three_ring_ok,3-ring == 0,54,0.16875,0.271356783919598
+fragment_ok,fragment <= 1,54,0.16875,0.271356783919598
+bad_bond_ok,bad bond <= 0.05,16,0.05,0.08040201005025126
+halogen_ok,bad halogen == 0,16,0.05,0.08040201005025126

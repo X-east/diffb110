@@ -1,0 +1,46 @@
+{
+  "input_sdf_files": 7,
+  "limit": 500,
+  "model": "DiffInt",
+  "output": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/aggregated/diffint.sdf",
+  "per_file": [
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_0/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 71
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_1/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_2/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_3/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 70
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_4/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 70
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_5/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 70
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffint/gpu_6/processed/8GJL_C1101_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 68
+    }
+  ],
+  "readable_records_seen": 500,
+  "write_failed_records": 7,
+  "written_records": 493
+}

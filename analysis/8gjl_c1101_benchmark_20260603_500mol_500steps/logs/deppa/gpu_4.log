@@ -1,0 +1,15 @@
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Traceback (most recent call last):
+  File "/home/md666/data/disk6/DiffB110/reference project/DePPA/test.py", line 40, in <module>
+    args.outdir.mkdir(exist_ok=args.skip_existing)
+  File "/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa/gpu_4'
+
+ERROR conda.cli.main_run:execute(127): `conda run python /home/md666/data/disk6/DiffB110/reference project/DePPA/test.py /home/md666/data/disk6/DiffB110/analysis/reference_project_generation_20260530_173617/deppa_downloads/crossdocked_fullatom_cond.ckpt --test_dir /home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/deppa_test_pocket --outdir /home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa/gpu_4 --n_samples 71 --batch_size 10 --timesteps 500` failed. (See above for error)
+real 12.50
+user 11.89
+sys 1.10

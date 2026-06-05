@@ -1,0 +1,45 @@
+{
+  "input_sdf_files": 7,
+  "limit": 500,
+  "model": "DePPA",
+  "output": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/aggregated/deppa.sdf",
+  "per_file": [
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_0/processed/8GJL_1_gen.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_1/processed/8GJL_1_gen.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_2/processed/8GJL_1_gen.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_3/processed/8GJL_1_gen.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_4/processed/8GJL_1_gen.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_5/processed/8GJL_1_gen.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_6/processed/8GJL_1_gen.sdf",
+      "readable": 71,
+      "written": 71
+    }
+  ],
+  "readable_records_seen": 500,
+  "written_records": 500
+}

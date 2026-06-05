@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-06-04",
+  "analysis_dir": "analysis/rl_high_carbon_sparse_reward_20260604",
+  "work_record": "work_records/260604/260604-03 强化学习高碳漂移与稀疏奖励诊断.md",
+  "runs": [
+    {
+      "label": "dock_classifier_0529",
+      "path": "OUT/7gpu-dock-classifier-v0-1_20260529_133609",
+      "note": "docking + classifier, latest formal"
+    },
+    {
+      "label": "dock_classifier_0528",
+      "path": "OUT/7gpu-dock-classifier-v0-1_20260528_000841",
+      "note": "docking + classifier, previous formal"
+    },
+    {
+      "label": "classifier_only_0526",
+      "path": "OUT/7gpu-classifier-only_20260526_210715",
+      "note": "classifier only, collapse control"
+    },
+    {
+      "label": "dock_prior_logp_0525",
+      "path": "OUT/7gpu-dock-ecfp4-fcfp4_20260525_212140",
+      "note": "docking + ChEMBL prior + logP, normalized"
+    },
+    {
+      "label": "le_prior_logp_0526",
+      "path": "OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341",
+      "note": "LE + ChEMBL prior + logP, no normalization"
+    }
+  ],
+  "outputs": [
+    "classifier_only_collapse.png",
+    "latest_reward_sparsity.png",
+    "latest_reward_vs_carbon_scatter.png",
+    "latest_top_reward_failure_modes.png",
+    "report.md",
+    "reward_sparsity_by_epoch.csv",
+    "rl_descriptor_trends.png",
+    "run_epoch_summary.csv",
+    "run_start_end_delta.csv",
+    "selected_epoch_molecule_flags.csv.gz",
+    "selected_epoch_summary.csv",
+    "top_reward_flag_summary.csv"
+  ]
+}

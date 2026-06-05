@@ -1,0 +1,468 @@
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=12, unexpected=0
+Missing keys sample: ['ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias', 'ddpm.dynamics.edge_time_mlp.2.weight', 'ddpm.dynamics.edge_time_mlp.2.bias', 'ddpm.dynamics.edge_distance_expansion.centers', 'ddpm.dynamics.chemical_edge_decoder.0.weight', 'ddpm.dynamics.chemical_edge_decoder.0.bias', 'ddpm.dynamics.chemical_edge_decoder.2.weight', 'ddpm.dynamics.chemical_edge_decoder.2.bias', 'ddpm.dynamics.chemical_edge_decoder.4.weight', 'ddpm.dynamics.chemical_edge_decoder.4.bias']
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.8 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.8 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.8 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.8 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.8 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.8 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.9 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.9 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.9 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.9 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.9 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.9 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.9 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.7 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 1.2 while allowed 0.4
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 1.1 while allowed 0.6
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 1.2 while allowed 0.4
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 1.1 while allowed 0.6
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 1.2 while allowed 0.4
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 1.1 while allowed 0.6
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 1.2 while allowed 0.4
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 1.1 while allowed 0.6
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 1.2 while allowed 0.4
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 1.1 while allowed 0.6
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 1.2 while allowed 0.4
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.4 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.8 while allowed 0.5
+Clipped gradient with value 1.0 while allowed 0.5
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 1.1 while allowed 0.6
+Clipped gradient with value 1.0 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.6
+Clipped gradient with value 0.7 while allowed 0.7
+Clipped gradient with value 1.0 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.4
+Clipped gradient with value 0.6 while allowed 0.4
+Clipped gradient with value 0.5 while allowed 0.5
+Clipped gradient with value 0.6 while allowed 0.5
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING The anonymous setting has no effect and will be removed in a future version.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/6
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/6
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/6
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/6
+Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/6
+Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/6
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 6 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 3080') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 4 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+LOCAL_RANK: 5 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5]
+
+  | Name | Type               | Params
+--------------------------------------------
+0 | ddpm | ConditionalDDPMXHE | 1.0 M 
+--------------------------------------------
+1.0 M     Trainable params
+501       Non-trainable params
+1.0 M     Total params
+4.195     Total estimated model params size (MB)
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+`Trainer.fit` stopped: `max_epochs=3` reached.
+
+
+real 495.42
+user 710.99
+sys 35.17

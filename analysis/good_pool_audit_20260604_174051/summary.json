@@ -1,0 +1,32 @@
+{
+  "config_path": "launch/generated/good_pool_audit_chemistry_guard_10ep_260604.yaml",
+  "failure_counts": {
+    "fragmented_molecule": 108,
+    "sanitize_failed": 13,
+    "success": 199
+  },
+  "manifest_count": 16,
+  "mean_epoch_total_time_sec": 6.582280800000001,
+  "mean_time_generate_sec": 1.4807359999999998,
+  "mean_time_train_sec": 4.6903312,
+  "overall_valid_ratio": 0.621875,
+  "passes_all_filter_count": 16,
+  "passes_all_filter_rate_total": 0.05,
+  "passes_all_filter_rate_valid": 0.08040201005025126,
+  "retained_aromatic_nonzero_count": 0,
+  "retained_count": 16,
+  "retained_mean_carbon_fraction": 0.6939896829426289,
+  "retained_mean_hetero_fraction": 0.3060103189200163,
+  "retained_positive_score_count": 8,
+  "retained_score_max": 0.9006582498550415,
+  "retained_score_mean": 0.18687274400144815,
+  "retained_score_median": -0.10268645733594894,
+  "run_v1": "OUT/good_pool_audit_260604_20260604_173430",
+  "run_v2": "OUT/good_pool_audit_260604_v2_20260604_174051",
+  "total_generated": 320,
+  "total_valid": 199,
+  "v1_good_pool_selected_total": 0.0,
+  "v2_good_pool_retained_final": 16,
+  "v2_good_pool_selected_total": 16.0,
+  "wall_clock_seconds_v2": 119.0
+}

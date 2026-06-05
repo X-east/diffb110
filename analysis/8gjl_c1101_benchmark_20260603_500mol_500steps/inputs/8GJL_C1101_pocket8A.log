@@ -1,0 +1,76 @@
+2026-06-03 20:29:36,277 INFO:main.py:240:print_splash_screen:PDB2PQR v3.5.2: biomolecular structure conversion software.
+2026-06-03 20:29:36,277 INFO:main.py:242:print_splash_screen:Please cite:  Jurrus E, et al.  Improvements to the APBS biomolecular solvation software suite.  Protein Sci 27 112-128 (2018).
+2026-06-03 20:29:36,277 INFO:main.py:242:print_splash_screen:Please cite:  Dolinsky TJ, et al.  PDB2PQR: expanding and upgrading automated preparation of biomolecular structures for molecular simulations. Nucleic Acids Res 35 W522-W525 (2007).
+2026-06-03 20:29:36,277 INFO:main.py:752:main_driver:Checking and transforming input arguments.
+2026-06-03 20:29:36,279 INFO:main.py:756:main_driver:Loading topology files.
+2026-06-03 20:29:36,363 INFO:main.py:758:main_driver:Loading molecule: /data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+2026-06-03 20:29:36,366 INFO:main.py:763:main_driver:Setting up molecule.
+2026-06-03 20:29:36,370 INFO:main.py:409:setup_molecule:Created biomolecule object with 45 residues and 349 atoms.
+2026-06-03 20:29:36,371 INFO:main.py:767:main_driver:Setting termini states for biomolecule chains.
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 136 and GLU C 138!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between SER C 141 and ALA C 177!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 178 and LEU C 282!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between LEU C 282 and PRO C 289!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 291 and ASN C 293!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ASN C 293 and GLN C 325!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between THR C 330 and GLN C 566!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between MET C 570 and ILE C 572!
+2026-06-03 20:29:36,373 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 572 and SER C 604!
+2026-06-03 20:29:36,374 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between LEU C 607 and PHE C 610!
+2026-06-03 20:29:36,374 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between SER C 615 and ALA C 623!
+2026-06-03 20:29:36,374 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between LEU C 628 and ASN C 661!
+2026-06-03 20:29:36,374 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between PRO C 663 and PRO C 666!
+2026-06-03 20:29:36,374 INFO:main.py:603:non_trivial:Loading forcefield.
+2026-06-03 20:29:36,387 INFO:main.py:607:non_trivial:Loading hydrogen topology definitions.
+2026-06-03 20:29:36,390 WARNING:biomolecule.py:158:num_missing_heavy:Missing atom OXT in residue PRO C 666
+2026-06-03 20:29:36,390 WARNING:biomolecule.py:158:num_missing_heavy:Missing atom OXT in residue PRO C 666
+2026-06-03 20:29:36,390 INFO:main.py:618:non_trivial:Attempting to repair 1 missing atoms in biomolecule.
+2026-06-03 20:29:36,391 WARNING:biomolecule.py:158:num_missing_heavy:Missing atom OXT in residue PRO C 666
+2026-06-03 20:29:36,391 INFO:biomolecule.py:1052:repair_heavy:Added atom OXT to residue PRO C 666 at coordinates 197.896, 213.094, 179.868
+2026-06-03 20:29:36,391 INFO:main.py:622:non_trivial:Updating disulfide bridges.
+2026-06-03 20:29:36,392 INFO:main.py:625:non_trivial:Debumping biomolecule.
+2026-06-03 20:29:36,407 INFO:main.py:642:non_trivial:Adding hydrogens to biomolecule.
+2026-06-03 20:29:36,493 INFO:main.py:645:non_trivial:Debumping biomolecule (again).
+2026-06-03 20:29:36,585 INFO:main.py:647:non_trivial:Optimizing hydrogen bonds
+2026-06-03 20:29:36,728 INFO:main.py:659:non_trivial:Applying force field to biomolecule states.
+2026-06-03 20:29:36,730 INFO:main.py:706:non_trivial:Regenerating headers.
+2026-06-03 20:29:36,730 INFO:main.py:731:non_trivial:Regenerating PDB lines.
+2026-06-03 20:29:36,738 WARNING:main.py:312:print_pqr:Ignoring 391 header lines in output.
+2026-06-03 20:29:38,301 INFO:main.py:240:print_splash_screen:PDB2PQR v3.5.2: biomolecular structure conversion software.
+2026-06-03 20:29:38,301 INFO:main.py:242:print_splash_screen:Please cite:  Jurrus E, et al.  Improvements to the APBS biomolecular solvation software suite.  Protein Sci 27 112-128 (2018).
+2026-06-03 20:29:38,301 INFO:main.py:242:print_splash_screen:Please cite:  Dolinsky TJ, et al.  PDB2PQR: expanding and upgrading automated preparation of biomolecular structures for molecular simulations. Nucleic Acids Res 35 W522-W525 (2007).
+2026-06-03 20:29:38,301 INFO:main.py:752:main_driver:Checking and transforming input arguments.
+2026-06-03 20:29:38,302 INFO:main.py:756:main_driver:Loading topology files.
+2026-06-03 20:29:38,388 INFO:main.py:758:main_driver:Loading molecule: /data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+2026-06-03 20:29:38,391 INFO:main.py:763:main_driver:Setting up molecule.
+2026-06-03 20:29:38,395 INFO:main.py:409:setup_molecule:Created biomolecule object with 45 residues and 349 atoms.
+2026-06-03 20:29:38,395 INFO:main.py:767:main_driver:Setting termini states for biomolecule chains.
+2026-06-03 20:29:38,397 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 136 and GLU C 138!
+2026-06-03 20:29:38,397 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between SER C 141 and ALA C 177!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 178 and LEU C 282!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between LEU C 282 and PRO C 289!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 291 and ASN C 293!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ASN C 293 and GLN C 325!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between THR C 330 and GLN C 566!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between MET C 570 and ILE C 572!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between ILE C 572 and SER C 604!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between LEU C 607 and PHE C 610!
+2026-06-03 20:29:38,398 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between SER C 615 and ALA C 623!
+2026-06-03 20:29:38,399 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between LEU C 628 and ASN C 661!
+2026-06-03 20:29:38,399 WARNING:biomolecule.py:600:update_bonds:Gap in backbone detected between PRO C 663 and PRO C 666!
+2026-06-03 20:29:38,399 INFO:main.py:603:non_trivial:Loading forcefield.
+2026-06-03 20:29:38,412 INFO:main.py:607:non_trivial:Loading hydrogen topology definitions.
+2026-06-03 20:29:38,415 WARNING:biomolecule.py:158:num_missing_heavy:Missing atom OXT in residue PRO C 666
+2026-06-03 20:29:38,415 WARNING:biomolecule.py:158:num_missing_heavy:Missing atom OXT in residue PRO C 666
+2026-06-03 20:29:38,415 INFO:main.py:618:non_trivial:Attempting to repair 1 missing atoms in biomolecule.
+2026-06-03 20:29:38,416 WARNING:biomolecule.py:158:num_missing_heavy:Missing atom OXT in residue PRO C 666
+2026-06-03 20:29:38,416 INFO:biomolecule.py:1052:repair_heavy:Added atom OXT to residue PRO C 666 at coordinates 197.896, 213.094, 179.868
+2026-06-03 20:29:38,416 INFO:main.py:622:non_trivial:Updating disulfide bridges.
+2026-06-03 20:29:38,416 INFO:main.py:625:non_trivial:Debumping biomolecule.
+2026-06-03 20:29:38,432 INFO:main.py:642:non_trivial:Adding hydrogens to biomolecule.
+2026-06-03 20:29:38,519 INFO:main.py:645:non_trivial:Debumping biomolecule (again).
+2026-06-03 20:29:38,613 INFO:main.py:647:non_trivial:Optimizing hydrogen bonds
+2026-06-03 20:29:38,762 INFO:main.py:659:non_trivial:Applying force field to biomolecule states.
+2026-06-03 20:29:38,764 INFO:main.py:706:non_trivial:Regenerating headers.
+2026-06-03 20:29:38,765 INFO:main.py:731:non_trivial:Regenerating PDB lines.
+2026-06-03 20:29:38,773 WARNING:main.py:312:print_pqr:Ignoring 391 header lines in output.

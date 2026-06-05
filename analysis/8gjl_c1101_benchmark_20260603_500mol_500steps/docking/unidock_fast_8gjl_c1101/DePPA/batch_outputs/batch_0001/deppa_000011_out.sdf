@@ -1,0 +1,36 @@
+deppa_000011
+     RDKit          3D
+
+  7  7  0  0  0  0  0  0  0  0999 V2000
+  209.8920  212.9050  173.6340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3746  213.8613  174.5373 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3436  213.9227  175.8327 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7270  213.8698  174.2526 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8833  212.3875  172.8048 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6612  214.6630  175.5333 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2289  212.9789  172.9147 S   0  0  0  0  0  0  0  0  0  0  0  0
+  2  6  1  0
+  2  1  1  0
+  4  2  2  0
+  5  1  2  0
+  6  3  1  0
+  7  4  1  0
+  7  5  1  0
+M  END
+>  <benchmark_model>  (1) 
+DePPA
+
+>  <benchmark_index>  (1) 
+11
+
+>  <benchmark_source_sdf>  (1) 
+analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/deppa_rerun/gpu_0/processed/8GJL_1_gen.sdf
+
+> <Uni-Dock RESULT> 
+ENERGY=   -5.288  LOWER_BOUND=    0.000  UPPER_BOUND=    0.000
+INTER + INTRA:          -5.288
+INTER:                  -5.288
+INTRA:                   0.000
+UNBOUND:                 0.000
+
+$$$$

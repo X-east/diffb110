@@ -1,0 +1,78 @@
+run_name: 'diffsbdd-xhe-20k-6gpu-260604'
+logdir: 'analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/lightning'
+warm_start_checkpoint: 'DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt'
+wandb_params:
+  mode: 'disabled'
+  entity: null
+  group: 'diffsbdd-xhe'
+dataset: 'crossdock'
+datadir: 'analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/data'
+enable_progress_bar: false
+num_sanity_val_steps: 0
+
+mode: 'pocket_conditioning'
+pocket_representation: 'full-atom'
+diffusion_mode: 'xhe'
+virtual_nodes: false
+batch_size: 4
+lr: 5.0e-4
+noise_factor: 1.0
+n_epochs: 1
+num_workers: 2
+gpus: 6
+clip_grad: true
+augment_rotation: false
+augment_noise: 0
+accumulate_grad_batches: 1
+
+bond_diffusion:
+  enabled: true
+  num_edge_types: 5
+  edge_prior: 'uniform'
+  beta_schedule: 'linear'
+  edge_hidden_dim: 128
+  distance_basis_dim: 32
+  edge_loss_weight: 1.0
+  edge_class_weight_mode: 'diffgui'
+  no_bond_weight: 0.1
+  edge_focal_gamma: 0.0
+
+auxiliary_loss: false
+loss_params:
+  max_weight: 0.001
+  schedule: 'linear'
+  clamp_lj: 3.0
+
+egnn_params:
+  device: 'cuda'
+  edge_cutoff_ligand: null
+  edge_cutoff_pocket: 5.0
+  edge_cutoff_interaction: 5.0
+  reflection_equivariant: false
+  joint_nf: 32
+  hidden_nf: 128
+  n_layers: 5
+  attention: true
+  tanh: true
+  norm_constant: 1
+  inv_sublayers: 1
+  sin_embedding: false
+  aggregation_method: 'sum'
+  normalization_factor: 100
+
+diffusion_params:
+  diffusion_steps: 500
+  diffusion_noise_schedule: 'polynomial_2'
+  diffusion_noise_precision: 5.0e-4
+  diffusion_loss_type: 'l2'
+  normalize_factors: [1, 4]
+
+eval_epochs: 999
+visualize_sample_epoch: 999
+visualize_chain_epoch: 999
+eval_params:
+  n_eval_samples: 32
+  eval_batch_size: 32
+  smiles_file: null
+  n_visualize_samples: 2
+  keep_frames: 10

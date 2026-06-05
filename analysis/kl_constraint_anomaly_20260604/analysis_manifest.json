@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-06-04",
+  "analysis_dir": "analysis/kl_constraint_anomaly_20260604",
+  "work_record": "work_records/260604/260604-04 KL约束旧训练异常诊断.md",
+  "outputs": [
+    "kl0p05_epoch86_molecules.csv",
+    "kl0p05_epoch86_outlier_hist.png",
+    "kl_epoch_summary.csv",
+    "kl_run_summary.csv",
+    "kl_spike_epochs.csv",
+    "kl_spike_trends.png",
+    "kl_sweep_docking_valid.png",
+    "report.md",
+    "suspected_issue_matrix.csv",
+    "weighted_kl_vs_loss.png"
+  ]
+}

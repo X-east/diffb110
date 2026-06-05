@@ -1,0 +1,7 @@
+filter,label,pass_count,fail_count,pass_rate_valid,fail_rate_valid
+carbon_ok,carbon <= 0.85,156,43,0.7839195979899497,0.21608040201005024
+hetero_ok,hetero >= 0.05,191,8,0.9597989949748744,0.04020100502512563
+three_ring_ok,3-ring == 0,66,133,0.3316582914572864,0.6683417085427136
+fragment_ok,fragment <= 1,199,0,1.0,0.0
+bad_bond_ok,bad bond <= 0.05,61,138,0.3065326633165829,0.6934673366834171
+halogen_ok,bad halogen == 0,199,0,1.0,0.0
