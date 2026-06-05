@@ -113,20 +113,175 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         )
 
     def forward(self, ligand: dict[str, torch.Tensor], pocket: dict[str, torch.Tensor], return_info: bool = False):
-        """Run the old x/h loss and attach edge smoke metrics to ``info``."""
-        edge_ligand, edge_pocket = _clone_ligand_pocket(ligand, pocket)
-        old_terms = super().forward(ligand, pocket, return_info=True)
-        loss_terms = old_terms[:-1]
-        info = dict(old_terms[-1])
+        """Run one denoiser pass that predicts x/h noise and clean edge logits."""
+        _validate_ligand_halfedges(ligand)
+        if not getattr(self.dynamics, "supports_xhe_edge_logits", False):
+            raise TypeError("ConditionalDDPMXHE requires dynamics with xhe edge-logit support")
 
-        edge_output = self.edge_forward_smoke(edge_ligand, edge_pocket)
-        info["_edge_loss_batch"] = edge_output.loss_per_molecule
-        info["edge_smoke_loss"] = edge_output.loss
-        info["edge_smoke_acc"] = edge_output.accuracy
-        info["edge_smoke_real_bond_acc"] = edge_output.real_bond_accuracy
-        info["edge_smoke_logits_abs"] = edge_output.pred_edge_logits.abs().mean() \
-            if edge_output.pred_edge_logits.numel() > 0 else edge_output.loss.detach()
+        ligand, pocket = _clone_ligand_pocket(ligand, pocket)
+        ligand, pocket = self.normalize(ligand, pocket)
 
+        delta_log_px = self.delta_log_px(ligand["size"])
+
+        # Match ConditionalDDPM.forward: evaluation avoids t=0 here and handles
+        # the low-variance t=0 estimator in a second no-grad dynamics call.
+        lowest_t = 0 if self.training else 1
+        t_int = torch.randint(
+            lowest_t,
+            self.T + 1,
+            size=(ligand["size"].size(0), 1),
+            device=ligand["x"].device,
+        ).float()
+        s_int = t_int - 1
+        t_is_zero = (t_int == 0).float()
+        t_is_not_zero = 1 - t_is_zero
+        s = s_int / self.T
+        t = t_int / self.T
+
+        gamma_s = self.inflate_batch_array(self.gamma(s), ligand["x"])
+        gamma_t = self.inflate_batch_array(self.gamma(t), ligand["x"])
+
+        xh0_lig = torch.cat([ligand["x"], ligand["one_hot"]], dim=1)
+        xh0_pocket = torch.cat([pocket["x"], pocket["one_hot"]], dim=1)
+        xh0_lig[:, :self.n_dims], xh0_pocket[:, :self.n_dims] = \
+            self.remove_mean_batch(
+                xh0_lig[:, :self.n_dims],
+                xh0_pocket[:, :self.n_dims],
+                ligand["mask"],
+                pocket["mask"],
+            )
+
+        z_t_lig, xh_pocket, eps_t_lig = self.noised_representation(
+            xh0_lig,
+            xh0_pocket,
+            ligand["mask"],
+            pocket["mask"],
+            gamma_t,
+        )
+
+        target_edge_type = ligand["halfedge_type"].long()
+        edge_batch = ligand["edge_batch"].long()
+        log_v0 = self.edge_transition.index_to_log_onehot(target_edge_type)
+        noised_edge_type, _ = self.edge_transition.q_vt_sample(
+            log_v0,
+            t_int.reshape(-1).long(),
+            edge_batch,
+        )
+
+        net_out_lig, _, pred_edge_logits = self.dynamics(
+            z_t_lig,
+            xh_pocket,
+            t,
+            ligand["mask"],
+            pocket["mask"],
+            halfedge_index=ligand["halfedge_index"],
+            noised_edge_type=noised_edge_type,
+            edge_batch=edge_batch,
+            return_edge_logits=True,
+        )
+        edge_output = self._edge_output_from_logits(
+            pred_edge_logits=pred_edge_logits,
+            noised_edge_type=noised_edge_type,
+            target_edge_type=target_edge_type,
+            edge_batch=edge_batch,
+            batch_size=int(ligand["size"].shape[0]),
+        )
+
+        xh_lig_hat = self.xh_given_zt_and_epsilon(
+            z_t_lig,
+            net_out_lig,
+            gamma_t,
+            ligand["mask"],
+        )
+
+        squared_error = (eps_t_lig - net_out_lig) ** 2
+        if self.vnode_idx is not None:
+            squared_error[ligand["one_hot"][:, self.vnode_idx].bool(), :self.n_dims] = 0
+        error_t_lig = self.sum_except_batch(squared_error, ligand["mask"])
+
+        SNR_weight = (1 - self.SNR(gamma_s - gamma_t)).squeeze(1)
+        assert error_t_lig.size() == SNR_weight.size()
+
+        neg_log_constants = -self.log_constants_p_x_given_z0(
+            n_nodes=ligand["size"],
+            device=error_t_lig.device,
+        )
+        kl_prior = self.kl_prior(xh0_lig, ligand["mask"], ligand["size"])
+
+        if self.training:
+            log_p_x_given_z0_without_constants_ligand, log_ph_given_z0 = \
+                self.log_pxh_given_z0_without_constants(
+                    ligand,
+                    z_t_lig,
+                    eps_t_lig,
+                    net_out_lig,
+                    gamma_t,
+                )
+            loss_0_x_ligand = -log_p_x_given_z0_without_constants_ligand * \
+                t_is_zero.squeeze()
+            loss_0_h = -log_ph_given_z0 * t_is_zero.squeeze()
+            error_t_lig = error_t_lig * t_is_not_zero.squeeze()
+        else:
+            t_zeros = torch.zeros_like(s)
+            gamma_0 = self.inflate_batch_array(self.gamma(t_zeros), ligand["x"])
+            z_0_lig, xh_pocket, eps_0_lig = self.noised_representation(
+                xh0_lig,
+                xh0_pocket,
+                ligand["mask"],
+                pocket["mask"],
+                gamma_0,
+            )
+            net_out_0_lig, _ = self.dynamics(
+                z_0_lig,
+                xh_pocket,
+                t_zeros,
+                ligand["mask"],
+                pocket["mask"],
+            )
+            log_p_x_given_z0_without_constants_ligand, log_ph_given_z0 = \
+                self.log_pxh_given_z0_without_constants(
+                    ligand,
+                    z_0_lig,
+                    eps_0_lig,
+                    net_out_0_lig,
+                    gamma_0,
+                )
+            loss_0_x_ligand = -log_p_x_given_z0_without_constants_ligand
+            loss_0_h = -log_ph_given_z0
+
+        log_pN = self.log_pN(ligand["size"], pocket["size"])
+        info = {
+            "eps_hat_lig_x": scatter_mean(
+                net_out_lig[:, :self.n_dims].abs().mean(1),
+                ligand["mask"],
+                dim=0,
+            ).mean(),
+            "eps_hat_lig_h": scatter_mean(
+                net_out_lig[:, self.n_dims:].abs().mean(1),
+                ligand["mask"],
+                dim=0,
+            ).mean(),
+            "_edge_loss_batch": edge_output.loss_per_molecule,
+            "edge_smoke_loss": edge_output.loss.detach(),
+            "edge_smoke_acc": edge_output.accuracy.detach(),
+            "edge_smoke_real_bond_acc": edge_output.real_bond_accuracy.detach(),
+            "edge_smoke_logits_abs": edge_output.pred_edge_logits.detach().abs().mean()
+            if edge_output.pred_edge_logits.numel() > 0 else edge_output.loss.detach(),
+        }
+        loss_terms = (
+            delta_log_px,
+            error_t_lig,
+            torch.tensor(0.0),
+            SNR_weight,
+            loss_0_x_ligand,
+            torch.tensor(0.0),
+            loss_0_h,
+            neg_log_constants,
+            kl_prior,
+            log_pN,
+            t_int.squeeze(),
+            xh_lig_hat,
+        )
         return (*loss_terms, info) if return_info else loss_terms
 
     def edge_forward_smoke(
@@ -187,11 +342,26 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             edge_batch=edge_batch,
             return_edge_logits=True,
         )
+        return self._edge_output_from_logits(
+            pred_edge_logits=pred_edge_logits,
+            noised_edge_type=noised_edge_type,
+            target_edge_type=target_edge_type,
+            edge_batch=edge_batch,
+            batch_size=batch_size,
+        )
+
+    def _edge_output_from_logits(
+        self,
+        *,
+        pred_edge_logits: torch.Tensor,
+        noised_edge_type: torch.Tensor,
+        target_edge_type: torch.Tensor,
+        edge_batch: torch.Tensor,
+        batch_size: int,
+    ) -> XHEEdgeSmokeOutput:
+        """Compute edge loss and metrics from one denoiser edge-logit output."""
         if target_edge_type.numel() == 0:
-            loss_per_molecule = ligand["size"].new_zeros(
-                batch_size,
-                dtype=pred_edge_logits.dtype,
-            )
+            loss_per_molecule = pred_edge_logits.new_zeros(batch_size)
             loss = loss_per_molecule.sum()
             accuracy = loss.detach()
             real_bond_accuracy = loss.detach()
