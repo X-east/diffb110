@@ -16,10 +16,15 @@ class EdgeTransitionConfig:
 
     num_classes: int = 5
     num_timesteps: int = 1000
-    prior: str = "uniform"
-    beta_schedule: str = "linear"
+    prior: str = "absorb"
+    beta_schedule: str = "segment"
     beta_start: float = 1e-4
     beta_end: float = 2e-2
+    scale_start: float = 0.9999
+    scale_end: float = 0.0001
+    width: float = 3.0
+    time_segment: tuple[int, ...] | None = None
+    segment_diff: tuple[dict[str, float], ...] | None = None
     custom_prior: tuple[float, ...] | None = None
     eps: float = 1e-30
 
@@ -288,10 +293,24 @@ class EdgeCategoricalTransition:
             )
         elif self.config.beta_schedule == "cosine":
             betas = _cosine_beta_schedule(int(self.config.num_timesteps)).to(torch.float64)
+        elif self.config.beta_schedule == "advance":
+            betas = _advance_beta_schedule(
+                int(self.config.num_timesteps),
+                scale_start=float(self.config.scale_start),
+                scale_end=float(self.config.scale_end),
+                width=float(self.config.width),
+            )
+        elif self.config.beta_schedule == "segment":
+            betas = _segment_beta_schedule(
+                int(self.config.num_timesteps),
+                self.config.time_segment,
+                self.config.segment_diff,
+            )
         else:
-            raise ValueError("Unsupported beta_schedule. Expected linear or cosine.")
-        if (betas <= 0).any() or (betas >= 1).any():
-            raise ValueError("all beta values must be in (0, 1)")
+            raise ValueError("Unsupported beta_schedule. Expected linear, cosine, advance, or segment.")
+        betas = betas.clamp(1e-8, 0.999)
+        if betas.shape != (int(self.config.num_timesteps),):
+            raise ValueError("beta schedule length must equal num_timesteps")
         return betas.float()
 
     def _build_one_step_mats(
@@ -359,3 +378,101 @@ def _cosine_beta_schedule(timesteps: int, s: float = 0.008) -> torch.Tensor:
     alphas_bar = alphas_bar / alphas_bar[0]
     betas = 1.0 - (alphas_bar[1:] / alphas_bar[:-1])
     return betas.clamp(1e-8, 0.999)
+
+
+def _advance_beta_schedule(
+    timesteps: int,
+    *,
+    scale_start: float,
+    scale_end: float,
+    width: float,
+    return_alphas_bar: bool = False,
+) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
+    """Return DiffGui's sigmoid-shaped ``advance`` beta schedule."""
+    x = torch.linspace(-1.0, 1.0, timesteps, dtype=torch.float64)
+    sigmoid_left = torch.sigmoid(torch.tensor(-width, dtype=torch.float64))
+    sigmoid_right = torch.sigmoid(torch.tensor(width, dtype=torch.float64))
+    a = (float(scale_end) - float(scale_start)) / (sigmoid_left - sigmoid_right)
+    b = 0.5 * (float(scale_end) + float(scale_start) - a)
+    alphas_bar = a * torch.sigmoid(-float(width) * x) + b
+    alphas_bar = alphas_bar.clamp(1e-8, 0.999999)
+    alphas = torch.empty_like(alphas_bar)
+    alphas[0] = alphas_bar[0]
+    alphas[1:] = alphas_bar[1:] / alphas_bar[:-1]
+    betas = 1.0 - alphas
+    betas = betas.clamp(1e-8, 0.999)
+    if return_alphas_bar:
+        return betas, alphas_bar
+    return betas
+
+
+def _segment_beta_schedule(
+    timesteps: int,
+    time_segment: tuple[int, ...] | None,
+    segment_diff: tuple[dict[str, float], ...] | None,
+) -> torch.Tensor:
+    """Return DiffGui's segmented advance schedule for categorical bonds."""
+    segment_params = segment_diff or (
+        {"scale_start": 0.9999, "scale_end": 0.001, "width": 3.0},
+        {"scale_start": 0.001, "scale_end": 0.0001, "width": 2.0},
+    )
+    lengths = _normalize_segment_lengths(time_segment, len(segment_params), timesteps)
+    alphas_bar_parts = []
+    for length, params in zip(lengths, segment_params):
+        _, alphas_bar = _advance_beta_schedule(
+            int(length) + 1,
+            scale_start=float(params.get("scale_start", 0.9999)),
+            scale_end=float(params.get("scale_end", 0.0001)),
+            width=float(params.get("width", 3.0)),
+            return_alphas_bar=True,
+        )
+        alphas_bar_parts.append(alphas_bar[1:])
+    alphas_bar = torch.cat(alphas_bar_parts, dim=0).clamp(1e-8, 0.999999)
+    alphas = torch.empty_like(alphas_bar)
+    alphas[0] = alphas_bar[0]
+    alphas[1:] = alphas_bar[1:] / alphas_bar[:-1]
+    return (1.0 - alphas).clamp(1e-8, 0.999)
+
+
+def _normalize_segment_lengths(
+    time_segment: tuple[int, ...] | None,
+    num_segments: int,
+    timesteps: int,
+) -> tuple[int, ...]:
+    """Return segment lengths that sum to ``timesteps``."""
+    if num_segments <= 0:
+        raise ValueError("segment_diff must contain at least one segment")
+    if time_segment is None:
+        if num_segments == 1:
+            return (int(timesteps),)
+        first = int(round(float(timesteps) * 0.6))
+        lengths = [first, int(timesteps) - first]
+        while len(lengths) < num_segments:
+            lengths.append(0)
+        return tuple(_fix_segment_lengths(lengths[:num_segments], timesteps))
+    if len(time_segment) != num_segments:
+        raise ValueError("time_segment length must match segment_diff length")
+    lengths = [int(value) for value in time_segment]
+    if any(value <= 0 for value in lengths):
+        raise ValueError("time_segment values must be positive")
+    if sum(lengths) == int(timesteps):
+        return tuple(lengths)
+    total = float(sum(lengths))
+    scaled = [max(1, int(round(value / total * int(timesteps)))) for value in lengths]
+    return tuple(_fix_segment_lengths(scaled, timesteps))
+
+
+def _fix_segment_lengths(lengths: list[int], timesteps: int) -> list[int]:
+    """Adjust rounded segment lengths while keeping each segment non-empty."""
+    diff = int(timesteps) - sum(lengths)
+    index = 0
+    while diff != 0:
+        pos = index % len(lengths)
+        if diff > 0:
+            lengths[pos] += 1
+            diff -= 1
+        elif lengths[pos] > 1:
+            lengths[pos] -= 1
+            diff += 1
+        index += 1
+    return lengths

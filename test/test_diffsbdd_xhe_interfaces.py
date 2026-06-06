@@ -5,6 +5,7 @@ from __future__ import annotations
 import sys
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import torch
@@ -17,6 +18,7 @@ for extra in (PROJECT_ROOT, DIFFSBDD_ROOT):
         sys.path.insert(0, str(extra))
 
 from DiffSBDD.lightning_modules import LigandPocketDDPM
+from DiffSBDD.train import validate_xhe_warm_start_policy
 from equivariant_diffusion.conditional_model_xhe import BondDiffusionConfig, ConditionalDDPMXHE
 from equivariant_diffusion.dynamics_xhe import EGNNDynamicsXHE, XHEEdgeHeadConfig
 
@@ -35,6 +37,32 @@ class _LigandPocketHarness:
 
 class TestDiffSBDDXHEInterfaces(unittest.TestCase):
     """Verify xhe fields and smoke logits stay decoupled from the old path."""
+
+    def test_default_bond_config_matches_diffgui_mainline(self):
+        config = BondDiffusionConfig.from_config(None, default_enabled=True)
+
+        self.assertTrue(config.enabled)
+        self.assertEqual(config.edge_prior, "absorb")
+        self.assertEqual(config.beta_schedule, "segment")
+        self.assertEqual(config.edge_loss_mode, "diffusion_kl")
+        self.assertEqual(config.edge_class_weight_mode, "none")
+        self.assertTrue(config.use_edge_message_passing)
+
+    def test_xhe_warm_start_guard_rejects_xh_only_checkpoint(self):
+        args = SimpleNamespace(diffusion_mode="xhe", xhe_warm_start_policy="xhe_only")
+
+        with self.assertRaisesRegex(ValueError, "without xhe edge-head parameters"):
+            validate_xhe_warm_start_policy(
+                args,
+                {"ddpm.dynamics.atom_encoder.weight": torch.zeros(1)},
+                "xh.ckpt",
+            )
+
+        validate_xhe_warm_start_policy(
+            args,
+            {"ddpm.dynamics.chemical_edge_embedding.weight": torch.zeros(1)},
+            "xhe.ckpt",
+        )
 
     def test_xh_mode_does_not_require_halfedges(self):
         module = _LigandPocketHarness()

@@ -36,21 +36,28 @@ class BondDiffusionConfig:
 
     enabled: bool = False
     num_edge_types: int = 5
-    edge_prior: str = "uniform"
-    beta_schedule: str = "linear"
+    edge_prior: str = "absorb"
+    beta_schedule: str = "segment"
     beta_start: float = 1e-4
     beta_end: float = 2e-2
+    scale_start: float = 0.9999
+    scale_end: float = 0.0001
+    width: float = 3.0
+    time_segment: tuple[int, ...] | None = None
+    segment_diff: tuple[dict[str, float], ...] | None = None
     edge_hidden_dim: int = 128
     distance_basis_dim: int = 32
     edge_head_dropout: float = 0.0
+    edge_loss_mode: str = "diffusion_kl"
+    edge_loss_scale: float = 100.0
     edge_loss_weight: float = 1.0
-    edge_class_weight_mode: str = "diffgui"
-    no_bond_weight: float = 0.1
+    edge_class_weight_mode: str = "none"
+    no_bond_weight: float = 1.0
     edge_focal_gamma: float = 0.0
-    use_edge_message_passing: bool = False
+    use_edge_message_passing: bool = True
     edge_message_dim: int = 32
     edge_message_scale: float = 1.0
-    bond_length_loss_weight: float = 0.0
+    bond_length_loss_weight: float = 1.0
 
     @classmethod
     def from_config(
@@ -67,9 +74,24 @@ class BondDiffusionConfig:
             beta_schedule=str(_config_get(config, "beta_schedule", cls.beta_schedule)),
             beta_start=float(_config_get(config, "beta_start", cls.beta_start)),
             beta_end=float(_config_get(config, "beta_end", cls.beta_end)),
+            scale_start=float(_config_get(config, "scale_start", cls.scale_start)),
+            scale_end=float(_config_get(config, "scale_end", cls.scale_end)),
+            width=float(_config_get(config, "width", cls.width)),
+            time_segment=_optional_int_tuple(_config_get(
+                config,
+                "time_segment",
+                cls.time_segment,
+            )),
+            segment_diff=_optional_segment_diff(_config_get(
+                config,
+                "segment_diff",
+                cls.segment_diff,
+            )),
             edge_hidden_dim=int(_config_get(config, "edge_hidden_dim", cls.edge_hidden_dim)),
             distance_basis_dim=int(_config_get(config, "distance_basis_dim", cls.distance_basis_dim)),
             edge_head_dropout=float(_config_get(config, "edge_head_dropout", cls.edge_head_dropout)),
+            edge_loss_mode=str(_config_get(config, "edge_loss_mode", cls.edge_loss_mode)),
+            edge_loss_scale=float(_config_get(config, "edge_loss_scale", cls.edge_loss_scale)),
             edge_loss_weight=float(_config_get(config, "edge_loss_weight", cls.edge_loss_weight)),
             edge_class_weight_mode=str(_config_get(
                 config,
@@ -127,6 +149,11 @@ class ConditionalDDPMXHE(ConditionalDDPM):
                 beta_schedule=self.bond_diffusion_config.beta_schedule,
                 beta_start=self.bond_diffusion_config.beta_start,
                 beta_end=self.bond_diffusion_config.beta_end,
+                scale_start=self.bond_diffusion_config.scale_start,
+                scale_end=self.bond_diffusion_config.scale_end,
+                width=self.bond_diffusion_config.width,
+                time_segment=self.bond_diffusion_config.time_segment,
+                segment_diff=self.bond_diffusion_config.segment_diff,
             )
         )
 
@@ -422,7 +449,7 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         if edge_type_t.numel() == 0:
             return edge_type_t
         t_int = _normalized_t_to_edge_timestep(t, self.T)
-        log_v0 = F.log_softmax(pred_edge_logits / float(edge_temperature), dim=-1)
+        log_v0 = _log_softmax_with_temperature(pred_edge_logits, edge_temperature)
         log_vt = self.edge_transition.index_to_log_onehot(edge_type_t)
         posterior = self.edge_transition.q_v_posterior(
             log_v0,
@@ -483,7 +510,7 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         target_edge_type = ligand["halfedge_type"].long()
         edge_batch = ligand["edge_batch"].long()
         log_v0 = self.edge_transition.index_to_log_onehot(target_edge_type)
-        noised_edge_type, _ = self.edge_transition.q_vt_sample(
+        noised_edge_type, log_vt = self.edge_transition.q_vt_sample(
             log_v0,
             t_int.reshape(-1).long(),
             edge_batch,
@@ -503,7 +530,10 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         edge_output = self._edge_output_from_logits(
             pred_edge_logits=pred_edge_logits,
             noised_edge_type=noised_edge_type,
+            log_vt=log_vt,
             target_edge_type=target_edge_type,
+            log_v0=log_v0,
+            t_int=t_int.reshape(-1).long(),
             edge_batch=edge_batch,
             batch_size=int(ligand["size"].shape[0]),
         )
@@ -560,12 +590,17 @@ class ConditionalDDPMXHE(ConditionalDDPM):
                 pocket["mask"],
                 gamma_0,
             )
-            net_out_0_lig, _ = self.dynamics(
+            edge_type_0 = target_edge_type.clone()
+            net_out_0_lig, _, _ = self.dynamics(
                 z_0_lig,
                 xh_pocket,
                 t_zeros,
                 ligand["mask"],
                 pocket["mask"],
+                halfedge_index=ligand["halfedge_index"],
+                noised_edge_type=edge_type_0,
+                edge_batch=edge_batch,
+                return_edge_logits=True,
             )
             log_p_x_given_z0_without_constants_ligand, log_ph_given_z0 = \
                 self.log_pxh_given_z0_without_constants(
@@ -593,6 +628,7 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             "_edge_loss_batch": edge_output.loss_per_molecule,
             "_bond_geometry_loss_batch": bond_geometry_loss_batch,
             "edge_smoke_loss": edge_output.loss.detach(),
+            "edge_diffusion_loss": edge_output.loss.detach(),
             "edge_smoke_acc": edge_output.accuracy.detach(),
             "edge_smoke_real_bond_acc": edge_output.real_bond_accuracy.detach(),
             "bond_length_loss": bond_geometry_loss_batch.detach().mean(),
@@ -656,7 +692,7 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         target_edge_type = ligand["halfedge_type"].long()
         edge_batch = ligand["edge_batch"].long()
         log_v0 = self.edge_transition.index_to_log_onehot(target_edge_type)
-        noised_edge_type, _ = self.edge_transition.q_vt_sample(
+        noised_edge_type, log_vt = self.edge_transition.q_vt_sample(
             log_v0,
             t_int.reshape(-1).long(),
             edge_batch,
@@ -676,7 +712,10 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         return self._edge_output_from_logits(
             pred_edge_logits=pred_edge_logits,
             noised_edge_type=noised_edge_type,
+            log_vt=log_vt,
             target_edge_type=target_edge_type,
+            log_v0=log_v0,
+            t_int=t_int.reshape(-1).long(),
             edge_batch=edge_batch,
             batch_size=batch_size,
         )
@@ -686,7 +725,10 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         *,
         pred_edge_logits: torch.Tensor,
         noised_edge_type: torch.Tensor,
+        log_vt: torch.Tensor,
         target_edge_type: torch.Tensor,
+        log_v0: torch.Tensor,
+        t_int: torch.Tensor,
         edge_batch: torch.Tensor,
         batch_size: int,
     ) -> XHEEdgeSmokeOutput:
@@ -697,10 +739,14 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             accuracy = loss.detach()
             real_bond_accuracy = loss.detach()
         else:
-            per_edge_loss = _edge_classification_loss(
-                pred_edge_logits,
-                target_edge_type,
-                self.bond_diffusion_config,
+            per_edge_loss = self._edge_loss_per_halfedge(
+                pred_edge_logits=pred_edge_logits,
+                noised_edge_type=noised_edge_type,
+                log_vt=log_vt,
+                target_edge_type=target_edge_type,
+                log_v0=log_v0,
+                t_int=t_int,
+                edge_batch=edge_batch,
             )
             loss_per_molecule = scatter_mean(
                 per_edge_loss,
@@ -723,6 +769,53 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             accuracy=accuracy,
             real_bond_accuracy=real_bond_accuracy,
         )
+
+    def _edge_loss_per_halfedge(
+        self,
+        *,
+        pred_edge_logits: torch.Tensor,
+        noised_edge_type: torch.Tensor,
+        log_vt: torch.Tensor,
+        target_edge_type: torch.Tensor,
+        log_v0: torch.Tensor,
+        t_int: torch.Tensor,
+        edge_batch: torch.Tensor,
+    ) -> torch.Tensor:
+        """Return DiffGui-style edge diffusion loss or explicit legacy CE."""
+        del noised_edge_type
+        mode = self.bond_diffusion_config.edge_loss_mode
+        if mode == "diffusion_kl":
+            log_edge_recon = F.log_softmax(pred_edge_logits, dim=-1)
+            log_edge_post_true = self.edge_transition.q_v_posterior(
+                log_v0,
+                log_vt,
+                t_int,
+                batch=edge_batch.long(),
+                v0_prob=True,
+            )
+            log_edge_post_pred = self.edge_transition.q_v_posterior(
+                log_edge_recon,
+                log_vt,
+                t_int,
+                batch=edge_batch.long(),
+                v0_prob=True,
+            )
+            per_edge_loss = self.edge_transition.compute_v_Lt(
+                log_edge_post_true,
+                log_edge_post_pred,
+                log_v0,
+                t=t_int,
+                batch=edge_batch.long(),
+            )
+        elif mode == "ce":
+            per_edge_loss = _edge_classification_loss(
+                pred_edge_logits,
+                target_edge_type,
+                self.bond_diffusion_config,
+            )
+        else:
+            raise ValueError("Unsupported edge_loss_mode. Expected diffusion_kl or ce.")
+        return per_edge_loss * float(self.bond_diffusion_config.edge_loss_scale)
 
     def _bond_length_loss_per_molecule(
         self,
@@ -758,6 +851,33 @@ class ConditionalDDPMXHE(ConditionalDDPM):
             dim=0,
             dim_size=batch_size,
         )
+
+
+def _optional_int_tuple(value: Any) -> tuple[int, ...] | None:
+    """Return ``value`` as an int tuple, preserving ``None``."""
+    if value is None:
+        return None
+    if torch.is_tensor(value):
+        value = value.detach().cpu().reshape(-1).tolist()
+    return tuple(int(item) for item in value)
+
+
+def _optional_segment_diff(value: Any) -> tuple[dict[str, float], ...] | None:
+    """Return DiffGui-style segment params as immutable dictionaries."""
+    if value is None:
+        return None
+    segment_params = []
+    for item in value:
+        if isinstance(item, dict):
+            getter = item.get
+        else:
+            getter = lambda key, default=None, item=item: getattr(item, key, default)
+        segment_params.append({
+            "scale_start": float(getter("scale_start", 0.9999)),
+            "scale_end": float(getter("scale_end", 0.0001)),
+            "width": float(getter("width", 3.0)),
+        })
+    return tuple(segment_params)
 
 
 def _config_get(config: Any, key: str, default: Any) -> Any:
@@ -835,6 +955,17 @@ def _edge_class_weight(
         weights[0] = float(config.no_bond_weight)
         return weights
     raise ValueError(f"Unsupported edge_class_weight_mode: {mode}")
+
+
+def _log_softmax_with_temperature(
+    logits: torch.Tensor,
+    temperature: float,
+) -> torch.Tensor:
+    """Return log probabilities, using argmax when temperature is non-positive."""
+    if float(temperature) <= 0:
+        hard = F.one_hot(logits.argmax(dim=-1), logits.shape[-1]).to(dtype=logits.dtype)
+        return torch.log(hard.clamp_min(1e-30))
+    return F.log_softmax(logits / float(temperature), dim=-1)
 
 
 def _build_sample_halfedges(

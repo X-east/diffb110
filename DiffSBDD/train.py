@@ -28,6 +28,38 @@ def filter_shape_compatible_state_dict(module, state_dict):
     return compatible, skipped
 
 
+def validate_xhe_warm_start_policy(args, state_dict, checkpoint_path):
+    """Prevent accidental x/h-only warm starts for the xhe mainline."""
+    if getattr(args, 'diffusion_mode', 'xh') != 'xhe':
+        return
+    policy = getattr(args, 'xhe_warm_start_policy', 'xhe_only')
+    if policy == 'unsafe_any':
+        warnings.warn(
+            "xhe_warm_start_policy='unsafe_any' bypasses the xhe checkpoint "
+            "guard and should be used only for explicit ablations.")
+        return
+    if policy == 'scratch':
+        raise ValueError(
+            "diffusion_mode='xhe' with xhe_warm_start_policy='scratch' "
+            "must not set warm_start_checkpoint or --warm-start.")
+    if policy != 'xhe_only':
+        raise ValueError(
+            "xhe_warm_start_policy must be one of: scratch, xhe_only, unsafe_any")
+    marker_fragments = (
+        'chemical_edge_embedding',
+        'chemical_message_embedding',
+        'edge_time_mlp',
+        'chemical_edge_decoder',
+    )
+    if not any(any(fragment in key for fragment in marker_fragments)
+               for key in state_dict):
+        raise ValueError(
+            "Refusing to warm-start diffusion_mode='xhe' from a checkpoint "
+            f"without xhe edge-head parameters: {checkpoint_path}. Use the "
+            "new scratch xhe configs, resume from an xhe checkpoint, or set "
+            "xhe_warm_start_policy='unsafe_any' for an explicit ablation.")
+
+
 def merge_args_and_yaml(args, config_dict):
     arg_dict = args.__dict__
     for key, value in config_dict.items():
@@ -114,6 +146,7 @@ if __name__ == "__main__":
         checkpoint = torch.load(
             warm_start_checkpoint, map_location=torch.device('cpu'))
         state_dict = checkpoint.get('state_dict', checkpoint)
+        validate_xhe_warm_start_policy(args, state_dict, warm_start_checkpoint)
         state_dict, skipped_shape_keys = filter_shape_compatible_state_dict(
             pl_module,
             state_dict,

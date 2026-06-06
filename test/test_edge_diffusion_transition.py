@@ -76,6 +76,25 @@ class TestEdgeCategoricalTransition(unittest.TestCase):
         self.assertGreaterEqual(int(sampled.min()), 0)
         self.assertLess(int(sampled.max()), 5)
 
+    def test_segment_schedule_accepts_diffgui_style_config(self):
+        transition = EdgeCategoricalTransition(
+            EdgeTransitionConfig(
+                num_classes=5,
+                num_timesteps=10,
+                prior="absorb",
+                beta_schedule="segment",
+                time_segment=(600, 400),
+                segment_diff=(
+                    {"scale_start": 0.9999, "scale_end": 0.001, "width": 3},
+                    {"scale_start": 0.001, "scale_end": 0.0001, "width": 2},
+                ),
+            )
+        )
+
+        self.assertEqual(tuple(transition.betas.shape), (10,))
+        self.assertTrue(torch.isfinite(transition.betas).all())
+        self.assertGreater(float(transition.prior[0]), float(transition.prior[1]))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,99 @@
+run_name: 'diffsbdd-xhe-diffgui-scratch-smoke-260606'
+logdir: 'analysis/diffsbdd_xhe_diffgui_scratch_20260606_smoke/lightning'
+seed: 260606
+wandb_params:
+  mode: 'disabled'
+  entity: null
+  group: 'diffsbdd-xhe-diffgui-scratch'
+logger_backend: 'csv'
+local_logging:
+  backend: 'csv'
+  version: 'metrics'
+  log_every_n_steps: 10
+  print_train_every_n_batches: 20
+
+dataset: 'crossdock'
+datadir: 'data/crossdocked_raw/processed_edge_noH_10class_full_pocket1000'
+enable_progress_bar: false
+num_sanity_val_steps: 0
+
+mode: 'pocket_conditioning'
+pocket_representation: 'full-atom'
+diffusion_mode: 'xhe'
+xhe_warm_start_policy: 'scratch'
+virtual_nodes: false
+batch_size: 1
+lr: 1.0e-4
+noise_factor: 1.0
+n_epochs: 1
+num_workers: 0
+gpus: 1
+clip_grad: true
+augment_rotation: false
+augment_noise: 0
+accumulate_grad_batches: 1
+checkpoint_every_n_epochs: 1
+
+bond_diffusion:
+  enabled: true
+  num_edge_types: 5
+  edge_prior: 'absorb'
+  beta_schedule: 'segment'
+  time_segment: [300, 200]
+  segment_diff:
+    - scale_start: 0.9999
+      scale_end: 0.001
+      width: 3
+    - scale_start: 0.001
+      scale_end: 0.0001
+      width: 2
+  edge_loss_mode: 'diffusion_kl'
+  edge_loss_scale: 100.0
+  edge_loss_weight: 1.0
+  edge_class_weight_mode: 'none'
+  no_bond_weight: 1.0
+  edge_focal_gamma: 0.0
+  use_edge_message_passing: true
+  edge_message_dim: 32
+  edge_message_scale: 1.0
+  bond_length_loss_weight: 1.0
+
+auxiliary_loss: false
+loss_params:
+  max_weight: 0.001
+  schedule: 'linear'
+  clamp_lj: 3.0
+
+egnn_params:
+  device: 'cuda'
+  edge_cutoff_ligand: null
+  edge_cutoff_pocket: 5.0
+  edge_cutoff_interaction: 5.0
+  reflection_equivariant: false
+  joint_nf: 32
+  hidden_nf: 128
+  n_layers: 5
+  attention: true
+  tanh: true
+  norm_constant: 1
+  inv_sublayers: 1
+  sin_embedding: false
+  aggregation_method: 'sum'
+  normalization_factor: 100
+
+diffusion_params:
+  diffusion_steps: 500
+  diffusion_noise_schedule: 'polynomial_2'
+  diffusion_noise_precision: 5.0e-4
+  diffusion_loss_type: 'l2'
+  normalize_factors: [1, 4]
+
+eval_epochs: 999
+visualize_sample_epoch: 999
+visualize_chain_epoch: 999
+eval_params:
+  n_eval_samples: 4
+  eval_batch_size: 4
+  smiles_file: null
+  n_visualize_samples: 2
+  keep_frames: 10
