@@ -46,6 +46,9 @@ class DiffGuiPolicyBatch:
     halfedge_log_state_traj: torch.Tensor
     old_logprob: torch.Tensor
     timesteps: torch.Tensor
+    pred_node: torch.Tensor | None = None
+    pred_pos: torch.Tensor | None = None
+    pred_halfedge: torch.Tensor | None = None
     batch_lab: torch.Tensor | None = None
     gui_strength: float | None = None
 
@@ -67,6 +70,10 @@ class DiffGuiPolicyBatch:
         """Build a policy batch from ``diffgui_sample_with_logprob`` outputs."""
         policy_traj = outputs["policy_traj"]
         logprob = outputs["logprob"]
+        pred = outputs.get("pred")
+        pred_node = pred[0] if pred is not None else None
+        pred_pos = pred[1] if pred is not None else None
+        pred_halfedge = pred[2] if pred is not None else None
         return cls(
             advantages=advantages,
             protein_node=protein_node,
@@ -82,6 +89,9 @@ class DiffGuiPolicyBatch:
             halfedge_log_state_traj=policy_traj["halfedge_log_state"],
             old_logprob=logprob["total"],
             timesteps=logprob["timesteps"],
+            pred_node=pred_node,
+            pred_pos=pred_pos,
+            pred_halfedge=pred_halfedge,
             batch_lab=batch_lab,
             gui_strength=gui_strength,
         )
@@ -105,6 +115,12 @@ class DiffGuiPolicyBatch:
                 raise ValueError(f"{name} first dimension must be num_steps + 1.")
         if int(self.timesteps.shape[1]) != num_graphs:
             raise ValueError("timesteps second dimension must match advantages length.")
+        if self.pred_node is not None and int(self.pred_node.shape[0]) != int(self.ligand_batch.shape[0]):
+            raise ValueError("pred_node first dimension must match ligand_batch length.")
+        if self.pred_pos is not None and int(self.pred_pos.shape[0]) != int(self.ligand_batch.shape[0]):
+            raise ValueError("pred_pos first dimension must match ligand_batch length.")
+        if self.pred_halfedge is not None and int(self.pred_halfedge.shape[0]) != int(self.halfedge_batch.shape[0]):
+            raise ValueError("pred_halfedge first dimension must match halfedge_batch length.")
 
     def to(self, device: torch.device | str) -> "DiffGuiPolicyBatch":
         """Move all tensor fields to a device and return a new batch."""
@@ -124,6 +140,9 @@ class DiffGuiPolicyBatch:
             halfedge_log_state_traj=self.halfedge_log_state_traj.to(target),
             old_logprob=self.old_logprob.to(target),
             timesteps=self.timesteps.to(target),
+            pred_node=None if self.pred_node is None else self.pred_node.to(target),
+            pred_pos=None if self.pred_pos is None else self.pred_pos.to(target),
+            pred_halfedge=None if self.pred_halfedge is None else self.pred_halfedge.to(target),
             batch_lab=None if self.batch_lab is None else self.batch_lab.to(target),
             gui_strength=self.gui_strength,
         )
@@ -166,6 +185,9 @@ class DiffGuiPolicyBatch:
             halfedge_log_state_traj=self.halfedge_log_state_traj[:, halfedge_indices],
             old_logprob=self.old_logprob[:, graph_ids],
             timesteps=self.timesteps[:, graph_ids],
+            pred_node=None if self.pred_node is None else self.pred_node[node_indices],
+            pred_pos=None if self.pred_pos is None else self.pred_pos[node_indices],
+            pred_halfedge=None if self.pred_halfedge is None else self.pred_halfedge[halfedge_indices],
             batch_lab=None if self.batch_lab is None else self.batch_lab[graph_ids],
             gui_strength=self.gui_strength,
         )

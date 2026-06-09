@@ -22,6 +22,7 @@ diffgui_docking_batch_sweep:
   reward_timeout_seconds: 1800
   num_timesteps: 100
   auto_configure_timesteps: true
+  ligand_size_mode: "priori"
   ligand_atoms: 24
   seed_base: 26060940
   gui_strength: 3.0

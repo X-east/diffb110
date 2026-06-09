@@ -50,6 +50,7 @@ from utils.data import PDBProtein, parse_lig_file  # noqa: E402
 from utils.dataset import ProteinLigandData, to_torch_dict  # noqa: E402
 from utils.misc import load_config as load_diffgui_config  # noqa: E402
 from utils.misc import seed_all  # noqa: E402
+from utils.evaluation.atom_num import get_space_size, sample_atom_num  # noqa: E402
 from utils.reconstruct import MolReconsError, reconstruct_from_generated_with_edges  # noqa: E402
 from utils.sample_utils import seperate_outputs  # noqa: E402
 from utils.transforms import FeatureComplex, make_data_placeholder  # noqa: E402
@@ -195,6 +196,11 @@ def _cuda_index_from_device(value: str) -> int | None:
         return None
 
 
+def _seed_diffgui(seed: int) -> None:
+    """Seed the DiffGui reference runtime, including NumPy-based size sampling."""
+    seed_all(int(seed))
+
+
 def run_one_batch(
     *,
     config: dict[str, Any],
@@ -248,6 +254,7 @@ def run_one_batch(
             ligand_sdf=ligand_sdf,
             batch_size=batch_size,
             ligand_atoms=ligand_atoms,
+            sweep_cfg=sweep_cfg,
             device=device,
         )
         rollout = DiffGuiRollout(
@@ -444,18 +451,25 @@ def _build_prompt(
     ligand_sdf: str,
     batch_size: int,
     ligand_atoms: int,
+    sweep_cfg: dict[str, Any] | None,
     device: torch.device,
 ) -> tuple[DiffGuiPromptBatch, np.ndarray, np.ndarray, np.ndarray]:
     """Build the DiffGui prompt tensors for one denovo batch."""
     transform = Compose([featurizer])
     data = _build_pocket_data(pocket_pdb, ligand_sdf)
     data = transform(data)
+    ligand_atom_counts = _sample_ligand_atom_counts(
+        data=data,
+        batch_size=batch_size,
+        ligand_atoms=ligand_atoms,
+        sweep_cfg=sweep_cfg or {},
+    )
     pocket_batch = Batch.from_data_list(
         [data.clone() for _ in range(batch_size)],
         follow_batch=featurizer.follow_batch,
     ).to(device)
     holder = make_data_placeholder(
-        n_nodes_list=[ligand_atoms] * batch_size,
+        n_nodes_list=ligand_atom_counts,
         device=device,
     )
     prompt = DiffGuiPromptBatch(
@@ -473,6 +487,38 @@ def _build_prompt(
         holder["halfedge_index"].detach().cpu().numpy(),
         holder["batch_halfedge"].detach().cpu().numpy(),
     )
+
+
+def _sample_ligand_atom_counts(
+    *,
+    data: Any,
+    batch_size: int,
+    ligand_atoms: int,
+    sweep_cfg: dict[str, Any],
+) -> list[int]:
+    """Sample per-graph ligand atom counts following DiffGui reference modes."""
+    mode = str(sweep_cfg.get("ligand_size_mode", "fixed")).lower()
+    if mode == "fixed":
+        return [int(ligand_atoms)] * int(batch_size)
+    if mode == "priori":
+        pocket_pos = data.protein_pos.detach().cpu().numpy()
+        pocket_size = get_space_size(pocket_pos)
+        return [int(sample_atom_num(pocket_size)) for _ in range(int(batch_size))]
+    if mode == "range":
+        mean = float(sweep_cfg.get("ligand_atoms_range_mean", 24.923464980477522))
+        std = float(sweep_cfg.get("ligand_atoms_range_std", 5.516291901819105))
+        counts = np.random.normal(mean, std, size=int(batch_size)).astype("int64")
+        min_atoms = int(sweep_cfg.get("ligand_atoms_min", 1))
+        max_atoms = sweep_cfg.get("ligand_atoms_max")
+        counts = np.maximum(counts, min_atoms)
+        if max_atoms is not None:
+            counts = np.minimum(counts, int(max_atoms))
+        return [int(value) for value in counts]
+    if mode == "ref":
+        if not hasattr(data, "ligand_element") or len(data.ligand_element) == 0:
+            raise ValueError("ligand_size_mode='ref' requires a non-empty reference ligand_sdf.")
+        return [int(len(data.ligand_element))] * int(batch_size)
+    raise ValueError("diffgui_docking_batch_sweep.ligand_size_mode must be fixed, priori, range, or ref.")
 
 
 def _build_pocket_data(pocket_pdb_path: Path, ligand_sdf_path: str) -> Any:
@@ -519,12 +565,21 @@ def _write_reconstructed_outputs(
     name_prefix: str,
 ) -> tuple[list[dict[str, Any]], int]:
     """Decode final DiffGui states and write generated SDF/CSV artifacts."""
-    node_traj = policy_batch.node_traj.detach().cpu().numpy()
-    pos_traj = policy_batch.pos_centered_traj.detach().cpu().numpy()
-    halfedge_traj = policy_batch.halfedge_traj.detach().cpu().numpy()
+    if policy_batch.pred_node is not None and policy_batch.pred_pos is not None and policy_batch.pred_halfedge is not None:
+        pred_node = policy_batch.pred_node.detach().cpu().numpy()
+        pred_pos = policy_batch.pred_pos.detach().cpu().numpy()
+        pred_halfedge = policy_batch.pred_halfedge.detach().cpu().numpy()
+    else:
+        pred_node = policy_batch.node_traj[-1].detach().cpu().numpy()
+        pred_pos = policy_batch.pos_centered_traj[-1].detach().cpu().numpy()
+        pred_halfedge = policy_batch.halfedge_traj[-1].detach().cpu().numpy()
     outputs_np = {
-        "pred": [node_traj[-1], pos_traj[-1], halfedge_traj[-1]],
-        "traj": [node_traj, pos_traj, halfedge_traj],
+        "pred": [pred_node, pred_pos, pred_halfedge],
+        "traj": [
+            policy_batch.node_traj.detach().cpu().numpy(),
+            policy_batch.pos_centered_traj.detach().cpu().numpy(),
+            policy_batch.halfedge_traj.detach().cpu().numpy(),
+        ],
     }
     split_outputs = seperate_outputs(outputs_np, n_graphs, batch_node, halfedge_index, batch_halfedge)
     rows: list[dict[str, Any]] = []
@@ -736,13 +791,19 @@ def _build_batch_summary_row(
     valid_count = sum(1 for row in reward_rows if int(row.get("rdkit_valid", 0) or 0) == 1)
     docking_success_ratio_scored = float(docking_success / len(reward_rows)) if reward_rows else 0.0
     docking_success_ratio_total = float(docking_success / len(reconstruction_rows)) if reconstruction_rows else 0.0
+    ligand_counts = _policy_ligand_atom_counts(policy_batch, batch_size)
     row: dict[str, Any] = {
         "status": "ok",
         "batch_size": int(batch_size),
         "reward_batch_size": int(reward_batch_size),
         "seed": int(seed),
         "num_timesteps": int(config.get("diffgui_docking_batch_sweep", {}).get("num_timesteps", 100)),
-        "ligand_atoms": int(config.get("diffgui_docking_batch_sweep", {}).get("ligand_atoms", 24)),
+        "ligand_size_mode": str(config.get("diffgui_docking_batch_sweep", {}).get("ligand_size_mode", "fixed")),
+        "ligand_atoms": int(round(float(np.mean(ligand_counts)))) if ligand_counts.size else 0,
+        "ligand_atoms_config": int(config.get("diffgui_docking_batch_sweep", {}).get("ligand_atoms", 24)),
+        "ligand_atoms_min": int(np.min(ligand_counts)) if ligand_counts.size else 0,
+        "ligand_atoms_mean": float(np.mean(ligand_counts)) if ligand_counts.size else 0.0,
+        "ligand_atoms_max": int(np.max(ligand_counts)) if ligand_counts.size else 0,
         "total_seconds": float(total_seconds),
         **{key: float(value) for key, value in timing.items()},
         "seconds_per_graph": float(total_seconds / batch_size),
@@ -770,6 +831,13 @@ def _build_batch_summary_row(
     }
     row.update({key: float(value) for key, value in actor_metrics.items() if _is_number(value)})
     return row
+
+
+def _policy_ligand_atom_counts(policy_batch: DiffGuiPolicyBatch, batch_size: int) -> np.ndarray:
+    """Return per-graph ligand atom counts from the policy batch graph ids."""
+    graph_ids = policy_batch.ligand_batch.detach().cpu().long()
+    counts = torch.bincount(graph_ids, minlength=int(batch_size))
+    return counts.numpy().astype(np.int64)
 
 
 def _is_number(value: Any) -> bool:

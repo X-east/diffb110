@@ -44,6 +44,7 @@ from scripts.diffgui_docking_batch_sweep import (  # noqa: E402
     _resolve_path,
     _rewards_by_graph_index,
     _score_reconstructed_sdf,
+    _seed_diffgui,
     _start_gpu_memory_monitor,
     _stop_gpu_memory_monitor,
     _torch_peak_memory_mb,
@@ -250,7 +251,7 @@ def _run_epoch(
     device = next(model.parameters()).device
     reward_batch_size = int(sweep_cfg.get("reward_batch_size") or batch_size)
     seed = int(sweep_cfg.get("seed_base", 260609)) + epoch
-    torch.manual_seed(seed)
+    _seed_diffgui(seed)
     if device.type == "cuda":
         torch.cuda.empty_cache()
         torch.cuda.reset_peak_memory_stats(device)
@@ -272,6 +273,7 @@ def _run_epoch(
             ligand_sdf=str(model_cfg.get("ligand_sdf", "None")),
             batch_size=batch_size,
             ligand_atoms=int(sweep_cfg.get("ligand_atoms", 24)),
+            sweep_cfg=sweep_cfg,
             device=device,
         )
         rollout = DiffGuiRollout(
