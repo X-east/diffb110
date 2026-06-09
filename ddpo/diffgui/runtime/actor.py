@@ -189,9 +189,11 @@ class DiffGuiActor:
         self.graph_micro_batch_size = int(train_cfg.get("graph_micro_batch_size", 0))
         if self.graph_micro_batch_size < 0:
             raise ValueError("train.graph_micro_batch_size must be non-negative.")
+        self.freeze_report = self._apply_freeze_policy(self.model, train_cfg.get("freeze", {}))
         self._optimizer_params = [param for param in self.model.parameters() if param.requires_grad]
         if not self._optimizer_params:
             raise RuntimeError("DiffGuiActor model has no trainable parameters.")
+        logger.info("DiffGuiActor freeze_report=%s", self.freeze_report)
         self.optimizer = torch.optim.AdamW(
             self._optimizer_params,
             lr=float(train_cfg.get("learning_rate", 1e-5)),
@@ -226,6 +228,8 @@ class DiffGuiActor:
                 self.optimizer.step()
             metrics["GradNorm"] = float(_to_scalar(grad_norm))
             metrics["PPO_Epoch"] = float(ppo_epoch)
+            metrics["TrainableParams"] = float(self.freeze_report["trainable_params"])
+            metrics["FrozenParams"] = float(self.freeze_report["frozen_params"])
             epoch_metrics.append(metrics)
         return self._merge_metrics(epoch_metrics)
 
@@ -369,6 +373,75 @@ class DiffGuiActor:
         if normalized in ("bf16", "bfloat16"):
             return torch.bfloat16
         raise ValueError("train.precision must be one of fp32, fp16, or bf16.")
+
+    @classmethod
+    def _apply_freeze_policy(cls, model: torch.nn.Module, freeze_cfg: Any) -> dict[str, Any]:
+        """Apply a DiffGui-specific parameter freeze policy before optimizer setup."""
+        cfg = freeze_cfg if isinstance(freeze_cfg, dict) else {}
+        mode = str(cfg.get("mode", "none")).lower()
+        if mode in ("none", "off", "false"):
+            return cls._freeze_report(model, mode="none", train_last_n_blocks=0)
+
+        for parameter in model.parameters():
+            parameter.requires_grad_(False)
+
+        train_last_n_blocks = int(cfg.get("train_last_n_blocks", cfg.get("last_n_blocks", 1)))
+        if mode in ("heads_only", "head", "heads"):
+            cls._enable_named_module(model, "ligand_node_decoder")
+            cls._enable_named_module(model, "ligand_edge_decoder")
+            train_last_n_blocks = 0
+        elif mode in ("last_n_blocks", "last_blocks"):
+            if train_last_n_blocks <= 0:
+                raise ValueError("freeze.train_last_n_blocks must be positive for last_n_blocks mode.")
+            cls._enable_named_module(model, "ligand_node_decoder")
+            cls._enable_named_module(model, "ligand_edge_decoder")
+            cls._enable_last_denoiser_blocks(model, train_last_n_blocks)
+        else:
+            raise ValueError("train.freeze.mode must be one of none, heads_only, or last_n_blocks.")
+        return cls._freeze_report(model, mode=mode, train_last_n_blocks=train_last_n_blocks)
+
+    @staticmethod
+    def _enable_named_module(model: torch.nn.Module, module_name: str) -> None:
+        """Enable gradients for a direct child module if it exists."""
+        module = getattr(model, module_name, None)
+        if module is None:
+            return
+        for parameter in module.parameters():
+            parameter.requires_grad_(True)
+
+    @classmethod
+    def _enable_last_denoiser_blocks(cls, model: torch.nn.Module, train_last_n_blocks: int) -> None:
+        """Enable gradients for the last N DiffGui EGNN block groups."""
+        denoiser = getattr(model, "denoiser", None)
+        if denoiser is None:
+            return
+        for list_name in ("node_blocks_with_edge", "edge_embs", "edge_blocks", "pos_blocks"):
+            modules = getattr(denoiser, list_name, None)
+            if modules is None:
+                continue
+            start = max(0, len(modules) - int(train_last_n_blocks))
+            for module in list(modules)[start:]:
+                cls._enable_module(module)
+
+    @staticmethod
+    def _enable_module(module: torch.nn.Module) -> None:
+        """Enable gradients for all parameters in a module."""
+        for parameter in module.parameters():
+            parameter.requires_grad_(True)
+
+    @staticmethod
+    def _freeze_report(model: torch.nn.Module, *, mode: str, train_last_n_blocks: int) -> dict[str, Any]:
+        """Summarize trainable and frozen parameter counts."""
+        total_params = sum(parameter.numel() for parameter in model.parameters())
+        trainable_params = sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)
+        return {
+            "mode": mode,
+            "train_last_n_blocks": int(train_last_n_blocks),
+            "total_params": int(total_params),
+            "trainable_params": int(trainable_params),
+            "frozen_params": int(total_params - trainable_params),
+            "trainable_ratio": float(trainable_params / total_params) if total_params else 0.0,
+        }
 
     @staticmethod
     def _policy_batch_from_input(data: Any | DiffGuiPolicyBatch) -> DiffGuiPolicyBatch:

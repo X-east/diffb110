@@ -67,6 +67,28 @@ class _TrainableFakeDiffGui(torch.nn.Module):
         }
 
 
+class _FreezeFakeDenoiser(torch.nn.Module):
+    """Minimal DiffGui-like denoiser with block ModuleLists."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.node_blocks_with_edge = torch.nn.ModuleList([torch.nn.Linear(2, 2), torch.nn.Linear(2, 2)])
+        self.edge_embs = torch.nn.ModuleList([torch.nn.Linear(2, 2), torch.nn.Linear(2, 2)])
+        self.edge_blocks = torch.nn.ModuleList([torch.nn.Linear(2, 2), torch.nn.Linear(2, 2)])
+        self.pos_blocks = torch.nn.ModuleList([torch.nn.Linear(2, 2), torch.nn.Linear(2, 2)])
+
+
+class _FreezeFakeDiffGui(torch.nn.Module):
+    """Minimal DiffGui-like module for freeze policy tests."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.input_embedder = torch.nn.Linear(2, 2)
+        self.denoiser = _FreezeFakeDenoiser()
+        self.ligand_node_decoder = torch.nn.Linear(2, 2)
+        self.ligand_edge_decoder = torch.nn.Linear(2, 2)
+
+
 def _make_policy_batch(model: _TrainableFakeDiffGui) -> DiffGuiPolicyBatch:
     """Generate a tiny old-policy rollout batch."""
     torch.manual_seed(23)
@@ -169,6 +191,40 @@ def test_diffgui_actor_update_policy_graph_microbatch_smoke() -> None:
     assert metrics["GraphMicroBatchSize"] == 1.0
     assert metrics["NumSteps"] == float(model.num_timesteps)
     assert np.isfinite(metrics["Loss"])
+
+
+def test_diffgui_freeze_policy_heads_only() -> None:
+    """heads_only should freeze backbone parameters and train decoders."""
+    model = _FreezeFakeDiffGui()
+
+    report = DiffGuiActor._apply_freeze_policy(model, {"mode": "heads_only"})
+
+    assert report["trainable_params"] > 0
+    assert report["trainable_params"] < report["total_params"]
+    assert not any(parameter.requires_grad for parameter in model.input_embedder.parameters())
+    assert not any(parameter.requires_grad for parameter in model.denoiser.parameters())
+    assert all(parameter.requires_grad for parameter in model.ligand_node_decoder.parameters())
+    assert all(parameter.requires_grad for parameter in model.ligand_edge_decoder.parameters())
+
+
+def test_diffgui_freeze_policy_last_n_blocks() -> None:
+    """last_n_blocks should train decoders and only the final denoiser block group."""
+    model = _FreezeFakeDiffGui()
+
+    report = DiffGuiActor._apply_freeze_policy(
+        model,
+        {"mode": "last_n_blocks", "train_last_n_blocks": 1},
+    )
+
+    assert report["train_last_n_blocks"] == 1
+    assert not any(parameter.requires_grad for parameter in model.input_embedder.parameters())
+    assert not any(parameter.requires_grad for parameter in model.denoiser.node_blocks_with_edge[0].parameters())
+    assert all(parameter.requires_grad for parameter in model.denoiser.node_blocks_with_edge[-1].parameters())
+    assert all(parameter.requires_grad for parameter in model.denoiser.edge_embs[-1].parameters())
+    assert all(parameter.requires_grad for parameter in model.denoiser.edge_blocks[-1].parameters())
+    assert all(parameter.requires_grad for parameter in model.denoiser.pos_blocks[-1].parameters())
+    assert all(parameter.requires_grad for parameter in model.ligand_node_decoder.parameters())
+    assert all(parameter.requires_grad for parameter in model.ligand_edge_decoder.parameters())
 
 
 def test_diffgui_actor_accepts_meta_info_bridge() -> None:

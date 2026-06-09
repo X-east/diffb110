@@ -60,6 +60,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--actor-lr", type=float, default=1e-6)
     parser.add_argument("--precision", type=str, default="bf16", choices=["fp32", "fp16", "bf16"])
     parser.add_argument("--graph-micro-batch-size", type=int, default=1)
+    parser.add_argument("--freeze-mode", type=str, default="none", choices=["none", "heads_only", "last_n_blocks"])
+    parser.add_argument("--train-last-n-blocks", type=int, default=1)
     parser.add_argument("--add-edge", type=str, default="None")
     return parser.parse_args()
 
@@ -154,6 +156,10 @@ def main() -> None:
                 "diffgui_logprob_reduction": "mean",
                 "precision": args.precision,
                 "graph_micro_batch_size": args.graph_micro_batch_size,
+                "freeze": {
+                    "mode": args.freeze_mode,
+                    "train_last_n_blocks": args.train_last_n_blocks,
+                },
             }
         },
     )
@@ -183,6 +189,8 @@ def main() -> None:
         "gui_strength": float(args.gui_strength),
         "precision": str(args.precision),
         "graph_micro_batch_size": int(args.graph_micro_batch_size),
+        "freeze_mode": str(args.freeze_mode),
+        "train_last_n_blocks": int(args.train_last_n_blocks),
         "old_logprob_shape": list(policy_batch.old_logprob.shape),
         "timesteps_shape": list(policy_batch.timesteps.shape),
         "actor_metrics": actor_metrics,
