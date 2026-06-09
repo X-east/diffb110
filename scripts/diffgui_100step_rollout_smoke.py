@@ -252,7 +252,23 @@ def _load_matching_network_weights(model: torch.nn.Module, checkpoint_state: dic
     model_state = model.state_dict()
     filtered: dict[str, torch.Tensor] = {}
     skipped: list[dict[str, Any]] = []
+    regenerated_prefixes = (
+        "pos_transition.",
+        "node_transition.",
+        "edge_transition.",
+        "time_emb.",
+    )
     for key, value in checkpoint_state.items():
+        if key.startswith(regenerated_prefixes):
+            skipped.append(
+                {
+                    "key": key,
+                    "checkpoint_shape": list(value.shape),
+                    "model_shape": list(model_state[key].shape) if key in model_state else None,
+                    "reason": "regenerated_from_current_num_timesteps",
+                }
+            )
+            continue
         model_value = model_state.get(key)
         if model_value is not None and tuple(model_value.shape) == tuple(value.shape):
             filtered[key] = value
@@ -267,14 +283,14 @@ def _load_matching_network_weights(model: torch.nn.Module, checkpoint_state: dic
     non_transition_skipped = [
         item["key"]
         for item in skipped
-        if not str(item["key"]).startswith(("pos_transition.", "node_transition.", "edge_transition."))
+        if not str(item["key"]).startswith(regenerated_prefixes)
     ]
     if non_transition_skipped:
         raise RuntimeError(f"Unexpected non-transition checkpoint shape mismatches: {non_transition_skipped[:10]}")
     missing, unexpected = model.load_state_dict(filtered, strict=False)
     return {
         "loaded_keys": len(filtered),
-        "skipped_transition_keys": len(skipped),
+        "skipped_regenerated_keys": len(skipped),
         "missing_keys": len(missing),
         "unexpected_keys": len(unexpected),
     }
