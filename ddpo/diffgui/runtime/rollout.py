@@ -83,6 +83,16 @@ class DiffGuiRollout:
         """Initialize rollout settings from the DiffGui-specific config."""
         self.model = model
         rollout_cfg = config.get("diffgui_rollout", {})
+        self.num_timesteps = int(rollout_cfg.get("num_timesteps", getattr(model, "num_timesteps", 0)))
+        model_timesteps = int(getattr(model, "num_timesteps", 0))
+        if self.num_timesteps <= 0:
+            raise ValueError("diffgui_rollout.num_timesteps must be positive.")
+        if model_timesteps != self.num_timesteps:
+            raise ValueError(
+                "diffgui_rollout.num_timesteps must match model.num_timesteps. "
+                "Build the DiffGui model with the same model.diff.num_timesteps value "
+                "so rollout generation and PPO training replay the same trajectory."
+            )
         self.reduction = str(rollout_cfg.get("logprob_reduction", "mean"))
         self.gui_strength = rollout_cfg.get("gui_strength")
         self.cpu_offload = bool(rollout_cfg.get("cpu_offload", True))
@@ -151,6 +161,7 @@ class DiffGuiRollout:
             meta_info={
                 "diffgui_policy_batch": policy_batch,
                 "diffgui_policy_batch_kind": "xhe_joint",
+                "diffgui_num_timesteps": self.num_timesteps,
             },
         )
 

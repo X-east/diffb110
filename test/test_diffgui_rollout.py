@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 import torch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -103,6 +104,7 @@ def test_diffgui_rollout_builds_policy_batch() -> None:
         model,
         {
             "diffgui_rollout": {
+                "num_timesteps": 3,
                 "synthetic_advantage_mode": "linear",
                 "synthetic_advantage_scale": 2.0,
             }
@@ -118,11 +120,22 @@ def test_diffgui_rollout_builds_policy_batch() -> None:
     policy_batch.validate()
 
 
+def test_diffgui_rollout_rejects_num_timestep_mismatch() -> None:
+    """The configured rollout length must match the actual DiffGui model."""
+    model = _TrainableFakeDiffGui()
+
+    with pytest.raises(ValueError, match="must match model.num_timesteps"):
+        DiffGuiRollout(model, {"diffgui_rollout": {"num_timesteps": 100}})
+
+
 def test_diffgui_rollout_dataproto_bridge_updates_actor() -> None:
     """Rollout DataProto bridge should feed directly into DiffGuiActor."""
     torch.manual_seed(37)
     model = _TrainableFakeDiffGui()
-    rollout = DiffGuiRollout(model, {"diffgui_rollout": {"synthetic_advantage_mode": "ones"}})
+    rollout = DiffGuiRollout(
+        model,
+        {"diffgui_rollout": {"num_timesteps": 3, "synthetic_advantage_mode": "ones"}},
+    )
     data = rollout.generate_samples(_make_prompt())
     actor = DiffGuiActor(
         model,
@@ -140,6 +153,7 @@ def test_diffgui_rollout_dataproto_bridge_updates_actor() -> None:
 
     assert data.batch["nodesxsample"].tolist() == [3, 3]
     assert data.meta_info["diffgui_policy_batch_kind"] == "xhe_joint"
+    assert data.meta_info["diffgui_num_timesteps"] == model.num_timesteps
     assert metrics["PPO_Epochs"] == 1.0
     assert metrics["TrainBatchSize"] == 2.0
     assert np.isfinite(metrics["Loss"])
