@@ -70,8 +70,8 @@ class _TrainableFakeDiffGui(torch.nn.Module):
 def _make_policy_batch(model: _TrainableFakeDiffGui) -> DiffGuiPolicyBatch:
     """Generate a tiny old-policy rollout batch."""
     torch.manual_seed(23)
-    ligand_batch = torch.tensor([0, 0, 1], dtype=torch.long)
-    halfedge_index = torch.tensor([[0, 1], [1, 2]], dtype=torch.long)
+    ligand_batch = torch.tensor([0, 0, 1, 1], dtype=torch.long)
+    halfedge_index = torch.tensor([[0, 2], [1, 3]], dtype=torch.long)
     halfedge_batch = torch.tensor([0, 1], dtype=torch.long)
     protein_node = torch.zeros(2, 4)
     protein_pos = torch.tensor([[0.0, 0.0, 0.0], [3.0, 0.0, 0.0]])
@@ -127,6 +127,48 @@ def test_diffgui_actor_update_policy_smoke() -> None:
     assert np.isfinite(metrics["Loss"])
     assert np.isfinite(metrics["PPO_ApproxKL"])
     assert not torch.allclose(before, model.scale.detach())
+
+
+def test_diffgui_policy_batch_select_graphs_rebases_halfedges() -> None:
+    """Graph slicing should compact graph ids and ligand node indices."""
+    model = _TrainableFakeDiffGui()
+    batch = _make_policy_batch(model)
+
+    selected = batch.select_graphs([1])
+
+    assert selected.advantages.tolist() == [0.5]
+    assert selected.protein_batch.tolist() == [0]
+    assert selected.ligand_batch.tolist() == [0, 0]
+    assert selected.halfedge_batch.tolist() == [0]
+    assert selected.halfedge_index.tolist() == [[0], [1]]
+    assert selected.old_logprob.shape == (model.num_timesteps, 1)
+    selected.validate()
+
+
+def test_diffgui_actor_update_policy_graph_microbatch_smoke() -> None:
+    """DiffGuiActor should stream graph microbatches without changing batch semantics."""
+    model = _TrainableFakeDiffGui()
+    batch = _make_policy_batch(model)
+    actor = DiffGuiActor(
+        model,
+        {
+            "train": {
+                "learning_rate": 1e-3,
+                "clip_range": 0.2,
+                "max_grad_norm": 1.0,
+                "ppo_epochs": 1,
+                "graph_micro_batch_size": 1,
+            }
+        },
+    )
+
+    metrics = actor.update_policy(batch)
+
+    assert metrics["PPO_Epochs"] == 1.0
+    assert metrics["TrainBatchSize"] == 2.0
+    assert metrics["GraphMicroBatchSize"] == 1.0
+    assert metrics["NumSteps"] == float(model.num_timesteps)
+    assert np.isfinite(metrics["Loss"])
 
 
 def test_diffgui_actor_accepts_meta_info_bridge() -> None:

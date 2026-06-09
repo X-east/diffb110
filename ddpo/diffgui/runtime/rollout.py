@@ -95,6 +95,12 @@ class DiffGuiRollout:
             )
         self.reduction = str(rollout_cfg.get("logprob_reduction", "mean"))
         self.gui_strength = rollout_cfg.get("gui_strength")
+        train_mode = str(getattr(getattr(model, "config", None), "train_mode", ""))
+        if train_mode in ("ori", "no_bond") and self.gui_strength is None:
+            raise ValueError(
+                "DiffGui train_mode requires diffgui_rollout.gui_strength for classifier-free prediction; "
+                "set it to 0.0 to disable guidance while keeping rollout and PPO logprob aligned."
+            )
         self.cpu_offload = bool(rollout_cfg.get("cpu_offload", True))
         self.advantage_mode = str(rollout_cfg.get("synthetic_advantage_mode", "ones"))
         self.advantage_scale = float(rollout_cfg.get("synthetic_advantage_scale", 1.0))
@@ -138,6 +144,7 @@ class DiffGuiRollout:
             halfedge_index=prompt_on_device.halfedge_index,
             halfedge_batch=prompt_on_device.halfedge_batch,
             batch_lab=prompt_on_device.batch_lab,
+            gui_strength=self.gui_strength,
         )
         batch.validate()
         return batch.to("cpu") if self.cpu_offload else batch

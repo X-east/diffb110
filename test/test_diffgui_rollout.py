@@ -128,6 +128,15 @@ def test_diffgui_rollout_rejects_num_timestep_mismatch() -> None:
         DiffGuiRollout(model, {"diffgui_rollout": {"num_timesteps": 100}})
 
 
+def test_diffgui_rollout_requires_gui_strength_for_classifier_free_mode() -> None:
+    """Classifier-free DiffGui checkpoints need explicit gui_strength for PPO replay."""
+    model = _TrainableFakeDiffGui()
+    model.config.train_mode = "ori"
+
+    with pytest.raises(ValueError, match="gui_strength"):
+        DiffGuiRollout(model, {"diffgui_rollout": {"num_timesteps": 3}})
+
+
 def test_diffgui_rollout_dataproto_bridge_updates_actor() -> None:
     """Rollout DataProto bridge should feed directly into DiffGuiActor."""
     torch.manual_seed(37)
