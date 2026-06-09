@@ -14,7 +14,14 @@ import torch
 
 from ddpo.diffgui.runtime.actor import DiffGuiPolicyBatch
 from ddpo.diffgui.runtime.logprob_adapter import diffgui_sample_with_logprob
-from ddpo.runtime.protocol import DataProto, TensorDict
+
+
+@dataclass
+class DiffGuiDataBridge:
+    """Minimal DataProto-compatible bridge for DiffGui actor updates."""
+
+    batch: dict[str, torch.Tensor]
+    meta_info: dict[str, Any]
 
 
 @dataclass(frozen=True)
@@ -130,19 +137,16 @@ class DiffGuiRollout:
         prompt: DiffGuiPromptBatch,
         *,
         advantages: torch.Tensor | None = None,
-    ) -> DataProto:
-        """Return a DataProto bridge carrying a DiffGuiPolicyBatch in metadata."""
+    ) -> DiffGuiDataBridge:
+        """Return a lightweight bridge carrying a DiffGuiPolicyBatch in metadata."""
         policy_batch = self.generate_policy_batch(prompt, advantages=advantages)
         node_counts = prompt.node_counts().detach().cpu()
-        bridge_batch = TensorDict(
-            {
-                "advantages": policy_batch.advantages.detach().cpu(),
-                "reward_total": policy_batch.advantages.detach().cpu().clone(),
-                "nodesxsample": node_counts,
-            },
-            batch_size=policy_batch.advantages.shape[0],
-        )
-        return DataProto(
+        bridge_batch = {
+            "advantages": policy_batch.advantages.detach().cpu(),
+            "reward_total": policy_batch.advantages.detach().cpu().clone(),
+            "nodesxsample": node_counts,
+        }
+        return DiffGuiDataBridge(
             batch=bridge_batch,
             meta_info={
                 "diffgui_policy_batch": policy_batch,

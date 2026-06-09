@@ -18,8 +18,6 @@ import torch
 from torch.nn.utils import clip_grad_norm_
 
 from ddpo.diffgui.runtime.logprob_adapter import diffgui_forward_step_logprob
-from ddpo.runtime.actor import BaseActor
-from ddpo.runtime.protocol import DataProto
 
 
 logger = logging.getLogger(__name__)
@@ -127,7 +125,7 @@ class DiffGuiPolicyBatch:
         )
 
 
-class DiffGuiActor(BaseActor):
+class DiffGuiActor:
     """PPO actor for DiffGui transition batches."""
 
     def __init__(self, model: torch.nn.Module, config: dict[str, Any]) -> None:
@@ -154,7 +152,7 @@ class DiffGuiActor(BaseActor):
             eps=float(train_cfg.get("adam_epsilon", 1e-8)),
         )
 
-    def update_policy(self, data: DataProto | DiffGuiPolicyBatch) -> dict[str, float]:
+    def update_policy(self, data: Any | DiffGuiPolicyBatch) -> dict[str, float]:
         """Update DiffGui policy from a rollout batch using PPO clipping."""
         policy_batch = self._policy_batch_from_input(data)
         policy_batch.validate()
@@ -250,15 +248,16 @@ class DiffGuiActor(BaseActor):
         return self._optimizer_params[0].device
 
     @staticmethod
-    def _policy_batch_from_input(data: DataProto | DiffGuiPolicyBatch) -> DiffGuiPolicyBatch:
+    def _policy_batch_from_input(data: Any | DiffGuiPolicyBatch) -> DiffGuiPolicyBatch:
         """Extract a DiffGuiPolicyBatch from supported actor input types."""
         if isinstance(data, DiffGuiPolicyBatch):
             return data
-        if isinstance(data, DataProto):
-            candidate = data.meta_info.get("diffgui_policy_batch")
+        meta_info = getattr(data, "meta_info", None)
+        if isinstance(meta_info, dict):
+            candidate = meta_info.get("diffgui_policy_batch")
             if isinstance(candidate, DiffGuiPolicyBatch):
                 return candidate
-            raise ValueError("DataProto.meta_info['diffgui_policy_batch'] must contain a DiffGuiPolicyBatch.")
+            raise ValueError("data.meta_info['diffgui_policy_batch'] must contain a DiffGuiPolicyBatch.")
         raise TypeError(f"Unsupported DiffGuiActor input type: {type(data)!r}")
 
     @staticmethod

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import torch
@@ -17,7 +18,6 @@ from models.transition import ContigousTransition, GeneralCategoricalTransition 
 
 from ddpo.diffgui.runtime.actor import DiffGuiActor, DiffGuiPolicyBatch  # noqa: E402
 from ddpo.diffgui.runtime.logprob_adapter import diffgui_sample_with_logprob  # noqa: E402
-from ddpo.runtime.protocol import DataProto  # noqa: E402
 
 
 class _FakeConfig:
@@ -129,11 +129,11 @@ def test_diffgui_actor_update_policy_smoke() -> None:
     assert not torch.allclose(before, model.scale.detach())
 
 
-def test_diffgui_actor_accepts_dataproto_bridge() -> None:
-    """The actor should accept a DataProto carrying DiffGuiPolicyBatch metadata."""
+def test_diffgui_actor_accepts_meta_info_bridge() -> None:
+    """The actor should accept a metadata bridge carrying DiffGuiPolicyBatch."""
     model = _TrainableFakeDiffGui()
     batch = _make_policy_batch(model)
-    data = DataProto(meta_info={"diffgui_policy_batch": batch})
+    data = SimpleNamespace(meta_info={"diffgui_policy_batch": batch})
     actor = DiffGuiActor(
         model,
         {
@@ -150,4 +150,3 @@ def test_diffgui_actor_accepts_dataproto_bridge() -> None:
 
     assert metrics["PPO_Epochs"] == 1.0
     assert np.isfinite(metrics["Loss"])
-
