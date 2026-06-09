@@ -1,0 +1,397 @@
+{
+  "task": "diffsbdd_xhe_predicted_edge_reconstruction_smoke",
+  "scope": "teacher_forced_real_val_point_clouds",
+  "decoupled_from_rl": true,
+  "config": "analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/diffsbdd_xhe_20k_6gpu_b4_3ep.yaml",
+  "checkpoint": "analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/lightning/diffsbdd-xhe-20k-6gpu-260604-b4-3ep/checkpoints/last.ckpt",
+  "split": "val",
+  "device": "cuda",
+  "seed": 260605,
+  "batch_size": 8,
+  "molecules": 300,
+  "timesteps": [
+    0,
+    10,
+    50,
+    100,
+    250,
+    500
+  ],
+  "elapsed_seconds": 285.074919462204,
+  "seconds_per_molecule_per_timestep": 0.15837495525678,
+  "load_status": {
+    "missing": 0,
+    "unexpected": 0
+  },
+  "summary_by_timestep": [
+    {
+      "timestep": 0,
+      "molecules": 300,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 1.0,
+      "pred_vs_oracle_smiles_match_rate": 1.0,
+      "exact_halfedge_match_rate": 1.0,
+      "mean_halfedge_accuracy": 1.0,
+      "mean_bond_pair_precision": 1.0,
+      "mean_bond_pair_recall": 1.0,
+      "mean_bond_pair_f1": 1.0,
+      "mean_bad_bond_length_fraction": 0.0002222222222222222,
+      "mean_noised_change_fraction": 2.915266629618903e-05,
+      "mean_target_bond_count": 24.996666666666666,
+      "mean_pred_bond_count": 24.996666666666666,
+      "mean_missing_bond_count": 0.0,
+      "mean_extra_bond_count": 0.0,
+      "mean_bond_type_mismatch_count": 0.0,
+      "mean_pred_fragments": 1.0,
+      "mean_pred_rings": 2.7,
+      "mean_pred_aromatic_rings": 1.51,
+      "mean_pred_three_member_rings": 0.03333333333333333
+    },
+    {
+      "timestep": 10,
+      "molecules": 300,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.9966666666666667,
+      "pred_vs_oracle_smiles_match_rate": 0.99,
+      "exact_halfedge_match_rate": 0.9866666666666667,
+      "mean_halfedge_accuracy": 0.9998973546425501,
+      "mean_bond_pair_precision": 1.0,
+      "mean_bond_pair_recall": 1.0,
+      "mean_bond_pair_f1": 1.0,
+      "mean_bad_bond_length_fraction": 0.0002222222222222222,
+      "mean_noised_change_fraction": 0.002942366808420047,
+      "mean_target_bond_count": 24.996666666666666,
+      "mean_pred_bond_count": 24.996666666666666,
+      "mean_missing_bond_count": 0.0,
+      "mean_extra_bond_count": 0.0,
+      "mean_bond_type_mismatch_count": 0.013333333333333334,
+      "mean_pred_fragments": 1.0,
+      "mean_pred_rings": 2.6933333333333334,
+      "mean_pred_aromatic_rings": 1.5066666666666666,
+      "mean_pred_three_member_rings": 0.03333333333333333
+    },
+    {
+      "timestep": 50,
+      "molecules": 300,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.8233333333333334,
+      "pred_vs_oracle_smiles_match_rate": 0.6033333333333334,
+      "exact_halfedge_match_rate": 0.51,
+      "mean_halfedge_accuracy": 0.9965783687432607,
+      "mean_bond_pair_precision": 0.990197269400215,
+      "mean_bond_pair_recall": 0.999272900052886,
+      "mean_bond_pair_f1": 0.9945949877824781,
+      "mean_bad_bond_length_fraction": 0.00988414822430595,
+      "mean_noised_change_fraction": 0.04327672958529244,
+      "mean_target_bond_count": 24.996666666666666,
+      "mean_pred_bond_count": 25.226666666666667,
+      "mean_missing_bond_count": 0.023333333333333334,
+      "mean_extra_bond_count": 0.25333333333333335,
+      "mean_bond_type_mismatch_count": 0.4766666666666667,
+      "mean_pred_fragments": 1.0,
+      "mean_pred_rings": 2.35,
+      "mean_pred_aromatic_rings": 1.1433333333333333,
+      "mean_pred_three_member_rings": 0.14333333333333334
+    },
+    {
+      "timestep": 100,
+      "molecules": 300,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.2733333333333333,
+      "pred_vs_oracle_smiles_match_rate": 0.03666666666666667,
+      "exact_halfedge_match_rate": 0.02666666666666667,
+      "mean_halfedge_accuracy": 0.9776159099737803,
+      "mean_bond_pair_precision": 0.8923708903024467,
+      "mean_bond_pair_recall": 0.9942118822044492,
+      "mean_bond_pair_f1": 0.9394473618347297,
+      "mean_bad_bond_length_fraction": 0.1074936373267867,
+      "mean_noised_change_fraction": 0.15510360406090815,
+      "mean_target_bond_count": 24.996666666666666,
+      "mean_pred_bond_count": 27.88,
+      "mean_missing_bond_count": 0.15666666666666668,
+      "mean_extra_bond_count": 3.04,
+      "mean_bond_type_mismatch_count": 1.6266666666666667,
+      "mean_pred_fragments": 1.0233333333333334,
+      "mean_pred_rings": 1.28,
+      "mean_pred_aromatic_rings": 0.24,
+      "mean_pred_three_member_rings": 0.49666666666666665
+    },
+    {
+      "timestep": 250,
+      "molecules": 300,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.0,
+      "pred_vs_oracle_smiles_match_rate": 0.0,
+      "exact_halfedge_match_rate": 0.0,
+      "mean_halfedge_accuracy": 0.800725032488505,
+      "mean_bond_pair_precision": 0.386070749957498,
+      "mean_bond_pair_recall": 0.8775649251358125,
+      "mean_bond_pair_f1": 0.5348827471717611,
+      "mean_bad_bond_length_fraction": 0.6130272282969774,
+      "mean_noised_change_fraction": 0.5777980754772822,
+      "mean_target_bond_count": 24.996666666666666,
+      "mean_pred_bond_count": 57.193333333333335,
+      "mean_missing_bond_count": 3.2666666666666666,
+      "mean_extra_bond_count": 35.46333333333333,
+      "mean_bond_type_mismatch_count": 6.283333333333333,
+      "mean_pred_fragments": 1.03,
+      "mean_pred_rings": 0.0,
+      "mean_pred_aromatic_rings": 0.0,
+      "mean_pred_three_member_rings": 0.0
+    },
+    {
+      "timestep": 500,
+      "molecules": 300,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.7266666666666667,
+      "pred_vs_oracle_smiles_match_rate": 0.0,
+      "exact_halfedge_match_rate": 0.0,
+      "mean_halfedge_accuracy": 0.7768746096889177,
+      "mean_bond_pair_precision": 0.05725910276514729,
+      "mean_bond_pair_recall": 0.16671782397885337,
+      "mean_bond_pair_f1": 0.07030627782985112,
+      "mean_bad_bond_length_fraction": 0.3028797861237416,
+      "mean_noised_change_fraction": 0.7946121056874593,
+      "mean_target_bond_count": 24.996666666666666,
+      "mean_pred_bond_count": 10.853333333333333,
+      "mean_missing_bond_count": 23.08,
+      "mean_extra_bond_count": 8.936666666666667,
+      "mean_bond_type_mismatch_count": 0.5766666666666667,
+      "mean_pred_fragments": 20.283333333333335,
+      "mean_pred_rings": 0.01,
+      "mean_pred_aromatic_rings": 0.006666666666666667,
+      "mean_pred_three_member_rings": 0.01
+    }
+  ],
+  "confusion_by_timestep": {
+    "0": [
+      [
+        81157,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        3956,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        688,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        12,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2843
+      ]
+    ],
+    "10": [
+      [
+        81157,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        3953,
+        3,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        688,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        12,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        2842
+      ]
+    ],
+    "50": [
+      [
+        81081,
+        41,
+        4,
+        0,
+        31
+      ],
+      [
+        5,
+        3902,
+        15,
+        0,
+        34
+      ],
+      [
+        0,
+        26,
+        642,
+        0,
+        20
+      ],
+      [
+        0,
+        1,
+        0,
+        11,
+        0
+      ],
+      [
+        2,
+        32,
+        15,
+        0,
+        2794
+      ]
+    ],
+    "100": [
+      [
+        80245,
+        511,
+        49,
+        0,
+        352
+      ],
+      [
+        20,
+        3734,
+        45,
+        0,
+        157
+      ],
+      [
+        5,
+        112,
+        508,
+        0,
+        63
+      ],
+      [
+        0,
+        8,
+        1,
+        3,
+        0
+      ],
+      [
+        22,
+        89,
+        13,
+        0,
+        2719
+      ]
+    ],
+    "250": [
+      [
+        70518,
+        5754,
+        61,
+        0,
+        4824
+      ],
+      [
+        532,
+        2598,
+        23,
+        0,
+        803
+      ],
+      [
+        72,
+        370,
+        54,
+        0,
+        192
+      ],
+      [
+        0,
+        9,
+        0,
+        0,
+        3
+      ],
+      [
+        376,
+        483,
+        2,
+        0,
+        1982
+      ]
+    ],
+    "500": [
+      [
+        78476,
+        2117,
+        0,
+        0,
+        564
+      ],
+      [
+        3574,
+        331,
+        0,
+        0,
+        51
+      ],
+      [
+        622,
+        55,
+        0,
+        0,
+        11
+      ],
+      [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2716,
+        56,
+        0,
+        0,
+        71
+      ]
+    ]
+  },
+  "files": {
+    "rows_csv": "predicted_edge_reconstruction_rows.csv",
+    "summary_csv": "predicted_edge_reconstruction_summary.csv",
+    "summary_json": "predicted_edge_reconstruction_summary.json",
+    "metrics_plot": "predicted_edge_reconstruction_metrics.png",
+    "confusion_csv": "predicted_edge_reconstruction_confusion.csv"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "base_positive_rows": 100000,
+  "base_negative_rows": 70000,
+  "generated_positive_rows_before_dedup": 3005,
+  "generated_negative_rows_before_dedup": 29514,
+  "positive_rows_after_dedup": 102966,
+  "negative_rows_after_dedup_overlap_removed": 98991,
+  "negative_positive_overlap_removed": 38,
+  "positive_output": "analysis/classifier_v0_2_hardneg_20260608/selected_positives_v0_2_hardneg.smi",
+  "negative_output": "analysis/classifier_v0_2_hardneg_20260608/selected_negatives_v0_2_hardneg_labeled.smi",
+  "generated_negative_primary_reason_counts": {
+    "bad_top_docking_exploit": 14256,
+    "bad_three_member_ring": 6526,
+    "bad_bad_bond_length": 3695,
+    "bad_ring_complex_failed_rl": 1327,
+    "bad_non_aromatic_polycycle": 1226,
+    "bad_classifier_false_positive": 1183,
+    "bad_high_carbon_low_hetero": 763,
+    "bad_low_tpsa_or_high_logp": 538
+  },
+  "generated_positive_primary_reason_counts": {
+    "good_strict_chemistry": 1303,
+    "good_strict_with_docking": 1224,
+    "good_classifier_accepted": 478
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "stage": "diffgui_reward_only_stage1",
+  "input_sdf": "/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/aggregated/diffgui.sdf",
+  "outputs": {
+    "scored_sdf": "/data/disk6/DiffB110/analysis/diffgui_reward_only_stage1_20260609/diffgui_reward_only_scored.sdf",
+    "rewards_csv": "/data/disk6/DiffB110/analysis/diffgui_reward_only_stage1_20260609/diffgui_reward_only_rewards.csv",
+    "summary_json": "/data/disk6/DiffB110/analysis/diffgui_reward_only_stage1_20260609/diffgui_reward_only_summary.json"
+  },
+  "decoupled_from": [
+    "ddpo/main_diffsbdd_ddp.py",
+    "ddpo/runtime/rollout.py",
+    "ddpo/runtime/actor.py"
+  ]
+}

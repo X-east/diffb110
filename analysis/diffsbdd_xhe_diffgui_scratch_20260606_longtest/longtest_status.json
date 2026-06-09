@@ -1,0 +1,78 @@
+{
+  "updated_at": "2026-06-06T15:57:40",
+  "latest_progress": {
+    "epoch": 8,
+    "total_epochs": 8,
+    "batch_idx": 6000,
+    "global_step": 12385,
+    "elapsed_min": 166.2,
+    "loss": 0.097,
+    "edge_acc": 0.9417,
+    "real_bond_acc": 0.2941,
+    "edge_loss_weighted": 0.001982,
+    "bond_length_loss_weighted": 0.09779
+  },
+  "latest_epoch_validation": {
+    "epoch": 7,
+    "step": 12439,
+    "loss_val": 608.4849243164062,
+    "edge_acc_val": 0.9269919991493225,
+    "real_bond_acc_val": 0.2939307391643524,
+    "edge_loss_val": 0.04300813749432564,
+    "bond_length_loss_val": 0.10347482562065125,
+    "error_t_lig_val": 93.82211303710938
+  },
+  "checkpoints": [
+    {
+      "name": "best-model-epoch=epoch=0007.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T15:51:23"
+    },
+    {
+      "name": "epoch=epoch=0000.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T13:25:49"
+    },
+    {
+      "name": "epoch=epoch=0001.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T13:46:45"
+    },
+    {
+      "name": "epoch=epoch=0002.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T14:07:19"
+    },
+    {
+      "name": "epoch=epoch=0003.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T14:28:16"
+    },
+    {
+      "name": "epoch=epoch=0004.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T14:49:01"
+    },
+    {
+      "name": "epoch=epoch=0005.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T15:09:52"
+    },
+    {
+      "name": "epoch=epoch=0006.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T15:30:36"
+    },
+    {
+      "name": "epoch=epoch=0007.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T15:51:23"
+    },
+    {
+      "name": "last.ckpt",
+      "size_mb": 18.039267539978027,
+      "mtime": "2026-06-06T15:51:23"
+    }
+  ],
+  "has_recent_error_marker": false
+}

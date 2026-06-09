@@ -1,0 +1,891 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+Global seed set to 260605
+Entropy of n_nodes: H[N] 9.191258430480957
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/8
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Configured local CUDA device before model init: LOCAL_RANK=5, cuda:5
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 5] Global seed set to 260605
+Configured local CUDA device before model init: LOCAL_RANK=2, cuda:2
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 2] Global seed set to 260605
+Configured local CUDA device before model init: LOCAL_RANK=4, cuda:4
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 4] Global seed set to 260605
+Configured local CUDA device before model init: LOCAL_RANK=3, cuda:3
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 3] Global seed set to 260605
+Configured local CUDA device before model init: LOCAL_RANK=7, cuda:7
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 7] Global seed set to 260605
+Configured local CUDA device before model init: LOCAL_RANK=1, cuda:1
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 1] Global seed set to 260605
+Configured local CUDA device before model init: LOCAL_RANK=6, cuda:6
+Using CPU module initialization for DDP: egnn_params.device 'cuda' -> 'cpu'
+[rank: 6] Global seed set to 260605
+Entropy of n_nodes: H[N] 9.191258430480957
+Entropy of n_nodes: H[N] 9.191258430480957
+Entropy of n_nodes: H[N] 9.191258430480957
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.191258430480957
+Entropy of n_nodes: H[N] 9.191258430480957
+Entropy of n_nodes: H[N] 9.191258430480957
+[rank: 5] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/8
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.191258430480957
+[rank: 2] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/8
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+[rank: 4] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/8
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Using local CSV logger: analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket750-8gpu-260605-b4acc2-memtest-1ep/metrics/metrics.csv
+[rank: 3] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/8
+[rank: 7] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 7, MEMBER: 8/8
+[rank: 6] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 6, MEMBER: 7/8
+[rank: 1] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/8
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 8 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 3080') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 7 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 5 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 6 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 4 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+
+  | Name | Type               | Params
+--------------------------------------------
+0 | ddpm | ConditionalDDPMXHE | 1.1 M 
+--------------------------------------------
+1.1 M     Trainable params
+501       Non-trainable params
+1.1 M     Total params
+4.442     Total estimated model params size (MB)
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+[train-progress] epoch=1/1 batch_idx=0 global_step=0 elapsed_min=0.7 loss=0.7268 edge_loss_weighted=0.3751 bond_length_loss_weighted=0.1234 edge_smoke_loss=0.3751 edge_smoke_acc=0.03387 edge_smoke_real_bond_acc=0.1486 bond_length_loss=1.234
+[train-progress] epoch=1/1 batch_idx=100 global_step=50 elapsed_min=1.3 loss=0.7625 edge_loss_weighted=0.1865 bond_length_loss_weighted=0.9724 edge_smoke_loss=0.1865 edge_smoke_acc=0.8452 edge_smoke_real_bond_acc=0.319 bond_length_loss=9.724
+[train-progress] epoch=1/1 batch_idx=200 global_step=100 elapsed_min=1.9 loss=0.2564 edge_loss_weighted=0.1049 bond_length_loss_weighted=0.04287 edge_smoke_loss=0.1049 edge_smoke_acc=0.9037 edge_smoke_real_bond_acc=0.5591 bond_length_loss=0.4287
+Clipped gradient with value 7.6 while allowed 5.7
+Clipped gradient with value 7.6 while allowed 5.7
+Clipped gradient with value 7.6 while allowed 5.7
+Clipped gradient with value 7.6 while allowed 5.7
+Clipped gradient with value 7.6 while allowed 5.7Clipped gradient with value 7.6 while allowed 5.7
+
+Clipped gradient with value 7.6 while allowed 5.7
+Clipped gradient with value 7.6 while allowed 5.7
+Clipped gradient with value 6.6 while allowed 6.2Clipped gradient with value 6.6 while allowed 6.2Clipped gradient with value 6.6 while allowed 6.2
+
+
+Clipped gradient with value 6.6 while allowed 6.2
+Clipped gradient with value 6.6 while allowed 6.2
+Clipped gradient with value 6.6 while allowed 6.2
+Clipped gradient with value 6.6 while allowed 6.2
+Clipped gradient with value 6.6 while allowed 6.2
+Clipped gradient with value 12.7 while allowed 6.2Clipped gradient with value 12.7 while allowed 6.2Clipped gradient with value 12.7 while allowed 6.2
+Clipped gradient with value 12.7 while allowed 6.2Clipped gradient with value 12.7 while allowed 6.2
+
+
+Clipped gradient with value 12.7 while allowed 6.2
+Clipped gradient with value 12.7 while allowed 6.2
+
+Clipped gradient with value 12.7 while allowed 6.2
+[train-progress] epoch=1/1 batch_idx=300 global_step=150 elapsed_min=2.4 loss=0.215 edge_loss_weighted=0.2008 bond_length_loss_weighted=0.06223 edge_smoke_loss=0.2008 edge_smoke_acc=0.8605 edge_smoke_real_bond_acc=0.6721 bond_length_loss=0.6223
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 8.7 while allowed 6.9
+Clipped gradient with value 9.5 while allowed 7.7
+Clipped gradient with value 9.5 while allowed 7.7
+Clipped gradient with value 9.5 while allowed 7.7Clipped gradient with value 9.5 while allowed 7.7Clipped gradient with value 9.5 while allowed 7.7
+
+
+Clipped gradient with value 9.5 while allowed 7.7
+Clipped gradient with value 9.5 while allowed 7.7
+Clipped gradient with value 9.5 while allowed 7.7
+Clipped gradient with value 8.6 while allowed 8.2
+Clipped gradient with value 8.6 while allowed 8.2Clipped gradient with value 8.6 while allowed 8.2
+
+Clipped gradient with value 8.6 while allowed 8.2
+Clipped gradient with value 8.6 while allowed 8.2
+Clipped gradient with value 8.6 while allowed 8.2
+Clipped gradient with value 8.6 while allowed 8.2
+Clipped gradient with value 8.6 while allowed 8.2
+[train-progress] epoch=1/1 batch_idx=400 global_step=200 elapsed_min=3.0 loss=0.182 edge_loss_weighted=0.1202 bond_length_loss_weighted=0.0215 edge_smoke_loss=0.1202 edge_smoke_acc=0.8705 edge_smoke_real_bond_acc=0.4943 bond_length_loss=0.215
+Clipped gradient with value 6.8 while allowed 6.6
+Clipped gradient with value 6.8 while allowed 6.6
+Clipped gradient with value 6.8 while allowed 6.6Clipped gradient with value 6.8 while allowed 6.6
+
+Clipped gradient with value 6.8 while allowed 6.6
+Clipped gradient with value 6.8 while allowed 6.6
+Clipped gradient with value 6.8 while allowed 6.6
+Clipped gradient with value 6.8 while allowed 6.6
+Clipped gradient with value 9.8 while allowed 7.0
+Clipped gradient with value 9.8 while allowed 7.0Clipped gradient with value 9.8 while allowed 7.0
+
+Clipped gradient with value 9.8 while allowed 7.0
+Clipped gradient with value 9.8 while allowed 7.0
+Clipped gradient with value 9.8 while allowed 7.0
+Clipped gradient with value 9.8 while allowed 7.0
+Clipped gradient with value 9.8 while allowed 7.0
+Clipped gradient with value 11.4 while allowed 7.3Clipped gradient with value 11.4 while allowed 7.3Clipped gradient with value 11.4 while allowed 7.3
+
+
+Clipped gradient with value 11.4 while allowed 7.3
+Clipped gradient with value 11.4 while allowed 7.3
+Clipped gradient with value 11.4 while allowed 7.3
+Clipped gradient with value 11.4 while allowed 7.3Clipped gradient with value 11.4 while allowed 7.3
+
+Clipped gradient with value 9.4 while allowed 7.7
+Clipped gradient with value 9.4 while allowed 7.7
+Clipped gradient with value 9.4 while allowed 7.7Clipped gradient with value 9.4 while allowed 7.7
+
+Clipped gradient with value 9.4 while allowed 7.7
+Clipped gradient with value 9.4 while allowed 7.7Clipped gradient with value 9.4 while allowed 7.7
+
+Clipped gradient with value 9.4 while allowed 7.7
+[train-progress] epoch=1/1 batch_idx=500 global_step=250 elapsed_min=3.4 loss=0.185 edge_loss_weighted=0.1154 bond_length_loss_weighted=0.02423 edge_smoke_loss=0.1154 edge_smoke_acc=0.9019 edge_smoke_real_bond_acc=0.5135 bond_length_loss=0.2423
+Clipped gradient with value 6.5 while allowed 5.0
+Clipped gradient with value 6.5 while allowed 5.0Clipped gradient with value 6.5 while allowed 5.0
+
+Clipped gradient with value 6.5 while allowed 5.0
+Clipped gradient with value 6.5 while allowed 5.0
+Clipped gradient with value 6.5 while allowed 5.0Clipped gradient with value 6.5 while allowed 5.0
+
+Clipped gradient with value 6.5 while allowed 5.0
+[train-progress] epoch=1/1 batch_idx=600 global_step=300 elapsed_min=4.0 loss=0.1951 edge_loss_weighted=0.07142 bond_length_loss_weighted=0.01404 edge_smoke_loss=0.07142 edge_smoke_acc=0.9583 edge_smoke_real_bond_acc=0.8144 bond_length_loss=0.1404
+[train-progress] epoch=1/1 batch_idx=700 global_step=350 elapsed_min=4.5 loss=0.3303 edge_loss_weighted=0.1553 bond_length_loss_weighted=0.3185 edge_smoke_loss=0.1553 edge_smoke_acc=0.837 edge_smoke_real_bond_acc=0.4175 bond_length_loss=3.185
+Clipped gradient with value 6.6 while allowed 3.9Clipped gradient with value 6.6 while allowed 3.9
+Clipped gradient with value 6.6 while allowed 3.9Clipped gradient with value 6.6 while allowed 3.9
+
+
+Clipped gradient with value 6.6 while allowed 3.9
+Clipped gradient with value 6.6 while allowed 3.9
+Clipped gradient with value 6.6 while allowed 3.9Clipped gradient with value 6.6 while allowed 3.9
+
+Clipped gradient with value 19.8 while allowed 4.0
+Clipped gradient with value 19.8 while allowed 4.0Clipped gradient with value 19.8 while allowed 4.0
+
+Clipped gradient with value 19.8 while allowed 4.0
+Clipped gradient with value 19.8 while allowed 4.0
+Clipped gradient with value 19.8 while allowed 4.0
+Clipped gradient with value 19.8 while allowed 4.0
+Clipped gradient with value 19.8 while allowed 4.0
+Clipped gradient with value 6.7 while allowed 4.3
+Clipped gradient with value 6.7 while allowed 4.3
+Clipped gradient with value 6.7 while allowed 4.3
+Clipped gradient with value 6.7 while allowed 4.3
+Clipped gradient with value 6.7 while allowed 4.3Clipped gradient with value 6.7 while allowed 4.3
+
+Clipped gradient with value 6.7 while allowed 4.3
+Clipped gradient with value 6.7 while allowed 4.3
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5Clipped gradient with value 5.1 while allowed 4.5Clipped gradient with value 5.1 while allowed 4.5
+
+
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5Clipped gradient with value 5.1 while allowed 4.5Clipped gradient with value 5.1 while allowed 4.5
+
+
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+Clipped gradient with value 5.1 while allowed 4.5
+[train-progress] epoch=1/1 batch_idx=800 global_step=400 elapsed_min=5.0 loss=0.1993 edge_loss_weighted=0.1784 bond_length_loss_weighted=0.02714 edge_smoke_loss=0.1784 edge_smoke_acc=0.8577 edge_smoke_real_bond_acc=0.4433 bond_length_loss=0.2714
+Clipped gradient with value 4.7 while allowed 4.1
+Clipped gradient with value 4.7 while allowed 4.1
+Clipped gradient with value 4.7 while allowed 4.1Clipped gradient with value 4.7 while allowed 4.1
+
+Clipped gradient with value 4.7 while allowed 4.1
+Clipped gradient with value 4.7 while allowed 4.1
+Clipped gradient with value 4.7 while allowed 4.1
+Clipped gradient with value 4.7 while allowed 4.1
+Clipped gradient with value 12.9 while allowed 4.7
+Clipped gradient with value 12.9 while allowed 4.7Clipped gradient with value 12.9 while allowed 4.7
+Clipped gradient with value 12.9 while allowed 4.7
+
+Clipped gradient with value 12.9 while allowed 4.7
+Clipped gradient with value 12.9 while allowed 4.7
+Clipped gradient with value 12.9 while allowed 4.7Clipped gradient with value 12.9 while allowed 4.7
+
+Clipped gradient with value 5.3 while allowed 5.0
+Clipped gradient with value 5.3 while allowed 5.0
+Clipped gradient with value 5.3 while allowed 5.0
+Clipped gradient with value 5.3 while allowed 5.0Clipped gradient with value 5.3 while allowed 5.0
+
+Clipped gradient with value 5.3 while allowed 5.0
+Clipped gradient with value 5.3 while allowed 5.0
+Clipped gradient with value 5.3 while allowed 5.0
+[train-progress] epoch=1/1 batch_idx=900 global_step=450 elapsed_min=5.5 loss=0.2858 edge_loss_weighted=0.1775 bond_length_loss_weighted=0.07402 edge_smoke_loss=0.1775 edge_smoke_acc=0.8848 edge_smoke_real_bond_acc=0.3214 bond_length_loss=0.7402
+Clipped gradient with value 6.7 while allowed 5.4
+Clipped gradient with value 6.7 while allowed 5.4Clipped gradient with value 6.7 while allowed 5.4
+
+Clipped gradient with value 6.7 while allowed 5.4Clipped gradient with value 6.7 while allowed 5.4
+
+Clipped gradient with value 6.7 while allowed 5.4
+Clipped gradient with value 6.7 while allowed 5.4
+Clipped gradient with value 6.7 while allowed 5.4
+Clipped gradient with value 7.7 while allowed 5.7
+Clipped gradient with value 7.7 while allowed 5.7
+Clipped gradient with value 7.7 while allowed 5.7
+Clipped gradient with value 7.7 while allowed 5.7
+Clipped gradient with value 7.7 while allowed 5.7
+Clipped gradient with value 7.7 while allowed 5.7
+Clipped gradient with value 7.7 while allowed 5.7Clipped gradient with value 7.7 while allowed 5.7
+
+Clipped gradient with value 8.5 while allowed 6.2
+Clipped gradient with value 8.5 while allowed 6.2Clipped gradient with value 8.5 while allowed 6.2
+
+Clipped gradient with value 8.5 while allowed 6.2Clipped gradient with value 8.5 while allowed 6.2
+
+Clipped gradient with value 8.5 while allowed 6.2
+Clipped gradient with value 8.5 while allowed 6.2
+Clipped gradient with value 8.5 while allowed 6.2
+Clipped gradient with value 9.0 while allowed 6.5
+Clipped gradient with value 9.0 while allowed 6.5
+Clipped gradient with value 9.0 while allowed 6.5
+Clipped gradient with value 9.0 while allowed 6.5
+Clipped gradient with value 9.0 while allowed 6.5
+Clipped gradient with value 9.0 while allowed 6.5
+Clipped gradient with value 9.0 while allowed 6.5Clipped gradient with value 9.0 while allowed 6.5
+
+[train-progress] epoch=1/1 batch_idx=1000 global_step=500 elapsed_min=6.1 loss=0.1603 edge_loss_weighted=0.1412 bond_length_loss_weighted=0.01431 edge_smoke_loss=0.1412 edge_smoke_acc=0.914 edge_smoke_real_bond_acc=0.7711 bond_length_loss=0.1431
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+Clipped gradient with value 7.3 while allowed 6.9
+[train-progress] epoch=1/1 batch_idx=1100 global_step=550 elapsed_min=6.5 loss=0.1896 edge_loss_weighted=0.1589 bond_length_loss_weighted=0.02806 edge_smoke_loss=0.1589 edge_smoke_acc=0.8598 edge_smoke_real_bond_acc=0.596 bond_length_loss=0.2806
+Clipped gradient with value 6.6 while allowed 3.8
+Clipped gradient with value 6.6 while allowed 3.8
+Clipped gradient with value 6.6 while allowed 3.8Clipped gradient with value 6.6 while allowed 3.8
+
+Clipped gradient with value 6.6 while allowed 3.8Clipped gradient with value 6.6 while allowed 3.8
+
+Clipped gradient with value 6.6 while allowed 3.8
+Clipped gradient with value 6.6 while allowed 3.8
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 4.6 while allowed 4.0
+Clipped gradient with value 5.3 while allowed 4.2Clipped gradient with value 5.3 while allowed 4.2
+
+Clipped gradient with value 5.3 while allowed 4.2
+Clipped gradient with value 5.3 while allowed 4.2
+Clipped gradient with value 5.3 while allowed 4.2
+Clipped gradient with value 5.3 while allowed 4.2
+Clipped gradient with value 5.3 while allowed 4.2
+Clipped gradient with value 5.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 3.9Clipped gradient with value 7.3 while allowed 3.9
+Clipped gradient with value 7.3 while allowed 3.9Clipped gradient with value 7.3 while allowed 3.9
+
+
+Clipped gradient with value 7.3 while allowed 3.9
+Clipped gradient with value 7.3 while allowed 3.9
+Clipped gradient with value 7.3 while allowed 3.9
+Clipped gradient with value 7.3 while allowed 3.9
+[train-progress] epoch=1/1 batch_idx=1200 global_step=600 elapsed_min=7.1 loss=0.2055 edge_loss_weighted=0.09298 bond_length_loss_weighted=0.09497 edge_smoke_loss=0.09298 edge_smoke_acc=0.9134 edge_smoke_real_bond_acc=0.5625 bond_length_loss=0.9497
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 7.3 while allowed 4.2
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.9 while allowed 4.4
+Clipped gradient with value 5.8 while allowed 4.9Clipped gradient with value 5.8 while allowed 4.9
+
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9Clipped gradient with value 5.8 while allowed 4.9
+
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 7.9 while allowed 4.8Clipped gradient with value 7.9 while allowed 4.8Clipped gradient with value 7.9 while allowed 4.8
+
+
+Clipped gradient with value 7.9 while allowed 4.8Clipped gradient with value 7.9 while allowed 4.8
+
+Clipped gradient with value 7.9 while allowed 4.8
+Clipped gradient with value 7.9 while allowed 4.8Clipped gradient with value 7.9 while allowed 4.8
+
+[train-progress] epoch=1/1 batch_idx=1300 global_step=650 elapsed_min=7.5 loss=0.1677 edge_loss_weighted=0.07157 bond_length_loss_weighted=0.02408 edge_smoke_loss=0.07157 edge_smoke_acc=0.9112 edge_smoke_real_bond_acc=0.7071 bond_length_loss=0.2408
+Clipped gradient with value 9.6 while allowed 4.8
+Clipped gradient with value 9.6 while allowed 4.8
+Clipped gradient with value 9.6 while allowed 4.8
+Clipped gradient with value 9.6 while allowed 4.8Clipped gradient with value 9.6 while allowed 4.8Clipped gradient with value 9.6 while allowed 4.8
+
+
+Clipped gradient with value 9.6 while allowed 4.8
+Clipped gradient with value 9.6 while allowed 4.8
+Clipped gradient with value 8.9 while allowed 4.7Clipped gradient with value 8.9 while allowed 4.7
+
+Clipped gradient with value 8.9 while allowed 4.7Clipped gradient with value 8.9 while allowed 4.7
+
+Clipped gradient with value 8.9 while allowed 4.7
+Clipped gradient with value 8.9 while allowed 4.7
+Clipped gradient with value 8.9 while allowed 4.7
+Clipped gradient with value 8.9 while allowed 4.7
+Clipped gradient with value 5.5 while allowed 4.9Clipped gradient with value 5.5 while allowed 4.9
+
+Clipped gradient with value 5.5 while allowed 4.9Clipped gradient with value 5.5 while allowed 4.9Clipped gradient with value 5.5 while allowed 4.9Clipped gradient with value 5.5 while allowed 4.9
+
+
+
+Clipped gradient with value 5.5 while allowed 4.9
+Clipped gradient with value 5.5 while allowed 4.9
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 10.4 while allowed 5.2
+Clipped gradient with value 8.3 while allowed 5.5
+Clipped gradient with value 8.3 while allowed 5.5
+Clipped gradient with value 8.3 while allowed 5.5Clipped gradient with value 8.3 while allowed 5.5
+
+Clipped gradient with value 8.3 while allowed 5.5
+Clipped gradient with value 8.3 while allowed 5.5
+Clipped gradient with value 8.3 while allowed 5.5Clipped gradient with value 8.3 while allowed 5.5
+
+Clipped gradient with value 10.4 while allowed 5.8Clipped gradient with value 10.4 while allowed 5.8Clipped gradient with value 10.4 while allowed 5.8
+
+
+Clipped gradient with value 10.4 while allowed 5.8
+Clipped gradient with value 10.4 while allowed 5.8Clipped gradient with value 10.4 while allowed 5.8
+
+Clipped gradient with value 10.4 while allowed 5.8
+Clipped gradient with value 10.4 while allowed 5.8
+[train-progress] epoch=1/1 batch_idx=1400 global_step=700 elapsed_min=8.1 loss=0.2161 edge_loss_weighted=0.2705 bond_length_loss_weighted=0.02625 edge_smoke_loss=0.2705 edge_smoke_acc=0.7009 edge_smoke_real_bond_acc=0.4776 bond_length_loss=0.2625
+Clipped gradient with value 9.5 while allowed 6.0
+Clipped gradient with value 9.5 while allowed 6.0Clipped gradient with value 9.5 while allowed 6.0
+Clipped gradient with value 9.5 while allowed 6.0
+
+Clipped gradient with value 9.5 while allowed 6.0
+Clipped gradient with value 9.5 while allowed 6.0Clipped gradient with value 9.5 while allowed 6.0
+
+Clipped gradient with value 9.5 while allowed 6.0
+[train-progress] epoch=1/1 batch_idx=1500 global_step=750 elapsed_min=8.6 loss=0.1656 edge_loss_weighted=0.1252 bond_length_loss_weighted=0.02447 edge_smoke_loss=0.1252 edge_smoke_acc=0.8697 edge_smoke_real_bond_acc=0.4146 bond_length_loss=0.2447
+Clipped gradient with value 6.1 while allowed 5.1
+Clipped gradient with value 6.1 while allowed 5.1Clipped gradient with value 6.1 while allowed 5.1
+
+Clipped gradient with value 6.1 while allowed 5.1Clipped gradient with value 6.1 while allowed 5.1
+
+Clipped gradient with value 6.1 while allowed 5.1
+Clipped gradient with value 6.1 while allowed 5.1Clipped gradient with value 6.1 while allowed 5.1
+
+Clipped gradient with value 6.8 while allowed 4.6
+Clipped gradient with value 6.8 while allowed 4.6
+Clipped gradient with value 6.8 while allowed 4.6Clipped gradient with value 6.8 while allowed 4.6
+
+Clipped gradient with value 6.8 while allowed 4.6
+Clipped gradient with value 6.8 while allowed 4.6Clipped gradient with value 6.8 while allowed 4.6
+
+Clipped gradient with value 6.8 while allowed 4.6
+[train-progress] epoch=1/1 batch_idx=1600 global_step=800 elapsed_min=9.1 loss=0.1752 edge_loss_weighted=0.118 bond_length_loss_weighted=0.01816 edge_smoke_loss=0.118 edge_smoke_acc=0.854 edge_smoke_real_bond_acc=0.6571 bond_length_loss=0.1816
+[train-progress] epoch=1/1 batch_idx=1700 global_step=850 elapsed_min=9.6 loss=0.2087 edge_loss_weighted=0.1249 bond_length_loss_weighted=0.1165 edge_smoke_loss=0.1249 edge_smoke_acc=0.9074 edge_smoke_real_bond_acc=0.6552 bond_length_loss=1.165
+Clipped gradient with value 4.4 while allowed 3.7
+Clipped gradient with value 4.4 while allowed 3.7
+Clipped gradient with value 4.4 while allowed 3.7
+Clipped gradient with value 4.4 while allowed 3.7Clipped gradient with value 4.4 while allowed 3.7Clipped gradient with value 4.4 while allowed 3.7
+
+Clipped gradient with value 4.4 while allowed 3.7
+
+Clipped gradient with value 4.4 while allowed 3.7
+Clipped gradient with value 5.2 while allowed 3.8
+Clipped gradient with value 5.2 while allowed 3.8Clipped gradient with value 5.2 while allowed 3.8
+
+Clipped gradient with value 5.2 while allowed 3.8
+Clipped gradient with value 5.2 while allowed 3.8
+Clipped gradient with value 5.2 while allowed 3.8
+Clipped gradient with value 5.2 while allowed 3.8
+Clipped gradient with value 5.2 while allowed 3.8
+Clipped gradient with value 25.9 while allowed 3.8
+Clipped gradient with value 25.9 while allowed 3.8
+Clipped gradient with value 25.9 while allowed 3.8Clipped gradient with value 25.9 while allowed 3.8
+
+Clipped gradient with value 25.9 while allowed 3.8
+Clipped gradient with value 25.9 while allowed 3.8
+Clipped gradient with value 25.9 while allowed 3.8
+Clipped gradient with value 25.9 while allowed 3.8
+Clipped gradient with value 5.6 while allowed 4.3Clipped gradient with value 5.6 while allowed 4.3
+
+Clipped gradient with value 5.6 while allowed 4.3Clipped gradient with value 5.6 while allowed 4.3
+
+Clipped gradient with value 5.6 while allowed 4.3
+Clipped gradient with value 5.6 while allowed 4.3
+Clipped gradient with value 5.6 while allowed 4.3
+Clipped gradient with value 5.6 while allowed 4.3
+[train-progress] epoch=1/1 batch_idx=1800 global_step=900 elapsed_min=10.1 loss=0.1933 edge_loss_weighted=0.1389 bond_length_loss_weighted=0.01753 edge_smoke_loss=0.1389 edge_smoke_acc=0.8902 edge_smoke_real_bond_acc=0.7213 bond_length_loss=0.1753
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 10.7 while allowed 4.5
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 7.3 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.9Clipped gradient with value 5.9 while allowed 4.9
+
+Clipped gradient with value 5.9 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.9
+[train-progress] epoch=1/1 batch_idx=1900 global_step=950 elapsed_min=10.6 loss=0.1489 edge_loss_weighted=0.09836 bond_length_loss_weighted=0.01444 edge_smoke_loss=0.09836 edge_smoke_acc=0.8843 edge_smoke_real_bond_acc=0.5758 bond_length_loss=0.1444
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 6.1 while allowed 4.9
+Clipped gradient with value 7.0 while allowed 5.2
+Clipped gradient with value 7.0 while allowed 5.2
+Clipped gradient with value 7.0 while allowed 5.2
+Clipped gradient with value 7.0 while allowed 5.2
+Clipped gradient with value 7.0 while allowed 5.2Clipped gradient with value 7.0 while allowed 5.2
+
+Clipped gradient with value 7.0 while allowed 5.2
+Clipped gradient with value 7.0 while allowed 5.2
+Clipped gradient with value 7.0 while allowed 5.5Clipped gradient with value 7.0 while allowed 5.5
+Clipped gradient with value 7.0 while allowed 5.5
+
+Clipped gradient with value 7.0 while allowed 5.5
+Clipped gradient with value 7.0 while allowed 5.5
+Clipped gradient with value 7.0 while allowed 5.5
+Clipped gradient with value 7.0 while allowed 5.5
+Clipped gradient with value 7.0 while allowed 5.5
+Clipped gradient with value 12.2 while allowed 5.7
+Clipped gradient with value 12.2 while allowed 5.7
+Clipped gradient with value 12.2 while allowed 5.7
+Clipped gradient with value 12.2 while allowed 5.7
+Clipped gradient with value 12.2 while allowed 5.7
+Clipped gradient with value 12.2 while allowed 5.7Clipped gradient with value 12.2 while allowed 5.7Clipped gradient with value 12.2 while allowed 5.7
+
+
+Clipped gradient with value 21.5 while allowed 5.9Clipped gradient with value 21.5 while allowed 5.9
+
+Clipped gradient with value 21.5 while allowed 5.9Clipped gradient with value 21.5 while allowed 5.9
+
+Clipped gradient with value 21.5 while allowed 5.9
+Clipped gradient with value 21.5 while allowed 5.9
+Clipped gradient with value 21.5 while allowed 5.9
+Clipped gradient with value 21.5 while allowed 5.9
+[train-progress] epoch=1/1 batch_idx=2000 global_step=1000 elapsed_min=11.1 loss=0.4921 edge_loss_weighted=0.1482 bond_length_loss_weighted=0.6193 edge_smoke_loss=0.1482 edge_smoke_acc=0.9022 edge_smoke_real_bond_acc=0.3542 bond_length_loss=6.193
+Clipped gradient with value 8.0 while allowed 5.6Clipped gradient with value 8.0 while allowed 5.6
+
+Clipped gradient with value 8.0 while allowed 5.6Clipped gradient with value 8.0 while allowed 5.6
+
+Clipped gradient with value 8.0 while allowed 5.6
+Clipped gradient with value 8.0 while allowed 5.6
+Clipped gradient with value 8.0 while allowed 5.6
+Clipped gradient with value 8.0 while allowed 5.6
+[train-progress] epoch=1/1 batch_idx=2100 global_step=1050 elapsed_min=11.6 loss=0.3302 edge_loss_weighted=0.08936 bond_length_loss_weighted=0.2962 edge_smoke_loss=0.08936 edge_smoke_acc=0.9365 edge_smoke_real_bond_acc=0.4524 bond_length_loss=2.962
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 16.0 while allowed 4.5
+Clipped gradient with value 7.7 while allowed 4.7
+Clipped gradient with value 7.7 while allowed 4.7
+Clipped gradient with value 7.7 while allowed 4.7Clipped gradient with value 7.7 while allowed 4.7
+
+Clipped gradient with value 7.7 while allowed 4.7
+Clipped gradient with value 7.7 while allowed 4.7
+Clipped gradient with value 7.7 while allowed 4.7
+Clipped gradient with value 7.7 while allowed 4.7
+Clipped gradient with value 4.6 while allowed 4.6Clipped gradient with value 4.6 while allowed 4.6
+
+Clipped gradient with value 4.6 while allowed 4.6Clipped gradient with value 4.6 while allowed 4.6
+
+Clipped gradient with value 4.6 while allowed 4.6Clipped gradient with value 4.6 while allowed 4.6
+
+Clipped gradient with value 4.6 while allowed 4.6
+Clipped gradient with value 4.6 while allowed 4.6
+Clipped gradient with value 6.0 while allowed 4.9
+Clipped gradient with value 6.0 while allowed 4.9Clipped gradient with value 6.0 while allowed 4.9Clipped gradient with value 6.0 while allowed 4.9
+
+
+Clipped gradient with value 6.0 while allowed 4.9
+Clipped gradient with value 6.0 while allowed 4.9
+Clipped gradient with value 6.0 while allowed 4.9
+Clipped gradient with value 6.0 while allowed 4.9
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+Clipped gradient with value 6.0 while allowed 5.5
+[train-progress] epoch=1/1 batch_idx=2200 global_step=1100 elapsed_min=12.2 loss=0.254 edge_loss_weighted=0.1936 bond_length_loss_weighted=0.102 edge_smoke_loss=0.1936 edge_smoke_acc=0.8953 edge_smoke_real_bond_acc=0.5729 bond_length_loss=1.02
+Clipped gradient with value 11.6 while allowed 6.2Clipped gradient with value 11.6 while allowed 6.2
+
+Clipped gradient with value 11.6 while allowed 6.2Clipped gradient with value 11.6 while allowed 6.2
+
+Clipped gradient with value 11.6 while allowed 6.2
+Clipped gradient with value 11.6 while allowed 6.2
+Clipped gradient with value 11.6 while allowed 6.2
+Clipped gradient with value 11.6 while allowed 6.2
+[train-progress] epoch=1/1 batch_idx=2300 global_step=1150 elapsed_min=12.6 loss=0.3074 edge_loss_weighted=0.1581 bond_length_loss_weighted=0.2843 edge_smoke_loss=0.1581 edge_smoke_acc=0.8769 edge_smoke_real_bond_acc=0.243 bond_length_loss=2.843
+Clipped gradient with value 9.6 while allowed 3.1
+Clipped gradient with value 9.6 while allowed 3.1Clipped gradient with value 9.6 while allowed 3.1
+
+Clipped gradient with value 9.6 while allowed 3.1
+Clipped gradient with value 9.6 while allowed 3.1Clipped gradient with value 9.6 while allowed 3.1
+
+Clipped gradient with value 9.6 while allowed 3.1
+Clipped gradient with value 9.6 while allowed 3.1
+[train-progress] epoch=1/1 batch_idx=2400 global_step=1200 elapsed_min=13.2 loss=0.1956 edge_loss_weighted=0.07659 bond_length_loss_weighted=0.1289 edge_smoke_loss=0.07659 edge_smoke_acc=0.9297 edge_smoke_real_bond_acc=0.6514 bond_length_loss=1.289
+Clipped gradient with value 3.6 while allowed 3.3Clipped gradient with value 3.6 while allowed 3.3
+
+Clipped gradient with value 3.6 while allowed 3.3
+Clipped gradient with value 3.6 while allowed 3.3
+Clipped gradient with value 3.6 while allowed 3.3
+Clipped gradient with value 3.6 while allowed 3.3
+Clipped gradient with value 3.6 while allowed 3.3
+Clipped gradient with value 3.6 while allowed 3.3
+Clipped gradient with value 8.4 while allowed 3.5
+Clipped gradient with value 8.4 while allowed 3.5Clipped gradient with value 8.4 while allowed 3.5
+
+Clipped gradient with value 8.4 while allowed 3.5
+Clipped gradient with value 8.4 while allowed 3.5
+Clipped gradient with value 8.4 while allowed 3.5
+Clipped gradient with value 8.4 while allowed 3.5
+Clipped gradient with value 8.4 while allowed 3.5
+Clipped gradient with value 13.4 while allowed 3.7
+Clipped gradient with value 13.4 while allowed 3.7
+Clipped gradient with value 13.4 while allowed 3.7
+Clipped gradient with value 13.4 while allowed 3.7Clipped gradient with value 13.4 while allowed 3.7
+
+Clipped gradient with value 13.4 while allowed 3.7
+Clipped gradient with value 13.4 while allowed 3.7
+Clipped gradient with value 13.4 while allowed 3.7
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 8.8 while allowed 3.9
+Clipped gradient with value 6.6 while allowed 4.2Clipped gradient with value 6.6 while allowed 4.2
+
+Clipped gradient with value 6.6 while allowed 4.2
+Clipped gradient with value 6.6 while allowed 4.2
+Clipped gradient with value 6.6 while allowed 4.2
+Clipped gradient with value 6.6 while allowed 4.2
+Clipped gradient with value 6.6 while allowed 4.2
+Clipped gradient with value 6.6 while allowed 4.2
+[train-progress] epoch=1/1 batch_idx=2500 global_step=1250 elapsed_min=13.7 loss=0.1887 edge_loss_weighted=0.1229 bond_length_loss_weighted=0.03197 edge_smoke_loss=0.1229 edge_smoke_acc=0.8729 edge_smoke_real_bond_acc=0.6598 bond_length_loss=0.3197
+Clipped gradient with value 4.9 while allowed 4.4Clipped gradient with value 4.9 while allowed 4.4Clipped gradient with value 4.9 while allowed 4.4Clipped gradient with value 4.9 while allowed 4.4
+
+
+Clipped gradient with value 4.9 while allowed 4.4
+
+Clipped gradient with value 4.9 while allowed 4.4
+Clipped gradient with value 4.9 while allowed 4.4
+Clipped gradient with value 4.9 while allowed 4.4
+Clipped gradient with value 4.8 while allowed 4.6
+Clipped gradient with value 4.8 while allowed 4.6Clipped gradient with value 4.8 while allowed 4.6
+
+Clipped gradient with value 4.8 while allowed 4.6
+Clipped gradient with value 4.8 while allowed 4.6
+Clipped gradient with value 4.8 while allowed 4.6
+Clipped gradient with value 4.8 while allowed 4.6
+Clipped gradient with value 4.8 while allowed 4.6
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.8 while allowed 4.9
+Clipped gradient with value 5.9 while allowed 4.5
+Clipped gradient with value 5.9 while allowed 4.5Clipped gradient with value 5.9 while allowed 4.5Clipped gradient with value 5.9 while allowed 4.5
+
+
+Clipped gradient with value 5.9 while allowed 4.5
+Clipped gradient with value 5.9 while allowed 4.5
+Clipped gradient with value 5.9 while allowed 4.5
+Clipped gradient with value 5.9 while allowed 4.5
+Clipped gradient with value 7.2 while allowed 4.8Clipped gradient with value 7.2 while allowed 4.8Clipped gradient with value 7.2 while allowed 4.8Clipped gradient with value 7.2 while allowed 4.8
+
+
+
+Clipped gradient with value 7.2 while allowed 4.8
+Clipped gradient with value 7.2 while allowed 4.8
+Clipped gradient with value 7.2 while allowed 4.8
+Clipped gradient with value 7.2 while allowed 4.8
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+Clipped gradient with value 11.1 while allowed 5.1
+[train-progress] epoch=1/1 batch_idx=2600 global_step=1300 elapsed_min=14.2 loss=0.189 edge_loss_weighted=0.04663 bond_length_loss_weighted=0.01827 edge_smoke_loss=0.04663 edge_smoke_acc=0.9443 edge_smoke_real_bond_acc=0.7872 bond_length_loss=0.1827
+Clipped gradient with value 7.5 while allowed 5.4
+Clipped gradient with value 7.5 while allowed 5.4
+Clipped gradient with value 7.5 while allowed 5.4
+Clipped gradient with value 7.5 while allowed 5.4
+Clipped gradient with value 7.5 while allowed 5.4
+Clipped gradient with value 7.5 while allowed 5.4
+Clipped gradient with value 7.5 while allowed 5.4Clipped gradient with value 7.5 while allowed 5.4
+
+Clipped gradient with value 6.8 while allowed 5.7Clipped gradient with value 6.8 while allowed 5.7
+
+Clipped gradient with value 6.8 while allowed 5.7
+Clipped gradient with value 6.8 while allowed 5.7
+Clipped gradient with value 6.8 while allowed 5.7
+Clipped gradient with value 6.8 while allowed 5.7
+Clipped gradient with value 6.8 while allowed 5.7
+Clipped gradient with value 6.8 while allowed 5.7
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3Clipped gradient with value 9.3 while allowed 6.3
+
+Clipped gradient with value 9.3 while allowed 6.3Clipped gradient with value 9.3 while allowed 6.3
+
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 11.1 while allowed 6.4Clipped gradient with value 11.1 while allowed 6.4
+Clipped gradient with value 11.1 while allowed 6.4Clipped gradient with value 11.1 while allowed 6.4Clipped gradient with value 11.1 while allowed 6.4
+Clipped gradient with value 11.1 while allowed 6.4
+
+
+
+Clipped gradient with value 11.1 while allowed 6.4
+Clipped gradient with value 11.1 while allowed 6.4
+[train-progress] epoch=1/1 batch_idx=2700 global_step=1350 elapsed_min=14.7 loss=0.1818 edge_loss_weighted=0.2073 bond_length_loss_weighted=0.02184 edge_smoke_loss=0.2073 edge_smoke_acc=0.7608 edge_smoke_real_bond_acc=0.4394 bond_length_loss=0.2184
+Clipped gradient with value 7.1 while allowed 6.1
+Clipped gradient with value 7.1 while allowed 6.1Clipped gradient with value 7.1 while allowed 6.1
+
+Clipped gradient with value 7.1 while allowed 6.1
+Clipped gradient with value 7.1 while allowed 6.1Clipped gradient with value 7.1 while allowed 6.1
+
+Clipped gradient with value 7.1 while allowed 6.1Clipped gradient with value 7.1 while allowed 6.1
+
+[train-progress] epoch=1/1 batch_idx=2800 global_step=1400 elapsed_min=15.2 loss=0.2862 edge_loss_weighted=0.1622 bond_length_loss_weighted=0.2293 edge_smoke_loss=0.1622 edge_smoke_acc=0.9042 edge_smoke_real_bond_acc=0.6333 bond_length_loss=2.293
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 8.6 while allowed 6.0
+Clipped gradient with value 18.0 while allowed 6.1
+Clipped gradient with value 18.0 while allowed 6.1Clipped gradient with value 18.0 while allowed 6.1
+
+Clipped gradient with value 18.0 while allowed 6.1Clipped gradient with value 18.0 while allowed 6.1
+
+Clipped gradient with value 18.0 while allowed 6.1
+Clipped gradient with value 18.0 while allowed 6.1
+Clipped gradient with value 18.0 while allowed 6.1
+Clipped gradient with value 7.2 while allowed 5.5Clipped gradient with value 7.2 while allowed 5.5Clipped gradient with value 7.2 while allowed 5.5Clipped gradient with value 7.2 while allowed 5.5
+
+
+
+Clipped gradient with value 7.2 while allowed 5.5
+Clipped gradient with value 7.2 while allowed 5.5
+Clipped gradient with value 7.2 while allowed 5.5
+Clipped gradient with value 7.2 while allowed 5.5
+Clipped gradient with value 7.5 while allowed 6.0
+Clipped gradient with value 7.5 while allowed 6.0Clipped gradient with value 7.5 while allowed 6.0
+
+Clipped gradient with value 7.5 while allowed 6.0
+Clipped gradient with value 7.5 while allowed 6.0Clipped gradient with value 7.5 while allowed 6.0
+
+Clipped gradient with value 7.5 while allowed 6.0
+Clipped gradient with value 7.5 while allowed 6.0
+[train-progress] epoch=1/1 batch_idx=2900 global_step=1450 elapsed_min=15.7 loss=0.2681 edge_loss_weighted=0.146 bond_length_loss_weighted=0.2469 edge_smoke_loss=0.146 edge_smoke_acc=0.8769 edge_smoke_real_bond_acc=0.4938 bond_length_loss=2.469
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 5.2 while allowed 5.1
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 9.7 while allowed 5.4
+Clipped gradient with value 8.2 while allowed 5.8Clipped gradient with value 8.2 while allowed 5.8
+
+Clipped gradient with value 8.2 while allowed 5.8Clipped gradient with value 8.2 while allowed 5.8Clipped gradient with value 8.2 while allowed 5.8
+
+
+Clipped gradient with value 8.2 while allowed 5.8
+Clipped gradient with value 8.2 while allowed 5.8
+Clipped gradient with value 8.2 while allowed 5.8
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.3 while allowed 6.1
+Clipped gradient with value 8.8 while allowed 6.4Clipped gradient with value 8.8 while allowed 6.4Clipped gradient with value 8.8 while allowed 6.4
+
+
+Clipped gradient with value 8.8 while allowed 6.4
+Clipped gradient with value 8.8 while allowed 6.4
+Clipped gradient with value 8.8 while allowed 6.4
+Clipped gradient with value 8.8 while allowed 6.4
+Clipped gradient with value 8.8 while allowed 6.4
+Clipped gradient with value 7.1 while allowed 6.6Clipped gradient with value 7.1 while allowed 6.6Clipped gradient with value 7.1 while allowed 6.6
+
+
+Clipped gradient with value 7.1 while allowed 6.6
+Clipped gradient with value 7.1 while allowed 6.6
+Clipped gradient with value 7.1 while allowed 6.6
+Clipped gradient with value 7.1 while allowed 6.6
+Clipped gradient with value 7.1 while allowed 6.6
+[train-progress] epoch=1/1 batch_idx=3000 global_step=1500 elapsed_min=16.2 loss=0.2659 edge_loss_weighted=0.07747 bond_length_loss_weighted=0.06923 edge_smoke_loss=0.07747 edge_smoke_acc=0.9628 edge_smoke_real_bond_acc=0.515 bond_length_loss=0.6923
+Clipped gradient with value 7.2 while allowed 6.9
+Clipped gradient with value 7.2 while allowed 6.9Clipped gradient with value 7.2 while allowed 6.9
+
+Clipped gradient with value 7.2 while allowed 6.9
+Clipped gradient with value 7.2 while allowed 6.9
+Clipped gradient with value 7.2 while allowed 6.9
+Clipped gradient with value 7.2 while allowed 6.9
+Clipped gradient with value 7.2 while allowed 6.9
+Clipped gradient with value 9.4 while allowed 7.4Clipped gradient with value 9.4 while allowed 7.4
+Clipped gradient with value 9.4 while allowed 7.4
+Clipped gradient with value 9.4 while allowed 7.4
+
+Clipped gradient with value 9.4 while allowed 7.4
+Clipped gradient with value 9.4 while allowed 7.4
+Clipped gradient with value 9.4 while allowed 7.4
+Clipped gradient with value 9.4 while allowed 7.4
+[validation-epoch-end] epoch=1/1 global_step=1540 elapsed_min=16.6 loss/train=0.4001 loss/val=254.9 edge_loss_weighted/train=0.163 edge_loss_weighted/val=0.1595 bond_length_loss_weighted/train=0.03108 bond_length_loss_weighted/val=0.1356 edge_smoke_loss/train=0.163 edge_smoke_loss/val=0.1595 edge_smoke_acc/train=0.8333 edge_smoke_acc/val=0.8856 edge_smoke_real_bond_acc/train=0.28 edge_smoke_real_bond_acc/val=0.434 bond_length_loss/train=0.3108 bond_length_loss/val=1.356 error_t_lig/train=0.1305 error_t_lig/val=56.23 loss_0/train=0 loss_0/val=-147.3 kl_prior/train=0.1407 kl_prior/val=0.1043
+[train-epoch-end] epoch=1/1 global_step=1540 elapsed_min=16.7 loss/train=0.4001 loss/val=254.9 edge_loss_weighted/train=0.163 edge_loss_weighted/val=0.1595 bond_length_loss_weighted/train=0.03108 bond_length_loss_weighted/val=0.1356 edge_smoke_loss/train=0.163 edge_smoke_loss/val=0.1595 edge_smoke_acc/train=0.8333 edge_smoke_acc/val=0.8856 edge_smoke_real_bond_acc/train=0.28 edge_smoke_real_bond_acc/val=0.434 bond_length_loss/train=0.3108 bond_length_loss/val=1.356 error_t_lig/train=0.1305 error_t_lig/val=56.23 loss_0/train=0 loss_0/val=-147.3 kl_prior/train=0.1407 kl_prior/val=0.1043
+`Trainer.fit` stopped: `max_epochs=1` reached.
+real 1019.50
+user 1191.67
+sys 55.38

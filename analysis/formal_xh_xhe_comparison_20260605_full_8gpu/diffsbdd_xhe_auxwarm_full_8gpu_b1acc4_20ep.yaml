@@ -1,0 +1,83 @@
+run_name: 'diffsbdd-xhe-auxwarm-full-8gpu-260605-b1acc4-20ep'
+logdir: 'analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning'
+warm_start_checkpoint: 'analysis/diffsbdd_xhe_joint_20260605_20k_6gpu/lightning/diffsbdd-xhe-joint-20k-6gpu-260605-b1acc4-5ep/checkpoints/last.ckpt'
+seed: 260605
+wandb_params:
+  mode: 'disabled'
+  entity: null
+  group: 'formal-xh-xhe-comparison'
+dataset: 'crossdock'
+datadir: 'data/crossdocked_raw/processed_edge_noH_full'
+enable_progress_bar: false
+num_sanity_val_steps: 0
+
+mode: 'pocket_conditioning'
+pocket_representation: 'full-atom'
+diffusion_mode: 'xhe'
+virtual_nodes: false
+batch_size: 1
+lr: 3.0e-4
+noise_factor: 1.0
+n_epochs: 20
+num_workers: 2
+gpus: 8
+clip_grad: true
+augment_rotation: false
+augment_noise: 0
+accumulate_grad_batches: 4
+
+bond_diffusion:
+  enabled: true
+  num_edge_types: 5
+  edge_prior: 'uniform'
+  beta_schedule: 'linear'
+  edge_hidden_dim: 128
+  distance_basis_dim: 32
+  edge_loss_weight: 1.0
+  edge_class_weight_mode: 'diffgui'
+  no_bond_weight: 0.1
+  edge_focal_gamma: 0.0
+  use_edge_message_passing: true
+  edge_message_dim: 32
+  edge_message_scale: 1.0
+  bond_length_loss_weight: 0.1
+
+auxiliary_loss: false
+loss_params:
+  max_weight: 0.001
+  schedule: 'linear'
+  clamp_lj: 3.0
+
+egnn_params:
+  device: 'cuda'
+  edge_cutoff_ligand: null
+  edge_cutoff_pocket: 5.0
+  edge_cutoff_interaction: 5.0
+  reflection_equivariant: false
+  joint_nf: 32
+  hidden_nf: 128
+  n_layers: 5
+  attention: true
+  tanh: true
+  norm_constant: 1
+  inv_sublayers: 1
+  sin_embedding: false
+  aggregation_method: 'sum'
+  normalization_factor: 100
+
+diffusion_params:
+  diffusion_steps: 500
+  diffusion_noise_schedule: 'polynomial_2'
+  diffusion_noise_precision: 5.0e-4
+  diffusion_loss_type: 'l2'
+  normalize_factors: [1, 4]
+
+eval_epochs: 999
+visualize_sample_epoch: 999
+visualize_chain_epoch: 999
+eval_params:
+  n_eval_samples: 32
+  eval_batch_size: 16
+  smiles_file: 'data/crossdocked_raw/processed_edge_noH_full/train_smiles.npy'
+  n_visualize_samples: 2
+  keep_frames: 10

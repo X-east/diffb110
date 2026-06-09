@@ -7,6 +7,7 @@ feature importance (permutation-based), prediction distribution.
 
 from __future__ import annotations
 
+import argparse
 import json
 import logging
 import os
@@ -353,11 +354,24 @@ def print_results(results: dict) -> None:
 
 def main() -> None:
     """Entry point."""
+    parser = argparse.ArgumentParser(description="Evaluate ChEMBL classifier.")
+    parser.add_argument(
+        "--config",
+        default=str(_CONFIG_PATH),
+        help="Path to classifier YAML config.",
+    )
+    parser.add_argument(
+        "--model",
+        default=None,
+        help="Optional classifier checkpoint path. Defaults to config output model.",
+    )
+    args = parser.parse_args()
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
     )
-    results = evaluate_model()
+    results = evaluate_model(model_path=args.model, config_path=args.config)
     print_results(results)
 
 

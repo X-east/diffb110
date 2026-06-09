@@ -307,7 +307,7 @@ def build_argparser() -> argparse.ArgumentParser:
         "--reconstruction_method",
         type=str,
         default=RECONSTRUCTION_METHOD or DEFAULT_RECONSTRUCTION_METHOD,
-        choices=("openbabel", "obabel", "edm", "distance", "distance_rule"),
+        choices=("openbabel", "obabel", "edm", "distance", "distance_rule", "predicted_edge"),
         help="Bond inference backend used when rebuilding RDKit molecules.",
     )
     p.add_argument("--seed", type=int, default=BASE_SEED)

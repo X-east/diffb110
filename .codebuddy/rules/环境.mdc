@@ -6,7 +6,11 @@ updatedAt: 2026-05-08T08:06:32.923Z
 provider: 
 ---
 
-每次请打开dif环境再运行
+每次请打开dif环境再运行。
+
+DiffGui 强化学习必须和 DiffSBDD 主线环境隔离。凡是加载 reference DiffGui 模型/checkpoint、运行 DiffGui denovo/fragment 采样、或训练 DiffGui PPO/DDPO，都必须使用 DiffGui 专用 conda 环境，不要使用 `dif`。不要把 DiffGui-only 依赖安装进 `dif`，也不要把 DiffGui 的启动脚本、checkpoint、run 输出和 DiffSBDD RL 主线混在一起。
+
+仅对已有 DiffGui SDF 做 reward-only 离线评分、且不 import reference DiffGui 模型时，可以使用常规项目环境；一旦触碰 DiffGui 模型代码路径，必须先跑 DiffGui dependency preflight，并在 run log 中记录环境名和 preflight 结果。
 
 本机不要使用 `rg` / `rg --files`。当前 ripgrep 会触发 snap 权限问题（`snap-confine` capability error），搜索文件和内容请改用 `grep`、`find`、`sed`、`ls` 等命令。
 

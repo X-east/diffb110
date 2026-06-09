@@ -1,0 +1,44 @@
+# ChEMBL classifier v0.2.1 weighted hard-negative training.
+#
+# Difference from v0.2:
+# - only generated good_high_conf molecules are added as extra positives
+# - failed-RL hard negatives are not duplicated; they use sample weights
+# - bad_classifier_false_positive gets the highest weight
+
+model:
+  input_dim: 2220
+  hidden_dims: [512, 128]
+  dropout_rates: [0.3, 0.2]
+
+training:
+  n_positives: 100000
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 1e-5
+  max_epochs: 100
+  early_stopping_patience: 15
+  train_split: 0.8
+  val_split: 0.1
+  seed: 44
+  auto_pos_weight: true
+
+data:
+  explicit_positive_samples: "analysis/classifier_v0_2_1_weighted_20260608/selected_positives_v0_2_1_weighted.smi"
+  explicit_negative_samples: "analysis/classifier_v0_2_1_weighted_20260608/selected_negatives_v0_2_1_weighted_labeled.smi"
+  include_legacy_negatives: false
+
+  chembl_molecules: "data/chembl/chembl_36_molecules.csv.gz"
+  chembl_properties: "data/chembl/chembl_36_properties.csv.gz"
+
+  n_jobs: 18
+  experiment_dirs: []
+  n_synthetic_pah: 0
+  n_synthetic_garbage: 0
+  n_chembl_outliers: 0
+
+output:
+  model_dir: "chembl_classifier/models"
+  model_name: "chembl_classifier_selected_v0_2_1_weighted.pt"
+  dataset_cache: "chembl_classifier/models/dataset_selected_v0_2_1_weighted.pt"
+  evaluation_dir: "chembl_classifier/models/evaluation_selected_v0_2_1_weighted"
+  norm_stats: "reference project/molskill/data/chembl_population_mean_std.csv"

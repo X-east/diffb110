@@ -1,0 +1,13 @@
+reason_type,reason,n
+bad,bad_non_aromatic_polycycle,17409
+bad,bad_three_member_ring,16977
+bad,bad_top_docking_exploit,14758
+bad,bad_invalid_or_unparseable,10129
+bad,bad_ring_complex_failed_rl,8482
+bad,bad_bad_bond_length,8108
+bad,bad_low_tpsa_or_high_logp,7185
+bad,bad_high_carbon_low_hetero,6710
+good,good_strict_chemistry,4112
+good,good_strict_with_docking,1907
+bad,bad_classifier_false_positive,1183
+good,good_classifier_accepted,1063

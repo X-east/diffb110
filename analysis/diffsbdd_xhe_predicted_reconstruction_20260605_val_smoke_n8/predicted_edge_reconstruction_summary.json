@@ -1,0 +1,214 @@
+{
+  "task": "diffsbdd_xhe_predicted_edge_reconstruction_smoke",
+  "scope": "teacher_forced_real_val_point_clouds",
+  "decoupled_from_rl": true,
+  "config": "analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/diffsbdd_xhe_20k_6gpu_b4_3ep.yaml",
+  "checkpoint": "analysis/diffsbdd_xhe_supervised_20260604_20k_6gpu/lightning/diffsbdd-xhe-20k-6gpu-260604-b4-3ep/checkpoints/last.ckpt",
+  "split": "val",
+  "device": "cuda",
+  "seed": 260605,
+  "batch_size": 4,
+  "molecules": 8,
+  "timesteps": [
+    0,
+    50,
+    500
+  ],
+  "elapsed_seconds": 5.518110275268555,
+  "seconds_per_molecule_per_timestep": 0.2299212614695231,
+  "load_status": {
+    "missing": 0,
+    "unexpected": 0
+  },
+  "summary_by_timestep": [
+    {
+      "timestep": 0,
+      "molecules": 8,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 1.0,
+      "pred_vs_oracle_smiles_match_rate": 1.0,
+      "exact_halfedge_match_rate": 1.0,
+      "mean_halfedge_accuracy": 1.0,
+      "mean_bond_pair_precision": 1.0,
+      "mean_bond_pair_recall": 1.0,
+      "mean_bond_pair_f1": 1.0,
+      "mean_bad_bond_length_fraction": 0.0,
+      "mean_noised_change_fraction": 0.0,
+      "mean_target_bond_count": 25.0,
+      "mean_pred_bond_count": 25.0,
+      "mean_missing_bond_count": 0.0,
+      "mean_extra_bond_count": 0.0,
+      "mean_bond_type_mismatch_count": 0.0,
+      "mean_pred_fragments": 1.0,
+      "mean_pred_rings": 2.5,
+      "mean_pred_aromatic_rings": 1.0,
+      "mean_pred_three_member_rings": 0.0
+    },
+    {
+      "timestep": 50,
+      "molecules": 8,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.875,
+      "pred_vs_oracle_smiles_match_rate": 0.625,
+      "exact_halfedge_match_rate": 0.5,
+      "mean_halfedge_accuracy": 0.995566189289093,
+      "mean_bond_pair_precision": 0.99375,
+      "mean_bond_pair_recall": 1.0,
+      "mean_bond_pair_f1": 0.9967948717948718,
+      "mean_bad_bond_length_fraction": 0.00625,
+      "mean_noised_change_fraction": 0.03946460294537246,
+      "mean_target_bond_count": 25.0,
+      "mean_pred_bond_count": 25.125,
+      "mean_missing_bond_count": 0.0,
+      "mean_extra_bond_count": 0.125,
+      "mean_bond_type_mismatch_count": 0.5,
+      "mean_pred_fragments": 1.0,
+      "mean_pred_rings": 2.625,
+      "mean_pred_aromatic_rings": 0.875,
+      "mean_pred_three_member_rings": 0.125
+    },
+    {
+      "timestep": 500,
+      "molecules": 8,
+      "oracle_sanitize_success_rate": 1.0,
+      "pred_sanitize_success_rate": 0.75,
+      "pred_vs_oracle_smiles_match_rate": 0.0,
+      "exact_halfedge_match_rate": 0.0,
+      "mean_halfedge_accuracy": 0.8794198408722878,
+      "mean_bond_pair_precision": 0.050595238095238096,
+      "mean_bond_pair_recall": 0.02807017543859649,
+      "mean_bond_pair_f1": 0.0354064039408867,
+      "mean_bad_bond_length_fraction": 0.19940476190476192,
+      "mean_noised_change_fraction": 0.8064595013856888,
+      "mean_target_bond_count": 25.0,
+      "mean_pred_bond_count": 2.875,
+      "mean_missing_bond_count": 24.5,
+      "mean_extra_bond_count": 2.375,
+      "mean_bond_type_mismatch_count": 0.125,
+      "mean_pred_fragments": 21.25,
+      "mean_pred_rings": 0.0,
+      "mean_pred_aromatic_rings": 0.0,
+      "mean_pred_three_member_rings": 0.0
+    }
+  ],
+  "confusion_by_timestep": {
+    "0": [
+      [
+        2040,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        131,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        22,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        47
+      ]
+    ],
+    "50": [
+      [
+        2039,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        129,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        22,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        0,
+        45
+      ]
+    ],
+    "500": [
+      [
+        2021,
+        18,
+        0,
+        0,
+        1
+      ],
+      [
+        128,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        21,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        47,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "files": {
+    "rows_csv": "predicted_edge_reconstruction_rows.csv",
+    "summary_csv": "predicted_edge_reconstruction_summary.csv",
+    "summary_json": "predicted_edge_reconstruction_summary.json",
+    "metrics_plot": "predicted_edge_reconstruction_metrics.png",
+    "confusion_csv": "predicted_edge_reconstruction_confusion.csv"
+  }
+}

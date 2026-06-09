@@ -7,6 +7,7 @@ trains with BCEWithLogitsLoss, saves best model.
 
 from __future__ import annotations
 
+import argparse
 import logging
 import sys
 import time
@@ -46,13 +47,23 @@ def train_epoch(
     total_loss = 0.0
     n_batches = 0
 
-    for X_batch, y_batch in loader:
+    for batch in loader:
+        if len(batch) == 3:
+            X_batch, y_batch, w_batch = batch
+            w_batch = w_batch.to(device).unsqueeze(1)
+        else:
+            X_batch, y_batch = batch
+            w_batch = None
         X_batch = X_batch.to(device)
         y_batch = y_batch.to(device).unsqueeze(1)
 
         optimizer.zero_grad()
         logits = model(X_batch)
-        loss = criterion(logits, y_batch)
+        loss_raw = criterion(logits, y_batch)
+        if w_batch is not None:
+            loss = (loss_raw * w_batch).sum() / torch.clamp(w_batch.sum(), min=1.0)
+        else:
+            loss = loss_raw.mean()
         loss.backward()
         optimizer.step()
 
@@ -80,13 +91,27 @@ def evaluate(
     all_preds: list[torch.Tensor] = []
     all_labels: list[torch.Tensor] = []
 
-    for X_batch, y_batch in loader:
+    n_weight = 0.0
+    for batch in loader:
+        if len(batch) == 3:
+            X_batch, y_batch, w_batch = batch
+            w_batch = w_batch.to(device).unsqueeze(1)
+        else:
+            X_batch, y_batch = batch
+            w_batch = None
         X_batch = X_batch.to(device)
         y_batch = y_batch.to(device).unsqueeze(1)
 
         logits = model(X_batch)
-        loss = criterion(logits, y_batch)
-        total_loss += loss.item()
+        loss_raw = criterion(logits, y_batch)
+        if w_batch is not None:
+            loss = (loss_raw * w_batch).sum()
+            total_loss += loss.item()
+            n_weight += float(w_batch.sum().item())
+        else:
+            loss = loss_raw.mean()
+            total_loss += loss.item()
+            n_weight += 1.0
         n_batches += 1
 
         probs = torch.sigmoid(logits)
@@ -102,7 +127,7 @@ def evaluate(
     fn = ((preds == 0) & (labels == 1)).sum().item()
 
     return {
-        "loss": total_loss / max(n_batches, 1),
+        "loss": total_loss / max(n_weight if n_weight > 0 else n_batches, 1),
         "accuracy": (preds == labels).float().mean().item(),
         "precision": tp / max(tp + fp, 1),
         "recall": tp / max(tp + fn, 1),
@@ -142,10 +167,13 @@ def train(config_path: str | None = None) -> ChemblClassifier:
 
     X_train = torch.tensor(dataset["X_train"])
     y_train = torch.tensor(dataset["y_train"])
+    w_train = torch.tensor(dataset.get("sample_weight_train", np.ones(len(y_train), dtype=np.float32))).float()
     X_val = torch.tensor(dataset["X_val"])
     y_val = torch.tensor(dataset["y_val"])
+    w_val = torch.tensor(dataset.get("sample_weight_val", np.ones(len(y_val), dtype=np.float32))).float()
     X_test = torch.tensor(dataset["X_test"])
     y_test = torch.tensor(dataset["y_test"])
+    w_test = torch.tensor(dataset.get("sample_weight_test", np.ones(len(y_test), dtype=np.float32))).float()
 
     # ── Clean NaN/Inf from features (RDKit descriptors for edge-case molecules) ──
     for name, X in [("train", X_train), ("val", X_val), ("test", X_test)]:
@@ -160,18 +188,18 @@ def train(config_path: str | None = None) -> ChemblClassifier:
     )
 
     train_loader = DataLoader(
-        TensorDataset(X_train, y_train),
+        TensorDataset(X_train, y_train, w_train),
         batch_size=train_cfg["batch_size"],
         shuffle=True,
         drop_last=False,
     )
     val_loader = DataLoader(
-        TensorDataset(X_val, y_val),
+        TensorDataset(X_val, y_val, w_val),
         batch_size=train_cfg["batch_size"] * 2,
         shuffle=False,
     )
     test_loader = DataLoader(
-        TensorDataset(X_test, y_test),
+        TensorDataset(X_test, y_test, w_test),
         batch_size=train_cfg["batch_size"] * 2,
         shuffle=False,
     )
@@ -194,7 +222,7 @@ def train(config_path: str | None = None) -> ChemblClassifier:
     else:
         pos_weight = None
 
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight, reduction="none")
 
     # ── Optimizer ─────────────────────────────────────────────────────────
     optimizer = optim.Adam(
@@ -267,11 +295,19 @@ def train(config_path: str | None = None) -> ChemblClassifier:
 
 def main() -> None:
     """Entry point."""
+    parser = argparse.ArgumentParser(description="Train ChEMBL classifier.")
+    parser.add_argument(
+        "--config",
+        default=str(_CONFIG_PATH),
+        help="Path to classifier YAML config.",
+    )
+    args = parser.parse_args()
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
     )
-    train()
+    train(args.config)
 
 
 if __name__ == "__main__":

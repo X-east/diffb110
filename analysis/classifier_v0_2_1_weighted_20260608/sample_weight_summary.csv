@@ -1,0 +1,6 @@
+source,weight,n
+generated_failed_rl_hard_negative,1.5,235
+generated_failed_rl_hard_negative,2.0,14753
+generated_failed_rl_hard_negative,3.0,12866
+generated_failed_rl_hard_negative,8.0,1159
+selected_negative_v0_1,1.0,70000

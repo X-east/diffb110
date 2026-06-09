@@ -1,0 +1,8 @@
+issue,metric,value,source,interpretation
+静态评估过于乐观,heldout_test_f1,0.995266,chembl_classifier/models/evaluation_selected_v0_1/chembl_classifier_selected_v0_1_evaluation.json,测试集区分 selected positives/negatives 很好，但不能证明能约束 RL 生成的 OOD 分布。
+基础生成分布上 reward 很稀疏,base_prob_lt_0_2_rate,59.21%,analysis/classifier_test_260407_sdf_20260527/summary.json,按当前 cap_low=0.2 映射，大量基础样本直接进入 -1 地板。
+高分组仍不干净,prob_ge_0_8_ring_complex_rate,46.78%,analysis/classifier_test_260407_sdf_20260527/subgroup_risk_summary.json,分类器能压极端高碳，但没有充分压住复杂环/局部拓扑问题。
+高分组仍不干净,prob_ge_0_8_three_member_ring_rate,12.43%,analysis/classifier_test_260407_sdf_20260527/subgroup_risk_summary.json,三元环在 classifier 高概率组仍有明显残留。
+正式 RL 出现高碳漂移,carbon_fraction_epoch1_to_25,0.654553 -> 0.793666,analysis/rl_high_carbon_sparse_reward_20260604/run_start_end_delta.csv,dock+classifier 后分布仍向高碳移动，说明 classifier 没有守住群体分布。
+正式 RL 出现低极性/低杂原子漂移,tpsa_epoch1_to_25,104.169 -> 60.974,analysis/rl_high_carbon_sparse_reward_20260604/run_start_end_delta.csv,TPSA 明显下降，与希望保留药化极性/杂原子分布的目标冲突。
+PPO 可用正向组合样本太少,dock8_and_classifier_positive_valid_rate_epoch25,3.79%,analysis/rl_high_carbon_sparse_reward_20260604/reward_sparsity_by_epoch.csv,docking 好且 classifier 为正的有效分子太少，更新主要被单轴 docking 或惩罚主导。

@@ -1,0 +1,312 @@
+[
+  {
+    "name": "warm_start_random_edge",
+    "checkpoint": "analysis/diffsbdd_xhe_joint_20260605_smoke/lightning/diffsbdd-xhe-joint-smoke-260605/checkpoints/last.ckpt",
+    "strict": false,
+    "load_status": {
+      "missing": 0,
+      "unexpected": 0
+    },
+    "splits": {
+      "train": {
+        "split": "train",
+        "molecules": 2000,
+        "edges": 612898,
+        "real_edges": 50765,
+        "no_bond_edges": 562133,
+        "edge_loss_per_mol": 0.24360685884952546,
+        "edge_acc": 0.3870497211607804,
+        "real_bond_acc": 0.4984339604057914,
+        "no_bond_acc": 0.3769908544774991,
+        "binary_bond_precision": 0.11207849500532427,
+        "binary_bond_recall": 0.8707968088249778,
+        "binary_bond_f1": 0.19859608926626007,
+        "class_recall": {
+          "no_bond": 0.3769908544774991,
+          "single": 0.5153464784468077,
+          "double": 0.0014340344168260039,
+          "triple": 0.0,
+          "aromatic": 0.58280524923906
+        },
+        "target_hist": {
+          "no_bond": 562133,
+          "single": 26423,
+          "double": 4184,
+          "triple": 117,
+          "aromatic": 20041
+        },
+        "prediction_hist": {
+          "no_bond": 218478,
+          "single": 159592,
+          "double": 21,
+          "triple": 897,
+          "aromatic": 233910
+        },
+        "confusion": [
+          [
+            211919,
+            138649,
+            8,
+            830,
+            210727
+          ],
+          [
+            3228,
+            13617,
+            4,
+            30,
+            9544
+          ],
+          [
+            731,
+            1542,
+            6,
+            6,
+            1899
+          ],
+          [
+            11,
+            46,
+            0,
+            0,
+            60
+          ],
+          [
+            2589,
+            5738,
+            3,
+            31,
+            11680
+          ]
+        ]
+      },
+      "val": {
+        "split": "val",
+        "molecules": 300,
+        "edges": 88656,
+        "real_edges": 7499,
+        "no_bond_edges": 81157,
+        "edge_loss_per_mol": 0.2449093117316564,
+        "edge_acc": 0.38348222342537447,
+        "real_bond_acc": 0.4892652353647153,
+        "no_bond_acc": 0.3737077516418793,
+        "binary_bond_precision": 0.11175576254303339,
+        "binary_bond_recall": 0.8527803707160955,
+        "binary_bond_f1": 0.19761441240999966,
+        "class_recall": {
+          "no_bond": 0.3737077516418793,
+          "single": 0.538422649140546,
+          "double": 0.0,
+          "triple": 0.0,
+          "aromatic": 0.541329581428069
+        },
+        "target_hist": {
+          "no_bond": 81157,
+          "single": 3956,
+          "double": 688,
+          "triple": 12,
+          "aromatic": 2843
+        },
+        "prediction_hist": {
+          "no_bond": 31433,
+          "single": 24624,
+          "double": 3,
+          "triple": 18,
+          "aromatic": 32578
+        },
+        "confusion": [
+          [
+            30329,
+            21348,
+            2,
+            17,
+            29461
+          ],
+          [
+            539,
+            2130,
+            0,
+            1,
+            1286
+          ],
+          [
+            140,
+            259,
+            0,
+            0,
+            289
+          ],
+          [
+            0,
+            9,
+            0,
+            0,
+            3
+          ],
+          [
+            425,
+            878,
+            1,
+            0,
+            1539
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "name": "joint_20k_b1acc4_5ep_last",
+    "checkpoint": "analysis/diffsbdd_xhe_joint_20260605_20k_6gpu/lightning/diffsbdd-xhe-joint-20k-6gpu-260605-b1acc4-5ep/checkpoints/last.ckpt",
+    "strict": true,
+    "load_status": {
+      "missing": 0,
+      "unexpected": 0
+    },
+    "splits": {
+      "train": {
+        "split": "train",
+        "molecules": 2000,
+        "edges": 612898,
+        "real_edges": 50765,
+        "no_bond_edges": 562133,
+        "edge_loss_per_mol": 0.1293535797037184,
+        "edge_acc": 0.9013767380542929,
+        "real_bond_acc": 0.5517974982763715,
+        "no_bond_acc": 0.9329464735213908,
+        "binary_bond_precision": 0.48357971749167683,
+        "binary_bond_recall": 0.6952821826061263,
+        "binary_bond_f1": 0.5704219661586696,
+        "class_recall": {
+          "no_bond": 0.9329464735213908,
+          "single": 0.6198387768232222,
+          "double": 0.31835564053537285,
+          "triple": 0.17094017094017094,
+          "aromatic": 0.5130482510852752
+        },
+        "target_hist": {
+          "no_bond": 562133,
+          "single": 26423,
+          "double": 4184,
+          "triple": 117,
+          "aromatic": 20041
+        },
+        "prediction_hist": {
+          "no_bond": 539909,
+          "single": 47331,
+          "double": 1894,
+          "triple": 26,
+          "aromatic": 23738
+        },
+        "confusion": [
+          [
+            524440,
+            26197,
+            228,
+            0,
+            11268
+          ],
+          [
+            7950,
+            16378,
+            271,
+            5,
+            1819
+          ],
+          [
+            1150,
+            1348,
+            1332,
+            1,
+            353
+          ],
+          [
+            26,
+            55,
+            0,
+            20,
+            16
+          ],
+          [
+            6343,
+            3353,
+            63,
+            0,
+            10282
+          ]
+        ]
+      },
+      "val": {
+        "split": "val",
+        "molecules": 300,
+        "edges": 88656,
+        "real_edges": 7499,
+        "no_bond_edges": 81157,
+        "edge_loss_per_mol": 0.13644831106066704,
+        "edge_acc": 0.8947956145100162,
+        "real_bond_acc": 0.5368715828777171,
+        "no_bond_acc": 0.9278682060697168,
+        "binary_bond_precision": 0.4681083045611485,
+        "binary_bond_recall": 0.6870249366582211,
+        "binary_bond_f1": 0.5568224804106998,
+        "class_recall": {
+          "no_bond": 0.9278682060697168,
+          "single": 0.6140040444893832,
+          "double": 0.28924418604651164,
+          "triple": 0.3333333333333333,
+          "aromatic": 0.4903271192402392
+        },
+        "target_hist": {
+          "no_bond": 81157,
+          "single": 3956,
+          "double": 688,
+          "triple": 12,
+          "aromatic": 2843
+        },
+        "prediction_hist": {
+          "no_bond": 77650,
+          "single": 7268,
+          "double": 264,
+          "triple": 4,
+          "aromatic": 3470
+        },
+        "confusion": [
+          [
+            75303,
+            4109,
+            15,
+            0,
+            1730
+          ],
+          [
+            1204,
+            2429,
+            39,
+            0,
+            284
+          ],
+          [
+            183,
+            245,
+            199,
+            0,
+            61
+          ],
+          [
+            1,
+            5,
+            1,
+            4,
+            1
+          ],
+          [
+            959,
+            480,
+            10,
+            0,
+            1394
+          ]
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,225 @@
+[xhe-diffgui-scratch-continue] Resuming to max_epochs=16 from analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/checkpoints/last_continue_to16.ckpt
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+Global seed set to 260606
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/8
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+/data/disk6/DiffB110/DiffSBDD/train.py:301: UserWarning: Config parameter 'egnn_params' (value: {'device': 'cuda', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100}) will be overwritten with value {'device': 'cpu', 'edge_cutoff_ligand': None, 'edge_cutoff_pocket': 5.0, 'edge_cutoff_interaction': 5.0, 'reflection_equivariant': False, 'joint_nf': 32, 'hidden_nf': 128, 'n_layers': 5, 'attention': True, 'tanh': True, 'norm_constant': 1, 'inv_sublayers': 1, 'sin_embedding': False, 'aggregation_method': 'sum', 'normalization_factor': 100} from the checkpoint.
+  warnings.warn(f"Config parameter '{key}' (value: "
+Configured local CUDA device before model init: LOCAL_RANK=5, cuda:5
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 5] Global seed set to 260606
+Configured local CUDA device before model init: LOCAL_RANK=2, cuda:2
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 2] Global seed set to 260606
+Configured local CUDA device before model init: LOCAL_RANK=3, cuda:3
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 3] Global seed set to 260606
+Configured local CUDA device before model init: LOCAL_RANK=1, cuda:1
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 1] Global seed set to 260606
+Configured local CUDA device before model init: LOCAL_RANK=6, cuda:6
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 6] Global seed set to 260606
+Configured local CUDA device before model init: LOCAL_RANK=7, cuda:7
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 7] Global seed set to 260606
+Configured local CUDA device before model init: LOCAL_RANK=4, cuda:4
+Using CPU module initialization for DDP: egnn_params.device 'cpu' -> 'cpu'
+[rank: 4] Global seed set to 260606
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+[rank: 5] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/8
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.24107551574707
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+Entropy of n_nodes: H[N] 9.24107551574707
+[rank: 1] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/8
+Using local CSV logger: analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics/metrics.csv
+[rank: 6] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 6, MEMBER: 7/8
+[rank: 7] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 7, MEMBER: 8/8
+[rank: 2] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/8
+[rank: 4] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/8
+[rank: 3] Global seed set to 260606
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/8
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 8 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 3080') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:613: UserWarning: Checkpoint directory analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/checkpoints exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+Restoring states from the checkpoint path at analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/checkpoints/last_continue_to16.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 7 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 4 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 6 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 5 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+
+  | Name | Type               | Params
+--------------------------------------------
+0 | ddpm | ConditionalDDPMXHE | 1.1 M 
+--------------------------------------------
+1.1 M     Trainable params
+501       Non-trainable params
+1.1 M     Total params
+4.442     Total estimated model params size (MB)
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_fabric/loggers/csv_logs.py:183: UserWarning: Experiment logs directory analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/metrics exists and is not empty. Previous log files in this directory will be deleted when the new ones are saved!
+  rank_zero_warn(
+Restored all states from the checkpoint file at analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/checkpoints/last_continue_to16.ckpt
+[train-progress] epoch=9/16 batch_idx=0 global_step=12440 elapsed_min=0.8 loss=0.08822 edge_loss_weighted=5.189e-06 bond_length_loss_weighted=0.1093 edge_smoke_loss=5.189e-06 edge_smoke_acc=0.9183 edge_smoke_real_bond_acc=0 bond_length_loss=0.1093
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+Clipped gradient with value 54.4 while allowed 36.3
+[train-progress] epoch=9/16 batch_idx=250 global_step=12502 elapsed_min=1.8 loss=0.1143 edge_loss_weighted=0.09073 bond_length_loss_weighted=0.1049 edge_smoke_loss=0.09073 edge_smoke_acc=0.9168 edge_smoke_real_bond_acc=0.08 bond_length_loss=0.1049
+Clipped gradient with value 37.2 while allowed 33.9Clipped gradient with value 37.2 while allowed 33.9
+
+Clipped gradient with value 37.2 while allowed 33.9
+Clipped gradient with value 37.2 while allowed 33.9
+Clipped gradient with value 37.2 while allowed 33.9Clipped gradient with value 37.2 while allowed 33.9
+
+Clipped gradient with value 37.2 while allowed 33.9
+Clipped gradient with value 37.2 while allowed 33.9
+Clipped gradient with value 71.8 while allowed 34.6Clipped gradient with value 71.8 while allowed 34.6
+
+Clipped gradient with value 71.8 while allowed 34.6Clipped gradient with value 71.8 while allowed 34.6
+
+Clipped gradient with value 71.8 while allowed 34.6
+Clipped gradient with value 71.8 while allowed 34.6
+Clipped gradient with value 71.8 while allowed 34.6
+Clipped gradient with value 71.8 while allowed 34.6
+Clipped gradient with value 77.5 while allowed 34.2
+Clipped gradient with value 77.5 while allowed 34.2
+Clipped gradient with value 77.5 while allowed 34.2Clipped gradient with value 77.5 while allowed 34.2
+
+Clipped gradient with value 77.5 while allowed 34.2
+Clipped gradient with value 77.5 while allowed 34.2
+Clipped gradient with value 77.5 while allowed 34.2
+Clipped gradient with value 77.5 while allowed 34.2
+Clipped gradient with value 42.1 while allowed 36.2
+Clipped gradient with value 42.1 while allowed 36.2Clipped gradient with value 42.1 while allowed 36.2
+
+Clipped gradient with value 42.1 while allowed 36.2
+Clipped gradient with value 42.1 while allowed 36.2
+Clipped gradient with value 42.1 while allowed 36.2
+Clipped gradient with value 42.1 while allowed 36.2Clipped gradient with value 42.1 while allowed 36.2
+
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 66.3 while allowed 36.6
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 79.7 while allowed 36.8
+Clipped gradient with value 49.6 while allowed 37.4
+Clipped gradient with value 49.6 while allowed 37.4
+Clipped gradient with value 49.6 while allowed 37.4
+Clipped gradient with value 49.6 while allowed 37.4
+Clipped gradient with value 49.6 while allowed 37.4Clipped gradient with value 49.6 while allowed 37.4
+
+Clipped gradient with value 49.6 while allowed 37.4
+Clipped gradient with value 49.6 while allowed 37.4
+Clipped gradient with value 38.8 while allowed 37.7
+Clipped gradient with value 38.8 while allowed 37.7Clipped gradient with value 38.8 while allowed 37.7Clipped gradient with value 38.8 while allowed 37.7
+
+
+Clipped gradient with value 38.8 while allowed 37.7
+Clipped gradient with value 38.8 while allowed 37.7
+Clipped gradient with value 38.8 while allowed 37.7
+Clipped gradient with value 38.8 while allowed 37.7
+[train-progress] epoch=9/16 batch_idx=500 global_step=12565 elapsed_min=2.5 loss=0.1258 edge_loss_weighted=0.1457 bond_length_loss_weighted=0.09897 edge_smoke_loss=0.1457 edge_smoke_acc=0.934 edge_smoke_real_bond_acc=0.5439 bond_length_loss=0.09897
+Clipped gradient with value 41.3 while allowed 30.2Clipped gradient with value 41.3 while allowed 30.2Clipped gradient with value 41.3 while allowed 30.2Clipped gradient with value 41.3 while allowed 30.2
+
+
+
+Clipped gradient with value 41.3 while allowed 30.2
+Clipped gradient with value 41.3 while allowed 30.2Clipped gradient with value 41.3 while allowed 30.2
+
+Clipped gradient with value 41.3 while allowed 30.2
+Terminated
+ERROR conda.cli.main_run:execute(127): `conda run python DiffSBDD/train.py --config analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/diffsbdd_xhe_diffgui_scratch_pocket1000_8gpu_b2acc4_to16ep_resume.yaml --resume analysis/diffsbdd_xhe_diffgui_scratch_20260606_longtest/lightning/diffsbdd-xhe-diffgui-scratch-pocket1000-8gpu-260606-b2acc4-8ep/checkpoints/last_continue_to16.ckpt` failed. (See above for error)
+real 179.85
+user 261.41
+sys 15.31

@@ -1,0 +1,7 @@
+priority,item,benefit,risk,note
+1,Guard audit v0.2,9,2,"Enable ChemistryGuard as provider, GoodMoleculePool only, no replay"
+2,Reward v0.2 ablation,9,4,"Docking + classifier + guard + prior/logP/diversity + small KL"
+3,Dense classifier shaping,8,5,"Replace sparse threshold behavior with continuous/rank signal"
+4,KL mode sweep,7,4,"analytic_current_ref vs pretrained_logprob_k3, kl_coef 0.001/0.003"
+5,Trajectory replay,7,8,"Only after pool quality is verified; replay_ratio starts at 0.1"
+6,Self-training xhe,8,9,"Post-RL/high-quality pool stage, not immediate"

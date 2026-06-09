@@ -1,0 +1,18 @@
+{
+  "n_records": 48052,
+  "n_unique_canonical_smiles": 39659,
+  "label_counts": {
+    "bad": 39643,
+    "borderline_or_exclude": 5404,
+    "good_candidate": 1781,
+    "good_high_conf": 1224
+  },
+  "source_counts": {
+    "7gpu-dock-classifier-v0-1_20260529_133609": 34280,
+    "7gpu-dock-classifier-v0-1_20260528_000841": 7943,
+    "260407generated_10000_filtered": 5829
+  },
+  "review_max_per_reason": 200,
+  "review_max_per_label": 300,
+  "review_max_per_primary_category": 250
+}

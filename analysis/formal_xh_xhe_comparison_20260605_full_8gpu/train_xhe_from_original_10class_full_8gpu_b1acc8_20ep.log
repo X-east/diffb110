@@ -1,0 +1,443 @@
+[xhe-formal-b1acc8] Starting from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Global seed set to 260605
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING The anonymous setting has no effect and will be removed in a future version.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/8
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[rank: 3] Global seed set to 260605
+[rank: 5] Global seed set to 260605
+[rank: 4] Global seed set to 260605
+[rank: 7] Global seed set to 260605
+[rank: 6] Global seed set to 260605
+[rank: 2] Global seed set to 260605
+[rank: 1] Global seed set to 260605
+Entropy of n_nodes: H[N] 9.266731262207031
+Entropy of n_nodes: H[N] 9.266731262207031
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+[rank: 3] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/8
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+[rank: 5] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/8
+Entropy of n_nodes: H[N] 9.266731262207031
+[rank: 4] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/8
+Entropy of n_nodes: H[N] 9.266731262207031
+Entropy of n_nodes: H[N] 9.266731262207031
+Entropy of n_nodes: H[N] 9.266731262207031
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+Warm-started from DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt: missing=29, unexpected=0, skipped_shape_or_missing=15
+Missing keys sample: ['ddpm.dynamics.edge_embedding.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.chemical_edge_embedding.weight', 'ddpm.dynamics.chemical_message_embedding.weight', 'ddpm.dynamics.edge_time_mlp.0.weight', 'ddpm.dynamics.edge_time_mlp.0.bias']
+Skipped incompatible keys sample: ['ddpm.dynamics.egnn.e_block_0.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_0.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_1.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_2.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_3.gcl_equiv.cross_product_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_0.edge_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.coord_mlp.0.weight', 'ddpm.dynamics.egnn.e_block_4.gcl_equiv.cross_product_mlp.0.weight']
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+[rank: 6] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 6, MEMBER: 7/8
+[rank: 7] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 7, MEMBER: 8/8
+[rank: 1] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/8
+[rank: 2] Global seed set to 260605
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/8
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 8 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 3080') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 4 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 7 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 5 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+LOCAL_RANK: 6 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+
+  | Name | Type               | Params
+--------------------------------------------
+0 | ddpm | ConditionalDDPMXHE | 1.1 M 
+--------------------------------------------
+1.1 M     Trainable params
+501       Non-trainable params
+1.1 M     Total params
+4.442     Total estimated model params size (MB)
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 32 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+Clipped gradient with value 15.0 while allowed 9.3Clipped gradient with value 15.0 while allowed 9.3
+
+Clipped gradient with value 15.0 while allowed 9.3
+Clipped gradient with value 15.0 while allowed 9.3
+Clipped gradient with value 15.0 while allowed 9.3Clipped gradient with value 15.0 while allowed 9.3
+
+Clipped gradient with value 15.0 while allowed 9.3
+Clipped gradient with value 15.0 while allowed 9.3
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 5.6 while allowed 5.0
+Clipped gradient with value 6.3 while allowed 5.2
+Clipped gradient with value 6.3 while allowed 5.2
+Clipped gradient with value 6.3 while allowed 5.2
+Clipped gradient with value 6.3 while allowed 5.2
+Clipped gradient with value 6.3 while allowed 5.2
+Clipped gradient with value 6.3 while allowed 5.2Clipped gradient with value 6.3 while allowed 5.2
+
+Clipped gradient with value 6.3 while allowed 5.2
+Clipped gradient with value 7.2 while allowed 5.0Clipped gradient with value 7.2 while allowed 5.0
+
+Clipped gradient with value 7.2 while allowed 5.0
+Clipped gradient with value 7.2 while allowed 5.0
+Clipped gradient with value 7.2 while allowed 5.0
+Clipped gradient with value 7.2 while allowed 5.0
+Clipped gradient with value 7.2 while allowed 5.0Clipped gradient with value 7.2 while allowed 5.0
+
+Clipped gradient with value 4.6 while allowed 4.5
+Clipped gradient with value 4.6 while allowed 4.5
+Clipped gradient with value 4.6 while allowed 4.5
+Clipped gradient with value 4.6 while allowed 4.5
+Clipped gradient with value 4.6 while allowed 4.5Clipped gradient with value 4.6 while allowed 4.5
+
+Clipped gradient with value 4.6 while allowed 4.5
+Clipped gradient with value 4.6 while allowed 4.5
+Clipped gradient with value 5.0 while allowed 4.8
+Clipped gradient with value 5.0 while allowed 4.8
+Clipped gradient with value 5.0 while allowed 4.8Clipped gradient with value 5.0 while allowed 4.8
+
+Clipped gradient with value 5.0 while allowed 4.8
+Clipped gradient with value 5.0 while allowed 4.8
+Clipped gradient with value 5.0 while allowed 4.8
+Clipped gradient with value 5.0 while allowed 4.8
+Clipped gradient with value 7.0 while allowed 5.1Clipped gradient with value 7.0 while allowed 5.1
+
+Clipped gradient with value 7.0 while allowed 5.1
+Clipped gradient with value 7.0 while allowed 5.1
+Clipped gradient with value 7.0 while allowed 5.1
+Clipped gradient with value 7.0 while allowed 5.1Clipped gradient with value 7.0 while allowed 5.1
+
+Clipped gradient with value 7.0 while allowed 5.1
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 5.4 while allowed 5.4
+Clipped gradient with value 8.5 while allowed 5.6
+Clipped gradient with value 8.5 while allowed 5.6Clipped gradient with value 8.5 while allowed 5.6
+
+Clipped gradient with value 8.5 while allowed 5.6Clipped gradient with value 8.5 while allowed 5.6
+
+Clipped gradient with value 8.5 while allowed 5.6
+Clipped gradient with value 8.5 while allowed 5.6
+Clipped gradient with value 8.5 while allowed 5.6
+Clipped gradient with value 6.4 while allowed 5.8Clipped gradient with value 6.4 while allowed 5.8
+
+Clipped gradient with value 6.4 while allowed 5.8Clipped gradient with value 6.4 while allowed 5.8
+
+Clipped gradient with value 6.4 while allowed 5.8Clipped gradient with value 6.4 while allowed 5.8
+
+Clipped gradient with value 6.4 while allowed 5.8
+Clipped gradient with value 6.4 while allowed 5.8
+Clipped gradient with value 23.7 while allowed 5.5
+Clipped gradient with value 23.7 while allowed 5.5Clipped gradient with value 23.7 while allowed 5.5
+
+Clipped gradient with value 23.7 while allowed 5.5
+Clipped gradient with value 23.7 while allowed 5.5
+Clipped gradient with value 23.7 while allowed 5.5
+Clipped gradient with value 23.7 while allowed 5.5Clipped gradient with value 23.7 while allowed 5.5
+
+Clipped gradient with value 6.0 while allowed 6.0
+Clipped gradient with value 6.0 while allowed 6.0
+Clipped gradient with value 6.0 while allowed 6.0
+Clipped gradient with value 6.0 while allowed 6.0
+Clipped gradient with value 6.0 while allowed 6.0Clipped gradient with value 6.0 while allowed 6.0
+
+Clipped gradient with value 6.0 while allowed 6.0
+Clipped gradient with value 6.0 while allowed 6.0
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 9.3 while allowed 6.3
+Clipped gradient with value 22.2 while allowed 6.5
+Clipped gradient with value 22.2 while allowed 6.5Clipped gradient with value 22.2 while allowed 6.5
+
+Clipped gradient with value 22.2 while allowed 6.5
+Clipped gradient with value 22.2 while allowed 6.5
+Clipped gradient with value 22.2 while allowed 6.5Clipped gradient with value 22.2 while allowed 6.5
+
+Clipped gradient with value 22.2 while allowed 6.5
+Clipped gradient with value 20.1 while allowed 7.0
+Clipped gradient with value 20.1 while allowed 7.0
+Clipped gradient with value 20.1 while allowed 7.0
+Clipped gradient with value 20.1 while allowed 7.0
+Clipped gradient with value 20.1 while allowed 7.0Clipped gradient with value 20.1 while allowed 7.0
+Clipped gradient with value 20.1 while allowed 7.0
+
+Clipped gradient with value 20.1 while allowed 7.0
+Traceback (most recent call last):
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
+    return function(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1112, in _run
+    results = self._run_stage()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1191, in _run_stage
+    self._run_train()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1214, in _run_train
+    self.fit_loop.run()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 241, in _run_optimization
+    closure()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1494, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
+    return self.model(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1156, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1110, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])  # type: ignore[index]
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
+    output = self._forward_module.training_step(*inputs, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 470, in training_step
+    raise e
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 463, in training_step
+    nll, info = self.forward(data)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 330, in forward
+    self.ddpm(ligand, pocket, return_info=True)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/conditional_model_xhe.py", line 492, in forward
+    net_out_lig, _, pred_edge_logits = self.dynamics(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/dynamics_xhe.py", line 149, in forward
+    h_final, x_final = self.egnn(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 235, in forward
+    h, x = self._modules["e_block_%d" % i](
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 178, in forward
+    x = self._modules["gcl_equiv"](h, x, edge_index, coord_diff, coord_cross, edge_attr,
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 127, in forward
+    coord = self.coord_model(h, coord, edge_index, coord_diff, coord_cross,
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 101, in coord_model
+    trans = coord_diff * torch.tanh(self.coord_mlp(input_tensor)) * self.coords_range
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 126.00 MiB (GPU 0; 9.65 GiB total capacity; 7.66 GiB already allocated; 114.81 MiB free; 7.66 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/disk6/DiffB110/DiffSBDD/train.py", line 184, in <module>
+    trainer.fit(model=pl_module, ckpt_path=ckpt_path)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 608, in fit
+    call._call_and_handle_interrupt(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 59, in _call_and_handle_interrupt
+    trainer.strategy.reconciliate_processes(traceback.format_exc())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 460, in reconciliate_processes
+    raise DeadlockDetectedException(f"DeadLock detected from rank: {self.global_rank} \n {trace}")
+pytorch_lightning.utilities.exceptions.DeadlockDetectedException: DeadLock detected from rank: 0 
+ Traceback (most recent call last):
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
+    return function(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1112, in _run
+    results = self._run_stage()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1191, in _run_stage
+    self._run_train()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1214, in _run_train
+    self.fit_loop.run()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 241, in _run_optimization
+    closure()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1494, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
+    return self.model(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1156, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1110, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])  # type: ignore[index]
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
+    output = self._forward_module.training_step(*inputs, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 470, in training_step
+    raise e
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 463, in training_step
+    nll, info = self.forward(data)
+  File "/data/disk6/DiffB110/DiffSBDD/lightning_modules.py", line 330, in forward
+    self.ddpm(ligand, pocket, return_info=True)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/conditional_model_xhe.py", line 492, in forward
+    net_out_lig, _, pred_edge_logits = self.dynamics(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/dynamics_xhe.py", line 149, in forward
+    h_final, x_final = self.egnn(
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 235, in forward
+    h, x = self._modules["e_block_%d" % i](
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 178, in forward
+    x = self._modules["gcl_equiv"](h, x, edge_index, coord_diff, coord_cross, edge_attr,
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 127, in forward
+    coord = self.coord_model(h, coord, edge_index, coord_diff, coord_cross,
+  File "/data/disk6/DiffB110/DiffSBDD/equivariant_diffusion/egnn_new.py", line 101, in coord_model
+    trans = coord_diff * torch.tanh(self.coord_mlp(input_tensor)) * self.coords_range
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 126.00 MiB (GPU 0; 9.65 GiB total capacity; 7.66 GiB already allocated; 114.81 MiB free; 7.66 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+ERROR conda.cli.main_run:execute(127): `conda run python DiffSBDD/train.py --config analysis/formal_xh_xhe_comparison_20260605_full_8gpu/diffsbdd_xhe_from_original_full_8gpu_b1acc8_20ep.yaml` failed. (See above for error)
+real 389.63
+user 565.92
+sys 49.57

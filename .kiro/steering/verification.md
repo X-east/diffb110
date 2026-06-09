@@ -99,3 +99,11 @@ python scripts/verify_completed_tasks.py --task N
 - 对于需要模型实例的测试，使用 mock 或跳过
 - 保持验证脚本简洁，避免重复代码
 - 验证失败时打印清晰的错误信息
+
+## 正式训练日志与指标记录
+
+- 正式训练必须默认使用本地记录，不得依赖 WandB 或其他远程平台作为唯一证据来源。
+- 每个正式 run 必须保存标量指标文件，例如 `metrics/metrics.csv`，并保留 stdout/stderr `.log`。
+- 终端输出必须能看清训练状态：epoch、global step、elapsed time、总 loss，以及可用的分量 loss/acc。
+- 模型改造训练应优先记录可解释分量，例如 base nll、edge loss、bond length loss、edge acc、real-bond acc、train/val loss。
+- WandB 和其他远程实验平台默认禁用；除非用户明确要求一次性例外，否则正式训练不要启用。即便远程镜像被允许，本地指标也必须完整；如果本地指标缺失，必须先补齐或声明限制，再做质量结论。

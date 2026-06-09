@@ -1,0 +1,14 @@
+label,primary_reason,n
+bad,bad_top_docking_exploit,14256
+bad,bad_invalid_or_unparseable,10129
+bad,bad_three_member_ring,6526
+borderline_or_exclude,no_clear_good_or_bad_reason,5404
+bad,bad_bad_bond_length,3695
+bad,bad_ring_complex_failed_rl,1327
+good_candidate,good_strict_chemistry,1303
+bad,bad_non_aromatic_polycycle,1226
+good_high_conf,good_strict_with_docking,1224
+bad,bad_classifier_false_positive,1183
+bad,bad_high_carbon_low_hetero,763
+bad,bad_low_tpsa_or_high_logp,538
+good_candidate,good_classifier_accepted,478

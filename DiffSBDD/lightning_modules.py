@@ -448,7 +448,55 @@ class LigandPocketDDPM(pl.LightningModule):
         for m, value in metrics_dict.items():
             self.log(f'{m}/{split}', value, batch_size=batch_size, **kwargs)
 
-    def training_step(self, data, *args):
+    @staticmethod
+    def _batch_tensor_to_int_list(value):
+        """Return a compact Python int list for tensor/list batch metadata."""
+        if value is None:
+            return []
+        if torch.is_tensor(value):
+            return [int(x) for x in value.detach().cpu().reshape(-1).tolist()]
+        return [int(x) for x in value]
+
+    def _log_oom_batch_diagnostics(self, data, batch_idx=None):
+        """Print rank-local batch dimensions when CUDA OOM happens."""
+        lig_atoms = self._batch_tensor_to_int_list(data.get('num_lig_atoms'))
+        pocket_nodes = self._batch_tensor_to_int_list(
+            data.get('num_pocket_nodes'))
+        halfedges = self._batch_tensor_to_int_list(
+            data.get('num_ligand_halfedges'))
+        if not halfedges:
+            halfedges = [None] * len(lig_atoms)
+
+        names = data.get('names', [])
+        names = [str(name) for name in names]
+        if not names:
+            names = ["<unknown>"] * len(lig_atoms)
+
+        rank = getattr(self, 'global_rank', 'unknown')
+        device = str(getattr(self, 'device', '<unset>'))
+        print(
+            f"[oom-diagnostics] rank={rank} device={device} "
+            f"batch_idx={batch_idx} batch_size={len(lig_atoms)}",
+            flush=True,
+        )
+        for idx, (name, lig_count, pocket_count, halfedge_count) in enumerate(
+                zip(names, lig_atoms, pocket_nodes, halfedges)):
+            total_nodes = int(lig_count) + int(pocket_count)
+            dense_pair_upper = total_nodes * total_nodes
+            ligand_pair_upper = int(lig_count) * int(lig_count)
+            print(
+                "[oom-diagnostics] "
+                f"rank={rank} item={idx} name={name} "
+                f"lig_atoms={int(lig_count)} "
+                f"pocket_nodes={int(pocket_count)} "
+                f"total_nodes={total_nodes} "
+                f"num_halfedges={halfedge_count} "
+                f"ligand_pair_upper={ligand_pair_upper} "
+                f"dense_pair_upper={dense_pair_upper}",
+                flush=True,
+            )
+
+    def training_step(self, data, batch_idx=None, *args):
         if self.augment_noise > 0:
             raise NotImplementedError
             # Add noise eps ~ N(0, augment_noise) around points.
@@ -462,6 +510,8 @@ class LigandPocketDDPM(pl.LightningModule):
         try:
             nll, info = self.forward(data)
         except RuntimeError as e:
+            if 'out of memory' in str(e).lower():
+                self._log_oom_batch_diagnostics(data, batch_idx=batch_idx)
             # this is not supported for multi-GPU
             if self.trainer.num_devices < 2 and 'out of memory' in str(e):
                 print('WARNING: ran out of memory, skipping to the next batch')
@@ -987,16 +1037,20 @@ class LigandPocketDDPM(pl.LightningModule):
                 self.bond_diffusion_enabled
                 and selected_reconstruction_method == 'predicted_edge'
             )
-            sample_output = self.ddpm.sample_given_pocket(
-                pocket,
-                num_nodes_lig,
+            sample_kwargs = dict(
                 timesteps=timesteps,
                 atom_score_bias=atom_score_bias,
                 atom_temperature=atom_temperature,
                 atom_local_mask_config=atom_local_mask_config,
                 atom_decoder=self.lig_type_decoder,
                 atom_score_diagnostics=atom_score_diagnostics,
-                return_edges=request_predicted_edges,
+            )
+            if request_predicted_edges:
+                sample_kwargs["return_edges"] = True
+            sample_output = self.ddpm.sample_given_pocket(
+                pocket,
+                num_nodes_lig,
+                **sample_kwargs,
             )
             if request_predicted_edges:
                 xh_lig, xh_pocket, lig_mask, pocket_mask, edge_bundle = sample_output

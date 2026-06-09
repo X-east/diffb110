@@ -1,0 +1,13 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Traceback (most recent call last):
+  File "/data/disk6/DiffB110/DiffSBDD/generate_ligands_multi_gpu.py", line 407, in <module>
+    main()
+  File "/data/disk6/DiffB110/DiffSBDD/generate_ligands_multi_gpu.py", line 350, in main
+    _ensure_divisible_or_raise(per_gpu_counts, cfg.batch_size_per_gpu)
+  File "/data/disk6/DiffB110/DiffSBDD/generate_ligands_multi_gpu.py", line 113, in _ensure_divisible_or_raise
+    raise ValueError(
+ValueError: Each GPU shard size must be divisible by batch_size_per_gpu=25. Got shard sizes: [63, 63, 63, 63, 62, 62, 62, 62]. Tip: change BATCH_SIZE_PER_GPU or N_SAMPLES_TOTAL, or set GPUS count differently.
+ERROR conda.cli.main_run:execute(127): `conda run python DiffSBDD/generate_ligands_multi_gpu.py --checkpoint analysis/formal_xh_xhe_comparison_20260605_full_8gpu/lightning/diffsbdd-xhe-from-original-full-pocket1000-8gpu-260605-b2acc4-50ep/checkpoints/best-model-epoch=epoch=0037.ckpt --pdbfile data/8GJL-hbond-maestro.pdb --ref_ligand C:1101 --outfile analysis/formal_xh_xhe_comparison_20260605_full_8gpu/generated_xhe_ep37_500mol.sdf --n_samples 500 --gpus 0 1 2 3 4 5 6 7 --batch_size 25 --timesteps 500 --reconstruction_method predicted_edge` failed. (See above for error)

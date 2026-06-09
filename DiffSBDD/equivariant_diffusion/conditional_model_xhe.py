@@ -58,6 +58,15 @@ class BondDiffusionConfig:
     edge_message_dim: int = 32
     edge_message_scale: float = 1.0
     bond_length_loss_weight: float = 1.0
+    bond_length_loss_type: str = "smooth_l1"
+
+    def __post_init__(self) -> None:
+        """Normalize config strings while keeping the dataclass immutable."""
+        object.__setattr__(
+            self,
+            "bond_length_loss_type",
+            _normalize_bond_length_loss_type(self.bond_length_loss_type),
+        )
 
     @classmethod
     def from_config(
@@ -111,6 +120,11 @@ class BondDiffusionConfig:
                 config,
                 "bond_length_loss_weight",
                 cls.bond_length_loss_weight,
+            )),
+            bond_length_loss_type=str(_config_get(
+                config,
+                "bond_length_loss_type",
+                cls.bond_length_loss_type,
             )),
         )
 
@@ -827,7 +841,7 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         edge_batch: torch.Tensor,
         batch_size: int,
     ) -> torch.Tensor:
-        """Return smooth L1 x0 bond-length loss for true ligand bonds."""
+        """Return x0 bond-length loss for true ligand bonds."""
         if (
             self.bond_diffusion_config.bond_length_loss_weight <= 0
             or target_edge_type.numel() == 0
@@ -840,17 +854,42 @@ class ConditionalDDPMXHE(ConditionalDDPM):
         src, dst = bond_index
         pred_distance = torch.linalg.norm(pred_x[src] - pred_x[dst], dim=-1)
         target_distance = torch.linalg.norm(target_x[src] - target_x[dst], dim=-1)
-        per_bond_loss = F.smooth_l1_loss(
-            pred_distance,
-            target_distance.detach(),
-            reduction="none",
-        )
+        target_distance = target_distance.detach()
+        loss_type = self.bond_diffusion_config.bond_length_loss_type
+        if loss_type == "smooth_l1":
+            per_bond_loss = F.smooth_l1_loss(
+                pred_distance,
+                target_distance,
+                reduction="none",
+            )
+        elif loss_type == "mse":
+            per_bond_loss = F.mse_loss(
+                pred_distance,
+                target_distance,
+                reduction="none",
+            )
+        else:
+            raise ValueError(
+                "Unsupported bond_length_loss_type. Expected smooth_l1 or mse."
+            )
         return scatter_mean(
             per_bond_loss,
             edge_batch[bond_mask].long(),
             dim=0,
             dim_size=batch_size,
         )
+
+
+def _normalize_bond_length_loss_type(value: Any) -> str:
+    """Return a canonical bond-length loss type name."""
+    normalized = str(value).strip().lower().replace("-", "_")
+    if normalized in {"smoothl1", "huber"}:
+        normalized = "smooth_l1"
+    if normalized not in {"smooth_l1", "mse"}:
+        raise ValueError(
+            "Unsupported bond_length_loss_type. Expected smooth_l1 or mse."
+        )
+    return normalized
 
 
 def _optional_int_tuple(value: Any) -> tuple[int, ...] | None:

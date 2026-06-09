@@ -1,0 +1,9 @@
+primary_reason,n
+bad_top_docking_exploit,14256
+bad_three_member_ring,6526
+bad_bad_bond_length,3695
+bad_ring_complex_failed_rl,1327
+bad_non_aromatic_polycycle,1226
+bad_classifier_false_positive,1183
+bad_high_carbon_low_hetero,763
+bad_low_tpsa_or_high_logp,538

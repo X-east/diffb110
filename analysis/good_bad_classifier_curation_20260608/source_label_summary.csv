@@ -1,0 +1,12 @@
+source_run,label,n
+260407generated_10000_filtered,bad,4500
+260407generated_10000_filtered,good_candidate,753
+260407generated_10000_filtered,borderline_or_exclude,576
+7gpu-dock-classifier-v0-1_20260528_000841,bad,6638
+7gpu-dock-classifier-v0-1_20260528_000841,borderline_or_exclude,927
+7gpu-dock-classifier-v0-1_20260528_000841,good_high_conf,207
+7gpu-dock-classifier-v0-1_20260528_000841,good_candidate,171
+7gpu-dock-classifier-v0-1_20260529_133609,bad,28505
+7gpu-dock-classifier-v0-1_20260529_133609,borderline_or_exclude,3901
+7gpu-dock-classifier-v0-1_20260529_133609,good_high_conf,1017
+7gpu-dock-classifier-v0-1_20260529_133609,good_candidate,857

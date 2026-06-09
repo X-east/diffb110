@@ -116,6 +116,19 @@ logger = logging.getLogger(__name__)  # 或统一 "DiffSBDD-DDPO"
 
 禁用 `print()` 在核心逻辑中（进度条输出允许，但仅 rank-0，用 `\r` 单行覆盖）。
 
+**训练日志强制规则：**
+
+- 正式训练不能依赖 WandB 或其他远程平台作为唯一记录来源，默认必须写本地 CSV/JSON/Markdown。
+- 所有正式训练、评估、生成和 RL rollout 都必须在 run/output 目录下写持久 `.log` 文件；log 是首要时间线记录，CSV/JSON/SDF/Markdown 是补充证据，不能替代 log。
+- 核心逻辑统一使用 Python `logging`，不要用随手 `print()` 记录状态。log 行应包含 timestamp、level、rank/local-rank（分布式时）、模块/组件名、epoch 或 global step（如有）和简洁消息。
+- 每次正式训练都要在 run 目录保存标量指标文件，例如 `metrics/metrics.csv`，至少包含 train/val 总 loss 和可用的分量 loss/acc。
+- 终端/stdout 必须有清晰 rank-0 训练进度：epoch、global step、elapsed time、总 loss、关键分量指标。
+- 启动脚本应把 stdout/stderr 重定向到持久 `.log` 文件，让终端进度也能长期追溯。
+- 终端输出必须可读：只由 rank-0 打印主进度，禁止多 rank 进度条刷屏，禁止无结构 tensor dump；长任务中要能看出当前处在加载数据、采样、reward scoring、PPO training、validation、保存 checkpoint 还是退出阶段。
+- 每个正式 run 的 log 至少记录：config 路径和 resolved config snapshot、git commit/status 摘要、conda 环境名、CUDA_VISIBLE_DEVICES/GPU 数量、非标准后端（如 DiffGui）的依赖 preflight、输出目录、checkpoint 保存路径、验证摘要、warning/error traceback、最终完成/中断状态。
+- WandB 和其他远程实验平台默认禁用；除非用户明确要求一次性例外，否则正式训练不要启用。
+- 即便用户明确要求远程镜像，本地记录也必须完整；如果历史 run 没有分量指标，解释 loss 或质量前必须先说明这个限制。
+
 ## 十、Git 提交规范
 
 | 规则 | 说明 |
@@ -368,19 +381,31 @@ training_summary.csv  ← 新增 22 列
 3. **安全性**：绝不碰启动前已存在的进程（防止误杀其他训练任务）
 4. **GPU 确认**：打印 `nvidia-smi` 显存状态，确认释放
 
-### 每次任务记录规范（2026-06-01 制定）
+### 每次任务记录规范（2026-06-01 制定，2026-06-08 更新）
 
 每次完成一组实质性的代码、分析、数据处理或实验任务后，必须写一个持久化 Markdown 记录：
 
 | 规则 | 要求 |
 |------|------|
-| 根目录 | `work_records/` |
-| 日期文件夹 | 每天一个文件夹，格式 `<YYMMDD>/`，如 `work_records/260601/` |
+| 根目录（绝对路径） | `/home/md666/data/disk6/DiffB110/work_records/` |
+| 月份文件夹 | 格式 `<YYMM>/`，如 `26-6/`（2026年6月） |
+| 日期文件夹 | 每天一个文件夹，放在月份文件夹内，格式 `<YYMMDD>/` |
+| 完整路径示例 | `work_records/26-6/260609/` |
 | 单次文件 | 每次一个 `.md` 文件，格式 `<YYMMDD>-<序号> <中文标题>.md` |
-| 示例 | `260601-14 为什么要先做数据构建.md` |
+| 文件示例 | `260601-14 为什么要先做数据构建.md` |
 | 内容 | 动机/背景、已有代码或数据、执行过程、改动文件、测试命令与结果、输出文件、剩余风险 |
 
 编号按当天任务顺序递增；如果用户给了明确编号，优先沿用用户指定编号。
+
+### 每日/周/月总结规范（2026-06-08 制定）
+
+| 规则 | 要求 |
+|------|------|
+| 根目录 | `/home/md666/data/disk6/DiffB110/work_days/` |
+| 每日总结 | `.md` 文件直接放在根目录，格式 `<YYMMDD> 每日总结.md` |
+| 每周合并 PDF | 放在 `work_days/每周/` 下 |
+| 每月总结 | 放在 `work_days/每月/` 下（暂无） |
+| 转换脚本 | `md-pdf.py` 等脚本留在 `work_days/` 根目录复用 |
 
 ### 禁止行为
 

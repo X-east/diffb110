@@ -1,0 +1,115 @@
+{
+  "records": 480,
+  "parsed": 480,
+  "sanitize_success": 3,
+  "sanitize_success_rate": 0.00625,
+  "error_counter": [
+    [
+      "explicit_valence",
+      471
+    ],
+    [
+      "Can't kekulize mol.  Unkekulized atoms: 2",
+      1
+    ],
+    [
+      "Can't kekulize mol.  Unkekulized atoms: 1 7 8 12 21",
+      1
+    ],
+    [
+      "Can't kekulize mol.  Unkekulized atoms: 1 3 9 10 11 16 19",
+      1
+    ],
+    [
+      "Can't kekulize mol.  Unkekulized atoms: 0 2 7",
+      1
+    ],
+    [
+      "Can't kekulize mol.  Unkekulized atoms: 1 4 5 6 8 9 10 12 14 15 16 22",
+      1
+    ],
+    [
+      "Can't kekulize mol.  Unkekulized atoms: 2 4 5 7 14 15 16 21 22 24",
+      1
+    ]
+  ],
+  "bond_counter": [
+    [
+      "AROMATIC",
+      10675
+    ],
+    [
+      "SINGLE",
+      7339
+    ],
+    [
+      "DOUBLE",
+      1219
+    ],
+    [
+      "TRIPLE",
+      39
+    ]
+  ],
+  "atom_counter": [
+    [
+      "C",
+      10445
+    ],
+    [
+      "N",
+      2558
+    ],
+    [
+      "O",
+      795
+    ],
+    [
+      "F",
+      467
+    ],
+    [
+      "S",
+      221
+    ],
+    [
+      "Cl",
+      151
+    ],
+    [
+      "P",
+      1
+    ]
+  ],
+  "high_valence_atom_counter": [
+    [
+      "C",
+      686
+    ],
+    [
+      "O",
+      483
+    ],
+    [
+      "F",
+      423
+    ],
+    [
+      "N",
+      392
+    ],
+    [
+      "Cl",
+      136
+    ],
+    [
+      "S",
+      2
+    ]
+  ],
+  "mean_atoms": 30.495833333333334,
+  "mean_bonds": 40.15,
+  "mean_bond_per_atom": 1.3108424417170437,
+  "mean_high_atom_count": 4.420833333333333,
+  "max_high_atom_count": 26
+}

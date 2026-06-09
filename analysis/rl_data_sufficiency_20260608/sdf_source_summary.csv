@@ -1,0 +1,9 @@
+source,kind,records,rdkit_valid,valid_ratio,unique_smiles
+OUT/260407_generate_ligands_10000/260407generated_10000-2.sdf,sdf,9999,5816,0.5816581658165817,5813
+OUT/260407_generate_ligands_10000/260407generated_10000-2_filtered.sdf,sdf,5816,5816,1.0,5813
+OUT/260407_generate_ligands_10000/260407generated_10000-2_first1000.sdf,sdf,1000,579,0.579,579
+OUT/260407_generate_ligands_10000/260407generated_10000-3.sdf,sdf,10000,5825,0.5825,5822
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf,sdf,5825,5825,1.0,5822
+OUT/260407_generate_ligands_10000/260407generated_10000-4.sdf,sdf,10000,5771,0.5771,5768
+OUT/260407_generate_ligands_10000/260407generated_10000-5.sdf,sdf,10000,5893,0.5893,5890
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf,sdf,5829,5829,1.0,5827

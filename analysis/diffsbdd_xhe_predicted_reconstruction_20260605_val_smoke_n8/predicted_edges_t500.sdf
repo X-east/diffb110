@@ -1,0 +1,840 @@
+0|t500|pred|DHI1_HUMAN_22_291_0/2ilt_A_rec_3ch6_311_lig_tt_min_0_pocket10.pdb_DHI1_HUMAN_22_291_0/2ilt_A_rec_3ch6_311_lig_tt_min_0.sdf
+     RDKit          2D
+
+ 24  0  0  0  0  0  0  0  0  0999 V2000
+    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    2.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    3.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    4.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    5.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    6.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    7.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    8.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    9.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.0000    0.0000    0.0000 F   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   10.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   11.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+>  <sample_idx>  (1) 
+0
+
+>  <local_batch_idx>  (1) 
+0
+
+>  <timestep>  (1) 
+500
+
+>  <num_atoms>  (1) 
+24
+
+>  <num_halfedges>  (1) 
+276
+
+>  <target_bond_count>  (1) 
+26
+
+>  <pred_bond_count>  (1) 
+0
+
+>  <noised_bond_count>  (1) 
+217
+
+>  <halfedge_accuracy>  (1) 
+0.9057971239089966
+
+>  <exact_halfedge_match>  (1) 
+0
+
+>  <noised_change_fraction>  (1) 
+0.804347813129425
+
+>  <bond_pair_set_match>  (1) 
+0
+
+>  <bond_type_map_match>  (1) 
+0
+
+>  <missing_bond_count>  (1) 
+26
+
+>  <extra_bond_count>  (1) 
+0
+
+>  <bond_type_mismatch_count>  (1) 
+0
+
+>  <bond_pair_precision>  (1) 
+0.0
+
+>  <bond_pair_recall>  (1) 
+0.0
+
+>  <bond_pair_f1>  (1) 
+0.0
+
+>  <pred_bond_length_mean>  (1) 
+0.0
+
+>  <pred_bond_length_p95>  (1) 
+0.0
+
+>  <bad_bond_length_count>  (1) 
+0
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <oracle_sanitize_success>  (1) 
+1
+
+>  <oracle_repair_strategy>  (1) 
+none
+
+>  <oracle_sanitize_error>  (1) 
+
+
+>  <pred_sanitize_success>  (1) 
+1
+
+>  <pred_repair_strategy>  (1) 
+none
+
+>  <pred_sanitize_error>  (1) 
+
+
+>  <pred_vs_oracle_smiles_match>  (1) 
+0
+
+>  <pred_num_fragments>  (1) 
+24
+
+>  <pred_num_rings>  (1) 
+0
+
+>  <pred_num_aromatic_rings>  (1) 
+0
+
+>  <pred_num_three_member_rings>  (1) 
+0
+
+>  <pred_formal_charge>  (1) 
+0
+
+>  <pred_heavy_atoms>  (1) 
+24
+
+$$$$
+1|t500|pred|PPARG_HUMAN_229_505_0/3vji_A_rec_5lsg_qzq_lig_tt_docked_0_pocket10.pdb_PPARG_HUMAN_229_505_0/3vji_A_rec_5lsg_qzq_lig_tt_docked_0.sdf
+     RDKit          2D
+
+ 33  0  0  0  0  0  0  0  0  0999 V2000
+    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    2.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    3.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    4.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    5.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    6.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    7.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    8.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    9.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   10.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   11.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   12.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   13.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   14.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   15.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   16.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+>  <sample_idx>  (2) 
+1
+
+>  <local_batch_idx>  (2) 
+1
+
+>  <timestep>  (2) 
+500
+
+>  <num_atoms>  (2) 
+33
+
+>  <num_halfedges>  (2) 
+528
+
+>  <target_bond_count>  (2) 
+37
+
+>  <pred_bond_count>  (2) 
+0
+
+>  <noised_bond_count>  (2) 
+426
+
+>  <halfedge_accuracy>  (2) 
+0.9299242496490479
+
+>  <exact_halfedge_match>  (2) 
+0
+
+>  <noised_change_fraction>  (2) 
+0.8200757503509521
+
+>  <bond_pair_set_match>  (2) 
+0
+
+>  <bond_type_map_match>  (2) 
+0
+
+>  <missing_bond_count>  (2) 
+37
+
+>  <extra_bond_count>  (2) 
+0
+
+>  <bond_type_mismatch_count>  (2) 
+0
+
+>  <bond_pair_precision>  (2) 
+0.0
+
+>  <bond_pair_recall>  (2) 
+0.0
+
+>  <bond_pair_f1>  (2) 
+0.0
+
+>  <pred_bond_length_mean>  (2) 
+0.0
+
+>  <pred_bond_length_p95>  (2) 
+0.0
+
+>  <bad_bond_length_count>  (2) 
+0
+
+>  <bad_bond_length_fraction>  (2) 
+0.0
+
+>  <oracle_sanitize_success>  (2) 
+1
+
+>  <oracle_repair_strategy>  (2) 
+none
+
+>  <oracle_sanitize_error>  (2) 
+
+
+>  <pred_sanitize_success>  (2) 
+1
+
+>  <pred_repair_strategy>  (2) 
+none
+
+>  <pred_sanitize_error>  (2) 
+
+
+>  <pred_vs_oracle_smiles_match>  (2) 
+0
+
+>  <pred_num_fragments>  (2) 
+33
+
+>  <pred_num_rings>  (2) 
+0
+
+>  <pred_num_aromatic_rings>  (2) 
+0
+
+>  <pred_num_three_member_rings>  (2) 
+0
+
+>  <pred_formal_charge>  (2) 
+0
+
+>  <pred_heavy_atoms>  (2) 
+33
+
+$$$$
+3|t500|pred|LDHA_HUMAN_2_332_0/5nqq_C_rec_4i9n_1e6_lig_tt_min_0_pocket10.pdb_LDHA_HUMAN_2_332_0/5nqq_C_rec_4i9n_1e6_lig_tt_min_0.sdf
+     RDKit          2D
+
+ 29  0  0  0  0  0  0  0  0  0999 V2000
+    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    2.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    3.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    4.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    5.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    6.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    7.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    8.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   14.0000    0.0000 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    9.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   10.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   11.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   12.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   12.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   13.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   13.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.0000    0.0000    0.0000 S   0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+>  <sample_idx>  (3) 
+3
+
+>  <local_batch_idx>  (3) 
+3
+
+>  <timestep>  (3) 
+500
+
+>  <num_atoms>  (3) 
+29
+
+>  <num_halfedges>  (3) 
+406
+
+>  <target_bond_count>  (3) 
+30
+
+>  <pred_bond_count>  (3) 
+0
+
+>  <noised_bond_count>  (3) 
+338
+
+>  <halfedge_accuracy>  (3) 
+0.9261083602905273
+
+>  <exact_halfedge_match>  (3) 
+0
+
+>  <noised_change_fraction>  (3) 
+0.8275862336158752
+
+>  <bond_pair_set_match>  (3) 
+0
+
+>  <bond_type_map_match>  (3) 
+0
+
+>  <missing_bond_count>  (3) 
+30
+
+>  <extra_bond_count>  (3) 
+0
+
+>  <bond_type_mismatch_count>  (3) 
+0
+
+>  <bond_pair_precision>  (3) 
+0.0
+
+>  <bond_pair_recall>  (3) 
+0.0
+
+>  <bond_pair_f1>  (3) 
+0.0
+
+>  <pred_bond_length_mean>  (3) 
+0.0
+
+>  <pred_bond_length_p95>  (3) 
+0.0
+
+>  <bad_bond_length_count>  (3) 
+0
+
+>  <bad_bond_length_fraction>  (3) 
+0.0
+
+>  <oracle_sanitize_success>  (3) 
+1
+
+>  <oracle_repair_strategy>  (3) 
+none
+
+>  <oracle_sanitize_error>  (3) 
+
+
+>  <pred_sanitize_success>  (3) 
+1
+
+>  <pred_repair_strategy>  (3) 
+none
+
+>  <pred_sanitize_error>  (3) 
+
+
+>  <pred_vs_oracle_smiles_match>  (3) 
+0
+
+>  <pred_num_fragments>  (3) 
+29
+
+>  <pred_num_rings>  (3) 
+0
+
+>  <pred_num_aromatic_rings>  (3) 
+0
+
+>  <pred_num_three_member_rings>  (3) 
+0
+
+>  <pred_formal_charge>  (3) 
+0
+
+>  <pred_heavy_atoms>  (3) 
+29
+
+$$$$
+4|t500|pred|MMP8_HUMAN_101_262_0/3dpf_A_rec_1jaq_01s_lig_tt_min_0_pocket10.pdb_MMP8_HUMAN_101_262_0/3dpf_A_rec_1jaq_01s_lig_tt_min_0.sdf
+     RDKit          2D
+
+ 21  0  0  0  0  0  0  0  0  0999 V2000
+    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    2.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    3.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    4.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    5.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    6.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    7.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    8.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    9.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   10.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+>  <sample_idx>  (4) 
+4
+
+>  <local_batch_idx>  (4) 
+0
+
+>  <timestep>  (4) 
+500
+
+>  <num_atoms>  (4) 
+21
+
+>  <num_halfedges>  (4) 
+210
+
+>  <target_bond_count>  (4) 
+20
+
+>  <pred_bond_count>  (4) 
+0
+
+>  <noised_bond_count>  (4) 
+179
+
+>  <halfedge_accuracy>  (4) 
+0.9047619104385376
+
+>  <exact_halfedge_match>  (4) 
+0
+
+>  <noised_change_fraction>  (4) 
+0.8142856955528259
+
+>  <bond_pair_set_match>  (4) 
+0
+
+>  <bond_type_map_match>  (4) 
+0
+
+>  <missing_bond_count>  (4) 
+20
+
+>  <extra_bond_count>  (4) 
+0
+
+>  <bond_type_mismatch_count>  (4) 
+0
+
+>  <bond_pair_precision>  (4) 
+0.0
+
+>  <bond_pair_recall>  (4) 
+0.0
+
+>  <bond_pair_f1>  (4) 
+0.0
+
+>  <pred_bond_length_mean>  (4) 
+0.0
+
+>  <pred_bond_length_p95>  (4) 
+0.0
+
+>  <bad_bond_length_count>  (4) 
+0
+
+>  <bad_bond_length_fraction>  (4) 
+0.0
+
+>  <oracle_sanitize_success>  (4) 
+1
+
+>  <oracle_repair_strategy>  (4) 
+none
+
+>  <oracle_sanitize_error>  (4) 
+
+
+>  <pred_sanitize_success>  (4) 
+1
+
+>  <pred_repair_strategy>  (4) 
+none
+
+>  <pred_sanitize_error>  (4) 
+
+
+>  <pred_vs_oracle_smiles_match>  (4) 
+0
+
+>  <pred_num_fragments>  (4) 
+21
+
+>  <pred_num_rings>  (4) 
+0
+
+>  <pred_num_aromatic_rings>  (4) 
+0
+
+>  <pred_num_three_member_rings>  (4) 
+0
+
+>  <pred_formal_charge>  (4) 
+0
+
+>  <pred_heavy_atoms>  (4) 
+21
+
+$$$$
+5|t500|pred|PK3CG_HUMAN_143_1102_0/4ps3_A_rec_4kzc_1uk_lig_tt_min_0_pocket10.pdb_PK3CG_HUMAN_143_1102_0/4ps3_A_rec_4kzc_1uk_lig_tt_min_0.sdf
+     RDKit          2D
+
+ 24  0  0  0  0  0  0  0  0  0999 V2000
+    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    2.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    3.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    4.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    5.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    6.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    7.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0000    0.0000    0.0000 F   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   11.0000    0.0000 F   0  0  0  0  0  0  0  0  0  0  0  0
+   12.0000    0.0000    0.0000 F   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    8.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    9.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   10.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+>  <sample_idx>  (5) 
+5
+
+>  <local_batch_idx>  (5) 
+1
+
+>  <timestep>  (5) 
+500
+
+>  <num_atoms>  (5) 
+24
+
+>  <num_halfedges>  (5) 
+276
+
+>  <target_bond_count>  (5) 
+26
+
+>  <pred_bond_count>  (5) 
+0
+
+>  <noised_bond_count>  (5) 
+225
+
+>  <halfedge_accuracy>  (5) 
+0.9057971239089966
+
+>  <exact_halfedge_match>  (5) 
+0
+
+>  <noised_change_fraction>  (5) 
+0.8224637508392334
+
+>  <bond_pair_set_match>  (5) 
+0
+
+>  <bond_type_map_match>  (5) 
+0
+
+>  <missing_bond_count>  (5) 
+26
+
+>  <extra_bond_count>  (5) 
+0
+
+>  <bond_type_mismatch_count>  (5) 
+0
+
+>  <bond_pair_precision>  (5) 
+0.0
+
+>  <bond_pair_recall>  (5) 
+0.0
+
+>  <bond_pair_f1>  (5) 
+0.0
+
+>  <pred_bond_length_mean>  (5) 
+0.0
+
+>  <pred_bond_length_p95>  (5) 
+0.0
+
+>  <bad_bond_length_count>  (5) 
+0
+
+>  <bad_bond_length_fraction>  (5) 
+0.0
+
+>  <oracle_sanitize_success>  (5) 
+1
+
+>  <oracle_repair_strategy>  (5) 
+none
+
+>  <oracle_sanitize_error>  (5) 
+
+
+>  <pred_sanitize_success>  (5) 
+1
+
+>  <pred_repair_strategy>  (5) 
+none
+
+>  <pred_sanitize_error>  (5) 
+
+
+>  <pred_vs_oracle_smiles_match>  (5) 
+0
+
+>  <pred_num_fragments>  (5) 
+24
+
+>  <pred_num_rings>  (5) 
+0
+
+>  <pred_num_aromatic_rings>  (5) 
+0
+
+>  <pred_num_three_member_rings>  (5) 
+0
+
+>  <pred_formal_charge>  (5) 
+0
+
+>  <pred_heavy_atoms>  (5) 
+24
+
+$$$$
+6|t500|pred|PYRD_HUMAN_65_395_0/4ls1_A_rec_4zmg_4r5_lig_tt_min_0_pocket10.pdb_PYRD_HUMAN_65_395_0/4ls1_A_rec_4zmg_4r5_lig_tt_min_0.sdf
+     RDKit          2D
+
+ 25  0  0  0  0  0  0  0  0  0999 V2000
+    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    2.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    3.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    4.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    5.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    6.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    7.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    8.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   11.0000    0.0000 F   0  0  0  0  0  0  0  0  0  0  0  0
+   12.0000    0.0000    0.0000 F   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    9.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0000    0.0000    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   10.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   12.0000    0.0000 S   0  0  0  0  0  0  0  0  0  0  0  0
+M  END
+>  <sample_idx>  (6) 
+6
+
+>  <local_batch_idx>  (6) 
+2
+
+>  <timestep>  (6) 
+500
+
+>  <num_atoms>  (6) 
+25
+
+>  <num_halfedges>  (6) 
+300
+
+>  <target_bond_count>  (6) 
+27
+
+>  <pred_bond_count>  (6) 
+0
+
+>  <noised_bond_count>  (6) 
+230
+
+>  <halfedge_accuracy>  (6) 
+0.9100000262260437
+
+>  <exact_halfedge_match>  (6) 
+0
+
+>  <noised_change_fraction>  (6) 
+0.7633333206176758
+
+>  <bond_pair_set_match>  (6) 
+0
+
+>  <bond_type_map_match>  (6) 
+0
+
+>  <missing_bond_count>  (6) 
+27
+
+>  <extra_bond_count>  (6) 
+0
+
+>  <bond_type_mismatch_count>  (6) 
+0
+
+>  <bond_pair_precision>  (6) 
+0.0
+
+>  <bond_pair_recall>  (6) 
+0.0
+
+>  <bond_pair_f1>  (6) 
+0.0
+
+>  <pred_bond_length_mean>  (6) 
+0.0
+
+>  <pred_bond_length_p95>  (6) 
+0.0
+
+>  <bad_bond_length_count>  (6) 
+0
+
+>  <bad_bond_length_fraction>  (6) 
+0.0
+
+>  <oracle_sanitize_success>  (6) 
+1
+
+>  <oracle_repair_strategy>  (6) 
+none
+
+>  <oracle_sanitize_error>  (6) 
+
+
+>  <pred_sanitize_success>  (6) 
+1
+
+>  <pred_repair_strategy>  (6) 
+none
+
+>  <pred_sanitize_error>  (6) 
+
+
+>  <pred_vs_oracle_smiles_match>  (6) 
+0
+
+>  <pred_num_fragments>  (6) 
+25
+
+>  <pred_num_rings>  (6) 
+0
+
+>  <pred_num_aromatic_rings>  (6) 
+0
+
+>  <pred_num_three_member_rings>  (6) 
+0
+
+>  <pred_formal_charge>  (6) 
+0
+
+>  <pred_heavy_atoms>  (6) 
+25
+
+$$$$

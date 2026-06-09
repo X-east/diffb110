@@ -1,0 +1,3 @@
+label,input_sdf,output_sdf,total_records,readable_records,written_records,records_with_both_classifier_scores
+diffgui,/data/disk6/DiffB110/analysis/diffgui_classifier_score_20260609/diffgui_500_scored.sdf,/data/disk6/DiffB110/analysis/classifier_named_sdfs_20260609/diffgui_500_name_with_classifier_scores.sdf,500,500,500,500
+diffsbdd,/data/disk6/DiffB110/analysis/diffsbdd_8gpu_5000_score_20260608/generated_5000_scored.sdf,/data/disk6/DiffB110/analysis/classifier_named_sdfs_20260609/diffsbdd_5000_name_with_classifier_scores.sdf,5000,5000,5000,3143

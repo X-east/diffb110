@@ -41,6 +41,16 @@ Before changing project code, read:
 - Run project Python, tests, and training commands in the `dif` environment.
 - Prefer `conda run -n dif <command>` for one-off commands when activation state
   is uncertain.
+- DiffGui reinforcement-learning work is environment-isolated from DiffSBDD.
+  Any task that loads the reference DiffGui model/checkpoint, runs DiffGui
+  denovo/fragment sampling, or trains DiffGui PPO/DDPO must use a dedicated
+  DiffGui environment instead of `dif`. Do not install DiffGui-only dependencies
+  into `dif`, and do not mix DiffGui launch scripts, checkpoints, or run outputs
+  with the DiffSBDD RL runtime.
+- DiffGui reward-only SDF scoring may use the regular project environment only
+  when it does not import the reference DiffGui model. If a task touches the
+  DiffGui model code path, run the DiffGui dependency preflight first and record
+  the environment name in the run log.
 - On this machine, do not use `rg` / `rg --files`: the installed ripgrep is
   launched through snap and may fail with `snap-confine` capability errors.
   Use `grep`, `find`, `sed`, `ls`, or small targeted shell commands instead.
@@ -79,10 +89,48 @@ Before changing project code, read:
   `global_distribution_comparison.png`, `run_drift_summary.png`, or
   `top_reward_failure_modes.png`.
 
+## Training Logging
+
+- Formal model training must not depend on WandB or other remote experiment
+  trackers for basic evidence. Use local CSV/JSON/Markdown artifacts by default.
+- All formal training, evaluation, generation, and RL rollout jobs must write a
+  durable local `.log` file under the run/output directory. Logs are the primary
+  chronological record; CSV/JSON/SDF/Markdown artifacts supplement them but do
+  not replace them.
+- Use Python `logging` in core code instead of ad-hoc `print()`. Log lines should
+  be readable and grep-friendly, with timestamp, level, rank/local-rank when
+  distributed, module/component name, epoch or global step when available, and a
+  concise message.
+- Every formal training run must write scalar metrics to a local file under the
+  run directory, such as `metrics/metrics.csv`, including train/val total loss
+  and available component losses or accuracies.
+- Terminal/stdout must show clear rank-0 progress during training: epoch,
+  global step, elapsed time, total loss, and key component metrics. Shell launch
+  scripts should redirect stdout/stderr to a durable `.log` file so the terminal
+  progress is preserved.
+- Terminal output should be human-readable during long runs: rank-0 only for
+  progress summaries, no multi-rank progress-bar spam, no unstructured tensor
+  dumps, and enough context to tell whether the run is loading data, sampling,
+  scoring rewards, training PPO, validating, saving checkpoints, or shutting
+  down.
+- Each formal run log should include at least: config path and resolved config
+  snapshot path, git commit/status summary, conda environment name, CUDA visible
+  devices and GPU count, dependency/preflight results for nonstandard backends
+  such as DiffGui, output directory, checkpoint save paths, validation summaries,
+  warning/error tracebacks, and final completion/interruption status.
+- WandB and other remote experiment trackers are disabled for formal training
+  records unless the user explicitly requests a separate one-off exception; even
+  then local records must remain complete.
+- If a run predates this rule and lacks component metrics, state that limitation
+  clearly before interpreting loss or model quality.
+
 ## Work Records
 
 - For substantial coding, analysis, preprocessing, or experiment tasks, create a
-  durable Markdown work record under `work_records/<YYMMDD>/`.
+  durable Markdown work record at the **absolute path**
+  `/home/md666/data/disk6/DiffB110/work_records/<YYMM>/<YYMMDD>/`.
+- Month-level grouping folder format: `<YYMM>/` (e.g. `26-6/` for June 2026).
+  Daily folders go inside the month folder, e.g. `work_records/26-6/260609/`.
 - Use one file per task, named `<YYMMDD>-<seq> <short Chinese title>.md`, for
   example `260601-14 为什么要先做数据构建.md`.
 - The record should briefly cover motivation, relevant existing code/data,
@@ -92,6 +140,13 @@ Before changing project code, read:
   CSV/JSON/SDF files. When plots are useful, save them beside the report and
   embed them with Markdown relative links such as
   `![caption](metric_by_method.png)`.
+
+## Work Days (Daily Summaries & Reports)
+
+- Daily individual `.md` summaries live under `/home/md666/data/disk6/DiffB110/work_days/`.
+- Weekly merged PDF reports go to `work_days/每周/`.
+- Monthly summary documents (when available) go to `work_days/每月/`.
+- Conversion scripts (e.g. `md-pdf.py`) stay at `work_days/` root for reuse.
 
 ## Code Style
 

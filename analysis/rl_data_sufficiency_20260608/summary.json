@@ -1,0 +1,32 @@
+{
+  "sdf_total_records": 58469,
+  "sdf_total_rdkit_valid": 41354,
+  "sdf_union_unique_smiles": 29096,
+  "classifier_csv": {
+    "rows": 5829,
+    "unique_smiles": 5827,
+    "unique_scaffolds": 5611,
+    "top_scaffold_fraction": 0.010125278874206282,
+    "classifier_prob_ge_0_5_rate": 0.3522044947675416,
+    "classifier_prob_ge_0_8_rate": 0.29816435066049063,
+    "carbon_gt_0_8_rate": 0.24463887459255446,
+    "logp_gt_4_rate": 0.3136043918339338,
+    "tpsa_lt_40_rate": 0.1375879224566821,
+    "mean_logp": 3.1815564161948893,
+    "mean_tpsa": 77.42726025047178,
+    "mean_carbon_fraction": 0.7475722904235124
+  },
+  "training_csv": {
+    "molecules_csv_files": 1762,
+    "molecule_rows": 328140,
+    "valid_rows_with_rdkit_valid_1": 228185,
+    "valid_ratio_from_available_rdkit_valid": 0.695389163162065,
+    "unique_smiles_collected_cap": 211892,
+    "has_reward_total": true,
+    "has_reward_total_clamped": false,
+    "has_docking_raw": true,
+    "has_classifier_reward": true,
+    "has_carbon_fraction": true,
+    "has_bad_bond_length_fraction": true
+  }
+}

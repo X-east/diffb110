@@ -11,6 +11,7 @@ Supports multi-process parallel featurization for large datasets.
 
 from __future__ import annotations
 
+import argparse
 import logging
 import multiprocessing as mp
 import sys
@@ -360,6 +361,7 @@ def build_dataset(config_path: str | None = None) -> dict:
         logger.info(f"Loading explicit positive samples: {pos_path}")
         df_pos = _read_smiles_table(pos_path)
         pos_smiles = df_pos["smiles"].tolist()
+        pos_weight_by_smiles = dict(zip(df_pos["smiles"], df_pos.get("weight", pd.Series([1.0] * len(df_pos)))))
         logger.info(f"  Loaded {len(pos_smiles):,} explicit positives")
     else:
         logger.info("Loading ChEMBL molecules for positive samples...")
@@ -370,6 +372,7 @@ def build_dataset(config_path: str | None = None) -> dict:
         n_pos = min(train_cfg["n_positives"], len(df_chembl))
         df_pos = df_chembl.sample(n=n_pos, random_state=seed)
         pos_smiles = df_pos["canonical_smiles"].tolist()
+        pos_weight_by_smiles = {smi: 1.0 for smi in pos_smiles}
         logger.info(f"  Sampled {len(pos_smiles):,} positive molecules")
 
     logger.info(f"Featurizing {len(pos_smiles):,} positives ({n_jobs} workers)...")
@@ -379,6 +382,7 @@ def build_dataset(config_path: str | None = None) -> dict:
     logger.info(f"  Positives: {X_pos.shape[0]:,} valid molecules")
     source_pos = ["explicit_positive" if explicit_pos else "chembl_random"] * len(smiles_pos)
     negative_labels_pos = [""] * len(smiles_pos)
+    sample_weights_pos = [float(pos_weight_by_smiles.get(smi, 1.0)) for smi in smiles_pos]
 
     # ── 2. Negative samples ───────────────────────────────────────────────
     all_X_neg: list[np.ndarray] = []
@@ -386,6 +390,7 @@ def build_dataset(config_path: str | None = None) -> dict:
     all_smiles_neg: list[str] = []
     all_source_neg: list[str] = []
     all_negative_labels: list[str] = []
+    all_sample_weights_neg: list[float] = []
 
     explicit_neg = data_cfg.get("explicit_negative_samples")
     include_legacy_negatives = bool(data_cfg.get("include_legacy_negatives", not explicit_neg))
@@ -401,6 +406,7 @@ def build_dataset(config_path: str | None = None) -> dict:
                 df_neg.get("all_labels", df_neg.get("label", pd.Series(["explicit_negative"] * len(df_neg)))),
             )
         )
+        weights_by_smiles = dict(zip(df_neg["smiles"], df_neg.get("weight", pd.Series([1.0] * len(df_neg)))))
         logger.info(f"  Loaded {len(neg_smiles):,} explicit negatives")
         X_exp, y_exp, s_exp = featurize_smiles(neg_smiles, featurizer, label=0, n_jobs=n_jobs)
         logger.info(f"  Explicit negatives: {X_exp.shape[0]:,} valid")
@@ -409,6 +415,7 @@ def build_dataset(config_path: str | None = None) -> dict:
         all_smiles_neg.extend(s_exp)
         all_source_neg.extend(["explicit_negative"] * len(s_exp))
         all_negative_labels.extend([str(labels_by_smiles.get(smi, "explicit_negative")) for smi in s_exp])
+        all_sample_weights_neg.extend([float(weights_by_smiles.get(smi, 1.0)) for smi in s_exp])
 
     # 2a. Synthetic PAHs
     if include_legacy_negatives:
@@ -426,6 +433,7 @@ def build_dataset(config_path: str | None = None) -> dict:
         all_smiles_neg.extend(s_pah)
         all_source_neg.extend(["synthetic_pah"] * len(s_pah))
         all_negative_labels.extend(["synthetic_pah"] * len(s_pah))
+        all_sample_weights_neg.extend([1.0] * len(s_pah))
 
     # 2b. Synthetic garbage
         n_garbage = data_cfg["n_synthetic_garbage"]
@@ -442,6 +450,7 @@ def build_dataset(config_path: str | None = None) -> dict:
         all_smiles_neg.extend(s_garb)
         all_source_neg.extend(["synthetic_garbage"] * len(s_garb))
         all_negative_labels.extend(["synthetic_garbage"] * len(s_garb))
+        all_sample_weights_neg.extend([1.0] * len(s_garb))
 
     # 2c. ChEMBL extreme outliers
         n_outliers = data_cfg["n_chembl_outliers"]
@@ -460,6 +469,7 @@ def build_dataset(config_path: str | None = None) -> dict:
         all_smiles_neg.extend(s_out)
         all_source_neg.extend(["chembl_outlier"] * len(s_out))
         all_negative_labels.extend(["chembl_outlier"] * len(s_out))
+        all_sample_weights_neg.extend([1.0] * len(s_out))
 
     # 2d. Extracted negatives from training outputs (property-rule sweep)
         negatives_path = _PROJECT_ROOT / "chembl_classifier" / "data" / "negatives" / "all_negatives.smi"
@@ -475,6 +485,7 @@ def build_dataset(config_path: str | None = None) -> dict:
             all_smiles_neg.extend(s_ext)
             all_source_neg.extend(["legacy_extracted"] * len(s_ext))
             all_negative_labels.extend(["legacy_extracted"] * len(s_ext))
+            all_sample_weights_neg.extend([1.0] * len(s_ext))
         else:
             logger.info("No extracted negatives found, skipping.")
 
@@ -489,12 +500,14 @@ def build_dataset(config_path: str | None = None) -> dict:
     all_smiles = smiles_pos + all_smiles_neg
     all_sources = source_pos + all_source_neg
     all_negative_labels_full = negative_labels_pos + all_negative_labels
+    sample_weights = np.array(sample_weights_pos + all_sample_weights_neg, dtype=np.float32)
     logger.info(f"Combined dataset: {X.shape[0]:,} samples, {X.shape[1]} features")
 
     # Shuffle
     indices = rng.permutation(len(X))
     X = X[indices]
     y = y[indices]
+    sample_weights = sample_weights[indices]
     all_smiles = [all_smiles[i] for i in indices]
     all_sources = [all_sources[i] for i in indices]
     all_negative_labels_full = [all_negative_labels_full[i] for i in indices]
@@ -507,16 +520,19 @@ def build_dataset(config_path: str | None = None) -> dict:
     dataset = {
         "X_train": X[:n_train],
         "y_train": y[:n_train],
+        "sample_weight_train": sample_weights[:n_train],
         "smiles_train": all_smiles[:n_train],
         "sample_source_train": all_sources[:n_train],
         "negative_labels_train": all_negative_labels_full[:n_train],
         "X_val": X[n_train : n_train + n_val],
         "y_val": y[n_train : n_train + n_val],
+        "sample_weight_val": sample_weights[n_train : n_train + n_val],
         "smiles_val": all_smiles[n_train : n_train + n_val],
         "sample_source_val": all_sources[n_train : n_train + n_val],
         "negative_labels_val": all_negative_labels_full[n_train : n_train + n_val],
         "X_test": X[n_train + n_val :],
         "y_test": y[n_train + n_val :],
+        "sample_weight_test": sample_weights[n_train + n_val :],
         "smiles_test": all_smiles[n_train + n_val :],
         "sample_source_test": all_sources[n_train + n_val :],
         "negative_labels_test": all_negative_labels_full[n_train + n_val :],
@@ -542,13 +558,22 @@ def build_dataset(config_path: str | None = None) -> dict:
 
 def main() -> None:
     """Build and save the dataset."""
+    parser = argparse.ArgumentParser(description="Build ChEMBL classifier dataset.")
+    parser.add_argument(
+        "--config",
+        default=str(_CONFIG_PATH),
+        help="Path to classifier YAML config.",
+    )
+    args = parser.parse_args()
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
     )
 
     # Load config
-    with open(_CONFIG_PATH) as f:
+    config_path = Path(args.config)
+    with open(config_path) as f:
         cfg = yaml.safe_load(f)
 
     cache_path = _PROJECT_ROOT / cfg["output"]["dataset_cache"]
@@ -558,7 +583,7 @@ def main() -> None:
     logger.info("Building ChEMBL classifier dataset")
     logger.info("=" * 60)
 
-    dataset = build_dataset(str(_CONFIG_PATH))
+    dataset = build_dataset(str(config_path))
 
     logger.info(f"Saving dataset to {cache_path}")
     torch.save(dataset, cache_path)

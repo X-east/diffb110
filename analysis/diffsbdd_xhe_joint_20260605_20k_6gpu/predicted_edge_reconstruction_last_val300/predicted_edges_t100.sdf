@@ -1,0 +1,6331 @@
+0|t100|pred|DHI1_HUMAN_22_291_0/2ilt_A_rec_3ch6_311_lig_tt_min_0_pocket10.pdb_DHI1_HUMAN_22_291_0/2ilt_A_rec_3ch6_311_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 24 29  0  0  0  0  0  0  0  0999 V2000
+   -0.1257    0.6372    2.6202 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0857   -1.7068    2.1682 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3063   -0.8558    4.4262 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1553   -1.9198    3.5182 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1803    0.4902    3.9672 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2147   -0.4368    1.7152 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.3917    3.5282    0.3972 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2237    1.9732    1.9622 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4617    3.2342   -1.1368 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6617    2.3062   -1.4018 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.3887    1.2602    0.8222 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1807    2.4722   -1.5958 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5307    4.5392   -1.9928 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4307    0.9942   -0.6888 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2517    2.2252    1.1092 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6833    2.7992    2.2832 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0697   -3.2768   -1.2258 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2357   -2.7738    1.0802 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3717   -5.3868   -2.4708 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6707   -5.1358    0.1232 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5757   -4.1818    1.2132 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0173   -2.3818   -0.2138 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3927   -4.5998   -1.1508 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2093   -2.8108   -2.3928 F   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  2  0
+  1  8  1  0
+  2  4  1  0
+  2  6  2  0
+  2 18  1  0
+  3  4  2  0
+  3  5  1  0
+  6 11  1  0
+  7  9  1  0
+  7 13  2  0
+  7 15  1  0
+  8 15  1  0
+  8 16  2  0
+  9 10  1  0
+  9 12  1  0
+  9 13  1  0
+ 10 12  1  0
+ 10 14  1  0
+ 10 15  1  0
+ 11 14  1  0
+ 11 15  1  0
+ 17 22  2  0
+ 17 23  1  0
+ 17 24  1  0
+ 18 21  2  0
+ 18 22  1  0
+ 19 23  1  0
+ 20 21  1  0
+ 20 23  2  0
+M  CHG  1  15   1
+M  END
+>  <sample_idx>  (1) 
+0
+
+>  <local_batch_idx>  (1) 
+0
+
+>  <timestep>  (1) 
+100
+
+>  <num_atoms>  (1) 
+24
+
+>  <num_halfedges>  (1) 
+276
+
+>  <target_bond_count>  (1) 
+26
+
+>  <pred_bond_count>  (1) 
+29
+
+>  <noised_bond_count>  (1) 
+60
+
+>  <halfedge_accuracy>  (1) 
+0.9818840622901917
+
+>  <exact_halfedge_match>  (1) 
+0
+
+>  <noised_change_fraction>  (1) 
+0.1304347813129425
+
+>  <bond_pair_set_match>  (1) 
+0
+
+>  <bond_type_map_match>  (1) 
+0
+
+>  <missing_bond_count>  (1) 
+1
+
+>  <extra_bond_count>  (1) 
+4
+
+>  <bond_type_mismatch_count>  (1) 
+0
+
+>  <bond_pair_precision>  (1) 
+0.8620689655172413
+
+>  <bond_pair_recall>  (1) 
+0.9615384615384616
+
+>  <bond_pair_f1>  (1) 
+0.9090909090909091
+
+>  <pred_bond_length_mean>  (1) 
+1.6208412195074147
+
+>  <pred_bond_length_p95>  (1) 
+2.7680636405944816
+
+>  <bad_bond_length_count>  (1) 
+4
+
+>  <bad_bond_length_fraction>  (1) 
+0.13793103448275862
+
+>  <oracle_sanitize_success>  (1) 
+1
+
+>  <oracle_repair_strategy>  (1) 
+none
+
+>  <oracle_sanitize_error>  (1) 
+
+
+>  <pred_sanitize_success>  (1) 
+1
+
+>  <pred_repair_strategy>  (1) 
+fix_valence
+
+>  <pred_sanitize_error>  (1) 
+
+
+>  <pred_vs_oracle_smiles_match>  (1) 
+0
+
+>  <pred_num_fragments>  (1) 
+1
+
+>  <pred_num_rings>  (1) 
+6
+
+>  <pred_num_aromatic_rings>  (1) 
+1
+
+>  <pred_num_three_member_rings>  (1) 
+2
+
+>  <pred_formal_charge>  (1) 
+1
+
+>  <pred_heavy_atoms>  (1) 
+24
+
+$$$$
+2|t100|pred|PTN1_HUMAN_1_307_pep_0/1c85_A_rec_1c83_oai_lig_tt_docked_0_pocket10.pdb_PTN1_HUMAN_1_307_pep_0/1c85_A_rec_1c83_oai_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 18 21  0  0  0  0  0  0  0  0999 V2000
+   -0.4171   -3.4233   -3.5031 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2539   -2.5663   -2.6901 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2399   -1.1843   -2.9511 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4601   -0.7063   -4.0841 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1791   -1.6043   -4.9021 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1611   -2.9383   -4.6071 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7401   -4.0663   -5.2641 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2821   -5.1783   -4.5481 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5121   -4.7943   -3.5171 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8869   -0.2973   -2.1421 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1089   -0.2773   -0.7731 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6249   -1.0923    0.0169 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.7759    1.0287   -0.2991 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7179    1.1307    0.4019 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0459    2.1227   -0.6061 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4061    0.7057   -4.4401 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3641    1.5667   -3.6121 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4511    0.8917   -5.7561 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  6  1  0
+  1  9  1  0
+  2  3  1  0
+  2 10  1  0
+  3  4  1  0
+  3 10  1  0
+  4  5  1  0
+  4 16  1  0
+  5  6  1  0
+  6  7  2  0
+  7  8  1  0
+  8  9  2  0
+ 10 11  1  0
+ 10 12  1  0
+ 11 12  2  0
+ 11 13  1  0
+ 13 14  1  0
+ 13 15  2  0
+ 16 17  1  0
+ 16 18  2  0
+M  CHG  2  10   1  12  -1
+M  END
+>  <sample_idx>  (2) 
+2
+
+>  <local_batch_idx>  (2) 
+2
+
+>  <timestep>  (2) 
+100
+
+>  <num_atoms>  (2) 
+18
+
+>  <num_halfedges>  (2) 
+153
+
+>  <target_bond_count>  (2) 
+19
+
+>  <pred_bond_count>  (2) 
+21
+
+>  <noised_bond_count>  (2) 
+40
+
+>  <halfedge_accuracy>  (2) 
+0.9803921580314636
+
+>  <exact_halfedge_match>  (2) 
+0
+
+>  <noised_change_fraction>  (2) 
+0.1437908560037613
+
+>  <bond_pair_set_match>  (2) 
+0
+
+>  <bond_type_map_match>  (2) 
+0
+
+>  <missing_bond_count>  (2) 
+0
+
+>  <extra_bond_count>  (2) 
+2
+
+>  <bond_type_mismatch_count>  (2) 
+1
+
+>  <bond_pair_precision>  (2) 
+0.9047619047619048
+
+>  <bond_pair_recall>  (2) 
+1.0
+
+>  <bond_pair_f1>  (2) 
+0.9500000000000001
+
+>  <pred_bond_length_mean>  (2) 
+1.461486782346453
+
+>  <pred_bond_length_p95>  (2) 
+2.3155884742736816
+
+>  <bad_bond_length_count>  (2) 
+2
+
+>  <bad_bond_length_fraction>  (2) 
+0.09523809523809523
+
+>  <oracle_sanitize_success>  (2) 
+1
+
+>  <oracle_repair_strategy>  (2) 
+none
+
+>  <oracle_sanitize_error>  (2) 
+
+
+>  <pred_sanitize_success>  (2) 
+0
+
+>  <pred_repair_strategy>  (2) 
+failed
+
+>  <pred_sanitize_error>  (2) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (2) 
+0
+
+>  <pred_num_fragments>  (2) 
+1
+
+>  <pred_num_rings>  (2) 
+0
+
+>  <pred_num_aromatic_rings>  (2) 
+0
+
+>  <pred_num_three_member_rings>  (2) 
+0
+
+>  <pred_formal_charge>  (2) 
+0
+
+>  <pred_heavy_atoms>  (2) 
+18
+
+$$$$
+4|t100|pred|MMP8_HUMAN_101_262_0/3dpf_A_rec_1jaq_01s_lig_tt_min_0_pocket10.pdb_MMP8_HUMAN_101_262_0/3dpf_A_rec_1jaq_01s_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 21 22  0  0  0  0  0  0  0  0999 V2000
+    3.3618    1.5440    1.7338 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3928    2.3410    0.7898 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9748    0.3740    1.6838 N   0  0  0  0  0  0  0  0  0  0  0  0
+    4.6878    0.0010    0.4848 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.9748   -0.6900    0.8398 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.8008   -0.8490   -0.4432 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.1058   -1.0090   -1.6262 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7868   -1.4890    0.1618 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.7618   -2.2350   -0.5482 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9778   -3.6430   -0.9482 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2868   -4.0840   -1.8692 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5368   -4.4310   -0.0392 N   0  0  0  0  0  0  0  0  0  0  0  0
+    2.6658    1.8860    3.0408 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3518    1.5560    3.7678 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7972    0.7880    3.9188 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4138    1.0050    3.2138 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4038   -0.1490    2.8538 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6178    1.6220    4.1838 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.1988    2.8760    4.8418 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.5308    3.2690    4.1878 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.1868    4.0560    4.8118 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  3  1  0
+  1 13  1  0
+  3  4  1  0
+  3  5  1  0
+  4  5  1  0
+  4  6  1  0
+  5  6  1  0
+  6  7  2  0
+  6  8  1  0
+  8  9  1  0
+  9 10  1  0
+ 10 11  2  0
+ 10 12  1  0
+ 13 18  1  0
+ 14 15  1  0
+ 14 16  2  0
+ 16 17  2  0
+ 18 19  1  0
+ 18 21  1  0
+ 19 20  1  0
+ 19 21  1  0
+M  END
+>  <sample_idx>  (3) 
+4
+
+>  <local_batch_idx>  (3) 
+4
+
+>  <timestep>  (3) 
+100
+
+>  <num_atoms>  (3) 
+21
+
+>  <num_halfedges>  (3) 
+210
+
+>  <target_bond_count>  (3) 
+20
+
+>  <pred_bond_count>  (3) 
+22
+
+>  <noised_bond_count>  (3) 
+35
+
+>  <halfedge_accuracy>  (3) 
+0.976190447807312
+
+>  <exact_halfedge_match>  (3) 
+0
+
+>  <noised_change_fraction>  (3) 
+0.1190476194024086
+
+>  <bond_pair_set_match>  (3) 
+0
+
+>  <bond_type_map_match>  (3) 
+0
+
+>  <missing_bond_count>  (3) 
+1
+
+>  <extra_bond_count>  (3) 
+3
+
+>  <bond_type_mismatch_count>  (3) 
+1
+
+>  <bond_pair_precision>  (3) 
+0.8636363636363636
+
+>  <bond_pair_recall>  (3) 
+0.95
+
+>  <bond_pair_f1>  (3) 
+0.9047619047619048
+
+>  <pred_bond_length_mean>  (3) 
+1.5535363880070774
+
+>  <pred_bond_length_p95>  (3) 
+2.5237651824951173
+
+>  <bad_bond_length_count>  (3) 
+3
+
+>  <bad_bond_length_fraction>  (3) 
+0.13636363636363635
+
+>  <oracle_sanitize_success>  (3) 
+1
+
+>  <oracle_repair_strategy>  (3) 
+none
+
+>  <oracle_sanitize_error>  (3) 
+
+
+>  <pred_sanitize_success>  (3) 
+0
+
+>  <pred_repair_strategy>  (3) 
+failed
+
+>  <pred_sanitize_error>  (3) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (3) 
+0
+
+>  <pred_num_fragments>  (3) 
+2
+
+>  <pred_num_rings>  (3) 
+0
+
+>  <pred_num_aromatic_rings>  (3) 
+0
+
+>  <pred_num_three_member_rings>  (3) 
+0
+
+>  <pred_formal_charge>  (3) 
+0
+
+>  <pred_heavy_atoms>  (3) 
+21
+
+$$$$
+7|t100|pred|ETHR_MYCTU_1_216_0/1t56_A_rec_5ioz_6c4_lig_tt_docked_4_pocket10.pdb_ETHR_MYCTU_1_216_0/1t56_A_rec_5ioz_6c4_lig_tt_docked_4.sdf
+     RDKit          3D
+
+ 14 16  0  0  0  0  0  0  0  0999 V2000
+   -0.9737   -0.7376   -0.4658 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7357   -0.3086   -1.6198 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1747   -0.4186    0.5602 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1437   -1.6146   -0.1418 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2677   -2.1316   -1.2108 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2097   -0.8206    0.6032 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7577   -2.0676   -1.4828 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.4737   -1.5396    0.1902 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8343    0.6664    0.3522 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0173    0.5974    1.2772 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.2283    0.0834    1.8162 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9193   -0.3036    2.5162 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3703   -0.4766    2.9402 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3443    0.2574    0.6062 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  3  1  0
+  1  4  1  0
+  1  7  1  0
+  3  9  1  0
+  4  6  1  0
+  4  7  1  0
+  5  7  1  0
+  5  8  1  0
+  6  8  1  0
+  9 10  1  0
+ 10 12  1  0
+ 10 14  1  0
+ 11 13  1  0
+ 11 14  1  0
+ 12 13  1  0
+M  END
+>  <sample_idx>  (4) 
+7
+
+>  <local_batch_idx>  (4) 
+7
+
+>  <timestep>  (4) 
+100
+
+>  <num_atoms>  (4) 
+14
+
+>  <num_halfedges>  (4) 
+91
+
+>  <target_bond_count>  (4) 
+15
+
+>  <pred_bond_count>  (4) 
+16
+
+>  <noised_bond_count>  (4) 
+24
+
+>  <halfedge_accuracy>  (4) 
+0.9890109896659851
+
+>  <exact_halfedge_match>  (4) 
+0
+
+>  <noised_change_fraction>  (4) 
+0.09890110045671463
+
+>  <bond_pair_set_match>  (4) 
+0
+
+>  <bond_type_map_match>  (4) 
+0
+
+>  <missing_bond_count>  (4) 
+0
+
+>  <extra_bond_count>  (4) 
+1
+
+>  <bond_type_mismatch_count>  (4) 
+0
+
+>  <bond_pair_precision>  (4) 
+0.9375
+
+>  <bond_pair_recall>  (4) 
+1.0
+
+>  <bond_pair_f1>  (4) 
+0.967741935483871
+
+>  <pred_bond_length_mean>  (4) 
+1.5498103275895119
+
+>  <pred_bond_length_p95>  (4) 
+1.7688113749027252
+
+>  <bad_bond_length_count>  (4) 
+1
+
+>  <bad_bond_length_fraction>  (4) 
+0.0625
+
+>  <oracle_sanitize_success>  (4) 
+1
+
+>  <oracle_repair_strategy>  (4) 
+none
+
+>  <oracle_sanitize_error>  (4) 
+
+
+>  <pred_sanitize_success>  (4) 
+0
+
+>  <pred_repair_strategy>  (4) 
+failed
+
+>  <pred_sanitize_error>  (4) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (4) 
+0
+
+>  <pred_num_fragments>  (4) 
+1
+
+>  <pred_num_rings>  (4) 
+0
+
+>  <pred_num_aromatic_rings>  (4) 
+0
+
+>  <pred_num_three_member_rings>  (4) 
+0
+
+>  <pred_formal_charge>  (4) 
+0
+
+>  <pred_heavy_atoms>  (4) 
+14
+
+$$$$
+10|t100|pred|POL_HV1H2_587_814_0/1fk9_A_rec_1jlg_uc1_lig_tt_docked_0_pocket10.pdb_POL_HV1H2_587_814_0/1fk9_A_rec_1jlg_uc1_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 22 27  0  0  0  0  0  0  0  0999 V2000
+   -0.4875   -0.0238   -1.4487 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7415   -2.0568   -0.9997 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8115   -2.2988   -2.3957 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2185   -1.4198   -3.2977 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5415   -0.2698   -2.8367 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0765   -0.8978   -0.5167 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4155   -3.2268    0.0533 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+    0.0665    0.5662   -3.8187 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4315    0.9842   -3.9337 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8135    2.0722   -5.1597 S   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0885    0.3022   -1.3757 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.1955    1.1252   -2.0587 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5025    0.4282   -2.9937 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0145   -0.9708   -2.8847 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9365   -0.9618   -1.9167 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.2045    2.5852   -1.6107 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0425   -0.6008    0.8613 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2155   -0.5268    1.6033 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8785    0.8402    1.3643 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4545    1.6262    2.2733 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0295    2.9282    1.9153 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5995    1.2702    3.7023 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  2  0
+  1  6  1  0
+  2  3  1  0
+  2  6  2  0
+  2  7  1  0
+  3  4  2  0
+  3  7  1  0
+  4  5  1  0
+  4  8  1  0
+  5  8  1  0
+  6 17  1  0
+  8  9  1  0
+  9 10  1  0
+  9 13  1  0
+  9 14  1  0
+ 11 12  1  0
+ 11 15  1  0
+ 11 16  1  0
+ 12 13  2  0
+ 12 16  1  0
+ 13 14  1  0
+ 14 15  2  0
+ 17 18  1  0
+ 18 19  1  0
+ 19 20  2  3
+ 20 21  1  0
+ 20 22  1  0
+M  END
+>  <sample_idx>  (5) 
+10
+
+>  <local_batch_idx>  (5) 
+2
+
+>  <timestep>  (5) 
+100
+
+>  <num_atoms>  (5) 
+22
+
+>  <num_halfedges>  (5) 
+231
+
+>  <target_bond_count>  (5) 
+23
+
+>  <pred_bond_count>  (5) 
+27
+
+>  <noised_bond_count>  (5) 
+49
+
+>  <halfedge_accuracy>  (5) 
+0.9783549904823303
+
+>  <exact_halfedge_match>  (5) 
+0
+
+>  <noised_change_fraction>  (5) 
+0.13852813839912415
+
+>  <bond_pair_set_match>  (5) 
+0
+
+>  <bond_type_map_match>  (5) 
+0
+
+>  <missing_bond_count>  (5) 
+0
+
+>  <extra_bond_count>  (5) 
+4
+
+>  <bond_type_mismatch_count>  (5) 
+1
+
+>  <bond_pair_precision>  (5) 
+0.8518518518518519
+
+>  <bond_pair_recall>  (5) 
+1.0
+
+>  <bond_pair_f1>  (5) 
+0.92
+
+>  <pred_bond_length_mean>  (5) 
+1.6192633090195832
+
+>  <pred_bond_length_p95>  (5) 
+2.6192004203796384
+
+>  <bad_bond_length_count>  (5) 
+4
+
+>  <bad_bond_length_fraction>  (5) 
+0.14814814814814814
+
+>  <oracle_sanitize_success>  (5) 
+1
+
+>  <oracle_repair_strategy>  (5) 
+none
+
+>  <oracle_sanitize_error>  (5) 
+
+
+>  <pred_sanitize_success>  (5) 
+0
+
+>  <pred_repair_strategy>  (5) 
+failed
+
+>  <pred_sanitize_error>  (5) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (5) 
+0
+
+>  <pred_num_fragments>  (5) 
+1
+
+>  <pred_num_rings>  (5) 
+0
+
+>  <pred_num_aromatic_rings>  (5) 
+0
+
+>  <pred_num_three_member_rings>  (5) 
+0
+
+>  <pred_formal_charge>  (5) 
+0
+
+>  <pred_heavy_atoms>  (5) 
+22
+
+$$$$
+11|t100|pred|MAP1_STAAM_1_252_0/1qxw_A_rec_1qxw_m1c_lig_tt_min_0_pocket10.pdb_MAP1_STAAM_1_252_0/1qxw_A_rec_1qxw_m1c_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 14 16  0  0  0  0  0  0  0  0999 V2000
+   -1.0760    1.3833   -0.6484 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1260    0.5823   -1.2224 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7900    2.4523   -1.5384 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4860   -0.0327   -1.8044 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1810    0.5323   -0.4914 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3680    1.3483    0.0396 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7060    0.6443   -0.1564 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.8840    1.5623    0.1906 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.7340    0.9863    1.3036 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5420    2.0353    0.6536 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.3910    1.1863    1.4656 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.3570    0.6883    3.6796 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3640    1.5013    2.8816 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.8710    1.7683    2.7126 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1  5  1  0
+  1 10  2  3
+  4  5  1  0
+  4  6  2  0
+  5  6  1  0
+  6  7  1  0
+  7  8  1  0
+  8  9  1  0
+ 10 11  1  0
+ 11 12  1  0
+ 11 14  1  0
+ 12 13  1  0
+ 12 14  1  0
+ 13 14  2  0
+M  END
+>  <sample_idx>  (6) 
+11
+
+>  <local_batch_idx>  (6) 
+3
+
+>  <timestep>  (6) 
+100
+
+>  <num_atoms>  (6) 
+14
+
+>  <num_halfedges>  (6) 
+91
+
+>  <target_bond_count>  (6) 
+14
+
+>  <pred_bond_count>  (6) 
+16
+
+>  <noised_bond_count>  (6) 
+31
+
+>  <halfedge_accuracy>  (6) 
+0.9560439586639404
+
+>  <exact_halfedge_match>  (6) 
+0
+
+>  <noised_change_fraction>  (6) 
+0.21978022158145905
+
+>  <bond_pair_set_match>  (6) 
+0
+
+>  <bond_type_map_match>  (6) 
+0
+
+>  <missing_bond_count>  (6) 
+0
+
+>  <extra_bond_count>  (6) 
+2
+
+>  <bond_type_mismatch_count>  (6) 
+2
+
+>  <bond_pair_precision>  (6) 
+0.875
+
+>  <bond_pair_recall>  (6) 
+1.0
+
+>  <bond_pair_f1>  (6) 
+0.9333333333333333
+
+>  <pred_bond_length_mean>  (6) 
+1.6187184303998947
+
+>  <pred_bond_length_p95>  (6) 
+2.466489791870117
+
+>  <bad_bond_length_count>  (6) 
+2
+
+>  <bad_bond_length_fraction>  (6) 
+0.125
+
+>  <oracle_sanitize_success>  (6) 
+1
+
+>  <oracle_repair_strategy>  (6) 
+none
+
+>  <oracle_sanitize_error>  (6) 
+
+
+>  <pred_sanitize_success>  (6) 
+0
+
+>  <pred_repair_strategy>  (6) 
+failed
+
+>  <pred_sanitize_error>  (6) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (6) 
+0
+
+>  <pred_num_fragments>  (6) 
+1
+
+>  <pred_num_rings>  (6) 
+0
+
+>  <pred_num_aromatic_rings>  (6) 
+0
+
+>  <pred_num_three_member_rings>  (6) 
+0
+
+>  <pred_formal_charge>  (6) 
+0
+
+>  <pred_heavy_atoms>  (6) 
+14
+
+$$$$
+12|t100|pred|CHK1_HUMAN_1_283_ATPsite_0/1nvs_A_rec_4qyg_3dw_lig_tt_min_0_pocket10.pdb_CHK1_HUMAN_1_283_ATPsite_0/1nvs_A_rec_4qyg_3dw_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 29 36  0  0  0  0  0  0  0  0999 V2000
+    1.3191   -1.2656   -1.8099 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2891   -0.3376   -1.6329 N   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1021    0.7344   -0.8379 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8951    0.9034   -0.1759 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4081    1.8594    0.6711 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8559    1.5314    1.0321 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0771   -1.1426   -1.1589 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1069   -0.0336   -0.3339 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1959    0.3554    0.4171 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4659   -0.2016    0.6081 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.3599    0.4934    1.4561 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.9259    1.6984    2.0381 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6969    2.2034    1.8421 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.7609    0.0154    1.7281 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.2299   -1.1716    1.1601 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.5319   -1.6216    1.3711 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.4219   -0.8856    2.1631 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.9629    0.3124    2.7091 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6599    0.7624    2.4991 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.6999   -1.3396    2.3791 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.6649   -0.3956    2.9571 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.0879   -0.9286    2.7941 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.1749   -2.3166    3.2721 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.5629   -2.8136    3.2111 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.2899   -3.1486    2.4421 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.8489   -2.7566    2.7141 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7031   -3.2076   -3.0289 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6181   -2.4106   -2.7219 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7871   -2.5516   -3.1409 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  7  2  0
+  1 28  1  0
+  2  3  2  0
+  3  4  1  0
+  4  5  1  0
+  4  8  1  0
+  5  6  2  0
+  5  8  1  0
+  6  9  1  0
+  6 13  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  2  0
+ 10 11  1  0
+ 11 12  1  0
+ 11 14  1  0
+ 12 13  2  0
+ 14 15  1  0
+ 14 19  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 16 19  1  0
+ 17 18  1  0
+ 17 20  1  0
+ 17 21  1  0
+ 18 19  1  0
+ 20 21  1  0
+ 20 26  1  0
+ 21 22  2  0
+ 22 23  1  0
+ 23 24  1  0
+ 23 25  1  0
+ 25 26  1  0
+ 27 28  2  0
+ 28 29  1  0
+M  CHG  1   5   1
+M  END
+>  <sample_idx>  (7) 
+12
+
+>  <local_batch_idx>  (7) 
+4
+
+>  <timestep>  (7) 
+100
+
+>  <num_atoms>  (7) 
+29
+
+>  <num_halfedges>  (7) 
+406
+
+>  <target_bond_count>  (7) 
+33
+
+>  <pred_bond_count>  (7) 
+36
+
+>  <noised_bond_count>  (7) 
+80
+
+>  <halfedge_accuracy>  (7) 
+0.9852216839790344
+
+>  <exact_halfedge_match>  (7) 
+0
+
+>  <noised_change_fraction>  (7) 
+0.13793103396892548
+
+>  <bond_pair_set_match>  (7) 
+0
+
+>  <bond_type_map_match>  (7) 
+0
+
+>  <missing_bond_count>  (7) 
+0
+
+>  <extra_bond_count>  (7) 
+3
+
+>  <bond_type_mismatch_count>  (7) 
+3
+
+>  <bond_pair_precision>  (7) 
+0.9166666666666666
+
+>  <bond_pair_recall>  (7) 
+1.0
+
+>  <bond_pair_f1>  (7) 
+0.9565217391304348
+
+>  <pred_bond_length_mean>  (7) 
+1.492077241341273
+
+>  <pred_bond_length_p95>  (7) 
+2.2605135440826416
+
+>  <bad_bond_length_count>  (7) 
+3
+
+>  <bad_bond_length_fraction>  (7) 
+0.08333333333333333
+
+>  <oracle_sanitize_success>  (7) 
+1
+
+>  <oracle_repair_strategy>  (7) 
+none
+
+>  <oracle_sanitize_error>  (7) 
+
+
+>  <pred_sanitize_success>  (7) 
+1
+
+>  <pred_repair_strategy>  (7) 
+fix_aromatic
+
+>  <pred_sanitize_error>  (7) 
+
+
+>  <pred_vs_oracle_smiles_match>  (7) 
+0
+
+>  <pred_num_fragments>  (7) 
+1
+
+>  <pred_num_rings>  (7) 
+8
+
+>  <pred_num_aromatic_rings>  (7) 
+0
+
+>  <pred_num_three_member_rings>  (7) 
+2
+
+>  <pred_formal_charge>  (7) 
+1
+
+>  <pred_heavy_atoms>  (7) 
+29
+
+$$$$
+14|t100|pred|ESR2_HUMAN_260_502_0/4j24_B_rec_4j24_est_lig_tt_docked_0_pocket10.pdb_ESR2_HUMAN_260_502_0/4j24_B_rec_4j24_est_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 20 26  0  0  0  0  0  0  0  0999 V2000
+    0.7579   -1.6471   -2.8798 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1869   -2.7341   -3.5488 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3691   -3.8121   -2.8558 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9161   -4.8461   -3.5678 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4011   -3.8211   -1.4638 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1529   -2.7581   -0.7468 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1279   -2.7811    0.7682 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1009   -1.8001    1.3912 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.9269   -0.4411    0.7342 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3829   -0.4741   -0.7318 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7499   -1.6001   -1.4828 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2169    0.8879   -1.4088 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9249    2.0029   -0.6228 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4989    2.0269    0.8462 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.7259    0.6469    1.4402 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5639    0.8479    2.9352 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0919    2.2659    3.1752 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.3599    2.8599    1.7902 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1179    4.2769    1.7732 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0479    2.4899    0.9122 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 11  1  0
+  2  3  1  0
+  3  4  1  0
+  3  5  1  0
+  4  5  1  0
+  5  6  1  0
+  6  7  1  0
+  6 11  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  1  0
+  9 15  1  0
+  9 16  1  0
+ 10 11  1  0
+ 10 12  1  0
+ 12 13  1  0
+ 13 14  1  0
+ 13 20  1  0
+ 14 15  1  0
+ 14 18  1  0
+ 14 20  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 18  1  0
+ 18 19  2  0
+M  END
+>  <sample_idx>  (8) 
+14
+
+>  <local_batch_idx>  (8) 
+6
+
+>  <timestep>  (8) 
+100
+
+>  <num_atoms>  (8) 
+20
+
+>  <num_halfedges>  (8) 
+190
+
+>  <target_bond_count>  (8) 
+23
+
+>  <pred_bond_count>  (8) 
+26
+
+>  <noised_bond_count>  (8) 
+48
+
+>  <halfedge_accuracy>  (8) 
+0.9736841917037964
+
+>  <exact_halfedge_match>  (8) 
+0
+
+>  <noised_change_fraction>  (8) 
+0.1631578952074051
+
+>  <bond_pair_set_match>  (8) 
+0
+
+>  <bond_type_map_match>  (8) 
+0
+
+>  <missing_bond_count>  (8) 
+0
+
+>  <extra_bond_count>  (8) 
+3
+
+>  <bond_type_mismatch_count>  (8) 
+2
+
+>  <bond_pair_precision>  (8) 
+0.8846153846153846
+
+>  <bond_pair_recall>  (8) 
+1.0
+
+>  <bond_pair_f1>  (8) 
+0.9387755102040816
+
+>  <pred_bond_length_mean>  (8) 
+1.6012894557072566
+
+>  <pred_bond_length_p95>  (8) 
+2.4539669156074524
+
+>  <bad_bond_length_count>  (8) 
+3
+
+>  <bad_bond_length_fraction>  (8) 
+0.11538461538461539
+
+>  <oracle_sanitize_success>  (8) 
+1
+
+>  <oracle_repair_strategy>  (8) 
+none
+
+>  <oracle_sanitize_error>  (8) 
+
+
+>  <pred_sanitize_success>  (8) 
+1
+
+>  <pred_repair_strategy>  (8) 
+fix_valence
+
+>  <pred_sanitize_error>  (8) 
+
+
+>  <pred_vs_oracle_smiles_match>  (8) 
+0
+
+>  <pred_num_fragments>  (8) 
+1
+
+>  <pred_num_rings>  (8) 
+7
+
+>  <pred_num_aromatic_rings>  (8) 
+0
+
+>  <pred_num_three_member_rings>  (8) 
+3
+
+>  <pred_formal_charge>  (8) 
+0
+
+>  <pred_heavy_atoms>  (8) 
+20
+
+$$$$
+20|t100|pred|AMYP_HUMAN_16_511_0/2qv4_A_rec_1u30_gox_lig_tt_min_0_pocket10.pdb_AMYP_HUMAN_16_511_0/2qv4_A_rec_1u30_gox_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 13 17  0  0  0  0  0  0  0  0999 V2000
+    0.1184    0.7847   -0.9837 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0096    1.6317   -1.6077 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2974    0.4247   -1.5927 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.3846    1.2877   -1.4067 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7056    1.9387   -3.0917 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4866    3.1027   -3.3517 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8314    2.1927   -3.2737 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1234    2.5317   -4.6347 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5744    0.8297   -2.9837 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0376    0.3877    0.2903 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2704   -0.8163    0.7213 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0864    0.8147   -3.0887 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6644    2.0547   -2.6567 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  2  0
+  1  5  1  0
+  1 10  1  0
+  2  4  2  0
+  2  5  1  0
+  2 10  1  0
+  3  9  1  0
+  3 10  1  0
+  5  6  1  0
+  5  7  1  0
+  5  8  1  0
+  7  8  1  0
+  7  9  1  0
+  9 12  1  0
+ 10 11  1  0
+ 12 13  1  0
+M  END
+>  <sample_idx>  (9) 
+20
+
+>  <local_batch_idx>  (9) 
+4
+
+>  <timestep>  (9) 
+100
+
+>  <num_atoms>  (9) 
+13
+
+>  <num_halfedges>  (9) 
+78
+
+>  <target_bond_count>  (9) 
+13
+
+>  <pred_bond_count>  (9) 
+17
+
+>  <noised_bond_count>  (9) 
+22
+
+>  <halfedge_accuracy>  (9) 
+0.9358974099159241
+
+>  <exact_halfedge_match>  (9) 
+0
+
+>  <noised_change_fraction>  (9) 
+0.14102564752101898
+
+>  <bond_pair_set_match>  (9) 
+0
+
+>  <bond_type_map_match>  (9) 
+0
+
+>  <missing_bond_count>  (9) 
+0
+
+>  <extra_bond_count>  (9) 
+4
+
+>  <bond_type_mismatch_count>  (9) 
+1
+
+>  <bond_pair_precision>  (9) 
+0.7647058823529411
+
+>  <bond_pair_recall>  (9) 
+1.0
+
+>  <bond_pair_f1>  (9) 
+0.8666666666666666
+
+>  <pred_bond_length_mean>  (9) 
+1.6922333030139698
+
+>  <pred_bond_length_p95>  (9) 
+2.483108139038086
+
+>  <bad_bond_length_count>  (9) 
+4
+
+>  <bad_bond_length_fraction>  (9) 
+0.23529411764705882
+
+>  <oracle_sanitize_success>  (9) 
+1
+
+>  <oracle_repair_strategy>  (9) 
+none
+
+>  <oracle_sanitize_error>  (9) 
+
+
+>  <pred_sanitize_success>  (9) 
+0
+
+>  <pred_repair_strategy>  (9) 
+failed
+
+>  <pred_sanitize_error>  (9) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (9) 
+0
+
+>  <pred_num_fragments>  (9) 
+1
+
+>  <pred_num_rings>  (9) 
+0
+
+>  <pred_num_aromatic_rings>  (9) 
+0
+
+>  <pred_num_three_member_rings>  (9) 
+0
+
+>  <pred_formal_charge>  (9) 
+0
+
+>  <pred_heavy_atoms>  (9) 
+13
+
+$$$$
+21|t100|pred|FABP4_HUMAN_2_132_0/5d47_A_rec_3p6d_zgb_lig_tt_min_0_pocket10.pdb_FABP4_HUMAN_2_132_0/5d47_A_rec_3p6d_zgb_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 14 15  0  0  0  0  0  0  0  0999 V2000
+   -3.3663    0.6874    3.0528 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1883    0.9654    2.1348 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4253    0.8094    0.8058 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9073    1.2874    2.6858 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0957    1.5104    1.7288 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1023    1.3474    0.3628 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.3583    1.0404   -0.0772 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7053    1.3714    4.0018 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6567    1.5944    4.4028 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5903    0.8734   -1.5362 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4863   -0.0026   -2.2452 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5823    0.5294   -4.2832 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0947   -0.8726   -4.4532 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6193   -0.0846   -3.7982 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  2  3  2  0
+  2  4  1  0
+  3  7  1  0
+  4  5  2  0
+  4  8  1  0
+  5  6  1  0
+  6  7  2  0
+  7 10  1  0
+  8  9  1  0
+ 10 11  1  0
+ 11 14  1  0
+ 12 13  2  0
+ 12 14  2  0
+ 13 14  1  0
+M  END
+>  <sample_idx>  (10) 
+21
+
+>  <local_batch_idx>  (10) 
+5
+
+>  <timestep>  (10) 
+100
+
+>  <num_atoms>  (10) 
+14
+
+>  <num_halfedges>  (10) 
+91
+
+>  <target_bond_count>  (10) 
+14
+
+>  <pred_bond_count>  (10) 
+15
+
+>  <noised_bond_count>  (10) 
+27
+
+>  <halfedge_accuracy>  (10) 
+0.9890109896659851
+
+>  <exact_halfedge_match>  (10) 
+0
+
+>  <noised_change_fraction>  (10) 
+0.16483516991138458
+
+>  <bond_pair_set_match>  (10) 
+0
+
+>  <bond_type_map_match>  (10) 
+0
+
+>  <missing_bond_count>  (10) 
+0
+
+>  <extra_bond_count>  (10) 
+1
+
+>  <bond_type_mismatch_count>  (10) 
+0
+
+>  <bond_pair_precision>  (10) 
+0.9333333333333333
+
+>  <bond_pair_recall>  (10) 
+1.0
+
+>  <bond_pair_f1>  (10) 
+0.9655172413793104
+
+>  <pred_bond_length_mean>  (10) 
+1.4634504397710164
+
+>  <pred_bond_length_p95>  (10) 
+1.7620661616325373
+
+>  <bad_bond_length_count>  (10) 
+1
+
+>  <bad_bond_length_fraction>  (10) 
+0.06666666666666667
+
+>  <oracle_sanitize_success>  (10) 
+1
+
+>  <oracle_repair_strategy>  (10) 
+none
+
+>  <oracle_sanitize_error>  (10) 
+
+
+>  <pred_sanitize_success>  (10) 
+0
+
+>  <pred_repair_strategy>  (10) 
+failed
+
+>  <pred_sanitize_error>  (10) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (10) 
+0
+
+>  <pred_num_fragments>  (10) 
+1
+
+>  <pred_num_rings>  (10) 
+0
+
+>  <pred_num_aromatic_rings>  (10) 
+0
+
+>  <pred_num_three_member_rings>  (10) 
+0
+
+>  <pred_formal_charge>  (10) 
+0
+
+>  <pred_heavy_atoms>  (10) 
+14
+
+$$$$
+24|t100|pred|UROK_HUMAN_175_427_0/1fv9_A_rec_1c5y_esp_lig_tt_docked_2_pocket10.pdb_UROK_HUMAN_175_427_0/1fv9_A_rec_1c5y_esp_lig_tt_docked_2.sdf
+     RDKit          3D
+
+ 12 15  0  0  0  0  0  0  0  0999 V2000
+   -0.9224   -0.6551    1.0443 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5584   -1.4021   -0.5357 S   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0886   -2.8101    0.1903 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0176   -2.6901    1.5693 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5304   -1.5211    2.0393 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6036   -3.9091   -0.2977 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0796   -4.9301    0.3963 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0146   -4.8211    1.7833 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4866   -3.6981    2.3733 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5094    0.5809    1.0733 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9254    1.0209    2.2223 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6064    1.2049   -0.0557 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  1 10  1  0
+  1 11  1  0
+  2  3  2  0
+  2  5  1  0
+  3  4  1  0
+  3  6  1  0
+  4  5  2  0
+  4  9  1  0
+  6  7  2  0
+  7  8  1  0
+  8  9  2  0
+ 10 11  1  0
+ 10 12  2  0
+M  END
+>  <sample_idx>  (11) 
+24
+
+>  <local_batch_idx>  (11) 
+0
+
+>  <timestep>  (11) 
+100
+
+>  <num_atoms>  (11) 
+12
+
+>  <num_halfedges>  (11) 
+66
+
+>  <target_bond_count>  (11) 
+13
+
+>  <pred_bond_count>  (11) 
+15
+
+>  <noised_bond_count>  (11) 
+18
+
+>  <halfedge_accuracy>  (11) 
+0.9545454382896423
+
+>  <exact_halfedge_match>  (11) 
+0
+
+>  <noised_change_fraction>  (11) 
+0.09090909361839294
+
+>  <bond_pair_set_match>  (11) 
+0
+
+>  <bond_type_map_match>  (11) 
+0
+
+>  <missing_bond_count>  (11) 
+0
+
+>  <extra_bond_count>  (11) 
+2
+
+>  <bond_type_mismatch_count>  (11) 
+1
+
+>  <bond_pair_precision>  (11) 
+0.8666666666666667
+
+>  <bond_pair_recall>  (11) 
+1.0
+
+>  <bond_pair_f1>  (11) 
+0.9285714285714286
+
+>  <pred_bond_length_mean>  (11) 
+1.5481611649195353
+
+>  <pred_bond_length_p95>  (11) 
+2.370025324821472
+
+>  <bad_bond_length_count>  (11) 
+2
+
+>  <bad_bond_length_fraction>  (11) 
+0.13333333333333333
+
+>  <oracle_sanitize_success>  (11) 
+1
+
+>  <oracle_repair_strategy>  (11) 
+none
+
+>  <oracle_sanitize_error>  (11) 
+
+
+>  <pred_sanitize_success>  (11) 
+1
+
+>  <pred_repair_strategy>  (11) 
+none
+
+>  <pred_sanitize_error>  (11) 
+
+
+>  <pred_vs_oracle_smiles_match>  (11) 
+0
+
+>  <pred_num_fragments>  (11) 
+1
+
+>  <pred_num_rings>  (11) 
+4
+
+>  <pred_num_aromatic_rings>  (11) 
+1
+
+>  <pred_num_three_member_rings>  (11) 
+2
+
+>  <pred_formal_charge>  (11) 
+0
+
+>  <pred_heavy_atoms>  (11) 
+12
+
+$$$$
+26|t100|pred|FNTB_HUMAN_8_432_0/1d8e_B_rec_1o5m_fpp_lig_tt_docked_2_pocket10.pdb_FNTB_HUMAN_8_432_0/1d8e_B_rec_1o5m_fpp_lig_tt_docked_2.sdf
+     RDKit          3D
+
+ 24 26  0  0  0  0  0  0  0  0999 V2000
+    4.2878    0.7983   -0.4047 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3348    0.6743   -1.3767 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6438    0.7453   -2.8677 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.7788    1.0113   -0.5437 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.3428    1.5383    0.6773 O   0  0  0  0  0  0  0  0  0  0  0  0
+    6.8498    3.0523    0.8623 P   0  0  0  0  0  0  0  0  0  0  0  0
+    5.5798    3.9673    1.0903 O   0  0  0  0  0  0  0  0  0  0  0  0
+    7.6038    3.5603   -0.4637 O   0  0  0  0  0  0  0  0  0  0  0  0
+    7.7258    3.1203    2.2033 O   0  0  0  0  0  0  0  0  0  0  0  0
+    7.2968    2.3643    3.5443 P   0  0  0  0  0  0  0  0  0  0  0  0
+    7.5938    0.8183    3.2863 O   0  0  0  0  0  0  0  0  0  0  0  0
+    8.1798    2.8253    4.7853 O   0  0  0  0  0  0  0  0  0  0  0  0
+    5.7608    2.5433    3.8773 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8578    0.4523   -1.0107 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5098   -0.9507   -0.4517 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0658   -1.3597   -0.6677 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9592   -1.2147    0.2013 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7852   -0.5957    1.5653 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.3692   -1.6927   -0.1877 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5052   -0.7857    0.3253 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8852   -1.4307    0.2433 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.8772   -1.1317   -0.6427 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.2092   -1.8797   -0.5897 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.7632   -0.0807   -1.7207 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  4  1  0
+  2  3  1  0
+  2 14  1  0
+  4  5  1  0
+  5  6  1  0
+  6  7  1  0
+  6  8  2  0
+  6  9  1  0
+  7  8  1  0
+  9 10  1  0
+ 10 11  1  0
+ 10 13  1  0
+ 11 13  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 16 18  1  0
+ 17 18  1  0
+ 17 19  1  0
+ 17 20  1  0
+ 19 20  1  0
+ 20 21  1  0
+ 21 22  2  3
+ 22 23  1  0
+ 22 24  1  0
+M  END
+>  <sample_idx>  (12) 
+26
+
+>  <local_batch_idx>  (12) 
+2
+
+>  <timestep>  (12) 
+100
+
+>  <num_atoms>  (12) 
+24
+
+>  <num_halfedges>  (12) 
+276
+
+>  <target_bond_count>  (12) 
+23
+
+>  <pred_bond_count>  (12) 
+26
+
+>  <noised_bond_count>  (12) 
+52
+
+>  <halfedge_accuracy>  (12) 
+0.9746376872062683
+
+>  <exact_halfedge_match>  (12) 
+0
+
+>  <noised_change_fraction>  (12) 
+0.12318840622901917
+
+>  <bond_pair_set_match>  (12) 
+0
+
+>  <bond_type_map_match>  (12) 
+0
+
+>  <missing_bond_count>  (12) 
+1
+
+>  <extra_bond_count>  (12) 
+4
+
+>  <bond_type_mismatch_count>  (12) 
+2
+
+>  <bond_pair_precision>  (12) 
+0.8461538461538461
+
+>  <bond_pair_recall>  (12) 
+0.9565217391304348
+
+>  <bond_pair_f1>  (12) 
+0.8979591836734695
+
+>  <pred_bond_length_mean>  (12) 
+1.6829892351077154
+
+>  <pred_bond_length_p95>  (12) 
+2.5846537351608276
+
+>  <bad_bond_length_count>  (12) 
+4
+
+>  <bad_bond_length_fraction>  (12) 
+0.15384615384615385
+
+>  <oracle_sanitize_success>  (12) 
+1
+
+>  <oracle_repair_strategy>  (12) 
+none
+
+>  <oracle_sanitize_error>  (12) 
+
+
+>  <pred_sanitize_success>  (12) 
+0
+
+>  <pred_repair_strategy>  (12) 
+failed
+
+>  <pred_sanitize_error>  (12) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (12) 
+0
+
+>  <pred_num_fragments>  (12) 
+2
+
+>  <pred_num_rings>  (12) 
+0
+
+>  <pred_num_aromatic_rings>  (12) 
+0
+
+>  <pred_num_three_member_rings>  (12) 
+0
+
+>  <pred_formal_charge>  (12) 
+0
+
+>  <pred_heavy_atoms>  (12) 
+24
+
+$$$$
+27|t100|pred|KDSA_AQUAE_1_266_0/1zji_A_rec_1pck_pez_lig_tt_docked_8_pocket10.pdb_KDSA_AQUAE_1_266_0/1zji_A_rec_1pck_pez_lig_tt_docked_8.sdf
+     RDKit          3D
+
+ 11 10  0  0  0  0  0  0  0  0999 V2000
+   -0.0963    0.8590    0.5917 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.9687    1.3460    1.2767 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4157    1.5560    1.2077 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2823   -0.0250    0.2857 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5913    0.7980    1.0077 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.0843    1.4350    1.8877 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0063    0.2370   -0.6743 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5837    0.7270   -2.0723 P   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5267    2.1850   -2.0563 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0623   -0.1100   -3.1313 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0797    0.2930   -1.9613 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  1  7  1  0
+  2  3  1  0
+  4  5  2  0
+  5  6  1  0
+  7  8  1  0
+  8  9  1  0
+  8 10  1  0
+  8 11  2  0
+M  END
+>  <sample_idx>  (13) 
+27
+
+>  <local_batch_idx>  (13) 
+3
+
+>  <timestep>  (13) 
+100
+
+>  <num_atoms>  (13) 
+11
+
+>  <num_halfedges>  (13) 
+55
+
+>  <target_bond_count>  (13) 
+10
+
+>  <pred_bond_count>  (13) 
+10
+
+>  <noised_bond_count>  (13) 
+17
+
+>  <halfedge_accuracy>  (13) 
+0.9818181991577148
+
+>  <exact_halfedge_match>  (13) 
+0
+
+>  <noised_change_fraction>  (13) 
+0.145454540848732
+
+>  <bond_pair_set_match>  (13) 
+1
+
+>  <bond_type_map_match>  (13) 
+0
+
+>  <missing_bond_count>  (13) 
+0
+
+>  <extra_bond_count>  (13) 
+0
+
+>  <bond_type_mismatch_count>  (13) 
+1
+
+>  <bond_pair_precision>  (13) 
+1.0
+
+>  <bond_pair_recall>  (13) 
+1.0
+
+>  <bond_pair_f1>  (13) 
+1.0
+
+>  <pred_bond_length_mean>  (13) 
+1.4386358618736268
+
+>  <pred_bond_length_p95>  (13) 
+1.5797392010688782
+
+>  <bad_bond_length_count>  (13) 
+0
+
+>  <bad_bond_length_fraction>  (13) 
+0.0
+
+>  <oracle_sanitize_success>  (13) 
+1
+
+>  <oracle_repair_strategy>  (13) 
+none
+
+>  <oracle_sanitize_error>  (13) 
+
+
+>  <pred_sanitize_success>  (13) 
+1
+
+>  <pred_repair_strategy>  (13) 
+none
+
+>  <pred_sanitize_error>  (13) 
+
+
+>  <pred_vs_oracle_smiles_match>  (13) 
+0
+
+>  <pred_num_fragments>  (13) 
+1
+
+>  <pred_num_rings>  (13) 
+0
+
+>  <pred_num_aromatic_rings>  (13) 
+0
+
+>  <pred_num_three_member_rings>  (13) 
+0
+
+>  <pred_formal_charge>  (13) 
+0
+
+>  <pred_heavy_atoms>  (13) 
+11
+
+$$$$
+31|t100|pred|ANDR_HUMAN_666_919_ligBind_0/2ax8_A_rec_2ihq_lg7_lig_tt_min_0_pocket10.pdb_ANDR_HUMAN_666_919_ligBind_0/2ax8_A_rec_2ihq_lg7_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 23 29  0  0  0  0  0  0  0  0999 V2000
+    0.6418    1.0383    0.2267 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.5022    0.9563    1.3247 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.6762    1.9203    0.8437 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2632    1.5223    0.6667 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2882    2.5353    0.1417 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.0262   -0.3547    1.6537 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6422   -0.7857    1.4957 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7372    0.2413    0.9737 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3002    0.0183    0.7407 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1378    2.2853   -0.0873 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.5638   -1.8297    0.6247 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.1858   -2.9227    1.4117 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.1648   -4.2187    0.4167 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6238   -4.3947   -0.0743 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2008   -3.0737    0.5647 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6338   -2.8127    1.8497 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0728   -1.4377    2.1427 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3028   -0.8197    3.3197 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3828   -1.1207    0.9787 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4718   -2.1077    0.0507 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0132   -2.1397   -1.0713 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8172    3.8643   -0.0973 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2522    4.9593   -0.2933 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  1  0
+  1 10  1  0
+  2  3  1  0
+  2  6  1  0
+  3  4  1  0
+  3 22  1  0
+  4  5  1  0
+  4  8  1  0
+  5 10  1  0
+  5 22  2  0
+  6  7  1  0
+  6  8  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  1  0
+  9 19  1  0
+ 11 12  1  0
+ 12 13  1  0
+ 12 16  1  0
+ 13 14  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 15 20  1  0
+ 16 17  1  0
+ 17 18  2  0
+ 17 19  1  0
+ 19 20  1  0
+ 20 21  2  0
+ 22 23  1  0
+M  END
+>  <sample_idx>  (14) 
+31
+
+>  <local_batch_idx>  (14) 
+7
+
+>  <timestep>  (14) 
+100
+
+>  <num_atoms>  (14) 
+23
+
+>  <num_halfedges>  (14) 
+253
+
+>  <target_bond_count>  (14) 
+26
+
+>  <pred_bond_count>  (14) 
+29
+
+>  <noised_bond_count>  (14) 
+73
+
+>  <halfedge_accuracy>  (14) 
+0.9723320007324219
+
+>  <exact_halfedge_match>  (14) 
+0
+
+>  <noised_change_fraction>  (14) 
+0.20158103108406067
+
+>  <bond_pair_set_match>  (14) 
+0
+
+>  <bond_type_map_match>  (14) 
+0
+
+>  <missing_bond_count>  (14) 
+0
+
+>  <extra_bond_count>  (14) 
+3
+
+>  <bond_type_mismatch_count>  (14) 
+4
+
+>  <bond_pair_precision>  (14) 
+0.896551724137931
+
+>  <bond_pair_recall>  (14) 
+1.0
+
+>  <bond_pair_f1>  (14) 
+0.9454545454545454
+
+>  <pred_bond_length_mean>  (14) 
+1.551772767099841
+
+>  <pred_bond_length_p95>  (14) 
+2.4578349590301514
+
+>  <bad_bond_length_count>  (14) 
+3
+
+>  <bad_bond_length_fraction>  (14) 
+0.10344827586206896
+
+>  <oracle_sanitize_success>  (14) 
+1
+
+>  <oracle_repair_strategy>  (14) 
+none
+
+>  <oracle_sanitize_error>  (14) 
+
+
+>  <pred_sanitize_success>  (14) 
+1
+
+>  <pred_repair_strategy>  (14) 
+fix_valence
+
+>  <pred_sanitize_error>  (14) 
+
+
+>  <pred_vs_oracle_smiles_match>  (14) 
+0
+
+>  <pred_num_fragments>  (14) 
+1
+
+>  <pred_num_rings>  (14) 
+7
+
+>  <pred_num_aromatic_rings>  (14) 
+0
+
+>  <pred_num_three_member_rings>  (14) 
+2
+
+>  <pred_formal_charge>  (14) 
+0
+
+>  <pred_heavy_atoms>  (14) 
+23
+
+$$$$
+35|t100|pred|JAK2_HUMAN_834_1132_0/5tq8_A_rec_4f09_jak_lig_tt_min_0_pocket10.pdb_JAK2_HUMAN_834_1132_0/5tq8_A_rec_4f09_jak_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 19 23  0  0  0  0  0  0  0  0999 V2000
+   -3.6550   -0.7585   -2.7334 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2850   -0.6895   -2.1864 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2740   -1.3575   -2.6264 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2120   -1.0035   -1.8214 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0950   -1.4625   -1.7974 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9550   -1.0605   -0.8694 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5150   -0.1855    0.0386 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2350    0.3485    0.0856 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6540   -0.0975   -0.8984 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9910    0.0695   -1.1784 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2180    1.2405    1.2056 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4360    1.1905    1.7636 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2210    0.3305    1.0786 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0010    0.8485   -0.4594 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7340    2.3245   -0.4594 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9470    2.9785    0.1086 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3610    2.5705    1.4276 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3460    1.1265    1.5996 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2430    0.3455    0.9446 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  2  3  1  0
+  2 10  1  0
+  3  4  1  0
+  3  9  1  0
+  4  5  1  0
+  4  9  1  0
+  5  6  1  0
+  5  7  1  0
+  6  7  2  0
+  7  8  1  0
+  7 13  1  0
+  8 11  1  0
+  9 10  1  0
+ 10 14  1  0
+ 11 12  1  0
+ 12 13  1  0
+ 14 15  1  0
+ 14 19  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 18  1  0
+ 18 19  1  0
+M  END
+>  <sample_idx>  (15) 
+35
+
+>  <local_batch_idx>  (15) 
+3
+
+>  <timestep>  (15) 
+100
+
+>  <num_atoms>  (15) 
+19
+
+>  <num_halfedges>  (15) 
+171
+
+>  <target_bond_count>  (15) 
+22
+
+>  <pred_bond_count>  (15) 
+23
+
+>  <noised_bond_count>  (15) 
+42
+
+>  <halfedge_accuracy>  (15) 
+0.9649122953414917
+
+>  <exact_halfedge_match>  (15) 
+0
+
+>  <noised_change_fraction>  (15) 
+0.1520467847585678
+
+>  <bond_pair_set_match>  (15) 
+0
+
+>  <bond_type_map_match>  (15) 
+0
+
+>  <missing_bond_count>  (15) 
+1
+
+>  <extra_bond_count>  (15) 
+2
+
+>  <bond_type_mismatch_count>  (15) 
+3
+
+>  <bond_pair_precision>  (15) 
+0.9130434782608695
+
+>  <bond_pair_recall>  (15) 
+0.9545454545454546
+
+>  <bond_pair_f1>  (15) 
+0.9333333333333332
+
+>  <pred_bond_length_mean>  (15) 
+1.4768366554509038
+
+>  <pred_bond_length_p95>  (15) 
+2.155076801776885
+
+>  <bad_bond_length_count>  (15) 
+2
+
+>  <bad_bond_length_fraction>  (15) 
+0.08695652173913043
+
+>  <oracle_sanitize_success>  (15) 
+1
+
+>  <oracle_repair_strategy>  (15) 
+none
+
+>  <oracle_sanitize_error>  (15) 
+
+
+>  <pred_sanitize_success>  (15) 
+0
+
+>  <pred_repair_strategy>  (15) 
+failed
+
+>  <pred_sanitize_error>  (15) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (15) 
+0
+
+>  <pred_num_fragments>  (15) 
+1
+
+>  <pred_num_rings>  (15) 
+0
+
+>  <pred_num_aromatic_rings>  (15) 
+0
+
+>  <pred_num_three_member_rings>  (15) 
+0
+
+>  <pred_formal_charge>  (15) 
+0
+
+>  <pred_heavy_atoms>  (15) 
+19
+
+$$$$
+38|t100|pred|COMT_MOUSE_44_264_0/3hvi_A_rec_2zvj_sam_lig_tt_min_0_pocket10.pdb_COMT_MOUSE_44_264_0/3hvi_A_rec_2zvj_sam_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 27 31  0  0  0  0  0  0  0  0999 V2000
+   -1.8540   -1.5822    2.3294 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7040   -1.1792    1.2674 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7070   -1.6082    3.5914 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1750   -0.6482    4.4774 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1050   -1.2112    3.0944 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.7970   -0.3342    3.9444 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.8070   -0.4812    1.7944 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8100   -0.6452    0.7674 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.4770   -1.8042    0.4264 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.2720   -1.4992   -0.6196 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.1330   -0.1932   -0.9576 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.6980    0.6008   -1.9416 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.6230    0.1358   -2.7986 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.3120    1.9218   -2.0176 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.3830    2.4478   -1.1346 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8260    1.6458   -0.1706 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.1960    0.3538   -0.0896 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1760   -2.8942    1.9784 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3740   -3.2022    2.8784 S   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7750   -4.6952    1.9084 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4310   -1.9982    2.0434 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8890   -2.1452    2.4654 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6670   -0.3582    0.9434 N   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6450   -0.8242    2.3534 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.0630   -1.0522    2.8674 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.8920   -1.5322    2.0944 O   0  0  0  0  0  0  0  0  0  0  0  0
+    5.3760   -0.8112    4.0374 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1 18  1  0
+  2  7  1  0
+  3  4  1  0
+  3  5  1  0
+  5  6  1  0
+  5  7  1  0
+  7  8  1  0
+  8  9  1  0
+  8 11  1  0
+  8 17  1  0
+  9 10  1  0
+ 10 11  1  0
+ 11 12  1  0
+ 11 17  1  0
+ 12 13  1  0
+ 12 14  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 18 19  1  0
+ 19 20  1  0
+ 19 21  1  0
+ 19 22  1  0
+ 21 22  1  0
+ 22 24  1  0
+ 23 24  1  0
+ 24 25  1  0
+ 25 26  2  0
+ 25 27  1  0
+M  CHG  1   8   1
+M  END
+>  <sample_idx>  (16) 
+38
+
+>  <local_batch_idx>  (16) 
+6
+
+>  <timestep>  (16) 
+100
+
+>  <num_atoms>  (16) 
+27
+
+>  <num_halfedges>  (16) 
+351
+
+>  <target_bond_count>  (16) 
+29
+
+>  <pred_bond_count>  (16) 
+31
+
+>  <noised_bond_count>  (16) 
+73
+
+>  <halfedge_accuracy>  (16) 
+0.9914529919624329
+
+>  <exact_halfedge_match>  (16) 
+0
+
+>  <noised_change_fraction>  (16) 
+0.14529915153980255
+
+>  <bond_pair_set_match>  (16) 
+0
+
+>  <bond_type_map_match>  (16) 
+0
+
+>  <missing_bond_count>  (16) 
+0
+
+>  <extra_bond_count>  (16) 
+2
+
+>  <bond_type_mismatch_count>  (16) 
+1
+
+>  <bond_pair_precision>  (16) 
+0.9354838709677419
+
+>  <bond_pair_recall>  (16) 
+1.0
+
+>  <bond_pair_f1>  (16) 
+0.9666666666666666
+
+>  <pred_bond_length_mean>  (16) 
+1.522514158679593
+
+>  <pred_bond_length_p95>  (16) 
+2.0227264165878296
+
+>  <bad_bond_length_count>  (16) 
+2
+
+>  <bad_bond_length_fraction>  (16) 
+0.06451612903225806
+
+>  <oracle_sanitize_success>  (16) 
+1
+
+>  <oracle_repair_strategy>  (16) 
+none
+
+>  <oracle_sanitize_error>  (16) 
+
+
+>  <pred_sanitize_success>  (16) 
+1
+
+>  <pred_repair_strategy>  (16) 
+fix_aromatic_strict
+
+>  <pred_sanitize_error>  (16) 
+
+
+>  <pred_vs_oracle_smiles_match>  (16) 
+0
+
+>  <pred_num_fragments>  (16) 
+1
+
+>  <pred_num_rings>  (16) 
+5
+
+>  <pred_num_aromatic_rings>  (16) 
+0
+
+>  <pred_num_three_member_rings>  (16) 
+2
+
+>  <pred_formal_charge>  (16) 
+1
+
+>  <pred_heavy_atoms>  (16) 
+27
+
+$$$$
+39|t100|pred|MMP12_HUMAN_105_264_0/3rtt_A_rec_3nx7_nhk_lig_tt_min_0_pocket10.pdb_MMP12_HUMAN_105_264_0/3rtt_A_rec_3nx7_nhk_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 20 22  0  0  0  0  0  0  0  0999 V2000
+    0.9820   -0.3276    5.3747 N   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5810   -0.3736    3.5307 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4870   -1.1076    4.1307 S   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8880   -2.4446    4.4947 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3040   -1.2336    3.0547 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4310   -0.5946    1.8187 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5680   -0.7176    0.8587 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7100   -1.4756    1.1237 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8410   -2.1236    2.3597 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8330   -2.0186    3.3227 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6600   -1.5676    0.1327 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9620   -2.1366    0.2767 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3260    1.0844    5.5887 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5380    1.9294    4.6067 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6390    1.6834    4.3807 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2050    2.9174    3.9907 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5600    3.7084    3.0457 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0610   -0.9966    6.2867 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6230   -0.9986    7.7087 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2610   -2.2526    7.9757 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0
+  1 13  1  0
+  1 18  1  0
+  2  3  2  0
+  3  4  2  0
+  3  5  1  0
+  5  6  1  0
+  5  7  1  0
+  5 10  1  0
+  6  7  2  0
+  7  8  1  0
+  8  9  2  0
+  8 11  1  0
+  8 12  1  0
+  9 10  2  0
+ 11 12  1  0
+ 13 14  1  0
+ 14 15  2  0
+ 14 16  1  0
+ 16 17  1  0
+ 18 19  1  0
+ 19 20  1  0
+M  END
+>  <sample_idx>  (17) 
+39
+
+>  <local_batch_idx>  (17) 
+7
+
+>  <timestep>  (17) 
+100
+
+>  <num_atoms>  (17) 
+20
+
+>  <num_halfedges>  (17) 
+190
+
+>  <target_bond_count>  (17) 
+20
+
+>  <pred_bond_count>  (17) 
+22
+
+>  <noised_bond_count>  (17) 
+41
+
+>  <halfedge_accuracy>  (17) 
+0.9736841917037964
+
+>  <exact_halfedge_match>  (17) 
+0
+
+>  <noised_change_fraction>  (17) 
+0.14210526645183563
+
+>  <bond_pair_set_match>  (17) 
+0
+
+>  <bond_type_map_match>  (17) 
+0
+
+>  <missing_bond_count>  (17) 
+0
+
+>  <extra_bond_count>  (17) 
+2
+
+>  <bond_type_mismatch_count>  (17) 
+3
+
+>  <bond_pair_precision>  (17) 
+0.9090909090909091
+
+>  <bond_pair_recall>  (17) 
+1.0
+
+>  <bond_pair_f1>  (17) 
+0.9523809523809523
+
+>  <pred_bond_length_mean>  (17) 
+1.5235127264803106
+
+>  <pred_bond_length_p95>  (17) 
+2.377763265371322
+
+>  <bad_bond_length_count>  (17) 
+2
+
+>  <bad_bond_length_fraction>  (17) 
+0.09090909090909091
+
+>  <oracle_sanitize_success>  (17) 
+1
+
+>  <oracle_repair_strategy>  (17) 
+none
+
+>  <oracle_sanitize_error>  (17) 
+
+
+>  <pred_sanitize_success>  (17) 
+0
+
+>  <pred_repair_strategy>  (17) 
+failed
+
+>  <pred_sanitize_error>  (17) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (17) 
+0
+
+>  <pred_num_fragments>  (17) 
+1
+
+>  <pred_num_rings>  (17) 
+0
+
+>  <pred_num_aromatic_rings>  (17) 
+0
+
+>  <pred_num_three_member_rings>  (17) 
+0
+
+>  <pred_formal_charge>  (17) 
+0
+
+>  <pred_heavy_atoms>  (17) 
+20
+
+$$$$
+40|t100|pred|RIP1_MOMCH_24_270_0/5cso_A_rec_5wv1_rib_lig_tt_docked_17_pocket10.pdb_RIP1_MOMCH_24_270_0/5cso_A_rec_5wv1_rib_lig_tt_docked_17.sdf
+     RDKit          3D
+
+ 10 11  0  0  0  0  0  0  0  0999 V2000
+   -1.4349   -1.9563   -2.0768 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4499   -2.7563   -1.3728 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6219   -0.6733   -1.2648 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.9439   -0.6523   -0.6498 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4119   -0.5523   -0.3348 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7539   -0.1213    1.0472 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3001   -1.9243   -0.4708 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3371   -2.5803    0.7802 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1239   -0.2753   -3.9698 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9129   -1.6063   -3.4678 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 10  1  0
+  2  7  1  0
+  3  4  1  0
+  3  5  1  0
+  3  6  1  0
+  4  6  1  0
+  5  6  1  0
+  5  7  1  0
+  7  8  1  0
+  9 10  1  0
+M  END
+>  <sample_idx>  (18) 
+40
+
+>  <local_batch_idx>  (18) 
+0
+
+>  <timestep>  (18) 
+100
+
+>  <num_atoms>  (18) 
+10
+
+>  <num_halfedges>  (18) 
+45
+
+>  <target_bond_count>  (18) 
+10
+
+>  <pred_bond_count>  (18) 
+11
+
+>  <noised_bond_count>  (18) 
+15
+
+>  <halfedge_accuracy>  (18) 
+0.9333333373069763
+
+>  <exact_halfedge_match>  (18) 
+0
+
+>  <noised_change_fraction>  (18) 
+0.17777778208255768
+
+>  <bond_pair_set_match>  (18) 
+0
+
+>  <bond_type_map_match>  (18) 
+0
+
+>  <missing_bond_count>  (18) 
+1
+
+>  <extra_bond_count>  (18) 
+2
+
+>  <bond_type_mismatch_count>  (18) 
+0
+
+>  <bond_pair_precision>  (18) 
+0.8181818181818182
+
+>  <bond_pair_recall>  (18) 
+0.9
+
+>  <bond_pair_f1>  (18) 
+0.8571428571428572
+
+>  <pred_bond_length_mean>  (18) 
+1.6951482187617908
+
+>  <pred_bond_length_p95>  (18) 
+2.6757389307022095
+
+>  <bad_bond_length_count>  (18) 
+2
+
+>  <bad_bond_length_fraction>  (18) 
+0.18181818181818182
+
+>  <oracle_sanitize_success>  (18) 
+1
+
+>  <oracle_repair_strategy>  (18) 
+none
+
+>  <oracle_sanitize_error>  (18) 
+
+
+>  <pred_sanitize_success>  (18) 
+0
+
+>  <pred_repair_strategy>  (18) 
+failed
+
+>  <pred_sanitize_error>  (18) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (18) 
+0
+
+>  <pred_num_fragments>  (18) 
+1
+
+>  <pred_num_rings>  (18) 
+0
+
+>  <pred_num_aromatic_rings>  (18) 
+0
+
+>  <pred_num_three_member_rings>  (18) 
+0
+
+>  <pred_formal_charge>  (18) 
+0
+
+>  <pred_heavy_atoms>  (18) 
+10
+
+$$$$
+42|t100|pred|TRPA_SALTY_1_268_0/1c29_A_rec_1wbj_g3p_lig_tt_docked_7_pocket10.pdb_TRPA_SALTY_1_268_0/1c29_A_rec_1wbj_g3p_lig_tt_docked_7.sdf
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+    0.4987   -0.5083    0.2362 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5443   -0.5043   -0.9028 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2233    0.7827   -0.9248 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2767   -1.5923   -2.9068 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0637   -0.4743   -2.2518 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0933   -0.7423    1.5272 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.3083    1.4357    1.9862 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1367    1.1787    2.5902 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6493   -0.2323    3.8112 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2363    0.5007    2.5372 P   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  6  1  0
+  2  3  1  0
+  2  5  1  0
+  3  5  1  0
+  4  5  2  0
+  6 10  1  0
+  7 10  1  0
+  8 10  1  0
+  9 10  1  0
+M  END
+>  <sample_idx>  (19) 
+42
+
+>  <local_batch_idx>  (19) 
+2
+
+>  <timestep>  (19) 
+100
+
+>  <num_atoms>  (19) 
+10
+
+>  <num_halfedges>  (19) 
+45
+
+>  <target_bond_count>  (19) 
+9
+
+>  <pred_bond_count>  (19) 
+10
+
+>  <noised_bond_count>  (19) 
+19
+
+>  <halfedge_accuracy>  (19) 
+0.9333333373069763
+
+>  <exact_halfedge_match>  (19) 
+0
+
+>  <noised_change_fraction>  (19) 
+0.2666666805744171
+
+>  <bond_pair_set_match>  (19) 
+0
+
+>  <bond_type_map_match>  (19) 
+0
+
+>  <missing_bond_count>  (19) 
+0
+
+>  <extra_bond_count>  (19) 
+1
+
+>  <bond_type_mismatch_count>  (19) 
+2
+
+>  <bond_pair_precision>  (19) 
+0.9
+
+>  <bond_pair_recall>  (19) 
+1.0
+
+>  <bond_pair_f1>  (19) 
+0.9473684210526316
+
+>  <pred_bond_length_mean>  (19) 
+1.5660077333450317
+
+>  <pred_bond_length_p95>  (19) 
+1.95310189127922
+
+>  <bad_bond_length_count>  (19) 
+1
+
+>  <bad_bond_length_fraction>  (19) 
+0.1
+
+>  <oracle_sanitize_success>  (19) 
+1
+
+>  <oracle_repair_strategy>  (19) 
+none
+
+>  <oracle_sanitize_error>  (19) 
+
+
+>  <pred_sanitize_success>  (19) 
+1
+
+>  <pred_repair_strategy>  (19) 
+none
+
+>  <pred_sanitize_error>  (19) 
+
+
+>  <pred_vs_oracle_smiles_match>  (19) 
+0
+
+>  <pred_num_fragments>  (19) 
+1
+
+>  <pred_num_rings>  (19) 
+1
+
+>  <pred_num_aromatic_rings>  (19) 
+0
+
+>  <pred_num_three_member_rings>  (19) 
+1
+
+>  <pred_formal_charge>  (19) 
+0
+
+>  <pred_heavy_atoms>  (19) 
+10
+
+$$$$
+43|t100|pred|RORG_HUMAN_262_508_0/4ymq_A_rec_5vb7_921_lig_tt_docked_0_pocket10.pdb_RORG_HUMAN_262_508_0/4ymq_A_rec_5vb7_921_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 35 43  0  0  0  0  0  0  0  0999 V2000
+   -0.3067    0.8379   -1.9566 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5357   -1.3791   -0.9226 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1753   -0.4031   -1.7386 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3153    1.6489   -2.6076 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4957    1.1609   -1.3456 N   0  0  0  0  0  0  0  0  0  0  0  0
+    2.0663   -1.6951   -1.2126 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.5273   -1.9581   -1.5156 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6933   -2.5971   -2.8926 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5733   -1.4341   -3.6346 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4983   -0.7681   -2.2736 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0413   -1.7101   -3.9566 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.2183   -2.3971   -4.2346 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.1143   -4.2041   -2.8666 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.1463   -2.9031   -3.1776 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.8933   -2.0911   -4.0126 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.8403   -3.4351   -3.6776 N   0  0  0  0  0  0  0  0  0  0  0  0
+    5.7833   -3.9801   -2.5856 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3027    1.2049    0.8064 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5017    1.0019    2.8774 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4967    1.1099    0.0914 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3127    1.1419    2.1884 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6837    0.9159    2.1684 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6987    0.9629    0.7814 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.8647    0.7659    2.8854 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.6037    1.8889    3.2254 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.9347    1.9729    2.8674 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.6567    3.0999    3.2134 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.0567    4.1299    3.8994 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.7307    4.0369    4.2534 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9917    2.9169    3.9184 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2777    2.2909   -1.8566 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5517    3.5669   -1.5696 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9647    4.5529   -0.7946 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1577    5.7939   -0.5766 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2737    4.5269   -0.0706 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0
+  1  4  2  0
+  1 32  1  0
+  2  3  1  0
+  3 10  1  0
+  5 20  1  0
+  5 31  1  0
+  6  7  1  0
+  6 10  1  0
+  7  8  1  0
+  8 11  1  0
+  8 14  1  0
+  8 17  1  0
+  9 10  1  0
+  9 11  1  0
+ 12 15  2  0
+ 12 16  1  0
+ 13 16  2  0
+ 13 17  1  0
+ 14 15  1  0
+ 14 17  2  0
+ 18 20  1  0
+ 18 21  2  0
+ 19 20  1  0
+ 19 21  1  0
+ 19 22  1  0
+ 19 23  1  0
+ 20 21  1  0
+ 20 23  1  0
+ 22 23  2  0
+ 22 24  1  0
+ 24 25  1  0
+ 25 26  2  0
+ 25 30  1  0
+ 26 27  1  0
+ 27 28  2  0
+ 28 29  1  0
+ 28 30  1  0
+ 29 30  2  0
+ 31 32  1  0
+ 32 33  2  3
+ 33 34  1  0
+ 33 35  1  0
+M  END
+>  <sample_idx>  (20) 
+43
+
+>  <local_batch_idx>  (20) 
+3
+
+>  <timestep>  (20) 
+100
+
+>  <num_atoms>  (20) 
+35
+
+>  <num_halfedges>  (20) 
+595
+
+>  <target_bond_count>  (20) 
+38
+
+>  <pred_bond_count>  (20) 
+43
+
+>  <noised_bond_count>  (20) 
+120
+
+>  <halfedge_accuracy>  (20) 
+0.9848739504814148
+
+>  <exact_halfedge_match>  (20) 
+0
+
+>  <noised_change_fraction>  (20) 
+0.16134454309940338
+
+>  <bond_pair_set_match>  (20) 
+0
+
+>  <bond_type_map_match>  (20) 
+0
+
+>  <missing_bond_count>  (20) 
+1
+
+>  <extra_bond_count>  (20) 
+6
+
+>  <bond_type_mismatch_count>  (20) 
+2
+
+>  <bond_pair_precision>  (20) 
+0.8604651162790697
+
+>  <bond_pair_recall>  (20) 
+0.9736842105263158
+
+>  <bond_pair_f1>  (20) 
+0.9135802469135803
+
+>  <pred_bond_length_mean>  (20) 
+1.5808370251988255
+
+>  <pred_bond_length_p95>  (20) 
+2.5137984991073608
+
+>  <bad_bond_length_count>  (20) 
+6
+
+>  <bad_bond_length_fraction>  (20) 
+0.13953488372093023
+
+>  <oracle_sanitize_success>  (20) 
+1
+
+>  <oracle_repair_strategy>  (20) 
+none
+
+>  <oracle_sanitize_error>  (20) 
+
+
+>  <pred_sanitize_success>  (20) 
+0
+
+>  <pred_repair_strategy>  (20) 
+failed
+
+>  <pred_sanitize_error>  (20) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (20) 
+0
+
+>  <pred_num_fragments>  (20) 
+1
+
+>  <pred_num_rings>  (20) 
+0
+
+>  <pred_num_aromatic_rings>  (20) 
+0
+
+>  <pred_num_three_member_rings>  (20) 
+0
+
+>  <pred_formal_charge>  (20) 
+0
+
+>  <pred_heavy_atoms>  (20) 
+35
+
+$$$$
+46|t100|pred|CARM1_HUMAN_130_485_0/5lv2_C_rec_5lgp_lpd_lig_tt_min_0_pocket10.pdb_CARM1_HUMAN_130_485_0/5lv2_C_rec_5lgp_lpd_lig_tt_min_0.sdf
+     RDKit          3D
+
+  8 10  0  0  0  0  0  0  0  0999 V2000
+   -2.2601   -3.7066   -0.0535 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5031   -3.1486   -1.1855 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7941   -1.9296   -0.7495 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4381   -1.5046    0.5375 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9151   -2.8116    1.1465 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2111   -3.1906   -1.3355 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.7611   -3.7296   -0.3235 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.5081   -4.3716    0.5585 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1  5  1  0
+  1  6  1  0
+  1  7  1  0
+  2  3  1  0
+  3  4  1  0
+  4  5  1  0
+  6  7  2  0
+  7  8  1  0
+M  END
+>  <sample_idx>  (21) 
+46
+
+>  <local_batch_idx>  (21) 
+6
+
+>  <timestep>  (21) 
+100
+
+>  <num_atoms>  (21) 
+8
+
+>  <num_halfedges>  (21) 
+28
+
+>  <target_bond_count>  (21) 
+8
+
+>  <pred_bond_count>  (21) 
+10
+
+>  <noised_bond_count>  (21) 
+12
+
+>  <halfedge_accuracy>  (21) 
+0.9285714030265808
+
+>  <exact_halfedge_match>  (21) 
+0
+
+>  <noised_change_fraction>  (21) 
+0.2142857164144516
+
+>  <bond_pair_set_match>  (21) 
+0
+
+>  <bond_type_map_match>  (21) 
+0
+
+>  <missing_bond_count>  (21) 
+0
+
+>  <extra_bond_count>  (21) 
+2
+
+>  <bond_type_mismatch_count>  (21) 
+0
+
+>  <bond_pair_precision>  (21) 
+0.8
+
+>  <bond_pair_recall>  (21) 
+1.0
+
+>  <bond_pair_f1>  (21) 
+0.888888888888889
+
+>  <pred_bond_length_mean>  (21) 
+1.6379842638969422
+
+>  <pred_bond_length_p95>  (21) 
+2.3994659900665285
+
+>  <bad_bond_length_count>  (21) 
+2
+
+>  <bad_bond_length_fraction>  (21) 
+0.2
+
+>  <oracle_sanitize_success>  (21) 
+1
+
+>  <oracle_repair_strategy>  (21) 
+none
+
+>  <oracle_sanitize_error>  (21) 
+
+
+>  <pred_sanitize_success>  (21) 
+0
+
+>  <pred_repair_strategy>  (21) 
+failed
+
+>  <pred_sanitize_error>  (21) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (21) 
+0
+
+>  <pred_num_fragments>  (21) 
+1
+
+>  <pred_num_rings>  (21) 
+0
+
+>  <pred_num_aromatic_rings>  (21) 
+0
+
+>  <pred_num_three_member_rings>  (21) 
+0
+
+>  <pred_formal_charge>  (21) 
+0
+
+>  <pred_heavy_atoms>  (21) 
+8
+
+$$$$
+47|t100|pred|RORG_HUMAN_262_508_0/5g45_A_rec_5g43_5im_lig_tt_docked_5_pocket10.pdb_RORG_HUMAN_262_508_0/5g45_A_rec_5g43_5im_lig_tt_docked_5.sdf
+     RDKit          3D
+
+ 12 16  0  0  0  0  0  0  0  0999 V2000
+   -1.1108    0.9010    2.1912 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2708   -0.2510    1.4622 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1972    0.7830    0.1102 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5338   -0.3030    0.3092 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.0888   -1.2670    1.8152 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0112    1.9210    1.3902 S   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4852    1.3290   -3.4178 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9412    2.5160   -2.6398 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.6792    0.0770   -2.5798 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7122    2.1250   -1.8458 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4872   -0.1960   -1.6838 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0202    1.0030   -0.9708 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  6  1  0
+  2  3  1  0
+  2  4  1  0
+  2  5  1  0
+  3  4  1  0
+  3  6  1  0
+  3 12  1  0
+  4  5  1  0
+  7  8  1  0
+  7  9  1  0
+  8 10  1  0
+  8 12  1  0
+  9 11  2  0
+ 10 12  1  0
+ 11 12  1  0
+M  CHG  2   6   1  12   1
+M  END
+>  <sample_idx>  (22) 
+47
+
+>  <local_batch_idx>  (22) 
+7
+
+>  <timestep>  (22) 
+100
+
+>  <num_atoms>  (22) 
+12
+
+>  <num_halfedges>  (22) 
+66
+
+>  <target_bond_count>  (22) 
+13
+
+>  <pred_bond_count>  (22) 
+16
+
+>  <noised_bond_count>  (22) 
+19
+
+>  <halfedge_accuracy>  (22) 
+0.9090909361839294
+
+>  <exact_halfedge_match>  (22) 
+0
+
+>  <noised_change_fraction>  (22) 
+0.19696970283985138
+
+>  <bond_pair_set_match>  (22) 
+0
+
+>  <bond_type_map_match>  (22) 
+0
+
+>  <missing_bond_count>  (22) 
+0
+
+>  <extra_bond_count>  (22) 
+3
+
+>  <bond_type_mismatch_count>  (22) 
+3
+
+>  <bond_pair_precision>  (22) 
+0.8125
+
+>  <bond_pair_recall>  (22) 
+1.0
+
+>  <bond_pair_f1>  (22) 
+0.896551724137931
+
+>  <pred_bond_length_mean>  (22) 
+1.6424320936203003
+
+>  <pred_bond_length_p95>  (22) 
+2.3856847286224365
+
+>  <bad_bond_length_count>  (22) 
+3
+
+>  <bad_bond_length_fraction>  (22) 
+0.1875
+
+>  <oracle_sanitize_success>  (22) 
+1
+
+>  <oracle_repair_strategy>  (22) 
+none
+
+>  <oracle_sanitize_error>  (22) 
+
+
+>  <pred_sanitize_success>  (22) 
+1
+
+>  <pred_repair_strategy>  (22) 
+fix_aromatic
+
+>  <pred_sanitize_error>  (22) 
+
+
+>  <pred_vs_oracle_smiles_match>  (22) 
+0
+
+>  <pred_num_fragments>  (22) 
+1
+
+>  <pred_num_rings>  (22) 
+5
+
+>  <pred_num_aromatic_rings>  (22) 
+0
+
+>  <pred_num_three_member_rings>  (22) 
+3
+
+>  <pred_formal_charge>  (22) 
+2
+
+>  <pred_heavy_atoms>  (22) 
+12
+
+$$$$
+51|t100|pred|PARP1_HUMAN_775_1012_0/5a00_A_rec_5ds3_09l_lig_tt_docked_0_pocket10.pdb_PARP1_HUMAN_775_1012_0/5a00_A_rec_5ds3_09l_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 32 40  0  0  0  0  0  0  0  0999 V2000
+   -0.3849   -1.1463    2.5044 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5341   -1.3483    1.4774 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1849   -1.8473    3.6804 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0979   -1.7423    4.6664 F   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8921   -2.6683    3.8784 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8001   -2.8323    2.8484 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6251   -2.1953    1.6304 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.2949   -1.1233    0.3264 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.9769   -0.1513    0.0534 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9669   -1.0153    0.5064 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9849   -2.0703    0.7874 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2829   -1.7983    2.1004 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3399    0.3087    0.4834 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.6969    0.5797    1.8114 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7009   -0.4543    2.0974 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4199   -0.0873    2.2874 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0659    1.0757    2.2634 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.3589   -2.5563    0.8974 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.2989   -2.9173    1.8674 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.9119   -2.4953    0.4734 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5531   -2.4743    0.4694 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8571   -1.2603   -0.3776 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.1231   -0.5163   -0.2366 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.1091   -0.8803    0.6774 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.2921   -0.1643    0.7414 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.5061    0.9077   -0.0986 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.5331    1.2897   -1.0046 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.3311    0.5877   -1.0716 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.2841    0.9787   -2.0156 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3361    1.9957   -2.6976 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1981    0.1957   -2.0336 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9561   -0.9243   -1.2336 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  2  0
+  1 16  1  0
+  2  6  1  0
+  2  7  2  0
+  3  4  1  0
+  3  5  1  0
+  5  6  2  0
+  6  7  1  0
+  7 21  1  0
+  8  9  2  0
+  8 10  1  0
+  8 13  1  0
+  8 20  1  0
+ 10 11  1  0
+ 10 13  1  0
+ 11 12  1  0
+ 11 15  1  0
+ 12 15  1  0
+ 13 14  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 18 19  1  0
+ 18 20  2  0
+ 19 20  1  0
+ 21 22  1  0
+ 22 23  1  0
+ 22 32  2  0
+ 23 24  2  0
+ 23 28  1  0
+ 24 25  1  0
+ 25 26  2  0
+ 26 27  1  0
+ 27 28  2  0
+ 28 29  1  0
+ 29 30  2  0
+ 29 31  1  0
+ 30 31  1  0
+ 31 32  1  0
+M  END
+>  <sample_idx>  (23) 
+51
+
+>  <local_batch_idx>  (23) 
+3
+
+>  <timestep>  (23) 
+100
+
+>  <num_atoms>  (23) 
+32
+
+>  <num_halfedges>  (23) 
+496
+
+>  <target_bond_count>  (23) 
+36
+
+>  <pred_bond_count>  (23) 
+40
+
+>  <noised_bond_count>  (23) 
+98
+
+>  <halfedge_accuracy>  (23) 
+0.9879032373428345
+
+>  <exact_halfedge_match>  (23) 
+0
+
+>  <noised_change_fraction>  (23) 
+0.1411290317773819
+
+>  <bond_pair_set_match>  (23) 
+0
+
+>  <bond_type_map_match>  (23) 
+0
+
+>  <missing_bond_count>  (23) 
+0
+
+>  <extra_bond_count>  (23) 
+4
+
+>  <bond_type_mismatch_count>  (23) 
+2
+
+>  <bond_pair_precision>  (23) 
+0.9
+
+>  <bond_pair_recall>  (23) 
+1.0
+
+>  <bond_pair_f1>  (23) 
+0.9473684210526316
+
+>  <pred_bond_length_mean>  (23) 
+1.5047193437814712
+
+>  <pred_bond_length_p95>  (23) 
+2.3864601016044618
+
+>  <bad_bond_length_count>  (23) 
+4
+
+>  <bad_bond_length_fraction>  (23) 
+0.1
+
+>  <oracle_sanitize_success>  (23) 
+1
+
+>  <oracle_repair_strategy>  (23) 
+fix_valence
+
+>  <oracle_sanitize_error>  (23) 
+
+
+>  <pred_sanitize_success>  (23) 
+0
+
+>  <pred_repair_strategy>  (23) 
+failed
+
+>  <pred_sanitize_error>  (23) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (23) 
+0
+
+>  <pred_num_fragments>  (23) 
+1
+
+>  <pred_num_rings>  (23) 
+0
+
+>  <pred_num_aromatic_rings>  (23) 
+0
+
+>  <pred_num_three_member_rings>  (23) 
+0
+
+>  <pred_formal_charge>  (23) 
+0
+
+>  <pred_heavy_atoms>  (23) 
+32
+
+$$$$
+52|t100|pred|PGMB_LACLA_1_221_0/1z4o_A_rec_4c4r_yo5_lig_it1_it2_tt_docked_10_pocket10.pdb_PGMB_LACLA_1_221_0/1z4o_A_rec_4c4r_yo5_lig_it1_it2_tt_docked_10.sdf
+     RDKit          3D
+
+ 16 17  0  0  0  0  0  0  0  0999 V2000
+   -1.6032   -0.4788    0.8979 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2722   -1.2108    0.9889 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3598   -1.3538   -0.3781 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4788    0.0172   -1.0301 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4572    0.8092    0.1059 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1352   -0.2118    2.1769 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4372   -2.4648    1.6159 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6148   -1.9548   -0.2951 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7842    0.5792   -1.1211 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1188   -0.0268   -2.3921 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1878    0.8682   -2.5721 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7732    1.4772   -0.2541 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.4262    2.5822    1.0579 P   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6762    3.9322    0.9219 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2322    1.9372    2.4169 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9022    2.7442    0.7319 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  1  6  1  0
+  2  3  1  0
+  2  7  1  0
+  3  4  1  0
+  3  8  1  0
+  4  9  1  0
+  4 10  1  0
+  5  9  1  0
+ 10 11  1  0
+ 12 13  1  0
+ 12 14  1  0
+ 12 15  1  0
+ 13 14  2  0
+ 13 15  1  0
+ 13 16  1  0
+M  END
+>  <sample_idx>  (24) 
+52
+
+>  <local_batch_idx>  (24) 
+4
+
+>  <timestep>  (24) 
+100
+
+>  <num_atoms>  (24) 
+16
+
+>  <num_halfedges>  (24) 
+120
+
+>  <target_bond_count>  (24) 
+16
+
+>  <pred_bond_count>  (24) 
+17
+
+>  <noised_bond_count>  (24) 
+28
+
+>  <halfedge_accuracy>  (24) 
+0.9750000238418579
+
+>  <exact_halfedge_match>  (24) 
+0
+
+>  <noised_change_fraction>  (24) 
+0.125
+
+>  <bond_pair_set_match>  (24) 
+0
+
+>  <bond_type_map_match>  (24) 
+0
+
+>  <missing_bond_count>  (24) 
+1
+
+>  <extra_bond_count>  (24) 
+2
+
+>  <bond_type_mismatch_count>  (24) 
+0
+
+>  <bond_pair_precision>  (24) 
+0.8823529411764706
+
+>  <bond_pair_recall>  (24) 
+0.9375
+
+>  <bond_pair_f1>  (24) 
+0.9090909090909091
+
+>  <pred_bond_length_mean>  (24) 
+1.6413617344463574
+
+>  <pred_bond_length_p95>  (24) 
+2.7288700580596923
+
+>  <bad_bond_length_count>  (24) 
+2
+
+>  <bad_bond_length_fraction>  (24) 
+0.11764705882352941
+
+>  <oracle_sanitize_success>  (24) 
+1
+
+>  <oracle_repair_strategy>  (24) 
+none
+
+>  <oracle_sanitize_error>  (24) 
+
+
+>  <pred_sanitize_success>  (24) 
+0
+
+>  <pred_repair_strategy>  (24) 
+failed
+
+>  <pred_sanitize_error>  (24) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (24) 
+0
+
+>  <pred_num_fragments>  (24) 
+2
+
+>  <pred_num_rings>  (24) 
+0
+
+>  <pred_num_aromatic_rings>  (24) 
+0
+
+>  <pred_num_three_member_rings>  (24) 
+0
+
+>  <pred_formal_charge>  (24) 
+0
+
+>  <pred_heavy_atoms>  (24) 
+16
+
+$$$$
+55|t100|pred|RICI_RICCO_36_233_0/3rtj_A_rec_1il3_7dg_lig_tt_min_0_pocket10.pdb_RICI_RICCO_36_233_0/3rtj_A_rec_1il3_7dg_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 11 17  0  0  0  0  0  0  0  0999 V2000
+   -0.8601    0.6053   -3.3917 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0851    1.9313   -3.3327 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2541    2.3313   -2.0047 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1121    1.1723   -1.2437 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1661    0.8923    0.1283 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.3791    1.7283    0.9763 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9671   -0.3967    0.5123 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7261   -1.3957   -0.3817 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5291   -2.6687    0.0023 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6791   -1.1457   -1.7097 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8681    0.1253   -2.1367 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 11  2  0
+  2  3  2  0
+  2 11  1  0
+  3  4  1  0
+  3  5  1  0
+  3 11  1  0
+  4  5  1  0
+  4 10  1  0
+  4 11  1  0
+  5  6  2  0
+  5  7  1  0
+  7  8  1  0
+  7 10  1  0
+  8  9  1  0
+  8 10  1  0
+ 10 11  1  0
+M  END
+>  <sample_idx>  (25) 
+55
+
+>  <local_batch_idx>  (25) 
+7
+
+>  <timestep>  (25) 
+100
+
+>  <num_atoms>  (25) 
+11
+
+>  <num_halfedges>  (25) 
+55
+
+>  <target_bond_count>  (25) 
+12
+
+>  <pred_bond_count>  (25) 
+17
+
+>  <noised_bond_count>  (25) 
+18
+
+>  <halfedge_accuracy>  (25) 
+0.8909090757369995
+
+>  <exact_halfedge_match>  (25) 
+0
+
+>  <noised_change_fraction>  (25) 
+0.145454540848732
+
+>  <bond_pair_set_match>  (25) 
+0
+
+>  <bond_type_map_match>  (25) 
+0
+
+>  <missing_bond_count>  (25) 
+0
+
+>  <extra_bond_count>  (25) 
+5
+
+>  <bond_type_mismatch_count>  (25) 
+1
+
+>  <bond_pair_precision>  (25) 
+0.7058823529411765
+
+>  <bond_pair_recall>  (25) 
+1.0
+
+>  <bond_pair_f1>  (25) 
+0.8275862068965517
+
+>  <pred_bond_length_mean>  (25) 
+1.6483890659668867
+
+>  <pred_bond_length_p95>  (25) 
+2.4378631591796873
+
+>  <bad_bond_length_count>  (25) 
+5
+
+>  <bad_bond_length_fraction>  (25) 
+0.29411764705882354
+
+>  <oracle_sanitize_success>  (25) 
+1
+
+>  <oracle_repair_strategy>  (25) 
+none
+
+>  <oracle_sanitize_error>  (25) 
+
+
+>  <pred_sanitize_success>  (25) 
+0
+
+>  <pred_repair_strategy>  (25) 
+failed
+
+>  <pred_sanitize_error>  (25) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (25) 
+0
+
+>  <pred_num_fragments>  (25) 
+1
+
+>  <pred_num_rings>  (25) 
+0
+
+>  <pred_num_aromatic_rings>  (25) 
+0
+
+>  <pred_num_three_member_rings>  (25) 
+0
+
+>  <pred_formal_charge>  (25) 
+0
+
+>  <pred_heavy_atoms>  (25) 
+11
+
+$$$$
+59|t100|pred|CASP3_HUMAN_29_277_pep_0/1rhj_A_rec_3deh_rxa_lig_tt_min_0_pocket10.pdb_CASP3_HUMAN_29_277_pep_0/1rhj_A_rec_3deh_rxa_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 13 18  0  0  0  0  0  0  0  0999 V2000
+   -1.8138   -2.6996    5.2509 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1388   -1.6066    4.7079 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0768   -1.5176    3.7189 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4958   -0.4666    5.1649 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6558   -0.6216    6.0799 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8118    0.7874    4.6139 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7778    0.8684    3.5959 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0938    2.1224    3.0309 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.4108   -0.3186    3.1399 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2868   -0.2706    2.2049 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1868    1.9544    5.0729 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4978    3.2104    4.5179 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4498    3.2954    3.4839 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  2  3  1  0
+  2  4  1  0
+  2  9  1  0
+  3  9  1  0
+  3 10  1  0
+  4  5  2  0
+  4  6  1  0
+  5  6  1  0
+  6  7  1  0
+  6 11  1  0
+  7  8  1  0
+  7  9  1  0
+  7 11  1  0
+  8 13  2  0
+  9 10  2  0
+ 11 12  2  0
+ 12 13  1  0
+M  END
+>  <sample_idx>  (26) 
+59
+
+>  <local_batch_idx>  (26) 
+3
+
+>  <timestep>  (26) 
+100
+
+>  <num_atoms>  (26) 
+13
+
+>  <num_halfedges>  (26) 
+78
+
+>  <target_bond_count>  (26) 
+14
+
+>  <pred_bond_count>  (26) 
+18
+
+>  <noised_bond_count>  (26) 
+24
+
+>  <halfedge_accuracy>  (26) 
+0.9487179517745972
+
+>  <exact_halfedge_match>  (26) 
+0
+
+>  <noised_change_fraction>  (26) 
+0.12820513546466827
+
+>  <bond_pair_set_match>  (26) 
+0
+
+>  <bond_type_map_match>  (26) 
+0
+
+>  <missing_bond_count>  (26) 
+0
+
+>  <extra_bond_count>  (26) 
+4
+
+>  <bond_type_mismatch_count>  (26) 
+0
+
+>  <bond_pair_precision>  (26) 
+0.7777777777777778
+
+>  <bond_pair_recall>  (26) 
+1.0
+
+>  <bond_pair_f1>  (26) 
+0.8750000000000001
+
+>  <pred_bond_length_mean>  (26) 
+1.5922647648387485
+
+>  <pred_bond_length_p95>  (26) 
+2.3997743368148803
+
+>  <bad_bond_length_count>  (26) 
+4
+
+>  <bad_bond_length_fraction>  (26) 
+0.2222222222222222
+
+>  <oracle_sanitize_success>  (26) 
+1
+
+>  <oracle_repair_strategy>  (26) 
+none
+
+>  <oracle_sanitize_error>  (26) 
+
+
+>  <pred_sanitize_success>  (26) 
+0
+
+>  <pred_repair_strategy>  (26) 
+failed
+
+>  <pred_sanitize_error>  (26) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (26) 
+0
+
+>  <pred_num_fragments>  (26) 
+1
+
+>  <pred_num_rings>  (26) 
+0
+
+>  <pred_num_aromatic_rings>  (26) 
+0
+
+>  <pred_num_three_member_rings>  (26) 
+0
+
+>  <pred_formal_charge>  (26) 
+0
+
+>  <pred_heavy_atoms>  (26) 
+13
+
+$$$$
+60|t100|pred|TTK_HUMAN_516_808_0/4bi1_A_rec_2zmc_7pe_lig_tt_docked_19_pocket10.pdb_TTK_HUMAN_516_808_0/4bi1_A_rec_2zmc_7pe_lig_tt_docked_19.sdf
+     RDKit          3D
+
+ 16 15  0  0  0  0  0  0  0  0999 V2000
+   -1.3396    4.4795    0.8663 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2796    4.3805   -0.0977 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0114    4.8015    0.3593 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9344    3.5925    0.4933 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0684    3.7345   -0.3667 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.7654    4.9835   -0.2987 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.4674    4.6685   -2.0017 O   0  0  0  0  0  0  0  0  0  0  0  0
+    4.2614    5.3755   -1.6897 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6806    3.1275    1.4973 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2016    2.1775    0.5583 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2526    1.3425    1.0603 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2596    0.0125    0.3063 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2546   -1.0865    1.2203 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2836   -2.3735    0.5903 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.0616   -2.5405   -0.3087 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8886   -2.6895    0.5013 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  9  1  0
+  2  3  1  0
+  3  4  1  0
+  4  5  1  0
+  4  6  1  0
+  5  6  1  0
+  7  8  1  0
+  9 10  2  3
+ 10 11  1  0
+ 11 12  2  3
+ 12 13  1  0
+ 13 14  1  0
+ 14 15  1  0
+ 15 16  1  0
+M  END
+>  <sample_idx>  (27) 
+60
+
+>  <local_batch_idx>  (27) 
+4
+
+>  <timestep>  (27) 
+100
+
+>  <num_atoms>  (27) 
+16
+
+>  <num_halfedges>  (27) 
+120
+
+>  <target_bond_count>  (27) 
+15
+
+>  <pred_bond_count>  (27) 
+15
+
+>  <noised_bond_count>  (27) 
+32
+
+>  <halfedge_accuracy>  (27) 
+0.9666666388511658
+
+>  <exact_halfedge_match>  (27) 
+0
+
+>  <noised_change_fraction>  (27) 
+0.18333333730697632
+
+>  <bond_pair_set_match>  (27) 
+0
+
+>  <bond_type_map_match>  (27) 
+0
+
+>  <missing_bond_count>  (27) 
+1
+
+>  <extra_bond_count>  (27) 
+1
+
+>  <bond_type_mismatch_count>  (27) 
+2
+
+>  <bond_pair_precision>  (27) 
+0.9333333333333333
+
+>  <bond_pair_recall>  (27) 
+0.9333333333333333
+
+>  <bond_pair_f1>  (27) 
+0.9333333333333333
+
+>  <pred_bond_length_mean>  (27) 
+1.5247224807739257
+
+>  <pred_bond_length_p95>  (27) 
+1.8009358167648306
+
+>  <bad_bond_length_count>  (27) 
+1
+
+>  <bad_bond_length_fraction>  (27) 
+0.06666666666666667
+
+>  <oracle_sanitize_success>  (27) 
+1
+
+>  <oracle_repair_strategy>  (27) 
+none
+
+>  <oracle_sanitize_error>  (27) 
+
+
+>  <pred_sanitize_success>  (27) 
+0
+
+>  <pred_repair_strategy>  (27) 
+failed
+
+>  <pred_sanitize_error>  (27) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (27) 
+0
+
+>  <pred_num_fragments>  (27) 
+2
+
+>  <pred_num_rings>  (27) 
+0
+
+>  <pred_num_aromatic_rings>  (27) 
+0
+
+>  <pred_num_three_member_rings>  (27) 
+0
+
+>  <pred_formal_charge>  (27) 
+0
+
+>  <pred_heavy_atoms>  (27) 
+16
+
+$$$$
+63|t100|pred|DPO1_THEAQ_292_832_0/5szt_A_rec_3py8_dct_lig_tt_min_0_pocket10.pdb_DPO1_THEAQ_292_832_0/5szt_A_rec_3py8_dct_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 27 32  0  0  0  0  0  0  0  0999 V2000
+    3.7463   -0.6771    0.5950 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3553    0.7949    0.2650 P   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9323    1.8069    1.2150 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9313    1.2719   -1.0440 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.7953    0.8489    0.3020 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.9093    1.2549   -0.9240 P   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4267    1.6159   -0.3420 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5843    0.0729   -1.8040 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5993    2.4989   -1.5850 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.9033    3.6549   -2.3850 P   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0293    3.5299   -3.8730 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5557    3.7909   -2.0710 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4673    5.0059   -2.0630 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0333   -1.7441    0.0850 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5443   -2.7241    3.4270 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1423   -2.9041    2.9490 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1813   -2.2841    1.5930 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5653   -2.6551    1.1800 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3513   -2.5841    2.3210 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5533   -1.5561    4.2760 N   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4533   -1.7081    5.6460 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4463   -0.5901    6.5110 N   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5253    0.6669    5.9870 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.6183    0.8469    4.5710 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.6333   -0.2691    3.7350 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.3793   -2.9741    6.1470 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5153    1.7929    6.8550 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 14  1  0
+  2  3  1  0
+  2  4  1  0
+  2  5  1  0
+  3  5  1  0
+  5  6  2  0
+  6  8  2  0
+  6  9  1  0
+  9 10  1  0
+ 10 11  2  0
+ 10 12  1  0
+ 10 13  2  0
+ 12 13  2  0
+ 14 17  1  0
+ 14 18  1  0
+ 15 16  1  0
+ 15 19  1  0
+ 15 20  1  0
+ 16 17  1  0
+ 17 18  1  0
+ 18 19  1  0
+ 20 21  1  0
+ 20 25  1  0
+ 21 22  1  0
+ 21 26  2  0
+ 22 23  1  0
+ 22 26  1  0
+ 23 24  1  0
+ 23 25  1  0
+ 23 27  1  0
+ 24 25  2  0
+M  END
+>  <sample_idx>  (28) 
+63
+
+>  <local_batch_idx>  (28) 
+7
+
+>  <timestep>  (28) 
+100
+
+>  <num_atoms>  (28) 
+27
+
+>  <num_halfedges>  (28) 
+351
+
+>  <target_bond_count>  (28) 
+28
+
+>  <pred_bond_count>  (28) 
+32
+
+>  <noised_bond_count>  (28) 
+68
+
+>  <halfedge_accuracy>  (28) 
+0.9743589758872986
+
+>  <exact_halfedge_match>  (28) 
+0
+
+>  <noised_change_fraction>  (28) 
+0.13960114121437073
+
+>  <bond_pair_set_match>  (28) 
+0
+
+>  <bond_type_map_match>  (28) 
+0
+
+>  <missing_bond_count>  (28) 
+1
+
+>  <extra_bond_count>  (28) 
+5
+
+>  <bond_type_mismatch_count>  (28) 
+3
+
+>  <bond_pair_precision>  (28) 
+0.84375
+
+>  <bond_pair_recall>  (28) 
+0.9642857142857143
+
+>  <bond_pair_f1>  (28) 
+0.8999999999999999
+
+>  <pred_bond_length_mean>  (28) 
+1.6170590035617352
+
+>  <pred_bond_length_p95>  (28) 
+2.4445013999938965
+
+>  <bad_bond_length_count>  (28) 
+5
+
+>  <bad_bond_length_fraction>  (28) 
+0.15625
+
+>  <oracle_sanitize_success>  (28) 
+1
+
+>  <oracle_repair_strategy>  (28) 
+none
+
+>  <oracle_sanitize_error>  (28) 
+
+
+>  <pred_sanitize_success>  (28) 
+0
+
+>  <pred_repair_strategy>  (28) 
+failed
+
+>  <pred_sanitize_error>  (28) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (28) 
+0
+
+>  <pred_num_fragments>  (28) 
+2
+
+>  <pred_num_rings>  (28) 
+0
+
+>  <pred_num_aromatic_rings>  (28) 
+0
+
+>  <pred_num_three_member_rings>  (28) 
+0
+
+>  <pred_formal_charge>  (28) 
+0
+
+>  <pred_heavy_atoms>  (28) 
+27
+
+$$$$
+67|t100|pred|TTK_HUMAN_516_808_0/4c4g_A_rec_5ap3_7pe_lig_tt_docked_4_pocket10.pdb_TTK_HUMAN_516_808_0/4c4g_A_rec_5ap3_7pe_lig_tt_docked_4.sdf
+     RDKit          3D
+
+ 19 18  0  0  0  0  0  0  0  0999 V2000
+   -2.1143    1.7359   -1.0653 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0263    2.7149   -0.5703 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.3573    4.0479   -0.4113 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9823    3.9539   -0.7483 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2873    5.1879   -0.6133 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3973    5.9819   -1.8783 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7363    7.3309   -1.5803 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.0723    7.6649   -1.9323 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4613    6.9639   -3.1983 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.9513    7.8729   -4.1693 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.5393    0.3909   -0.8533 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4703   -0.5751   -1.2583 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1863   -0.0061   -1.0263 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8857   -0.9141   -1.2503 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1217   -0.4631   -0.5323 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8267   -0.1411    0.8217 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8697   -0.4871    1.7257 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.6087    0.5419    3.0017 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.2967    0.7209    2.4937 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 11  1  0
+  2  3  1  0
+  3  4  1  0
+  4  5  1  0
+  5  6  1  0
+  6  7  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  1  0
+ 11 12  1  0
+ 12 13  1  0
+ 13 14  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 19  1  0
+ 18 19  1  0
+M  END
+>  <sample_idx>  (29) 
+67
+
+>  <local_batch_idx>  (29) 
+3
+
+>  <timestep>  (29) 
+100
+
+>  <num_atoms>  (29) 
+19
+
+>  <num_halfedges>  (29) 
+171
+
+>  <target_bond_count>  (29) 
+18
+
+>  <pred_bond_count>  (29) 
+18
+
+>  <noised_bond_count>  (29) 
+53
+
+>  <halfedge_accuracy>  (29) 
+1.0
+
+>  <exact_halfedge_match>  (29) 
+1
+
+>  <noised_change_fraction>  (29) 
+0.21052631735801697
+
+>  <bond_pair_set_match>  (29) 
+1
+
+>  <bond_type_map_match>  (29) 
+1
+
+>  <missing_bond_count>  (29) 
+0
+
+>  <extra_bond_count>  (29) 
+0
+
+>  <bond_type_mismatch_count>  (29) 
+0
+
+>  <bond_pair_precision>  (29) 
+1.0
+
+>  <bond_pair_recall>  (29) 
+1.0
+
+>  <bond_pair_f1>  (29) 
+1.0
+
+>  <pred_bond_length_mean>  (29) 
+1.447284049457974
+
+>  <pred_bond_length_p95>  (29) 
+1.4990288197994233
+
+>  <bad_bond_length_count>  (29) 
+0
+
+>  <bad_bond_length_fraction>  (29) 
+0.0
+
+>  <oracle_sanitize_success>  (29) 
+1
+
+>  <oracle_repair_strategy>  (29) 
+none
+
+>  <oracle_sanitize_error>  (29) 
+
+
+>  <pred_sanitize_success>  (29) 
+1
+
+>  <pred_repair_strategy>  (29) 
+none
+
+>  <pred_sanitize_error>  (29) 
+
+
+>  <pred_vs_oracle_smiles_match>  (29) 
+1
+
+>  <pred_num_fragments>  (29) 
+1
+
+>  <pred_num_rings>  (29) 
+0
+
+>  <pred_num_aromatic_rings>  (29) 
+0
+
+>  <pred_num_three_member_rings>  (29) 
+0
+
+>  <pred_formal_charge>  (29) 
+0
+
+>  <pred_heavy_atoms>  (29) 
+19
+
+$$$$
+68|t100|pred|THRB_HUMAN_364_622_inhibitor_0/1d6w_A_rec_4ueh_ben_lig_tt_docked_3_pocket10.pdb_THRB_HUMAN_364_622_inhibitor_0/1d6w_A_rec_4ueh_ben_lig_tt_docked_3.sdf
+     RDKit          3D
+
+  9 10  0  0  0  0  0  0  0  0999 V2000
+   -0.4778   -1.3154    1.2094 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2038   -0.2274    1.6934 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2818   -0.4214    2.5434 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6738   -1.6854    2.9464 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9548   -2.7914    2.4614 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8698   -2.5954    1.6114 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6142   -1.1364    0.3144 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4862   -2.1004   -0.0046 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8012    0.0446   -0.3106 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  6  1  0
+  1  7  1  0
+  2  3  1  0
+  2  5  1  0
+  3  4  2  0
+  4  5  1  0
+  5  6  2  0
+  7  8  2  0
+  7  9  1  0
+M  END
+>  <sample_idx>  (30) 
+68
+
+>  <local_batch_idx>  (30) 
+4
+
+>  <timestep>  (30) 
+100
+
+>  <num_atoms>  (30) 
+9
+
+>  <num_halfedges>  (30) 
+36
+
+>  <target_bond_count>  (30) 
+9
+
+>  <pred_bond_count>  (30) 
+10
+
+>  <noised_bond_count>  (30) 
+10
+
+>  <halfedge_accuracy>  (30) 
+0.9444444179534912
+
+>  <exact_halfedge_match>  (30) 
+0
+
+>  <noised_change_fraction>  (30) 
+0.0555555559694767
+
+>  <bond_pair_set_match>  (30) 
+0
+
+>  <bond_type_map_match>  (30) 
+0
+
+>  <missing_bond_count>  (30) 
+0
+
+>  <extra_bond_count>  (30) 
+1
+
+>  <bond_type_mismatch_count>  (30) 
+1
+
+>  <bond_pair_precision>  (30) 
+0.9
+
+>  <bond_pair_recall>  (30) 
+1.0
+
+>  <bond_pair_f1>  (30) 
+0.9473684210526316
+
+>  <pred_bond_length_mean>  (30) 
+1.5250674486160278
+
+>  <pred_bond_length_p95>  (30) 
+2.16939769387245
+
+>  <bad_bond_length_count>  (30) 
+1
+
+>  <bad_bond_length_fraction>  (30) 
+0.1
+
+>  <oracle_sanitize_success>  (30) 
+1
+
+>  <oracle_repair_strategy>  (30) 
+none
+
+>  <oracle_sanitize_error>  (30) 
+
+
+>  <pred_sanitize_success>  (30) 
+1
+
+>  <pred_repair_strategy>  (30) 
+none
+
+>  <pred_sanitize_error>  (30) 
+
+
+>  <pred_vs_oracle_smiles_match>  (30) 
+0
+
+>  <pred_num_fragments>  (30) 
+1
+
+>  <pred_num_rings>  (30) 
+2
+
+>  <pred_num_aromatic_rings>  (30) 
+2
+
+>  <pred_num_three_member_rings>  (30) 
+0
+
+>  <pred_formal_charge>  (30) 
+0
+
+>  <pred_heavy_atoms>  (30) 
+9
+
+$$$$
+70|t100|pred|ENO_SYNP6_4_429_0/5j04_A_rec_5j04_pep_lig_tt_min_0_pocket10.pdb_ENO_SYNP6_4_429_0/5j04_A_rec_5j04_pep_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+    0.0106    0.5222   -1.1588 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4564   -0.2498   -2.5088 P   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2134    0.8972   -3.4988 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4366   -1.4428   -2.6858 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8544   -0.6388   -2.2858 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4754    0.2302    0.1532 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2984   -0.9488    0.7052 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1824    1.2932    0.8452 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0834    2.4882    0.4162 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8904    0.9902    1.8402 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1  6  1  0
+  2  3  2  0
+  2  4  1  0
+  2  5  1  0
+  6  7  2  0
+  6  8  1  0
+  8  9  2  0
+  8 10  1  0
+M  END
+>  <sample_idx>  (31) 
+70
+
+>  <local_batch_idx>  (31) 
+6
+
+>  <timestep>  (31) 
+100
+
+>  <num_atoms>  (31) 
+10
+
+>  <num_halfedges>  (31) 
+45
+
+>  <target_bond_count>  (31) 
+9
+
+>  <pred_bond_count>  (31) 
+10
+
+>  <noised_bond_count>  (31) 
+16
+
+>  <halfedge_accuracy>  (31) 
+0.9777777791023254
+
+>  <exact_halfedge_match>  (31) 
+0
+
+>  <noised_change_fraction>  (31) 
+0.15555556118488312
+
+>  <bond_pair_set_match>  (31) 
+0
+
+>  <bond_type_map_match>  (31) 
+0
+
+>  <missing_bond_count>  (31) 
+0
+
+>  <extra_bond_count>  (31) 
+1
+
+>  <bond_type_mismatch_count>  (31) 
+0
+
+>  <bond_pair_precision>  (31) 
+0.9
+
+>  <bond_pair_recall>  (31) 
+1.0
+
+>  <bond_pair_f1>  (31) 
+0.9473684210526316
+
+>  <pred_bond_length_mean>  (31) 
+1.5234453082084656
+
+>  <pred_bond_length_p95>  (31) 
+2.039919835329055
+
+>  <bad_bond_length_count>  (31) 
+1
+
+>  <bad_bond_length_fraction>  (31) 
+0.1
+
+>  <oracle_sanitize_success>  (31) 
+1
+
+>  <oracle_repair_strategy>  (31) 
+none
+
+>  <oracle_sanitize_error>  (31) 
+
+
+>  <pred_sanitize_success>  (31) 
+0
+
+>  <pred_repair_strategy>  (31) 
+failed
+
+>  <pred_sanitize_error>  (31) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (31) 
+0
+
+>  <pred_num_fragments>  (31) 
+1
+
+>  <pred_num_rings>  (31) 
+0
+
+>  <pred_num_aromatic_rings>  (31) 
+0
+
+>  <pred_num_three_member_rings>  (31) 
+0
+
+>  <pred_formal_charge>  (31) 
+0
+
+>  <pred_heavy_atoms>  (31) 
+10
+
+$$$$
+71|t100|pred|NGAL_HUMAN_15_198_0/3by0_C_rec_3k3l_dbs_lig_tt_min_0_pocket10.pdb_NGAL_HUMAN_15_198_0/3by0_C_rec_3k3l_dbs_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 17 22  0  0  0  0  0  0  0  0999 V2000
+   -0.4087   -1.5935   -2.6699 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4413   -0.8015   -3.0469 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5367   -2.8125   -3.2059 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8777   -1.2105   -0.6939 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5277   -1.0995   -0.5489 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0087   -0.4055    0.5391 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6967   -1.4875   -1.5889 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2497   -2.1645   -2.6339 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.3357   -1.1865   -1.5529 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8207   -0.4875   -0.4609 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6557   -0.0995    0.5831 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2813   -3.3355   -4.2979 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4937   -3.2715   -5.5869 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7407   -3.4045   -5.5559 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1373   -3.0705   -6.6489 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6963   -4.7765   -3.9589 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8563   -4.9765   -2.5459 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1  9  1  0
+  2  3  1  0
+  3 12  1  0
+  3 17  1  0
+  4  5  1  0
+  5  6  1  0
+  5  7  1  0
+  5  8  1  0
+  6  7  1  0
+  6 11  2  0
+  7  8  1  0
+  7  9  1  0
+  9 10  2  0
+ 10 11  1  0
+ 12 13  1  0
+ 12 14  1  0
+ 12 16  1  0
+ 13 14  1  0
+ 13 15  2  0
+ 16 17  1  0
+M  CHG  2   3   1  17  -1
+M  END
+>  <sample_idx>  (32) 
+71
+
+>  <local_batch_idx>  (32) 
+7
+
+>  <timestep>  (32) 
+100
+
+>  <num_atoms>  (32) 
+17
+
+>  <num_halfedges>  (32) 
+136
+
+>  <target_bond_count>  (32) 
+17
+
+>  <pred_bond_count>  (32) 
+22
+
+>  <noised_bond_count>  (32) 
+37
+
+>  <halfedge_accuracy>  (32) 
+0.9558823704719543
+
+>  <exact_halfedge_match>  (32) 
+0
+
+>  <noised_change_fraction>  (32) 
+0.15441176295280457
+
+>  <bond_pair_set_match>  (32) 
+0
+
+>  <bond_type_map_match>  (32) 
+0
+
+>  <missing_bond_count>  (32) 
+0
+
+>  <extra_bond_count>  (32) 
+5
+
+>  <bond_type_mismatch_count>  (32) 
+1
+
+>  <bond_pair_precision>  (32) 
+0.7727272727272727
+
+>  <bond_pair_recall>  (32) 
+1.0
+
+>  <bond_pair_f1>  (32) 
+0.8717948717948718
+
+>  <pred_bond_length_mean>  (32) 
+1.6195815747434443
+
+>  <pred_bond_length_p95>  (32) 
+2.406322944164276
+
+>  <bad_bond_length_count>  (32) 
+5
+
+>  <bad_bond_length_fraction>  (32) 
+0.22727272727272727
+
+>  <oracle_sanitize_success>  (32) 
+1
+
+>  <oracle_repair_strategy>  (32) 
+none
+
+>  <oracle_sanitize_error>  (32) 
+
+
+>  <pred_sanitize_success>  (32) 
+0
+
+>  <pred_repair_strategy>  (32) 
+failed
+
+>  <pred_sanitize_error>  (32) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (32) 
+0
+
+>  <pred_num_fragments>  (32) 
+1
+
+>  <pred_num_rings>  (32) 
+0
+
+>  <pred_num_aromatic_rings>  (32) 
+0
+
+>  <pred_num_three_member_rings>  (32) 
+0
+
+>  <pred_formal_charge>  (32) 
+0
+
+>  <pred_heavy_atoms>  (32) 
+17
+
+$$$$
+72|t100|pred|VDRA_DANRE_155_453_ligBind_0/4g1d_A_rec_4ruj_vdx_lig_tt_docked_0_pocket10.pdb_VDRA_DANRE_155_453_ligBind_0/4g1d_A_rec_4ruj_vdx_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 30 33  0  0  0  0  0  0  0  0999 V2000
+   -1.4591    1.2725    1.7933 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1621    0.1485    1.5773 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.4881    0.1705    0.8593 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.4911   -0.8595   -0.2787 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.8831   -2.2235    0.0753 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5321   -2.0725    0.7543 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6911   -1.2115    1.9873 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3711   -1.3455    2.7413 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0469   -2.7935    2.4453 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9521   -3.3205    1.4063 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5331   -1.4255   -0.1987 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5481    6.1915    2.7703 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8849    4.9435    1.7473 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2119    6.1465    1.0973 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2931    6.1595    1.3533 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9481    4.9385    0.7113 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2571    3.6715    1.1543 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9981    2.5635    1.3593 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.1959    3.6875    1.2983 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.9179    2.6235    0.9993 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2599    4.8985    1.3493 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4431   -4.4235    0.4743 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8341   -5.7925    1.0233 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0599   -4.3715    0.2073 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3499   -4.6805   -1.2597 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8059   -5.0835   -1.4707 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.6769   -6.8845   -2.7867 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0949   -5.5835   -2.8867 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.1099   -4.6665   -3.5657 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8339   -5.6735   -3.7397 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  3
+  1 18  1  0
+  2  3  1  0
+  2  7  1  0
+  3  4  1  0
+  4  5  1  0
+  5  6  1  0
+  6  7  1  0
+  6 10  1  0
+  6 11  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  1  0
+ 10 22  1  0
+ 12 15  1  0
+ 13 14  1  0
+ 13 19  1  0
+ 13 21  2  0
+ 14 15  1  0
+ 14 19  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 18  2  3
+ 17 19  1  0
+ 19 20  2  0
+ 22 23  1  0
+ 22 24  1  0
+ 24 25  1  0
+ 25 26  1  0
+ 26 28  1  0
+ 27 28  1  0
+ 28 29  1  0
+ 28 30  1  0
+M  END
+>  <sample_idx>  (33) 
+72
+
+>  <local_batch_idx>  (33) 
+0
+
+>  <timestep>  (33) 
+100
+
+>  <num_atoms>  (33) 
+30
+
+>  <num_halfedges>  (33) 
+435
+
+>  <target_bond_count>  (33) 
+32
+
+>  <pred_bond_count>  (33) 
+33
+
+>  <noised_bond_count>  (33) 
+109
+
+>  <halfedge_accuracy>  (33) 
+0.9954022765159607
+
+>  <exact_halfedge_match>  (33) 
+0
+
+>  <noised_change_fraction>  (33) 
+0.1862068921327591
+
+>  <bond_pair_set_match>  (33) 
+0
+
+>  <bond_type_map_match>  (33) 
+0
+
+>  <missing_bond_count>  (33) 
+0
+
+>  <extra_bond_count>  (33) 
+1
+
+>  <bond_type_mismatch_count>  (33) 
+1
+
+>  <bond_pair_precision>  (33) 
+0.9696969696969697
+
+>  <bond_pair_recall>  (33) 
+1.0
+
+>  <bond_pair_f1>  (33) 
+0.9846153846153847
+
+>  <pred_bond_length_mean>  (33) 
+1.5231066906090938
+
+>  <pred_bond_length_p95>  (33) 
+1.5353139877319335
+
+>  <bad_bond_length_count>  (33) 
+1
+
+>  <bad_bond_length_fraction>  (33) 
+0.030303030303030304
+
+>  <oracle_sanitize_success>  (33) 
+1
+
+>  <oracle_repair_strategy>  (33) 
+none
+
+>  <oracle_sanitize_error>  (33) 
+
+
+>  <pred_sanitize_success>  (33) 
+0
+
+>  <pred_repair_strategy>  (33) 
+failed
+
+>  <pred_sanitize_error>  (33) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (33) 
+0
+
+>  <pred_num_fragments>  (33) 
+1
+
+>  <pred_num_rings>  (33) 
+0
+
+>  <pred_num_aromatic_rings>  (33) 
+0
+
+>  <pred_num_three_member_rings>  (33) 
+0
+
+>  <pred_formal_charge>  (33) 
+0
+
+>  <pred_heavy_atoms>  (33) 
+30
+
+$$$$
+73|t100|pred|TYSY_LACCA_1_316_0/1tsm_A_rec_1bpj_ump_lig_tt_docked_0_pocket10.pdb_TYSY_LACCA_1_316_0/1tsm_A_rec_1bpj_ump_lig_tt_docked_0.sdf
+     RDKit          3D
+
+ 20 23  0  0  0  0  0  0  0  0999 V2000
+    1.2131    0.6283    0.3201 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4771    0.0343   -0.8799 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5091    0.2773   -1.9669 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9691    1.7283   -1.8039 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.6321   -0.5587   -1.6479 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.7031    1.8933   -0.3359 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5611    0.6763    1.6421 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0699   -0.4047    2.3021 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5209   -0.1147    3.5901 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3889    1.1273    4.2331 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2781    2.1463    3.4601 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7251    1.8573    2.1801 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2269   -1.5367    1.8431 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8229    1.3553    5.3641 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0641    2.6833   -2.5819 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8601    3.6133   -3.3969 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3811    4.0463   -4.8979 P   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5621    2.9583   -5.4789 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5571    5.3013   -4.8939 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5751    4.2223   -5.7569 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  6  1  0
+  1  7  1  0
+  2  3  1  0
+  2  7  1  0
+  3  4  1  0
+  3  5  1  0
+  4  6  1  0
+  4 15  1  0
+  7  8  1  0
+  7 12  1  0
+  8  9  1  0
+  8 13  2  0
+  9 10  1  0
+  9 13  1  0
+ 10 11  1  0
+ 10 14  2  0
+ 11 12  2  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 18  2  0
+ 17 19  2  0
+ 17 20  1  0
+M  END
+>  <sample_idx>  (34) 
+73
+
+>  <local_batch_idx>  (34) 
+1
+
+>  <timestep>  (34) 
+100
+
+>  <num_atoms>  (34) 
+20
+
+>  <num_halfedges>  (34) 
+190
+
+>  <target_bond_count>  (34) 
+21
+
+>  <pred_bond_count>  (34) 
+23
+
+>  <noised_bond_count>  (34) 
+53
+
+>  <halfedge_accuracy>  (34) 
+0.9842105507850647
+
+>  <exact_halfedge_match>  (34) 
+0
+
+>  <noised_change_fraction>  (34) 
+0.17368420958518982
+
+>  <bond_pair_set_match>  (34) 
+0
+
+>  <bond_type_map_match>  (34) 
+0
+
+>  <missing_bond_count>  (34) 
+0
+
+>  <extra_bond_count>  (34) 
+2
+
+>  <bond_type_mismatch_count>  (34) 
+1
+
+>  <bond_pair_precision>  (34) 
+0.9130434782608695
+
+>  <bond_pair_recall>  (34) 
+1.0
+
+>  <bond_pair_f1>  (34) 
+0.9545454545454545
+
+>  <pred_bond_length_mean>  (34) 
+1.5340760946273804
+
+>  <pred_bond_length_p95>  (34) 
+2.2079111218452443
+
+>  <bad_bond_length_count>  (34) 
+2
+
+>  <bad_bond_length_fraction>  (34) 
+0.08695652173913043
+
+>  <oracle_sanitize_success>  (34) 
+1
+
+>  <oracle_repair_strategy>  (34) 
+fix_valence
+
+>  <oracle_sanitize_error>  (34) 
+
+
+>  <pred_sanitize_success>  (34) 
+0
+
+>  <pred_repair_strategy>  (34) 
+failed
+
+>  <pred_sanitize_error>  (34) 
+AtomValenceException
+
+>  <pred_vs_oracle_smiles_match>  (34) 
+0
+
+>  <pred_num_fragments>  (34) 
+1
+
+>  <pred_num_rings>  (34) 
+0
+
+>  <pred_num_aromatic_rings>  (34) 
+0
+
+>  <pred_num_three_member_rings>  (34) 
+0
+
+>  <pred_formal_charge>  (34) 
+0
+
+>  <pred_heavy_atoms>  (34) 
+20
+
+$$$$
+74|t100|pred|KLKB1_HUMAN_388_632_0/5tjx_A_rec_2anw_bam_lig_tt_docked_0_pocket10.pdb_KLKB1_HUMAN_388_632_0/5tjx_A_rec_2anw_bam_lig_tt_docked_0.sdf
+     RDKit          3D
+
+  9 10  0  0  0  0  0  0  0  0999 V2000
+    0.0108   -0.7973    0.6732 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2432    0.3717    1.3192 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0268   -1.9353    1.3792 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2508   -0.8363   -0.7178 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0262    0.2887   -1.5058 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2248    0.2477   -2.8738 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7358   -0.8973   -3.4938 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0088   -2.0353   -2.7328 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7568   -1.9983   -1.3598 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  3  1  0
+  1  4  1  0
+  4  5  2  0
+  4  9  1  0
+  5  6  1  0
+  5  7  1  0
+  6  7  2  0
+  7  8  1  0
+  8  9  2  0
+M  END
+>  <sample_idx>  (35) 
+74
+
+>  <local_batch_idx>  (35) 
+2
+
+>  <timestep>  (35) 
+100
+
+>  <num_atoms>  (35) 
+9
+
+>  <num_halfedges>  (35) 
+36
+
+>  <target_bond_count>  (35) 
+9
+
+>  <pred_bond_count>  (35) 
+10
+
+>  <noised_bond_count>  (35) 
+14
+
+>  <halfedge_accuracy>  (35) 
+0.9444444179534912
+
+>  <exact_halfedge_match>  (35) 
+0
+
+>  <noised_change_fraction>  (35) 
+0.2777777910232544
+
+>  <bond_pair_set_match>  (35) 
+0
+
+>  <bond_type_map_match>  (35) 
+0
+
+>  <missing_bond_count>  (35) 
+0
+
+>  <extra_bond_count>  (35) 
+1
+
+>  <bond_type_mismatch_count>  (35) 
+1
+
+>  <bond_pair_precision>  (35) 
+0.9
+
+>  <bond_pair_recall>  (35) 
+1.0
+
+>  <bond_pair_f1>  (35) 
+0.9473684210526316
+
+>  <pred_bond_length_mean>  (35) 
+1.4952520966529845
+
+>  <pred_bond_length_p95>  (35) 
+1.9797206103801717
+
+>  <bad_bond_length_count>  (35) 
+1
+
+>  <bad_bond_length_fraction>  (35) 
+0.1
+
+>  <oracle_sanitize_success>  (35) 
+1
+
+>  <oracle_repair_strategy>  (35) 
+none
+
+>  <oracle_sanitize_error>  (35) 
+
+
+>  <pred_sanitize_success>  (35) 
+1
+
+>  <pred_repair_strategy>  (35) 
+none
+
+>  <pred_sanitize_error>  (35) 
+
+
+>  <pred_vs_oracle_smiles_match>  (35) 
+0
+
+>  <pred_num_fragments>  (35) 
+1
+
+>  <pred_num_rings>  (35) 
+2
+
+>  <pred_num_aromatic_rings>  (35) 
+2
+
+>  <pred_num_three_member_rings>  (35) 
+1
+
+>  <pred_formal_charge>  (35) 
+0
+
+>  <pred_heavy_atoms>  (35) 
+9
+
+$$$$
+84|t100|pred|FA7_HUMAN_149_466_0/5l2z_H_rec_4zxx_4t0_lig_tt_min_0_pocket10.pdb_FA7_HUMAN_149_466_0/5l2z_H_rec_4zxx_4t0_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 42 47  0  0  0  0  0  0  0  0999 V2000
+   -0.6063    3.7429   -0.2578 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8903    5.0559   -0.1868 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8193    5.8999   -1.3958 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.8543    7.3119   -0.7918 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7303    7.1479    0.4212 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2773    5.8369    1.0032 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1603    3.2439   -1.2708 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.9683    5.6339   -2.3508 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.1663    5.1199   -1.8388 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2323    4.7509   -2.6558 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.0993    4.8839   -4.0308 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.9443    5.4269   -4.5678 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8933    5.8009   -3.7378 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.0073    4.4959   -0.8908 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.5033    4.3729   -2.1518 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.5743    5.2949   -0.0678 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.1863    3.6179   -0.5918 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4973    6.5019   -4.5898 S   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0143    7.3249   -5.6498 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4007    7.0959   -3.6368 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3537    5.0969   -5.3538 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8807    4.0879   -4.3508 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4327    5.5989   -6.2948 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7953    2.8759    0.9982 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2463    2.4209    1.0552 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0193    2.6579    2.1852 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3303    2.2119    2.2522 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8853    1.5309    1.1892 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1283    1.2869    0.0602 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.8163    1.7279   -0.0058 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0997    1.7309    0.9332 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4907    0.9399    2.0092 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5007   -1.0981    2.7642 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6467    0.5019    4.3932 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2277    1.3099    3.3112 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6907   -0.9731    6.5482 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0747    0.2009    6.7352 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5327    0.9429    5.7332 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.8027   -1.4641    5.2692 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2977   -0.7381    4.1222 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1177   -0.2761    1.7472 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4357   -2.6441    5.1382 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  7  2  0
+  1 24  1  0
+  2  3  1  0
+  2  6  1  0
+  3  4  1  0
+  3  5  1  0
+  3  8  1  0
+  4  5  1  0
+  5  6  1  0
+  8  9  2  0
+  8 13  1  0
+  9 10  1  0
+ 10 11  2  0
+ 10 15  1  0
+ 11 12  1  0
+ 12 13  1  0
+ 13 18  1  0
+ 14 15  1  0
+ 14 16  2  0
+ 14 17  1  0
+ 18 19  2  0
+ 18 20  2  0
+ 18 21  1  0
+ 21 22  1  0
+ 21 23  1  0
+ 24 25  1  0
+ 24 31  1  0
+ 25 26  2  0
+ 25 30  1  0
+ 26 27  1  0
+ 27 28  2  0
+ 28 29  1  0
+ 29 30  2  0
+ 31 32  1  0
+ 32 35  1  0
+ 32 41  2  0
+ 33 40  2  0
+ 33 41  1  0
+ 34 35  2  0
+ 34 38  1  0
+ 34 40  1  0
+ 36 37  1  0
+ 36 39  2  0
+ 37 38  2  0
+ 39 40  1  0
+ 39 42  1  0
+M  END
+>  <sample_idx>  (36) 
+84
+
+>  <local_batch_idx>  (36) 
+4
+
+>  <timestep>  (36) 
+100
+
+>  <num_atoms>  (36) 
+42
+
+>  <num_halfedges>  (36) 
+861
+
+>  <target_bond_count>  (36) 
+46
+
+>  <pred_bond_count>  (36) 
+47
+
+>  <noised_bond_count>  (36) 
+165
+
+>  <halfedge_accuracy>  (36) 
+0.9953542351722717
+
+>  <exact_halfedge_match>  (36) 
+0
+
+>  <noised_change_fraction>  (36) 
+0.149825781583786
+
+>  <bond_pair_set_match>  (36) 
+0
+
+>  <bond_type_map_match>  (36) 
+0
+
+>  <missing_bond_count>  (36) 
+0
+
+>  <extra_bond_count>  (36) 
+1
+
+>  <bond_type_mismatch_count>  (36) 
+3
+
+>  <bond_pair_precision>  (36) 
+0.9787234042553191
+
+>  <bond_pair_recall>  (36) 
+1.0
+
+>  <bond_pair_f1>  (36) 
+0.989247311827957
+
+>  <pred_bond_length_mean>  (36) 
+1.4514313657233056
+
+>  <pred_bond_length_p95>  (36) 
+1.7069032192230214
+
+>  <bad_bond_length_count>  (36) 
+1
+
+>  <bad_bond_length_fraction>  (36) 
+0.02127659574468085
+
+>  <oracle_sanitize_success>  (36) 
+1
+
+>  <oracle_repair_strategy>  (36) 
+none
+
+>  <oracle_sanitize_error>  (36) 
+
+
+>  <pred_sanitize_success>  (36) 
+1
+
+>  <pred_repair_strategy>  (36) 
+none
+
+>  <pred_sanitize_error>  (36) 
+
+
+>  <pred_vs_oracle_smiles_match>  (36) 
+0
+
+>  <pred_num_fragments>  (36) 
+1
+
+>  <pred_num_rings>  (36) 
+6
+
+>  <pred_num_aromatic_rings>  (36) 
+3
+
+>  <pred_num_three_member_rings>  (36) 
+1
+
+>  <pred_formal_charge>  (36) 
+0
+
+>  <pred_heavy_atoms>  (36) 
+42
+
+$$$$
+85|t100|pred|POL_HV1B1_501_599_0/1hpv_A_rec_3qrm_dtd_lig_tt_min_0_pocket10.pdb_POL_HV1B1_501_599_0/1hpv_A_rec_3qrm_dtd_lig_tt_min_0.sdf
+     RDKit          3D
+
+  8  7  0  0  0  0  0  0  0  0999 V2000
+   -0.4154    3.8345   -2.9347 S   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2214    3.7495   -1.1967 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5284    2.3275   -0.7497 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6124    2.3405    0.6723 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5116    1.2995   -1.2007 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3726    0.1185   -0.4237 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3136    0.8575   -2.6347 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4596    2.2205   -3.7207 S   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  2  3  1  0
+  3  4  1  0
+  3  5  1  0
+  5  6  1  0
+  5  7  1  0
+  7  8  1  0
+M  END
+>  <sample_idx>  (37) 
+85
+
+>  <local_batch_idx>  (37) 
+5
+
+>  <timestep>  (37) 
+100
+
+>  <num_atoms>  (37) 
+8
+
+>  <num_halfedges>  (37) 
+28
+
+>  <target_bond_count>  (37) 
+8
+
+>  <pred_bond_count>  (37) 
+7
+
+>  <noised_bond_count>  (37) 
+12
+
+>  <halfedge_accuracy>  (37) 
+0.9642857313156128
+
+>  <exact_halfedge_match>  (37) 
+0
+
+>  <noised_change_fraction>  (37) 
+0.1785714328289032
+
+>  <bond_pair_set_match>  (37) 
+0
+
+>  <bond_type_map_match>  (37) 
+0
+
+>  <missing_bond_count>  (37) 
+1
+
+>  <extra_bond_count>  (37) 
+0
+
+>  <bond_type_mismatch_count>  (37) 
+0
+
+>  <bond_pair_precision>  (37) 
+1.0
+
+>  <bond_pair_recall>  (37) 
+0.875
+
+>  <bond_pair_f1>  (37) 
+0.9333333333333333
+
+>  <pred_bond_length_mean>  (37) 
+1.5586430174963815
+
+>  <pred_bond_length_p95>  (37) 
+1.7502562046051025
+
+>  <bad_bond_length_count>  (37) 
+0
+
+>  <bad_bond_length_fraction>  (37) 
+0.0
+
+>  <oracle_sanitize_success>  (37) 
+1
+
+>  <oracle_repair_strategy>  (37) 
+none
+
+>  <oracle_sanitize_error>  (37) 
+
+
+>  <pred_sanitize_success>  (37) 
+1
+
+>  <pred_repair_strategy>  (37) 
+none
+
+>  <pred_sanitize_error>  (37) 
+
+
+>  <pred_vs_oracle_smiles_match>  (37) 
+0
+
+>  <pred_num_fragments>  (37) 
+1
+
+>  <pred_num_rings>  (37) 
+0
+
+>  <pred_num_aromatic_rings>  (37) 
+0
+
+>  <pred_num_three_member_rings>  (37) 
+0
+
+>  <pred_formal_charge>  (37) 
+0
+
+>  <pred_heavy_atoms>  (37) 
+8
+
+$$$$
+87|t100|pred|DYR_STAAU_2_158_0/3fyw_X_rec_3fy9_xcf_lig_tt_docked_8_pocket10.pdb_DYR_STAAU_2_158_0/3fyw_X_rec_3fy9_xcf_lig_tt_docked_8.sdf
+     RDKit          3D
+
+ 26 31  0  0  0  0  0  0  0  0999 V2000
+   -0.0403   -2.0330    1.4047 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1303   -2.8350    1.1097 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8873   -2.6650   -0.1493 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7003   -3.6310   -0.5463 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.8443   -4.8980    0.2747 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.5763   -4.6400    1.6647 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4873   -3.8580    1.9687 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7753   -4.0960    3.1257 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3167   -3.3020    3.4437 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6877   -2.2730    2.5747 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1693   -5.6140    0.0177 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.5763   -5.4800   -1.4543 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2153   -6.8510   -0.8923 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1793   -5.1390    3.9367 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6213   -6.4420    3.7437 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0347   -3.5380    4.5967 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1647   -2.7240    4.9037 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3677   -0.9220    0.4477 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0503    3.4360   -0.2573 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2453    2.3650   -0.0473 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1003    2.2920   -0.7403 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6023    1.3970    0.8217 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8013    0.3360    1.0087 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6023    0.2480    0.3017 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2693    1.2620   -0.5793 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8867    1.2250   -1.2863 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  9  1  0
+  1 10  1  0
+  1 18  1  0
+  2  3  1  0
+  2  7  1  0
+  3  4  1  0
+  4  5  1  0
+  5  6  1  0
+  5 11  1  0
+  6  7  1  0
+  7  8  1  0
+  8  9  1  0
+  8 14  1  0
+  9 10  1  0
+  9 16  1  0
+ 11 12  1  0
+ 11 13  1  0
+ 12 13  1  0
+ 14 15  1  0
+ 16 17  1  0
+ 18 24  1  0
+ 19 20  1  0
+ 20 21  1  0
+ 20 22  1  0
+ 20 23  1  0
+ 21 25  1  0
+ 22 23  1  0
+ 23 24  1  0
+ 24 25  1  0
+ 25 26  2  0
+M  END
+>  <sample_idx>  (38) 
+87
+
+>  <local_batch_idx>  (38) 
+7
+
+>  <timestep>  (38) 
+100
+
+>  <num_atoms>  (38) 
+26
+
+>  <num_halfedges>  (38) 
+325
+
+>  <target_bond_count>  (38) 
+29
+
+>  <pred_bond_count>  (38) 
+31
+
+>  <noised_bond_count>  (38) 
+78
+
+>  <halfedge_accuracy>  (38) 
+0.9876922965049744
+
+>  <exact_halfedge_match>  (38) 
+0
+
+>  <noised_change_fraction>  (38) 
+0.1599999964237213
+
+>  <bond_pair_set_match>  (38) 
+0
+
+>  <bond_type_map_match>  (38) 
+0
+
+>  <missing_bond_count>  (38) 
+0
+
+>  <extra_bond_count>  (38) 
+2
+
+>  <bond_type_mismatch_count>  (38) 
+2
+
+>  <bond_pair_precision>  (38) 
+0.9354838709677419
+
+>  <bond_pair_recall>  (38) 
+1.0
+
+>  <bond_pair_f1>  (38) 
+0.9666666666666666
+
+>  <pred_bond_length_mean>  (38) 
+1.4794808741538756
+
+>  <pred_bond_length_p95>  (38) 
+1.9332000613212585
+
+>  <bad_bond_length_count>  (38) 
+2
+
+>  <bad_bond_length_fraction>  (38) 
+0.06451612903225806
+
+>  <oracle_sanitize_success>  (38) 
+1
+
+>  <oracle_repair_strategy>  (38) 
+none
+
+>  <oracle_sanitize_error>  (38) 
+
+
+>  <pred_sanitize_success>  (38) 
+1
+
+>  <pred_repair_strategy>  (38) 
+fix_aromatic
+
+>  <pred_sanitize_error>  (38) 
+
+
+>  <pred_vs_oracle_smiles_match>  (38) 
+0
+
+>  <pred_num_fragments>  (38) 
+1
+
+>  <pred_num_rings>  (38) 
+6
+
+>  <pred_num_aromatic_rings>  (38) 
+0
+
+>  <pred_num_three_member_rings>  (38) 
+3
+
+>  <pred_formal_charge>  (38) 
+0
+
+>  <pred_heavy_atoms>  (38) 
+26
+
+$$$$
+91|t100|pred|FABI_STAAR_1_256_0/4bnh_A_rec_4bnh_6pn_lig_tt_docked_2_pocket10.pdb_FABI_STAAR_1_256_0/4bnh_A_rec_4bnh_6pn_lig_tt_docked_2.sdf
+     RDKit          3D
+
+ 20 23  0  0  0  0  0  0  0  0999 V2000
+    3.8885   -0.4821   -0.1015 O   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0775    2.5429    0.3645 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5635    2.2239   -0.8995 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5285    0.8639    1.3205 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5945    1.8769    1.4835 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.9975    0.5339    0.0455 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4785    1.1779   -1.0735 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0555    2.1799    2.8745 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.3915    1.6539    2.8355 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2435    2.2179    3.9605 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7005    1.9669    3.6065 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.7085   -0.2481    3.2165 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.1945    0.7009    4.2745 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.9995    0.9369   -2.3135 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7265   -1.1401   -5.0835 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2895   -1.0311   -3.7735 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.9575   -0.5601   -5.4175 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0495   -0.3621   -2.8295 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7385    0.1279   -4.4895 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2545    0.2539   -3.2005 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  4  1  0
+  1  6  1  0
+  2  3  2  0
+  2  5  1  0
+  3  7  1  0
+  4  5  2  0
+  4  6  1  0
+  5  8  1  0
+  6  7  2  0
+  7 14  1  0
+  8  9  1  0
+  9 10  1  0
+ 10 11  1  0
+ 11 13  1  0
+ 12 13  1  0
+ 14 20  1  0
+ 15 16  2  0
+ 15 17  1  0
+ 15 19  1  0
+ 16 18  1  0
+ 17 19  2  0
+ 18 20  2  0
+ 19 20  1  0
+M  END
+>  <sample_idx>  (39) 
+91
+
+>  <local_batch_idx>  (39) 
+3
+
+>  <timestep>  (39) 
+100
+
+>  <num_atoms>  (39) 
+20
+
+>  <num_halfedges>  (39) 
+190
+
+>  <target_bond_count>  (39) 
+21
+
+>  <pred_bond_count>  (39) 
+23
+
+>  <noised_bond_count>  (39) 
+46
+
+>  <halfedge_accuracy>  (39) 
+0.9894737005233765
+
+>  <exact_halfedge_match>  (39) 
+0
+
+>  <noised_change_fraction>  (39) 
+0.14210526645183563
+
+>  <bond_pair_set_match>  (39) 
+0
+
+>  <bond_type_map_match>  (39) 
+0
+
+>  <missing_bond_count>  (39) 
+0
+
+>  <extra_bond_count>  (39) 
+2
+
+>  <bond_type_mismatch_count>  (39) 
+0
+
+>  <bond_pair_precision>  (39) 
+0.9130434782608695
+
+>  <bond_pair_recall>  (39) 
+1.0
+
+>  <bond_pair_f1>  (39) 
+0.9545454545454545
+
+>  <pred_bond_length_mean>  (39) 
+1.5110754241114077
+
+>  <pred_bond_length_p95>  (39) 
+2.299602735042571
+
+>  <bad_bond_length_count>  (39) 
+2
+
+>  <bad_bond_length_fraction>  (39) 
+0.08695652173913043
+
+>  <oracle_sanitize_success>  (39) 
+1
+
+>  <oracle_repair_strategy>  (39) 
+none
+
+>  <oracle_sanitize_error>  (39) 
+
+
+>  <pred_sanitize_success>  (39) 
+1
+
+>  <pred_repair_strategy>  (39) 
+none
+
+>  <pred_sanitize_error>  (39) 
+
+
+>  <pred_vs_oracle_smiles_match>  (39) 
+0
+
+>  <pred_num_fragments>  (39) 
+1
+
+>  <pred_num_rings>  (39) 
+4
+
+>  <pred_num_aromatic_rings>  (39) 
+3
+
+>  <pred_num_three_member_rings>  (39) 
+2
+
+>  <pred_formal_charge>  (39) 
+0
+
+>  <pred_heavy_atoms>  (39) 
+20
+
+$$$$
+93|t100|pred|TRPD_MYCTU_9_370_0/3qqs_A_rec_4zoj_61l_lig_tt_min_0_pocket10.pdb_TRPD_MYCTU_9_370_0/3qqs_A_rec_4zoj_61l_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 20 21  0  0  0  0  0  0  0  0999 V2000
+   -1.6685   -0.6084   -1.0559 N   0  0  0  0  0  0  0  0  0  0  0  0
+    1.6425   -1.0834   -2.6559 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.3665   -1.6604   -1.6259 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.7625   -1.8954   -0.3979 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.4365   -1.5524   -0.1859 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2975   -0.9614   -1.2169 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.3145   -0.7434   -2.4539 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1585   -1.8454    1.1751 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5835   -0.0194   -3.7969 S   0  0  0  0  0  0  0  0  0  0  0  0
+    0.5615    0.3756   -5.0989 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1175    0.6126   -0.4529 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.4835    0.8396   -0.3079 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2325    1.5836   -0.0019 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7095    2.7446    0.5921 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0665    2.9636    0.7381 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9545    2.0056    0.2821 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7425    3.7816    1.0921 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.4705   -0.2024   -0.7939 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8475   -1.1074   -0.0069 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9075   -0.1774   -1.9829 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  6  1  0
+  1 11  1  0
+  2  3  2  0
+  2  7  1  0
+  3  4  1  0
+  4  5  2  0
+  5  6  1  0
+  5  8  1  0
+  6  7  2  0
+  7  9  1  0
+  9 10  1  0
+ 11 12  2  0
+ 11 13  1  0
+ 12 16  1  0
+ 12 18  1  0
+ 13 14  2  0
+ 14 15  1  0
+ 14 17  1  0
+ 15 16  2  0
+ 18 19  1  0
+ 18 20  2  0
+M  END
+>  <sample_idx>  (40) 
+93
+
+>  <local_batch_idx>  (40) 
+5
+
+>  <timestep>  (40) 
+100
+
+>  <num_atoms>  (40) 
+20
+
+>  <num_halfedges>  (40) 
+190
+
+>  <target_bond_count>  (40) 
+21
+
+>  <pred_bond_count>  (40) 
+21
+
+>  <noised_bond_count>  (40) 
+41
+
+>  <halfedge_accuracy>  (40) 
+1.0
+
+>  <exact_halfedge_match>  (40) 
+1
+
+>  <noised_change_fraction>  (40) 
+0.10526315867900848
+
+>  <bond_pair_set_match>  (40) 
+1
+
+>  <bond_type_map_match>  (40) 
+1
+
+>  <missing_bond_count>  (40) 
+0
+
+>  <extra_bond_count>  (40) 
+0
+
+>  <bond_type_mismatch_count>  (40) 
+0
+
+>  <bond_pair_precision>  (40) 
+1.0
+
+>  <bond_pair_recall>  (40) 
+1.0
+
+>  <bond_pair_f1>  (40) 
+1.0
+
+>  <pred_bond_length_mean>  (40) 
+1.434681466647557
+
+>  <pred_bond_length_p95>  (40) 
+1.7703754901885986
+
+>  <bad_bond_length_count>  (40) 
+0
+
+>  <bad_bond_length_fraction>  (40) 
+0.0
+
+>  <oracle_sanitize_success>  (40) 
+1
+
+>  <oracle_repair_strategy>  (40) 
+none
+
+>  <oracle_sanitize_error>  (40) 
+
+
+>  <pred_sanitize_success>  (40) 
+1
+
+>  <pred_repair_strategy>  (40) 
+none
+
+>  <pred_sanitize_error>  (40) 
+
+
+>  <pred_vs_oracle_smiles_match>  (40) 
+1
+
+>  <pred_num_fragments>  (40) 
+1
+
+>  <pred_num_rings>  (40) 
+2
+
+>  <pred_num_aromatic_rings>  (40) 
+2
+
+>  <pred_num_three_member_rings>  (40) 
+0
+
+>  <pred_formal_charge>  (40) 
+0
+
+>  <pred_heavy_atoms>  (40) 
+20
+
+$$$$
+96|t100|pred|BRD4_HUMAN_42_168_0/5dx4_A_rec_5u2f_82y_lig_tt_min_0_pocket10.pdb_BRD4_HUMAN_42_168_0/5dx4_A_rec_5u2f_82y_lig_tt_min_0.sdf
+     RDKit          3D
+
+ 26 30  0  0  0  0  0  0  0  0999 V2000
+    0.0727    1.4268    1.4173 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1887    2.5078    2.2303 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4223    1.0608    1.3893 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6333   -0.0822    0.5113 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.1903   -0.5362   -0.1257 S   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8257    0.5358    0.5583 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7227    2.5328    2.1933 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.9627    1.6148    1.2953 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2747    0.7028    0.4273 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8777    0.0878   -0.3887 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.1583    2.8018    4.2713 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3803    3.1338    3.7083 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.6623    2.7998    2.3883 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.7133    2.1318    1.6263 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.4903    1.7978    2.1953 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2133    2.1338    3.5103 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.9853    5.2238    6.5513 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.0233    4.5478    5.7793 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.4213    3.8718    4.5533 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.5543    3.8888    4.2013 O   0  0  0  0  0  0  0  0  0  0  0  0
+    4.2037    2.7588    3.8163 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1167    3.8838    4.3873 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8217    3.0338    3.4243 N   0  0  0  0  0  0  0  0  0  0  0  0
+    4.9267    3.9498    4.4363 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.1877    4.5648    5.4293 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.9687    5.0158    4.9543 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0
+  1  6  2  0
+  1  7  1  0
+  2  7  1  0
+  2  8  1  0
+  2 22  1  0
+  2 23  1  0
+  3  4  2  0
+  3 15  1  0
+  4  5  1  0
+  5  6  1  0
+  6  9  1  0
+  8  9  1  0
+  9 10  2  0
+ 11 12  2  0
+ 11 16  1  0
+ 12 13  1  0
+ 12 19  1  0
+ 13 14  2  0
+ 14 15  1  0
+ 15 16  2  0
+ 17 18  1  0
+ 18 19  1  0
+ 19 20  1  0
+ 21 23  1  0
+ 21 24  1  0
+ 22 23  1  0
+ 22 26  1  0
+ 24 25  1  0
+ 25 26  1  0
+M  END
+>  <sample_idx>  (41) 
+96
+
+>  <local_batch_idx>  (41) 
+0
+
+>  <timestep>  (41) 
+100
+
+>  <num_atoms>  (41) 
+26
+
+>  <num_halfedges>  (41) 
+325
+
+>  <target_bond_count>  (41) 
+29
+
+>  <pred_bond_count>  (41) 
+30
+
+>  <noised_bond_count>  (41) 
+68
+
+>  <halfedge_accuracy>  (41) 
+0.9938461780548096
+
+>  <exact_halfedge_match>  (41) 
+0
+
+>  <noised_change_fraction>  (41) 
+0.13846154510974884
+
+>  <bond_pair_set_match>  (41) 
+0
+
+>  <bond_type_map_match>  (41) 
+0
+
+>  <missing_bond_count>  (41) 
+0
+
+>  <extra_bond_count>  (41) 
+1
+
+>  <bond_type_mismatch_count>  (41) 
+1
+
+>  <bond_pair_precision>  (41) 
+0.9666666666666667
+
+>  <bond_pair_recall>  (41) 
+1.0
+
+>  <bond_pair_f1>  (41) 
+0.983050847457627
+
+>  <pred_bond_length_mean>  (41) 
+1.481937571366628
+
+>  <pred_bond_length_p95>  (41) 
+1.6352096021175384
+
+>  <bad_bond_length_count>  (41) 
+1
+
+>  <bad_bond_length_fraction>  (41) 
+0.03333333333333333
+
+>  <oracle_sanitize_success>  (41) 
+1
+
+>  <oracle_repair_strategy>  (41) 
+none
+
+>  <oracle_sanitize_error>  (41) 
+
+
+>  <pred_sanitize_success>  (41) 
+1
+
+>  <pred_repair_strategy>  (41) 
+none
+
+>  <pred_sanitize_error>  (41) 
+
+
+>  <pred_vs_oracle_smiles_match>  (41) 
+0
+
+>  <pred_num_fragments>  (41) 
+1
+
+>  <pred_num_rings
