@@ -77,7 +77,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, default=None, help="Override output directory.")
     parser.add_argument("--batch-sizes", type=str, default=None, help="Comma-separated graph batch sizes.")
     parser.add_argument("--device", type=str, default=None, help="Override DiffGui torch device, e.g. cuda:7.")
+    parser.add_argument("--docking-gpu-id", type=int, default=None, help="Override physical GPU id used by UniDock.")
     parser.add_argument("--reward-batch-size", type=int, default=None, help="Override docking reward chunk size.")
+    parser.add_argument("--num-timesteps", type=int, default=None, help="Override DiffGui diffusion steps.")
+    parser.add_argument("--gui-strength", type=float, default=None, help="Override DiffGui classifier-free guidance strength.")
+    parser.add_argument("--precision", type=str, default=None, choices=["fp32", "fp16", "bf16"], help="Override PPO replay precision.")
+    parser.add_argument("--graph-micro-batch-size", type=int, default=None, help="Override PPO graph microbatch size.")
+    parser.add_argument("--freeze-mode", type=str, default=None, choices=["none", "heads_only", "last_n_blocks"])
+    parser.add_argument("--train-last-n-blocks", type=int, default=None)
     parser.add_argument("--log-level", type=str, default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR"])
     return parser.parse_args()
 
@@ -87,14 +94,37 @@ def main() -> None:
     args = parse_args()
     config = _load_yaml(args.config)
     sweep_cfg = config.setdefault("diffgui_docking_batch_sweep", {})
+    train_cfg = config.setdefault("train", {})
+    reward_cfg = config.setdefault("reward", {})
+    docking_cfg = reward_cfg.setdefault("docking", {})
     if args.output_dir is not None:
         sweep_cfg["output_dir"] = str(args.output_dir)
     if args.batch_sizes is not None:
         sweep_cfg["batch_sizes"] = [int(value) for value in args.batch_sizes.split(",") if value.strip()]
     if args.device is not None:
         sweep_cfg["device"] = str(args.device)
+        if args.docking_gpu_id is None:
+            device_index = _cuda_index_from_device(args.device)
+            if device_index is not None:
+                docking_cfg["gpu_id"] = int(device_index)
+    if args.docking_gpu_id is not None:
+        docking_cfg["gpu_id"] = int(args.docking_gpu_id)
     if args.reward_batch_size is not None:
         sweep_cfg["reward_batch_size"] = int(args.reward_batch_size)
+    if args.num_timesteps is not None:
+        sweep_cfg["num_timesteps"] = int(args.num_timesteps)
+    if args.gui_strength is not None:
+        sweep_cfg["gui_strength"] = float(args.gui_strength)
+    if args.precision is not None:
+        sweep_cfg["precision"] = str(args.precision)
+        train_cfg["precision"] = str(args.precision)
+    if args.graph_micro_batch_size is not None:
+        sweep_cfg["graph_micro_batch_size"] = int(args.graph_micro_batch_size)
+        train_cfg["graph_micro_batch_size"] = int(args.graph_micro_batch_size)
+    if args.freeze_mode is not None:
+        train_cfg.setdefault("freeze", {})["mode"] = str(args.freeze_mode)
+    if args.train_last_n_blocks is not None:
+        train_cfg.setdefault("freeze", {})["train_last_n_blocks"] = int(args.train_last_n_blocks)
 
     output_dir = _resolve_path(sweep_cfg.get("output_dir", "analysis/diffgui_docking_batch_sweep_20260609"))
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -150,6 +180,19 @@ def main() -> None:
 
     if failed:
         raise SystemExit(1)
+
+
+def _cuda_index_from_device(value: str) -> int | None:
+    """Parse a physical CUDA index from a device string such as ``cuda:7``."""
+    device = str(value).strip().lower()
+    if device == "cuda":
+        return 0
+    if not device.startswith("cuda:"):
+        return None
+    try:
+        return int(device.split(":", 1)[1])
+    except ValueError:
+        return None
 
 
 def run_one_batch(
@@ -691,6 +734,8 @@ def _build_batch_summary_row(
     reward_values = np.asarray(rewards_by_graph, dtype=np.float64)
     docking_success = sum(1 for row in reward_rows if float(row.get("docking_raw", 0.0) or 0.0) != 0.0)
     valid_count = sum(1 for row in reward_rows if int(row.get("rdkit_valid", 0) or 0) == 1)
+    docking_success_ratio_scored = float(docking_success / len(reward_rows)) if reward_rows else 0.0
+    docking_success_ratio_total = float(docking_success / len(reconstruction_rows)) if reconstruction_rows else 0.0
     row: dict[str, Any] = {
         "status": "ok",
         "batch_size": int(batch_size),
@@ -707,7 +752,9 @@ def _build_batch_summary_row(
         "reward_records": int(len(reward_rows)),
         "reward_rdkit_valid": int(valid_count),
         "docking_success": int(docking_success),
-        "docking_success_ratio": float(docking_success / len(reward_rows)) if reward_rows else 0.0,
+        "docking_success_ratio": docking_success_ratio_total,
+        "docking_success_ratio_total": docking_success_ratio_total,
+        "docking_success_ratio_scored": docking_success_ratio_scored,
         "reward_total_mean": float(np.mean(reward_values)) if reward_values.size else 0.0,
         "reward_total_min": float(np.min(reward_values)) if reward_values.size else 0.0,
         "reward_total_max": float(np.max(reward_values)) if reward_values.size else 0.0,
@@ -803,6 +850,8 @@ def _union_fieldnames(rows: list[dict[str, Any]]) -> list[str]:
         "reconstruction_success_ratio",
         "docking_success",
         "docking_success_ratio",
+        "docking_success_ratio_total",
+        "docking_success_ratio_scored",
         "reward_total_mean",
         "PPO_Loss",
         "PPO_ApproxKL",
