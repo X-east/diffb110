@@ -363,6 +363,11 @@ class DiffGuiActor:
         return self._optimizer_params[0].device
 
     @staticmethod
+    def _unwrap_model(model: torch.nn.Module) -> torch.nn.Module:
+        """Return the bare DiffGui module from optional DDP/DataParallel wrappers."""
+        return getattr(model, "module", model)
+
+    @staticmethod
     def _merge_microbatch_metrics(rows: list[dict[str, float]]) -> dict[str, float]:
         """Merge graph microbatch metrics weighted by graph count."""
         if not rows:
@@ -399,28 +404,29 @@ class DiffGuiActor:
     @classmethod
     def _apply_freeze_policy(cls, model: torch.nn.Module, freeze_cfg: Any) -> dict[str, Any]:
         """Apply a DiffGui-specific parameter freeze policy before optimizer setup."""
+        core_model = cls._unwrap_model(model)
         cfg = freeze_cfg if isinstance(freeze_cfg, dict) else {}
         mode = str(cfg.get("mode", "none")).lower()
         if mode in ("none", "off", "false"):
-            return cls._freeze_report(model, mode="none", train_last_n_blocks=0)
+            return cls._freeze_report(core_model, mode="none", train_last_n_blocks=0)
 
-        for parameter in model.parameters():
+        for parameter in core_model.parameters():
             parameter.requires_grad_(False)
 
         train_last_n_blocks = int(cfg.get("train_last_n_blocks", cfg.get("last_n_blocks", 1)))
         if mode in ("heads_only", "head", "heads"):
-            cls._enable_named_module(model, "ligand_node_decoder")
-            cls._enable_named_module(model, "ligand_edge_decoder")
+            cls._enable_named_module(core_model, "ligand_node_decoder")
+            cls._enable_named_module(core_model, "ligand_edge_decoder")
             train_last_n_blocks = 0
         elif mode in ("last_n_blocks", "last_blocks"):
             if train_last_n_blocks <= 0:
                 raise ValueError("freeze.train_last_n_blocks must be positive for last_n_blocks mode.")
-            cls._enable_named_module(model, "ligand_node_decoder")
-            cls._enable_named_module(model, "ligand_edge_decoder")
-            cls._enable_last_denoiser_blocks(model, train_last_n_blocks)
+            cls._enable_named_module(core_model, "ligand_node_decoder")
+            cls._enable_named_module(core_model, "ligand_edge_decoder")
+            cls._enable_last_denoiser_blocks(core_model, train_last_n_blocks)
         else:
             raise ValueError("train.freeze.mode must be one of none, heads_only, or last_n_blocks.")
-        return cls._freeze_report(model, mode=mode, train_last_n_blocks=train_last_n_blocks)
+        return cls._freeze_report(core_model, mode=mode, train_last_n_blocks=train_last_n_blocks)
 
     @staticmethod
     def _enable_named_module(model: torch.nn.Module, module_name: str) -> None:

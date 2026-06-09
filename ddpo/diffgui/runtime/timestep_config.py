@@ -18,6 +18,7 @@ TIMESTEP_DERIVED_STATE_PREFIXES = (
 
 def configure_diffgui_model_timesteps(model: torch.nn.Module, num_timesteps: int) -> dict[str, Any]:
     """Regenerate DiffGui timestep-dependent buffers for a target trajectory length."""
+    model = unwrap_model(model)
     target_timesteps = int(num_timesteps)
     if target_timesteps <= 0:
         raise ValueError("num_timesteps must be positive.")
@@ -156,6 +157,7 @@ def rebuild_time_embedding(model: torch.nn.Module, num_timesteps: int, *, device
 
 def infer_module_device(module: torch.nn.Module) -> torch.device:
     """Infer module device from parameters or buffers."""
+    module = unwrap_model(module)
     try:
         return next(module.parameters()).device
     except StopIteration:
@@ -172,3 +174,8 @@ def get_bond_time_segments(diff_config: Any) -> list[int] | None:
     if diff_bond is None or not hasattr(diff_bond, "time_segment"):
         return None
     return [int(value) for value in getattr(diff_bond, "time_segment")]
+
+
+def unwrap_model(model: torch.nn.Module) -> torch.nn.Module:
+    """Return the bare module from optional DDP/DataParallel wrappers."""
+    return getattr(model, "module", model)

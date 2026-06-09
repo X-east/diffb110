@@ -322,15 +322,16 @@ def diffgui_sample_with_logprob(
     stochastic transition, making the recorded transition log-probability no
     longer match the actual stored action.
     """
-    _require_discrete_diffgui(model)
+    core_model = _core_model(model)
+    _require_discrete_diffgui(core_model)
     if guidance is not None:
         raise ValueError("DiffGui PPO rollout must disable bond guidance for logprob consistency.")
 
     device = ligand_batch.device
     n_nodes_all = len(ligand_batch)
     n_halfedges_all = len(halfedge_batch)
-    _, ligand_node_h_pert, node_log_state = model.node_transition.sample_init(n_nodes_all)
-    _, ligand_halfedge_h_pert, halfedge_log_state = model.edge_transition.sample_init(n_halfedges_all)
+    _, ligand_node_h_pert, node_log_state = core_model.node_transition.sample_init(n_nodes_all)
+    _, ligand_halfedge_h_pert, halfedge_log_state = core_model.edge_transition.sample_init(n_halfedges_all)
 
     pocket_center_pos = scatter_mean(protein_pos, protein_batch, dim=0)
     ligand_center_pos = pocket_center_pos[ligand_batch]
@@ -340,10 +341,10 @@ def diffgui_sample_with_logprob(
         ligand_pos_init,
         protein_batch,
         ligand_batch,
-        mode=model.center_pos_mode,
+        mode=core_model.center_pos_mode,
     )
 
-    num_timesteps = int(model.num_timesteps)
+    num_timesteps = int(core_model.num_timesteps)
     ligand_node_traj = torch.zeros(
         [num_timesteps + 1, n_nodes_all, ligand_node_h_pert.shape[-1]],
         dtype=ligand_node_h_pert.dtype,
@@ -399,9 +400,9 @@ def diffgui_sample_with_logprob(
             gui_strength=gui_strength,
         )
         reverse_step = sample_discrete_reverse_step(
-            pos_transition=model.pos_transition,
-            node_transition=model.node_transition,
-            edge_transition=model.edge_transition,
+            pos_transition=core_model.pos_transition,
+            node_transition=core_model.node_transition,
+            edge_transition=core_model.edge_transition,
             pos_t=ligand_pos_pert,
             node_log_state_t=node_log_state,
             halfedge_log_state_t=halfedge_log_state,
@@ -482,7 +483,8 @@ def diffgui_forward_step_logprob(
     reduction: str = "mean",
 ) -> DiffGuiLogProbResult:
     """Recompute current-policy logprob for one stored DiffGui transition."""
-    _require_discrete_diffgui(model)
+    core_model = _core_model(model)
+    _require_discrete_diffgui(core_model)
     ligand_edge_h_t = torch.cat([ligand_halfedge_t, ligand_halfedge_t], dim=0)
     ligand_edge_index = torch.cat([halfedge_index, halfedge_index.flip(0)], dim=1)
     ligand_edge_batch = torch.cat([halfedge_batch, halfedge_batch], dim=0)
@@ -502,9 +504,9 @@ def diffgui_forward_step_logprob(
         gui_strength=gui_strength,
     )
     return recompute_discrete_reverse_logprob(
-        pos_transition=model.pos_transition,
-        node_transition=model.node_transition,
-        edge_transition=model.edge_transition,
+        pos_transition=core_model.pos_transition,
+        node_transition=core_model.node_transition,
+        edge_transition=core_model.edge_transition,
         pos_t=ligand_pos_t,
         node_log_state_t=node_log_state_t,
         halfedge_log_state_t=halfedge_log_state_t,
@@ -539,9 +541,10 @@ def _predict_diffgui_step(
     gui_strength: float | None,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """Run the same model prediction branch as DiffGui.sample."""
-    train_mode = str(model.config.train_mode)
+    core_model = _core_model(model)
+    train_mode = str(core_model.config.train_mode)
     if train_mode in ("ori", "no_bond"):
-        pred_pos, pred_node, pred_halfedge = model.classifier_free(
+        preds_cond = model(
             protein_node,
             protein_pos,
             protein_batch,
@@ -551,10 +554,35 @@ def _predict_diffgui_step(
             ligand_edge_pert,
             ligand_edge_index,
             ligand_edge_batch,
-            gui_strength,
             time_step,
             batch_lab,
         )
+        # The reference DiffGui classifier_free branch creates a zero label but
+        # calls the unconditional forward with batch_lab again.  Reusing the same
+        # tensor is numerically equivalent for this checkpoint and avoids a
+        # second DDP forward for every denoising step.
+        preds_uncond = preds_cond
+        pred_eps_cond = core_model._predict_eps_from_x0(
+            xt=ligand_pos_pert,
+            t=time_step,
+            pred_x0=preds_cond["pred_ligand_pos"],
+            batch=ligand_batch,
+        )
+        pred_eps_uncond = core_model._predict_eps_from_x0(
+            xt=ligand_pos_pert,
+            t=time_step,
+            pred_x0=preds_uncond["pred_ligand_pos"],
+            batch=ligand_batch,
+        )
+        pred_eps = (1 + float(gui_strength)) * pred_eps_cond - float(gui_strength) * pred_eps_uncond
+        pred_pos = core_model._predict_x0_from_eps(
+            xt=ligand_pos_pert,
+            t=time_step,
+            eps=pred_eps,
+            batch=ligand_batch,
+        )
+        pred_node = preds_cond["pred_ligand_node"] + preds_uncond["pred_ligand_node"]
+        pred_halfedge = preds_cond["pred_ligand_halfedge"] + preds_uncond["pred_ligand_halfedge"]
         return pred_pos, pred_node, pred_halfedge
     if train_mode in ("no_lab", "no_both"):
         preds = model(
@@ -572,6 +600,11 @@ def _predict_diffgui_step(
         )
         return preds["pred_ligand_pos"], preds["pred_ligand_node"], preds["pred_ligand_halfedge"]
     raise ValueError(f"Unsupported DiffGui train_mode={train_mode!r}")
+
+
+def _core_model(model: Any) -> Any:
+    """Return the bare DiffGui module from optional DDP/DataParallel wrappers."""
+    return getattr(model, "module", model)
 
 
 def _extract_transition_value(coef: torch.Tensor, t: torch.Tensor, batch: torch.Tensor) -> torch.Tensor:
@@ -639,4 +672,3 @@ def _require_discrete_diffgui(model: Any) -> None:
             "DiffGui stage-2 adapter currently supports categorical_space='discrete' only, "
             f"got {categorical_space!r}."
         )
-

@@ -83,15 +83,16 @@ class DiffGuiRollout:
     def __init__(self, model: torch.nn.Module, config: dict[str, Any]) -> None:
         """Initialize rollout settings from the DiffGui-specific config."""
         self.model = model
+        core_model = _unwrap_model(model)
         rollout_cfg = config.get("diffgui_rollout", {})
-        self.num_timesteps = int(rollout_cfg.get("num_timesteps", getattr(model, "num_timesteps", 0)))
-        model_timesteps = int(getattr(model, "num_timesteps", 0))
+        self.num_timesteps = int(rollout_cfg.get("num_timesteps", getattr(core_model, "num_timesteps", 0)))
+        model_timesteps = int(getattr(core_model, "num_timesteps", 0))
         if self.num_timesteps <= 0:
             raise ValueError("diffgui_rollout.num_timesteps must be positive.")
         if model_timesteps != self.num_timesteps:
-            if bool(rollout_cfg.get("auto_configure_timesteps", True)):
-                self.timestep_config_report = configure_diffgui_model_timesteps(model, self.num_timesteps)
-                model_timesteps = int(getattr(model, "num_timesteps", 0))
+            if bool(rollout_cfg.get("auto_configure_timesteps", False)):
+                self.timestep_config_report = configure_diffgui_model_timesteps(core_model, self.num_timesteps)
+                model_timesteps = int(getattr(core_model, "num_timesteps", 0))
             else:
                 raise ValueError(
                     "diffgui_rollout.num_timesteps must match model.num_timesteps. "
@@ -111,7 +112,7 @@ class DiffGuiRollout:
             )
         self.reduction = str(rollout_cfg.get("logprob_reduction", "mean"))
         self.gui_strength = rollout_cfg.get("gui_strength")
-        train_mode = str(getattr(getattr(model, "config", None), "train_mode", ""))
+        train_mode = str(getattr(getattr(core_model, "config", None), "train_mode", ""))
         if train_mode in ("ori", "no_bond") and self.gui_strength is None:
             raise ValueError(
                 "DiffGui train_mode requires diffgui_rollout.gui_strength for classifier-free prediction; "
@@ -253,3 +254,8 @@ def make_diffgui_ligand_placeholder(
         halfedge_index = halfedge_index.to(target)
         halfedge_batch = halfedge_batch.to(target)
     return ligand_batch, halfedge_index, halfedge_batch
+
+
+def _unwrap_model(model: torch.nn.Module) -> torch.nn.Module:
+    """Return the bare DiffGui module from optional DDP/DataParallel wrappers."""
+    return getattr(model, "module", model)
