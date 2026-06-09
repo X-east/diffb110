@@ -31,6 +31,7 @@ from torch_geometric.transforms import Compose  # noqa: E402
 
 from ddpo.diffgui.runtime.actor import DiffGuiActor  # noqa: E402
 from ddpo.diffgui.runtime.rollout import DiffGuiPromptBatch, DiffGuiRollout  # noqa: E402
+from ddpo.diffgui.runtime.timestep_config import force_diff_config_num_timesteps, load_diffgui_network_state  # noqa: E402
 from models.model import DiffGui  # noqa: E402
 from utils.data import PDBProtein, parse_lig_file  # noqa: E402
 from utils.dataset import ProteinLigandData, to_torch_dict  # noqa: E402
@@ -88,7 +89,7 @@ def main() -> None:
     config = load_config(args.sample_config)
     ckpt = torch.load(str(args.checkpoint), map_location=device)
     train_config = ckpt["config"]
-    _force_num_timesteps(train_config.model.diff, args.num_timesteps)
+    force_diff_config_num_timesteps(train_config.model.diff, args.num_timesteps)
     logger.info("loaded checkpoint iteration=%s", ckpt.get("iteration"))
     logger.info("forced model.diff.num_timesteps=%d", int(train_config.model.diff.num_timesteps))
 
@@ -100,7 +101,7 @@ def main() -> None:
         ligand_node_types=featurizer.atom_feat_dim,
         num_edge_types=featurizer.bond_feat_dim,
     ).to(device)
-    load_report = _load_matching_network_weights(model, ckpt["model"])
+    load_report = load_diffgui_network_state(model, ckpt["model"])
     model.eval()
     logger.info("model.num_timesteps=%d", int(model.num_timesteps))
     logger.info("load_report=%s", load_report)
@@ -222,78 +223,6 @@ def _setup_logging(log_path: Path) -> None:
     file_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
     logger.addHandler(file_handler)
-
-
-def _force_num_timesteps(diff_config: Any, num_timesteps: int) -> None:
-    """Force DiffGui diffusion config to a shorter self-consistent schedule."""
-    diff_config.num_timesteps = int(num_timesteps)
-    diff_bond = diff_config.diff_bond
-    if str(diff_bond.beta_schedule) == "segment":
-        original = [int(value) for value in diff_bond.time_segment]
-        diff_bond.time_segment = _scale_segments(original, int(num_timesteps))
-
-
-def _scale_segments(segments: list[int], total: int) -> list[int]:
-    """Scale segment lengths while preserving the original proportions."""
-    raw = np.asarray(segments, dtype=np.float64)
-    scaled = raw / raw.sum() * float(total)
-    floored = np.floor(scaled).astype(np.int64)
-    floored = np.maximum(floored, 1)
-    while int(floored.sum()) < total:
-        floored[int(np.argmax(scaled - floored))] += 1
-    while int(floored.sum()) > total:
-        candidates = np.where(floored > 1)[0]
-        floored[int(candidates[np.argmax(floored[candidates] - scaled[candidates])])] -= 1
-    return [int(value) for value in floored.tolist()]
-
-
-def _load_matching_network_weights(model: torch.nn.Module, checkpoint_state: dict[str, torch.Tensor]) -> dict[str, Any]:
-    """Load checkpoint weights while keeping regenerated 100-step transition buffers."""
-    model_state = model.state_dict()
-    filtered: dict[str, torch.Tensor] = {}
-    skipped: list[dict[str, Any]] = []
-    regenerated_prefixes = (
-        "pos_transition.",
-        "node_transition.",
-        "edge_transition.",
-        "time_emb.",
-    )
-    for key, value in checkpoint_state.items():
-        if key.startswith(regenerated_prefixes):
-            skipped.append(
-                {
-                    "key": key,
-                    "checkpoint_shape": list(value.shape),
-                    "model_shape": list(model_state[key].shape) if key in model_state else None,
-                    "reason": "regenerated_from_current_num_timesteps",
-                }
-            )
-            continue
-        model_value = model_state.get(key)
-        if model_value is not None and tuple(model_value.shape) == tuple(value.shape):
-            filtered[key] = value
-            continue
-        skipped.append(
-            {
-                "key": key,
-                "checkpoint_shape": None if not hasattr(value, "shape") else list(value.shape),
-                "model_shape": None if model_value is None else list(model_value.shape),
-            }
-        )
-    non_transition_skipped = [
-        item["key"]
-        for item in skipped
-        if not str(item["key"]).startswith(regenerated_prefixes)
-    ]
-    if non_transition_skipped:
-        raise RuntimeError(f"Unexpected non-transition checkpoint shape mismatches: {non_transition_skipped[:10]}")
-    missing, unexpected = model.load_state_dict(filtered, strict=False)
-    return {
-        "loaded_keys": len(filtered),
-        "skipped_regenerated_keys": len(skipped),
-        "missing_keys": len(missing),
-        "unexpected_keys": len(unexpected),
-    }
 
 
 def _build_pocket_data(pocket_pdb_path: Path, ligand_sdf_path: str) -> Any:

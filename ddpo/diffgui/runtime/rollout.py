@@ -14,6 +14,7 @@ import torch
 
 from ddpo.diffgui.runtime.actor import DiffGuiPolicyBatch
 from ddpo.diffgui.runtime.logprob_adapter import diffgui_sample_with_logprob
+from ddpo.diffgui.runtime.timestep_config import configure_diffgui_model_timesteps
 
 
 @dataclass
@@ -88,10 +89,25 @@ class DiffGuiRollout:
         if self.num_timesteps <= 0:
             raise ValueError("diffgui_rollout.num_timesteps must be positive.")
         if model_timesteps != self.num_timesteps:
-            raise ValueError(
-                "diffgui_rollout.num_timesteps must match model.num_timesteps. "
-                "Build the DiffGui model with the same model.diff.num_timesteps value "
-                "so rollout generation and PPO training replay the same trajectory."
+            if bool(rollout_cfg.get("auto_configure_timesteps", True)):
+                self.timestep_config_report = configure_diffgui_model_timesteps(model, self.num_timesteps)
+                model_timesteps = int(getattr(model, "num_timesteps", 0))
+            else:
+                raise ValueError(
+                    "diffgui_rollout.num_timesteps must match model.num_timesteps. "
+                    "Set diffgui_rollout.auto_configure_timesteps=true to regenerate "
+                    "DiffGui timestep-dependent buffers after checkpoint loading."
+                )
+        else:
+            self.timestep_config_report = {
+                "changed": False,
+                "num_timesteps": self.num_timesteps,
+                "reason": "already_configured",
+            }
+        if model_timesteps != self.num_timesteps:
+            raise RuntimeError(
+                "DiffGui timestep auto-configuration did not update model.num_timesteps "
+                f"to {self.num_timesteps}; got {model_timesteps}."
             )
         self.reduction = str(rollout_cfg.get("logprob_reduction", "mean"))
         self.gui_strength = rollout_cfg.get("gui_strength")
@@ -169,6 +185,7 @@ class DiffGuiRollout:
                 "diffgui_policy_batch": policy_batch,
                 "diffgui_policy_batch_kind": "xhe_joint",
                 "diffgui_num_timesteps": self.num_timesteps,
+                "diffgui_timestep_config_report": self.timestep_config_report,
             },
         )
 
