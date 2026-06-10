@@ -17,17 +17,19 @@
 
 ---
 
-## Slide 2: 一句话总结：现在卡在哪里
+## Slide 2: 两个底座：DiffSBDD vs DiffGui
 
-- 核心问题：`扩散模型能生成分子，但 RL 优化目标容易把分子推向不合理区域`
-- 当前判断：DiffSBDD 快但化学合法性弱；DiffGui 质量强但 RL 成本高；x/h/e 大改最根本但风险高
-- 本次请教：四条线中哪条最适合作为论文主线？
-- Layout role：context / problem
-- Required images：无，建议画“底座质量 vs RL 可优化性”的二维示意图
+- DiffSBDD：生成 ligand 坐标 `x` 和原子类型 `h`，最后依赖 OpenBabel / RDKit 从点云重建键；速度快，RL 工程成熟，但化学合法性弱
+- DiffGui：原生建模 atom、bond/halfedge 与坐标的联合关系，更接近 `x/h/e` 联合生成；质量明显更强
+- 当前判断：DiffGui 的 200 步成本已可控，瓶颈主要在 PPO 更新，不是生成本身
+- 我的当前倾向：优先把 DiffGui 作为下一阶段主底座，同时保留 DiffSBDD RL 作为工程对照
+- Layout role：model introduction / visual comparison
+- Required images：
+  - **占位图，用户后续手动加入**：左侧 DiffSBDD 生成分子样貌，右侧 DiffGui 生成分子样貌；strict placeholder，PPT 生成时保留空白图框和标题，不自动补图
 
 ---
 
-## Slide 3: 共同背景：DiffSBDD 快，但底座质量弱
+## Slide 3: 共同背景：底座质量决定 RL 难度
 
 - 同一靶点 8GJL_C1101 六模型横评
 - DiffSBDD sanitize 只有 66.6%，但速度和 docking 潜力不差
@@ -75,6 +77,7 @@
 - 已完成：halfedge 数据链、edge denoiser、xhe joint skeleton、DiffGui 对照分析
 - 关键认识：不是“最后预测键”，而是每一步联合去噪时 edge 要参与坐标更新
 - 难点：loss scale、edge schedule、联合采样、与 DDPO logprob 对接
+- 当前不确定性：这条线复杂度最高，且我不确定改完后是否一定有效；更适合作为高风险探索或解释性支线
 - Layout role：technical architecture / risk
 - Required images：
   - xhe 长测 overview；strict input asset；用于说明训练和评估仍不稳定
@@ -87,8 +90,9 @@
 
 - DiffGui 底座质量更强，x/h/e 联合扩散天然具备 bond 先验
 - 已解耦接入 DiffGui rollout/logprob/PPO actor/reward-only 子进程
-- 200 步 8GPU 每 epoch 约 30 分钟，PPO 占约 90% 时间
+- 200 步 8GPU 每 epoch 约 30 分钟，其中 rollout 约 3 分钟；成本可控，主要瓶颈是 PPO 更新
 - 初版 docking+classifier 未见明显 reward 上升；当前启动 pure docking / lr=1e-5 / last2 诊断
+- 当前倾向：如果 pure docking 能推出趋势，就优先把 DiffGui RL 作为主线继续做多目标稳定化
 - Layout role：experiment status
 - Required images：
   - DiffGui RL training summary；strict input asset；用于说明初版收益不明显
@@ -101,10 +105,10 @@
 
 - C 线：最成熟，适合作为工程主线；风险是 reward hacking
 - A 线：最低风险，适合辅助；风险是改进幅度不够
-- B 线：创新性最高；风险是工程和训练不收敛
-- D 线：底座最好；风险是 PPO 成本高和收益不确定
+- B 线：创新性最高；风险是工程太复杂且收益不确定
+- D 线：底座最好、成本可控、当前最倾向；风险是 PPO 收益仍需验证
 - Layout role：decision matrix
-- Required images：无，建议生成四象限矩阵：`短期可控性` vs `方法创新性`
+- Required images：无，建议生成四象限矩阵：`短期可控性` vs `方法创新性`，并用强调色标出 DiffGui
 
 ---
 
@@ -114,7 +118,7 @@
 - 2. 应先修底座，还是继续做 RL 稳定化？
 - 3. reward hacking / sparse reward 本身能否构成论文贡献？
 - 4. x/h/e 大改应继续做完整模型，还是收缩成 bond/reconstruction 模块？
-- 5. DiffGui 应作为主底座、教师模型，还是只做对照？
+- 5. 在 DiffGui 成本可控的情况下，是否应把 DiffGui 作为主底座推进？
 - 6. 审稿人更看重生成质量、docking、reward 防护，还是方法新颖性？
 - Layout role：Q&A / consultation
 - Required images：无
@@ -123,14 +127,14 @@
 
 ## Slide 10: 两种可收敛论文 story
 
-- Story A：`DiffSBDD RL 稳定化框架`
-  - 主线：C 线
-  - 贡献：KL / guard / replay / dense reward，解决 reward hacking 和分布漂移
-  - A/D/B 作为 ablation 或对照
-- Story B：`显式 bond/edge 先验改善 3D SBDD`
+- Story A：`DiffGui 上的 reward-guided 3D 分子生成`
+  - 主线：D 线
+  - 贡献：把更强 x/h/e 底座接入 RL，研究 docking 优化与分布稳定化
+  - C 线提供 reward hacking 诊断和 guard/pool/KL 工具链
+- Story B：`显式 bond/edge 先验改善 DiffSBDD`
   - 主线：B 线
   - 贡献：x/h/e joint diffusion 或轻量 bond-aware 模块
   - RL 作为应用验证
-- 需要老师判断：哪条更符合课题周期、创新性和发表风险
+- 当前个人倾向：Story A；需要老师判断是否足够有方法贡献，以及 Story B 是否值得继续押注
 - Layout role：closing / recommendation
 - Required images：无，建议生成双路径收敛图
