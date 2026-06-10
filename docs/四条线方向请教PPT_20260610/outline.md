@@ -94,8 +94,8 @@
 - 但它也有 raw reconstruction failure 和复杂环/高碳分布偏差，RL 不能只看 sanitize
 - 已解耦接入 DiffGui rollout/logprob/PPO actor/reward-only 子进程
 - 200 步 8GPU 每 epoch 约 30 分钟，其中 rollout 约 3 分钟；成本可控，主要瓶颈是 PPO 更新
-- 初版 docking+classifier 未见明显 reward 上升；当前启动 pure docking / lr=1e-5 / last2 诊断
-- 当前倾向：如果 pure docking 能推出趋势，就优先把 DiffGui RL 作为主线继续做多目标稳定化
+- 初版 docking+classifier 未见明显 reward 上升；当前已转向 ring-quality 趋势测试：last3 / lr=3e-5 / 24 epochs / docking+LE+ring_complexity+chemistry_guard
+- 当前早期结果：ring/carbon 有轻微改善信号，但 docking 未同步改善；更适合作为“分布稳定化 RL”主线候选继续验证
 - Layout role：experiment status
 - Required images：
   - DiffGui RL training summary；strict input asset；用于说明初版收益不明显
@@ -108,10 +108,10 @@
 
 - C 线：最成熟，适合作为工程主线；风险是 reward hacking
 - A 线：最低风险，适合辅助；风险是改进幅度不够
-- B 线：创新性最高；风险是工程太复杂且收益不确定
+- B 线：结构改造最根本，但主要是把已有 x/h/e 联合建模思想嫁接到 DiffSBDD；风险是工程太复杂且收益不确定
 - D 线：底座最好、成本可控、当前最倾向；风险是 PPO 收益仍需验证
 - Layout role：decision matrix
-- Required images：无，建议生成四象限矩阵：`短期可控性` vs `方法创新性`，并用强调色标出 DiffGui
+- Required images：无，建议生成四象限矩阵：`短期可控性` vs `方法贡献确定性`，并用强调色标出 DiffGui；B 线标为“高风险适配/重构”，避免误标为原创机制
 
 ---
 
@@ -136,7 +136,7 @@
   - C 线提供 reward hacking 诊断和 guard/pool/KL 工具链
 - Story B：`显式 bond/edge 先验改善 DiffSBDD`
   - 主线：B 线
-  - 贡献：x/h/e joint diffusion 或轻量 bond-aware 模块
+  - 贡献：参考已有 x/h/e joint diffusion 思路，对 DiffSBDD 做 bond-aware 适配/重构；重点是验证是否能修复 DiffSBDD 成键短板，而不是声称联合扩散机制本身原创
   - RL 作为应用验证
 - 当前个人倾向：Story A；需要老师判断是否足够有方法贡献，以及 Story B 是否值得继续押注
 - Layout role：closing / recommendation
