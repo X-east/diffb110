@@ -19,8 +19,9 @@
 
 ## Slide 2: 两个底座：DiffSBDD vs DiffGui
 
-- DiffSBDD：生成 ligand 坐标 `x` 和原子类型 `h`，最后依赖 OpenBabel / RDKit 从点云重建键；速度快，RL 工程成熟，但化学合法性弱
-- DiffGui：原生建模 atom、bond/halfedge 与坐标的联合关系，更接近 `x/h/e` 联合生成；质量明显更强
+- DiffSBDD：生成 ligand 坐标 `x` 和原子类型 `h`，最后依赖 OpenBabel / RDKit 从点云重建键；速度快，RL 工程成熟，但成键/合法性弱
+- DiffGui：原生建模 atom、bond/halfedge 与坐标的联合关系，更接近 `x/h/e` 联合生成；成功写入样本的可重建合法性更强
+- 关键口径：DiffGui 横评的 100% sanitize 是成功写入并进入评估的 SDF 口径；日志显示另有失败重建样本被丢弃
 - 当前判断：DiffGui 的 200 步成本已可控，瓶颈主要在 PPO 更新，不是生成本身
 - 我的当前倾向：优先把 DiffGui 作为下一阶段主底座，同时保留 DiffSBDD RL 作为工程对照
 - Layout role：model introduction / visual comparison
@@ -32,12 +33,13 @@
 ## Slide 3: 共同背景：底座质量决定 RL 难度
 
 - 同一靶点 8GJL_C1101 六模型横评
-- DiffSBDD sanitize 只有 66.6%，但速度和 docking 潜力不差
-- DiffGui / DePPA 说明更强结构先验可以显著改善合法性
+- DiffSBDD 评估 SDF sanitize 只有 66.6%，但速度和 docking 潜力不差
+- DiffGui 评估 SDF sanitize 为 100%，但日志显示为得到 500 个成功 SDF 另有 55 个 failed / reconstruction error 样本
+- DiffGui 和 DiffSBDD 都会生成复杂环/稠环分子；DiffGui 在这组数据里 ring mean=4.68、芳香分子率=70.2%、carbon fraction=0.820
 - 这解释了为什么 RL 在 DiffSBDD 上容易陷入大量坏分子惩罚
 - Layout role：data evidence
 - Required images：
-  - 六模型 sanitize 对比；strict input asset；保留坐标轴、图例和数值趋势
+  - 六模型 sanitize 对比；strict input asset；保留坐标轴、图例和数值趋势；图注必须标明“成功写入/进入评估 SDF 口径”
 
     ![six model sanitize](../../analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/evaluation/six_models/sanitize_rate.png)
 
@@ -88,7 +90,8 @@
 
 ## Slide 7: D 线：DiffGui RL 已跑通，但收益和成本还不清楚
 
-- DiffGui 底座质量更强，x/h/e 联合扩散天然具备 bond 先验
+- DiffGui 成功写入样本质量更强，x/h/e 联合扩散天然具备 bond 先验
+- 但它也有 raw reconstruction failure 和复杂环/高碳分布偏差，RL 不能只看 sanitize
 - 已解耦接入 DiffGui rollout/logprob/PPO actor/reward-only 子进程
 - 200 步 8GPU 每 epoch 约 30 分钟，其中 rollout 约 3 分钟；成本可控，主要瓶颈是 PPO 更新
 - 初版 docking+classifier 未见明显 reward 上升；当前启动 pure docking / lr=1e-5 / last2 诊断
