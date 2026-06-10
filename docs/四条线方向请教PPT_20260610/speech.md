@@ -2,13 +2,13 @@
 
 ## Slide 1: 封面
 
-这次汇报不是最终成果展示，而是想请老师帮我判断课题应该收敛到哪条主线。我目前围绕 3D 分子扩散模型强化学习做了四条探索线：DiffSBDD 强化学习、DiffSBDD 内部小改、DiffSBDD x/h/e 大改，以及 DiffGui 强化学习。核心问题是：底座质量、reward hacking 和方法贡献之间，应该怎么取舍。
+这次汇报不是最终成果展示，而是想请老师帮我判断哪条技术路线最有希望服务 RE-CmeB 靶点适配分子生成。我目前围绕 3D 分子扩散模型强化学习做了四条探索线：DiffSBDD 强化学习、DiffSBDD 内部小改、DiffSBDD x/h/e 大改，以及 DiffGui 强化学习。核心问题是：如何在 docking、化学合理性、分布稳定性和候选分子可用性之间取舍。
 
 ---
 
 注意点：
 - 重点：这是方向请教，不是包装结果。
-- 节奏：开场直接说明希望老师帮忙判断主线。
+- 节奏：开场直接说明希望老师帮忙判断哪条路线更服务药学目标。
 
 ## Slide 2: 两个底座：DiffSBDD vs DiffGui
 
@@ -37,16 +37,16 @@ C 线是工程最成熟的一条。DDPO/PPO、多 GPU、reward factory、描述�
 ---
 
 注意点：
-- 重点：C 线价值是工具链和诊断，不一定是最佳主线。
+- 重点：C 线价值是工具链和诊断，不一定最能产出好分子。
 
 ## Slide 5: A 线：DiffSBDD 小改低风险，但改善有限
 
-A 线是低风险修补方案，比如 atom prior、geometry refine、local mask 和 bond head。它的优点是容易接入现有 DiffSBDD 和 RL 流程，但它没有改变扩散变量，最终成键仍然靠规则重建。因此它更适合做 ablation 或辅助增强，而不是承担完整论文主线。
+A 线是低风险修补方案，比如 atom prior、geometry refine、local mask 和 bond head。它的优点是容易接入现有 DiffSBDD 和 RL 流程，但它没有改变扩散变量，最终成键仍然靠规则重建。因此它更适合做 ablation 或辅助增强，不一定能单独显著提高 RE-CmeB 候选分子的质量。
 
 ---
 
 注意点：
-- 重点：低风险不等于适合主线。
+- 重点：低风险不等于一定能改善药学可用性。
 
 ## Slide 6: B 线：x/h/e 大改触及根因，但不是原创机制
 
@@ -60,7 +60,7 @@ B 线结构上最接近 DiffSBDD 的成键根因，因为它尝试把 bond/halfe
 
 ## Slide 7: D 线：DiffGui RL 已跑通，进入分布稳定化测试
 
-D 线是我目前最倾向的主线。DiffGui 底座更强，RL rollout、logprob、PPO actor 和 reward-only 子进程已经接通。最新 ring-quality 测试中，ring 和 carbon 有一点改善信号，但 docking 没有同步改善。这说明路线有希望，但不能说已经成功。下一步真正要研究的是多目标 reward 和分布稳定化。
+D 线是我目前最倾向的路线。DiffGui 底座更强，RL rollout、logprob、PPO actor 和 reward-only 子进程已经接通。最新 ring-quality 测试中，ring 和 carbon 有一点改善信号，但 docking 没有同步改善。这说明路线有希望，但不能说已经成功。下一步真正要看的是它能不能生成更适配 RE-CmeB、且化学更合理的候选分子。
 
 ---
 
@@ -70,7 +70,7 @@ D 线是我目前最倾向的主线。DiffGui 底座更强，RL rollout、logpro
 
 ## Slide 8: 四条线风险-收益判断
 
-这页是我目前的主线判断。C 线成熟，适合作为工具链和对照；A 线低风险，适合作为 ablation；B 线触及根因但属于高风险适配；D 线底座最好、工程已跑通、成本可控，所以最适合作为当前主推候选。
+这页是我目前的路线判断。C 线成熟，适合作为工具链和对照；A 线低风险，适合作为 ablation；B 线触及根因但属于高风险适配；D 线底座最好、工程已跑通、成本可控，所以最适合作为当前主推候选。
 
 ---
 
@@ -79,16 +79,16 @@ D 线是我目前最倾向的主线。DiffGui 底座更强，RL rollout、logpro
 
 ## Slide 9: 想请教老师的关键问题
 
-这里我想请老师帮忙判断几个关键问题：DiffGui RL 是否足够作为主线？reward hacking 和 distribution-stabilized RL 能否构成方法贡献？B 线是否值得继续投入，还是收缩成适配模块？以及如果面向计算机论文，审稿人更看重生成质量、docking、分布稳定化，还是模型结构新颖性？
+这里我想请老师帮忙判断几个关键问题：哪条路线最可能改善 RE-CmeB 候选分子质量？reward hacking 会不会让分子分数好看但药学可用性变差？B 线是否值得继续投入，还是收缩成适配模块？下一步更应该补 docking/LE、化学合理性、scaffold 多样性，还是人工可检查候选分子？
 
 ---
 
 注意点：
 - 重点：问题要聚焦方向选择。
 
-## Slide 10: 两种可收敛论文 story
+## Slide 10: 两种可收敛课题路线
 
-最后我把可能 story 收敛成两个。Story A 是 DiffGui 上的 distribution-stabilized RL，这是我当前更倾向的方向。Story B 是 DiffSBDD 的 bond-aware adaptation，风险更高，更适合作为支线或后续扩展。我希望老师判断的是：Story A 的方法贡献是否足够，以及 Story B 是否还值得继续押注。
+最后我把可能路线收敛成两个。路线 A 是 DiffGui 上的靶点适配生成优化，这是我当前更倾向的方向。路线 B 是 DiffSBDD 的 bond-aware adaptation，风险更高，更适合作为支线或后续扩展。我希望老师判断的是：哪条路线更可能产出可用候选分子，以及 B 线是否还值得继续押注。
 
 ---
 

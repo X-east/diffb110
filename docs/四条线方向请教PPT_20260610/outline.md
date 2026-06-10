@@ -1,17 +1,17 @@
 # 四条线方向请教 PPT 大纲草案
 
 > 状态：outline draft，仅用于确认页数、内容和图件映射；尚未生成 slide images / deck_spec / PPTX。  
-> 目标听众：计算机方向教授。  
-> 目标：请教授判断课题应收敛到哪条主线，以及下一步如何设计更像论文的技术路线。
+> 目标听众：药学/交叉方向老师。  
+> 目标：请老师判断哪条路线最有希望改善 RE-CmeB 靶点适配分子的生成质量，以及下一步如何做更贴近药学筛选的验证。
 
 ---
 
 ## Slide 1: 封面
 
-- 标题：`DiffB110：3D 分子扩散模型强化学习的四条探索线`
-- 副标题：`底座质量、reward hacking 与课题主线选择`
+- 标题：`DiffB110：RE-CmeB 靶点适配分子生成的四条探索线`
+- 副标题：`生成质量、靶点适配与课题路线选择`
 - 关键信息：RE-CmeB / DiffSBDD / DiffGui / DDPO-PPO / x-h-e diffusion
-- 视觉想法：四条路线从同一个目标分叉，最后汇聚到“论文主线选择”
+- 视觉想法：四条路线从同一个药学目标分叉，最后汇聚到“优先推进哪条生成路线”
 - Layout role：cover
 - Required images：无
 
@@ -64,7 +64,7 @@
 - 目标：不改变 DiffSBDD 扩散变量，只加 atom prior / geometry refine / local mask / bond head
 - 优点：工程风险低，容易接到现有 RL 主线
 - 问题：不引入显式 bond diffusion，最终成键仍依赖规则重建
-- 结论：适合作为 ablation 或低风险增强，但是否足够成为论文主线不确定
+- 结论：适合作为 ablation 或低风险增强，但不一定能显著提高靶点适配分子质量
 - Layout role：comparison / ablation
 - Required images：
   - 小改 ablation sanitize；strict input asset；用于说明轻改改善有限
@@ -104,40 +104,40 @@
 
 ---
 
-## Slide 8: 四条线的风险-收益判断
+## Slide 8: 四条线的质量-可控性判断
 
-- C 线：最成熟，适合作为工程主线；风险是 reward hacking
+- C 线：最成熟，适合作为工程对照；风险是 reward hacking 影响药学可用性
 - A 线：最低风险，适合辅助；风险是改进幅度不够
 - B 线：结构改造最根本，但主要是把已有 x/h/e 联合建模思想嫁接到 DiffSBDD；风险是工程太复杂且收益不确定
-- D 线：底座最好、成本可控、当前最倾向；风险是 PPO 收益仍需验证
+- D 线：底座最好、成本可控、当前最倾向；风险是 docking 与分布稳定化未同步改善
 - Layout role：decision matrix
-- Required images：无，建议生成四象限矩阵：`短期可控性` vs `方法贡献确定性`，并用强调色标出 DiffGui；B 线标为“高风险适配/重构”，避免误标为原创机制
+- Required images：无，建议生成四象限矩阵：`短期可控性` vs `对分子质量改善的确定性`，并用强调色标出 DiffGui；B 线标为“高风险适配/重构”，避免误标为原创机制
 
 ---
 
-## Slide 9: 想请教老师的 6 个问题
+## Slide 9: 想请教老师的关键问题
 
-- 1. 哪条线最像可发表的计算机方法？
-- 2. 应先修底座，还是继续做 RL 稳定化？
-- 3. reward hacking / sparse reward 本身能否构成论文贡献？
+- 1. 哪条线最可能真正改善 RE-CmeB 靶点适配分子质量？
+- 2. 应先修底座，还是继续做 RL 靶点适配优化？
+- 3. reward hacking 是否会让分子“分数好看但药学可用性更差”？
 - 4. x/h/e 大改应继续做完整模型，还是收缩成 bond/reconstruction 模块？
-- 5. 在 DiffGui 成本可控的情况下，是否应把 DiffGui 作为主底座推进？
-- 6. 审稿人更看重生成质量、docking、reward 防护，还是方法新颖性？
+- 5. 在 DiffGui 成本可控的情况下，是否应把 DiffGui 作为主生成底座推进？
+- 6. 下一步验证应优先看 docking、LE、化学合理性、分布稳定性、scaffold 多样性，还是人工可检查候选分子？
 - Layout role：Q&A / consultation
 - Required images：无
 
 ---
 
-## Slide 10: 两种可收敛论文 story
+## Slide 10: 两种可收敛课题路线
 
-- Story A：`DiffGui 上的 reward-guided 3D 分子生成`
+- Story A：`DiffGui 上的 RE-CmeB 靶点适配分子生成优化`
   - 主线：D 线
-  - 贡献：把更强 x/h/e 底座接入 RL，研究 docking 优化与分布稳定化
+  - 目标：用更强 x/h/e 底座和 RL 生成更适配靶点、化学更合理的候选分子
   - C 线提供 reward hacking 诊断和 guard/pool/KL 工具链
-- Story B：`显式 bond/edge 先验改善 DiffSBDD`
+- Story B：`显式 bond/edge 先验修复 DiffSBDD 生成质量`
   - 主线：B 线
   - 贡献：参考已有 x/h/e joint diffusion 思路，对 DiffSBDD 做 bond-aware 适配/重构；重点是验证是否能修复 DiffSBDD 成键短板，而不是声称联合扩散机制本身原创
-  - RL 作为应用验证
-- 当前个人倾向：Story A；需要老师判断是否足够有方法贡献，以及 Story B 是否值得继续押注
+  - RL 作为 RE-CmeB 靶点适配应用验证
+- 当前个人倾向：Story A；需要老师判断是否更有利于产出可用候选分子，以及 Story B 是否值得继续押注
 - Layout role：closing / recommendation
 - Required images：无，建议生成双路径收敛图

@@ -194,15 +194,15 @@ def slide_cover(prs: Presentation) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
     add_tag(slide, 0.9, 0.8, "方向请教 / 非最终成果", fill=PALE_ORANGE, color=ORANGE, width=5.0)
-    add_text(slide, 1.0, 2.05, 23.0, 1.3, "DiffB110：3D 分子扩散模型强化学习的四条探索线", size=28, bold=True)
-    add_text(slide, 1.05, 3.35, 22.0, 0.7, "底座质量、reward hacking 与课题主线选择", size=16, color=GRAY)
+    add_text(slide, 1.0, 2.05, 24.5, 1.3, "DiffB110：RE-CmeB 靶点适配分子生成的四条探索线", size=27, bold=True)
+    add_text(slide, 1.05, 3.35, 22.0, 0.7, "生成质量、靶点适配与课题路线选择", size=16, color=GRAY)
     add_text(slide, 1.05, 4.55, 23.0, 0.8, "RE-CmeB / DiffSBDD / DiffGui / DDPO-PPO / x-h-e diffusion", size=12, color=TEAL, bold=True)
     for i, (label, color) in enumerate([("C: DiffSBDD RL", BLUE), ("A: 内部小改", GREEN), ("B: x/h/e 适配", ORANGE), ("D: DiffGui RL", TEAL)]):
         add_panel(slide, 1.0 + i * 7.6, 6.4, 6.8, 2.4, fill=RGBColor(255, 255, 255))
         add_text(slide, 1.35 + i * 7.6, 6.78, 6.0, 0.5, label, size=14, color=color, bold=True, align=PP_ALIGN.CENTER)
-        desc = ["成熟但 reward hacking", "低风险但改善有限", "触及根因但高风险", "当前最倾向主线"][i]
+        desc = ["成熟但 reward hacking", "低风险但改善有限", "触及根因但高风险", "当前最倾向路线"][i]
         add_text(slide, 1.35 + i * 7.6, 7.55, 6.0, 0.55, desc, size=10, color=GRAY, align=PP_ALIGN.CENTER)
-    add_text(slide, 1.1, 10.35, 28.0, 1.0, "目标：请老师判断课题应收敛到哪条主线，以及下一步如何设计成更像计算机方法论文。", size=15, color=NAVY)
+    add_text(slide, 1.1, 10.35, 28.0, 1.0, "目标：请老师判断哪条路线最有希望生成更适配 RE-CmeB 靶点、且化学合理的候选分子。", size=15, color=NAVY)
     add_footer(slide, 1)
 
 
@@ -272,16 +272,16 @@ def slide_c(prs: Presentation) -> None:
 def slide_a(prs: Presentation) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_title(slide, "A 线：DiffSBDD 小改低风险，但改善有限", "适合作为 ablation 或辅助增强，不宜作为主线")
+    add_title(slide, "A 线：DiffSBDD 小改低风险，但改善有限", "适合作为 ablation 或辅助增强，不宜单独承担药学目标")
     add_image_fit(slide, IMG_ABLATION, 0.95, 2.2, 15.0, 9.2)
     add_panel(slide, 16.8, 2.2, 15.0, 9.2)
     add_bullets(slide, 17.3, 2.7, 13.8, 3.8, [
         "不改变 DiffSBDD 扩散变量，只加 atom prior / geometry refine / local mask / bond head",
-        "工程风险低，容易接到现有 RL 主线",
+        "工程风险低，容易接到现有 RL 流程",
         "但不引入显式 bond diffusion，最终成键仍依赖规则重建",
         "可能缓解现象，但难以解决根因",
     ], size=12)
-    add_text(slide, 17.3, 8.0, 12.9, 1.25, "定位：低风险修补方案，可作为对照和 ablation；不建议作为论文主线。", size=15, color=GREEN, bold=True)
+    add_text(slide, 17.3, 8.0, 12.9, 1.25, "定位：低风险修补方案，可作为对照和 ablation；但不一定显著提高候选分子质量。", size=15, color=GREEN, bold=True)
     add_footer(slide, 5)
 
 
@@ -309,7 +309,7 @@ def slide_b(prs: Presentation) -> None:
 def slide_d(prs: Presentation) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_title(slide, "D 线：DiffGui RL 已跑通，进入分布稳定化测试", "当前最倾向主线，但不能说已经成功")
+    add_title(slide, "D 线：DiffGui RL 已跑通，进入分布稳定化测试", "当前最倾向路线，但不能说已经成功")
     add_image_fit(slide, IMG_DIFFGUI_RL, 0.9, 2.1, 14.3, 8.4)
     rows = [
         ("reward_total", "0.406", "0.471", "中间 e3/e4 更高后回落"),
@@ -332,13 +332,13 @@ def slide_d(prs: Presentation) -> None:
 def slide_matrix(prs: Presentation) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_title(slide, "四条线风险-收益判断", "当前建议：主推 D，保留 C，收缩 B，A 做辅助")
+    add_title(slide, "四条线质量-可控性判断", "当前建议：主推 D，保留 C，收缩 B，A 做辅助")
     add_panel(slide, 2.0, 2.2, 27.8, 10.5)
     # axes
     slide.shapes.add_connector(1, Cm(4.2), Cm(11.0), Cm(27.0), Cm(11.0)).line.color.rgb = GRAY
     slide.shapes.add_connector(1, Cm(4.2), Cm(11.0), Cm(4.2), Cm(3.0)).line.color.rgb = GRAY
     add_text(slide, 12.0, 11.25, 8.5, 0.5, "短期可控性 →", size=12, color=GRAY, align=PP_ALIGN.CENTER)
-    add_text(slide, 0.85, 6.0, 3.0, 0.7, "方法贡献\n确定性 ↑", size=12, color=GRAY, align=PP_ALIGN.CENTER)
+    add_text(slide, 0.85, 5.8, 3.0, 1.0, "分子质量\n改善确定性 ↑", size=12, color=GRAY, align=PP_ALIGN.CENTER)
     points = [
         ("A", "小改\n低风险辅助", 9.5, 8.8, GREEN, PALE_TEAL),
         ("C", "DiffSBDD RL\n成熟对照", 20.3, 7.6, BLUE, PALE_BLUE),
@@ -358,10 +358,10 @@ def slide_questions(prs: Presentation) -> None:
     add_bg(slide)
     add_title(slide, "想请教老师的关键问题", "希望得到的是方向判断，而不是单个实验细节建议")
     qs = [
-        ("1", "D 线 DiffGui RL 是否足够作为主线？", "底座更好、RL 已接通，但 docking 尚未同步改善。"),
-        ("2", "reward hacking / distribution-stabilized RL 能否构成方法贡献？", "若贡献在分布稳定化和可控优化，实验应如何设计？"),
+        ("1", "哪条线最可能改善 RE-CmeB 候选分子质量？", "底座、docking、化学合理性和分布稳定性要一起看。"),
+        ("2", "reward hacking 会不会损害药学可用性？", "分数好看但高碳、低极性、复杂环偏移，可能并不适合后续筛选。"),
         ("3", "B 线是否值得继续？", "还是应收缩成 bond-aware adapter / reconstruction 模块？"),
-        ("4", "审稿人更看重什么？", "生成质量、docking、分布护栏，还是模型结构新颖性？"),
+        ("4", "下一步验证应优先补什么？", "docking/LE、化学合理性、scaffold 多样性，还是人工可检查候选分子？"),
     ]
     for i, (num, title, desc) in enumerate(qs):
         x = 1.5 + (i % 2) * 15.2
@@ -376,26 +376,26 @@ def slide_questions(prs: Presentation) -> None:
 def slide_stories(prs: Presentation) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_title(slide, "两种可收敛论文 story", "当前个人倾向 Story A，但需要老师判断方法贡献是否足够")
+    add_title(slide, "两种可收敛课题路线", "当前个人倾向 Story A，但需要老师判断哪条更利于产出可用候选分子")
     add_panel(slide, 1.0, 2.4, 14.8, 8.8, fill=PALE_TEAL, line=TEAL)
     add_panel(slide, 17.0, 2.4, 14.8, 8.8, fill=PALE_ORANGE, line=ORANGE)
-    add_text(slide, 1.7, 3.0, 13.0, 0.7, "Story A：DiffGui 上的分布稳定化 RL", size=18, color=TEAL, bold=True)
+    add_text(slide, 1.7, 3.0, 13.0, 0.7, "路线 A：DiffGui 靶点适配生成优化", size=18, color=TEAL, bold=True)
     add_bullets(slide, 1.75, 4.0, 12.8, 4.0, [
         "主线：D 线 DiffGui RL",
-        "贡献：joint atom-bond-coordinate 底座上的 reward-guided fine-tuning",
-        "重点：docking 优化与 ring/carbon 分布稳定化",
+        "目标：生成更适配 RE-CmeB、且化学合理的候选分子",
+        "重点：docking/LE 与 ring/carbon 分布稳定化",
         "C 线提供 reward hacking 诊断和 guard/pool/KL 工具链",
     ], size=12)
-    add_text(slide, 1.75, 9.25, 12.8, 0.8, "当前更推荐：底座更稳，问题更聚焦，工程已跑通。", size=13, color=TEAL, bold=True)
-    add_text(slide, 17.7, 3.0, 13.0, 0.7, "Story B：DiffSBDD 的 bond-aware 适配", size=18, color=ORANGE, bold=True)
+    add_text(slide, 1.75, 9.25, 12.8, 0.8, "当前更推荐：底座更稳，更可能服务药学筛选目标。", size=13, color=TEAL, bold=True)
+    add_text(slide, 17.7, 3.0, 13.0, 0.7, "路线 B：DiffSBDD 的 bond-aware 适配", size=18, color=ORANGE, bold=True)
     add_bullets(slide, 17.75, 4.0, 12.8, 4.0, [
         "主线：B 线，或收缩后的轻量 bond-aware 模块",
-        "贡献：参考已有 x/h/e 思路，验证能否修复 DiffSBDD 成键短板",
+        "目标：修复 DiffSBDD 成键短板，提高有效分子比例",
         "风险：完整链条重构，收益不确定",
-        "RL 作为应用验证，而不是短期主线",
+        "RL 作为 RE-CmeB 靶点适配应用验证",
     ], size=12)
     add_text(slide, 17.75, 9.25, 12.8, 0.8, "需要老师判断：是否值得继续押注，还是作为支线保留。", size=13, color=ORANGE, bold=True)
-    add_text(slide, 3.2, 12.35, 26.5, 0.9, "结论口径：当前是方向选择与方法收敛阶段，不是最终成果展示。", size=15, color=NAVY, bold=True, align=PP_ALIGN.CENTER)
+    add_text(slide, 3.2, 12.35, 26.5, 0.9, "结论口径：当前是路线选择与药学目标对齐阶段，不是最终成果展示。", size=15, color=NAVY, bold=True, align=PP_ALIGN.CENTER)
     add_footer(slide, 10)
 
 
@@ -405,13 +405,13 @@ def write_speech() -> None:
 
 ## Slide 1: 封面
 
-这次汇报不是最终成果展示，而是想请老师帮我判断课题应该收敛到哪条主线。我目前围绕 3D 分子扩散模型强化学习做了四条探索线：DiffSBDD 强化学习、DiffSBDD 内部小改、DiffSBDD x/h/e 大改，以及 DiffGui 强化学习。核心问题是：底座质量、reward hacking 和方法贡献之间，应该怎么取舍。
+这次汇报不是最终成果展示，而是想请老师帮我判断哪条技术路线最有希望服务 RE-CmeB 靶点适配分子生成。我目前围绕 3D 分子扩散模型强化学习做了四条探索线：DiffSBDD 强化学习、DiffSBDD 内部小改、DiffSBDD x/h/e 大改，以及 DiffGui 强化学习。核心问题是：如何在 docking、化学合理性、分布稳定性和候选分子可用性之间取舍。
 
 ---
 
 注意点：
 - 重点：这是方向请教，不是包装结果。
-- 节奏：开场直接说明希望老师帮忙判断主线。
+- 节奏：开场直接说明希望老师帮忙判断哪条路线更服务药学目标。
 
 ## Slide 2: 两个底座：DiffSBDD vs DiffGui
 
@@ -440,16 +440,16 @@ C 线是工程最成熟的一条。DDPO/PPO、多 GPU、reward factory、描述�
 ---
 
 注意点：
-- 重点：C 线价值是工具链和诊断，不一定是最佳主线。
+- 重点：C 线价值是工具链和诊断，不一定最能产出好分子。
 
 ## Slide 5: A 线：DiffSBDD 小改低风险，但改善有限
 
-A 线是低风险修补方案，比如 atom prior、geometry refine、local mask 和 bond head。它的优点是容易接入现有 DiffSBDD 和 RL 流程，但它没有改变扩散变量，最终成键仍然靠规则重建。因此它更适合做 ablation 或辅助增强，而不是承担完整论文主线。
+A 线是低风险修补方案，比如 atom prior、geometry refine、local mask 和 bond head。它的优点是容易接入现有 DiffSBDD 和 RL 流程，但它没有改变扩散变量，最终成键仍然靠规则重建。因此它更适合做 ablation 或辅助增强，不一定能单独显著提高 RE-CmeB 候选分子的质量。
 
 ---
 
 注意点：
-- 重点：低风险不等于适合主线。
+- 重点：低风险不等于一定能改善药学可用性。
 
 ## Slide 6: B 线：x/h/e 大改触及根因，但不是原创机制
 
@@ -463,7 +463,7 @@ B 线结构上最接近 DiffSBDD 的成键根因，因为它尝试把 bond/halfe
 
 ## Slide 7: D 线：DiffGui RL 已跑通，进入分布稳定化测试
 
-D 线是我目前最倾向的主线。DiffGui 底座更强，RL rollout、logprob、PPO actor 和 reward-only 子进程已经接通。最新 ring-quality 测试中，ring 和 carbon 有一点改善信号，但 docking 没有同步改善。这说明路线有希望，但不能说已经成功。下一步真正要研究的是多目标 reward 和分布稳定化。
+D 线是我目前最倾向的路线。DiffGui 底座更强，RL rollout、logprob、PPO actor 和 reward-only 子进程已经接通。最新 ring-quality 测试中，ring 和 carbon 有一点改善信号，但 docking 没有同步改善。这说明路线有希望，但不能说已经成功。下一步真正要看的是它能不能生成更适配 RE-CmeB、且化学更合理的候选分子。
 
 ---
 
@@ -473,7 +473,7 @@ D 线是我目前最倾向的主线。DiffGui 底座更强，RL rollout、logpro
 
 ## Slide 8: 四条线风险-收益判断
 
-这页是我目前的主线判断。C 线成熟，适合作为工具链和对照；A 线低风险，适合作为 ablation；B 线触及根因但属于高风险适配；D 线底座最好、工程已跑通、成本可控，所以最适合作为当前主推候选。
+这页是我目前的路线判断。C 线成熟，适合作为工具链和对照；A 线低风险，适合作为 ablation；B 线触及根因但属于高风险适配；D 线底座最好、工程已跑通、成本可控，所以最适合作为当前主推候选。
 
 ---
 
@@ -482,16 +482,16 @@ D 线是我目前最倾向的主线。DiffGui 底座更强，RL rollout、logpro
 
 ## Slide 9: 想请教老师的关键问题
 
-这里我想请老师帮忙判断几个关键问题：DiffGui RL 是否足够作为主线？reward hacking 和 distribution-stabilized RL 能否构成方法贡献？B 线是否值得继续投入，还是收缩成适配模块？以及如果面向计算机论文，审稿人更看重生成质量、docking、分布稳定化，还是模型结构新颖性？
+这里我想请老师帮忙判断几个关键问题：哪条路线最可能改善 RE-CmeB 候选分子质量？reward hacking 会不会让分子分数好看但药学可用性变差？B 线是否值得继续投入，还是收缩成适配模块？下一步更应该补 docking/LE、化学合理性、scaffold 多样性，还是人工可检查候选分子？
 
 ---
 
 注意点：
 - 重点：问题要聚焦方向选择。
 
-## Slide 10: 两种可收敛论文 story
+## Slide 10: 两种可收敛课题路线
 
-最后我把可能 story 收敛成两个。Story A 是 DiffGui 上的 distribution-stabilized RL，这是我当前更倾向的方向。Story B 是 DiffSBDD 的 bond-aware adaptation，风险更高，更适合作为支线或后续扩展。我希望老师判断的是：Story A 的方法贡献是否足够，以及 Story B 是否还值得继续押注。
+最后我把可能路线收敛成两个。路线 A 是 DiffGui 上的靶点适配生成优化，这是我当前更倾向的方向。路线 B 是 DiffSBDD 的 bond-aware adaptation，风险更高，更适合作为支线或后续扩展。我希望老师判断的是：哪条路线更可能产出可用候选分子，以及 B 线是否还值得继续押注。
 
 ---
 
