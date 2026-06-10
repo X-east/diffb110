@@ -23,6 +23,7 @@ from ddpo.rewards.ligand_efficiency_reward import LigandEfficiencyReward
 from ddpo.rewards.molskill_reward import MolSkillReward
 from ddpo.rewards.chembl_classifier_reward import ChemblClassifierReward
 from ddpo.rewards.chemistry_guard_reward import ChemistryGuardReward
+from ddpo.rewards.ring_complexity_reward import RingComplexityReward
 from ddpo.rewards.stability import StabilityAwareReward
 
 
@@ -262,6 +263,28 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             max_halogen_neighbor_heavy_degree=guard_cfg.get("max_halogen_neighbor_heavy_degree", None),
         )
         weights_dict["chemistry_guard"] = float(weights_cfg.get("chemistry_guard", 0.0))
+
+    if "ring_complexity" in enabled:
+        ring_cfg = reward_cfg.get("ring_complexity", {})
+        rewards_dict["ring_complexity"] = RingComplexityReward(
+            failure_penalty=float(ring_cfg.get("failure_penalty", -1.0)),
+            base_reward=float(ring_cfg.get("base_reward", 1.0)),
+            min_reward=float(ring_cfg.get("min_reward", -1.0)),
+            max_reward=float(ring_cfg.get("max_reward", 1.0)),
+            target_ring_count=int(ring_cfg.get("target_ring_count", 4)),
+            target_aromatic_ring_count=int(ring_cfg.get("target_aromatic_ring_count", 2)),
+            target_fused_ring_system_size=int(ring_cfg.get("target_fused_ring_system_size", 2)),
+            max_three_member_ring_count=int(ring_cfg.get("max_three_member_ring_count", 0)),
+            max_spiro_atom_count=int(ring_cfg.get("max_spiro_atom_count", 1)),
+            max_bridgehead_atom_count=int(ring_cfg.get("max_bridgehead_atom_count", 2)),
+            ring_penalty=float(ring_cfg.get("ring_penalty", 0.18)),
+            aromatic_penalty=float(ring_cfg.get("aromatic_penalty", 0.12)),
+            fused_penalty=float(ring_cfg.get("fused_penalty", 0.20)),
+            three_member_penalty=float(ring_cfg.get("three_member_penalty", 0.35)),
+            spiro_penalty=float(ring_cfg.get("spiro_penalty", 0.10)),
+            bridgehead_penalty=float(ring_cfg.get("bridgehead_penalty", 0.08)),
+        )
+        weights_dict["ring_complexity"] = float(weights_cfg.get("ring_complexity", 0.0))
 
     if not rewards_dict:
         raise ValueError("No reward components enabled for Lightning training")
