@@ -51,6 +51,7 @@ from scripts.diffgui_docking_batch_sweep import (  # noqa: E402
     _union_fieldnames,
     _write_reconstructed_outputs,
     _write_summary_plot,
+    write_molecule_records_csv,
 )
 
 
@@ -328,6 +329,16 @@ def _run_epoch(
             clamp_max=sweep_cfg.get("advantage_clip_max", None),
         )
         policy_batch = _replace_policy_advantages(policy_batch, advantages)
+        write_molecule_records_csv(
+            epoch_dir / "molecules_with_rewards.csv",
+            reconstruction_rows=reconstruction_rows,
+            reward_rows=reward_rows,
+            rewards_by_graph=rewards_by_graph,
+            advantages=advantages,
+            epoch=epoch,
+            rank=0,
+            seed=seed,
+        )
 
         phase_start = time.perf_counter()
         actor_metrics = actor.update_policy(policy_batch)

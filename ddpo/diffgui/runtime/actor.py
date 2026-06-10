@@ -10,6 +10,7 @@ standard PPO clipped objective from per-step transition log-probabilities.
 from __future__ import annotations
 
 import logging
+import random
 from dataclasses import dataclass
 from typing import Any
 
@@ -212,6 +213,7 @@ class DiffGuiActor:
         if self.graph_micro_batch_size < 0:
             raise ValueError("train.graph_micro_batch_size must be non-negative.")
         self.freeze_report = self._apply_freeze_policy(self.model, train_cfg.get("freeze", {}))
+        self.last_step_metrics: list[dict[str, float]] = []
         self._optimizer_params = [param for param in self.model.parameters() if param.requires_grad]
         if not self._optimizer_params:
             raise RuntimeError("DiffGuiActor model has no trainable parameters.")
@@ -229,17 +231,24 @@ class DiffGuiActor:
         self.grad_scaler = torch.cuda.amp.GradScaler(enabled=self.amp_dtype is torch.float16)
 
     def update_policy(self, data: Any | DiffGuiPolicyBatch) -> dict[str, float]:
-        """Update DiffGui policy from a rollout batch using PPO clipping."""
+        """Update DiffGui policy from a rollout batch using PPO clipping.
+
+        When ``num_ppo_epochs > 1``, graphs are shuffled between PPO epochs
+        to reduce overfitting to data order.
+        """
         policy_batch = self._policy_batch_from_input(data)
         policy_batch.validate()
         device = self._training_device()
         policy_batch = policy_batch.to(device)
         self.model.train()
 
+        total_graphs = int(policy_batch.advantages.shape[0])
         epoch_metrics: list[dict[str, float]] = []
+        self.last_step_metrics = []
         for ppo_epoch in range(self.num_ppo_epochs):
             self.optimizer.zero_grad(set_to_none=True)
-            metrics = self._backward_for_batch(policy_batch)
+            shuffle = (ppo_epoch > 0 and self.num_ppo_epochs > 1)
+            metrics = self._backward_for_batch(policy_batch, ppo_epoch=ppo_epoch, shuffle=shuffle)
             if self.grad_scaler.is_enabled():
                 self.grad_scaler.unscale_(self.optimizer)
             grad_norm = clip_grad_norm_(self._optimizer_params, max_norm=self.max_grad_norm)
@@ -255,28 +264,52 @@ class DiffGuiActor:
             epoch_metrics.append(metrics)
         return self._merge_metrics(epoch_metrics)
 
-    def _backward_for_batch(self, batch: DiffGuiPolicyBatch) -> dict[str, float]:
-        """Backpropagate PPO loss, optionally streaming graph microbatches."""
+    def _backward_for_batch(
+        self, batch: DiffGuiPolicyBatch, *, ppo_epoch: int, shuffle: bool = False,
+    ) -> dict[str, float]:
+        """Backpropagate PPO loss, optionally streaming graph microbatches.
+
+        When *shuffle* is True, graph order is randomised to improve
+        PPO data reuse across epochs.
+        """
         total_graphs = int(batch.advantages.shape[0])
+        graph_order = list(range(total_graphs))
+        if shuffle:
+            random.shuffle(graph_order)
         if 0 < self.graph_micro_batch_size < total_graphs:
             rows: list[dict[str, float]] = []
-            for start in range(0, total_graphs, self.graph_micro_batch_size):
+            for microbatch_index, start in enumerate(range(0, total_graphs, self.graph_micro_batch_size)):
                 end = min(start + self.graph_micro_batch_size, total_graphs)
-                sub_batch = batch.select_graphs(list(range(start, end)))
+                indices = graph_order[start:end]
+                sub_batch = batch.select_graphs(indices)
                 rows.append(
                     self._backward_for_batch_steps(
                         sub_batch,
                         graph_loss_weight=float(end - start) / float(total_graphs),
+                        ppo_epoch=ppo_epoch,
+                        microbatch_index=microbatch_index,
                     )
                 )
             merged = self._merge_microbatch_metrics(rows)
             merged["GraphMicroBatchSize"] = float(self.graph_micro_batch_size)
             return merged
-        metrics = self._backward_for_batch_steps(batch, graph_loss_weight=1.0)
+        metrics = self._backward_for_batch_steps(
+            batch,
+            graph_loss_weight=1.0,
+            ppo_epoch=ppo_epoch,
+            microbatch_index=0,
+        )
         metrics["GraphMicroBatchSize"] = float(total_graphs)
         return metrics
 
-    def _backward_for_batch_steps(self, batch: DiffGuiPolicyBatch, *, graph_loss_weight: float) -> dict[str, float]:
+    def _backward_for_batch_steps(
+        self,
+        batch: DiffGuiPolicyBatch,
+        *,
+        graph_loss_weight: float,
+        ppo_epoch: int,
+        microbatch_index: int,
+    ) -> dict[str, float]:
         """Backpropagate PPO loss step-by-step for one graph microbatch."""
         losses: list[torch.Tensor] = []
         clipfracs: list[torch.Tensor] = []
@@ -339,6 +372,24 @@ class DiffGuiActor:
             component_means["LogProbPos"].append(result.logprob_pos.detach().mean())
             component_means["LogProbNode"].append(result.logprob_node.detach().mean())
             component_means["LogProbHalfedge"].append(result.logprob_halfedge.detach().mean())
+            self.last_step_metrics.append(
+                {
+                    "ppo_epoch": float(ppo_epoch),
+                    "microbatch_index": float(microbatch_index),
+                    "step_idx": float(step_idx),
+                    "timestep_mean": float(batch.timesteps[step_idx].detach().float().mean().cpu().item()),
+                    "train_batch_size": float(batch.advantages.shape[0]),
+                    "graph_loss_weight": float(graph_loss_weight),
+                    "clipfrac": float(clipfracs[-1].detach().float().cpu().item()),
+                    "approx_kl": float(approx_kls[-1].detach().float().cpu().item()),
+                    "ratio_mean": float(ratio_means[-1].detach().float().cpu().item()),
+                    "logprob_current_mean": float(logprob_current_means[-1].detach().float().cpu().item()),
+                    "logprob_old_mean": float(logprob_old_means[-1].detach().float().cpu().item()),
+                    "logprob_pos_mean": float(component_means["LogProbPos"][-1].detach().float().cpu().item()),
+                    "logprob_node_mean": float(component_means["LogProbNode"][-1].detach().float().cpu().item()),
+                    "logprob_halfedge_mean": float(component_means["LogProbHalfedge"][-1].detach().float().cpu().item()),
+                }
+            )
             del result, step_loss, logratio, ratio, unclipped, clipped
 
         loss = torch.stack(losses).mean()

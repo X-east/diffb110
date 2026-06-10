@@ -39,6 +39,7 @@ if _OPENBABEL_LIBDIR.is_dir():
 import numpy as np  # noqa: E402
 import torch  # noqa: E402
 from rdkit import Chem  # noqa: E402
+from rdkit.Chem.Scaffolds import MurckoScaffold  # noqa: E402
 from torch_geometric.data import Batch  # noqa: E402
 from torch_geometric.transforms import Compose  # noqa: E402
 
@@ -355,7 +356,14 @@ def run_one_batch(
             output_dir=batch_dir,
         )
         (batch_dir / "summary.json").write_text(json.dumps(row, indent=2, ensure_ascii=False), encoding="utf-8")
-        _write_all_molecule_csv(batch_dir / "molecules_with_rewards.csv", reconstruction_rows, rewards_by_graph, advantages)
+        write_molecule_records_csv(
+            batch_dir / "molecules_with_rewards.csv",
+            reconstruction_rows=reconstruction_rows,
+            reward_rows=reward_rows,
+            rewards_by_graph=rewards_by_graph,
+            advantages=advantages,
+            seed=seed,
+        )
         return row
     finally:
         if monitor is not None and not monitor.stop_event.is_set():
@@ -629,6 +637,16 @@ def _write_reconstructed_outputs(
     return rows, written
 
 
+def _override_nested_key(cfg: dict, keys: tuple, value) -> None:
+    """Set a nested dict key by path, creating intermediate dicts when missing."""
+    d = cfg
+    for k in keys[:-1]:
+        if k not in d or not isinstance(d[k], dict):
+            d[k] = {}
+        d = d[k]
+    d[keys[-1]] = value
+
+
 def _score_reconstructed_sdf(
     *,
     config: dict[str, Any],
@@ -640,6 +658,8 @@ def _score_reconstructed_sdf(
     sweep_cfg = config.get("diffgui_docking_batch_sweep", {})
     reward_env = str(sweep_cfg.get("reward_env", "dif"))
     reward_cfg = dict(config)
+    # Subprocess has CUDA_VISIBLE_DEVICES=<single_gpu> -> only cuda:0 is valid.
+    _override_nested_key(reward_cfg, ("reward", "chembl_classifier", "device"), "cuda:0")
     reward_cfg["diffgui_reward_only"] = {
         "input_sdf": str(input_sdf),
         "output_dir": str(output_dir),
@@ -672,10 +692,15 @@ def _score_reconstructed_sdf(
         "INFO",
     ]
     LOGGER.info("launch reward-only subprocess env=%s cmd=%s", reward_env, " ".join(cmd))
+    reward_cuda = str(sweep_cfg.get("reward_cuda_visible", ""))
+    env = os.environ.copy()
+    if reward_cuda:
+        env["CUDA_VISIBLE_DEVICES"] = reward_cuda
     with log_path.open("w", encoding="utf-8") as log_file:
         result = subprocess.run(
             cmd,
             cwd=PROJECT_ROOT,
+            env=env,
             stdout=log_file,
             stderr=subprocess.STDOUT,
             text=True,
@@ -764,6 +789,203 @@ def _replace_policy_advantages(policy_batch: DiffGuiPolicyBatch, advantages: tor
     policy_batch.advantages = advantages.to(device=policy_batch.advantages.device, dtype=torch.float32)
     policy_batch.validate()
     return policy_batch
+
+
+def write_molecule_records_csv(
+    path: Path,
+    *,
+    reconstruction_rows: list[dict[str, Any]],
+    reward_rows: list[dict[str, Any]],
+    rewards_by_graph: list[float],
+    advantages: torch.Tensor,
+    epoch: int | None = None,
+    rank: int | None = None,
+    seed: int | None = None,
+) -> list[dict[str, Any]]:
+    """Write one clear molecule row per original graph, including failures."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    reward_by_graph = _reward_rows_by_graph_index(reconstruction_rows, reward_rows)
+    rows: list[dict[str, Any]] = []
+    for graph_index, reconstruction_row in enumerate(reconstruction_rows):
+        reward_row = reward_by_graph.get(graph_index, {})
+        row = _build_molecule_record(
+            graph_index=graph_index,
+            reconstruction_row=reconstruction_row,
+            reward_row=reward_row,
+            reward_for_advantage=rewards_by_graph[graph_index] if graph_index < len(rewards_by_graph) else 0.0,
+            advantage=float(advantages[graph_index].item()) if graph_index < int(advantages.numel()) else 0.0,
+            epoch=epoch,
+            rank=rank,
+            seed=seed,
+        )
+        rows.append(row)
+
+    fieldnames = _molecule_record_fieldnames(rows)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({key: _csv_value(row.get(key, "")) for key in fieldnames})
+    return rows
+
+
+def _reward_rows_by_graph_index(
+    reconstruction_rows: list[dict[str, Any]],
+    reward_rows: list[dict[str, Any]],
+) -> dict[int, dict[str, Any]]:
+    """Map reward-only SDF source_index rows back to original graph indices."""
+    ok_indices = [int(row["mol_index"]) for row in reconstruction_rows if row.get("reconstruction_status") == "ok"]
+    mapped: dict[int, dict[str, Any]] = {}
+    for reward_row in reward_rows:
+        try:
+            source_index = int(reward_row.get("source_index", -1))
+        except (TypeError, ValueError):
+            continue
+        if 0 <= source_index < len(ok_indices):
+            mapped[ok_indices[source_index]] = reward_row
+    return mapped
+
+
+def _build_molecule_record(
+    *,
+    graph_index: int,
+    reconstruction_row: dict[str, Any],
+    reward_row: dict[str, Any],
+    reward_for_advantage: float,
+    advantage: float,
+    epoch: int | None,
+    rank: int | None,
+    seed: int | None,
+) -> dict[str, Any]:
+    """Build one molecule-level audit row."""
+    smiles = str(reward_row.get("smiles") or reconstruction_row.get("smiles") or "")
+    canonical_smiles, inchikey, scaffold_smiles = _molecule_identity(smiles)
+    reconstruction_status = str(reconstruction_row.get("reconstruction_status", "missing_reconstruction_row"))
+    rdkit_valid = int(float(reward_row.get("rdkit_valid", 0) or 0))
+    docking_raw = _safe_float(reward_row.get("docking_raw"), 0.0)
+    docking_success = int(bool(reward_row) and docking_raw != 0.0)
+    row: dict[str, Any] = {
+        "epoch": "" if epoch is None else int(epoch),
+        "rank": "" if rank is None else int(rank),
+        "seed": "" if seed is None else int(seed),
+        "local_mol_index": int(graph_index),
+        "global_mol_id": _global_mol_id(epoch=epoch, rank=rank, graph_index=graph_index),
+        "reconstruction_status": reconstruction_status,
+        "reconstruction_success": int(reconstruction_status == "ok"),
+        "reward_found": int(bool(reward_row)),
+        "reward_source_index": reward_row.get("source_index", ""),
+        "original_name": reward_row.get("original_name", ""),
+        "rdkit_valid": rdkit_valid,
+        "sanitize_status": reward_row.get("sanitize_status") or _sanitize_fallback(reconstruction_status),
+        "docking_success": docking_success,
+        "num_atoms": reconstruction_row.get("num_atoms", reward_row.get("nodesxsample", "")),
+        "nodesxsample": reward_row.get("nodesxsample", reconstruction_row.get("num_atoms", "")),
+        "smiles": smiles,
+        "canonical_smiles": canonical_smiles,
+        "inchikey": inchikey,
+        "murcko_scaffold": scaffold_smiles,
+        "old_logprob_mean": reconstruction_row.get("old_logprob_mean", ""),
+        "reward_for_advantage": float(reward_for_advantage),
+        "advantage": float(advantage),
+    }
+    for key, value in reward_row.items():
+        if key not in row:
+            row[key] = value
+    return row
+
+
+def _sanitize_fallback(reconstruction_status: str) -> str:
+    """Return a meaningful sanitize_status when no reward row is available."""
+    if reconstruction_status in ("ok", "generated"):
+        return "ok"
+    if reconstruction_status.startswith("fragment"):
+        return f"reconstruct:{reconstruction_status}"
+    return f"reconstruct:{reconstruction_status}"
+
+
+def _molecule_identity(smiles: str) -> tuple[str, str, str]:
+    """Return canonical SMILES, InChIKey, and Murcko scaffold when possible."""
+    if not smiles:
+        return "", "", ""
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+    except Exception:
+        mol = None
+    if mol is None:
+        return "", "", ""
+    canonical = Chem.MolToSmiles(mol, isomericSmiles=True)
+    try:
+        inchikey = Chem.MolToInchiKey(mol)
+    except Exception:
+        inchikey = ""
+    try:
+        scaffold = MurckoScaffold.MurckoScaffoldSmiles(mol=mol, includeChirality=False)
+    except Exception:
+        scaffold = ""
+    return canonical, inchikey, scaffold
+
+
+def _global_mol_id(*, epoch: int | None, rank: int | None, graph_index: int) -> str:
+    """Return a stable molecule id for merged DiffGui records."""
+    epoch_text = "e????" if epoch is None else f"e{int(epoch):04d}"
+    rank_text = "r??" if rank is None else f"r{int(rank):02d}"
+    return f"{epoch_text}_{rank_text}_m{int(graph_index):04d}"
+
+
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    """Parse finite floats from CSV values."""
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return float(default)
+    return numeric if math.isfinite(numeric) else float(default)
+
+
+def _csv_value(value: Any) -> Any:
+    """Convert values into CSV-friendly scalars."""
+    if isinstance(value, (list, tuple, dict)):
+        return json.dumps(value, ensure_ascii=False)
+    return value
+
+
+def _molecule_record_fieldnames(rows: list[dict[str, Any]]) -> list[str]:
+    """Return readable molecule CSV fields with dynamic reward columns appended."""
+    preferred = [
+        "epoch",
+        "rank",
+        "seed",
+        "local_mol_index",
+        "global_mol_id",
+        "reconstruction_status",
+        "reconstruction_success",
+        "reward_found",
+        "reward_source_index",
+        "original_name",
+        "rdkit_valid",
+        "sanitize_status",
+        "docking_success",
+        "num_atoms",
+        "nodesxsample",
+        "smiles",
+        "canonical_smiles",
+        "inchikey",
+        "murcko_scaffold",
+        "old_logprob_mean",
+        "reward_for_advantage",
+        "advantage",
+        "reward_total",
+        "reward_total_raw",
+        "stability",
+        "docking_raw",
+        "docking_reward",
+        "ligand_efficiency_raw",
+    ]
+    fields = [field for field in preferred if any(field in row for row in rows)]
+    for row in rows:
+        for key in row:
+            if key not in fields:
+                fields.append(key)
+    return fields
 
 
 def _build_batch_summary_row(

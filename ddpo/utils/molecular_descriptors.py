@@ -21,8 +21,6 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Descriptors, rdMolDescriptors
 
-from ddpo.rewards.diversity_reward import DiversityReward
-
 # ---------------------------------------------------------------------------
 # Fingerprint parameters (match DiversityReward defaults)
 # ---------------------------------------------------------------------------
@@ -255,6 +253,9 @@ def compute_fingerprint_pairwise_similarities(
     """
     if len(rdmols) < 2:
         return [0.0] * len(rdmols)
+
+    # Lazy import — avoids dragging the full reward stack on load.
+    from ddpo.rewards.diversity_reward import DiversityReward  # noqa: E402
 
     fps = DiversityReward.compute_fingerprints(rdmols, use_features=use_features)
     bit_sets = [DiversityReward.fingerprint_on_bits(fp) for fp in fps]

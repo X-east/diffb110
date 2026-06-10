@@ -3,18 +3,23 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import logging
 import os
+import statistics
 import sys
 import time
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 import torch
 import torch.distributed as dist
+import numpy as np
 import yaml
+from rdkit import Chem
 from torch.nn.parallel import DistributedDataParallel as DDP
 
 
@@ -26,12 +31,21 @@ if str(DIFFGUI_ROOT) not in sys.path:
     sys.path.insert(0, str(DIFFGUI_ROOT))
 
 from ddpo.diffgui.runtime.actor import DiffGuiActor  # noqa: E402
+from ddpo.diffgui.runtime.per_timestep_diagnostics import (  # noqa: E402
+    export_per_timestep,
+    merge_per_timestep,
+)
 from ddpo.diffgui.runtime.rollout import DiffGuiRollout  # noqa: E402
+from ddpo.diffgui.runtime.structural_stats import compute_structural_metrics  # noqa: E402
 from ddpo.main_diffgui_docking_train import (  # noqa: E402
     _build_actor_config,
     _prepare_run_dir,
     _should_save_checkpoint,
     _write_metrics_csv,
+)
+from ddpo.utils.molecular_descriptors import (  # noqa: E402
+    compute_molecular_descriptors,
+    load_chembl_6d_vectors,
 )
 from scripts.diffgui_docking_batch_sweep import (  # noqa: E402
     _build_batch_summary_row,
@@ -50,6 +64,7 @@ from scripts.diffgui_docking_batch_sweep import (  # noqa: E402
     _torch_peak_memory_mb,
     _write_reconstructed_outputs,
     _write_summary_plot,
+    write_molecule_records_csv,
 )
 
 
@@ -84,6 +99,7 @@ def main() -> None:
                 yaml.safe_dump(config, sort_keys=False, allow_unicode=True),
                 encoding="utf-8",
             )
+            _write_run_manifest(args, config, run_dir, dist_info, status="running")
         _barrier()
 
         rows = _run_training(args=args, config=config, run_dir=run_dir, dist_info=dist_info)
@@ -100,6 +116,7 @@ def main() -> None:
                 "final_metrics": rows[-1] if rows else {},
             }
             (run_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+            _write_run_manifest(args, config, run_dir, dist_info, status="completed", final_summary=summary)
             LOGGER.info("training complete summary=%s", json.dumps(summary, ensure_ascii=False))
         completed = True
     finally:
@@ -164,13 +181,17 @@ def _run_training(
         gathered_rows = _all_gather_object(local_row, dist_info["world_size"])
         if dist_info["rank"] == 0:
             row = _aggregate_rank_rows(gathered_rows, epoch=epoch, elapsed=time.perf_counter() - start_time)
+            row.update(_merge_epoch_artifacts(run_dir, epoch=epoch, world_size=dist_info["world_size"]))
             metrics_rows.append(row)
             _write_metrics_csv(metrics_csv, metrics_rows)
+            _write_metrics_csv(run_dir / "training_summary.csv", metrics_rows)
             _write_summary_plot(run_dir / "metrics" / "training_summary.png", metrics_rows)
             if _should_save_checkpoint(config, epoch):
                 checkpoint_path = _save_checkpoint(run_dir, epoch, ddp_model.module, actor, config, row, dist_info)
                 row["checkpoint"] = str(checkpoint_path)
                 _write_metrics_csv(metrics_csv, metrics_rows)
+                _write_metrics_csv(run_dir / "training_summary.csv", metrics_rows)
+            _write_epoch_status(run_dir, epoch, row)
             LOGGER.info(
                 "epoch=%d/%d global_batch=%d reward_mean=%.4f recon=%d/%d docking_total=%.3f ppo_loss=%.4f elapsed=%.1fs",
                 epoch,
@@ -278,10 +299,29 @@ def _run_epoch(
         )
         advantages = _make_global_advantages(rewards_by_graph, sweep_cfg=sweep_cfg, dist_info=dist_info)
         policy_batch = _replace_policy_advantages(policy_batch, advantages)
+        molecule_rows = write_molecule_records_csv(
+            epoch_dir / "molecules_with_rewards.csv",
+            reconstruction_rows=reconstruction_rows,
+            reward_rows=reward_rows,
+            rewards_by_graph=rewards_by_graph,
+            advantages=advantages,
+            epoch=epoch,
+            rank=rank,
+            seed=seed,
+        )
 
         phase_start = time.perf_counter()
         actor_metrics = actor.update_policy(policy_batch)
         timing["ppo_seconds"] = time.perf_counter() - phase_start
+        step_metrics_path = _write_step_metrics_csv(
+            epoch_dir / "ppo_step_metrics.csv",
+            actor.last_step_metrics,
+            epoch=epoch,
+            rank=rank,
+        )
+        export_per_timestep(
+            epoch_dir, actor.last_step_metrics, epoch=epoch, rank=rank,
+        )
 
         total_seconds = time.perf_counter() - started
         memory = _stop_gpu_memory_monitor(monitor)
@@ -312,6 +352,9 @@ def _run_epoch(
                 "epoch": int(epoch),
                 "global_step": int(epoch),
                 "epoch_dir": str(epoch_dir),
+                "molecule_records": int(len(molecule_rows)),
+                "outputs_molecule_csv": str(epoch_dir / "molecules_with_rewards.csv"),
+                "outputs_ppo_step_metrics": str(step_metrics_path),
             }
         )
         (epoch_dir / "summary.json").write_text(json.dumps(row, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -319,6 +362,324 @@ def _run_epoch(
     finally:
         if monitor is not None and not monitor.stop_event.is_set():
             _stop_gpu_memory_monitor(monitor)
+
+
+def _write_step_metrics_csv(path: Path, rows: list[dict[str, float]], *, epoch: int, rank: int) -> Path:
+    """Write per-timestep PPO diagnostics for one rank."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    enriched: list[dict[str, Any]] = []
+    for row in rows:
+        enriched.append({"epoch": int(epoch), "rank": int(rank), **row})
+    fieldnames = _ordered_fieldnames(
+        enriched,
+        preferred=[
+            "epoch",
+            "rank",
+            "ppo_epoch",
+            "microbatch_index",
+            "step_idx",
+            "timestep_mean",
+            "train_batch_size",
+            "graph_loss_weight",
+            "clipfrac",
+            "approx_kl",
+            "ratio_mean",
+            "logprob_current_mean",
+            "logprob_old_mean",
+            "logprob_pos_mean",
+            "logprob_node_mean",
+            "logprob_halfedge_mean",
+        ],
+    )
+    _write_csv_rows(path, enriched, fieldnames=fieldnames)
+    return path
+
+
+def _merge_epoch_artifacts(run_dir: Path, *, epoch: int, world_size: int) -> dict[str, Any]:
+    """Merge rank-local molecule and PPO artifacts into epoch-level files."""
+    epoch_dir = run_dir / "epochs" / f"epoch_{epoch:04d}"
+    molecule_rows: list[dict[str, Any]] = []
+    step_rows: list[dict[str, Any]] = []
+    kl_rows: list[dict[str, Any]] = []
+    clipfrac_rows: list[dict[str, Any]] = []
+    ratio_rows: list[dict[str, Any]] = []
+    generated_sdfs: list[Path] = []
+    scored_sdfs: list[Path] = []
+    for rank in range(int(world_size)):
+        rank_dir = epoch_dir / f"rank_{rank:02d}"
+        molecule_rows.extend(_read_csv_rows(rank_dir / "molecules_with_rewards.csv"))
+        step_rows.extend(_read_csv_rows(rank_dir / "ppo_step_metrics.csv"))
+        kl_rows.extend(_read_csv_rows(rank_dir / "kl_by_timestep.csv"))
+        clipfrac_rows.extend(_read_csv_rows(rank_dir / "clipfrac_by_timestep.csv"))
+        ratio_rows.extend(_read_csv_rows(rank_dir / "ratio_by_timestep.csv"))
+        generated_sdf = rank_dir / "generated.sdf"
+        if generated_sdf.exists():
+            generated_sdfs.append(generated_sdf)
+        scored_sdf = rank_dir / "docking_scored.sdf"
+        if scored_sdf.exists():
+            scored_sdfs.append(scored_sdf)
+
+    molecule_rows = _annotate_duplicate_fields(molecule_rows)
+    molecules_csv = epoch_dir / "molecules.csv"
+    _write_csv_rows(molecules_csv, molecule_rows, fieldnames=_ordered_fieldnames(molecule_rows))
+
+    failures = [row for row in molecule_rows if not _is_full_success(row)]
+    failures_csv = epoch_dir / "failures.csv"
+    _write_csv_rows(failures_csv, failures, fieldnames=_ordered_fieldnames(failures or molecule_rows))
+
+    ppo_step_csv = epoch_dir / "ppo_step_metrics.csv"
+    _write_csv_rows(ppo_step_csv, step_rows, fieldnames=_ordered_fieldnames(step_rows))
+
+    # Merge per-timestep diagnostics across ranks
+    kl_merged_csv = merge_per_timestep(kl_rows, epoch_dir / "kl_by_timestep.csv", world_size)
+    cf_merged_csv = merge_per_timestep(clipfrac_rows, epoch_dir / "clipfrac_by_timestep.csv", world_size)
+    ratio_merged_csv = merge_per_timestep(ratio_rows, epoch_dir / "ratio_by_timestep.csv", world_size)
+
+    generated_merged = _merge_sdf_files(generated_sdfs, epoch_dir / "generated_merged.sdf")
+    scored_merged = _merge_sdf_files(scored_sdfs, epoch_dir / "molecules.sdf")
+    top_reward_sdf = _write_top_reward_sdf(scored_sdfs, epoch_dir / "top_reward.sdf", top_k=50)
+
+    metrics = _compute_molecule_epoch_metrics(molecule_rows)
+    metrics.update(
+        {
+            "epoch_molecules_csv": str(molecules_csv),
+            "epoch_failures_csv": str(failures_csv),
+            "epoch_ppo_step_metrics_csv": str(ppo_step_csv),
+            "epoch_kl_by_timestep_csv": str(kl_merged_csv) if kl_merged_csv else "",
+            "epoch_clipfrac_by_timestep_csv": str(cf_merged_csv) if cf_merged_csv else "",
+            "epoch_ratio_by_timestep_csv": str(ratio_merged_csv) if ratio_merged_csv else "",
+            "epoch_generated_merged_sdf": str(generated_merged) if generated_merged else "",
+            "epoch_molecules_sdf": str(scored_merged) if scored_merged else "",
+            "epoch_top_reward_sdf": str(top_reward_sdf) if top_reward_sdf else "",
+        }
+    )
+    return metrics
+
+
+def _annotate_duplicate_fields(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Add duplicate/scaffold fields to merged molecule rows."""
+    smiles_counts = Counter(row.get("canonical_smiles", "") for row in rows if row.get("canonical_smiles"))
+    scaffold_counts = Counter(row.get("murcko_scaffold", "") for row in rows if row.get("murcko_scaffold"))
+    annotated: list[dict[str, Any]] = []
+    for row in rows:
+        out = dict(row)
+        smiles = str(out.get("canonical_smiles", ""))
+        scaffold = str(out.get("murcko_scaffold", ""))
+        out["duplicate_count"] = int(smiles_counts.get(smiles, 0)) if smiles else 0
+        out["is_duplicate"] = int(bool(smiles) and smiles_counts.get(smiles, 0) > 1)
+        out["scaffold_count"] = int(scaffold_counts.get(scaffold, 0)) if scaffold else 0
+        annotated.append(out)
+    return annotated
+
+
+def _is_full_success(row: dict[str, Any]) -> bool:
+    """Return whether a molecule passed reconstruction, sanitize, and docking."""
+    return (
+        _row_int(row, "reconstruction_success") == 1
+        and _row_int(row, "rdkit_valid") == 1
+        and _row_int(row, "docking_success") == 1
+    )
+
+
+def _merge_sdf_files(sources: list[Path], output_path: Path) -> Path | None:
+    """Merge readable molecules from several SDF files."""
+    mols: list[Chem.Mol] = []
+    for source in sources:
+        supplier = Chem.SDMolSupplier(str(source), sanitize=False, removeHs=False)
+        mols.extend(mol for mol in supplier if mol is not None)
+    if not mols:
+        return None
+    writer = Chem.SDWriter(str(output_path))
+    writer.SetKekulize(False)
+    try:
+        for mol in mols:
+            writer.write(mol)
+    finally:
+        writer.close()
+    return output_path
+
+
+def _write_top_reward_sdf(sources: list[Path], output_path: Path, *, top_k: int) -> Path | None:
+    """Write top reward molecules from scored rank SDFs."""
+    mols: list[tuple[float, Chem.Mol]] = []
+    for source in sources:
+        supplier = Chem.SDMolSupplier(str(source), sanitize=False, removeHs=False)
+        for mol in supplier:
+            if mol is None:
+                continue
+            reward = _row_float({key: mol.GetProp(key) for key in mol.GetPropNames()}, "reward_total", default=-float("inf"))
+            mols.append((reward, mol))
+    if not mols:
+        return None
+    mols.sort(key=lambda item: item[0], reverse=True)
+    writer = Chem.SDWriter(str(output_path))
+    writer.SetKekulize(False)
+    try:
+        for _, mol in mols[: max(1, int(top_k))]:
+            writer.write(mol)
+    finally:
+        writer.close()
+    return output_path
+
+
+def _compute_molecule_epoch_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Compute epoch-level molecule/failure/descriptor metrics."""
+    total = len(rows)
+    reconstructed = sum(_row_int(row, "reconstruction_success") for row in rows)
+    rdkit_valid = sum(_row_int(row, "rdkit_valid") for row in rows)
+    docking_success = sum(_row_int(row, "docking_success") for row in rows)
+    canonical = [str(row.get("canonical_smiles", "")) for row in rows if row.get("canonical_smiles")]
+    unique_canonical = len(set(canonical))
+    duplicate_ratio = float((len(canonical) - unique_canonical) / len(canonical)) if canonical else 0.0
+    scaffolds = [str(row.get("murcko_scaffold", "")) for row in rows if row.get("murcko_scaffold")]
+    scaffold_counts = Counter(scaffolds)
+    failure_counts = _failure_counts(rows)
+    metrics: dict[str, Any] = {
+        "molecule_records_total": int(total),
+        "molecule_reconstruction_success": int(reconstructed),
+        "molecule_reconstruction_success_ratio": float(reconstructed / total) if total else 0.0,
+        "molecule_rdkit_valid": int(rdkit_valid),
+        "molecule_rdkit_valid_ratio": float(rdkit_valid / total) if total else 0.0,
+        "molecule_docking_success": int(docking_success),
+        "molecule_docking_success_ratio": float(docking_success / total) if total else 0.0,
+        "unique_canonical_smiles": int(unique_canonical),
+        "duplicate_ratio": float(duplicate_ratio),
+        "unique_scaffolds": int(len(scaffold_counts)),
+        "scaffold_top1_fraction": float(max(scaffold_counts.values()) / len(scaffolds)) if scaffolds else 0.0,
+        "failure_counts": json.dumps(failure_counts, ensure_ascii=False, sort_keys=True),
+    }
+    metrics.update(_continuous_reward_metrics(rows))
+    # Descriptor + structural stats via shared modules
+    rdmols: list[Chem.Mol | None] = []
+    valid_mask: list[bool] = []
+    for row in rows:
+        smiles = str(row.get("canonical_smiles") or row.get("smiles") or "")
+        is_valid = _row_int(row, "rdkit_valid") == 1 and bool(smiles)
+        valid_mask.append(is_valid)
+        rdmols.append(Chem.MolFromSmiles(smiles) if is_valid else None)
+    try:
+        ref = load_chembl_6d_vectors(project_root=PROJECT_ROOT)
+        if ref is not None and len(ref) == 0:
+            ref = None
+    except Exception:
+        ref = None
+    metrics.update(compute_molecular_descriptors(rdmols, valid_mask, reference_descriptor_vectors=ref))
+    valid_mols = [m for m in rdmols if m is not None]
+    metrics.update(compute_structural_metrics(valid_mols))
+    return metrics
+
+
+def _continuous_reward_metrics(rows: list[dict[str, Any]]) -> dict[str, float]:
+    """Summarize continuous reward fields that decide docking trends."""
+    return {
+        "reward_for_advantage_mean": _float_mean(rows, "reward_for_advantage"),
+        "reward_total_scored_mean": _float_mean(rows, "reward_total"),
+        "docking_raw_mean": _float_mean(rows, "docking_raw"),
+        "docking_reward_mean": _float_mean(rows, "docking_reward"),
+        "ligand_efficiency_raw_mean": _float_mean(rows, "ligand_efficiency_raw"),
+    }
+
+
+def _float_mean(rows: list[dict[str, Any]], key: str) -> float:
+    """Return the mean of present finite float values in CSV rows."""
+    values: list[float] = []
+    for row in rows:
+        raw = row.get(key, "")
+        if raw == "":
+            continue
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            continue
+        if value == value:
+            values.append(value)
+    return float(sum(values) / len(values)) if values else 0.0
+
+
+def _failure_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
+    """Build clear failure counts from molecule rows."""
+    counts: Counter[str] = Counter()
+    for row in rows:
+        if _row_int(row, "reconstruction_success") != 1:
+            counts[f"reconstruction:{row.get('reconstruction_status', 'unknown')}"] += 1
+            continue
+        if _row_int(row, "rdkit_valid") != 1:
+            counts[f"sanitize:{row.get('sanitize_status', 'unknown')}"] += 1
+            continue
+        if _row_int(row, "docking_success") != 1:
+            counts["docking:failed_or_zero"] += 1
+            continue
+        counts["success"] += 1
+    return dict(counts)
+
+
+
+def _write_epoch_status(run_dir: Path, epoch: int, row: dict[str, Any]) -> None:
+    """Write a per-epoch status JSON similar to the DiffSBDD recorder."""
+    epoch_dir = run_dir / "epochs" / f"epoch_{epoch:04d}"
+    payload = {
+        "epoch": int(epoch),
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "metrics": row,
+        "molecules_csv": row.get("epoch_molecules_csv", ""),
+        "failures_csv": row.get("epoch_failures_csv", ""),
+        "ppo_step_metrics_csv": row.get("epoch_ppo_step_metrics_csv", ""),
+        "checkpoint_path": row.get("checkpoint", ""),
+    }
+    (epoch_dir / "epoch_status.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def _read_csv_rows(path: Path) -> list[dict[str, Any]]:
+    """Read CSV rows if the file exists."""
+    if not path.exists():
+        return []
+    with path.open("r", newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
+def _write_csv_rows(path: Path, rows: list[dict[str, Any]], *, fieldnames: list[str] | None = None) -> None:
+    """Write CSV rows with a stable union schema."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields = fieldnames or _ordered_fieldnames(rows)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({key: _csv_value(row.get(key, "")) for key in fields})
+
+
+def _ordered_fieldnames(rows: list[dict[str, Any]], *, preferred: list[str] | None = None) -> list[str]:
+    """Return preferred fields followed by dynamic fields."""
+    ordered = list(preferred or [])
+    for row in rows:
+        for key in row:
+            if key not in ordered:
+                ordered.append(str(key))
+    return ordered
+
+
+def _csv_value(value: Any) -> Any:
+    """Convert complex values into CSV-friendly scalars."""
+    if isinstance(value, (dict, list, tuple)):
+        return json.dumps(value, ensure_ascii=False)
+    return value
+
+
+def _row_int(row: dict[str, Any], key: str, default: int = 0) -> int:
+    """Read an int-ish CSV value."""
+    try:
+        return int(float(row.get(key, default) or default))
+    except (TypeError, ValueError):
+        return int(default)
+
+
+def _row_float(row: dict[str, Any], key: str, default: float = 0.0) -> float:
+    """Read a finite float-ish CSV value."""
+    try:
+        value = float(row.get(key, default) or default)
+    except (TypeError, ValueError):
+        return float(default)
+    return value if value == value else float(default)
 
 
 def _make_global_advantages(
@@ -431,8 +792,86 @@ def _save_checkpoint(
     }
     torch.save(payload, checkpoint_path)
     torch.save(payload, run_dir / "checkpoints" / "latest.pt")
+    _append_checkpoint_manifest(run_dir, epoch, checkpoint_path, metrics)
     LOGGER.info("checkpoint saved epoch=%d path=%s", epoch, checkpoint_path)
     return checkpoint_path
+
+
+def _append_checkpoint_manifest(run_dir: Path, epoch: int, checkpoint_path: Path, metrics: dict[str, Any]) -> None:
+    """Append one checkpoint row to a manifest CSV."""
+    manifest_path = run_dir / "checkpoints" / "checkpoint_manifest.csv"
+    fieldnames = [
+        "epoch",
+        "path",
+        "exists",
+        "size_bytes",
+        "saved_at",
+        "reward_total_mean",
+        "PPO_Loss",
+        "PPO_ApproxKL",
+        "reconstruction_success_ratio",
+        "docking_success_ratio_total",
+    ]
+    exists = checkpoint_path.exists()
+    row = {
+        "epoch": int(epoch),
+        "path": str(checkpoint_path),
+        "exists": int(exists),
+        "size_bytes": checkpoint_path.stat().st_size if exists else 0,
+        "saved_at": datetime.now().isoformat(timespec="seconds"),
+        "reward_total_mean": metrics.get("reward_total_mean", ""),
+        "PPO_Loss": metrics.get("PPO_Loss", ""),
+        "PPO_ApproxKL": metrics.get("PPO_ApproxKL", ""),
+        "reconstruction_success_ratio": metrics.get("reconstruction_success_ratio", ""),
+        "docking_success_ratio_total": metrics.get("docking_success_ratio_total", ""),
+    }
+    file_exists = manifest_path.exists()
+    with manifest_path.open("a", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row)
+
+
+def _write_run_manifest(
+    args: argparse.Namespace,
+    config: dict[str, Any],
+    run_dir: Path,
+    dist_info: dict[str, int],
+    *,
+    status: str,
+    final_summary: dict[str, Any] | None = None,
+) -> None:
+    """Write a durable run manifest for DiffGui DDP training."""
+    payload: dict[str, Any] = {}
+    manifest_path = run_dir / "run_manifest.json"
+    if manifest_path.exists():
+        try:
+            payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload = {}
+    payload.update(
+        {
+            "stage": "diffgui_docking_ddp_train",
+            "status": str(status),
+            "run_dir": str(run_dir),
+            "config_path": str(args.config.resolve()),
+            "world_size": int(dist_info["world_size"]),
+            "per_rank_batch_size": int(config.get("diffgui_training", {}).get("batch_size", 1)),
+            "global_batch_size": int(config.get("diffgui_training", {}).get("batch_size", 1))
+            * int(dist_info["world_size"]),
+            "seed_base": int(config.get("diffgui_docking_batch_sweep", {}).get("seed_base", 260609)),
+            "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", ""),
+            "git": _git_snapshot(),
+            "python": sys.executable,
+            "conda_prefix": os.environ.get("CONDA_PREFIX", ""),
+            "updated_at": datetime.now().isoformat(timespec="seconds"),
+        }
+    )
+    payload.setdefault("created_at", payload["updated_at"])
+    if final_summary is not None:
+        payload["final_summary"] = final_summary
+    manifest_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def _apply_cli_overrides(config: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
@@ -447,12 +886,20 @@ def _apply_cli_overrides(config: dict[str, Any], args: argparse.Namespace) -> di
 
 def _rank_config(config: dict[str, Any], dist_info: dict[str, int], device: torch.device) -> dict[str, Any]:
     """Return a shallow rank-local config with device and docking GPU bound."""
+    local_rank = int(dist_info["local_rank"])
+    phys_gpu = int(_physical_gpu_id(local_rank))
     rank_config = dict(config)
     sweep_cfg = dict(config.get("diffgui_docking_batch_sweep", {}))
     reward_cfg = dict(config.get("reward", {}))
     docking_cfg = dict(reward_cfg.get("docking", {}))
     sweep_cfg["device"] = str(device)
-    docking_cfg["gpu_id"] = int(_physical_gpu_id(dist_info["local_rank"]))
+    sweep_cfg["reward_cuda_visible"] = str(phys_gpu)
+    docking_cfg["gpu_id"] = int(phys_gpu)
+    # Isolate classifier to the same GPU
+    if "chembl_classifier" in reward_cfg:
+        clf_cfg = dict(reward_cfg["chembl_classifier"])
+        clf_cfg["device"] = f"cuda:{phys_gpu}"
+        reward_cfg["chembl_classifier"] = clf_cfg
     reward_cfg["docking"] = docking_cfg
     rank_config["diffgui_docking_batch_sweep"] = sweep_cfg
     rank_config["reward"] = reward_cfg
