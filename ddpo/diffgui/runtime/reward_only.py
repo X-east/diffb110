@@ -522,6 +522,8 @@ def _numeric_summary_keys(rows: list[dict[str, Any]]) -> list[str]:
         "sa_raw",
         "sa_reward",
         "chembl_classifier_reward",
+        "chembl_dmpnn_reward",
+        "chembl_dmpnn_prob",
         "chemistry_guard_reward",
         "heavy_atom_count",
         "carbon_fraction",

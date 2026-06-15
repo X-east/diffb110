@@ -23,6 +23,7 @@ from ddpo.rewards.docking_factory import build_docking_reward
 from ddpo.rewards.ligand_efficiency_reward import LigandEfficiencyReward
 from ddpo.rewards.molskill_reward import MolSkillReward
 from ddpo.rewards.chembl_classifier_reward import ChemblClassifierReward
+from ddpo.rewards.chembl_dmpnn_reward import ChemblDMPNNReward
 from ddpo.rewards.aromatic_scaffold_reward import AromaticScaffoldReward
 from ddpo.rewards.chemistry_guard_reward import ChemistryGuardReward
 from ddpo.rewards.ring_complexity_reward import RingComplexityReward
@@ -268,6 +269,23 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             device=cc_cfg.get("device", None),
         )
         weights_dict["chembl_classifier"] = float(weights_cfg.get("chembl_classifier", 1.0))
+
+    if "chembl_dmpnn" in enabled:
+        dmpnn_cfg = reward_cfg.get("chembl_dmpnn", {})
+        rewards_dict["chembl_dmpnn"] = ChemblDMPNNReward(
+            model_path=dmpnn_cfg.get("model_path", None),
+            failure_penalty=float(dmpnn_cfg.get("failure_penalty", -1.0)),
+            good_threshold=float(dmpnn_cfg.get("good_threshold", 0.5)),
+            bad_threshold=dmpnn_cfg.get("bad_threshold", None),
+            cap_high=float(dmpnn_cfg.get("cap_high", 0.8)),
+            cap_low=float(dmpnn_cfg.get("cap_low", 0.2)),
+            max_reward=float(dmpnn_cfg.get("max_reward", 1.0)),
+            penalty=float(dmpnn_cfg.get("penalty", -1.0)),
+            device=dmpnn_cfg.get("device", None),
+            batch_size=int(dmpnn_cfg.get("batch_size", 128)),
+            cache_smiles=bool(dmpnn_cfg.get("cache_smiles", True)),
+        )
+        weights_dict["chembl_dmpnn"] = float(weights_cfg.get("chembl_dmpnn", 1.0))
 
     if "chemistry_guard" in enabled:
         guard_cfg = reward_cfg.get("chemistry_guard", {})

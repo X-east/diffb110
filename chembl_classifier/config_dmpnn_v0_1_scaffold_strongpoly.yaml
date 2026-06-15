@@ -1,0 +1,34 @@
+# ChEMBL D-MPNN classifier v0.1.
+#
+# Uses the same curated v0.3.1 good/bad SMILES as the MLP classifier, but trains
+# a Chemprop-style directed message passing model from molecular graphs.
+
+model:
+  hidden_size: 300
+  depth: 3
+  ffn_hidden_size: 300
+  ffn_num_layers: 2
+  dropout: 0.1
+  aggregation: mean
+
+training:
+  batch_size: 64
+  learning_rate: 0.0001
+  weight_decay: 0.00001
+  max_epochs: 80
+  early_stopping_patience: 12
+  train_split: 0.8
+  val_split: 0.1
+  seed: 45
+  auto_pos_weight: true
+  num_workers: 0
+
+data:
+  explicit_positive_samples: "analysis/classifier/classifier_v0_3_scaffold_curation_20260610/selected_positives_v0_3_1_scaffold_strongpoly.smi"
+  explicit_negative_samples: "analysis/classifier/classifier_v0_3_scaffold_curation_20260610/selected_negatives_v0_3_1_scaffold_strongpoly_labeled.smi"
+  min_negative_weight: 1.0
+
+output:
+  dataset_csv: "chembl_classifier/models/dmpnn_dataset_v0_1_scaffold_strongpoly.csv"
+  output_dir: "chembl_classifier/models/dmpnn_v0_1_scaffold_strongpoly"
+  model_path: "chembl_classifier/models/chembl_dmpnn_v0_1_scaffold_strongpoly.pt"
