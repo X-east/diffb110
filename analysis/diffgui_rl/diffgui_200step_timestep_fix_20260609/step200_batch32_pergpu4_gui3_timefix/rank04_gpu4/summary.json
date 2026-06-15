@@ -1,0 +1,60 @@
+{
+  "stage": "diffgui_100step_rollout_smoke",
+  "checkpoint": "/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt",
+  "pocket_pdb": "/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb",
+  "device": "cuda:0",
+  "num_timesteps": 200,
+  "model_num_timesteps": 200,
+  "num_graphs": 4,
+  "ligand_atoms": 24,
+  "gui_strength": 3.0,
+  "precision": "bf16",
+  "graph_micro_batch_size": 2,
+  "freeze_mode": "last_n_blocks",
+  "train_last_n_blocks": 1,
+  "old_logprob_shape": [
+    200,
+    4
+  ],
+  "timesteps_shape": [
+    200,
+    4
+  ],
+  "actor_metrics": {
+    "AMPEnabled": 1.0,
+    "ClipFrac": 0.13749999552965164,
+    "FrozenParams": 7407794.0,
+    "GradNorm": 0.051194094121456146,
+    "GraphMicroBatchSize": 2.0,
+    "LogProbCurrentMean": 1.7078686952590942,
+    "LogProbHalfedge": -0.01765194535255432,
+    "LogProbNode": -0.10706829652190208,
+    "LogProbOldMean": 2.0163516998291016,
+    "LogProbPos": 1.8325889110565186,
+    "Loss": -0.6781951189041138,
+    "NumSteps": 200.0,
+    "PPO_ApproxKL": 4.406503438949585,
+    "PPO_Loss": -0.6781951189041138,
+    "RatioMean": 0.904789388179779,
+    "TrainBatchSize": 4.0,
+    "TrainableParams": 985207.0,
+    "PPO_Epochs": 1.0
+  },
+  "load_report": {
+    "loaded_keys": 852,
+    "skipped_regenerated_keys": 15,
+    "missing_keys": 15,
+    "unexpected_keys": 0
+  },
+  "reconstruction": {
+    "attempted": 4,
+    "written_mols": 3,
+    "success": 3
+  },
+  "outputs": {
+    "log": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/step200_batch32_pergpu4_gui3_timefix/rank04_gpu4/rollout.log",
+    "sdf": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/step200_batch32_pergpu4_gui3_timefix/rank04_gpu4/generated_100step_smoke.sdf",
+    "csv": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/step200_batch32_pergpu4_gui3_timefix/rank04_gpu4/molecules.csv",
+    "summary": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/step200_batch32_pergpu4_gui3_timefix/rank04_gpu4/summary.json"
+  }
+}

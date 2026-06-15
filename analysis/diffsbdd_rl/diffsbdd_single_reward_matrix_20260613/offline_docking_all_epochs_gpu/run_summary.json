@@ -1,0 +1,19 @@
+{
+  "box_center": [
+    207.293,
+    212.43,
+    172.771
+  ],
+  "box_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "docking_success_count": 8589,
+  "epoch_sdf_count": 90,
+  "gpu_id": 0,
+  "input_valid_count": 8589,
+  "receptor": "/data/disk6/DiffB110/data/8gjl.pdbqt",
+  "search_mode": "fast",
+  "total_records": 8589
+}

@@ -1,0 +1,26 @@
+2026-06-10 21:53:42,388 [INFO] ============================================================
+2026-06-10 21:53:42,388 [INFO] Building ChEMBL classifier dataset
+2026-06-10 21:53:42,388 [INFO] ============================================================
+2026-06-10 21:53:42,393 [INFO] Initializing featurizer: morgan_count_rdkit_2d
+2026-06-10 21:53:42,393 [INFO]   Feature dimension: 2220
+2026-06-10 21:53:42,393 [INFO] Loading explicit positive samples: /data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/selected_positives_v0_3_1_scaffold_strongpoly.smi
+2026-06-10 21:53:43,256 [INFO]   Loaded 150,000 explicit positives
+2026-06-10 21:53:43,256 [INFO] Featurizing 150,000 positives (18 workers)...
+2026-06-10 21:53:43,258 [INFO]   Parallel featurization: 150,000 molecules → 19 chunks × 18 workers
+2026-06-10 21:55:51,441 [INFO]   Done: 150,000 valid / 150,000 total (0 skipped)
+2026-06-10 21:55:52,133 [INFO]   Positives: 150,000 valid molecules
+2026-06-10 21:55:52,193 [INFO] Loading explicit negative samples: /data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/selected_negatives_v0_3_1_scaffold_strongpoly_labeled.smi
+2026-06-10 21:55:53,055 [INFO]   Loaded 125,468 explicit negatives
+2026-06-10 21:55:53,058 [INFO]   Parallel featurization: 125,468 molecules → 19 chunks × 18 workers
+2026-06-10 21:58:08,950 [INFO]   Done: 125,468 valid / 125,468 total (0 skipped)
+2026-06-10 21:58:09,895 [INFO]   Explicit negatives: 125,468 valid
+2026-06-10 21:58:10,399 [INFO] Total negatives: 125,468
+2026-06-10 21:58:11,316 [INFO] Combined dataset: 275,468 samples, 2220 features
+2026-06-10 21:58:12,256 [INFO] Split: train=220,374, val=27,546, test=27,548
+2026-06-10 21:58:12,257 [INFO] Class balance — train: pos=119823, neg=100551
+2026-06-10 21:58:12,321 [INFO] Saving dataset to /data/disk6/DiffB110/chembl_classifier/models/dataset_selected_v0_3_1_scaffold_strongpoly.pt
+2026-06-10 21:58:32,648 [INFO]   train: 220,374 samples, pos=119823, neg=100551
+2026-06-10 21:58:32,649 [INFO]   val: 27,546 samples, pos=15072, neg=12474
+2026-06-10 21:58:32,649 [INFO]   test: 27,548 samples, pos=15105, neg=12443
+2026-06-10 21:58:32,649 [INFO] Done.
+

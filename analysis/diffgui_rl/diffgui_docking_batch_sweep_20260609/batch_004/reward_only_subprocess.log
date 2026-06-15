@@ -1,0 +1,83 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+2026-06-09 16:59:26,170 INFO DiffGuiRewardOnly: Loaded 4 SDF records from /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004/generated.sdf
+2026-06-09 16:59:26,170 INFO DiffGuiRewardOnly: [docking_factory] Building DockingReward: backend=unidock support_level=supported
+2026-06-09 16:59:26,171 INFO DiffGuiRewardOnly: Enabled reward components: ['docking']
+2026-06-09 16:59:26,171 INFO DiffGuiRewardOnly: Configured reward weights: {'docking': 1.0}
+2026-06-09 16:59:26,171 INFO DiffGuiRewardOnly: CompositeReward normalized weights: {'docking': 1.0}
+2026-06-09 16:59:26,171 INFO DiffGuiRewardOnly: StabilityAwareReward wrapper applied
+2026-06-09 16:59:31,317 INFO DiffGuiRewardOnly: Scored records 0-4 / 4
+
+{
+  "stage": "diffgui_reward_only_stage1",
+  "input_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004/generated.sdf",
+  "input_records": 4,
+  "readable_records": 4,
+  "rdkit_valid": 4,
+  "rdkit_invalid": 0,
+  "rdkit_valid_ratio": 1.0,
+  "sdf_written": 4,
+  "scored_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004/docking_scored.sdf",
+  "rewards_csv": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004/docking_rewards.csv",
+  "summary_json": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004/docking_reward_summary.json",
+  "reward_weights": {
+    "docking": 1.0
+  },
+  "reward_total_mean": 1.2431500256061554,
+  "reward_total_median": 1.272450029850006,
+  "reward_total_min": 1.07260000705719,
+  "reward_total_max": 1.3551000356674194,
+  "reward_total_q10": 1.1207500219345092,
+  "reward_total_q90": 1.342110025882721,
+  "reward_total_raw_mean": 1.2431500256061554,
+  "reward_total_raw_median": 1.272450029850006,
+  "reward_total_raw_min": 1.07260000705719,
+  "reward_total_raw_max": 1.3551000356674194,
+  "reward_total_raw_q10": 1.1207500219345092,
+  "reward_total_raw_q90": 1.342110025882721,
+  "stability_mean": 1.0,
+  "stability_median": 1.0,
+  "stability_min": 1.0,
+  "stability_max": 1.0,
+  "stability_q10": 1.0,
+  "stability_q90": 1.0,
+  "source_index_mean": 1.5,
+  "source_index_median": 1.5,
+  "source_index_min": 0.0,
+  "source_index_max": 3.0,
+  "source_index_q10": 0.30000000000000004,
+  "source_index_q90": 2.7,
+  "rdkit_valid_mean": 1.0,
+  "rdkit_valid_median": 1.0,
+  "rdkit_valid_min": 1.0,
+  "rdkit_valid_max": 1.0,
+  "rdkit_valid_q10": 1.0,
+  "rdkit_valid_q90": 1.0,
+  "nodesxsample_mean": 24.0,
+  "nodesxsample_median": 24.0,
+  "nodesxsample_min": 24.0,
+  "nodesxsample_max": 24.0,
+  "nodesxsample_q10": 24.0,
+  "nodesxsample_q90": 24.0,
+  "docking_raw_mean": -12.43149995803833,
+  "docking_raw_median": -12.724500179290771,
+  "docking_raw_min": -13.550999641418457,
+  "docking_raw_max": -10.72599983215332,
+  "docking_raw_q10": -13.421099758148193,
+  "docking_raw_q90": -11.207499980926514,
+  "docking_reward_mean": 1.2431500256061554,
+  "docking_reward_median": 1.272450029850006,
+  "docking_reward_min": 1.07260000705719,
+  "docking_reward_max": 1.3551000356674194,
+  "docking_reward_q10": 1.1207500219345092,
+  "docking_reward_q90": 1.342110025882721,
+  "ligand_efficiency_raw_mean": 0.5179791823029518,
+  "ligand_efficiency_raw_median": 0.5301875174045563,
+  "ligand_efficiency_raw_min": 0.4469166696071625,
+  "ligand_efficiency_raw_max": 0.5646250247955322,
+  "ligand_efficiency_raw_q10": 0.4669791728258133,
+  "ligand_efficiency_raw_q90": 0.5592125236988068
+}
+

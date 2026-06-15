@@ -1,0 +1,77 @@
+{
+  "edge_npz": "analysis/edge_data_chain_20260602_n1000/train_edge.npz",
+  "semantic_npz": "analysis/edge_semantic_bundle_20260602_n1000/train_edge_semantic.npz",
+  "device": "cuda",
+  "max_molecules": 32,
+  "batch_size": 8,
+  "epochs": 80,
+  "lr": 0.002,
+  "focal_gamma": 1.0,
+  "num_timesteps": 1000,
+  "model_kind": "node_edge",
+  "model_config": {
+    "num_atom_types": 10,
+    "num_edge_types": 5,
+    "num_timesteps": 1000,
+    "hidden_dim": 64,
+    "num_layers": 3,
+    "distance_basis_dim": 16,
+    "dropout": 0.0
+  },
+  "class_counts": {
+    "no_bond": 9717,
+    "single": 478,
+    "double": 66,
+    "triple": 3,
+    "aromatic": 311
+  },
+  "class_weight": {
+    "no_bond": 0.06904300302267075,
+    "single": 0.31098565459251404,
+    "double": 0.8315162658691406,
+    "triple": 3.4031267166137695,
+    "aromatic": 0.3853282630443573
+  },
+  "first_epoch": {
+    "epoch": 1,
+    "train_loss": 0.09235261378558815,
+    "eval_loss": 0.4851187539044283,
+    "accuracy": 0.9188652482269504,
+    "balanced_accuracy": 0.20000000298023224,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 1.0,
+    "recall_no_bond": 1.0,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  },
+  "final_epoch": {
+    "epoch": 80,
+    "train_loss": 0.0044572683818744005,
+    "eval_loss": 0.02548872035216919,
+    "accuracy": 0.9926241134751773,
+    "balanced_accuracy": 0.9222598075866699,
+    "real_bond_recall": 0.9090909090909091,
+    "no_bond_recall": 1.0,
+    "recall_no_bond": 1.0,
+    "recall_single": 0.9456067085266113,
+    "recall_double": 0.7878788113594055,
+    "recall_triple": 1.0,
+    "recall_aromatic": 0.8778135180473328
+  },
+  "best_balanced_accuracy_epoch": {
+    "epoch": 71,
+    "train_loss": 0.006863297870686502,
+    "eval_loss": 0.024289081941048306,
+    "accuracy": 0.9946099290780142,
+    "balanced_accuracy": 0.9555690884590149,
+    "real_bond_recall": 0.9347319347319347,
+    "no_bond_recall": 0.9998970627784729,
+    "recall_no_bond": 0.9998970627784729,
+    "recall_single": 0.9225941300392151,
+    "recall_double": 0.8939393758773804,
+    "recall_triple": 1.0,
+    "recall_aromatic": 0.9614148139953613
+  }
+}

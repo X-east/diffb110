@@ -1,0 +1,42 @@
+{
+  "checkpoint": "analysis/edge_denoiser_nodeedge_20260603_n1000_train800_val200_gpu/edge_denoiser_overfit.pt",
+  "edge_npz": "analysis/edge_data_chain_20260602_n1000/train_edge.npz",
+  "semantic_npz": "analysis/edge_semantic_bundle_20260602_n1000/train_edge_semantic.npz",
+  "device": "cuda",
+  "eval_split": "val",
+  "eval_molecules": 4,
+  "timesteps": [
+    0,
+    500
+  ],
+  "reconstruct_timestep": 500,
+  "classification": {
+    "best_timestep": 0,
+    "best_balanced_accuracy": 0.800000011920929,
+    "best_real_bond_recall": 1.0,
+    "worst_timestep": 500,
+    "worst_balanced_accuracy": 0.7886792421340942,
+    "worst_real_bond_recall": 0.95652174949646
+  },
+  "reconstruction": {
+    "molecules": 4,
+    "exact_halfedge_match_rate": 0.5,
+    "bond_pair_set_match_rate": 1.0,
+    "bond_type_map_match_rate": 0.5,
+    "mean_halfedge_accuracy": 0.9854826480150223,
+    "mean_bond_pair_precision": 1.0,
+    "mean_bond_pair_recall": 1.0,
+    "plain_sanitize_success_rate": 0.5,
+    "semantic_sanitize_success_rate": 0.5,
+    "plain_smiles_no_stereo_match_rate": 0.5,
+    "semantic_smiles_no_stereo_match_rate": 0.5,
+    "mean_bad_bond_length_fraction": 0.0,
+    "total_bad_bond_length_count": 0,
+    "repair_strategy_counts": {
+      "plain:failed": 2,
+      "plain:none": 2,
+      "semantic:failed": 2,
+      "semantic:none": 2
+    }
+  }
+}

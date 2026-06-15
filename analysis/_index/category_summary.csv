@@ -1,0 +1,10 @@
+category,directory_count,size_bytes,size_human,size_gb,file_count,report_dir_count,png_count,sdf_count,csv_count
+benchmark,10,2704545491,2.5G,2.519,15457,8,73,13353,93
+diffsbdd_xhe,34,2548839849,2.4G,2.374,506,26,92,51,99
+classifier,16,2211202160,2.1G,2.059,310,7,67,108,52
+diffgui_rl,11,231178861,220.5M,0.215,3656,2,24,3080,108
+diffsbdd_rl,14,119108994,113.6M,0.111,17547,8,39,17197,49
+internal,4,111873899,106.7M,0.104,544,2,144,59,107
+diffsbdd_small_mod,9,63217984,60.3M,0.059,215,5,98,20,58
+reconstruction,5,29071593,27.7M,0.027,72,5,24,7,21
+preprocessing,4,15438252,14.7M,0.014,12,1,4,0,3

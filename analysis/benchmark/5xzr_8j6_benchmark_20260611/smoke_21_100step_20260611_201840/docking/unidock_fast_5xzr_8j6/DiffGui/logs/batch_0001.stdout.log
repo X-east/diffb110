@@ -1,0 +1,174 @@
+Uni-Dock v1.1.3
+
+If you used Uni-Dock in your work, please cite:               
+ 
+Yu, Y., Cai, C., Wang, J., Bo, Z., Zhu, Z., & Zheng, H. (2023). 
+Uni-Dock: GPU-Accelerated Docking Enables Ultralarge Virtual Screening. 
+Journal of Chemical Theory and Computation.                    
+https://doi.org/10.1021/acs.jctc.2c01145                       
+
+Tang, S., Chen, R., Lin, M., Lin, Q., Zhu, Y., Ding, J., ... & Wu, J. (2022). 
+Accelerating autodock vina with gpus. Molecules, 27(9), 3041. 
+DOI 10.3390/molecules27093041                                 
+
+J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  
+AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      
+Field, and Python Bindings, J. Chem. Inf. Model. (2021)       
+DOI 10.1021/acs.jcim.1c00203                                  
+
+O. Trott, A. J. Olson,                                        
+AutoDock Vina: improving the speed and accuracy of docking    
+with a new scoring function, efficient optimization and        
+multithreading, J. Comp. Chem. (2010)                         
+DOI 10.1002/jcc.21334                                         
+
+Please refer to https://github.com/dptech-corp/Uni-Dock/ for  
+bug reporting, license agreements, and more information.      
+
+Scoring function : vina
+Rigid receptor: /data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_pocket8A.pdbqt
+Grid center: X -21.484 Y 70.592 Z 21.081
+Grid size  : X 20 Y 20 Z 20
+Grid space : 0.375
+Exhaustiveness: 128
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+Total ligands: 21
+Set GPU device id to 0
+Available Memory = 9529MiB   Total Memory = 9877MiB
+all_ligands.size():21
+max_num_atoms:44
+max_num_torsions:0
+max_num_rigids:0
+max_num_lig_pairs:0
+Small Group:
+Max num_atoms: 37 Max num_torsions: 0 Max num_rigids: 0 Max num_lig_pairs: 0
+Group size: 20
+Medium Group:
+Max num_atoms: 44 Max num_torsions: 0 Max num_rigids: 0 Max num_lig_pairs: 0
+Group size: 1
+Large Group:
+Extra Large Group:
+Small
+Max num_atoms: 37 Max num_torsions: 0 Max num_rigids: 0 Max num_lig_pairs: 0
+Group size: 20
+Small Batch 1 size: 20
+Performing docking (random seed: 42) ... Time spend on GPU is 638.239807 ms
+CUDA Kernel running time: 2551
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -10.16          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -8.387          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -8.865          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -10.62          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -11.13          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -9.395          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -10.17          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -10.44          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -11.39          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -9.426          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -10.08          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -11.22          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -9.899          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1        -11.5          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -10.69          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -8.567          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -11.66          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1        -10.6          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -9.243          0          0
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1        -10.5          0          0
+poses saveing time: 77
+Batch 1 running time: 9003ms
+Medium
+Max num_atoms: 44 Max num_torsions: 0 Max num_rigids: 0 Max num_lig_pairs: 0
+Group size: 1
+Medium Batch 1 size: 1
+Performing docking (random seed: 42) ... Time spend on GPU is 103.632576 ms
+CUDA Kernel running time: 307
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -11.87          0          0
+poses saveing time: 7
+Batch 1 running time: 2629ms

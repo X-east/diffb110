@@ -1,0 +1,22 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+
+Entropy of n_nodes: H[N] 9.266731262207031
+{
+  "batch_size": 10,
+  "device": "cuda",
+  "outfile": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_2/generated.sdf",
+  "requested": 7,
+  "seconds": 6.478916645050049,
+  "timesteps": 100,
+  "written_candidates": 7
+}
+
+real 14.41
+user 13.36
+sys 3.71

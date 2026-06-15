@@ -1,0 +1,10 @@
+run,reward,epoch,total_records,input_valid_count,docking_success_count,docking_success_rate_all,docking_success_rate_valid,avg_docking,best_docking,avg_ligand_efficiency
+diffsbdd-single-reward-20260612-01-docking_20260612_210459,docking,10,88,88,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-09-chembl_classifier_20260613_002952,chembl_classifier,10,91,91,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-04-tpsa_distribution_20260612_222038,tpsa_distribution,10,94,94,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-05-ecfp4_prior_20260612_224533,ecfp4_prior,10,89,89,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-03-sa_20260612_215558,sa,10,81,81,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-06-fcfp4_prior_20260612_231147,fcfp4_prior,10,93,93,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-07-logp_distribution_20260612_233802,logp_distribution,10,95,95,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-02-qed_20260612_213118,qed,10,86,86,0,0.0,0.0,,,
+diffsbdd-single-reward-20260612-08-ligand_efficiency_20260613_000317,ligand_efficiency,10,99,99,0,0.0,0.0,,,

@@ -1,0 +1,1282 @@
+{
+  "chembl_classifier_e0004_m00005": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00006": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00007": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00008": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00009": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00010": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00011": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00012": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00013": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00014": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00015": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00016": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00017": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00018": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00019": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00020": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00021": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00022": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00023": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00024": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00025": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00026": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00027": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00028": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00029": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00030": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00031": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00032": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00033": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00034": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00035": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00036": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00037": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00038": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00039": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00040": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00041": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00042": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00043": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00044": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00045": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00046": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00047": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00048": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00049": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00050": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00051": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00052": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00053": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00054": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00055": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00056": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00057": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00058": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00059": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00060": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00061": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00062": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00063": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00064": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00065": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00066": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00067": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00068": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00069": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00070": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00071": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00072": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00073": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00074": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00075": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00076": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00077": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00078": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00079": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00080": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00081": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00082": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00083": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00084": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00085": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00086": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00087": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00088": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00089": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00090": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00091": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00092": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00093": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00094": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00095": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00096": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00097": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00098": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0004_m00099": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00000": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00001": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00002": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00003": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00004": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00005": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00006": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00007": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00008": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00009": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00010": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00011": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00012": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00013": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00014": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00015": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00016": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00017": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00018": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00019": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00020": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00021": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00022": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00023": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00024": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00025": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00026": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00027": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00028": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00029": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00030": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00031": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00032": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00033": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00034": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00035": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00036": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00037": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00038": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00039": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00040": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00041": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00042": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00043": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00044": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00045": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00046": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00047": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00048": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00049": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00050": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00051": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00052": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00053": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00054": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00055": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00056": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00057": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00058": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00059": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00060": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00061": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00062": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00063": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00064": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00065": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00066": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00067": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00068": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00069": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00070": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00071": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00072": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00073": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00074": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00075": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00076": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00077": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00078": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00079": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00080": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00081": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00082": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00083": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00084": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00085": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00086": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00087": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0005_m00088": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00000": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00001": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00002": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00003": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00004": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00005": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00006": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00007": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00008": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00009": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00010": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00011": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00012": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00013": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00014": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00015": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00016": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00017": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00018": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00019": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00020": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00021": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00022": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00023": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00024": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00025": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00026": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00027": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00028": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00029": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00030": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00031": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00032": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00033": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00034": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00035": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00036": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00037": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00038": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00039": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00040": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00041": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00042": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00043": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00044": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00045": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00046": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00047": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00048": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00049": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00050": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00051": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00052": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00053": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00054": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00055": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00056": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00057": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00058": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00059": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00060": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00061": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00062": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00063": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00064": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00065": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00066": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00067": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00068": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00069": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00070": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0006_m00071": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  }
+}

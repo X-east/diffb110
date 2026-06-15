@@ -1,0 +1,66 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Fontconfig error: Cannot load default config file: No such file: (null)
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt`
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpgo5egw4i)
+
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpxp90r1t1)
+
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmp_gebnhlj)
+
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmp5mqmohri)
+
+==============================
+*** Open Babel Warning  in PerceiveBondOrders
+  Failed to kekulize aromatic bonds in OBMol::PerceiveBondOrders (title is /tmp/tmpaceubwfn)
+
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+
+Entropy of n_nodes: H[N] 9.266731262207031
+{
+  "batch_size": 10,
+  "device": "cuda",
+  "outfile": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_5/generated.sdf",
+  "requested": 71,
+  "seconds": 160.73361158370972,
+  "timesteps": 500,
+  "written_candidates": 71
+}
+
+real 170.18
+user 167.07
+sys 3.22

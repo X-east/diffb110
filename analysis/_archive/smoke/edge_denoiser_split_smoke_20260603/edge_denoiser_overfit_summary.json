@@ -1,0 +1,111 @@
+{
+  "edge_npz": "analysis/edge_data_chain_20260602_n1000/train_edge.npz",
+  "semantic_npz": "analysis/edge_semantic_bundle_20260602_n1000/train_edge_semantic.npz",
+  "device": "cpu",
+  "max_molecules": 16,
+  "split": {
+    "mode": "train_val",
+    "train_molecules": 12,
+    "eval_molecules": 4,
+    "val_molecules": 4,
+    "split_seed": 0,
+    "train_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8,
+      11,
+      13,
+      14,
+      15
+    ],
+    "eval_indices": [
+      6,
+      9,
+      10,
+      12
+    ]
+  },
+  "batch_size": 4,
+  "epochs": 1,
+  "lr": 0.002,
+  "focal_gamma": 1.0,
+  "num_timesteps": 1000,
+  "model_kind": "node_edge",
+  "model_config": {
+    "num_atom_types": 10,
+    "num_edge_types": 5,
+    "num_timesteps": 1000,
+    "hidden_dim": 16,
+    "num_layers": 1,
+    "distance_basis_dim": 8,
+    "dropout": 0.0
+  },
+  "class_counts": {
+    "no_bond": 3526,
+    "single": 164,
+    "double": 17,
+    "triple": 2,
+    "aromatic": 133
+  },
+  "eval_class_counts": {
+    "no_bond": 1483,
+    "single": 78,
+    "double": 8,
+    "triple": 0,
+    "aromatic": 43
+  },
+  "class_weight": {
+    "no_bond": 0.08468864113092422,
+    "single": 0.39154884219169617,
+    "double": 1.1854729652404785,
+    "triple": 2.903803825378418,
+    "aromatic": 0.4344857335090637
+  },
+  "first_epoch": {
+    "epoch": 1,
+    "train_loss": 0.12571472542351697,
+    "eval_loss": 1.1397616863250732,
+    "accuracy": 0.9112903225806451,
+    "balanced_accuracy": 0.19811193645000458,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 0.9905596971511841,
+    "recall_no_bond": 0.9905596971511841,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  },
+  "final_epoch": {
+    "epoch": 1,
+    "train_loss": 0.12571472542351697,
+    "eval_loss": 1.1397616863250732,
+    "accuracy": 0.9112903225806451,
+    "balanced_accuracy": 0.19811193645000458,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 0.9905596971511841,
+    "recall_no_bond": 0.9905596971511841,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  },
+  "best_balanced_accuracy_epoch": {
+    "epoch": 1,
+    "train_loss": 0.12571472542351697,
+    "eval_loss": 1.1397616863250732,
+    "accuracy": 0.9112903225806451,
+    "balanced_accuracy": 0.19811193645000458,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 0.9905596971511841,
+    "recall_no_bond": 0.9905596971511841,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  }
+}

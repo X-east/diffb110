@@ -1,0 +1,137 @@
+{
+  "stage": "diffgui_multigpu_smoke",
+  "requested_gpus": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ],
+  "successful_workers": 0,
+  "failed_workers": 8,
+  "total_graphs": 0,
+  "num_timesteps": 200,
+  "num_graphs_per_gpu": 2,
+  "ligand_atoms": 24,
+  "seed_base": 260800,
+  "precision": "bf16",
+  "freeze_mode": "last_n_blocks",
+  "train_last_n_blocks": 1,
+  "graph_micro_batch_size": 2,
+  "reconstruction_attempted": 0,
+  "reconstruction_success": 0,
+  "reconstruction_success_ratio": 0.0,
+  "numsteps_values": [],
+  "trainable_params_values": [],
+  "failed": [
+    {
+      "rank": 0,
+      "gpu": "0",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank00_gpu0",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank00_gpu0.log"
+    },
+    {
+      "rank": 1,
+      "gpu": "1",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank01_gpu1",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank01_gpu1.log"
+    },
+    {
+      "rank": 2,
+      "gpu": "2",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank02_gpu2",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank02_gpu2.log"
+    },
+    {
+      "rank": 3,
+      "gpu": "3",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank03_gpu3",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank03_gpu3.log"
+    },
+    {
+      "rank": 4,
+      "gpu": "4",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank04_gpu4",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank04_gpu4.log"
+    },
+    {
+      "rank": 5,
+      "gpu": "5",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank05_gpu5",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank05_gpu5.log"
+    },
+    {
+      "rank": 6,
+      "gpu": "6",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank06_gpu6",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank06_gpu6.log"
+    },
+    {
+      "rank": 7,
+      "gpu": "7",
+      "return_code": 1,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank07_gpu7",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank07_gpu7.log"
+    }
+  ],
+  "workers": [],
+  "elapsed_seconds": 10.822719865012914,
+  "gpu_memory": {
+    "sample_path": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/gpu_memory_samples.csv",
+    "sample_count": 72,
+    "errors": [],
+    "peak_by_gpu": {
+      "0": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "1": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "2": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "3": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "4": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "5": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "6": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      },
+      "7": {
+        "peak_used_mb": 807,
+        "free_mb_at_peak": 9071,
+        "elapsed_at_peak_seconds": 9.35928799211979
+      }
+    },
+    "max_peak_used_mb": 807
+  }
+}

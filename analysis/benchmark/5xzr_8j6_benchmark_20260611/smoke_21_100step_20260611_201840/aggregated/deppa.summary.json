@@ -1,0 +1,26 @@
+{
+  "input_sdf_files": 6,
+  "limit": 21,
+  "model": "DePPA",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/deppa.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/deppa/gpu_0/processed/5XZR_1_gen.sdf",
+      "readable": 7,
+      "written": 7
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/deppa/gpu_0/raw/5XZR_1_gen.sdf",
+      "readable": 10,
+      "written": 10
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/deppa/gpu_1/processed/5XZR_1_gen.sdf",
+      "readable": 7,
+      "written": 4
+    }
+  ],
+  "readable_records_seen": 24,
+  "write_failed_records": 0,
+  "written_records": 21
+}

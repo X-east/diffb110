@@ -1,0 +1,3 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,ok,CCC1CCC(O)C2N1C(=O)C1c3ccccc3C(=O)NC12CN,24,2.0256106853485107
+1,reconstruct_error:MolReconsError,,24,2.0037059783935547

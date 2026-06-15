@@ -1,0 +1,5 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,reconstruct_error:MolReconsError,,24,2.0152769088745117
+1,reconstruct_error:MolReconsError,,24,2.039119005203247
+2,ok,CC1(O)CC23CC24C2c5cccc(F)c5CC(=O)NOC5(CC153)C24,24,1.9922659397125244
+3,reconstruct_error:MolReconsError,,24,2.005958318710327

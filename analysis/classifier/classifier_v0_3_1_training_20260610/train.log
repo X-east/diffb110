@@ -1,0 +1,46 @@
+2026-06-10 21:59:20,153 [INFO] Device: cpu
+2026-06-10 21:59:20,153 [INFO] Loading dataset from /data/disk6/DiffB110/chembl_classifier/models/dataset_selected_v0_3_1_scaffold_strongpoly.pt
+2026-06-10 21:59:32,867 [WARNING]   train: 511 rows with NaN/Inf — replacing with 0.0
+2026-06-10 21:59:33,058 [WARNING]   val: 53 rows with NaN/Inf — replacing with 0.0
+2026-06-10 21:59:33,179 [WARNING]   test: 69 rows with NaN/Inf — replacing with 0.0
+2026-06-10 21:59:33,184 [INFO] Train: 220374, Val: 27546, Test: 27548
+2026-06-10 21:59:33,204 [INFO] Model parameters: 1,204,225
+2026-06-10 21:59:33,204 [INFO] pos_weight = 0.8392 (n_neg=100551, n_pos=119823)
+2026-06-10 21:59:33,205 [INFO] Training 100 epochs (early stop patience=15)
+2026-06-10 21:59:53,277 [INFO] Epoch   1/100 | train_loss=0.1368 | val_loss=0.1660 | val_acc=0.9571 | best_epoch=1
+2026-06-10 22:00:12,708 [INFO] Epoch   2/100 | train_loss=0.1117 | val_loss=0.1438 | val_acc=0.9225 | best_epoch=2
+2026-06-10 22:00:31,056 [INFO] Epoch   3/100 | train_loss=0.1054 | val_loss=0.1913 | val_acc=0.8873 | best_epoch=2
+2026-06-10 22:00:55,612 [INFO] Epoch   4/100 | train_loss=0.1013 | val_loss=0.0960 | val_acc=0.9589 | best_epoch=4
+2026-06-10 22:01:17,338 [INFO] Epoch   5/100 | train_loss=0.0984 | val_loss=0.1152 | val_acc=0.9431 | best_epoch=4
+2026-06-10 22:01:38,614 [INFO] Epoch   6/100 | train_loss=0.0947 | val_loss=0.1468 | val_acc=0.9186 | best_epoch=4
+2026-06-10 22:02:00,392 [INFO] Epoch   7/100 | train_loss=0.0934 | val_loss=0.1025 | val_acc=0.9495 | best_epoch=4
+2026-06-10 22:02:21,594 [INFO] Epoch   8/100 | train_loss=0.0919 | val_loss=0.0987 | val_acc=0.9530 | best_epoch=4
+2026-06-10 22:02:43,022 [INFO] Epoch   9/100 | train_loss=0.0902 | val_loss=0.1039 | val_acc=0.9671 | best_epoch=4
+2026-06-10 22:03:04,897 [INFO] Epoch  10/100 | train_loss=0.0891 | val_loss=0.0936 | val_acc=0.9593 | best_epoch=10
+2026-06-10 22:03:26,863 [INFO] Epoch  11/100 | train_loss=0.0866 | val_loss=0.0964 | val_acc=0.9557 | best_epoch=10
+2026-06-10 22:03:50,960 [INFO] Epoch  12/100 | train_loss=0.0852 | val_loss=0.0852 | val_acc=0.9684 | best_epoch=12
+2026-06-10 22:04:13,172 [INFO] Epoch  13/100 | train_loss=0.0837 | val_loss=0.0886 | val_acc=0.9600 | best_epoch=12
+2026-06-10 22:04:34,751 [INFO] Epoch  14/100 | train_loss=0.0824 | val_loss=0.0883 | val_acc=0.9706 | best_epoch=12
+2026-06-10 22:04:56,739 [INFO] Epoch  15/100 | train_loss=0.0818 | val_loss=0.0846 | val_acc=0.9671 | best_epoch=15
+2026-06-10 22:05:17,311 [INFO] Epoch  16/100 | train_loss=0.0798 | val_loss=0.0836 | val_acc=0.9717 | best_epoch=16
+2026-06-10 22:05:37,275 [INFO] Epoch  17/100 | train_loss=0.0791 | val_loss=0.0806 | val_acc=0.9727 | best_epoch=17
+2026-06-10 22:05:56,318 [INFO] Epoch  18/100 | train_loss=0.0768 | val_loss=0.0879 | val_acc=0.9588 | best_epoch=17
+2026-06-10 22:06:15,770 [INFO] Epoch  19/100 | train_loss=0.0783 | val_loss=0.0988 | val_acc=0.9715 | best_epoch=17
+2026-06-10 22:06:35,909 [INFO] Epoch  20/100 | train_loss=0.0757 | val_loss=0.0859 | val_acc=0.9712 | best_epoch=17
+2026-06-10 22:06:57,321 [INFO] Epoch  21/100 | train_loss=0.0749 | val_loss=0.1044 | val_acc=0.9722 | best_epoch=17
+2026-06-10 22:07:18,105 [INFO] Epoch  22/100 | train_loss=0.0747 | val_loss=0.0908 | val_acc=0.9715 | best_epoch=17
+2026-06-10 22:07:39,969 [INFO] Epoch  23/100 | train_loss=0.0745 | val_loss=0.0854 | val_acc=0.9714 | best_epoch=17
+2026-06-10 22:08:01,077 [INFO] Epoch  24/100 | train_loss=0.0734 | val_loss=0.0905 | val_acc=0.9675 | best_epoch=17
+2026-06-10 22:08:21,211 [INFO] Epoch  25/100 | train_loss=0.0719 | val_loss=0.1041 | val_acc=0.9558 | best_epoch=17
+2026-06-10 22:08:42,362 [INFO] Epoch  26/100 | train_loss=0.0716 | val_loss=0.0951 | val_acc=0.9699 | best_epoch=17
+2026-06-10 22:09:02,774 [INFO] Epoch  27/100 | train_loss=0.0708 | val_loss=0.0897 | val_acc=0.9715 | best_epoch=17
+2026-06-10 22:09:24,033 [INFO] Epoch  28/100 | train_loss=0.0704 | val_loss=0.0847 | val_acc=0.9645 | best_epoch=17
+2026-06-10 22:09:45,691 [INFO] Epoch  29/100 | train_loss=0.0695 | val_loss=0.0881 | val_acc=0.9731 | best_epoch=17
+2026-06-10 22:10:07,246 [INFO] Epoch  30/100 | train_loss=0.0685 | val_loss=0.1182 | val_acc=0.9689 | best_epoch=17
+2026-06-10 22:10:28,896 [INFO] Epoch  31/100 | train_loss=0.0683 | val_loss=0.0850 | val_acc=0.9708 | best_epoch=17
+2026-06-10 22:10:49,880 [INFO] Epoch  32/100 | train_loss=0.0665 | val_loss=0.0915 | val_acc=0.9732 | best_epoch=17
+2026-06-10 22:10:49,880 [INFO] Early stopping at epoch 32
+2026-06-10 22:10:49,880 [INFO] Training completed in 676.7s (11.3 min)
+2026-06-10 22:10:49,880 [INFO] Loading best model for test evaluation...
+2026-06-10 22:10:50,588 [INFO] Test  — loss=0.0868, acc=0.9723, prec=0.9853, recall=0.9638
+

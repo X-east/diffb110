@@ -1,0 +1,2 @@
+model,benchmark_index,ligand_stem,success,score,input_smiles,source_sdf,split_sdf,output_file,failure_reason
+5XZR_native_8J6,0,5xzr_native_8j6_000000,True,-12.737,,analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_ligand.sdf,analysis/5xzr_8j6_benchmark_20260611/docking/native_8J6_unidock_fast_gpu/split_ligands/5xzr_native_8j6_000000.sdf,analysis/5xzr_8j6_benchmark_20260611/docking/native_8J6_unidock_fast_gpu/batch_outputs/batch_0001/5xzr_native_8j6_000000_out.sdf,

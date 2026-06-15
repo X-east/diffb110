@@ -1,0 +1,2744 @@
+diffgui_00000|reward=-0.5700|valid=1|ok
+     RDKit          3D
+
+ 27 33  0  0  0  0  0  0  0  0999 V2000
+  209.3654  213.1991  173.8570 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1400  212.7976  174.6133 N   0  0  0  0  0  0  0  0  0  0  0  0
+  202.7132  213.0448  172.0986 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5186  211.1991  170.8643 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.1132  211.8202  170.0440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5600  214.7840  173.6636 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7950  213.4552  176.9100 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.0879  212.8947  172.3915 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5824  212.7313  174.3334 C   0  0  1  0  0  0  0  0  0  0  0  0
+  208.6389  212.4762  172.9080 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5692  213.5984  173.6394 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8318  212.4337  176.7084 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7754  213.6731  175.0796 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2678  211.7717  171.8317 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1253  211.3105  170.8526 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.2214  212.4958  170.9062 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5800  214.3818  176.1117 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1945  212.4493  173.0027 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5067  214.4554  175.9670 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8636  214.7696  175.7041 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6157  212.9654  175.9742 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4464  211.9879  171.8406 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4761  214.2659  174.5323 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3678  213.2634  175.5118 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.9728  212.2062  171.5780 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7649  213.4935  173.5975 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4666  211.6893  170.3914 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 10  1  0
+  1 13  2  0
+  1 26  1  0
+  9  2  1  6
+  2 11  1  0
+  2 21  1  0
+  3  8  1  0
+  3 16  2  0
+  4 14  1  0
+  4 15  2  0
+  5 16  1  0
+  5 27  2  0
+  6 11  2  0
+  7 12  1  0
+  7 17  1  6
+  7 21  1  0
+  8 11  1  0
+  8 25  2  0
+  9 18  1  0
+  9 24  1  0
+ 10 14  2  0
+ 10 18  1  0
+ 12 24  1  0
+ 13 19  1  0
+ 13 24  1  0
+ 15 22  1  0
+ 24 17  1  1
+ 18 22  2  0
+ 19 20  2  0
+ 20 23  1  0
+ 22 25  1  0
+ 23 26  2  0
+ 25 27  1  0
+M  END
+>  <benchmark_model>  (1) 
+DiffGui
+
+>  <benchmark_index>  (1) 
+0
+
+>  <benchmark_source_sdf>  (1) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/0.sdf
+
+>  <mol_id>  (1) 
+diffgui_00000
+
+>  <source_index>  (1) 
+0
+
+>  <original_name>  (1) 
+
+
+>  <rdkit_valid>  (1) 
+1
+
+>  <sanitize_status>  (1) 
+ok
+
+>  <smiles>  (1) 
+O=C1c2ccccc2-c2cccc3c2[C@@H]2N1C[C@H]1C[C@@]2(C1)c1ccccc1-3
+
+>  <nodesxsample>  (1) 
+27
+
+>  <docking_raw>  (1) 
+0.0
+
+>  <docking_reward>  (1) 
+-1.0
+
+>  <ligand_efficiency_raw>  (1) 
+0.0
+
+>  <ligand_efficiency_reward>  (1) 
+0.0
+
+>  <chemistry_guard_reward>  (1) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (1) 
+1
+
+>  <heavy_atom_count>  (1) 
+27.0
+
+>  <carbon_fraction>  (1) 
+0.9259259104728699
+
+>  <hetero_atom_count>  (1) 
+2.0
+
+>  <hetero_atom_fraction>  (1) 
+0.07407407462596893
+
+>  <aromatic_ring_count>  (1) 
+3.0
+
+>  <three_member_ring_count>  (1) 
+0.0
+
+>  <fragment_count>  (1) 
+1.0
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <halogen_bad_position_count>  (1) 
+0.0
+
+>  <chemistry_guard_violation_count>  (1) 
+1.0
+
+>  <ring_complexity_reward>  (1) 
+-1.0
+
+>  <ring_complexity_success>  (1) 
+1
+
+>  <ring_complexity_ring_count>  (1) 
+8.0
+
+>  <ring_complexity_aromatic_ring_count>  (1) 
+3.0
+
+>  <ring_complexity_three_member_ring_count>  (1) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (1) 
+8.0
+
+>  <ring_complexity_spiro_atom_count>  (1) 
+1.0
+
+>  <ring_complexity_bridgehead_atom_count>  (1) 
+2.0
+
+>  <ring_complexity_penalty>  (1) 
+2.0399999618530273
+
+>  <reward_total_raw>  (1) 
+-0.5699999928474426
+
+>  <reward_total>  (1) 
+-0.5699999928474426
+
+>  <stability>  (1) 
+1.0
+
+$$$$
+diffgui_00001|reward=-0.1800|valid=1|ok
+     RDKit          3D
+
+ 24 28  0  0  0  0  0  0  0  0999 V2000
+  202.5856  212.4056  171.6736 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6789  212.8563  173.4916 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3529  212.5972  173.7867 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4682  213.5750  174.4240 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0701  211.5795  171.5581 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9085  214.5861  173.8239 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6077  214.5760  176.1408 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1763  212.7882  174.5722 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6117  212.6743  175.0554 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.5232  212.0626  172.7722 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2078  211.7627  170.8141 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.4364  211.7395  171.3332 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2433  212.3915  172.2658 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5193  214.0113  174.7120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9559  213.7593  176.1091 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.5686  212.5607  172.0044 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1317  212.1009  173.2287 C   0  0  2  0  0  0  0  0  0  0  0  0
+  204.1232  211.7132  169.8841 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8259  213.7538  174.1244 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.4010  213.2596  172.9522 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6774  213.8757  177.0032 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9976  212.1159  172.1343 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.7071  212.4309  172.5704 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.8187  212.0382  170.3114 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 23  2  0
+  1 24  1  0
+  2  3  1  0
+  2  4  2  0
+  2 13  1  0
+  3  9  1  0
+  3 10  2  0
+  4 19  1  0
+  5 10  1  0
+  5 12  2  0
+  6 14  2  0
+  7 14  1  0
+  7 21  1  0
+  8  9  1  0
+  8 14  1  0
+  8 17  1  0
+  9 15  1  6
+ 10 17  1  0
+ 11 18  1  0
+ 11 22  2  0
+ 12 13  1  0
+ 13 16  2  0
+ 15 21  1  0
+ 16 20  1  0
+ 17 22  1  6
+ 18 24  2  0
+ 19 20  2  0
+ 22 23  1  0
+M  END
+>  <benchmark_model>  (2) 
+DiffGui
+
+>  <benchmark_index>  (2) 
+1
+
+>  <benchmark_source_sdf>  (2) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/1.sdf
+
+>  <mol_id>  (2) 
+diffgui_00001
+
+>  <source_index>  (2) 
+1
+
+>  <original_name>  (2) 
+
+
+>  <rdkit_valid>  (2) 
+1
+
+>  <sanitize_status>  (2) 
+ok
+
+>  <smiles>  (2) 
+O=C1CCC[C@@H]2c3c(ccc4ccccc34)[C@H](c3ccccc3)N12
+
+>  <nodesxsample>  (2) 
+24
+
+>  <docking_raw>  (2) 
+0.0
+
+>  <docking_reward>  (2) 
+-1.0
+
+>  <ligand_efficiency_raw>  (2) 
+0.0
+
+>  <ligand_efficiency_reward>  (2) 
+0.0
+
+>  <chemistry_guard_reward>  (2) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (2) 
+1
+
+>  <heavy_atom_count>  (2) 
+24.0
+
+>  <carbon_fraction>  (2) 
+0.9166666865348816
+
+>  <hetero_atom_count>  (2) 
+2.0
+
+>  <hetero_atom_fraction>  (2) 
+0.0833333358168602
+
+>  <aromatic_ring_count>  (2) 
+3.0
+
+>  <three_member_ring_count>  (2) 
+0.0
+
+>  <fragment_count>  (2) 
+1.0
+
+>  <bad_bond_length_fraction>  (2) 
+0.0
+
+>  <halogen_bad_position_count>  (2) 
+0.0
+
+>  <chemistry_guard_violation_count>  (2) 
+1.0
+
+>  <ring_complexity_reward>  (2) 
+0.30000001192092896
+
+>  <ring_complexity_success>  (2) 
+1
+
+>  <ring_complexity_ring_count>  (2) 
+5.0
+
+>  <ring_complexity_aromatic_ring_count>  (2) 
+3.0
+
+>  <ring_complexity_three_member_ring_count>  (2) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (2) 
+4.0
+
+>  <ring_complexity_spiro_atom_count>  (2) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (2) 
+0.0
+
+>  <ring_complexity_penalty>  (2) 
+0.699999988079071
+
+>  <reward_total_raw>  (2) 
+-0.17999997735023499
+
+>  <reward_total>  (2) 
+-0.17999997735023499
+
+>  <stability>  (2) 
+1.0
+
+$$$$
+diffgui_00002|reward=-0.5900|valid=1|ok
+     RDKit          3D
+
+ 23 28  0  0  0  0  0  0  0  0999 V2000
+  210.6518  212.0524  171.5326 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1635  211.7709  171.6361 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.3475  214.9193  173.8098 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4082  213.3881  173.7849 C   0  0  1  0  0  0  0  0  0  0  0  0
+  209.3958  212.2870  172.1522 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8832  213.7755  173.6075 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7291  213.3049  173.2737 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9479  214.8186  175.7545 O   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9464  213.2444  174.4455 C   0  0  2  0  0  0  0  0  0  0  0  0
+  210.5008  213.5126  173.8730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3553  213.0222  173.2813 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6745  211.6897  172.0656 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1606  212.4106  174.3660 C   0  0  1  0  0  0  0  0  0  0  0  0
+  211.7902  212.5642  172.0863 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0842  213.0901  172.2773 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1216  214.2069  175.0629 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5211  213.6965  176.2965 C   0  0  1  0  0  0  0  0  0  0  0  0
+  208.6135  214.0870  175.2714 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.9527  213.4294  174.0214 C   0  0  2  0  0  0  0  0  0  0  0  0
+  206.3384  214.6387  176.0404 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.3149  212.9632  172.7319 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0691  213.8436  175.8239 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0853  212.3250  175.8867 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  1  0
+  1 14  2  0
+  2  5  1  0
+  2 12  1  0
+  3  6  2  0
+  4  9  1  0
+  4 13  1  0
+  4 15  1  6
+  4 19  1  0
+  5 11  2  0
+  9  6  1  6
+  6 21  1  0
+  7 10  2  0
+  7 14  1  0
+  8 16  2  0
+  9 22  1  0
+ 10 11  1  0
+ 10 16  1  0
+ 19 11  1  6
+ 12 15  1  0
+ 13 19  1  0
+ 13 23  1  1
+ 18 16  1  1
+ 17 18  1  0
+ 17 20  1  6
+ 17 23  1  0
+ 18 19  1  0
+ 20 22  1  0
+M  END
+>  <benchmark_model>  (3) 
+DiffGui
+
+>  <benchmark_index>  (3) 
+2
+
+>  <benchmark_source_sdf>  (3) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/10.sdf
+
+>  <mol_id>  (3) 
+diffgui_00002
+
+>  <source_index>  (3) 
+2
+
+>  <original_name>  (3) 
+
+
+>  <rdkit_valid>  (3) 
+1
+
+>  <sanitize_status>  (3) 
+ok
+
+>  <smiles>  (3) 
+O=C1c2cccc3c2[C@@]24[C@H]1[C@H]1CC[C@@H](C(=O)O)[C@]2(CCC3)[C@@H]4C1
+
+>  <nodesxsample>  (3) 
+23
+
+>  <docking_raw>  (3) 
+0.0
+
+>  <docking_reward>  (3) 
+-1.0
+
+>  <ligand_efficiency_raw>  (3) 
+0.0
+
+>  <ligand_efficiency_reward>  (3) 
+0.0
+
+>  <chemistry_guard_reward>  (3) 
+0.6000000238418579
+
+>  <chemistry_guard_success>  (3) 
+1
+
+>  <heavy_atom_count>  (3) 
+23.0
+
+>  <carbon_fraction>  (3) 
+0.8695651888847351
+
+>  <hetero_atom_count>  (3) 
+3.0
+
+>  <hetero_atom_fraction>  (3) 
+0.1304347813129425
+
+>  <aromatic_ring_count>  (3) 
+1.0
+
+>  <three_member_ring_count>  (3) 
+1.0
+
+>  <fragment_count>  (3) 
+1.0
+
+>  <bad_bond_length_fraction>  (3) 
+0.0
+
+>  <halogen_bad_position_count>  (3) 
+0.0
+
+>  <chemistry_guard_violation_count>  (3) 
+2.0
+
+>  <ring_complexity_reward>  (3) 
+-1.0
+
+>  <ring_complexity_success>  (3) 
+1
+
+>  <ring_complexity_ring_count>  (3) 
+7.0
+
+>  <ring_complexity_aromatic_ring_count>  (3) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (3) 
+1.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (3) 
+7.0
+
+>  <ring_complexity_spiro_atom_count>  (3) 
+2.0
+
+>  <ring_complexity_bridgehead_atom_count>  (3) 
+4.0
+
+>  <ring_complexity_penalty>  (3) 
+2.1500000953674316
+
+>  <reward_total_raw>  (3) 
+-0.5900000333786011
+
+>  <reward_total>  (3) 
+-0.5900000333786011
+
+>  <stability>  (3) 
+1.0
+
+$$$$
+diffgui_00003|reward=-0.3050|valid=1|ok
+     RDKit          3D
+
+ 22 26  0  0  0  0  0  0  0  0999 V2000
+  211.7249  213.6892  174.0005 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7865  213.9160  175.2412 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3057  212.5360  172.8750 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.6186  212.1497  170.7605 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3927  214.3799  175.1783 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0853  213.8443  174.8029 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6335  212.9664  172.8273 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4709  212.7448  172.0275 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7804  213.0967  173.2438 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5356  211.7324  171.9617 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5339  214.1552  176.5471 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.0669  214.4434  175.5832 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8086  213.4079  174.5165 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9961  212.7929  173.2642 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3905  213.7273  174.1348 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3190  212.4165  171.9762 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4737  213.4496  175.1369 C   0  0  2  0  0  0  0  0  0  0  0  0
+  204.9830  212.7195  176.4176 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.8996  211.7671  170.3102 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9230  212.5710  172.4111 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0588  211.9812  171.1514 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3956  213.1646  173.6541 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  2  0
+  1  9  1  0
+  2  6  1  0
+  2 13  2  0
+  3 10  2  0
+  3 14  1  0
+  3 22  1  0
+  4  8  2  0
+  4 19  1  0
+  5 12  1  0
+  6 12  2  0
+  6 22  1  0
+  7  8  1  0
+  7 15  1  0
+  7 20  2  0
+  9 16  1  0
+  9 22  2  0
+ 17 11  1  1
+ 11 18  1  0
+ 13 14  1  0
+ 13 17  1  0
+ 14 20  1  0
+ 15 17  1  0
+ 17 18  1  0
+ 19 21  2  0
+ 20 21  1  0
+M  END
+>  <benchmark_model>  (4) 
+DiffGui
+
+>  <benchmark_index>  (4) 
+3
+
+>  <benchmark_source_sdf>  (4) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/11.sdf
+
+>  <mol_id>  (4) 
+diffgui_00003
+
+>  <source_index>  (4) 
+3
+
+>  <original_name>  (4) 
+
+
+>  <rdkit_valid>  (4) 
+1
+
+>  <sanitize_status>  (4) 
+ok
+
+>  <smiles>  (4) 
+Cc1cccc2nc3n(c(=O)c12)-c1ccccc1CC31CC1
+
+>  <nodesxsample>  (4) 
+22
+
+>  <docking_raw>  (4) 
+0.0
+
+>  <docking_reward>  (4) 
+-1.0
+
+>  <ligand_efficiency_raw>  (4) 
+0.0
+
+>  <ligand_efficiency_reward>  (4) 
+0.0
+
+>  <chemistry_guard_reward>  (4) 
+0.6000000238418579
+
+>  <chemistry_guard_success>  (4) 
+1
+
+>  <heavy_atom_count>  (4) 
+22.0
+
+>  <carbon_fraction>  (4) 
+0.8636363744735718
+
+>  <hetero_atom_count>  (4) 
+3.0
+
+>  <hetero_atom_fraction>  (4) 
+0.13636364042758942
+
+>  <aromatic_ring_count>  (4) 
+3.0
+
+>  <three_member_ring_count>  (4) 
+1.0
+
+>  <fragment_count>  (4) 
+1.0
+
+>  <bad_bond_length_fraction>  (4) 
+0.0
+
+>  <halogen_bad_position_count>  (4) 
+0.0
+
+>  <chemistry_guard_violation_count>  (4) 
+2.0
+
+>  <ring_complexity_reward>  (4) 
+-0.05000000074505806
+
+>  <ring_complexity_success>  (4) 
+1
+
+>  <ring_complexity_ring_count>  (4) 
+5.0
+
+>  <ring_complexity_aromatic_ring_count>  (4) 
+3.0
+
+>  <ring_complexity_three_member_ring_count>  (4) 
+1.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (4) 
+4.0
+
+>  <ring_complexity_spiro_atom_count>  (4) 
+1.0
+
+>  <ring_complexity_bridgehead_atom_count>  (4) 
+0.0
+
+>  <ring_complexity_penalty>  (4) 
+1.0499999523162842
+
+>  <reward_total_raw>  (4) 
+-0.3050000071525574
+
+>  <reward_total>  (4) 
+-0.3050000071525574
+
+>  <stability>  (4) 
+1.0
+
+$$$$
+diffgui_00004|reward=-0.1840|valid=1|ok
+     RDKit          3D
+
+ 25 29  0  0  0  0  0  0  0  0999 V2000
+  204.9473  212.8598  174.2118 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.9695  213.9770  175.2359 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2520  213.2761  175.0845 C   0  0  2  0  0  0  0  0  0  0  0  0
+  208.3938  212.1315  172.6528 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3346  212.2480  171.5725 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0903  212.4729  172.7618 N   0  0  0  0  0  0  0  0  0  0  0  0
+  213.1613  213.7347  173.7200 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  203.8777  213.2252  173.1040 C   0  0  1  0  0  0  0  0  0  0  0  0
+  210.9473  214.4940  175.1053 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9544  212.3732  171.8103 C   0  0  1  0  0  0  0  0  0  0  0  0
+  205.1558  211.4269  171.9557 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2574  212.8903  173.5334 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8190  211.2809  171.8929 O   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4220  213.7285  174.0428 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7119  213.5539  174.6241 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2603  212.5384  176.4147 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.6168  212.9484  173.2222 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.1390  211.2304  173.1428 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.3323  212.7707  173.8261 P   0  0  2  0  0  0  0  0  0  0  0  0
+  201.2899  213.7960  173.2628 O   0  0  0  0  0  0  0  0  0  0  0  0
+  202.4117  212.6819  175.3912 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4286  212.4169  174.1094 C   0  0  2  0  0  0  0  0  0  0  0  0
+  202.7457  211.4293  171.7072 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5590  214.4004  175.4085 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4186  214.5021  175.2396 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  1
+  1  8  1  0
+  1 22  1  0
+  2 25  1  0
+  3 15  1  0
+  3 16  1  1
+  3 22  1  0
+  3 25  1  0
+  4  6  1  0
+  4 12  1  0
+  4 13  2  0
+  5  6  1  0
+  5 11  1  0
+ 22  6  1  6
+  7 14  1  0
+  8 10  1  0
+  8 19  1  1
+  9 14  1  0
+  9 24  2  0
+ 10 11  1  1
+ 10 23  1  0
+ 12 15  2  0
+ 12 17  1  0
+ 14 17  2  0
+ 15 24  1  0
+ 18 19  1  0
+ 18 23  1  0
+ 19 20  2  0
+ 19 21  1  1
+M  END
+>  <benchmark_model>  (5) 
+DiffGui
+
+>  <benchmark_index>  (5) 
+4
+
+>  <benchmark_source_sdf>  (5) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/12.sdf
+
+>  <mol_id>  (5) 
+diffgui_00004
+
+>  <source_index>  (5) 
+4
+
+>  <original_name>  (5) 
+
+
+>  <rdkit_valid>  (5) 
+1
+
+>  <sanitize_status>  (5) 
+ok
+
+>  <smiles>  (5) 
+C[C@@]12CC[C@H]3[C@H]4[C@@H](CCN(C(=O)c5cc(Cl)ccc51)[C@H]32)CC[P@@]4(=O)O
+
+>  <nodesxsample>  (5) 
+25
+
+>  <docking_raw>  (5) 
+0.0
+
+>  <docking_reward>  (5) 
+-1.0
+
+>  <ligand_efficiency_raw>  (5) 
+0.0
+
+>  <ligand_efficiency_reward>  (5) 
+0.0
+
+>  <chemistry_guard_reward>  (5) 
+1.0
+
+>  <chemistry_guard_success>  (5) 
+1
+
+>  <heavy_atom_count>  (5) 
+25.0
+
+>  <carbon_fraction>  (5) 
+0.7599999904632568
+
+>  <hetero_atom_count>  (5) 
+6.0
+
+>  <hetero_atom_fraction>  (5) 
+0.23999999463558197
+
+>  <aromatic_ring_count>  (5) 
+1.0
+
+>  <three_member_ring_count>  (5) 
+0.0
+
+>  <fragment_count>  (5) 
+1.0
+
+>  <bad_bond_length_fraction>  (5) 
+0.0
+
+>  <halogen_bad_position_count>  (5) 
+0.0
+
+>  <chemistry_guard_violation_count>  (5) 
+0.0
+
+>  <ring_complexity_reward>  (5) 
+0.2199999988079071
+
+>  <ring_complexity_success>  (5) 
+1
+
+>  <ring_complexity_ring_count>  (5) 
+5.0
+
+>  <ring_complexity_aromatic_ring_count>  (5) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (5) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (5) 
+5.0
+
+>  <ring_complexity_spiro_atom_count>  (5) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (5) 
+0.0
+
+>  <ring_complexity_penalty>  (5) 
+0.7799999713897705
+
+>  <reward_total_raw>  (5) 
+-0.18400000035762787
+
+>  <reward_total>  (5) 
+-0.18400000035762787
+
+>  <stability>  (5) 
+1.0
+
+$$$$
+diffgui_00005|reward=-0.5700|valid=1|ok
+     RDKit          3D
+
+ 30 38  0  0  0  0  0  0  0  0999 V2000
+  212.4018  212.6190  173.1651 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9856  213.7305  176.6942 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.8504  213.2911  176.1129 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.0161  214.4777  175.6950 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0306  212.7596  173.9703 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.0509  213.4739  175.1533 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9276  212.0206  176.3688 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1498  213.2205  173.5357 O   0  0  0  0  0  0  0  0  0  0  0  0
+  203.3807  213.0287  171.2645 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.1814  211.7934  174.0288 O   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6783  214.3145  175.3371 C   0  0  1  0  0  0  0  0  0  0  0  0
+  203.9058  212.3557  172.5045 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.8881  212.1386  171.7660 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8503  212.9646  173.7884 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4223  211.1085  169.9799 C   0  0  1  0  0  0  0  0  0  0  0  0
+  203.0114  212.8828  173.6156 C   0  0  2  0  0  0  0  0  0  0  0  0
+  203.7264  212.4630  169.9086 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9969  214.1814  174.5798 C   0  0  1  0  0  0  0  0  0  0  0  0
+  205.3089  212.9425  172.6063 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.9835  212.7461  173.0253 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4148  212.2667  176.3741 C   0  0  2  0  0  0  0  0  0  0  0  0
+  204.9348  212.1228  174.9196 C   0  0  1  0  0  0  0  0  0  0  0  0
+  205.2732  210.9256  171.2631 C   0  0  2  0  0  0  0  0  0  0  0  0
+  204.2582  210.9705  172.3121 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0637  212.2229  171.4821 C   0  0  2  0  0  0  0  0  0  0  0  0
+  208.6251  211.8366  171.2823 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4041  210.0926  170.0531 O   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5638  212.6570  173.3168 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8618  213.1622  174.8359 C   0  0  1  0  0  0  0  0  0  0  0  0
+  207.4954  212.1551  171.9850 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  8  1  0
+ 11  2  1  1
+  2 21  1  0
+  3  4  1  0
+  3  6  1  6
+  3  7  1  0
+ 18  4  1  1
+  5 18  1  0
+  5 19  1  0
+  5 22  1  0
+  5 28  1  6
+  6 14  1  0
+ 21  7  1  6
+  8 20  1  0
+ 12  9  1  6
+  9 17  1  0
+ 16 10  1  1
+ 11 18  1  0
+ 11 29  1  0
+ 12 16  1  0
+ 12 19  1  0
+ 12 24  1  0
+ 13 20  2  0
+ 13 26  1  0
+ 14 20  1  0
+ 14 28  2  0
+ 15 17  1  0
+ 15 23  1  0
+ 15 27  1  1
+ 29 16  1  6
+ 19 25  1  6
+ 22 21  1  1
+ 22 29  1  0
+ 23 24  1  1
+ 23 25  1  0
+ 25 30  1  1
+ 26 30  2  0
+ 28 30  1  0
+M  END
+>  <benchmark_model>  (6) 
+DiffGui
+
+>  <benchmark_index>  (6) 
+5
+
+>  <benchmark_source_sdf>  (6) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/13.sdf
+
+>  <mol_id>  (6) 
+diffgui_00005
+
+>  <source_index>  (6) 
+5
+
+>  <original_name>  (6) 
+
+
+>  <rdkit_valid>  (6) 
+1
+
+>  <sanitize_status>  (6) 
+ok
+
+>  <smiles>  (6) 
+COc1ccc2c3c1C[C@@H]1C[C@H]4C[C@@H]5[C@@H]6[C@H]4[C@]3([C@@H]5C1)[C@H]1[C@@H]2[C@H]2O[C@@]1(CC[C@@H]2O)[C@H]6O
+
+>  <nodesxsample>  (6) 
+30
+
+>  <docking_raw>  (6) 
+0.0
+
+>  <docking_reward>  (6) 
+-1.0
+
+>  <ligand_efficiency_raw>  (6) 
+0.0
+
+>  <ligand_efficiency_reward>  (6) 
+0.0
+
+>  <chemistry_guard_reward>  (6) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (6) 
+1
+
+>  <heavy_atom_count>  (6) 
+30.0
+
+>  <carbon_fraction>  (6) 
+0.8666666746139526
+
+>  <hetero_atom_count>  (6) 
+4.0
+
+>  <hetero_atom_fraction>  (6) 
+0.13333334028720856
+
+>  <aromatic_ring_count>  (6) 
+1.0
+
+>  <three_member_ring_count>  (6) 
+0.0
+
+>  <fragment_count>  (6) 
+1.0
+
+>  <bad_bond_length_fraction>  (6) 
+0.0
+
+>  <halogen_bad_position_count>  (6) 
+0.0
+
+>  <chemistry_guard_violation_count>  (6) 
+1.0
+
+>  <ring_complexity_reward>  (6) 
+-1.0
+
+>  <ring_complexity_success>  (6) 
+1
+
+>  <ring_complexity_ring_count>  (6) 
+10.0
+
+>  <ring_complexity_aromatic_ring_count>  (6) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (6) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (6) 
+10.0
+
+>  <ring_complexity_spiro_atom_count>  (6) 
+2.0
+
+>  <ring_complexity_bridgehead_atom_count>  (6) 
+9.0
+
+>  <ring_complexity_penalty>  (6) 
+3.3399999141693115
+
+>  <reward_total_raw>  (6) 
+-0.5699999928474426
+
+>  <reward_total>  (6) 
+-0.5699999928474426
+
+>  <stability>  (6) 
+1.0
+
+$$$$
+diffgui_00006|reward=-0.0700|valid=1|ok
+     RDKit          3D
+
+ 23 26  0  0  0  0  0  0  0  0999 V2000
+  211.6147  214.0078  174.4203 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8346  211.3375  170.7278 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.4077  213.0891  173.9331 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.2667  213.0961  172.5344 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2666  212.5401  173.0531 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3511  212.3799  172.6726 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8018  211.8023  172.0214 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6170  212.6052  172.3972 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4443  212.8575  171.4144 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4362  213.2203  174.6471 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7956  211.8954  171.1925 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7662  213.1850  173.6374 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3342  213.8063  175.1482 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.7956  212.7466  173.3006 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5608  213.0085  175.8709 S   0  0  1  0  0  0  0  0  0  0  0  0
+  207.2276  213.6812  177.0388 O   0  0  0  0  0  0  0  0  0  0  0  0
+  203.5994  213.7618  173.5570 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1202  214.0904  174.7713 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7098  211.5821  176.1414 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1657  211.2422  171.0363 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8274  214.4397  175.9271 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1020  214.6324  175.5349 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0195  213.5985  175.1943 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 12  2  0
+  1 22  1  0
+  2 11  1  0
+  2 20  2  0
+  3  5  1  0
+  3 12  1  0
+  3 23  2  0
+  4  8  1  0
+  4  9  1  0
+  4 17  2  0
+  5  7  2  0
+  5 14  1  0
+  6 12  1  0
+  7 20  1  0
+  8 11  2  0
+  8 14  1  0
+ 10 13  1  0
+ 10 14  2  0
+ 15 10  1  6
+ 13 18  2  0
+ 15 16  2  0
+ 15 19  2  0
+ 15 23  1  0
+ 17 18  1  0
+ 21 22  2  0
+ 21 23  1  0
+M  END
+>  <benchmark_model>  (7) 
+DiffGui
+
+>  <benchmark_index>  (7) 
+6
+
+>  <benchmark_source_sdf>  (7) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/14.sdf
+
+>  <mol_id>  (7) 
+diffgui_00006
+
+>  <source_index>  (7) 
+6
+
+>  <original_name>  (7) 
+
+
+>  <rdkit_valid>  (7) 
+1
+
+>  <sanitize_status>  (7) 
+ok
+
+>  <smiles>  (7) 
+O=S1(=O)C2=C3C(=CC=CC=C3c3c(O)cccc31)C(O)=CC=C2
+
+>  <nodesxsample>  (7) 
+23
+
+>  <docking_raw>  (7) 
+0.0
+
+>  <docking_reward>  (7) 
+-1.0
+
+>  <ligand_efficiency_raw>  (7) 
+0.0
+
+>  <ligand_efficiency_reward>  (7) 
+0.0
+
+>  <chemistry_guard_reward>  (7) 
+1.0
+
+>  <chemistry_guard_success>  (7) 
+1
+
+>  <heavy_atom_count>  (7) 
+23.0
+
+>  <carbon_fraction>  (7) 
+0.782608687877655
+
+>  <hetero_atom_count>  (7) 
+5.0
+
+>  <hetero_atom_fraction>  (7) 
+0.21739129722118378
+
+>  <aromatic_ring_count>  (7) 
+1.0
+
+>  <three_member_ring_count>  (7) 
+0.0
+
+>  <fragment_count>  (7) 
+1.0
+
+>  <bad_bond_length_fraction>  (7) 
+0.0
+
+>  <halogen_bad_position_count>  (7) 
+0.0
+
+>  <chemistry_guard_violation_count>  (7) 
+0.0
+
+>  <ring_complexity_reward>  (7) 
+0.6000000238418579
+
+>  <ring_complexity_success>  (7) 
+1
+
+>  <ring_complexity_ring_count>  (7) 
+4.0
+
+>  <ring_complexity_aromatic_ring_count>  (7) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (7) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (7) 
+4.0
+
+>  <ring_complexity_spiro_atom_count>  (7) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (7) 
+0.0
+
+>  <ring_complexity_penalty>  (7) 
+0.4000000059604645
+
+>  <reward_total_raw>  (7) 
+-0.06999999284744263
+
+>  <reward_total>  (7) 
+-0.06999999284744263
+
+>  <stability>  (7) 
+1.0
+
+$$$$
+diffgui_00007|reward=-0.0900|valid=1|ok
+     RDKit          3D
+
+ 17 20  0  0  0  0  0  0  0  0999 V2000
+  209.2243  212.8692  174.2922 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3451  211.9055  170.7275 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3462  211.8012  171.7413 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0000  211.9643  174.2157 C   0  0  2  0  0  0  0  0  0  0  0  0
+  211.6255  213.2400  173.8538 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0238  212.2320  173.0492 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2033  213.9999  175.0812 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4357  212.4755  173.6145 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7760  212.9405  172.3100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4019  214.7418  175.3598 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8101  212.8391  173.3038 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3050  212.1667  175.6087 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5753  213.4631  174.5589 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0797  212.4526  171.0274 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6253  214.3375  174.7217 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6730  213.5474  175.5296 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.8720  214.5363  175.5274 C   0  0  0  0  0  0  0  0  0  0  0  0
+  4  1  1  6
+  1  7  2  0
+  1  8  1  0
+  2  3  2  0
+  2 14  1  0
+  3  6  1  0
+  4  6  1  0
+  4 12  1  0
+  5  8  2  0
+  5 15  1  0
+  6 11  2  0
+  7 10  1  0
+  7 17  1  0
+  9 11  1  0
+  9 14  2  0
+ 10 15  2  0
+ 11 13  1  0
+ 12 16  1  0
+ 13 16  1  0
+ 16 17  1  6
+M  END
+>  <benchmark_model>  (8) 
+DiffGui
+
+>  <benchmark_index>  (8) 
+7
+
+>  <benchmark_source_sdf>  (8) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/15.sdf
+
+>  <mol_id>  (8) 
+diffgui_00007
+
+>  <source_index>  (8) 
+7
+
+>  <original_name>  (8) 
+
+
+>  <rdkit_valid>  (8) 
+1
+
+>  <sanitize_status>  (8) 
+ok
+
+>  <smiles>  (8) 
+c1ccc2c(c1)C[C@@H]1C[C@H]2c2ccccc2N1
+
+>  <nodesxsample>  (8) 
+17
+
+>  <docking_raw>  (8) 
+0.0
+
+>  <docking_reward>  (8) 
+-1.0
+
+>  <ligand_efficiency_raw>  (8) 
+0.0
+
+>  <ligand_efficiency_reward>  (8) 
+0.0
+
+>  <chemistry_guard_reward>  (8) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (8) 
+1
+
+>  <heavy_atom_count>  (8) 
+17.0
+
+>  <carbon_fraction>  (8) 
+0.9411764740943909
+
+>  <hetero_atom_count>  (8) 
+1.0
+
+>  <hetero_atom_fraction>  (8) 
+0.05882352963089943
+
+>  <aromatic_ring_count>  (8) 
+2.0
+
+>  <three_member_ring_count>  (8) 
+0.0
+
+>  <fragment_count>  (8) 
+1.0
+
+>  <bad_bond_length_fraction>  (8) 
+0.0
+
+>  <halogen_bad_position_count>  (8) 
+0.0
+
+>  <chemistry_guard_violation_count>  (8) 
+1.0
+
+>  <ring_complexity_reward>  (8) 
+0.6000000238418579
+
+>  <ring_complexity_success>  (8) 
+1
+
+>  <ring_complexity_ring_count>  (8) 
+4.0
+
+>  <ring_complexity_aromatic_ring_count>  (8) 
+2.0
+
+>  <ring_complexity_three_member_ring_count>  (8) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (8) 
+4.0
+
+>  <ring_complexity_spiro_atom_count>  (8) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (8) 
+2.0
+
+>  <ring_complexity_penalty>  (8) 
+0.4000000059604645
+
+>  <reward_total_raw>  (8) 
+-0.0899999737739563
+
+>  <reward_total>  (8) 
+-0.0899999737739563
+
+>  <stability>  (8) 
+1.0
+
+$$$$
+diffgui_00008|reward=-0.0700|valid=1|ok
+     RDKit          3D
+
+ 20 23  0  0  0  0  0  0  0  0999 V2000
+  203.8917  214.4374  175.4277 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0652  213.0855  175.0725 C   0  0  2  0  0  0  0  0  0  0  0  0
+  205.5435  211.1559  172.0479 O   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5624  213.4336  174.8266 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3882  212.7369  173.7030 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6523  213.7950  172.9955 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5546  212.1200  172.6564 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6612  211.7689  171.5462 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6855  214.4116  175.5663 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2520  212.8997  173.6849 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2668  214.1824  175.7289 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1027  212.5354  172.3708 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.6505  213.0965  173.5762 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3381  212.4678  172.4719 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0970  211.9484  172.7760 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4205  214.2843  175.6891 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0957  211.9717  176.0927 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2694  211.6115  171.6192 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.5724  214.4836  173.8800 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3745  213.8777  174.4951 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 16  1  0
+  1 19  1  0
+  2  4  1  0
+  2  5  1  0
+  2 16  1  0
+  2 17  1  1
+  3 15  2  0
+  4 10  1  0
+  4 11  2  0
+  5  6  1  0
+  5 15  1  0
+  6 19  1  0
+  7 10  2  0
+  7 15  1  0
+  7 18  1  0
+  8 14  1  0
+  8 18  2  0
+  9 11  1  0
+  9 20  2  0
+ 10 13  1  0
+ 12 14  1  0
+ 13 14  2  0
+ 13 20  1  0
+M  END
+>  <benchmark_model>  (9) 
+DiffGui
+
+>  <benchmark_index>  (9) 
+8
+
+>  <benchmark_source_sdf>  (9) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/16.sdf
+
+>  <mol_id>  (9) 
+diffgui_00008
+
+>  <source_index>  (9) 
+8
+
+>  <original_name>  (9) 
+
+
+>  <rdkit_valid>  (9) 
+1
+
+>  <sanitize_status>  (9) 
+ok
+
+>  <smiles>  (9) 
+C[C@]12CCCCN1C(=O)c1ccc(Cl)c3cccc2c13
+
+>  <nodesxsample>  (9) 
+20
+
+>  <docking_raw>  (9) 
+0.0
+
+>  <docking_reward>  (9) 
+-1.0
+
+>  <ligand_efficiency_raw>  (9) 
+0.0
+
+>  <ligand_efficiency_reward>  (9) 
+0.0
+
+>  <chemistry_guard_reward>  (9) 
+1.0
+
+>  <chemistry_guard_success>  (9) 
+1
+
+>  <heavy_atom_count>  (9) 
+20.0
+
+>  <carbon_fraction>  (9) 
+0.8500000238418579
+
+>  <hetero_atom_count>  (9) 
+3.0
+
+>  <hetero_atom_fraction>  (9) 
+0.15000000596046448
+
+>  <aromatic_ring_count>  (9) 
+2.0
+
+>  <three_member_ring_count>  (9) 
+0.0
+
+>  <fragment_count>  (9) 
+1.0
+
+>  <bad_bond_length_fraction>  (9) 
+0.0
+
+>  <halogen_bad_position_count>  (9) 
+0.0
+
+>  <chemistry_guard_violation_count>  (9) 
+0.0
+
+>  <ring_complexity_reward>  (9) 
+0.6000000238418579
+
+>  <ring_complexity_success>  (9) 
+1
+
+>  <ring_complexity_ring_count>  (9) 
+4.0
+
+>  <ring_complexity_aromatic_ring_count>  (9) 
+2.0
+
+>  <ring_complexity_three_member_ring_count>  (9) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (9) 
+4.0
+
+>  <ring_complexity_spiro_atom_count>  (9) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (9) 
+0.0
+
+>  <ring_complexity_penalty>  (9) 
+0.4000000059604645
+
+>  <reward_total_raw>  (9) 
+-0.06999999284744263
+
+>  <reward_total>  (9) 
+-0.06999999284744263
+
+>  <stability>  (9) 
+1.0
+
+$$$$
+diffgui_00009|reward=-0.4430|valid=1|ok
+     RDKit          3D
+
+ 24 29  0  0  0  0  0  0  0  0999 V2000
+  207.0332  211.9981  176.1281 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4638  211.6486  171.2911 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9881  214.8719  175.4267 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8741  212.2761  172.3385 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0307  213.9764  174.0159 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0133  214.1285  176.1190 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.2242  213.4192  175.5385 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.0944  212.9388  172.1153 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7078  212.2354  175.7936 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8468  211.3043  175.5060 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.2792  212.7689  172.6010 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4471  214.0187  175.0128 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2772  211.5486  170.5060 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1103  212.1795  170.8989 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.8383  213.5513  175.4207 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9088  212.7732  172.9859 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9419  211.9476  176.7009 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4517  212.4023  172.4257 C   0  0  1  0  0  0  0  0  0  0  0  0
+  208.1272  213.1284  174.2765 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7705  212.5687  173.0767 C   0  0  2  0  0  0  0  0  0  0  0  0
+  211.7783  214.0720  174.6053 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5469  213.3660  174.1921 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2197  213.4366  173.4126 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2486  213.0627  172.8540 C   0  0  1  0  0  0  0  0  0  0  0  0
+  7  1  1  1
+  1 10  1  0
+  2 13  1  0
+ 18  2  1  6
+  6  3  1  6
+  3  7  1  0
+  4 16  1  0
+ 20  4  1  6
+  5 15  1  0
+ 24  5  1  6
+  6  7  1  0
+  6 15  1  0
+  7 19  1  0
+  8 14  1  0
+  8 24  1  0
+  9 10  1  0
+  9 15  1  0
+  9 17  2  0
+ 11 16  1  0
+ 11 23  1  0
+ 12 21  1  0
+ 12 22  1  0
+ 13 14  1  0
+ 16 22  1  0
+ 18 20  1  0
+ 18 24  1  0
+ 19 20  1  0
+ 19 22  1  0
+ 21 23  1  0
+M  END
+>  <benchmark_model>  (10) 
+DiffGui
+
+>  <benchmark_index>  (10) 
+9
+
+>  <benchmark_source_sdf>  (10) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/17.sdf
+
+>  <mol_id>  (10) 
+diffgui_00009
+
+>  <source_index>  (10) 
+9
+
+>  <original_name>  (10) 
+
+
+>  <rdkit_valid>  (10) 
+1
+
+>  <sanitize_status>  (10) 
+ok
+
+>  <smiles>  (10) 
+O=C1CC[C@]23C[C@H]2N1C[C@H]1CCCC[C@H]1[C@H]1NC2CCCCC2C13
+
+>  <nodesxsample>  (10) 
+24
+
+>  <docking_raw>  (10) 
+0.0
+
+>  <docking_reward>  (10) 
+-1.0
+
+>  <ligand_efficiency_raw>  (10) 
+0.0
+
+>  <ligand_efficiency_reward>  (10) 
+0.0
+
+>  <chemistry_guard_reward>  (10) 
+0.6000000238418579
+
+>  <chemistry_guard_success>  (10) 
+1
+
+>  <heavy_atom_count>  (10) 
+24.0
+
+>  <carbon_fraction>  (10) 
+0.875
+
+>  <hetero_atom_count>  (10) 
+3.0
+
+>  <hetero_atom_fraction>  (10) 
+0.125
+
+>  <aromatic_ring_count>  (10) 
+0.0
+
+>  <three_member_ring_count>  (10) 
+1.0
+
+>  <fragment_count>  (10) 
+1.0
+
+>  <bad_bond_length_fraction>  (10) 
+0.0
+
+>  <halogen_bad_position_count>  (10) 
+0.0
+
+>  <chemistry_guard_violation_count>  (10) 
+2.0
+
+>  <ring_complexity_reward>  (10) 
+-0.5099999904632568
+
+>  <ring_complexity_success>  (10) 
+1
+
+>  <ring_complexity_ring_count>  (10) 
+6.0
+
+>  <ring_complexity_aromatic_ring_count>  (10) 
+0.0
+
+>  <ring_complexity_three_member_ring_count>  (10) 
+1.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (10) 
+6.0
+
+>  <ring_complexity_spiro_atom_count>  (10) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (10) 
+2.0
+
+>  <ring_complexity_penalty>  (10) 
+1.5099999904632568
+
+>  <reward_total_raw>  (10) 
+-0.4429999887943268
+
+>  <reward_total>  (10) 
+-0.4429999887943268
+
+>  <stability>  (10) 
+1.0
+
+$$$$
+diffgui_00010|reward=-0.5500|valid=1|ok
+     RDKit          3D
+
+ 27 33  0  0  0  0  0  0  0  0999 V2000
+  203.6369  215.1872  176.1491 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.5491  215.2088  175.2973 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6754  213.6916  174.7569 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4787  210.6384  172.4853 O   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1107  211.5289  170.8444 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1429  213.4108  174.9489 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0564  211.9847  170.4621 O   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8227  212.7085  172.7984 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.4424  212.2455  172.4529 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5044  212.6643  173.2065 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.8530  212.0067  171.9774 S   0  0  2  0  0  0  0  0  0  0  0  0
+  208.3793  213.1481  174.5237 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1596  212.5388  172.8904 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7856  213.8966  174.5067 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3279  214.4833  175.6690 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8498  214.4912  176.6906 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7573  211.6000  171.2274 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5116  213.3801  173.7423 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0679  213.2520  174.0732 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.6379  213.2145  172.3108 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7435  213.9518  173.9419 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0424  213.9206  176.2658 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.6818  213.9044  173.6646 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1384  212.0741  171.6001 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6608  214.6297  175.1065 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.5699  214.5833  174.0668 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7649  214.5292  175.8138 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1 27  1  0
+  2 26  1  0
+  3 12  1  0
+  3 15  2  0
+  3 18  1  0
+  4 11  2  0
+  5 17  2  0
+  5 24  1  0
+  6 12  1  0
+  6 19  2  0
+  6 22  1  0
+  7 11  2  0
+  8 10  1  0
+  8 18  1  0
+  8 24  2  0
+  9 10  2  0
+  9 13  1  0
+  9 17  1  0
+ 10 12  1  0
+ 11 13  1  0
+ 11 20  1  6
+ 13 19  1  0
+ 14 19  1  0
+ 14 23  1  0
+ 14 27  2  0
+ 15 25  1  0
+ 16 22  2  0
+ 16 27  1  0
+ 18 21  1  0
+ 20 23  1  0
+ 21 25  2  0
+ 23 26  2  0
+M  END
+>  <benchmark_model>  (11) 
+DiffGui
+
+>  <benchmark_index>  (11) 
+10
+
+>  <benchmark_source_sdf>  (11) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/18.sdf
+
+>  <mol_id>  (11) 
+diffgui_00010
+
+>  <source_index>  (11) 
+10
+
+>  <original_name>  (11) 
+
+
+>  <rdkit_valid>  (11) 
+1
+
+>  <sanitize_status>  (11) 
+ok
+
+>  <smiles>  (11) 
+O=S1(=O)Cc2cccc3ccc4c(c23)n1c1cccc2c1n4c1cccn21
+
+>  <nodesxsample>  (11) 
+27
+
+>  <docking_raw>  (11) 
+0.0
+
+>  <docking_reward>  (11) 
+-1.0
+
+>  <ligand_efficiency_raw>  (11) 
+0.0
+
+>  <ligand_efficiency_reward>  (11) 
+0.0
+
+>  <chemistry_guard_reward>  (11) 
+1.0
+
+>  <chemistry_guard_success>  (11) 
+1
+
+>  <heavy_atom_count>  (11) 
+27.0
+
+>  <carbon_fraction>  (11) 
+0.7777777910232544
+
+>  <hetero_atom_count>  (11) 
+6.0
+
+>  <hetero_atom_fraction>  (11) 
+0.2222222238779068
+
+>  <aromatic_ring_count>  (11) 
+6.0
+
+>  <three_member_ring_count>  (11) 
+0.0
+
+>  <fragment_count>  (11) 
+1.0
+
+>  <bad_bond_length_fraction>  (11) 
+0.0
+
+>  <halogen_bad_position_count>  (11) 
+0.0
+
+>  <chemistry_guard_violation_count>  (11) 
+0.0
+
+>  <ring_complexity_reward>  (11) 
+-1.0
+
+>  <ring_complexity_success>  (11) 
+1
+
+>  <ring_complexity_ring_count>  (11) 
+7.0
+
+>  <ring_complexity_aromatic_ring_count>  (11) 
+6.0
+
+>  <ring_complexity_three_member_ring_count>  (11) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (11) 
+7.0
+
+>  <ring_complexity_spiro_atom_count>  (11) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (11) 
+0.0
+
+>  <ring_complexity_penalty>  (11) 
+2.0199999809265137
+
+>  <reward_total_raw>  (11) 
+-0.550000011920929
+
+>  <reward_total>  (11) 
+-0.550000011920929
+
+>  <stability>  (11) 
+1.0
+
+$$$$
+diffgui_00011|reward=-0.1060|valid=1|ok
+     RDKit          3D
+
+ 20 23  0  0  0  0  0  0  0  0999 V2000
+  205.7787  212.2967  175.5787 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4175  212.9496  173.3598 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5977  212.4305  172.4205 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8371  213.0670  173.4039 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9294  211.6875  171.4572 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3134  214.2824  175.4449 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2715  212.2355  172.0866 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4466  213.8143  174.4271 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9970  213.3489  174.6145 S   0  0  1  0  0  0  0  0  0  0  0  0
+  207.7632  212.2347  172.2741 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.0590  213.0441  172.8451 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5669  211.6124  171.3949 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6936  214.4074  175.4285 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.2496  211.8779  170.7530 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2147  213.9919  174.5037 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.6733  213.5638  174.4666 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6709  211.7216  170.9666 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4673  212.5530  171.6861 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4458  212.8527  173.0629 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3923  214.6354  174.9214 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  2  0
+  2  4  1  0
+  2 10  2  0
+  2 16  1  0
+  3  4  2  0
+  3  5  1  0
+  4  8  1  0
+  5 12  2  0
+  6 13  1  0
+  6 16  2  0
+  7 10  1  0
+  7 17  2  0
+  7 19  1  0
+  8 13  2  0
+  8 15  1  0
+  9 16  1  6
+  9 19  1  0
+  9 20  2  0
+ 10 12  1  0
+ 11 18  1  0
+ 11 19  2  0
+ 14 17  1  0
+ 14 18  2  0
+M  END
+>  <benchmark_model>  (12) 
+DiffGui
+
+>  <benchmark_index>  (12) 
+11
+
+>  <benchmark_source_sdf>  (12) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/19.sdf
+
+>  <mol_id>  (12) 
+diffgui_00011
+
+>  <source_index>  (12) 
+11
+
+>  <original_name>  (12) 
+
+
+>  <rdkit_valid>  (12) 
+1
+
+>  <sanitize_status>  (12) 
+ok
+
+>  <smiles>  (12) 
+O=S1(=O)c2ccccc2-c2cccc3c(Cl)ccc1c23
+
+>  <nodesxsample>  (12) 
+20
+
+>  <docking_raw>  (12) 
+0.0
+
+>  <docking_reward>  (12) 
+-1.0
+
+>  <ligand_efficiency_raw>  (12) 
+0.0
+
+>  <ligand_efficiency_reward>  (12) 
+0.0
+
+>  <chemistry_guard_reward>  (12) 
+1.0
+
+>  <chemistry_guard_success>  (12) 
+1
+
+>  <heavy_atom_count>  (12) 
+20.0
+
+>  <carbon_fraction>  (12) 
+0.800000011920929
+
+>  <hetero_atom_count>  (12) 
+4.0
+
+>  <hetero_atom_fraction>  (12) 
+0.20000000298023224
+
+>  <aromatic_ring_count>  (12) 
+3.0
+
+>  <three_member_ring_count>  (12) 
+0.0
+
+>  <fragment_count>  (12) 
+1.0
+
+>  <bad_bond_length_fraction>  (12) 
+0.0
+
+>  <halogen_bad_position_count>  (12) 
+0.0
+
+>  <chemistry_guard_violation_count>  (12) 
+0.0
+
+>  <ring_complexity_reward>  (12) 
+0.47999998927116394
+
+>  <ring_complexity_success>  (12) 
+1
+
+>  <ring_complexity_ring_count>  (12) 
+4.0
+
+>  <ring_complexity_aromatic_ring_count>  (12) 
+3.0
+
+>  <ring_complexity_three_member_ring_count>  (12) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (12) 
+4.0
+
+>  <ring_complexity_spiro_atom_count>  (12) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (12) 
+0.0
+
+>  <ring_complexity_penalty>  (12) 
+0.5199999809265137
+
+>  <reward_total_raw>  (12) 
+-0.10599999129772186
+
+>  <reward_total>  (12) 
+-0.10599999129772186
+
+>  <stability>  (12) 
+1.0
+
+$$$$
+diffgui_00012|reward=-0.5460|valid=1|ok
+     RDKit          3D
+
+ 29 36  0  0  0  0  0  0  0  0999 V2000
+  203.9265  211.4920  170.3655 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7537  212.1594  171.9451 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.5408  214.2167  174.8270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6845  213.4442  173.6778 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6533  213.3435  174.5453 C   0  0  1  0  0  0  0  0  0  0  0  0
+  201.6747  213.8981  174.9077 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8014  212.7645  173.1687 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3976  211.8336  171.6622 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2426  213.3127  176.5903 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6725  214.3777  174.4171 O   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4987  212.2252  171.4610 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2658  211.1644  170.2000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2853  214.4538  175.3618 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.4365  214.5568  175.9532 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4275  212.4079  175.6811 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7512  211.6312  171.2776 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.4336  211.3593  170.9361 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1243  212.6084  172.8256 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8286  214.6604  175.7640 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2336  213.1692  173.5877 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.7007  213.4025  173.6313 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7466  212.3596  172.3072 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1567  211.6175  171.1612 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5524  212.9088  173.0358 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3836  214.1039  174.6172 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.3438  212.6779  172.4937 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1239  213.9259  174.7507 C   0  0  1  0  0  0  0  0  0  0  0  0
+  207.6956  214.1074  175.3826 C   0  0  1  0  0  0  0  0  0  0  0  0
+  202.3077  213.3667  173.7601 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 11  1  0
+  1 12  1  0
+  2 16  1  0
+  2 24  1  0
+  3  4  1  0
+  3 13  1  0
+  4 24  1  0
+  5  7  1  0
+  5 10  1  0
+  5 15  1  1
+  5 28  1  0
+  6 14  1  0
+  6 29  1  0
+  7 18  1  0
+  7 22  1  0
+  8 16  1  0
+  8 17  1  0
+  8 18  1  0
+  9 15  1  0
+ 28  9  1  1
+ 10 25  1  0
+ 11 26  1  0
+ 12 23  1  0
+ 27 13  1  1
+ 14 19  1  0
+ 17 23  1  0
+ 18 20  1  0
+ 25 19  1  6
+ 20 24  1  0
+ 20 27  1  0
+ 21 25  1  0
+ 21 26  1  0
+ 21 29  1  0
+ 22 23  1  0
+ 22 26  1  0
+ 27 28  1  0
+M  END
+>  <benchmark_model>  (13) 
+DiffGui
+
+>  <benchmark_index>  (13) 
+12
+
+>  <benchmark_source_sdf>  (13) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/2.sdf
+
+>  <mol_id>  (13) 
+diffgui_00012
+
+>  <source_index>  (13) 
+12
+
+>  <original_name>  (13) 
+
+
+>  <rdkit_valid>  (13) 
+1
+
+>  <sanitize_status>  (13) 
+ok
+
+>  <smiles>  (13) 
+C1CC2NC3CNC4CCC[C@H]5C4C3N3C2C(C1)C1CCCC[C@@H]1O[C@@]31CC[C@@H]51
+
+>  <nodesxsample>  (13) 
+29
+
+>  <docking_raw>  (13) 
+0.0
+
+>  <docking_reward>  (13) 
+-1.0
+
+>  <ligand_efficiency_raw>  (13) 
+0.0
+
+>  <ligand_efficiency_reward>  (13) 
+0.0
+
+>  <chemistry_guard_reward>  (13) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (13) 
+1
+
+>  <heavy_atom_count>  (13) 
+29.0
+
+>  <carbon_fraction>  (13) 
+0.8620689511299133
+
+>  <hetero_atom_count>  (13) 
+4.0
+
+>  <hetero_atom_fraction>  (13) 
+0.13793103396892548
+
+>  <aromatic_ring_count>  (13) 
+0.0
+
+>  <three_member_ring_count>  (13) 
+0.0
+
+>  <fragment_count>  (13) 
+1.0
+
+>  <bad_bond_length_fraction>  (13) 
+0.0
+
+>  <halogen_bad_position_count>  (13) 
+0.0
+
+>  <chemistry_guard_violation_count>  (13) 
+1.0
+
+>  <ring_complexity_reward>  (13) 
+-0.9200000166893005
+
+>  <ring_complexity_success>  (13) 
+1
+
+>  <ring_complexity_ring_count>  (13) 
+8.0
+
+>  <ring_complexity_aromatic_ring_count>  (13) 
+0.0
+
+>  <ring_complexity_three_member_ring_count>  (13) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (13) 
+8.0
+
+>  <ring_complexity_spiro_atom_count>  (13) 
+1.0
+
+>  <ring_complexity_bridgehead_atom_count>  (13) 
+0.0
+
+>  <ring_complexity_penalty>  (13) 
+1.9199999570846558
+
+>  <reward_total_raw>  (13) 
+-0.5460000038146973
+
+>  <reward_total>  (13) 
+-0.5460000038146973
+
+>  <stability>  (13) 
+1.0
+
+$$$$
+diffgui_00013|reward=-0.2040|valid=1|ok
+     RDKit          3D
+
+ 20 24  0  0  0  0  0  0  0  0999 V2000
+  205.7348  212.1568  171.4310 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4370  213.8960  173.8315 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5184  212.6580  173.4416 C   0  0  1  0  0  0  0  0  0  0  0  0
+  205.0362  213.8555  175.7419 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6210  213.2910  174.2310 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.4060  213.1789  175.7499 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2909  213.7300  173.7111 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0363  212.1914  172.1641 C   0  0  1  0  0  0  0  0  0  0  0  0
+  205.2336  212.7707  172.6307 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0664  213.2845  175.1179 C   0  0  2  0  0  0  0  0  0  0  0  0
+  210.4011  214.0233  175.2097 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0807  211.8720  171.2126 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2980  213.0317  174.5388 C   0  0  1  0  0  0  0  0  0  0  0  0
+  203.7867  214.1841  175.1151 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7079  214.2461  174.8921 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.5189  213.0256  172.7831 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3790  212.2000  172.0375 N   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9876  213.2886  172.7882 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1509  212.8232  173.0088 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1832  212.8770  173.7355 C   0  0  2  0  0  0  0  0  0  0  0  0
+  1  9  1  0
+  1 12  1  0
+  2 14  1  0
+  2 18  1  0
+  3  8  1  6
+  3 13  1  0
+  3 20  1  0
+ 10  4  1  6
+  4 14  1  0
+  5 11  1  0
+  5 13  1  0
+  5 19  1  0
+  6 10  1  0
+ 13  6  1  6
+  7 15  1  0
+  7 16  1  0
+  8 12  1  6
+  8 17  1  0
+  9 18  1  0
+ 20  9  1  6
+ 10 20  1  0
+ 11 15  1  0
+ 16 19  1  0
+ 17 19  1  0
+M  END
+>  <benchmark_model>  (14) 
+DiffGui
+
+>  <benchmark_index>  (14) 
+13
+
+>  <benchmark_source_sdf>  (14) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/20.sdf
+
+>  <mol_id>  (14) 
+diffgui_00013
+
+>  <source_index>  (14) 
+13
+
+>  <original_name>  (14) 
+
+
+>  <rdkit_valid>  (14) 
+1
+
+>  <sanitize_status>  (14) 
+ok
+
+>  <smiles>  (14) 
+C1CCC2C(C1)N[C@@H]1CCC3CCCC[C@@H]4C[C@H]2[C@H]1[C@H]34
+
+>  <nodesxsample>  (14) 
+20
+
+>  <docking_raw>  (14) 
+0.0
+
+>  <docking_reward>  (14) 
+-1.0
+
+>  <ligand_efficiency_raw>  (14) 
+0.0
+
+>  <ligand_efficiency_reward>  (14) 
+0.0
+
+>  <chemistry_guard_reward>  (14) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (14) 
+1
+
+>  <heavy_atom_count>  (14) 
+20.0
+
+>  <carbon_fraction>  (14) 
+0.949999988079071
+
+>  <hetero_atom_count>  (14) 
+1.0
+
+>  <hetero_atom_fraction>  (14) 
+0.05000000074505806
+
+>  <aromatic_ring_count>  (14) 
+0.0
+
+>  <three_member_ring_count>  (14) 
+0.0
+
+>  <fragment_count>  (14) 
+1.0
+
+>  <bad_bond_length_fraction>  (14) 
+0.0
+
+>  <halogen_bad_position_count>  (14) 
+0.0
+
+>  <chemistry_guard_violation_count>  (14) 
+1.0
+
+>  <ring_complexity_reward>  (14) 
+0.2199999988079071
+
+>  <ring_complexity_success>  (14) 
+1
+
+>  <ring_complexity_ring_count>  (14) 
+5.0
+
+>  <ring_complexity_aromatic_ring_count>  (14) 
+0.0
+
+>  <ring_complexity_three_member_ring_count>  (14) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (14) 
+5.0
+
+>  <ring_complexity_spiro_atom_count>  (14) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (14) 
+0.0
+
+>  <ring_complexity_penalty>  (14) 
+0.7799999713897705
+
+>  <reward_total_raw>  (14) 
+-0.20399998128414154
+
+>  <reward_total>  (14) 
+-0.20399998128414154
+
+>  <stability>  (14) 
+1.0
+
+$$$$
+diffgui_00014|reward=-0.3180|valid=1|ok
+     RDKit          3D
+
+ 23 28  0  0  0  0  0  0  0  0999 V2000
+  210.5573  212.7036  172.2822 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4717  212.2523  172.3085 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4658  212.8684  173.5548 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0596  212.8013  174.5309 C   0  0  2  0  0  0  0  0  0  0  0  0
+  211.3172  213.9246  174.3512 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.6965  213.4580  173.4261 O   0  0  0  0  0  0  0  0  0  0  0  0
+  204.8453  212.7822  173.7183 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9057  213.4192  174.7749 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2224  212.4895  172.3439 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1558  213.9598  175.1060 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4688  213.3310  173.1084 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1171  212.3477  172.3793 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.7184  213.5844  174.1080 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9102  214.4557  175.3453 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4989  213.9842  175.4287 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.2281  211.8439  171.1832 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9524  213.4827  175.9372 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5888  211.9355  171.2937 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3792  212.0073  171.2433 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2042  214.2841  176.2677 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4888  211.4633  170.1136 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0718  211.5515  170.0947 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0645  212.6313  173.5408 C   0  0  1  0  0  0  0  0  0  0  0  0
+  1  9  1  0
+  1 11  1  0
+  2 12  1  0
+  2 16  1  0
+ 23  2  1  6
+  3  8  1  0
+  3  9  1  0
+  3 23  1  0
+  4  7  1  6
+  4 15  1  0
+  4 23  1  0
+  5 10  1  0
+  5 11  1  0
+  6 13  2  0
+  7 12  1  0
+  7 13  1  0
+  8 10  1  0
+  8 17  1  0
+  9 18  1  0
+ 12 19  1  0
+ 13 14  1  0
+ 14 20  1  0
+ 15 17  1  1
+ 15 20  1  0
+ 16 18  1  0
+ 16 21  1  0
+ 19 22  1  0
+ 21 22  1  0
+M  END
+>  <benchmark_model>  (15) 
+DiffGui
+
+>  <benchmark_index>  (15) 
+14
+
+>  <benchmark_source_sdf>  (15) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/21.sdf
+
+>  <mol_id>  (15) 
+diffgui_00014
+
+>  <source_index>  (15) 
+14
+
+>  <original_name>  (15) 
+
+
+>  <rdkit_valid>  (15) 
+1
+
+>  <sanitize_status>  (15) 
+ok
+
+>  <smiles>  (15) 
+O=C1CC[C@H]2CC3CCCCC4NC5CCCC6C5[C@@H](C34)[C@@H]2N16
+
+>  <nodesxsample>  (15) 
+23
+
+>  <docking_raw>  (15) 
+0.0
+
+>  <docking_reward>  (15) 
+-1.0
+
+>  <ligand_efficiency_raw>  (15) 
+0.0
+
+>  <ligand_efficiency_reward>  (15) 
+0.0
+
+>  <chemistry_guard_reward>  (15) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (15) 
+1
+
+>  <heavy_atom_count>  (15) 
+23.0
+
+>  <carbon_fraction>  (15) 
+0.8695651888847351
+
+>  <hetero_atom_count>  (15) 
+3.0
+
+>  <hetero_atom_fraction>  (15) 
+0.1304347813129425
+
+>  <aromatic_ring_count>  (15) 
+0.0
+
+>  <three_member_ring_count>  (15) 
+0.0
+
+>  <fragment_count>  (15) 
+1.0
+
+>  <bad_bond_length_fraction>  (15) 
+0.0
+
+>  <halogen_bad_position_count>  (15) 
+0.0
+
+>  <chemistry_guard_violation_count>  (15) 
+1.0
+
+>  <ring_complexity_reward>  (15) 
+-0.1599999964237213
+
+>  <ring_complexity_success>  (15) 
+1
+
+>  <ring_complexity_ring_count>  (15) 
+6.0
+
+>  <ring_complexity_aromatic_ring_count>  (15) 
+0.0
+
+>  <ring_complexity_three_member_ring_count>  (15) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (15) 
+6.0
+
+>  <ring_complexity_spiro_atom_count>  (15) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (15) 
+0.0
+
+>  <ring_complexity_penalty>  (15) 
+1.159999966621399
+
+>  <reward_total_raw>  (15) 
+-0.3179999887943268
+
+>  <reward_total>  (15) 
+-0.3179999887943268
+
+>  <stability>  (15) 
+1.0
+
+$$$$
+diffgui_00015|reward=-0.2040|valid=1|ok
+     RDKit          3D
+
+ 21 25  0  0  0  0  0  0  0  0999 V2000
+  206.1189  213.2351  175.6012 C   0  0  1  0  0  0  0  0  0  0  0  0
+  209.5493  213.4322  174.0196 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4907  211.8104  175.8600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5428  214.0352  174.8137 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3701  212.4861  172.4540 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.6922  212.6926  172.9986 C   0  0  2  0  0  0  0  0  0  0  0  0
+  211.1804  212.5467  172.4505 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9008  213.8657  174.3726 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3136  211.9699  171.2151 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0401  211.9016  170.5302 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8785  212.3373  171.1562 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1753  213.8264  176.9531 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1375  213.3851  174.1112 C   0  0  2  0  0  0  0  0  0  0  0  0
+  208.7659  212.2575  172.2491 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2960  214.0914  175.1846 C   0  0  2  0  0  0  0  0  0  0  0  0
+  212.2368  213.1350  173.2300 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8676  212.7172  172.8512 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0402  213.3433  174.4870 N   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9301  212.8259  172.4972 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6665  214.1417  176.6246 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1572  212.8690  173.1473 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  1
+  1 12  1  0
+  1 15  1  0
+  1 18  1  0
+  2  4  1  0
+ 13  2  1  6
+  2 17  1  0
+  4  8  1  0
+  5  6  1  0
+  5  9  1  6
+  5 21  1  0
+  6 13  1  0
+  6 14  1  6
+  7 16  1  0
+  7 17  1  0
+  8 16  1  0
+  9 10  1  0
+ 10 11  1  0
+ 11 19  1  0
+ 12 20  1  0
+ 13 15  1  0
+ 14 17  1  0
+ 15 20  1  1
+ 18 21  1  0
+ 19 21  1  0
+M  END
+>  <benchmark_model>  (16) 
+DiffGui
+
+>  <benchmark_index>  (16) 
+15
+
+>  <benchmark_source_sdf>  (16) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/22.sdf
+
+>  <mol_id>  (16) 
+diffgui_00015
+
+>  <source_index>  (16) 
+15
+
+>  <original_name>  (16) 
+
+
+>  <rdkit_valid>  (16) 
+1
+
+>  <sanitize_status>  (16) 
+ok
+
+>  <smiles>  (16) 
+C[C@@]12CC[C@H]1[C@@H]1C3CCCCC3N[C@@H]1[C@@H]1CCCCC1N2
+
+>  <nodesxsample>  (16) 
+21
+
+>  <docking_raw>  (16) 
+0.0
+
+>  <docking_reward>  (16) 
+-1.0
+
+>  <ligand_efficiency_raw>  (16) 
+0.0
+
+>  <ligand_efficiency_reward>  (16) 
+0.0
+
+>  <chemistry_guard_reward>  (16) 
+0.800000011920929
+
+>  <chemistry_guard_success>  (16) 
+1
+
+>  <heavy_atom_count>  (16) 
+21.0
+
+>  <carbon_fraction>  (16) 
+0.9047619104385376
+
+>  <hetero_atom_count>  (16) 
+2.0
+
+>  <hetero_atom_fraction>  (16) 
+0.095238097012043
+
+>  <aromatic_ring_count>  (16) 
+0.0
+
+>  <three_member_ring_count>  (16) 
+0.0
+
+>  <fragment_count>  (16) 
+1.0
+
+>  <bad_bond_length_fraction>  (16) 
+0.0
+
+>  <halogen_bad_position_count>  (16) 
+0.0
+
+>  <chemistry_guard_violation_count>  (16) 
+1.0
+
+>  <ring_complexity_reward>  (16) 
+0.2199999988079071
+
+>  <ring_complexity_success>  (16) 
+1
+
+>  <ring_complexity_ring_count>  (16) 
+5.0
+
+>  <ring_complexity_aromatic_ring_count>  (16) 
+0.0
+
+>  <ring_complexity_three_member_ring_count>  (16) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (16) 
+5.0
+
+>  <ring_complexity_spiro_atom_count>  (16) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (16) 
+0.0
+
+>  <ring_complexity_penalty>  (16) 
+0.7799999713897705
+
+>  <reward_total_raw>  (16) 
+-0.20399998128414154
+
+>  <reward_total>  (16) 
+-0.20399998128414154
+
+>  <stability>  (16) 
+1.0
+
+$$$$

@@ -8,6 +8,8 @@ Contains:
 - CompositeReward:     Weighted combination of multiple rewards
 - DiversityReward:     Batch-level molecular diversity penalty
 - ChEMBLPriorReward:   ChEMBL fingerprint-space prior / penalty
+- TPSADistributionReward: TPSA distribution matching reward
+- RingPathologyReward: Selected pathological ring motif penalty
 - StabilityAwareReward: Wraps any reward to inject batch['stability']
 """
 
@@ -18,6 +20,8 @@ from .docking import DockingReward
 from .composite import CompositeReward
 from .diversity_reward import DiversityReward
 from .chembl_prior_reward import ChEMBLPriorReward
+from .tpsa_distribution_reward import TPSADistributionReward
+from .ring_pathology_reward import RingPathologyReward
 from .stability import StabilityAwareReward
 
 __all__ = [
@@ -28,5 +32,7 @@ __all__ = [
     "CompositeReward",
     "DiversityReward",
     "ChEMBLPriorReward",
+    "TPSADistributionReward",
+    "RingPathologyReward",
     "StabilityAwareReward",
 ]

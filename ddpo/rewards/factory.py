@@ -16,14 +16,17 @@ from ddpo.rewards.component_normalizer import ComponentNormalizer
 from ddpo.rewards.chembl_prior_reward import ChEMBLPriorReward
 from ddpo.rewards.diversity_reward import DiversityReward
 from ddpo.rewards.logp_distribution_reward import LogPDistributionReward
+from ddpo.rewards.tpsa_distribution_reward import TPSADistributionReward
 from ddpo.rewards.qed_reward import QEDReward
 from ddpo.rewards.sa_reward import SAReward
 from ddpo.rewards.docking_factory import build_docking_reward
 from ddpo.rewards.ligand_efficiency_reward import LigandEfficiencyReward
 from ddpo.rewards.molskill_reward import MolSkillReward
 from ddpo.rewards.chembl_classifier_reward import ChemblClassifierReward
+from ddpo.rewards.aromatic_scaffold_reward import AromaticScaffoldReward
 from ddpo.rewards.chemistry_guard_reward import ChemistryGuardReward
 from ddpo.rewards.ring_complexity_reward import RingComplexityReward
+from ddpo.rewards.ring_pathology_reward import RingPathologyReward
 from ddpo.rewards.stability import StabilityAwareReward
 
 
@@ -34,12 +37,18 @@ def get_enabled_rewards(config: dict) -> list[str]:
     唯一来源是 `reward.weights`：weight > 0 视为启用，weight == 0 视为禁用。
     如果 weights 为空或全零则回退到 ["qed", "sa"]。
 
+    `reward.monitor_components` 可额外启用只做记录的组件；这些组件的
+    weight 仍保持配置值（通常为 0），因此不会改变 PPO 优化目标。
+
     特殊规则：ligand_efficiency 依赖 docking 提供的 ``ligand_efficiency_raw``，
     因此只要 LE 启用，docking 也自动启用（但 weight 保持用户配置的原值，可能为 0）。
     """
     reward_cfg = config.get("reward", {})
     weights = reward_cfg.get("weights", {})
     enabled = [name for name, value in weights.items() if float(value) > 0.0]
+    for name in reward_cfg.get("monitor_components", []):
+        if name not in enabled:
+            enabled.append(str(name))
     # LE 依赖 docking 产生数据，自动启用 docking 作为数据提供者
     if "ligand_efficiency" in enabled and "docking" not in enabled:
         enabled.append("docking")
@@ -204,6 +213,22 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
         )
         weights_dict["logp_distribution"] = float(weights_cfg.get("logp_distribution", 0.1))
 
+    if "tpsa_distribution" in enabled:
+        tpsa_cfg = reward_cfg.get("tpsa_distribution", {})
+        tpsa_bins_raw = tpsa_cfg.get("tpsa_bins", None)
+        tpsa_bins = list(tpsa_bins_raw) if tpsa_bins_raw is not None else None
+        rewards_dict["tpsa_distribution"] = TPSADistributionReward(
+            chembl_csv=str(tpsa_cfg.get("chembl_csv", "data/chembl/chembl_36_properties.csv.gz")),
+            tpsa_bins=tpsa_bins,
+            failure_penalty=float(tpsa_cfg.get("failure_penalty", -1.0)),
+            min_reward=float(tpsa_cfg.get("min_reward", -2.0)),
+            max_reward=float(tpsa_cfg.get("max_reward", 2.0)),
+            scale=float(tpsa_cfg.get("scale", 12.0)),
+            ema_alpha=float(tpsa_cfg.get("ema_alpha", 0.0)),
+            reward_prefix=str(tpsa_cfg.get("reward_prefix", "tpsa_distribution")),
+        )
+        weights_dict["tpsa_distribution"] = float(weights_cfg.get("tpsa_distribution", 0.1))
+
     if 'connectivity' in enabled:
         try:
             from ddpo.rewards.connectivity_reward import ConnectivityReward
@@ -285,6 +310,50 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             bridgehead_penalty=float(ring_cfg.get("bridgehead_penalty", 0.08)),
         )
         weights_dict["ring_complexity"] = float(weights_cfg.get("ring_complexity", 0.0))
+
+    if "ring_pathology" in enabled:
+        pathology_cfg = reward_cfg.get("ring_pathology", {})
+        rewards_dict["ring_pathology"] = RingPathologyReward(
+            failure_penalty=float(pathology_cfg.get("failure_penalty", -1.0)),
+            base_reward=float(pathology_cfg.get("base_reward", 1.0)),
+            min_reward=float(pathology_cfg.get("min_reward", -1.0)),
+            max_reward=float(pathology_cfg.get("max_reward", 1.0)),
+            max_allowed_ring_count=int(pathology_cfg.get("max_allowed_ring_count", 3)),
+            min_large_ring_size=int(pathology_cfg.get("min_large_ring_size", 7)),
+            max_allowed_three_member_ring_count=int(pathology_cfg.get("max_allowed_three_member_ring_count", 1)),
+            ring_count_penalty=float(pathology_cfg.get("ring_count_penalty", 0.25)),
+            large_ring_penalty=float(pathology_cfg.get("large_ring_penalty", 0.45)),
+            large_ring_fused_six_penalty=float(pathology_cfg.get("large_ring_fused_six_penalty", 0.65)),
+            extra_three_member_penalty=float(pathology_cfg.get("extra_three_member_penalty", 0.45)),
+            three_member_fused_or_spiro_penalty=float(
+                pathology_cfg.get("three_member_fused_or_spiro_penalty", 0.65)
+            ),
+        )
+        weights_dict["ring_pathology"] = float(weights_cfg.get("ring_pathology", 0.0))
+
+    if "aromatic_scaffold" in enabled:
+        aromatic_cfg = reward_cfg.get("aromatic_scaffold", {})
+        rewards_dict["aromatic_scaffold"] = AromaticScaffoldReward(
+            failure_penalty=float(aromatic_cfg.get("failure_penalty", -1.0)),
+            base_reward=float(aromatic_cfg.get("base_reward", 0.0)),
+            min_reward=float(aromatic_cfg.get("min_reward", -1.0)),
+            max_reward=float(aromatic_cfg.get("max_reward", 1.0)),
+            exact_single_benzene_reward=float(aromatic_cfg.get("exact_single_benzene_reward", 1.0)),
+            missing_benzene_penalty=float(aromatic_cfg.get("missing_benzene_penalty", 0.25)),
+            max_benzene_ring_count=int(aromatic_cfg.get("max_benzene_ring_count", 2)),
+            extra_benzene_penalty=float(aromatic_cfg.get("extra_benzene_penalty", 0.25)),
+            max_heterocycle_ring_count=int(aromatic_cfg.get("max_heterocycle_ring_count", 1)),
+            multi_heterocycle_penalty=float(aromatic_cfg.get("multi_heterocycle_penalty", 0.55)),
+            max_fused_ring_system_size=int(aromatic_cfg.get("max_fused_ring_system_size", 3)),
+            fused_penalty=float(aromatic_cfg.get("fused_penalty", 0.30)),
+            max_three_member_ring_count=int(aromatic_cfg.get("max_three_member_ring_count", 0)),
+            three_member_penalty=float(aromatic_cfg.get("three_member_penalty", 0.45)),
+            max_total_halogen_count=int(aromatic_cfg.get("max_total_halogen_count", 2)),
+            total_halogen_penalty=float(aromatic_cfg.get("total_halogen_penalty", 0.20)),
+            max_aromatic_halogen_count=int(aromatic_cfg.get("max_aromatic_halogen_count", 2)),
+            aromatic_halogen_penalty=float(aromatic_cfg.get("aromatic_halogen_penalty", 0.20)),
+        )
+        weights_dict["aromatic_scaffold"] = float(weights_cfg.get("aromatic_scaffold", 0.0))
 
     if not rewards_dict:
         raise ValueError("No reward components enabled for Lightning training")

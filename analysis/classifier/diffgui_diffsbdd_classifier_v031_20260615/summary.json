@@ -1,0 +1,35 @@
+{
+  "model_path": "chembl_classifier/models/chembl_classifier_selected_v0_3_1_scaffold_strongpoly.pt",
+  "diffgui_csv": "analysis/diffgui_classifier_score_20260609/diffgui_500_scores.csv",
+  "diffsbdd_csv": "analysis/diffsbdd_8gpu_5000_score_20260608/generated_5000_scores.csv",
+  "total_loaded": 3657,
+  "total_scored": 3657,
+  "summary": [
+    {
+      "source": "DiffSBDD",
+      "n": 3157,
+      "mean": 0.1635576346898036,
+      "median": 0.01365636009722948,
+      "q10": 2.5404817642993313e-05,
+      "q20": 0.00028584628016687963,
+      "q80": 0.2865465939044953,
+      "q90": 0.6733566284179688,
+      "frac_lt_0p2": 0.7579980994615141,
+      "frac_lt_0p5": 0.8612606905289832,
+      "frac_gt_0p8": 0.07665505226480836
+    },
+    {
+      "source": "DiffGui",
+      "n": 500,
+      "mean": 0.17117023799227982,
+      "median": 0.013772645499557257,
+      "q10": 4.165313912380956e-05,
+      "q20": 0.0003967826720327139,
+      "q80": 0.24875470995903018,
+      "q90": 0.8166685283184054,
+      "frac_lt_0p2": 0.772,
+      "frac_lt_0p5": 0.84,
+      "frac_gt_0p8": 0.104
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+2026-06-09 17:01:26,310 INFO DiffGuiRewardOnly: Loaded 8 SDF records from /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_008/generated.sdf
+2026-06-09 17:01:26,310 INFO DiffGuiRewardOnly: [docking_factory] Building DockingReward: backend=unidock support_level=supported
+2026-06-09 17:01:26,310 INFO DiffGuiRewardOnly: Enabled reward components: ['docking']
+2026-06-09 17:01:26,311 INFO DiffGuiRewardOnly: Configured reward weights: {'docking': 1.0}
+2026-06-09 17:01:26,311 INFO DiffGuiRewardOnly: CompositeReward normalized weights: {'docking': 1.0}
+2026-06-09 17:01:26,311 INFO DiffGuiRewardOnly: StabilityAwareReward wrapper applied
+2026-06-09 17:01:30,961 INFO DiffGuiRewardOnly: Scored records 0-8 / 8
+
+{
+  "stage": "diffgui_reward_only_stage1",
+  "input_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_008/generated.sdf",
+  "input_records": 8,
+  "readable_records": 8,
+  "rdkit_valid": 8,
+  "rdkit_invalid": 0,
+  "rdkit_valid_ratio": 1.0,
+  "sdf_written": 8,
+  "scored_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_008/docking_scored.sdf",
+  "rewards_csv": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_008/docking_rewards.csv",
+  "summary_json": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_008/docking_reward_summary.json",
+  "reward_weights": {
+    "docking": 1.0
+  },
+  "reward_total_mean": 1.1934875026345253,
+  "reward_total_median": 1.199400007724762,
+  "reward_total_min": 0.9315000176429749,
+  "reward_total_max": 1.3978999853134155,
+  "reward_total_q10": 1.0636600434780121,
+  "reward_total_q90": 1.3087899684906006,
+  "reward_total_raw_mean": 1.1934875026345253,
+  "reward_total_raw_median": 1.199400007724762,
+  "reward_total_raw_min": 0.9315000176429749,
+  "reward_total_raw_max": 1.3978999853134155,
+  "reward_total_raw_q10": 1.0636600434780121,
+  "reward_total_raw_q90": 1.3087899684906006,
+  "stability_mean": 1.0,
+  "stability_median": 1.0,
+  "stability_min": 1.0,
+  "stability_max": 1.0,
+  "stability_q10": 1.0,
+  "stability_q90": 1.0,
+  "source_index_mean": 3.5,
+  "source_index_median": 3.5,
+  "source_index_min": 0.0,
+  "source_index_max": 7.0,
+  "source_index_q10": 0.7000000000000001,
+  "source_index_q90": 6.3,
+  "rdkit_valid_mean": 1.0,
+  "rdkit_valid_median": 1.0,
+  "rdkit_valid_min": 1.0,
+  "rdkit_valid_max": 1.0,
+  "rdkit_valid_q10": 1.0,
+  "rdkit_valid_q90": 1.0,
+  "nodesxsample_mean": 24.0,
+  "nodesxsample_median": 24.0,
+  "nodesxsample_min": 24.0,
+  "nodesxsample_max": 24.0,
+  "nodesxsample_q10": 24.0,
+  "nodesxsample_q90": 24.0,
+  "docking_raw_mean": -11.934875011444092,
+  "docking_raw_median": -11.99399995803833,
+  "docking_raw_min": -13.979000091552734,
+  "docking_raw_max": -9.3149995803833,
+  "docking_raw_q10": -13.087900257110595,
+  "docking_raw_q90": -10.636599922180176,
+  "docking_reward_mean": 1.1934875026345253,
+  "docking_reward_median": 1.199400007724762,
+  "docking_reward_min": 0.9315000176429749,
+  "docking_reward_max": 1.3978999853134155,
+  "docking_reward_q10": 1.0636600434780121,
+  "docking_reward_q90": 1.3087899684906006,
+  "ligand_efficiency_raw_mean": 0.49728645384311676,
+  "ligand_efficiency_raw_median": 0.4997499883174896,
+  "ligand_efficiency_raw_min": 0.3881250023841858,
+  "ligand_efficiency_raw_max": 0.5824583172798157,
+  "ligand_efficiency_raw_q10": 0.44319166243076324,
+  "ligand_efficiency_raw_q90": 0.5453291714191437
+}
+

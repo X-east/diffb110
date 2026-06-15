@@ -1,0 +1,3 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,reconstruct_error:MolReconsError,,24,1.9942268133163452
+1,reconstruct_error:MolReconsError,,24,1.998997449874878

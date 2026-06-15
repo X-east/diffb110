@@ -1,0 +1,41 @@
+{
+  "source_csv": "analysis/classifier_v0_3_scaffold_curation_20260610/new_molecule_classification.csv",
+  "model_path": "chembl_classifier/models/chembl_classifier_selected_v0_3_1_scaffold_strongpoly.pt",
+  "total_rows": 40218,
+  "valid_scored": 40218,
+  "summary": [
+    {
+      "label": "bad",
+      "n": 30630,
+      "mean": 0.06540266860203749,
+      "median": 0.0038190630730241537,
+      "q10": 1.1929162610613275e-05,
+      "q90": 0.1977732926607132,
+      "frac_lt_0p2": 0.899347045380346,
+      "frac_lt_0p5": 0.9600391772771792,
+      "frac_gt_0p8": 0.013091740124061379
+    },
+    {
+      "label": "ambiguous",
+      "n": 4559,
+      "mean": 0.34016656912125004,
+      "median": 0.2002289891242981,
+      "q10": 0.014545960351824764,
+      "q90": 0.9492184638977056,
+      "frac_lt_0p2": 0.49945163413029176,
+      "frac_lt_0p5": 0.7150690940995832,
+      "frac_gt_0p8": 0.1735029611756964
+    },
+    {
+      "label": "good",
+      "n": 5029,
+      "mean": 0.6333059435126613,
+      "median": 0.6956969499588013,
+      "q10": 0.15054839253425598,
+      "q90": 0.9895882964134217,
+      "frac_lt_0p2": 0.13223304831974547,
+      "frac_lt_0p5": 0.3473851660369855,
+      "frac_gt_0p8": 0.4094253330682044
+    }
+  ]
+}

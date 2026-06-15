@@ -1,0 +1,1724 @@
+{
+  "generated_at": "2026-06-15T09:52:46",
+  "rows": [
+    {
+      "kind": "symlink_repair",
+      "name": "5xzr_8j6_benchmark_20260611",
+      "old_path": "analysis/_compat_links/top_level/5xzr_8j6_benchmark_20260611",
+      "new_path": "analysis/_compat_links/top_level/5xzr_8j6_benchmark_20260611",
+      "target": "../../benchmark/5xzr_8j6_benchmark_20260611",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "7gpu_dock_classifier_v0_1_20260528_training_and_classifier_summary.md",
+      "old_path": "analysis/_compat_links/top_level/7gpu_dock_classifier_v0_1_20260528_training_and_classifier_summary.md",
+      "new_path": "analysis/_compat_links/top_level/7gpu_dock_classifier_v0_1_20260528_training_and_classifier_summary.md",
+      "target": "../../_loose/classifier/7gpu_dock_classifier_v0_1_20260528_training_and_classifier_summary.md",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "8gjl_c1101_benchmark_20260603_500mol_500steps",
+      "old_path": "analysis/_compat_links/top_level/8gjl_c1101_benchmark_20260603_500mol_500steps",
+      "new_path": "analysis/_compat_links/top_level/8gjl_c1101_benchmark_20260603_500mol_500steps",
+      "target": "../../benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_compare_ep14_ep24.py",
+      "old_path": "analysis/_compat_links/top_level/_compare_ep14_ep24.py",
+      "new_path": "analysis/_compat_links/top_level/_compare_ep14_ep24.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_compare_ep14_ep24.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_le_debug.py",
+      "old_path": "analysis/_compat_links/top_level/_le_debug.py",
+      "new_path": "analysis/_compat_links/top_level/_le_debug.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_le_debug.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_molskill_verify.py",
+      "old_path": "analysis/_compat_links/top_level/_molskill_verify.py",
+      "new_path": "analysis/_compat_links/top_level/_molskill_verify.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_molskill_verify.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_plot_classifier_only_training.py",
+      "old_path": "analysis/_compat_links/top_level/_plot_classifier_only_training.py",
+      "new_path": "analysis/_compat_links/top_level/_plot_classifier_only_training.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_plot_classifier_only_training.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_verify.py",
+      "old_path": "analysis/_compat_links/top_level/_verify.py",
+      "new_path": "analysis/_compat_links/top_level/_verify.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_verify.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_verify2.py",
+      "old_path": "analysis/_compat_links/top_level/_verify2.py",
+      "new_path": "analysis/_compat_links/top_level/_verify2.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_verify2.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_verify_logp_direct.py",
+      "old_path": "analysis/_compat_links/top_level/_verify_logp_direct.py",
+      "new_path": "analysis/_compat_links/top_level/_verify_logp_direct.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_verify_logp_direct.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "_verify_logp_per_rank.py",
+      "old_path": "analysis/_compat_links/top_level/_verify_logp_per_rank.py",
+      "new_path": "analysis/_compat_links/top_level/_verify_logp_per_rank.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/_verify_logp_per_rank.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_6gpu_dock.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_6gpu_dock.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_6gpu_dock.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_6gpu_dock.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_6gpu_dock_chembl.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_6gpu_dock_chembl.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_6gpu_dock_chembl.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_6gpu_dock_chembl.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_7gpu_dock_classifier_v0_1_20260528.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_7gpu_dock_classifier_v0_1_20260528.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_7gpu_dock_classifier_v0_1_20260528.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_7gpu_dock_classifier_v0_1_20260528.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_7gpu_dock_ecfp4_fcfp4.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_7gpu_dock_ecfp4_fcfp4.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_7gpu_dock_ecfp4_fcfp4.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_7gpu_dock_ecfp4_fcfp4.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_7gpu_dock_ecfp4_fcfp4_20260526.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_7gpu_dock_ecfp4_fcfp4_20260526.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_7gpu_dock_ecfp4_fcfp4_20260526.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_7gpu_dock_ecfp4_fcfp4_20260526.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_8gpu_chembl_only.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_8gpu_chembl_only.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_8gpu_chembl_only.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_8gpu_chembl_only.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_diffsbdd_single_reward_matrix_20260613.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_diffsbdd_single_reward_matrix_20260613.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_diffsbdd_single_reward_matrix_20260613.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_diffsbdd_single_reward_matrix_20260613.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_fingerprint_exps.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_fingerprint_exps.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_fingerprint_exps.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_fingerprint_exps.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_logp_bins_detail.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_logp_bins_detail.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_logp_bins_detail.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_logp_bins_detail.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_reward_influence.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_reward_influence.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_reward_influence.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_reward_influence.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_reward_influence_v2.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_reward_influence_v2.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_reward_influence_v2.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_reward_influence_v2.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "analyze_valid_sdf_properties.py",
+      "old_path": "analysis/_compat_links/top_level/analyze_valid_sdf_properties.py",
+      "new_path": "analysis/_compat_links/top_level/analyze_valid_sdf_properties.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/analyze_valid_sdf_properties.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "aromatic_benzene_diagnosis_20260527",
+      "old_path": "analysis/_compat_links/top_level/aromatic_benzene_diagnosis_20260527",
+      "new_path": "analysis/_compat_links/top_level/aromatic_benzene_diagnosis_20260527",
+      "target": "../../diffsbdd_small_mod/aromatic_benzene_diagnosis_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "atom_composition.png",
+      "old_path": "analysis/_compat_links/top_level/atom_composition.png",
+      "new_path": "analysis/_compat_links/top_level/atom_composition.png",
+      "target": "../../_loose/misc/atom_composition.png",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "atom_score_diagnostics_20260602_n1000_gpu",
+      "old_path": "analysis/_compat_links/top_level/atom_score_diagnostics_20260602_n1000_gpu",
+      "new_path": "analysis/_compat_links/top_level/atom_score_diagnostics_20260602_n1000_gpu",
+      "target": "../../diffsbdd_small_mod/atom_score_diagnostics_20260602_n1000_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "baseline_intra_group_similarity.csv",
+      "old_path": "analysis/_compat_links/top_level/baseline_intra_group_similarity.csv",
+      "new_path": "analysis/_compat_links/top_level/baseline_intra_group_similarity.csv",
+      "target": "../../_loose/misc/baseline_intra_group_similarity.csv",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "bond_predictor_diagnostics_20260602_n300",
+      "old_path": "analysis/_compat_links/top_level/bond_predictor_diagnostics_20260602_n300",
+      "new_path": "analysis/_compat_links/top_level/bond_predictor_diagnostics_20260602_n300",
+      "target": "../../reconstruction/bond_predictor_diagnostics_20260602_n300",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "chembl_full_analysis",
+      "old_path": "analysis/_compat_links/top_level/chembl_full_analysis",
+      "new_path": "analysis/_compat_links/top_level/chembl_full_analysis",
+      "target": "../../classifier/chembl_full_analysis",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "chembl_full_analysis.py",
+      "old_path": "analysis/_compat_links/top_level/chembl_full_analysis.py",
+      "new_path": "analysis/_compat_links/top_level/chembl_full_analysis.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/chembl_full_analysis.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "chembl_sim_analysis.py",
+      "old_path": "analysis/_compat_links/top_level/chembl_sim_analysis.py",
+      "new_path": "analysis/_compat_links/top_level/chembl_sim_analysis.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/chembl_sim_analysis.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "chembl_sim_full",
+      "old_path": "analysis/_compat_links/top_level/chembl_sim_full",
+      "new_path": "analysis/_compat_links/top_level/chembl_sim_full",
+      "target": "../../classifier/chembl_sim_full",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "chembl_sim_full_analysis.py",
+      "old_path": "analysis/_compat_links/top_level/chembl_sim_full_analysis.py",
+      "new_path": "analysis/_compat_links/top_level/chembl_sim_full_analysis.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/chembl_sim_full_analysis.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "chemical_space_2d.png",
+      "old_path": "analysis/_compat_links/top_level/chemical_space_2d.png",
+      "new_path": "analysis/_compat_links/top_level/chemical_space_2d.png",
+      "target": "../../_loose/misc/chemical_space_2d.png",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_failure_review_20260608",
+      "old_path": "analysis/_compat_links/top_level/classifier_failure_review_20260608",
+      "new_path": "analysis/_compat_links/top_level/classifier_failure_review_20260608",
+      "target": "../../classifier/classifier_failure_review_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_generated_score_distribution_20260613",
+      "old_path": "analysis/_compat_links/top_level/classifier_generated_score_distribution_20260613",
+      "new_path": "analysis/_compat_links/top_level/classifier_generated_score_distribution_20260613",
+      "target": "../../classifier/classifier_generated_score_distribution_20260613",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_named_sdfs_20260609",
+      "old_path": "analysis/_compat_links/top_level/classifier_named_sdfs_20260609",
+      "new_path": "analysis/_compat_links/top_level/classifier_named_sdfs_20260609",
+      "target": "../../classifier/classifier_named_sdfs_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_test_260407_sdf_20260527",
+      "old_path": "analysis/_compat_links/top_level/classifier_test_260407_sdf_20260527",
+      "new_path": "analysis/_compat_links/top_level/classifier_test_260407_sdf_20260527",
+      "target": "../../classifier/classifier_test_260407_sdf_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_v0_2_1_weighted_20260608",
+      "old_path": "analysis/_compat_links/top_level/classifier_v0_2_1_weighted_20260608",
+      "new_path": "analysis/_compat_links/top_level/classifier_v0_2_1_weighted_20260608",
+      "target": "../../classifier/classifier_v0_2_1_weighted_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_v0_2_hardneg_20260608",
+      "old_path": "analysis/_compat_links/top_level/classifier_v0_2_hardneg_20260608",
+      "new_path": "analysis/_compat_links/top_level/classifier_v0_2_hardneg_20260608",
+      "target": "../../classifier/classifier_v0_2_hardneg_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_v0_3_1_training_20260610",
+      "old_path": "analysis/_compat_links/top_level/classifier_v0_3_1_training_20260610",
+      "new_path": "analysis/_compat_links/top_level/classifier_v0_3_1_training_20260610",
+      "target": "../../classifier/classifier_v0_3_1_training_20260610",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "classifier_v0_3_scaffold_curation_20260610",
+      "old_path": "analysis/_compat_links/top_level/classifier_v0_3_scaffold_curation_20260610",
+      "new_path": "analysis/_compat_links/top_level/classifier_v0_3_scaffold_curation_20260610",
+      "target": "../../classifier/classifier_v0_3_scaffold_curation_20260610",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "compare_all_properties.py",
+      "old_path": "analysis/_compat_links/top_level/compare_all_properties.py",
+      "new_path": "analysis/_compat_links/top_level/compare_all_properties.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/compare_all_properties.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "compare_molecular_properties.py",
+      "old_path": "analysis/_compat_links/top_level/compare_molecular_properties.py",
+      "new_path": "analysis/_compat_links/top_level/compare_molecular_properties.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/compare_molecular_properties.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "compute_group_fingerprint_similarity.py",
+      "old_path": "analysis/_compat_links/top_level/compute_group_fingerprint_similarity.py",
+      "new_path": "analysis/_compat_links/top_level/compute_group_fingerprint_similarity.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/compute_group_fingerprint_similarity.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "correlation_heatmap.png",
+      "old_path": "analysis/_compat_links/top_level/correlation_heatmap.png",
+      "new_path": "analysis/_compat_links/top_level/correlation_heatmap.png",
+      "target": "../../_loose/misc/correlation_heatmap.png",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "crossdock_preprocess_20260601",
+      "old_path": "analysis/_compat_links/top_level/crossdock_preprocess_20260601",
+      "new_path": "analysis/_compat_links/top_level/crossdock_preprocess_20260601",
+      "target": "../../preprocessing/crossdock_preprocess_20260601",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "dataset",
+      "old_path": "analysis/_compat_links/top_level/dataset",
+      "new_path": "analysis/_compat_links/top_level/dataset",
+      "target": "../../preprocessing/dataset",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "dataset_selection_dryrun_20260527",
+      "old_path": "analysis/_compat_links/top_level/dataset_selection_dryrun_20260527",
+      "new_path": "analysis/_compat_links/top_level/dataset_selection_dryrun_20260527",
+      "target": "../../_archive/smoke/dataset_selection_dryrun_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_100step_multigpu_smoke_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_100step_multigpu_smoke_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_100step_multigpu_smoke_20260609",
+      "target": "../../_archive/smoke/diffgui_100step_multigpu_smoke_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_100step_multigpu_smoke_20260609_batch32",
+      "old_path": "analysis/_compat_links/top_level/diffgui_100step_multigpu_smoke_20260609_batch32",
+      "new_path": "analysis/_compat_links/top_level/diffgui_100step_multigpu_smoke_20260609_batch32",
+      "target": "../../_archive/smoke/diffgui_100step_multigpu_smoke_20260609_batch32",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_100step_rollout_smoke_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609",
+      "target": "../../_archive/smoke/diffgui_100step_rollout_smoke_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_100step_rollout_smoke_20260609_amp_micro_2x24",
+      "old_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24",
+      "new_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24",
+      "target": "../../_archive/smoke/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_100step_rollout_smoke_20260609_freeze_last1_2x24",
+      "old_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609_freeze_last1_2x24",
+      "new_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609_freeze_last1_2x24",
+      "target": "../../_archive/smoke/diffgui_100step_rollout_smoke_20260609_freeze_last1_2x24",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_100step_rollout_smoke_20260609_small",
+      "old_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609_small",
+      "new_path": "analysis/_compat_links/top_level/diffgui_100step_rollout_smoke_20260609_small",
+      "target": "../../_archive/smoke/diffgui_100step_rollout_smoke_20260609_small",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_200step_batch_sweep_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_200step_batch_sweep_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_200step_batch_sweep_20260609",
+      "target": "../../diffgui_rl/diffgui_200step_batch_sweep_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_200step_timestep_fix_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_200step_timestep_fix_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_200step_timestep_fix_20260609",
+      "target": "../../diffgui_rl/diffgui_200step_timestep_fix_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_6gpu_500x3_20260531_085146",
+      "old_path": "analysis/_compat_links/top_level/diffgui_6gpu_500x3_20260531_085146",
+      "new_path": "analysis/_compat_links/top_level/diffgui_6gpu_500x3_20260531_085146",
+      "target": "../../diffgui_rl/diffgui_6gpu_500x3_20260531_085146",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_baseline_classifier_v02_20260611",
+      "old_path": "analysis/_compat_links/top_level/diffgui_baseline_classifier_v02_20260611",
+      "new_path": "analysis/_compat_links/top_level/diffgui_baseline_classifier_v02_20260611",
+      "target": "../../classifier/diffgui_baseline_classifier_v02_20260611",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_baseline_classifier_v03_20260611",
+      "old_path": "analysis/_compat_links/top_level/diffgui_baseline_classifier_v03_20260611",
+      "new_path": "analysis/_compat_links/top_level/diffgui_baseline_classifier_v03_20260611",
+      "target": "../../classifier/diffgui_baseline_classifier_v03_20260611",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_big_runs_summary_20260611",
+      "old_path": "analysis/_compat_links/top_level/diffgui_big_runs_summary_20260611",
+      "new_path": "analysis/_compat_links/top_level/diffgui_big_runs_summary_20260611",
+      "target": "../../diffgui_rl/diffgui_big_runs_summary_20260611",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_classifier_score_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_classifier_score_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_classifier_score_20260609",
+      "target": "../../classifier/diffgui_classifier_score_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_diffsbdd_classifier_v031_20260615",
+      "old_path": "analysis/_compat_links/top_level/diffgui_diffsbdd_classifier_v031_20260615",
+      "new_path": "analysis/_compat_links/top_level/diffgui_diffsbdd_classifier_v031_20260615",
+      "target": "../../classifier/diffgui_diffsbdd_classifier_v031_20260615",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_docking_batch_sweep_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609",
+      "target": "../../diffgui_rl/diffgui_docking_batch_sweep_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_docking_batch_sweep_20260609_last1_b24_b32",
+      "old_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609_last1_b24_b32",
+      "new_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609_last1_b24_b32",
+      "target": "../../diffgui_rl/diffgui_docking_batch_sweep_20260609_last1_b24_b32",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_docking_batch_sweep_20260609_logiccheck_bs2",
+      "old_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609_logiccheck_bs2",
+      "new_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609_logiccheck_bs2",
+      "target": "../../diffgui_rl/diffgui_docking_batch_sweep_20260609_logiccheck_bs2",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_docking_batch_sweep_20260609_preflight_bs2",
+      "old_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609_preflight_bs2",
+      "new_path": "analysis/_compat_links/top_level/diffgui_docking_batch_sweep_20260609_preflight_bs2",
+      "target": "../../diffgui_rl/diffgui_docking_batch_sweep_20260609_preflight_bs2",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_reward_only_stage1_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_reward_only_stage1_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_reward_only_stage1_20260609",
+      "target": "../../diffgui_rl/diffgui_reward_only_stage1_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_ring_last3_lr3e5_training_plots_20260611",
+      "old_path": "analysis/_compat_links/top_level/diffgui_ring_last3_lr3e5_training_plots_20260611",
+      "new_path": "analysis/_compat_links/top_level/diffgui_ring_last3_lr3e5_training_plots_20260611",
+      "target": "../../diffgui_rl/diffgui_ring_last3_lr3e5_training_plots_20260611",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_ring_reward_smoke_20260610",
+      "old_path": "analysis/_compat_links/top_level/diffgui_ring_reward_smoke_20260610",
+      "new_path": "analysis/_compat_links/top_level/diffgui_ring_reward_smoke_20260610",
+      "target": "../../_archive/smoke/diffgui_ring_reward_smoke_20260610",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffgui_timestep_investigation_20260609",
+      "old_path": "analysis/_compat_links/top_level/diffgui_timestep_investigation_20260609",
+      "new_path": "analysis/_compat_links/top_level/diffgui_timestep_investigation_20260609",
+      "target": "../../diffgui_rl/diffgui_timestep_investigation_20260609",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_8gpu_5000_score_20260608",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_8gpu_5000_score_20260608",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_8gpu_5000_score_20260608",
+      "target": "../../diffsbdd_rl/diffsbdd_8gpu_5000_score_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_rl_reset_plan_20260611",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_rl_reset_plan_20260611",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_rl_reset_plan_20260611",
+      "target": "../../diffsbdd_rl/diffsbdd_rl_reset_plan_20260611",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_single_reward_matrix_20260613",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_single_reward_matrix_20260613",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_single_reward_matrix_20260613",
+      "target": "../../diffsbdd_rl/diffsbdd_single_reward_matrix_20260613",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_xhe_diffgui_scratch_20260606_longtest",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_xhe_diffgui_scratch_20260606_longtest",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_xhe_diffgui_scratch_20260606_longtest",
+      "target": "../../diffsbdd_xhe/diffsbdd_xhe_diffgui_scratch_20260606_longtest",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_xhe_joint_20260605_20k_6gpu",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_xhe_joint_20260605_20k_6gpu",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_xhe_joint_20260605_20k_6gpu",
+      "target": "../../diffsbdd_xhe/diffsbdd_xhe_joint_20260605_20k_6gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_xhe_joint_20260605_smoke",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_xhe_joint_20260605_smoke",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_xhe_joint_20260605_smoke",
+      "target": "../../_archive/smoke/diffsbdd_xhe_joint_20260605_smoke",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_xhe_predicted_reconstruction_20260605_val",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_xhe_predicted_reconstruction_20260605_val",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_xhe_predicted_reconstruction_20260605_val",
+      "target": "../../diffsbdd_xhe/diffsbdd_xhe_predicted_reconstruction_20260605_val",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_xhe_predicted_reconstruction_20260605_val_smoke_n8",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_xhe_predicted_reconstruction_20260605_val_smoke_n8",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_xhe_predicted_reconstruction_20260605_val_smoke_n8",
+      "target": "../../_archive/smoke/diffsbdd_xhe_predicted_reconstruction_20260605_val_smoke_n8",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "diffsbdd_xhe_supervised_20260604_20k_6gpu",
+      "old_path": "analysis/_compat_links/top_level/diffsbdd_xhe_supervised_20260604_20k_6gpu",
+      "new_path": "analysis/_compat_links/top_level/diffsbdd_xhe_supervised_20260604_20k_6gpu",
+      "target": "../../diffsbdd_xhe/diffsbdd_xhe_supervised_20260604_20k_6gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "dock_diffsbdd_single_reward_matrix_20260613.py",
+      "old_path": "analysis/_compat_links/top_level/dock_diffsbdd_single_reward_matrix_20260613.py",
+      "new_path": "analysis/_compat_links/top_level/dock_diffsbdd_single_reward_matrix_20260613.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/dock_diffsbdd_single_reward_matrix_20260613.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_data_chain_20260602_n1000",
+      "old_path": "analysis/_compat_links/top_level/edge_data_chain_20260602_n1000",
+      "new_path": "analysis/_compat_links/top_level/edge_data_chain_20260602_n1000",
+      "target": "../../diffsbdd_xhe/edge_data_chain_20260602_n1000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_data_chain_20260602_repair_n1000",
+      "old_path": "analysis/_compat_links/top_level/edge_data_chain_20260602_repair_n1000",
+      "new_path": "analysis/_compat_links/top_level/edge_data_chain_20260602_repair_n1000",
+      "target": "../../diffsbdd_xhe/edge_data_chain_20260602_repair_n1000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_data_chain_20260604_repair_n10000",
+      "old_path": "analysis/_compat_links/top_level/edge_data_chain_20260604_repair_n10000",
+      "new_path": "analysis/_compat_links/top_level/edge_data_chain_20260604_repair_n10000",
+      "target": "../../diffsbdd_xhe/edge_data_chain_20260604_repair_n10000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_data_oracle_crossdock_20260601",
+      "old_path": "analysis/_compat_links/top_level/edge_data_oracle_crossdock_20260601",
+      "new_path": "analysis/_compat_links/top_level/edge_data_oracle_crossdock_20260601",
+      "target": "../../diffsbdd_xhe/edge_data_oracle_crossdock_20260601",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_20260603_A_inverse_clean",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_A_inverse_clean",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_A_inverse_clean",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_20260603_A_inverse_clean",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_20260603_B_diffgui_noise005",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_B_diffgui_noise005",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_B_diffgui_noise005",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_20260603_B_diffgui_noise005",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_20260603_C_diffgui_noise005_focal2_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_20260603_D_diffgui_noise010",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_D_diffgui_noise010",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_D_diffgui_noise010",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_20260603_D_diffgui_noise010",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_20260603_logs",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_logs",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_20260603_logs",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_20260603_logs",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_eval_20260603_B_diffgui_noise005",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_B_diffgui_noise005",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_B_diffgui_noise005",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_eval_20260603_B_diffgui_noise005",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_eval_20260603_C_diffgui_noise005_focal2_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_eval_20260603_D_diffgui_noise010",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_D_diffgui_noise010",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_eval_20260603_D_diffgui_noise010",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_eval_20260603_D_diffgui_noise010",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_ablation_summary_20260603",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_summary_20260603",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_ablation_summary_20260603",
+      "target": "../../diffsbdd_xhe/edge_denoiser_ablation_summary_20260603",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v2",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v2",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v2",
+      "target": "../../diffsbdd_xhe/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v2",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v3",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v3",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v3",
+      "target": "../../diffsbdd_xhe/edge_denoiser_eval_20260603_n1000_val_tgrid_reconstruct_gpu_v3",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_eval_shared_recon_smoke_20260603_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_eval_shared_recon_smoke_20260603_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_eval_shared_recon_smoke_20260603_gpu",
+      "target": "../../_archive/smoke/edge_denoiser_eval_shared_recon_smoke_20260603_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_nodeedge_20260602_n32_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_20260602_n32_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_20260602_n32_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_nodeedge_20260602_n32_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_nodeedge_20260603_n1000_train800_val200_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_20260603_n1000_train800_val200_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_20260603_n1000_train800_val200_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_nodeedge_20260603_n1000_train800_val200_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_nodeedge_smoke_20260602",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_smoke_20260602",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_smoke_20260602",
+      "target": "../../_archive/smoke/edge_denoiser_nodeedge_smoke_20260602",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_nodeedge_smoke_20260602_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_smoke_20260602_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_smoke_20260602_gpu",
+      "target": "../../_archive/smoke/edge_denoiser_nodeedge_smoke_20260602_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_nodeedge_smoke_20260602_gpu_escalated",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_smoke_20260602_gpu_escalated",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_nodeedge_smoke_20260602_gpu_escalated",
+      "target": "../../_archive/smoke/edge_denoiser_nodeedge_smoke_20260602_gpu_escalated",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_overfit_20260602_n128_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_overfit_20260602_n128_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_overfit_20260602_n128_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_overfit_20260602_n128_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_overfit_20260602_n32_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_overfit_20260602_n32_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_overfit_20260602_n32_gpu",
+      "target": "../../diffsbdd_xhe/edge_denoiser_overfit_20260602_n32_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_overfit_smoke_20260602",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_overfit_smoke_20260602",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_overfit_smoke_20260602",
+      "target": "../../_archive/smoke/edge_denoiser_overfit_smoke_20260602",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_reconval_smoke_20260603_diffgui_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_reconval_smoke_20260603_diffgui_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_reconval_smoke_20260603_diffgui_gpu",
+      "target": "../../_archive/smoke/edge_denoiser_reconval_smoke_20260603_diffgui_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_reconval_smoke_20260603_inverse_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_reconval_smoke_20260603_inverse_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_reconval_smoke_20260603_inverse_gpu",
+      "target": "../../_archive/smoke/edge_denoiser_reconval_smoke_20260603_inverse_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_denoiser_split_smoke_20260603",
+      "old_path": "analysis/_compat_links/top_level/edge_denoiser_split_smoke_20260603",
+      "new_path": "analysis/_compat_links/top_level/edge_denoiser_split_smoke_20260603",
+      "target": "../../_archive/smoke/edge_denoiser_split_smoke_20260603",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_ddp_20260604_10k_6gpu_test3",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_ddp_20260604_10k_6gpu_test3",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_ddp_20260604_10k_6gpu_test3",
+      "target": "../../diffsbdd_xhe/edge_diffusion_ddp_20260604_10k_6gpu_test3",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_ddp_smoke_20260604",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_ddp_smoke_20260604",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_ddp_smoke_20260604",
+      "target": "../../_archive/smoke/edge_diffusion_ddp_smoke_20260604",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_sampler_smoke_20260604_10k3ep_prior_t100_n32",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_10k3ep_prior_t100_n32",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_10k3ep_prior_t100_n32",
+      "target": "../../_archive/smoke/edge_diffusion_sampler_smoke_20260604_10k3ep_prior_t100_n32",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_sampler_smoke_20260604_10k3ep_reconstruct_t100_n32",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_10k3ep_reconstruct_t100_n32",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_10k3ep_reconstruct_t100_n32",
+      "target": "../../_archive/smoke/edge_diffusion_sampler_smoke_20260604_10k3ep_reconstruct_t100_n32",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_sampler_smoke_20260604_ddp_ckpt_t10_n4",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_ddp_ckpt_t10_n4",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_ddp_ckpt_t10_n4",
+      "target": "../../_archive/smoke/edge_diffusion_sampler_smoke_20260604_ddp_ckpt_t10_n4",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_sampler_smoke_20260604_prior_t50_n8",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_prior_t50_n8",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_prior_t50_n8",
+      "target": "../../_archive/smoke/edge_diffusion_sampler_smoke_20260604_prior_t50_n8",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_sampler_smoke_20260604_reconstruct_t50_n8",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_reconstruct_t50_n8",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_sampler_smoke_20260604_reconstruct_t50_n8",
+      "target": "../../_archive/smoke/edge_diffusion_sampler_smoke_20260604_reconstruct_t50_n8",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_xhe_overfit_20260603_n128_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_xhe_overfit_20260603_n128_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_xhe_overfit_20260603_n128_gpu",
+      "target": "../../diffsbdd_xhe/edge_diffusion_xhe_overfit_20260603_n128_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_diffusion_xhe_overfit_20260603_n128_uniform_gpu",
+      "old_path": "analysis/_compat_links/top_level/edge_diffusion_xhe_overfit_20260603_n128_uniform_gpu",
+      "new_path": "analysis/_compat_links/top_level/edge_diffusion_xhe_overfit_20260603_n128_uniform_gpu",
+      "target": "../../diffsbdd_xhe/edge_diffusion_xhe_overfit_20260603_n128_uniform_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_semantic_bundle_20260602_n1000",
+      "old_path": "analysis/_compat_links/top_level/edge_semantic_bundle_20260602_n1000",
+      "new_path": "analysis/_compat_links/top_level/edge_semantic_bundle_20260602_n1000",
+      "target": "../../diffsbdd_xhe/edge_semantic_bundle_20260602_n1000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_semantic_bundle_20260604_n10000",
+      "old_path": "analysis/_compat_links/top_level/edge_semantic_bundle_20260604_n10000",
+      "new_path": "analysis/_compat_links/top_level/edge_semantic_bundle_20260604_n10000",
+      "target": "../../diffsbdd_xhe/edge_semantic_bundle_20260604_n10000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "edge_transition_smoke_20260603_full_transition",
+      "old_path": "analysis/_compat_links/top_level/edge_transition_smoke_20260603_full_transition",
+      "new_path": "analysis/_compat_links/top_level/edge_transition_smoke_20260603_full_transition",
+      "target": "../../_archive/smoke/edge_transition_smoke_20260603_full_transition",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "epoch20_intra_group_similarity.csv",
+      "old_path": "analysis/_compat_links/top_level/epoch20_intra_group_similarity.csv",
+      "new_path": "analysis/_compat_links/top_level/epoch20_intra_group_similarity.csv",
+      "target": "../../_loose/misc/epoch20_intra_group_similarity.csv",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "epoch20_properties.csv",
+      "old_path": "analysis/_compat_links/top_level/epoch20_properties.csv",
+      "new_path": "analysis/_compat_links/top_level/epoch20_properties.csv",
+      "target": "../../_loose/misc/epoch20_properties.csv",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "evaluate_classifier_on_base_diffsbdd.py",
+      "old_path": "analysis/_compat_links/top_level/evaluate_classifier_on_base_diffsbdd.py",
+      "new_path": "analysis/_compat_links/top_level/evaluate_classifier_on_base_diffsbdd.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/evaluate_classifier_on_base_diffsbdd.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "final_classifier_dataset_selection_20260527",
+      "old_path": "analysis/_compat_links/top_level/final_classifier_dataset_selection_20260527",
+      "new_path": "analysis/_compat_links/top_level/final_classifier_dataset_selection_20260527",
+      "target": "../../classifier/final_classifier_dataset_selection_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "final_refine_ablation_20260602_n100",
+      "old_path": "analysis/_compat_links/top_level/final_refine_ablation_20260602_n100",
+      "new_path": "analysis/_compat_links/top_level/final_refine_ablation_20260602_n100",
+      "target": "../../diffsbdd_small_mod/final_refine_ablation_20260602_n100",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "final_refine_ablation_20260602_n1000_gpu",
+      "old_path": "analysis/_compat_links/top_level/final_refine_ablation_20260602_n1000_gpu",
+      "new_path": "analysis/_compat_links/top_level/final_refine_ablation_20260602_n1000_gpu",
+      "target": "../../diffsbdd_small_mod/final_refine_ablation_20260602_n1000_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "formal_training_test_20260529_133444.md",
+      "old_path": "analysis/_compat_links/top_level/formal_training_test_20260529_133444.md",
+      "new_path": "analysis/_compat_links/top_level/formal_training_test_20260529_133444.md",
+      "target": "../../_loose/misc/formal_training_test_20260529_133444.md",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "formal_xh_xhe_comparison_20260605_full_8gpu",
+      "old_path": "analysis/_compat_links/top_level/formal_xh_xhe_comparison_20260605_full_8gpu",
+      "new_path": "analysis/_compat_links/top_level/formal_xh_xhe_comparison_20260605_full_8gpu",
+      "target": "../../diffsbdd_xhe/formal_xh_xhe_comparison_20260605_full_8gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_edge_denoiser_offmanifold_20260603_n500_t100_uniform_t999",
+      "old_path": "analysis/_compat_links/top_level/generated_edge_denoiser_offmanifold_20260603_n500_t100_uniform_t999",
+      "new_path": "analysis/_compat_links/top_level/generated_edge_denoiser_offmanifold_20260603_n500_t100_uniform_t999",
+      "target": "../../diffsbdd_xhe/generated_edge_denoiser_offmanifold_20260603_n500_t100_uniform_t999",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_ablation_20260601_n50",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_ablation_20260601_n50",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_ablation_20260601_n50",
+      "target": "../../reconstruction/generated_reconstruction_ablation_20260601_n50",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_ablation_20260601_n500",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_ablation_20260601_n500",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_ablation_20260601_n500",
+      "target": "../../reconstruction/generated_reconstruction_ablation_20260601_n500",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_ablation_20260601_smoke",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_ablation_20260601_smoke",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_ablation_20260601_smoke",
+      "target": "../../_archive/smoke/generated_reconstruction_ablation_20260601_smoke",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_benchmark_20260601_external_n100",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260601_external_n100",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260601_external_n100",
+      "target": "../../benchmark/generated_reconstruction_benchmark_20260601_external_n100",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_benchmark_20260601_external_smoke_n4",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260601_external_smoke_n4",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260601_external_smoke_n4",
+      "target": "../../_archive/smoke/generated_reconstruction_benchmark_20260601_external_smoke_n4",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_benchmark_20260601_smoke",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260601_smoke",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260601_smoke",
+      "target": "../../_archive/smoke/generated_reconstruction_benchmark_20260601_smoke",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_benchmark_20260602_local_bond_v0_external_n100",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260602_local_bond_v0_external_n100",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260602_local_bond_v0_external_n100",
+      "target": "../../benchmark/generated_reconstruction_benchmark_20260602_local_bond_v0_external_n100",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_benchmark_20260602_local_bond_v0_n500",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260602_local_bond_v0_n500",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260602_local_bond_v0_n500",
+      "target": "../../benchmark/generated_reconstruction_benchmark_20260602_local_bond_v0_n500",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "generated_reconstruction_benchmark_20260602_local_bond_v0_smoke_n20",
+      "old_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260602_local_bond_v0_smoke_n20",
+      "new_path": "analysis/_compat_links/top_level/generated_reconstruction_benchmark_20260602_local_bond_v0_smoke_n20",
+      "target": "../../_archive/smoke/generated_reconstruction_benchmark_20260602_local_bond_v0_smoke_n20",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "good_bad_classifier_curation_20260608",
+      "old_path": "analysis/_compat_links/top_level/good_bad_classifier_curation_20260608",
+      "new_path": "analysis/_compat_links/top_level/good_bad_classifier_curation_20260608",
+      "target": "../../classifier/good_bad_classifier_curation_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "good_pool_audit_20260604_173430",
+      "old_path": "analysis/_compat_links/top_level/good_pool_audit_20260604_173430",
+      "new_path": "analysis/_compat_links/top_level/good_pool_audit_20260604_173430",
+      "target": "../../diffsbdd_rl/good_pool_audit_20260604_173430",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "good_pool_audit_20260604_174051",
+      "old_path": "analysis/_compat_links/top_level/good_pool_audit_20260604_174051",
+      "new_path": "analysis/_compat_links/top_level/good_pool_audit_20260604_174051",
+      "target": "../../diffsbdd_rl/good_pool_audit_20260604_174051",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "guacamol.py",
+      "old_path": "analysis/_compat_links/top_level/guacamol.py",
+      "new_path": "analysis/_compat_links/top_level/guacamol.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/guacamol.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "hetero_composition_diagnosis_20260527",
+      "old_path": "analysis/_compat_links/top_level/hetero_composition_diagnosis_20260527",
+      "new_path": "analysis/_compat_links/top_level/hetero_composition_diagnosis_20260527",
+      "target": "../../diffsbdd_small_mod/hetero_composition_diagnosis_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "kl_constraint_anomaly_20260604",
+      "old_path": "analysis/_compat_links/top_level/kl_constraint_anomaly_20260604",
+      "new_path": "analysis/_compat_links/top_level/kl_constraint_anomaly_20260604",
+      "target": "../../diffsbdd_rl/kl_constraint_anomaly_20260604",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "kl_diagnostic_20260604_kl0p02_25ep",
+      "old_path": "analysis/_compat_links/top_level/kl_diagnostic_20260604_kl0p02_25ep",
+      "new_path": "analysis/_compat_links/top_level/kl_diagnostic_20260604_kl0p02_25ep",
+      "target": "../../diffsbdd_rl/kl_diagnostic_20260604_kl0p02_25ep",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "kl_reference_comparison_20260604",
+      "old_path": "analysis/_compat_links/top_level/kl_reference_comparison_20260604",
+      "new_path": "analysis/_compat_links/top_level/kl_reference_comparison_20260604",
+      "target": "../../diffsbdd_rl/kl_reference_comparison_20260604",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "laplace_vs_ema_demo.py",
+      "old_path": "analysis/_compat_links/top_level/laplace_vs_ema_demo.py",
+      "new_path": "analysis/_compat_links/top_level/laplace_vs_ema_demo.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/laplace_vs_ema_demo.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "local_atom_mask_ablation_20260602_n1000_gpu",
+      "old_path": "analysis/_compat_links/top_level/local_atom_mask_ablation_20260602_n1000_gpu",
+      "new_path": "analysis/_compat_links/top_level/local_atom_mask_ablation_20260602_n1000_gpu",
+      "target": "../../diffsbdd_small_mod/local_atom_mask_ablation_20260602_n1000_gpu",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "local_bond_predictor_data_20260601",
+      "old_path": "analysis/_compat_links/top_level/local_bond_predictor_data_20260601",
+      "new_path": "analysis/_compat_links/top_level/local_bond_predictor_data_20260601",
+      "target": "../../diffsbdd_small_mod/local_bond_predictor_data_20260601",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "local_bond_predictor_data_20260601_smoke",
+      "old_path": "analysis/_compat_links/top_level/local_bond_predictor_data_20260601_smoke",
+      "new_path": "analysis/_compat_links/top_level/local_bond_predictor_data_20260601_smoke",
+      "target": "../../_archive/smoke/local_bond_predictor_data_20260601_smoke",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "local_bond_predictor_v0_20260602_small",
+      "old_path": "analysis/_compat_links/top_level/local_bond_predictor_v0_20260602_small",
+      "new_path": "analysis/_compat_links/top_level/local_bond_predictor_v0_20260602_small",
+      "target": "../../diffsbdd_small_mod/local_bond_predictor_v0_20260602_small",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "local_bond_predictor_v0_20260602_smoke",
+      "old_path": "analysis/_compat_links/top_level/local_bond_predictor_v0_20260602_smoke",
+      "new_path": "analysis/_compat_links/top_level/local_bond_predictor_v0_20260602_smoke",
+      "target": "../../_archive/smoke/local_bond_predictor_v0_20260602_smoke",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "logp_binning_analysis.py",
+      "old_path": "analysis/_compat_links/top_level/logp_binning_analysis.py",
+      "new_path": "analysis/_compat_links/top_level/logp_binning_analysis.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/logp_binning_analysis.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "logprob_mode_experiment_20260604",
+      "old_path": "analysis/_compat_links/top_level/logprob_mode_experiment_20260604",
+      "new_path": "analysis/_compat_links/top_level/logprob_mode_experiment_20260604",
+      "target": "../../diffsbdd_rl/logprob_mode_experiment_20260604",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "model_strategy_20260531",
+      "old_path": "analysis/_compat_links/top_level/model_strategy_20260531",
+      "new_path": "analysis/_compat_links/top_level/model_strategy_20260531",
+      "target": "../../benchmark/model_strategy_20260531",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "modern_sbdd_20260531",
+      "old_path": "analysis/_compat_links/top_level/modern_sbdd_20260531",
+      "new_path": "analysis/_compat_links/top_level/modern_sbdd_20260531",
+      "target": "../../benchmark/modern_sbdd_20260531",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "molskill_generated_vs_real.py",
+      "old_path": "analysis/_compat_links/top_level/molskill_generated_vs_real.py",
+      "new_path": "analysis/_compat_links/top_level/molskill_generated_vs_real.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/molskill_generated_vs_real.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "oracle_original_sdf_audit_20260602_n1000",
+      "old_path": "analysis/_compat_links/top_level/oracle_original_sdf_audit_20260602_n1000",
+      "new_path": "analysis/_compat_links/top_level/oracle_original_sdf_audit_20260602_n1000",
+      "target": "../../reconstruction/oracle_original_sdf_audit_20260602_n1000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_all_properties.py",
+      "old_path": "analysis/_compat_links/top_level/plot_all_properties.py",
+      "new_path": "analysis/_compat_links/top_level/plot_all_properties.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_all_properties.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_beautiful_core_properties.py",
+      "old_path": "analysis/_compat_links/top_level/plot_beautiful_core_properties.py",
+      "new_path": "analysis/_compat_links/top_level/plot_beautiful_core_properties.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_beautiful_core_properties.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_core_properties.py",
+      "old_path": "analysis/_compat_links/top_level/plot_core_properties.py",
+      "new_path": "analysis/_compat_links/top_level/plot_core_properties.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_core_properties.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_core_properties_raw_sa.py",
+      "old_path": "analysis/_compat_links/top_level/plot_core_properties_raw_sa.py",
+      "new_path": "analysis/_compat_links/top_level/plot_core_properties_raw_sa.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_core_properties_raw_sa.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_core_properties_raw_sa_cmeb.py",
+      "old_path": "analysis/_compat_links/top_level/plot_core_properties_raw_sa_cmeb.py",
+      "new_path": "analysis/_compat_links/top_level/plot_core_properties_raw_sa_cmeb.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_core_properties_raw_sa_cmeb.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_core_properties_raw_sa_cmeb_2.py",
+      "old_path": "analysis/_compat_links/top_level/plot_core_properties_raw_sa_cmeb_2.py",
+      "new_path": "analysis/_compat_links/top_level/plot_core_properties_raw_sa_cmeb_2.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_core_properties_raw_sa_cmeb_2.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "plot_generated_classifier_score_distribution_20260613.py",
+      "old_path": "analysis/_compat_links/top_level/plot_generated_classifier_score_distribution_20260613.py",
+      "new_path": "analysis/_compat_links/top_level/plot_generated_classifier_score_distribution_20260613.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/plot_generated_classifier_score_distribution_20260613.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "property_comparison.png",
+      "old_path": "analysis/_compat_links/top_level/property_comparison.png",
+      "new_path": "analysis/_compat_links/top_level/property_comparison.png",
+      "target": "../../_loose/misc/property_comparison.png",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "property_comparison_table.csv",
+      "old_path": "analysis/_compat_links/top_level/property_comparison_table.csv",
+      "new_path": "analysis/_compat_links/top_level/property_comparison_table.csv",
+      "target": "../../_loose/misc/property_comparison_table.csv",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "property_comparison_table.png",
+      "old_path": "analysis/_compat_links/top_level/property_comparison_table.png",
+      "new_path": "analysis/_compat_links/top_level/property_comparison_table.png",
+      "target": "../../_loose/misc/property_comparison_table.png",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "property_table.png",
+      "old_path": "analysis/_compat_links/top_level/property_table.png",
+      "new_path": "analysis/_compat_links/top_level/property_table.png",
+      "target": "../../_loose/misc/property_table.png",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "reconstruction_ablation_crossdock_20260601",
+      "old_path": "analysis/_compat_links/top_level/reconstruction_ablation_crossdock_20260601",
+      "new_path": "analysis/_compat_links/top_level/reconstruction_ablation_crossdock_20260601",
+      "target": "../../preprocessing/reconstruction_ablation_crossdock_20260601",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "reference_project_generation_10mol_20260530_224503",
+      "old_path": "analysis/_compat_links/top_level/reference_project_generation_10mol_20260530_224503",
+      "new_path": "analysis/_compat_links/top_level/reference_project_generation_10mol_20260530_224503",
+      "target": "../../benchmark/reference_project_generation_10mol_20260530_224503",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "reference_project_generation_20260530_173617",
+      "old_path": "analysis/_compat_links/top_level/reference_project_generation_20260530_173617",
+      "new_path": "analysis/_compat_links/top_level/reference_project_generation_20260530_173617",
+      "target": "../../benchmark/reference_project_generation_20260530_173617",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "reference_project_supplement_20260531",
+      "old_path": "analysis/_compat_links/top_level/reference_project_supplement_20260531",
+      "new_path": "analysis/_compat_links/top_level/reference_project_supplement_20260531",
+      "target": "../../benchmark/reference_project_supplement_20260531",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "refinement_ablation_20260603_n1000_t100",
+      "old_path": "analysis/_compat_links/top_level/refinement_ablation_20260603_n1000_t100",
+      "new_path": "analysis/_compat_links/top_level/refinement_ablation_20260603_n1000_t100",
+      "target": "../../diffsbdd_small_mod/refinement_ablation_20260603_n1000_t100",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "refinement_ablation_smoke_20260603",
+      "old_path": "analysis/_compat_links/top_level/refinement_ablation_smoke_20260603",
+      "new_path": "analysis/_compat_links/top_level/refinement_ablation_smoke_20260603",
+      "target": "../../_archive/smoke/refinement_ablation_smoke_20260603",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "refinement_ablation_smoke_atomdiag_20260603",
+      "old_path": "analysis/_compat_links/top_level/refinement_ablation_smoke_atomdiag_20260603",
+      "new_path": "analysis/_compat_links/top_level/refinement_ablation_smoke_atomdiag_20260603",
+      "target": "../../_archive/smoke/refinement_ablation_smoke_atomdiag_20260603",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "reward_hacking_diagnosis_20260527",
+      "old_path": "analysis/_compat_links/top_level/reward_hacking_diagnosis_20260527",
+      "new_path": "analysis/_compat_links/top_level/reward_hacking_diagnosis_20260527",
+      "target": "../../diffsbdd_rl/reward_hacking_diagnosis_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "reward_loophole_risk_register_20260527",
+      "old_path": "analysis/_compat_links/top_level/reward_loophole_risk_register_20260527",
+      "new_path": "analysis/_compat_links/top_level/reward_loophole_risk_register_20260527",
+      "target": "../../diffsbdd_rl/reward_loophole_risk_register_20260527",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "rl_data_sufficiency_20260608",
+      "old_path": "analysis/_compat_links/top_level/rl_data_sufficiency_20260608",
+      "new_path": "analysis/_compat_links/top_level/rl_data_sufficiency_20260608",
+      "target": "../../diffsbdd_rl/rl_data_sufficiency_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "rl_high_carbon_sparse_reward_20260604",
+      "old_path": "analysis/_compat_links/top_level/rl_high_carbon_sparse_reward_20260604",
+      "new_path": "analysis/_compat_links/top_level/rl_high_carbon_sparse_reward_20260604",
+      "target": "../../diffsbdd_rl/rl_high_carbon_sparse_reward_20260604",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "rl_next_steps_20260608",
+      "old_path": "analysis/_compat_links/top_level/rl_next_steps_20260608",
+      "new_path": "analysis/_compat_links/top_level/rl_next_steps_20260608",
+      "target": "../../diffsbdd_rl/rl_next_steps_20260608",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "score_diffgui_diffsbdd_classifier_v031_20260615.py",
+      "old_path": "analysis/_compat_links/top_level/score_diffgui_diffsbdd_classifier_v031_20260615.py",
+      "new_path": "analysis/_compat_links/top_level/score_diffgui_diffsbdd_classifier_v031_20260615.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/score_diffgui_diffsbdd_classifier_v031_20260615.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "semantic_oracle_reconstruction_20260602_n1000",
+      "old_path": "analysis/_compat_links/top_level/semantic_oracle_reconstruction_20260602_n1000",
+      "new_path": "analysis/_compat_links/top_level/semantic_oracle_reconstruction_20260602_n1000",
+      "target": "../../reconstruction/semantic_oracle_reconstruction_20260602_n1000",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "simulate_logp_batch.py",
+      "old_path": "analysis/_compat_links/top_level/simulate_logp_batch.py",
+      "new_path": "analysis/_compat_links/top_level/simulate_logp_batch.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/simulate_logp_batch.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "test_classifier_on_260407_sdf.py",
+      "old_path": "analysis/_compat_links/top_level/test_classifier_on_260407_sdf.py",
+      "new_path": "analysis/_compat_links/top_level/test_classifier_on_260407_sdf.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/test_classifier_on_260407_sdf.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "test_logp_on_real_mols.py",
+      "old_path": "analysis/_compat_links/top_level/test_logp_on_real_mols.py",
+      "new_path": "analysis/_compat_links/top_level/test_logp_on_real_mols.py",
+      "target": "../../../tools/analysis_scripts/legacy_top_level/test_logp_on_real_mols.py",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "train_analysis",
+      "old_path": "analysis/_compat_links/top_level/train_analysis",
+      "new_path": "analysis/_compat_links/top_level/train_analysis",
+      "target": "../../preprocessing/train_analysis",
+      "action": "already_ok",
+      "note": ""
+    },
+    {
+      "kind": "symlink_repair",
+      "name": "xhe_ep37_failure_analysis_20260606",
+      "old_path": "analysis/_compat_links/top_level/xhe_ep37_failure_analysis_20260606",
+      "new_path": "analysis/_compat_links/top_level/xhe_ep37_failure_analysis_20260606",
+      "target": "../../diffsbdd_xhe/xhe_ep37_failure_analysis_20260606",
+      "action": "already_ok",
+      "note": ""
+    }
+  ]
+}

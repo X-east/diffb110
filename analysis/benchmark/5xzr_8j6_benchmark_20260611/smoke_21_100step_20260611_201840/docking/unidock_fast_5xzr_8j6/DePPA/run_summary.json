@@ -1,0 +1,37 @@
+{
+  "batch_size": 64,
+  "box": {
+    "center_x": -21.484,
+    "center_y": 70.592,
+    "center_z": 21.081,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [],
+  "gpu_id": 0,
+  "input_sdf": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/deppa.sdf",
+  "merged_success_sdf_count": 21,
+  "model": "DePPA",
+  "output_dir": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/docking/unidock_fast_5xzr_8j6/DePPA",
+  "receptor": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_pocket8A.pdbqt",
+  "score_max_worst": -0.526,
+  "score_mean": -9.836857142857143,
+  "score_median": -9.943,
+  "score_min_best": -13.637,
+  "score_top_1pct": [
+    -13.637
+  ],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 15.396953582763672,
+  "split_summary": {
+    "input_sdf_records_seen": "21",
+    "read_failed": "0",
+    "split_ligands": "21",
+    "write_failed": "0"
+  },
+  "success_count": 21,
+  "success_rate": 1.0,
+  "total_ligands": 21
+}

@@ -1,0 +1,14 @@
+{
+  "stage": "diffgui_reward_only_stage1",
+  "input_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_logiccheck_bs2/batch_002/generated.sdf",
+  "outputs": {
+    "scored_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_logiccheck_bs2/batch_002/docking_scored.sdf",
+    "rewards_csv": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_logiccheck_bs2/batch_002/docking_rewards.csv",
+    "summary_json": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_logiccheck_bs2/batch_002/docking_reward_summary.json"
+  },
+  "decoupled_from": [
+    "ddpo/main_diffsbdd_ddp.py",
+    "ddpo/runtime/rollout.py",
+    "ddpo/runtime/actor.py"
+  ]
+}

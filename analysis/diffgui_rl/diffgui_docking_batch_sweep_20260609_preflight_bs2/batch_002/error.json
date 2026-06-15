@@ -1,0 +1,5 @@
+{
+  "batch_size": 2,
+  "status": "failed:PermissionError",
+  "error": "[Errno 13] Permission denied: 'conda'"
+}

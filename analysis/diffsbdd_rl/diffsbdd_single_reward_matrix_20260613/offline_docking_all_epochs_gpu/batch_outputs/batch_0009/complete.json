@@ -1,0 +1,1282 @@
+{
+  "sa_e0002_m00075": {
+    "failure_reason": "",
+    "score": -7.771,
+    "success": true
+  },
+  "sa_e0002_m00076": {
+    "failure_reason": "",
+    "score": -8.081,
+    "success": true
+  },
+  "sa_e0002_m00077": {
+    "failure_reason": "",
+    "score": -7.934,
+    "success": true
+  },
+  "sa_e0002_m00078": {
+    "failure_reason": "",
+    "score": -11.075,
+    "success": true
+  },
+  "sa_e0002_m00079": {
+    "failure_reason": "",
+    "score": -7.309,
+    "success": true
+  },
+  "sa_e0002_m00080": {
+    "failure_reason": "",
+    "score": -8.99,
+    "success": true
+  },
+  "sa_e0002_m00081": {
+    "failure_reason": "",
+    "score": -10.192,
+    "success": true
+  },
+  "sa_e0002_m00082": {
+    "failure_reason": "",
+    "score": -4.123,
+    "success": true
+  },
+  "sa_e0002_m00083": {
+    "failure_reason": "",
+    "score": -9.255,
+    "success": true
+  },
+  "sa_e0002_m00084": {
+    "failure_reason": "",
+    "score": -8.289,
+    "success": true
+  },
+  "sa_e0002_m00085": {
+    "failure_reason": "",
+    "score": -7.251,
+    "success": true
+  },
+  "sa_e0002_m00086": {
+    "failure_reason": "",
+    "score": -7.601,
+    "success": true
+  },
+  "sa_e0002_m00087": {
+    "failure_reason": "",
+    "score": -7.979,
+    "success": true
+  },
+  "sa_e0002_m00088": {
+    "failure_reason": "",
+    "score": -10.707,
+    "success": true
+  },
+  "sa_e0002_m00089": {
+    "failure_reason": "",
+    "score": -6.427,
+    "success": true
+  },
+  "sa_e0002_m00090": {
+    "failure_reason": "",
+    "score": -7.352,
+    "success": true
+  },
+  "sa_e0002_m00091": {
+    "failure_reason": "",
+    "score": -8.722,
+    "success": true
+  },
+  "sa_e0003_m00000": {
+    "failure_reason": "",
+    "score": -8.195,
+    "success": true
+  },
+  "sa_e0003_m00001": {
+    "failure_reason": "",
+    "score": -8.356,
+    "success": true
+  },
+  "sa_e0003_m00002": {
+    "failure_reason": "",
+    "score": -6.621,
+    "success": true
+  },
+  "sa_e0003_m00003": {
+    "failure_reason": "",
+    "score": -9.083,
+    "success": true
+  },
+  "sa_e0003_m00004": {
+    "failure_reason": "",
+    "score": -5.14,
+    "success": true
+  },
+  "sa_e0003_m00005": {
+    "failure_reason": "",
+    "score": -10.301,
+    "success": true
+  },
+  "sa_e0003_m00006": {
+    "failure_reason": "",
+    "score": -4.649,
+    "success": true
+  },
+  "sa_e0003_m00007": {
+    "failure_reason": "",
+    "score": -8.225,
+    "success": true
+  },
+  "sa_e0003_m00008": {
+    "failure_reason": "",
+    "score": -7.966,
+    "success": true
+  },
+  "sa_e0003_m00009": {
+    "failure_reason": "",
+    "score": -9.105,
+    "success": true
+  },
+  "sa_e0003_m00010": {
+    "failure_reason": "",
+    "score": -8.903,
+    "success": true
+  },
+  "sa_e0003_m00011": {
+    "failure_reason": "",
+    "score": -7.047,
+    "success": true
+  },
+  "sa_e0003_m00012": {
+    "failure_reason": "",
+    "score": -6.934,
+    "success": true
+  },
+  "sa_e0003_m00013": {
+    "failure_reason": "",
+    "score": -8.433,
+    "success": true
+  },
+  "sa_e0003_m00014": {
+    "failure_reason": "",
+    "score": -6.971,
+    "success": true
+  },
+  "sa_e0003_m00015": {
+    "failure_reason": "",
+    "score": -6.844,
+    "success": true
+  },
+  "sa_e0003_m00016": {
+    "failure_reason": "",
+    "score": -5.834,
+    "success": true
+  },
+  "sa_e0003_m00017": {
+    "failure_reason": "",
+    "score": -5.485,
+    "success": true
+  },
+  "sa_e0003_m00018": {
+    "failure_reason": "",
+    "score": -7.144,
+    "success": true
+  },
+  "sa_e0003_m00019": {
+    "failure_reason": "",
+    "score": -6.986,
+    "success": true
+  },
+  "sa_e0003_m00020": {
+    "failure_reason": "",
+    "score": -4.911,
+    "success": true
+  },
+  "sa_e0003_m00021": {
+    "failure_reason": "",
+    "score": -8.939,
+    "success": true
+  },
+  "sa_e0003_m00022": {
+    "failure_reason": "",
+    "score": -9.65,
+    "success": true
+  },
+  "sa_e0003_m00023": {
+    "failure_reason": "",
+    "score": -9.532,
+    "success": true
+  },
+  "sa_e0003_m00024": {
+    "failure_reason": "",
+    "score": -8.186,
+    "success": true
+  },
+  "sa_e0003_m00025": {
+    "failure_reason": "",
+    "score": -5.854,
+    "success": true
+  },
+  "sa_e0003_m00026": {
+    "failure_reason": "",
+    "score": -7.341,
+    "success": true
+  },
+  "sa_e0003_m00027": {
+    "failure_reason": "",
+    "score": -4.489,
+    "success": true
+  },
+  "sa_e0003_m00028": {
+    "failure_reason": "",
+    "score": -7.52,
+    "success": true
+  },
+  "sa_e0003_m00029": {
+    "failure_reason": "",
+    "score": -7.923,
+    "success": true
+  },
+  "sa_e0003_m00030": {
+    "failure_reason": "",
+    "score": -7.304,
+    "success": true
+  },
+  "sa_e0003_m00031": {
+    "failure_reason": "",
+    "score": -7.846,
+    "success": true
+  },
+  "sa_e0003_m00032": {
+    "failure_reason": "",
+    "score": -4.201,
+    "success": true
+  },
+  "sa_e0003_m00033": {
+    "failure_reason": "",
+    "score": -5.804,
+    "success": true
+  },
+  "sa_e0003_m00034": {
+    "failure_reason": "",
+    "score": -4.7,
+    "success": true
+  },
+  "sa_e0003_m00035": {
+    "failure_reason": "",
+    "score": -5.496,
+    "success": true
+  },
+  "sa_e0003_m00036": {
+    "failure_reason": "",
+    "score": -6.095,
+    "success": true
+  },
+  "sa_e0003_m00037": {
+    "failure_reason": "",
+    "score": -7.391,
+    "success": true
+  },
+  "sa_e0003_m00038": {
+    "failure_reason": "",
+    "score": -9.738,
+    "success": true
+  },
+  "sa_e0003_m00039": {
+    "failure_reason": "",
+    "score": -7.474,
+    "success": true
+  },
+  "sa_e0003_m00040": {
+    "failure_reason": "",
+    "score": -7.372,
+    "success": true
+  },
+  "sa_e0003_m00041": {
+    "failure_reason": "",
+    "score": -5.888,
+    "success": true
+  },
+  "sa_e0003_m00042": {
+    "failure_reason": "",
+    "score": -8.069,
+    "success": true
+  },
+  "sa_e0003_m00043": {
+    "failure_reason": "",
+    "score": -7.177,
+    "success": true
+  },
+  "sa_e0003_m00044": {
+    "failure_reason": "",
+    "score": -9.788,
+    "success": true
+  },
+  "sa_e0003_m00045": {
+    "failure_reason": "",
+    "score": -8.108,
+    "success": true
+  },
+  "sa_e0003_m00046": {
+    "failure_reason": "",
+    "score": -5.749,
+    "success": true
+  },
+  "sa_e0003_m00047": {
+    "failure_reason": "",
+    "score": -5.355,
+    "success": true
+  },
+  "sa_e0003_m00048": {
+    "failure_reason": "",
+    "score": -7.753,
+    "success": true
+  },
+  "sa_e0003_m00049": {
+    "failure_reason": "",
+    "score": -7.605,
+    "success": true
+  },
+  "sa_e0003_m00050": {
+    "failure_reason": "",
+    "score": -5.36,
+    "success": true
+  },
+  "sa_e0003_m00051": {
+    "failure_reason": "",
+    "score": -9.516,
+    "success": true
+  },
+  "sa_e0003_m00052": {
+    "failure_reason": "",
+    "score": -7.691,
+    "success": true
+  },
+  "sa_e0003_m00053": {
+    "failure_reason": "",
+    "score": -8.578,
+    "success": true
+  },
+  "sa_e0003_m00054": {
+    "failure_reason": "",
+    "score": -6.306,
+    "success": true
+  },
+  "sa_e0003_m00055": {
+    "failure_reason": "",
+    "score": -8.047,
+    "success": true
+  },
+  "sa_e0003_m00056": {
+    "failure_reason": "",
+    "score": -8.433,
+    "success": true
+  },
+  "sa_e0003_m00057": {
+    "failure_reason": "",
+    "score": -4.922,
+    "success": true
+  },
+  "sa_e0003_m00058": {
+    "failure_reason": "",
+    "score": -6.7,
+    "success": true
+  },
+  "sa_e0003_m00059": {
+    "failure_reason": "",
+    "score": -7.997,
+    "success": true
+  },
+  "sa_e0003_m00060": {
+    "failure_reason": "",
+    "score": -9.882,
+    "success": true
+  },
+  "sa_e0003_m00061": {
+    "failure_reason": "",
+    "score": -8.15,
+    "success": true
+  },
+  "sa_e0003_m00062": {
+    "failure_reason": "",
+    "score": -7.042,
+    "success": true
+  },
+  "sa_e0003_m00063": {
+    "failure_reason": "",
+    "score": -8.092,
+    "success": true
+  },
+  "sa_e0003_m00064": {
+    "failure_reason": "",
+    "score": -9.115,
+    "success": true
+  },
+  "sa_e0003_m00065": {
+    "failure_reason": "",
+    "score": -8.849,
+    "success": true
+  },
+  "sa_e0003_m00066": {
+    "failure_reason": "",
+    "score": -9.044,
+    "success": true
+  },
+  "sa_e0003_m00067": {
+    "failure_reason": "",
+    "score": -6.465,
+    "success": true
+  },
+  "sa_e0003_m00068": {
+    "failure_reason": "",
+    "score": -9.173,
+    "success": true
+  },
+  "sa_e0003_m00069": {
+    "failure_reason": "",
+    "score": -6.441,
+    "success": true
+  },
+  "sa_e0003_m00070": {
+    "failure_reason": "",
+    "score": -4.532,
+    "success": true
+  },
+  "sa_e0003_m00071": {
+    "failure_reason": "",
+    "score": -6.494,
+    "success": true
+  },
+  "sa_e0003_m00072": {
+    "failure_reason": "",
+    "score": -9.348,
+    "success": true
+  },
+  "sa_e0003_m00073": {
+    "failure_reason": "",
+    "score": -8.289,
+    "success": true
+  },
+  "sa_e0003_m00074": {
+    "failure_reason": "",
+    "score": -7.898,
+    "success": true
+  },
+  "sa_e0003_m00075": {
+    "failure_reason": "",
+    "score": -4.667,
+    "success": true
+  },
+  "sa_e0003_m00076": {
+    "failure_reason": "",
+    "score": -9.558,
+    "success": true
+  },
+  "sa_e0003_m00077": {
+    "failure_reason": "",
+    "score": -7.341,
+    "success": true
+  },
+  "sa_e0003_m00078": {
+    "failure_reason": "",
+    "score": -6.089,
+    "success": true
+  },
+  "sa_e0003_m00079": {
+    "failure_reason": "",
+    "score": -5.431,
+    "success": true
+  },
+  "sa_e0003_m00080": {
+    "failure_reason": "",
+    "score": -6.439,
+    "success": true
+  },
+  "sa_e0003_m00081": {
+    "failure_reason": "",
+    "score": -3.43,
+    "success": true
+  },
+  "sa_e0003_m00082": {
+    "failure_reason": "",
+    "score": -5.512,
+    "success": true
+  },
+  "sa_e0003_m00083": {
+    "failure_reason": "",
+    "score": -5.58,
+    "success": true
+  },
+  "sa_e0003_m00084": {
+    "failure_reason": "",
+    "score": -7.547,
+    "success": true
+  },
+  "sa_e0003_m00085": {
+    "failure_reason": "",
+    "score": -6.527,
+    "success": true
+  },
+  "sa_e0003_m00086": {
+    "failure_reason": "",
+    "score": -8.1,
+    "success": true
+  },
+  "sa_e0003_m00087": {
+    "failure_reason": "",
+    "score": -5.827,
+    "success": true
+  },
+  "sa_e0003_m00088": {
+    "failure_reason": "",
+    "score": -8.353,
+    "success": true
+  },
+  "sa_e0003_m00089": {
+    "failure_reason": "",
+    "score": -9.045,
+    "success": true
+  },
+  "sa_e0003_m00090": {
+    "failure_reason": "",
+    "score": -6.332,
+    "success": true
+  },
+  "sa_e0003_m00091": {
+    "failure_reason": "",
+    "score": -9.364,
+    "success": true
+  },
+  "sa_e0003_m00092": {
+    "failure_reason": "",
+    "score": -7.933,
+    "success": true
+  },
+  "sa_e0003_m00093": {
+    "failure_reason": "",
+    "score": -7.411,
+    "success": true
+  },
+  "sa_e0003_m00094": {
+    "failure_reason": "",
+    "score": -7.154,
+    "success": true
+  },
+  "sa_e0003_m00095": {
+    "failure_reason": "",
+    "score": -6.706,
+    "success": true
+  },
+  "sa_e0003_m00096": {
+    "failure_reason": "",
+    "score": -7.408,
+    "success": true
+  },
+  "sa_e0004_m00000": {
+    "failure_reason": "",
+    "score": -5.665,
+    "success": true
+  },
+  "sa_e0004_m00001": {
+    "failure_reason": "",
+    "score": -7.673,
+    "success": true
+  },
+  "sa_e0004_m00002": {
+    "failure_reason": "",
+    "score": -7.667,
+    "success": true
+  },
+  "sa_e0004_m00003": {
+    "failure_reason": "",
+    "score": -8.898,
+    "success": true
+  },
+  "sa_e0004_m00004": {
+    "failure_reason": "",
+    "score": -7.047,
+    "success": true
+  },
+  "sa_e0004_m00005": {
+    "failure_reason": "",
+    "score": -9.041,
+    "success": true
+  },
+  "sa_e0004_m00006": {
+    "failure_reason": "",
+    "score": -5.244,
+    "success": true
+  },
+  "sa_e0004_m00007": {
+    "failure_reason": "",
+    "score": -4.601,
+    "success": true
+  },
+  "sa_e0004_m00008": {
+    "failure_reason": "",
+    "score": -8.864,
+    "success": true
+  },
+  "sa_e0004_m00009": {
+    "failure_reason": "",
+    "score": -7.847,
+    "success": true
+  },
+  "sa_e0004_m00010": {
+    "failure_reason": "",
+    "score": -6.484,
+    "success": true
+  },
+  "sa_e0004_m00011": {
+    "failure_reason": "",
+    "score": -7.367,
+    "success": true
+  },
+  "sa_e0004_m00012": {
+    "failure_reason": "",
+    "score": -6.278,
+    "success": true
+  },
+  "sa_e0004_m00013": {
+    "failure_reason": "",
+    "score": -7.418,
+    "success": true
+  },
+  "sa_e0004_m00014": {
+    "failure_reason": "",
+    "score": -5.667,
+    "success": true
+  },
+  "sa_e0004_m00015": {
+    "failure_reason": "",
+    "score": -8.234,
+    "success": true
+  },
+  "sa_e0004_m00016": {
+    "failure_reason": "",
+    "score": -6.835,
+    "success": true
+  },
+  "sa_e0004_m00017": {
+    "failure_reason": "",
+    "score": -7.042,
+    "success": true
+  },
+  "sa_e0004_m00018": {
+    "failure_reason": "",
+    "score": -9.54,
+    "success": true
+  },
+  "sa_e0004_m00019": {
+    "failure_reason": "",
+    "score": -8.29,
+    "success": true
+  },
+  "sa_e0004_m00020": {
+    "failure_reason": "",
+    "score": -5.706,
+    "success": true
+  },
+  "sa_e0004_m00021": {
+    "failure_reason": "",
+    "score": -8.547,
+    "success": true
+  },
+  "sa_e0004_m00022": {
+    "failure_reason": "",
+    "score": -8.598,
+    "success": true
+  },
+  "sa_e0004_m00023": {
+    "failure_reason": "",
+    "score": -5.939,
+    "success": true
+  },
+  "sa_e0004_m00024": {
+    "failure_reason": "",
+    "score": -8.14,
+    "success": true
+  },
+  "sa_e0004_m00025": {
+    "failure_reason": "",
+    "score": -7.404,
+    "success": true
+  },
+  "sa_e0004_m00026": {
+    "failure_reason": "",
+    "score": -6.668,
+    "success": true
+  },
+  "sa_e0004_m00027": {
+    "failure_reason": "",
+    "score": -9.269,
+    "success": true
+  },
+  "sa_e0004_m00028": {
+    "failure_reason": "",
+    "score": -7.875,
+    "success": true
+  },
+  "sa_e0004_m00029": {
+    "failure_reason": "",
+    "score": -8.525,
+    "success": true
+  },
+  "sa_e0004_m00030": {
+    "failure_reason": "",
+    "score": -7.745,
+    "success": true
+  },
+  "sa_e0004_m00031": {
+    "failure_reason": "",
+    "score": -7.061,
+    "success": true
+  },
+  "sa_e0004_m00032": {
+    "failure_reason": "",
+    "score": -7.406,
+    "success": true
+  },
+  "sa_e0004_m00033": {
+    "failure_reason": "",
+    "score": -7.604,
+    "success": true
+  },
+  "sa_e0004_m00034": {
+    "failure_reason": "",
+    "score": -6.888,
+    "success": true
+  },
+  "sa_e0004_m00035": {
+    "failure_reason": "",
+    "score": -6.105,
+    "success": true
+  },
+  "sa_e0004_m00036": {
+    "failure_reason": "",
+    "score": -7.776,
+    "success": true
+  },
+  "sa_e0004_m00037": {
+    "failure_reason": "",
+    "score": -6.432,
+    "success": true
+  },
+  "sa_e0004_m00038": {
+    "failure_reason": "",
+    "score": -8.549,
+    "success": true
+  },
+  "sa_e0004_m00039": {
+    "failure_reason": "",
+    "score": -8.386,
+    "success": true
+  },
+  "sa_e0004_m00040": {
+    "failure_reason": "",
+    "score": -6.134,
+    "success": true
+  },
+  "sa_e0004_m00041": {
+    "failure_reason": "",
+    "score": -7.18,
+    "success": true
+  },
+  "sa_e0004_m00042": {
+    "failure_reason": "",
+    "score": -6.654,
+    "success": true
+  },
+  "sa_e0004_m00043": {
+    "failure_reason": "",
+    "score": -9.302,
+    "success": true
+  },
+  "sa_e0004_m00044": {
+    "failure_reason": "",
+    "score": -4.213,
+    "success": true
+  },
+  "sa_e0004_m00045": {
+    "failure_reason": "",
+    "score": -7.633,
+    "success": true
+  },
+  "sa_e0004_m00046": {
+    "failure_reason": "",
+    "score": -8.71,
+    "success": true
+  },
+  "sa_e0004_m00047": {
+    "failure_reason": "",
+    "score": -6.71,
+    "success": true
+  },
+  "sa_e0004_m00048": {
+    "failure_reason": "",
+    "score": -8.256,
+    "success": true
+  },
+  "sa_e0004_m00049": {
+    "failure_reason": "",
+    "score": -8.95,
+    "success": true
+  },
+  "sa_e0004_m00050": {
+    "failure_reason": "",
+    "score": -7.277,
+    "success": true
+  },
+  "sa_e0004_m00051": {
+    "failure_reason": "",
+    "score": -8.817,
+    "success": true
+  },
+  "sa_e0004_m00052": {
+    "failure_reason": "",
+    "score": -6.985,
+    "success": true
+  },
+  "sa_e0004_m00053": {
+    "failure_reason": "",
+    "score": -6.321,
+    "success": true
+  },
+  "sa_e0004_m00054": {
+    "failure_reason": "",
+    "score": -9.08,
+    "success": true
+  },
+  "sa_e0004_m00055": {
+    "failure_reason": "",
+    "score": -7.82,
+    "success": true
+  },
+  "sa_e0004_m00056": {
+    "failure_reason": "",
+    "score": -8.653,
+    "success": true
+  },
+  "sa_e0004_m00057": {
+    "failure_reason": "",
+    "score": -7.671,
+    "success": true
+  },
+  "sa_e0004_m00058": {
+    "failure_reason": "",
+    "score": -10.36,
+    "success": true
+  },
+  "sa_e0004_m00059": {
+    "failure_reason": "",
+    "score": -6.373,
+    "success": true
+  },
+  "sa_e0004_m00060": {
+    "failure_reason": "",
+    "score": -8.666,
+    "success": true
+  },
+  "sa_e0004_m00061": {
+    "failure_reason": "",
+    "score": -6.78,
+    "success": true
+  },
+  "sa_e0004_m00062": {
+    "failure_reason": "",
+    "score": -8.61,
+    "success": true
+  },
+  "sa_e0004_m00063": {
+    "failure_reason": "",
+    "score": -5.221,
+    "success": true
+  },
+  "sa_e0004_m00064": {
+    "failure_reason": "",
+    "score": -9.262,
+    "success": true
+  },
+  "sa_e0004_m00065": {
+    "failure_reason": "",
+    "score": -6.769,
+    "success": true
+  },
+  "sa_e0004_m00066": {
+    "failure_reason": "",
+    "score": -8.955,
+    "success": true
+  },
+  "sa_e0004_m00067": {
+    "failure_reason": "",
+    "score": -8.414,
+    "success": true
+  },
+  "sa_e0004_m00068": {
+    "failure_reason": "",
+    "score": -5.336,
+    "success": true
+  },
+  "sa_e0004_m00069": {
+    "failure_reason": "",
+    "score": -7.173,
+    "success": true
+  },
+  "sa_e0004_m00070": {
+    "failure_reason": "",
+    "score": -6.671,
+    "success": true
+  },
+  "sa_e0004_m00071": {
+    "failure_reason": "",
+    "score": -6.372,
+    "success": true
+  },
+  "sa_e0004_m00072": {
+    "failure_reason": "",
+    "score": -4.792,
+    "success": true
+  },
+  "sa_e0004_m00073": {
+    "failure_reason": "",
+    "score": -7.203,
+    "success": true
+  },
+  "sa_e0004_m00074": {
+    "failure_reason": "",
+    "score": -7.316,
+    "success": true
+  },
+  "sa_e0004_m00075": {
+    "failure_reason": "",
+    "score": -8.354,
+    "success": true
+  },
+  "sa_e0004_m00076": {
+    "failure_reason": "",
+    "score": -7.284,
+    "success": true
+  },
+  "sa_e0004_m00077": {
+    "failure_reason": "",
+    "score": -8.046,
+    "success": true
+  },
+  "sa_e0004_m00078": {
+    "failure_reason": "",
+    "score": -8.317,
+    "success": true
+  },
+  "sa_e0004_m00079": {
+    "failure_reason": "",
+    "score": -7.84,
+    "success": true
+  },
+  "sa_e0004_m00080": {
+    "failure_reason": "",
+    "score": -10.2,
+    "success": true
+  },
+  "sa_e0004_m00081": {
+    "failure_reason": "",
+    "score": -6.242,
+    "success": true
+  },
+  "sa_e0004_m00082": {
+    "failure_reason": "",
+    "score": -8.396,
+    "success": true
+  },
+  "sa_e0004_m00083": {
+    "failure_reason": "",
+    "score": -8.385,
+    "success": true
+  },
+  "sa_e0004_m00084": {
+    "failure_reason": "",
+    "score": -4.039,
+    "success": true
+  },
+  "sa_e0004_m00085": {
+    "failure_reason": "",
+    "score": -7.653,
+    "success": true
+  },
+  "sa_e0004_m00086": {
+    "failure_reason": "",
+    "score": -8.21,
+    "success": true
+  },
+  "sa_e0004_m00087": {
+    "failure_reason": "",
+    "score": -6.435,
+    "success": true
+  },
+  "sa_e0004_m00088": {
+    "failure_reason": "",
+    "score": -5.459,
+    "success": true
+  },
+  "sa_e0004_m00089": {
+    "failure_reason": "",
+    "score": -9.196,
+    "success": true
+  },
+  "sa_e0004_m00090": {
+    "failure_reason": "",
+    "score": -6.746,
+    "success": true
+  },
+  "sa_e0004_m00091": {
+    "failure_reason": "",
+    "score": -7.711,
+    "success": true
+  },
+  "sa_e0004_m00092": {
+    "failure_reason": "",
+    "score": -4.745,
+    "success": true
+  },
+  "sa_e0005_m00000": {
+    "failure_reason": "",
+    "score": -4.806,
+    "success": true
+  },
+  "sa_e0005_m00001": {
+    "failure_reason": "",
+    "score": -8.973,
+    "success": true
+  },
+  "sa_e0005_m00002": {
+    "failure_reason": "",
+    "score": -7.036,
+    "success": true
+  },
+  "sa_e0005_m00003": {
+    "failure_reason": "",
+    "score": -7.814,
+    "success": true
+  },
+  "sa_e0005_m00004": {
+    "failure_reason": "",
+    "score": -5.177,
+    "success": true
+  },
+  "sa_e0005_m00005": {
+    "failure_reason": "",
+    "score": -7.033,
+    "success": true
+  },
+  "sa_e0005_m00006": {
+    "failure_reason": "",
+    "score": -8.071,
+    "success": true
+  },
+  "sa_e0005_m00007": {
+    "failure_reason": "",
+    "score": -8.141,
+    "success": true
+  },
+  "sa_e0005_m00008": {
+    "failure_reason": "",
+    "score": -10.352,
+    "success": true
+  },
+  "sa_e0005_m00009": {
+    "failure_reason": "",
+    "score": -7.929,
+    "success": true
+  },
+  "sa_e0005_m00010": {
+    "failure_reason": "",
+    "score": -6.249,
+    "success": true
+  },
+  "sa_e0005_m00011": {
+    "failure_reason": "",
+    "score": -8.826,
+    "success": true
+  },
+  "sa_e0005_m00012": {
+    "failure_reason": "",
+    "score": -7.704,
+    "success": true
+  },
+  "sa_e0005_m00013": {
+    "failure_reason": "",
+    "score": -9.343,
+    "success": true
+  },
+  "sa_e0005_m00014": {
+    "failure_reason": "",
+    "score": -7.544,
+    "success": true
+  },
+  "sa_e0005_m00015": {
+    "failure_reason": "",
+    "score": -8.407,
+    "success": true
+  },
+  "sa_e0005_m00016": {
+    "failure_reason": "",
+    "score": -7.962,
+    "success": true
+  },
+  "sa_e0005_m00017": {
+    "failure_reason": "",
+    "score": -7.806,
+    "success": true
+  },
+  "sa_e0005_m00018": {
+    "failure_reason": "",
+    "score": -5.781,
+    "success": true
+  },
+  "sa_e0005_m00019": {
+    "failure_reason": "",
+    "score": -5.89,
+    "success": true
+  },
+  "sa_e0005_m00020": {
+    "failure_reason": "",
+    "score": -9.864,
+    "success": true
+  },
+  "sa_e0005_m00021": {
+    "failure_reason": "",
+    "score": -7.578,
+    "success": true
+  },
+  "sa_e0005_m00022": {
+    "failure_reason": "",
+    "score": -6.452,
+    "success": true
+  },
+  "sa_e0005_m00023": {
+    "failure_reason": "",
+    "score": -8.547,
+    "success": true
+  },
+  "sa_e0005_m00024": {
+    "failure_reason": "",
+    "score": -7.491,
+    "success": true
+  },
+  "sa_e0005_m00025": {
+    "failure_reason": "",
+    "score": -9.767,
+    "success": true
+  },
+  "sa_e0005_m00026": {
+    "failure_reason": "",
+    "score": -8.603,
+    "success": true
+  },
+  "sa_e0005_m00027": {
+    "failure_reason": "",
+    "score": -6.764,
+    "success": true
+  },
+  "sa_e0005_m00028": {
+    "failure_reason": "",
+    "score": -7.621,
+    "success": true
+  },
+  "sa_e0005_m00029": {
+    "failure_reason": "",
+    "score": -8.147,
+    "success": true
+  },
+  "sa_e0005_m00030": {
+    "failure_reason": "",
+    "score": -6.105,
+    "success": true
+  },
+  "sa_e0005_m00031": {
+    "failure_reason": "",
+    "score": -5.213,
+    "success": true
+  },
+  "sa_e0005_m00032": {
+    "failure_reason": "",
+    "score": -8.161,
+    "success": true
+  },
+  "sa_e0005_m00033": {
+    "failure_reason": "",
+    "score": -9.044,
+    "success": true
+  },
+  "sa_e0005_m00034": {
+    "failure_reason": "",
+    "score": -6.744,
+    "success": true
+  },
+  "sa_e0005_m00035": {
+    "failure_reason": "",
+    "score": -8.158,
+    "success": true
+  },
+  "sa_e0005_m00036": {
+    "failure_reason": "",
+    "score": -6.6,
+    "success": true
+  },
+  "sa_e0005_m00037": {
+    "failure_reason": "",
+    "score": -7.562,
+    "success": true
+  },
+  "sa_e0005_m00038": {
+    "failure_reason": "",
+    "score": -7.862,
+    "success": true
+  },
+  "sa_e0005_m00039": {
+    "failure_reason": "",
+    "score": -9.547,
+    "success": true
+  },
+  "sa_e0005_m00040": {
+    "failure_reason": "",
+    "score": -7.612,
+    "success": true
+  },
+  "sa_e0005_m00041": {
+    "failure_reason": "",
+    "score": -6.457,
+    "success": true
+  },
+  "sa_e0005_m00042": {
+    "failure_reason": "",
+    "score": -7.374,
+    "success": true
+  },
+  "sa_e0005_m00043": {
+    "failure_reason": "",
+    "score": -5.308,
+    "success": true
+  },
+  "sa_e0005_m00044": {
+    "failure_reason": "",
+    "score": -6.812,
+    "success": true
+  },
+  "sa_e0005_m00045": {
+    "failure_reason": "",
+    "score": -7.568,
+    "success": true
+  },
+  "sa_e0005_m00046": {
+    "failure_reason": "",
+    "score": -7.753,
+    "success": true
+  },
+  "sa_e0005_m00047": {
+    "failure_reason": "",
+    "score": -9.085,
+    "success": true
+  },
+  "sa_e0005_m00048": {
+    "failure_reason": "",
+    "score": -8.184,
+    "success": true
+  }
+}

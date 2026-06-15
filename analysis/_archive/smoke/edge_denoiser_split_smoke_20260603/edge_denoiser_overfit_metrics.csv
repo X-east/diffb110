@@ -1,0 +1,2 @@
+epoch,train_loss,eval_loss,accuracy,balanced_accuracy,real_bond_recall,no_bond_recall,recall_no_bond,recall_single,recall_double,recall_triple,recall_aromatic
+1,0.12571472542351697,1.1397616863250732,0.9112903225806451,0.19811193645000458,0.0,0.9905596971511841,0.9905596971511841,0.0,0.0,0.0,0.0

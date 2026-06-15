@@ -1,0 +1,1282 @@
+{
+  "chembl_classifier_e0001_m00000": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00001": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00002": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00003": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00004": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00005": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00006": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00007": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00008": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00009": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00010": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00011": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00012": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00013": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00014": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00015": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00016": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00017": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00018": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00019": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00020": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00021": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00022": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00023": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00024": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00025": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00026": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00027": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00028": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "chembl_classifier_e0001_m00029": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00076": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00077": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00078": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00079": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00080": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00081": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00082": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00083": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00084": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00085": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00086": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00087": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00088": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00089": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00090": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00091": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00092": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00093": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00094": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00095": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00096": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00097": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00098": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00099": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00100": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00101": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00102": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00103": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00104": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00105": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00106": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00107": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0008_m00108": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00000": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00001": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00002": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00003": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00004": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00005": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00006": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00007": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00008": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00009": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00010": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00011": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00012": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00013": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00014": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00015": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00016": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00017": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00018": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00019": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00020": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00021": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00022": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00023": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00024": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00025": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00026": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00027": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00028": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00029": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00030": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00031": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00032": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00033": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00034": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00035": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00036": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00037": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00038": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00039": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00040": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00041": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00042": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00043": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00044": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00045": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00046": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00047": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00048": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00049": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00050": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00051": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00052": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00053": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00054": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00055": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00056": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00057": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00058": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00059": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00060": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00061": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00062": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00063": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00064": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00065": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00066": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00067": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00068": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00069": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00070": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00071": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00072": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00073": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00074": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00075": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00076": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00077": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00078": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00079": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00080": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00081": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00082": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00083": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00084": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00085": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00086": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00087": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00088": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00089": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00090": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00091": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00092": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0009_m00093": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00000": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00001": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00002": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00003": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00004": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00005": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00006": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00007": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00008": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00009": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00010": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00011": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00012": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00013": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00014": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00015": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00016": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00017": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00018": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00019": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00020": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00021": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00022": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00023": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00024": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00025": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00026": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00027": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00028": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00029": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00030": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00031": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00032": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00033": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00034": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00035": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00036": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00037": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00038": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00039": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00040": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00041": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00042": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00043": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00044": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00045": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00046": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00047": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00048": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00049": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00050": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00051": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00052": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00053": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00054": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00055": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00056": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00057": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00058": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00059": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00060": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00061": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00062": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00063": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00064": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00065": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00066": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00067": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00068": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00069": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00070": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00071": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00072": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00073": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00074": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00075": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00076": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00077": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00078": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00079": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00080": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00081": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00082": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00083": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00084": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00085": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00086": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00087": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00088": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00089": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00090": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00091": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00092": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00093": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00094": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00095": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00096": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00097": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  },
+  "ligand_efficiency_e0010_m00098": {
+    "failure_reason": "returncode_1",
+    "score": null,
+    "success": false
+  }
+}

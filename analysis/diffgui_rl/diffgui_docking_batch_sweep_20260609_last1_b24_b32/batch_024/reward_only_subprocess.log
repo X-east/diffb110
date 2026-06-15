@@ -1,0 +1,83 @@
+/home/md666/miniforge3/envs/dif/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+2026-06-09 17:35:31,556 INFO DiffGuiRewardOnly: Loaded 22 SDF records from /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_last1_b24_b32/batch_024/generated.sdf
+2026-06-09 17:35:31,556 INFO DiffGuiRewardOnly: [docking_factory] Building DockingReward: backend=unidock support_level=supported
+2026-06-09 17:35:31,556 INFO DiffGuiRewardOnly: Enabled reward components: ['docking']
+2026-06-09 17:35:31,556 INFO DiffGuiRewardOnly: Configured reward weights: {'docking': 1.0}
+2026-06-09 17:35:31,556 INFO DiffGuiRewardOnly: CompositeReward normalized weights: {'docking': 1.0}
+2026-06-09 17:35:31,556 INFO DiffGuiRewardOnly: StabilityAwareReward wrapper applied
+2026-06-09 17:35:38,111 INFO DiffGuiRewardOnly: Scored records 0-22 / 22
+
+{
+  "stage": "diffgui_reward_only_stage1",
+  "input_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_last1_b24_b32/batch_024/generated.sdf",
+  "input_records": 22,
+  "readable_records": 22,
+  "rdkit_valid": 22,
+  "rdkit_invalid": 0,
+  "rdkit_valid_ratio": 1.0,
+  "sdf_written": 22,
+  "scored_sdf": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_last1_b24_b32/batch_024/docking_scored.sdf",
+  "rewards_csv": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_last1_b24_b32/batch_024/docking_rewards.csv",
+  "summary_json": "/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_last1_b24_b32/batch_024/docking_reward_summary.json",
+  "reward_weights": {
+    "docking": 1.0
+  },
+  "reward_total_mean": 1.200304546139457,
+  "reward_total_median": 1.244599997997284,
+  "reward_total_min": 0.9936000108718872,
+  "reward_total_max": 1.332900047302246,
+  "reward_total_q10": 1.035710048675537,
+  "reward_total_q90": 1.3130799412727356,
+  "reward_total_raw_mean": 1.200304546139457,
+  "reward_total_raw_median": 1.244599997997284,
+  "reward_total_raw_min": 0.9936000108718872,
+  "reward_total_raw_max": 1.332900047302246,
+  "reward_total_raw_q10": 1.035710048675537,
+  "reward_total_raw_q90": 1.3130799412727356,
+  "stability_mean": 1.0,
+  "stability_median": 1.0,
+  "stability_min": 1.0,
+  "stability_max": 1.0,
+  "stability_q10": 1.0,
+  "stability_q90": 1.0,
+  "source_index_mean": 10.5,
+  "source_index_median": 10.5,
+  "source_index_min": 0.0,
+  "source_index_max": 21.0,
+  "source_index_q10": 2.1,
+  "source_index_q90": 18.900000000000002,
+  "rdkit_valid_mean": 1.0,
+  "rdkit_valid_median": 1.0,
+  "rdkit_valid_min": 1.0,
+  "rdkit_valid_max": 1.0,
+  "rdkit_valid_q10": 1.0,
+  "rdkit_valid_q90": 1.0,
+  "nodesxsample_mean": 24.0,
+  "nodesxsample_median": 24.0,
+  "nodesxsample_min": 24.0,
+  "nodesxsample_max": 24.0,
+  "nodesxsample_q10": 24.0,
+  "nodesxsample_q90": 24.0,
+  "docking_raw_mean": -12.003045342185281,
+  "docking_raw_median": -12.44599962234497,
+  "docking_raw_min": -13.329000473022461,
+  "docking_raw_max": -9.935999870300293,
+  "docking_raw_q10": -13.130799674987793,
+  "docking_raw_q90": -10.357099628448486,
+  "docking_reward_mean": 1.200304546139457,
+  "docking_reward_median": 1.244599997997284,
+  "docking_reward_min": 0.9936000108718872,
+  "docking_reward_max": 1.332900047302246,
+  "docking_reward_q10": 1.035710048675537,
+  "docking_reward_q90": 1.3130799412727356,
+  "ligand_efficiency_raw_mean": 0.5001268982887268,
+  "ligand_efficiency_raw_median": 0.518583357334137,
+  "ligand_efficiency_raw_min": 0.414000004529953,
+  "ligand_efficiency_raw_max": 0.5553749799728394,
+  "ligand_efficiency_raw_q10": 0.4315458446741104,
+  "ligand_efficiency_raw_q90": 0.5471166729927063
+}
+

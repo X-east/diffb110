@@ -1,0 +1,22 @@
+{
+  "positive_input": "/data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/selected_positives_v0_3_scaffold.smi",
+  "negative_input": "/data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/selected_negatives_v0_3_scaffold_labeled.smi",
+  "positive_output": "/data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/selected_positives_v0_3_1_scaffold_strongpoly.smi",
+  "negative_output": "/data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/selected_negatives_v0_3_1_scaffold_strongpoly_labeled.smi",
+  "n_positive_rows": 150000,
+  "target_positive_rows": 150000,
+  "n_added_balancing_chembl_positives": 43761,
+  "n_negative_rows": 125468,
+  "bad_poly_fused_or_bridge_ring_rows": 7823,
+  "bad_poly_weight_before": {
+    "min": 3.0,
+    "mean": 3.0,
+    "max": 3.0
+  },
+  "bad_poly_weight_after": {
+    "min": 3.0,
+    "mean": 3.0,
+    "max": 3.0
+  },
+  "policy": "bad_poly_fused_or_bridge_ring is treated as strong negative; weight floor raised to 3.0."
+}

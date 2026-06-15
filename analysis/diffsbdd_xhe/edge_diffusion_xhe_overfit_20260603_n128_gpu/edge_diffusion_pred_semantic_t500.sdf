@@ -1,0 +1,370 @@
+14|ENO1_YEAST_2_437_0/2xh0_B_rec_1l8p_pah_lig_tt_docked_0_pocket10.pdb_ENO1_YEAST_2_437_0/2xh0_B_rec_1l8p_pah_lig_tt_docked_0.sdf|semantic
+     RDKit          3D
+
+  9  8  0  0  0  0  0  0  0  0999 V2000
+   21.3864   32.2220   16.3956 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.5492   33.4389   16.8062 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.4236   33.7183   16.1463 N   0  0  0  0  0  0  0  0  0  0  0  0
+   18.7869   34.8378   16.7211 O   0  0  0  0  0  0  0  0  0  0  0  0
+   20.9500   34.0903   17.9161 O   0  0  0  0  0  0  0  0  0  0  0  0
+   21.9715   29.7492   17.4288 O   0  0  0  0  0  0  0  0  0  0  0  0
+   21.0246   31.4407   18.9283 O   0  0  0  0  0  0  0  0  0  0  0  0
+   23.3858   31.6368   18.1468 O   0  0  0  0  0  0  0  0  0  0  0  0
+   21.9918   31.2362   17.7896 P   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  9  1  0
+  2  3  1  0
+  2  5  2  0
+  3  4  1  0
+  6  9  1  0
+  7  9  1  0
+  8  9  1  0
+M  END
+>  <sample_idx>  (1) 
+14
+
+>  <num_atoms>  (1) 
+9
+
+>  <num_halfedges>  (1) 
+36
+
+>  <target_bond_count>  (1) 
+8
+
+>  <pred_bond_count>  (1) 
+8
+
+>  <halfedge_accuracy>  (1) 
+0.9722222089767456
+
+>  <exact_halfedge_match>  (1) 
+0
+
+>  <bond_pair_set_match>  (1) 
+1
+
+>  <bond_type_map_match>  (1) 
+0
+
+>  <missing_bond_count>  (1) 
+0
+
+>  <extra_bond_count>  (1) 
+0
+
+>  <bond_type_mismatch_count>  (1) 
+1
+
+>  <bond_pair_precision>  (1) 
+1.0
+
+>  <bond_pair_recall>  (1) 
+1.0
+
+>  <bond_pair_f1>  (1) 
+1.0
+
+>  <pred_bond_length_mean>  (1) 
+1.4961479604244232
+
+>  <pred_bond_length_p95>  (1) 
+1.714062452316284
+
+>  <bad_bond_length_count>  (1) 
+0
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <plain_sanitize_success>  (1) 
+1
+
+>  <plain_repair_strategy>  (1) 
+none
+
+>  <plain_sanitize_error>  (1) 
+
+
+>  <plain_smiles_no_stereo>  (1) 
+O=C(C[PH](O)(O)O)NO
+
+>  <semantic_sanitize_success>  (1) 
+1
+
+>  <semantic_repair_strategy>  (1) 
+none
+
+>  <semantic_sanitize_error>  (1) 
+
+
+>  <semantic_smiles_no_stereo>  (1) 
+O=C(C[PH](O)(O)O)NO
+
+>  <original_smiles_no_stereo>  (1) 
+O=C(CP(=O)(O)O)NO
+
+>  <plain_smiles_no_stereo_match>  (1) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (1) 
+0
+
+$$$$
+19|KEAP1_HUMAN_319_613_0/4l7d_A_rec_5fzn_fb2_lig_tt_min_0_pocket10.pdb_KEAP1_HUMAN_319_613_0/4l7d_A_rec_5fzn_fb2_lig_tt_min_0.sdf|semantic
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+   -7.6121   16.6814   -2.8351 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.8771   17.0355   -2.5730 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.6180   17.7570   -3.5509 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.9763   18.1583   -4.7702 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.6787   17.8019   -4.9712 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.9812   17.0116   -4.0133 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.8516   19.0564   -6.0072 S   0  0  2  0  0  0  0  0  0  0  0  0
+   -8.9098   19.9859   -6.5102 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.0019   19.6061   -5.3978 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.2952   18.0886   -7.1147 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  6  1  0
+  2  3  1  0
+  3  4  2  0
+  4  5  1  0
+  4  7  1  0
+  5  6  2  0
+  7  8  2  0
+  7  9  2  0
+  7 10  1  1
+M  END
+>  <sample_idx>  (2) 
+19
+
+>  <num_atoms>  (2) 
+10
+
+>  <num_halfedges>  (2) 
+45
+
+>  <target_bond_count>  (2) 
+10
+
+>  <pred_bond_count>  (2) 
+10
+
+>  <halfedge_accuracy>  (2) 
+1.0
+
+>  <exact_halfedge_match>  (2) 
+1
+
+>  <bond_pair_set_match>  (2) 
+1
+
+>  <bond_type_map_match>  (2) 
+1
+
+>  <missing_bond_count>  (2) 
+0
+
+>  <extra_bond_count>  (2) 
+0
+
+>  <bond_type_mismatch_count>  (2) 
+0
+
+>  <bond_pair_precision>  (2) 
+1.0
+
+>  <bond_pair_recall>  (2) 
+1.0
+
+>  <bond_pair_f1>  (2) 
+1.0
+
+>  <pred_bond_length_mean>  (2) 
+1.4486011505126952
+
+>  <pred_bond_length_p95>  (2) 
+1.6601321697235105
+
+>  <bad_bond_length_count>  (2) 
+0
+
+>  <bad_bond_length_fraction>  (2) 
+0.0
+
+>  <plain_sanitize_success>  (2) 
+1
+
+>  <plain_repair_strategy>  (2) 
+none
+
+>  <plain_sanitize_error>  (2) 
+
+
+>  <plain_smiles_no_stereo>  (2) 
+NS(=O)(=O)c1ccccc1
+
+>  <semantic_sanitize_success>  (2) 
+1
+
+>  <semantic_repair_strategy>  (2) 
+none
+
+>  <semantic_sanitize_error>  (2) 
+
+
+>  <semantic_smiles_no_stereo>  (2) 
+NS(=O)(=O)c1ccccc1
+
+>  <original_smiles_no_stereo>  (2) 
+NS(=O)(=O)c1ccccc1
+
+>  <plain_smiles_no_stereo_match>  (2) 
+1
+
+>  <semantic_smiles_no_stereo_match>  (2) 
+1
+
+$$$$
+26|AURKA_HUMAN_122_397_0/4uzh_A_rec_4uzh_jve_lig_tt_min_0_pocket10.pdb_AURKA_HUMAN_122_397_0/4uzh_A_rec_4uzh_jve_lig_tt_min_0.sdf|semantic
+     RDKit          3D
+
+ 21 24  0  0  0  0  0  0  0  0999 V2000
+   -6.7488   32.7975    9.4132 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6482   33.3024    8.4809 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.8261   32.8183    7.0889 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.8942   31.2360    7.0586 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.7566   31.3407    9.4554 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.4154   30.5538    8.3650 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.4516   29.0103    8.3078 C   0  0  2  0  0  0  0  0  0  0  0  0
+   -5.5834   30.6540    6.0693 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.3696   29.3149   10.7430 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0235   28.4555    9.6602 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8247   28.6922   11.8375 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.2880   30.6851   10.6898 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.3156   27.1532   10.1748 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8069   27.2346   11.5644 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.1598   28.2655    8.0309 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.0801   27.0680    7.2527 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9097   28.6657    8.6042 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.8673   26.3831    6.9536 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.2117   26.5875    6.6143 F   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6737   28.0697    8.3155 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6612   26.9094    7.4565 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  2  3  1  0
+  3  4  1  0
+  4  6  1  0
+  4  8  2  0
+  5  6  1  0
+  5 12  1  0
+  6  7  1  0
+  7 10  1  0
+  7 15  1  6
+  9 10  1  0
+  9 11  1  0
+  9 12  1  0
+ 10 13  1  0
+ 11 14  1  0
+ 13 14  1  0
+ 15 16  2  0
+ 15 17  1  0
+ 16 18  1  0
+ 16 19  1  0
+ 17 20  2  0
+ 18 21  2  0
+ 20 21  1  0
+M  END
+>  <sample_idx>  (3) 
+26
+
+>  <num_atoms>  (3) 
+21
+
+>  <num_halfedges>  (3) 
+210
+
+>  <target_bond_count>  (3) 
+24
+
+>  <pred_bond_count>  (3) 
+24
+
+>  <halfedge_accuracy>  (3) 
+0.9809523820877075
+
+>  <exact_halfedge_match>  (3) 
+0
+
+>  <bond_pair_set_match>  (3) 
+1
+
+>  <bond_type_map_match>  (3) 
+0
+
+>  <missing_bond_count>  (3) 
+0
+
+>  <extra_bond_count>  (3) 
+0
+
+>  <bond_type_mismatch_count>  (3) 
+4
+
+>  <bond_pair_precision>  (3) 
+1.0
+
+>  <bond_pair_recall>  (3) 
+1.0
+
+>  <bond_pair_f1>  (3) 
+1.0
+
+>  <pred_bond_length_mean>  (3) 
+1.4489594797293346
+
+>  <pred_bond_length_p95>  (3) 
+1.5687562584877015
+
+>  <bad_bond_length_count>  (3) 
+0
+
+>  <bad_bond_length_fraction>  (3) 
+0.0
+
+>  <plain_sanitize_success>  (3) 
+1
+
+>  <plain_repair_strategy>  (3) 
+fix_valence
+
+>  <plain_sanitize_error>  (3) 
+
+
+>  <plain_smiles_no_stereo>  (3) 
+O=C1CNCC2NC3NNCC3C(c3ccccc3F)C12
+
+>  <semantic_sanitize_success>  (3) 
+1
+
+>  <semantic_repair_strategy>  (3) 
+fix_valence
+
+>  <semantic_sanitize_error>  (3) 
+
+
+>  <semantic_smiles_no_stereo>  (3) 
+O=C1CNCC2NC3NNCC3C(c3ccccc3F)C12
+
+>  <original_smiles_no_stereo>  (3) 
+O=C1CNCC2=C1C(c1ccccc1F)c1c[nH]nc1N2
+
+>  <plain_smiles_no_stereo_match>  (3) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (3) 
+0
+
+$$$$

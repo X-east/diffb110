@@ -1,0 +1,3 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,ok,O=C1NCC2CCCC3C2C2C1C2C1CCCCC1NC(=O)N3O,24,1.9888103008270264
+1,ok,O=C1Nc2ccccc2-c2cccc(c2)-c2cccc3c2C1NC3,24,2.024777412414551

@@ -1,0 +1,5 @@
+group,group_dir,method,samples,sanitize,bad_bond_length,three_member_rings,benzene_like,abnormal_aromatic,QED,TPSA,sec_per_mol,C_fraction,N_fraction,O_fraction,S_fraction,F_fraction,Cl_fraction,Br_fraction,I_fraction,P_fraction,B_fraction,others_fraction,atom_score_changed_fraction,atom_score_changed_count,atom_score_n
+baseline,baseline,openbabel,1000,0.658,0.046052,0.235,0.379,0.272,0.406753,41.08941,0.001785,0.739173,0.093007,0.120874,0.014602,0.024123,0.007987,0.0,0.0,0.000234,0.0,0.0,,,
+atom_prior_mask,atom_prior_mask_only,openbabel,1000,0.656,0.046685,0.241,0.375,0.268,0.392139,45.75365,0.001917,0.739519,0.098087,0.12963,0.014697,0.010368,0.007699,0.0,0.0,0.0,0.0,0.0,0.015745291486382484,362,22991
+geometry_refine,geometry_refine_only,openbabel,1000,0.658,0.045914,0.234,0.377,0.269,0.406013,41.18786,0.002064,0.738769,0.093196,0.120947,0.014676,0.024198,0.00798,0.0,0.0,0.000234,0.0,0.0,,,
+atom_prior_mask+geometry_refine,atom_prior_mask_geometry_refine,openbabel,1000,0.657,0.046236,0.243,0.375,0.269,0.392115,45.95094,0.00193,0.739297,0.098315,0.129543,0.014714,0.010298,0.007833,0.0,0.0,0.0,0.0,0.0,0.015832282602787018,364,22991

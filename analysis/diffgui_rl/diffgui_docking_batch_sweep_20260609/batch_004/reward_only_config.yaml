@@ -1,0 +1,82 @@
+name: diffgui-docking-batch-sweep-smoke
+dataset: crossdock
+diffgui_model:
+  sample_config: reference project/DiffGui/configs/sample/sample.yml
+  checkpoint: reference project/DiffGui/ckpt/trained.pt
+  pocket_pdb: analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+  ligand_sdf: None
+diffgui_docking_batch_sweep:
+  output_dir: analysis/diffgui_docking_batch_sweep_20260609
+  batch_sizes:
+  - 4
+  - 8
+  - 16
+  device: cuda:7
+  reward_env: dif
+  reward_device: cpu
+  reward_batch_size: null
+  reward_timeout_seconds: 1800
+  num_timesteps: 100
+  auto_configure_timesteps: true
+  ligand_atoms: 24
+  seed_base: 26060915
+  gui_strength: 3.0
+  precision: bf16
+  graph_micro_batch_size: 2
+  normalize_advantages: true
+  advantage_epsilon: 1.0e-06
+  advantage_clip_min: -2.0
+  advantage_clip_max: 2.0
+  failure_advantage: -1.0
+  memory_poll_interval: 1.0
+pocket:
+  pdb_path: ./data/8GJL.pdb
+  ref_ligand: C:1101
+  pdbqt_path: ./data/8gjl.pdbqt
+reward:
+  weights:
+    docking: 1.0
+  per_component_normalization:
+    enabled: false
+  normalization:
+    enabled: false
+  docking:
+    backend: unidock
+    receptor_file: ./data/8gjl.pdbqt
+    normalization_factor: -10.0
+    gpu_id: 7
+    center_x: 207.293
+    center_y: 212.43
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    exhaustiveness: 8
+    search_mode: fast
+train:
+  learning_rate: 1.0e-06
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 0.0
+  adam_epsilon: 1.0e-08
+  clip_range: 0.2
+  max_grad_norm: 1.0
+  ppo_epochs: 1
+  diffgui_logprob_reduction: mean
+  precision: bf16
+  graph_micro_batch_size: 2
+  freeze:
+    mode: last_n_blocks
+    train_last_n_blocks: 1
+diffgui_reward_only:
+  input_sdf: /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004/generated.sdf
+  output_dir: /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609/batch_004
+  mol_id_prefix: diffgui_dock
+  batch_size: 4
+  device: cpu
+  remove_hs: false
+  strict_connectivity: true
+  scored_sdf: docking_scored.sdf
+  rewards_csv: docking_rewards.csv
+  summary_json: docking_reward_summary.json
+  manifest_json: docking_reward_manifest.json

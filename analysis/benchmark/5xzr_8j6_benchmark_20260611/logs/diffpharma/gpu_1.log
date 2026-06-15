@@ -1,0 +1,121 @@
+/home/md666/miniforge3/envs/diffpharma_modern_ref/lib/python3.9/site-packages/openbabel/__init__.py:26: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[00:02:40] Explicit valence for atom # 19 N, 4, is greater than permitted
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/analysis/molecule_builder.py:184: UserWarning: Sanitization failed. Returning None.
+  warnings.warn('Sanitization failed. Returning None.')
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/analysis/molecule_builder.py:224: UserWarning: Maximum number of FF iterations reached. Returning molecule after 200 relaxation steps.
+  warnings.warn(f'Maximum number of FF iterations reached. '
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:02:40] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Explicit valence for atom # 25 C, 5, is greater than permitted
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] UFFTYPER: Unrecognized atom type: S_5+4 (5)
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/analysis/molecule_builder.py:202: UserWarning: UFF parameters not available for all atoms. Returning None.
+  warnings.warn('UFF parameters not available for all atoms. '
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:22] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:22] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:05:22] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Explicit valence for atom # 15 N, 4, is greater than permitted
+[00:08:03] Explicit valence for atom # 4 N, 4, is greater than permitted
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] UFFTYPER: Unrecognized atom type: S_5+4 (13)
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:08:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Explicit valence for atom # 7 N, 4, is greater than permitted
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:44] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] UFFTYPER: Unrecognized atom type: S_5+4 (12)
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+[00:10:45] Molecule does not have explicit Hs. Consider calling AddHs()
+
+<class 'equivariant_diffusion.conditional_model.ConditionalDDPM'>
+<class 'equivariant_diffusion.conditional_model.ConditionalDDPM'>
+<class 'equivariant_diffusion.conditional_model.ConditionalDDPM'>
+<class 'equivariant_diffusion.conditional_model.ConditionalDDPM'>
+{
+  "batch_size": 24,
+  "kind": "diffpharma",
+  "outdir": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_1",
+  "requested": 72,
+  "seconds": 656.2675957679749,
+  "timesteps": 500
+}
+
+real 664.23
+user 661.60
+sys 6.58

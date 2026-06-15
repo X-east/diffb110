@@ -1,0 +1,6 @@
+step,purpose,change_only,keep_fixed,small_run,pass_signal,stop_signal
+T1,确认 anti-carbon 是否只是过强,只改 chemistry_guard weight: 0.30 -> 0.10,violation_penalty、其他 reward 权重、lr=1e-5、ppo_epochs=2、KL=0.001 不变,"8GPU, batch 16-32/card, 3-5 epochs",carbon_fraction 0.65-0.78; hetero_atom_mean 5.5-7.5; aromatic_ring_mean 不低于 0.04; docking 不劣于 -7.5,aromatic_ring_mean 继续接近 0 或 avg_docking > -6.5
+T2,确认单分子违规惩罚是否过强,只改 violation_penalty: 0.35 -> 0.15,使用 T1 选定的 chemistry_guard weight；其他 reward 权重、lr、ppo_epochs、KL 不变,"8GPU, batch 16-32/card, 3-5 epochs",docking/LE 有回升，carbon/TPSA/hetero 仍不过界,高碳漂移重新出现，或 valid/sanitize 明显变差
+T3,恢复苯环/芳香骨架，不奖励多稠环,只新增/调整 aromatic scaffold reward weight: 0.03-0.05,使用 T1/T2 最稳 guard；不动 docking/先验/logP；不动学习率,"8GPU, batch 16-32/card, 3-5 epochs",aromatic_ring_mean 回到 0.06-0.15；复杂环不过度上升；carbon 不超过 0.80,多环/稠环比例肉眼明显增加，或 carbon_fraction 再上 0.82
+T4,判断 KL/DePPA-style 是否能稳住漂移,只切换 kl_mode: analytic_current_ref vs pretrained_logprob_k3；kl_coef 不变,用 T1/T2/T3 最稳 reward，不动任何 reward 权重,每组 3 epochs,reward 更新时 PPO_LogRatio/KL 稳，描述符漂移变慢,KL 很小但漂移照旧，说明 reward 问题优先于 KL
+T5,再看 docking 是否能回升,只改 docking reward weight: 0.20 -> 0.25 或 0.30,结构 guard 和 KL 固定为前面最稳版本；不动其他 reward 权重,"8GPU, batch 16-32/card, 5 epochs",avg_docking 变更负，同时 carbon/TPSA/hetero 不越界,docking 变好但 carbon_fraction 快速上升、TPSA 快速下降

@@ -1,0 +1,14 @@
+label,primary_reason,n
+ambiguous,ambiguous_manual_review,4559
+bad,bad_fragmented,532
+bad,bad_fused_heterocycle,17142
+bad,bad_high_carbon_low_hetero,572
+bad,bad_large_ring,7782
+bad,bad_many_halogen,512
+bad,bad_multi_aromatic_heterocycle,11
+bad,bad_overhalogenated_small_aromatic,5
+bad,bad_poly_fused_or_bridge_ring,403
+bad,bad_saturated_polycycle_no_aromatic,2462
+bad,bad_three_member_ring,1209
+good,good_aromatic_reasonable,2925
+good,good_single_benzene_low_halogen,2104

@@ -1,0 +1,7 @@
+2026-06-09 13:31:46,636 INFO diffgui_100step_smoke: starting DiffGui 100-step rollout smoke
+2026-06-09 13:31:46,636 INFO diffgui_100step_smoke: args={'sample_config': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/configs/sample/sample.yml'), 'checkpoint': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt'), 'pocket_pdb': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb'), 'ligand_sdf': 'None', 'output_dir': PosixPath('analysis/diffgui_100step_rollout_smoke_20260609_amp_2x24'), 'device': 'cuda:0', 'num_timesteps': 100, 'num_graphs': 2, 'ligand_atoms': 24, 'seed': 260609, 'gui_strength': 0.0, 'actor_lr': 1e-06, 'precision': 'bf16', 'add_edge': 'None'}
+2026-06-09 13:31:49,272 INFO diffgui_100step_smoke: loaded checkpoint iteration=250000
+2026-06-09 13:31:49,272 INFO diffgui_100step_smoke: forced model.diff.num_timesteps=100
+2026-06-09 13:31:49,487 INFO diffgui_100step_smoke: model.num_timesteps=100
+2026-06-09 13:31:49,487 INFO diffgui_100step_smoke: load_report={'loaded_keys': 854, 'skipped_transition_keys': 13, 'missing_keys': 13, 'unexpected_keys': 0}
+2026-06-09 13:32:09,438 INFO diffgui_100step_smoke: policy_batch old_logprob_shape=(100, 2) timesteps_shape=(100, 2)

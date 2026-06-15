@@ -1,0 +1,346 @@
+{
+  "stage": "diffgui_100step_multigpu_smoke",
+  "requested_gpus": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ],
+  "successful_workers": 8,
+  "failed_workers": 0,
+  "total_graphs": 32,
+  "num_timesteps": 100,
+  "num_graphs_per_gpu": 4,
+  "ligand_atoms": 24,
+  "seed_base": 260609,
+  "precision": "bf16",
+  "freeze_mode": "last_n_blocks",
+  "train_last_n_blocks": 1,
+  "graph_micro_batch_size": 2,
+  "reconstruction_attempted": 32,
+  "reconstruction_success": 3,
+  "reconstruction_success_ratio": 0.09375,
+  "numsteps_values": [
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0
+  ],
+  "trainable_params_values": [
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0
+  ],
+  "failed": [],
+  "workers": [
+    {
+      "rank": 0,
+      "gpu": "0",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank00_gpu0",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank00_gpu0.log",
+      "seed": 260609,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.09749999642372131,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.16640466451644897,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.7234303057193756,
+        "LogProbHalfedge": -0.0315870177000761,
+        "LogProbNode": -0.18451251089572906,
+        "LogProbOldMean": 1.036653220653534,
+        "LogProbPos": 0.9395298659801483,
+        "Loss": -0.706780731678009,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 3.405543804168701,
+        "PPO_Loss": -0.706780731678009,
+        "RatioMean": 0.9405195116996765,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 1,
+      "gpu": "1",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank01_gpu1",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank01_gpu1.log",
+      "seed": 260610,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.07499999552965164,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.10012587904930115,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.6233217716217041,
+        "LogProbHalfedge": -0.030561107210814953,
+        "LogProbNode": -0.16464145481586456,
+        "LogProbOldMean": 1.0032651722431183,
+        "LogProbPos": 0.8185242414474487,
+        "Loss": -0.7112415730953217,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 6.602661609649658,
+        "PPO_Loss": -0.7112415730953217,
+        "RatioMean": 0.9460237920284271,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 2,
+      "gpu": "2",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2.log",
+      "seed": 260611,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.08999999612569809,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.13609281182289124,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.7635306119918823,
+        "LogProbHalfedge": -0.03173519857227802,
+        "LogProbNode": -0.16818908601999283,
+        "LogProbOldMean": 1.0117782354354858,
+        "LogProbPos": 0.9634549021720886,
+        "Loss": -0.7095626294612885,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 2.146154522895813,
+        "PPO_Loss": -0.7095626294612885,
+        "RatioMean": 0.9464993178844452,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 3,
+      "gpu": "3",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank03_gpu3",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank03_gpu3.log",
+      "seed": 260612,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.11249999701976776,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.16241565346717834,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.6114913523197174,
+        "LogProbHalfedge": -0.03586970455944538,
+        "LogProbNode": -0.1835441216826439,
+        "LogProbOldMean": 1.0123482942581177,
+        "LogProbPos": 0.8309051394462585,
+        "Loss": -0.6955538988113403,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 6.539016127586365,
+        "PPO_Loss": -0.6955538988113403,
+        "RatioMean": 0.928814023733139,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 1,
+        "success": 1
+      }
+    },
+    {
+      "rank": 4,
+      "gpu": "4",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank04_gpu4",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank04_gpu4.log",
+      "seed": 260613,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.06749999709427357,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.14911149442195892,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.7081291675567627,
+        "LogProbHalfedge": -0.03378930874168873,
+        "LogProbNode": -0.16635996848344803,
+        "LogProbOldMean": 1.0049898326396942,
+        "LogProbPos": 0.9082784354686737,
+        "Loss": -0.7129322290420532,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 3.6604443788528442,
+        "PPO_Loss": -0.7129322290420532,
+        "RatioMean": 0.9497831463813782,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 1,
+        "success": 1
+      }
+    },
+    {
+      "rank": 5,
+      "gpu": "5",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank05_gpu5",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank05_gpu5.log",
+      "seed": 260614,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.11749999970197678,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.14178603887557983,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.7475084364414215,
+        "LogProbHalfedge": -0.03544517047703266,
+        "LogProbNode": -0.19567936658859253,
+        "LogProbOldMean": 0.986467570066452,
+        "LogProbPos": 0.9786329567432404,
+        "Loss": -0.7029180526733398,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 1.6416741013526917,
+        "PPO_Loss": -0.7029180526733398,
+        "RatioMean": 0.9371859133243561,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 1,
+        "success": 1
+      }
+    },
+    {
+      "rank": 6,
+      "gpu": "6",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank06_gpu6",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank06_gpu6.log",
+      "seed": 260615,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.07999999821186066,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.14877793192863464,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.5974556505680084,
+        "LogProbHalfedge": -0.03231237456202507,
+        "LogProbNode": -0.175663061439991,
+        "LogProbOldMean": 0.9524013102054596,
+        "LogProbPos": 0.8054311275482178,
+        "Loss": -0.7107515931129456,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 5.345865726470947,
+        "PPO_Loss": -0.7107515931129456,
+        "RatioMean": 0.9471341371536255,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 7,
+      "gpu": "7",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank07_gpu7",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank07_gpu7.log",
+      "seed": 260616,
+      "old_logprob_shape": [
+        100,
+        4
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.10249999538064003,
+        "FrozenParams": 7350694.0,
+        "GradNorm": 0.16371667385101318,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 0.6777337789535522,
+        "LogProbHalfedge": -0.03369361162185669,
+        "LogProbNode": -0.1681550368666649,
+        "LogProbOldMean": 1.0161580443382263,
+        "LogProbPos": 0.879582405090332,
+        "Loss": -0.7032476663589478,
+        "NumSteps": 100.0,
+        "PPO_ApproxKL": 4.168407678604126,
+        "PPO_Loss": -0.7032476663589478,
+        "RatioMean": 0.9356057345867157,
+        "TrainBatchSize": 4.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 4,
+        "written_mols": 0,
+        "success": 0
+      }
+    }
+  ]
+}

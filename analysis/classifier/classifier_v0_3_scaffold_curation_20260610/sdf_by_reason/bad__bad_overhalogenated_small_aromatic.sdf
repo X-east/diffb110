@@ -1,0 +1,1023 @@
+diffgui_ring_rl_epoch_0006_000148
+     RDKit          3D
+
+  9  9  0  0  0  0  0  0  0  0999 V2000
+  208.6598  211.4086  171.7980 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.7560  213.8317  174.8864 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4114  212.6554  173.1164 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.8107  213.0577  173.7379 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3026  213.8714  174.6830 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9398  212.6875  172.6655 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.3913  213.0971  173.5581 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4952  214.2332  175.3992 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6380  212.5940  173.1020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  1  0
+  2  4  2  0
+  2  8  1  0
+  3  4  1  0
+  4  9  1  0
+  5  7  1  0
+  5  8  2  0
+  6  7  1  0
+  7  9  2  0
+M  END
+>  <mol_index>  (1) 
+21
+
+>  <old_logprob_mean>  (1) 
+1.98803151
+
+>  <diffgui_num_timesteps>  (1) 
+200
+
+>  <mol_id>  (1) 
+diffgui_dock_00020
+
+>  <source_index>  (1) 
+20
+
+>  <original_name>  (1) 
+diffgui_ddp_e0006_r06_0021
+
+>  <rdkit_valid>  (1) 
+1
+
+>  <sanitize_status>  (1) 
+ok
+
+>  <smiles>  (1) 
+Clc1cccc(Cl)c1Cl
+
+>  <nodesxsample>  (1) 
+9
+
+>  <docking_raw>  (1) 
+-6.439000129699707
+
+>  <docking_reward>  (1) 
+0.6438999772071838
+
+>  <ligand_efficiency_raw>  (1) 
+0.7154444456100464
+
+>  <ligand_efficiency_reward>  (1) 
+0.7154444456100464
+
+>  <chemistry_guard_reward>  (1) 
+1.0
+
+>  <chemistry_guard_success>  (1) 
+1
+
+>  <heavy_atom_count>  (1) 
+9
+
+>  <carbon_fraction>  (1) 
+0.6666666666666666
+
+>  <hetero_atom_count>  (1) 
+3
+
+>  <hetero_atom_fraction>  (1) 
+0.3333333432674408
+
+>  <aromatic_ring_count>  (1) 
+1
+
+>  <three_member_ring_count>  (1) 
+0
+
+>  <fragment_count>  (1) 
+1
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <halogen_bad_position_count>  (1) 
+0.0
+
+>  <chemistry_guard_violation_count>  (1) 
+0.0
+
+>  <ring_complexity_reward>  (1) 
+1.0
+
+>  <ring_complexity_success>  (1) 
+1
+
+>  <ring_complexity_ring_count>  (1) 
+1.0
+
+>  <ring_complexity_aromatic_ring_count>  (1) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (1) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (1) 
+1.0
+
+>  <ring_complexity_spiro_atom_count>  (1) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (1) 
+0.0
+
+>  <ring_complexity_penalty>  (1) 
+0.0
+
+>  <reward_total_raw>  (1) 
+0.8042261004447937
+
+>  <reward_total>  (1) 
+0.8042261004447937
+
+>  <stability>  (1) 
+1.0
+
+>  <global_id>  (1) 
+diffgui_ring_rl_epoch_0006_000148
+
+>  <source>  (1) 
+diffgui_ring_rl_epoch_0006
+
+>  <source_path>  (1) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0006/molecules.sdf
+
+>  <source_mol_id>  (1) 
+diffgui_dock_00020|reward=0.8042|valid=1|ok
+
+>  <label>  (1) 
+bad
+
+>  <primary_reason>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (1) 
+4.0
+
+>  <benzene_ring_count>  (1) 
+1
+
+>  <heterocycle_ring_count>  (1) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (1) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (1) 
+0
+
+>  <ring_count>  (1) 
+1
+
+>  <max_ring_size>  (1) 
+6
+
+>  <large_ring_count>  (1) 
+0
+
+>  <large_ring_fused_with_six_count>  (1) 
+0
+
+>  <max_fused_ring_system_size>  (1) 
+1
+
+>  <three_member_fused_ring_count>  (1) 
+0
+
+>  <three_member_spiro_ring_count>  (1) 
+0
+
+>  <three_member_high_degree_carbon_count>  (1) 
+0
+
+>  <spiro_atom_count>  (1) 
+0
+
+>  <bridgehead_atom_count>  (1) 
+0
+
+>  <total_halogen_count>  (1) 
+3
+
+>  <aromatic_halogen_count>  (1) 
+3
+
+>  <heavy_halogen_count>  (1) 
+0
+
+>  <br_i_count>  (1) 
+0
+
+>  <logp>  (1) 
+3.6468000000000007
+
+>  <tpsa>  (1) 
+0.0
+
+>  <hba>  (1) 
+0
+
+>  <hbd>  (1) 
+0
+
+>  <murcko_scaffold>  (1) 
+c1ccccc1
+
+$$$$
+diffgui_ring_rl_epoch_0013_000077
+     RDKit          3D
+
+  9  9  0  0  0  0  0  0  0  0999 V2000
+  208.7464  211.8576  172.1355 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3027  213.5917  173.9388 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9433  213.2358  172.5619 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.6380  212.9003  172.8920 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.4490  212.5908  173.1154 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7114  213.3913  174.0614 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3040  212.0185  172.0283 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5960  214.2167  175.3803 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  211.2285  212.5525  173.1700 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  2  0
+  1  7  1  0
+  2  4  1  0
+  2  6  2  0
+  3  4  1  0
+  4  7  2  0
+  5  6  1  0
+  5  9  1  0
+  6  8  1  0
+M  END
+>  <mol_index>  (2) 
+10
+
+>  <old_logprob_mean>  (2) 
+1.99109209
+
+>  <diffgui_num_timesteps>  (2) 
+200
+
+>  <mol_id>  (2) 
+diffgui_dock_00010
+
+>  <source_index>  (2) 
+10
+
+>  <original_name>  (2) 
+diffgui_ddp_e0013_r03_0010
+
+>  <rdkit_valid>  (2) 
+1
+
+>  <sanitize_status>  (2) 
+ok
+
+>  <smiles>  (2) 
+Clc1ccc(Cl)c(Cl)c1
+
+>  <nodesxsample>  (2) 
+9
+
+>  <docking_raw>  (2) 
+-6.295000076293945
+
+>  <docking_reward>  (2) 
+0.6294999718666077
+
+>  <ligand_efficiency_raw>  (2) 
+0.6994444727897644
+
+>  <ligand_efficiency_reward>  (2) 
+0.6994444727897644
+
+>  <chemistry_guard_reward>  (2) 
+1.0
+
+>  <chemistry_guard_success>  (2) 
+1
+
+>  <heavy_atom_count>  (2) 
+9
+
+>  <carbon_fraction>  (2) 
+0.6666666666666666
+
+>  <hetero_atom_count>  (2) 
+3
+
+>  <hetero_atom_fraction>  (2) 
+0.3333333432674408
+
+>  <aromatic_ring_count>  (2) 
+1
+
+>  <three_member_ring_count>  (2) 
+0
+
+>  <fragment_count>  (2) 
+1
+
+>  <bad_bond_length_fraction>  (2) 
+0.0
+
+>  <halogen_bad_position_count>  (2) 
+0.0
+
+>  <chemistry_guard_violation_count>  (2) 
+0.0
+
+>  <ring_complexity_reward>  (2) 
+1.0
+
+>  <ring_complexity_success>  (2) 
+1
+
+>  <ring_complexity_ring_count>  (2) 
+1.0
+
+>  <ring_complexity_aromatic_ring_count>  (2) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (2) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (2) 
+1.0
+
+>  <ring_complexity_spiro_atom_count>  (2) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (2) 
+0.0
+
+>  <ring_complexity_penalty>  (2) 
+0.0
+
+>  <reward_total_raw>  (2) 
+0.7951861619949341
+
+>  <reward_total>  (2) 
+0.7951861619949341
+
+>  <stability>  (2) 
+1.0
+
+>  <global_id>  (2) 
+diffgui_ring_rl_epoch_0013_000077
+
+>  <source>  (2) 
+diffgui_ring_rl_epoch_0013
+
+>  <source_path>  (2) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0013/molecules.sdf
+
+>  <source_mol_id>  (2) 
+diffgui_dock_00010|reward=0.7952|valid=1|ok
+
+>  <label>  (2) 
+bad
+
+>  <primary_reason>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (2) 
+4.0
+
+>  <benzene_ring_count>  (2) 
+1
+
+>  <heterocycle_ring_count>  (2) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (2) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (2) 
+0
+
+>  <ring_count>  (2) 
+1
+
+>  <max_ring_size>  (2) 
+6
+
+>  <large_ring_count>  (2) 
+0
+
+>  <large_ring_fused_with_six_count>  (2) 
+0
+
+>  <max_fused_ring_system_size>  (2) 
+1
+
+>  <three_member_fused_ring_count>  (2) 
+0
+
+>  <three_member_spiro_ring_count>  (2) 
+0
+
+>  <three_member_high_degree_carbon_count>  (2) 
+0
+
+>  <spiro_atom_count>  (2) 
+0
+
+>  <bridgehead_atom_count>  (2) 
+0
+
+>  <total_halogen_count>  (2) 
+3
+
+>  <aromatic_halogen_count>  (2) 
+3
+
+>  <heavy_halogen_count>  (2) 
+0
+
+>  <br_i_count>  (2) 
+0
+
+>  <logp>  (2) 
+3.6468000000000007
+
+>  <tpsa>  (2) 
+0.0
+
+>  <hba>  (2) 
+0
+
+>  <hbd>  (2) 
+0
+
+>  <murcko_scaffold>  (2) 
+c1ccccc1
+
+$$$$
+diffgui_dock_classifier_epoch_0006_000107
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  209.6705  212.7463  173.2487 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3579  212.8631  173.5574 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.0016  212.5023  172.6270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9304  211.9611  171.8154 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7278  213.2925  174.0695 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2221  213.7991  174.7823 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.2835  212.0780  172.1310 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3628  212.4844  172.1046 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.3869  213.1508  173.7576 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1667  214.0530  175.3365 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  2  0
+  1  7  1  0
+  3  4  1  0
+  3  8  1  0
+  3  9  2  0
+  4  7  2  0
+  5  9  1  0
+  5 10  1  0
+  6  9  1  0
+M  END
+>  <mol_index>  (3) 
+0
+
+>  <old_logprob_mean>  (3) 
+2.01618123
+
+>  <diffgui_num_timesteps>  (3) 
+200
+
+>  <mol_id>  (3) 
+diffgui_dock_00000
+
+>  <source_index>  (3) 
+0
+
+>  <original_name>  (3) 
+diffgui_ddp_e0006_r05_0000
+
+>  <rdkit_valid>  (3) 
+1
+
+>  <sanitize_status>  (3) 
+ok
+
+>  <smiles>  (3) 
+Cc1c(Cl)ccc(Cl)c1Cl
+
+>  <nodesxsample>  (3) 
+10
+
+>  <docking_raw>  (3) 
+-7.085000038146973
+
+>  <docking_reward>  (3) 
+0.7085000276565552
+
+>  <ligand_efficiency_raw>  (3) 
+0.7085000276565552
+
+>  <chembl_classifier_reward>  (3) 
+-1.0
+
+>  <reward_total_raw>  (3) 
+-0.1457499861717224
+
+>  <reward_total>  (3) 
+-0.1457499861717224
+
+>  <stability>  (3) 
+1.0
+
+>  <global_id>  (3) 
+diffgui_dock_classifier_epoch_0006_000107
+
+>  <source>  (3) 
+diffgui_dock_classifier_epoch_0006
+
+>  <source_path>  (3) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0006/molecules.sdf
+
+>  <source_mol_id>  (3) 
+diffgui_dock_00000|reward=-0.1457|valid=1|ok
+
+>  <label>  (3) 
+bad
+
+>  <primary_reason>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (3) 
+4.0
+
+>  <heavy_atom_count>  (3) 
+10
+
+>  <carbon_fraction>  (3) 
+0.7
+
+>  <hetero_atom_count>  (3) 
+3
+
+>  <aromatic_ring_count>  (3) 
+1
+
+>  <benzene_ring_count>  (3) 
+1
+
+>  <heterocycle_ring_count>  (3) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (3) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (3) 
+0
+
+>  <ring_count>  (3) 
+1
+
+>  <max_ring_size>  (3) 
+6
+
+>  <large_ring_count>  (3) 
+0
+
+>  <large_ring_fused_with_six_count>  (3) 
+0
+
+>  <max_fused_ring_system_size>  (3) 
+1
+
+>  <three_member_ring_count>  (3) 
+0
+
+>  <three_member_fused_ring_count>  (3) 
+0
+
+>  <three_member_spiro_ring_count>  (3) 
+0
+
+>  <three_member_high_degree_carbon_count>  (3) 
+0
+
+>  <spiro_atom_count>  (3) 
+0
+
+>  <bridgehead_atom_count>  (3) 
+0
+
+>  <total_halogen_count>  (3) 
+3
+
+>  <aromatic_halogen_count>  (3) 
+3
+
+>  <heavy_halogen_count>  (3) 
+0
+
+>  <br_i_count>  (3) 
+0
+
+>  <logp>  (3) 
+3.9552200000000006
+
+>  <tpsa>  (3) 
+0.0
+
+>  <hba>  (3) 
+0
+
+>  <hbd>  (3) 
+0
+
+>  <fragment_count>  (3) 
+1
+
+>  <murcko_scaffold>  (3) 
+c1ccccc1
+
+$$$$
+diffgui_dock_classifier_epoch_0021_000050
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  207.2350  213.1731  174.1371 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1745  213.8346  174.9926 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5306  213.8355  174.6894 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9701  213.1112  173.5612 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6897  212.5199  173.0448 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5559  211.7838  171.9684 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  211.6734  212.9804  173.2262 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.4844  214.6297  175.5374 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0475  212.4698  172.7410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6006  211.5873  171.3685 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  5  1  0
+  2  3  1  0
+  3  4  2  0
+  3  8  1  0
+  4  7  1  0
+  4  9  1  0
+  5  6  1  0
+  5  9  2  0
+  9 10  1  0
+M  END
+>  <mol_index>  (4) 
+9
+
+>  <old_logprob_mean>  (4) 
+2.02268219
+
+>  <diffgui_num_timesteps>  (4) 
+200
+
+>  <mol_id>  (4) 
+diffgui_dock_00008
+
+>  <source_index>  (4) 
+8
+
+>  <original_name>  (4) 
+diffgui_ddp_e0021_r02_0009
+
+>  <rdkit_valid>  (4) 
+1
+
+>  <sanitize_status>  (4) 
+ok
+
+>  <smiles>  (4) 
+Cc1ccc(Cl)c(Cl)c1Cl
+
+>  <nodesxsample>  (4) 
+10
+
+>  <docking_raw>  (4) 
+-6.985000133514404
+
+>  <docking_reward>  (4) 
+0.6984999775886536
+
+>  <ligand_efficiency_raw>  (4) 
+0.6984999775886536
+
+>  <chembl_classifier_reward>  (4) 
+-1.0
+
+>  <reward_total_raw>  (4) 
+-0.15075001120567322
+
+>  <reward_total>  (4) 
+-0.15075001120567322
+
+>  <stability>  (4) 
+1.0
+
+>  <global_id>  (4) 
+diffgui_dock_classifier_epoch_0021_000050
+
+>  <source>  (4) 
+diffgui_dock_classifier_epoch_0021
+
+>  <source_path>  (4) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0021/molecules.sdf
+
+>  <source_mol_id>  (4) 
+diffgui_dock_00008|reward=-0.1508|valid=1|ok
+
+>  <label>  (4) 
+bad
+
+>  <primary_reason>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (4) 
+4.0
+
+>  <heavy_atom_count>  (4) 
+10
+
+>  <carbon_fraction>  (4) 
+0.7
+
+>  <hetero_atom_count>  (4) 
+3
+
+>  <aromatic_ring_count>  (4) 
+1
+
+>  <benzene_ring_count>  (4) 
+1
+
+>  <heterocycle_ring_count>  (4) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (4) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (4) 
+0
+
+>  <ring_count>  (4) 
+1
+
+>  <max_ring_size>  (4) 
+6
+
+>  <large_ring_count>  (4) 
+0
+
+>  <large_ring_fused_with_six_count>  (4) 
+0
+
+>  <max_fused_ring_system_size>  (4) 
+1
+
+>  <three_member_ring_count>  (4) 
+0
+
+>  <three_member_fused_ring_count>  (4) 
+0
+
+>  <three_member_spiro_ring_count>  (4) 
+0
+
+>  <three_member_high_degree_carbon_count>  (4) 
+0
+
+>  <spiro_atom_count>  (4) 
+0
+
+>  <bridgehead_atom_count>  (4) 
+0
+
+>  <total_halogen_count>  (4) 
+3
+
+>  <aromatic_halogen_count>  (4) 
+3
+
+>  <heavy_halogen_count>  (4) 
+0
+
+>  <br_i_count>  (4) 
+0
+
+>  <logp>  (4) 
+3.9552200000000015
+
+>  <tpsa>  (4) 
+0.0
+
+>  <hba>  (4) 
+0
+
+>  <hbd>  (4) 
+0
+
+>  <fragment_count>  (4) 
+1
+
+>  <murcko_scaffold>  (4) 
+c1ccccc1
+
+$$$$
+diffgui_docking_only_epoch_0004_000093
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  209.8773  211.4987  171.3171 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  211.0004  212.9630  173.8487 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.6084  212.9383  172.9932 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9497  214.2990  175.5973 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.4362  212.2682  172.1491 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2986  212.9276  173.5363 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8048  212.2656  172.4160 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0611  213.5814  174.0926 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4342  213.5764  174.3896 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9591  213.1200  172.5157 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  7  1  0
+  2  6  1  0
+  3  5  2  0
+  3  8  1  0
+  3 10  1  0
+  4  9  1  0
+  5  7  1  0
+  6  7  2  0
+  6  9  1  0
+  8  9  2  0
+M  END
+>  <mol_index>  (5) 
+6
+
+>  <old_logprob_mean>  (5) 
+1.99837923
+
+>  <diffgui_num_timesteps>  (5) 
+200
+
+>  <mol_id>  (5) 
+diffgui_dock_00005
+
+>  <source_index>  (5) 
+5
+
+>  <original_name>  (5) 
+diffgui_ddp_e0004_r04_0006
+
+>  <rdkit_valid>  (5) 
+1
+
+>  <sanitize_status>  (5) 
+ok
+
+>  <smiles>  (5) 
+Cc1cc(Cl)cc(Cl)c1Cl
+
+>  <nodesxsample>  (5) 
+10
+
+>  <docking_raw>  (5) 
+-6.947999954223633
+
+>  <docking_reward>  (5) 
+0.6948000192642212
+
+>  <ligand_efficiency_raw>  (5) 
+0.6948000192642212
+
+>  <reward_total_raw>  (5) 
+0.6948000192642212
+
+>  <reward_total>  (5) 
+0.6948000192642212
+
+>  <stability>  (5) 
+1.0
+
+>  <global_id>  (5) 
+diffgui_docking_only_epoch_0004_000093
+
+>  <source>  (5) 
+diffgui_docking_only_epoch_0004
+
+>  <source_path>  (5) 
+OUT/diffgui-8gpu-docking-only-lr1e5-last2_20260610_094719/epochs/epoch_0004/molecules.sdf
+
+>  <source_mol_id>  (5) 
+diffgui_dock_00005|reward=0.6948|valid=1|ok
+
+>  <label>  (5) 
+bad
+
+>  <primary_reason>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (5) 
+4.0
+
+>  <heavy_atom_count>  (5) 
+10
+
+>  <carbon_fraction>  (5) 
+0.7
+
+>  <hetero_atom_count>  (5) 
+3
+
+>  <aromatic_ring_count>  (5) 
+1
+
+>  <benzene_ring_count>  (5) 
+1
+
+>  <heterocycle_ring_count>  (5) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (5) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (5) 
+0
+
+>  <ring_count>  (5) 
+1
+
+>  <max_ring_size>  (5) 
+6
+
+>  <large_ring_count>  (5) 
+0
+
+>  <large_ring_fused_with_six_count>  (5) 
+0
+
+>  <max_fused_ring_system_size>  (5) 
+1
+
+>  <three_member_ring_count>  (5) 
+0
+
+>  <three_member_fused_ring_count>  (5) 
+0
+
+>  <three_member_spiro_ring_count>  (5) 
+0
+
+>  <three_member_high_degree_carbon_count>  (5) 
+0
+
+>  <spiro_atom_count>  (5) 
+0
+
+>  <bridgehead_atom_count>  (5) 
+0
+
+>  <total_halogen_count>  (5) 
+3
+
+>  <aromatic_halogen_count>  (5) 
+3
+
+>  <heavy_halogen_count>  (5) 
+0
+
+>  <br_i_count>  (5) 
+0
+
+>  <logp>  (5) 
+3.9552200000000015
+
+>  <tpsa>  (5) 
+0.0
+
+>  <hba>  (5) 
+0
+
+>  <hbd>  (5) 
+0
+
+>  <fragment_count>  (5) 
+1
+
+>  <murcko_scaffold>  (5) 
+c1ccccc1
+
+$$$$

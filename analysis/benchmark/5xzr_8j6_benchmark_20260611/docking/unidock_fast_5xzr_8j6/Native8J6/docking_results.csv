@@ -1,0 +1,2 @@
+model,benchmark_index,ligand_stem,success,score,input_smiles,source_sdf,split_sdf,output_file,failure_reason
+Native8J6,0,native8j6_000000,True,-12.737,,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_ligand.sdf,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/docking/unidock_fast_5xzr_8j6/Native8J6/split_ligands/native8j6_000000.sdf,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/docking/unidock_fast_5xzr_8j6/Native8J6/batch_outputs/batch_0001/native8j6_000000_out.sdf,

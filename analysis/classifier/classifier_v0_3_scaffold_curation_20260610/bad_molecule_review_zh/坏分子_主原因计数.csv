@@ -1,0 +1,10 @@
+﻿primary_reason,主原因中文,数量
+bad_fused_heterocycle,稠合杂环/复杂杂环,20544
+bad_saturated_polycycle_no_aromatic,无芳香环的多饱和碳环,3793
+bad_many_halogen,卤素数量过多,2422
+bad_three_member_ring,三元环,2260
+bad_high_carbon_low_hetero,高碳低杂原子,1175
+bad_poly_fused_or_bridge_ring,多稠合或桥环体系,1117
+bad_fragmented,碎片化分子,532
+bad_multi_aromatic_heterocycle,多芳香杂环,120
+bad_overhalogenated_small_aromatic,小芳香环过度卤代,33

@@ -1,0 +1,234 @@
+sh: 1: module: not found
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 95.07it/s]
+
+pmdm_batches:   0%|          | 0/1 [00:00<?, ?it/s]
+
+sample: 0it [00:00, ?it/s][A
+
+sample: 1it [00:00,  4.81it/s][A
+
+sample: 2it [00:00,  4.88it/s][A
+
+sample: 3it [00:00,  4.91it/s][A
+
+sample: 4it [00:00,  4.92it/s][A
+
+sample: 5it [00:01,  4.85it/s][A
+
+sample: 6it [00:01,  4.90it/s][A
+
+sample: 7it [00:01,  4.92it/s][A
+
+sample: 8it [00:01,  4.92it/s][A
+
+sample: 9it [00:01,  4.92it/s][A
+
+sample: 10it [00:02,  4.89it/s][A
+
+sample: 11it [00:02,  4.89it/s][A
+
+sample: 12it [00:02,  4.91it/s][A
+
+sample: 13it [00:02,  4.91it/s][A
+
+sample: 14it [00:02,  4.92it/s][A
+
+sample: 15it [00:03,  4.91it/s][A
+
+sample: 16it [00:03,  4.90it/s][A
+
+sample: 17it [00:03,  4.90it/s][A
+
+sample: 18it [00:03,  4.90it/s][A
+
+sample: 19it [00:03,  4.90it/s][A
+
+sample: 20it [00:04,  4.90it/s][A
+
+sample: 21it [00:04,  4.90it/s][A
+
+sample: 22it [00:04,  4.91it/s][A
+
+sample: 23it [00:04,  4.90it/s][A
+
+sample: 24it [00:04,  4.90it/s][A
+
+sample: 25it [00:05,  4.90it/s][A
+
+sample: 26it [00:05,  4.90it/s][A
+
+sample: 27it [00:05,  4.91it/s][A
+
+sample: 28it [00:05,  4.90it/s][A
+
+sample: 29it [00:05,  4.89it/s][A
+
+sample: 30it [00:06,  4.89it/s][A
+
+sample: 31it [00:06,  4.89it/s][A
+
+sample: 32it [00:06,  4.90it/s][A
+
+sample: 33it [00:06,  4.91it/s][A
+
+sample: 34it [00:06,  4.90it/s][A
+
+sample: 35it [00:07,  4.90it/s][A
+
+sample: 36it [00:07,  4.91it/s][A
+
+sample: 37it [00:07,  4.91it/s][A
+
+sample: 38it [00:07,  4.92it/s][A
+
+sample: 39it [00:07,  4.92it/s][A
+
+sample: 40it [00:08,  4.92it/s][A
+
+sample: 41it [00:08,  4.91it/s][A
+
+sample: 42it [00:08,  4.90it/s][A
+
+sample: 43it [00:08,  4.91it/s][A
+
+sample: 44it [00:08,  4.91it/s][A
+
+sample: 45it [00:09,  4.91it/s][A
+
+sample: 46it [00:09,  4.90it/s][A
+
+sample: 47it [00:09,  4.89it/s][A
+
+sample: 48it [00:09,  4.88it/s][A
+
+sample: 49it [00:09,  4.88it/s][A
+
+sample: 50it [00:10,  4.88it/s][A
+
+sample: 51it [00:10,  4.89it/s][A
+
+sample: 52it [00:10,  4.85it/s][A
+
+sample: 53it [00:10,  4.84it/s][A
+
+sample: 54it [00:11,  4.85it/s][A
+
+sample: 55it [00:11,  4.86it/s][A
+
+sample: 56it [00:11,  4.86it/s][A
+
+sample: 57it [00:11,  4.86it/s][A
+
+sample: 58it [00:11,  4.86it/s][A
+
+sample: 59it [00:12,  4.86it/s][A
+
+sample: 60it [00:12,  4.85it/s][A
+
+sample: 61it [00:12,  4.87it/s][A
+
+sample: 62it [00:12,  4.87it/s][A
+
+sample: 63it [00:12,  4.85it/s][A
+
+sample: 64it [00:13,  4.85it/s][A
+
+sample: 65it [00:13,  4.86it/s][A
+
+sample: 66it [00:13,  4.85it/s][A
+
+sample: 67it [00:13,  4.85it/s][A
+
+sample: 68it [00:13,  4.84it/s][A
+
+sample: 69it [00:14,  4.84it/s][A
+
+sample: 70it [00:14,  4.85it/s][A
+
+sample: 71it [00:14,  4.86it/s][A
+
+sample: 72it [00:14,  4.85it/s][A
+
+sample: 73it [00:14,  4.83it/s][A
+
+sample: 74it [00:15,  4.83it/s][A
+
+sample: 75it [00:15,  4.84it/s][A
+
+sample: 76it [00:15,  4.84it/s][A
+
+sample: 77it [00:15,  4.86it/s][A
+
+sample: 78it [00:15,  4.83it/s][A
+
+sample: 79it [00:16,  4.83it/s][A
+
+sample: 80it [00:16,  4.84it/s][A
+
+sample: 81it [00:16,  4.84it/s][A
+
+sample: 82it [00:16,  4.84it/s][A
+
+sample: 83it [00:17,  4.83it/s][A
+
+sample: 84it [00:17,  4.81it/s][A
+
+sample: 85it [00:17,  4.83it/s][A
+
+sample: 86it [00:17,  4.84it/s][A
+
+sample: 87it [00:17,  4.83it/s][A
+
+sample: 88it [00:18,  4.82it/s][A
+
+sample: 89it [00:18,  4.82it/s][A
+
+sample: 90it [00:18,  4.82it/s][A
+
+sample: 91it [00:18,  4.83it/s][A
+
+sample: 92it [00:18,  4.82it/s][A
+
+sample: 93it [00:19,  4.80it/s][A
+
+sample: 94it [00:19,  4.81it/s][A
+
+sample: 95it [00:19,  4.82it/s][A
+
+sample: 96it [00:19,  4.82it/s][A
+
+sample: 97it [00:19,  4.82it/s][A
+
+sample: 98it [00:20,  4.80it/s][A
+
+sample: 99it [00:20,  4.80it/s][A
+
+sample: 100it [00:20,  4.80it/s][A
+sample: 100it [00:20,  4.87it/s][20:28:01] Explicit valence for atom # 5 H, 2, is greater than permitted
+[20:28:01] Explicit valence for atom # 19 N, 4, is greater than permitted
+[20:28:02] Explicit valence for atom # 3 O, 3, is greater than permitted
+[20:28:02] Explicit valence for atom # 6 O, 4, is greater than permitted
+[20:28:02] Explicit valence for atom # 3 O, 3, is greater than permitted
+[20:28:02] Explicit valence for atom # 14 F, 2, is greater than permitted
+[20:28:02] Explicit valence for atom # 18 H, 2, is greater than permitted
+[20:28:02] Explicit valence for atom # 6 O, 3, is greater than permitted
+[20:28:02] Explicit valence for atom # 6 F, 2, is greater than permitted
+[20:28:02] Explicit valence for atom # 2 F, 2, is greater than permitted
+[20:28:02] Explicit valence for atom # 5 O, 3, is greater than permitted
+[20:28:02] Explicit valence for atom # 0 F, 2, is greater than permitted
+[20:28:02] Explicit valence for atom # 25 H, 2, is greater than permitted
+
+
+pmdm_batches: 100%|██████████| 1/1 [00:22<00:00, 22.62s/it]
+pmdm_batches: 100%|██████████| 1/1 [00:22<00:00, 22.62s/it]
+
+Entropy of n_nodes: H[N] -1.3862943649291992
+Entropy of n_nodes: H[N] -3.543935775756836
+10
+attempted=21 valid=8 stable=7 unique=7 sdf=/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/pmdm/gpu_1/pmdm_generated.sdf
+
+real 31.36
+user 31.22
+sys 7.62

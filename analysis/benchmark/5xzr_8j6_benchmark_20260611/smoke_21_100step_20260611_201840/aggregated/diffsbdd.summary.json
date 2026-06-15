@@ -1,0 +1,26 @@
+{
+  "input_sdf_files": 3,
+  "limit": 21,
+  "model": "DiffSBDD",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffsbdd.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_0/generated.sdf",
+      "readable": 7,
+      "written": 7
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_1/generated.sdf",
+      "readable": 7,
+      "written": 7
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_2/generated.sdf",
+      "readable": 7,
+      "written": 7
+    }
+  ],
+  "readable_records_seen": 21,
+  "write_failed_records": 0,
+  "written_records": 21
+}

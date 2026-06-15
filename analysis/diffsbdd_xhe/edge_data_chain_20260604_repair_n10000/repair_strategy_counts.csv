@@ -1,0 +1,4 @@
+repair_strategy,count,fraction
+fix_aromatic,22,0.00220000
+fix_valence,1337,0.13370000
+none,8641,0.86410000

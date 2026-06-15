@@ -1,0 +1,26 @@
+{
+  "input_sdf_files": 3,
+  "limit": 21,
+  "model": "DiffInt",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffint.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffint/gpu_0/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 7,
+      "written": 7
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffint/gpu_1/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 7,
+      "written": 7
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffint/gpu_2/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 7,
+      "written": 7
+    }
+  ],
+  "readable_records_seen": 21,
+  "write_failed_records": 0,
+  "written_records": 21
+}

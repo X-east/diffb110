@@ -1,0 +1,44 @@
+/home/md666/miniforge3/envs/diffpharma_modern_ref/lib/python3.9/site-packages/openbabel/__init__.py:26: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[20:29:15] Explicit valence for atom # 12 C, 5, is greater than permitted
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/analysis/molecule_builder.py:184: UserWarning: Sanitization failed. Returning None.
+  warnings.warn('Sanitization failed. Returning None.')
+[20:29:15] Explicit valence for atom # 15 N, 4, is greater than permitted
+[20:29:15] Molecule does not have explicit Hs. Consider calling AddHs()
+/data/disk6/DiffB110/reference project/modern_sbdd_20260531/DiffPharma/analysis/molecule_builder.py:224: UserWarning: Maximum number of FF iterations reached. Returning molecule after 200 relaxation steps.
+  warnings.warn(f'Maximum number of FF iterations reached. '
+[20:29:15] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[20:29:16] Molecule does not have explicit Hs. Consider calling AddHs()
+
+<class 'equivariant_diffusion.conditional_model.ConditionalDDPM'>
+{
+  "batch_size": 24,
+  "kind": "diffpharma",
+  "outdir": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_2",
+  "requested": 7,
+  "seconds": 40.33764314651489,
+  "timesteps": 100
+}
+
+real 47.59
+user 46.22
+sys 5.46

@@ -1,0 +1,76 @@
+2026-06-10 22:11:22,176 [INFO] Device: cpu
+2026-06-10 22:11:22,176 [INFO] Loading model from /data/disk6/DiffB110/chembl_classifier/models/chembl_classifier_selected_v0_3_1_scaffold_strongpoly.pt
+2026-06-10 22:11:22,197 [INFO] Loading dataset from /data/disk6/DiffB110/chembl_classifier/models/dataset_selected_v0_3_1_scaffold_strongpoly.pt
+2026-06-10 22:11:34,347 [WARNING]   test: 69 rows NaN/Inf → 0.0
+2026-06-10 22:11:35,180 [WARNING]   train: 511 rows NaN/Inf → 0.0
+2026-06-10 22:11:35,215 [INFO] Computing test predictions...
+
+
+============================================================
+ChEMBL Classifier Evaluation
+============================================================
+
+Test set: 27,548 samples (15,105 pos / 12,443 neg)
+
+Metric                     Test      Train
+----------------------------------------
+Accuracy                 0.9723     0.9765
+ROC-AUC                  0.9973     0.9983
+Avg Precision            0.9978
+Precision                0.9853
+Recall                   0.9638
+F1 Score                 0.9744
+
+Pos Accuracy             0.9638
+Neg Accuracy             0.9826
+
+Confusion Matrix:
+  TN=12226  FP=  217
+  FN=  547  TP=14558
+
+Prediction Distribution:
+  Positive (ChEMBL-like):  mean=0.9569, std=0.1499
+  Negative (non-ChEMBL):   mean=0.0337, std=0.1147
+
+Top False Positives (predicted ChEMBL-like but are negative):
+  P=0.9998 | N#Cc1ccc2c(c1)cc(CS(=O)(=O)CCF)c1cc3ccccc3n12
+  P=0.9996 | CN(C=O)c1ccc(-c2ccc(F)c(F)c2)cc1CN1CC2OC2C1
+  P=0.9991 | C1=C2CCCCC2CCN1.c1ccc2nnc(-n3cncn3)cc2c1
+  P=0.9989 | O=C1C2CNCCC2N(S(=O)(=O)C2CC2)N1NCc1ccc2c[nH]cc2c1F
+  P=0.9974 | CCCN1Cc2c(F)cccc2-c2nc3ccc(N)cc3nc21
+
+Top False Negatives (predicted non-ChEMBL but are ChEMBL):
+  P=0.0001 | O=P(O)(OC1CC2CC1C1CCCC21)OC1CC2CC1C1CCCC21
+  P=0.0005 | FC1(F)COP2(=NP34=NP5(=N2)NCCCN5CCCCN3CCCN4)OCC1(F)F
+  P=0.0027 | C#CC1(CN)CC2CCC3N(CCO)C(CCc4cc(C#N)c(CC(=O)O)c5c4C(=O)CC5=O)=NC23C1
+  P=0.0034 | O=C(NC1N=C2C=CC=C(C3CCC(NC(=O)C4CC4(F)F)CC3)C2S1)C1CC1
+  P=0.0044 | CC1=CC(C2(O)CCOCC2)C(=C=C2C=CC(O)=CC2)c2c(O)cc(O)cc21
+
+Negative Category Recall:
+Category                                   N  NegRecall FP-as-ChEMBL    MeanP      P95
+----------------------------------------------------------------------------------------
+bad_classifier_false_positive            108     0.7500       0.2500   0.3184   0.7180
+bad_fragmented                            55     0.8909       0.1091   0.1455   0.8529
+bad_multi_aromatic_heterocycle            17     0.9412       0.0588   0.1014   0.4855
+bad_large_ring                          1627     0.9527       0.0473   0.0693   0.4574
+bad_fused_heterocycle                   1479     0.9615       0.0385   0.0577   0.3326
+bad_bad_bond_length                      791     0.9772       0.0228   0.0802   0.3990
+bad_low_tpsa_or_high_logp                718     0.9777       0.0223   0.0425   0.2092
+bad_three_member_ring                   2470     0.9842       0.0158   0.0343   0.1869
+bad_many_halogen                          67     0.9851       0.0149   0.0311   0.1627
+high_reward_bad                          903     0.9867       0.0133   0.0298   0.1737
+bad_top_docking_exploit                 1416     0.9873       0.0127   0.0368   0.2172
+bad_high_carbon_low_hetero               861     0.9895       0.0105   0.0329   0.1643
+bad_poly_fused_or_bridge_ring            801     0.9900       0.0100   0.0235   0.1316
+bad_ring_complex_failed_rl               832     0.9928       0.0072   0.0124   0.0378
+three_member_ring                       5156     0.9959       0.0041   0.0110   0.0350
+bad_saturated_polycycle_no_aromatic     1050     0.9971       0.0029   0.0106   0.0425
+co_only_mostly_carbon                   2567     0.9977       0.0023   0.0076   0.0300
+bad_non_aromatic_polycycle              1726     0.9977       0.0023   0.0149   0.0737
+ring_complex                            4031     0.9985       0.0015   0.0038   0.0075
+non_oxygen_hetero_loss                  2277     0.9996       0.0004   0.0009   0.0018
+aromatic_deficient_bad_topology         2787     1.0000       0.0000   0.0029   0.0137
+bad_overhalogenated_small_aromatic         7     1.0000       0.0000   0.0037   0.0176
+high_carbon_low_hetero                  1786     1.0000       0.0000   0.0004   0.0017
+hydrophobic_low_polarity                2051     1.0000       0.0000   0.0006   0.0013
+

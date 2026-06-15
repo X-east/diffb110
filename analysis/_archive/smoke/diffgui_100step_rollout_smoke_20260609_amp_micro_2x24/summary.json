@@ -1,0 +1,56 @@
+{
+  "stage": "diffgui_100step_rollout_smoke",
+  "checkpoint": "/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt",
+  "pocket_pdb": "/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb",
+  "device": "cuda:0",
+  "num_timesteps": 100,
+  "model_num_timesteps": 100,
+  "num_graphs": 2,
+  "ligand_atoms": 24,
+  "gui_strength": 0.0,
+  "precision": "bf16",
+  "graph_micro_batch_size": 1,
+  "old_logprob_shape": [
+    100,
+    2
+  ],
+  "timesteps_shape": [
+    100,
+    2
+  ],
+  "actor_metrics": {
+    "AMPEnabled": 1.0,
+    "ClipFrac": 0.10500000044703484,
+    "GradNorm": 0.43811383843421936,
+    "GraphMicroBatchSize": 1.0,
+    "LogProbCurrentMean": 0.7349819242954254,
+    "LogProbHalfedge": -0.0320154232904315,
+    "LogProbNode": -0.17976079881191254,
+    "LogProbOldMean": 1.0587247014045715,
+    "LogProbPos": 0.9467581212520599,
+    "Loss": -0.7112780660390854,
+    "NumSteps": 100.0,
+    "PPO_ApproxKL": 3.9135591983795166,
+    "PPO_Loss": -0.7112780660390854,
+    "RatioMean": 0.9428784847259521,
+    "TrainBatchSize": 2.0,
+    "PPO_Epochs": 1.0
+  },
+  "load_report": {
+    "loaded_keys": 854,
+    "skipped_transition_keys": 13,
+    "missing_keys": 13,
+    "unexpected_keys": 0
+  },
+  "reconstruction": {
+    "attempted": 2,
+    "written_mols": 0,
+    "success": 0
+  },
+  "outputs": {
+    "log": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24/rollout.log",
+    "sdf": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24/generated_100step_smoke.sdf",
+    "csv": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24/molecules.csv",
+    "summary": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24/summary.json"
+  }
+}

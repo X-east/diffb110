@@ -1,0 +1,11 @@
+﻿reason_code,原因中文,数量
+bad_large_ring,七元及以上大环,18856
+bad_fused_heterocycle,稠合杂环/复杂杂环,17373
+bad_saturated_polycycle_no_aromatic,无芳香环的多饱和碳环,12675
+bad_three_member_ring,三元环,10232
+bad_poly_fused_or_bridge_ring,多稠合或桥环体系,8861
+bad_high_carbon_low_hetero,高碳低杂原子,1866
+bad_many_halogen,卤素数量过多,541
+bad_fragmented,碎片化分子,532
+bad_multi_aromatic_heterocycle,多芳香杂环,169
+bad_overhalogenated_small_aromatic,小芳香环过度卤代,55

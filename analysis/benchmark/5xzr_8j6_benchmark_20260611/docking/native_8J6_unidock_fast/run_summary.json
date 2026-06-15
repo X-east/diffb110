@@ -1,0 +1,37 @@
+{
+  "batch_size": 1,
+  "box": {
+    "center_x": -21.484,
+    "center_y": 70.592,
+    "center_z": 21.081,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [
+    "batch_0001: returncode=1"
+  ],
+  "gpu_id": 0,
+  "input_sdf": "analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_ligand.sdf",
+  "merged_success_sdf_count": 0,
+  "model": "5XZR_native_8J6",
+  "output_dir": "analysis/5xzr_8j6_benchmark_20260611/docking/native_8J6_unidock_fast",
+  "receptor": "analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_pocket8A.pdbqt",
+  "score_max_worst": null,
+  "score_mean": null,
+  "score_median": null,
+  "score_min_best": null,
+  "score_top_1pct": [],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 1.0990514755249023,
+  "split_summary": {
+    "input_sdf_records_seen": "1",
+    "read_failed": "0",
+    "split_ligands": "1",
+    "write_failed": "0"
+  },
+  "success_count": 0,
+  "success_rate": 0.0,
+  "total_ligands": 1
+}

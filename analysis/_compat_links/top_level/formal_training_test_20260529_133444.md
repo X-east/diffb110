@@ -1,0 +1,1 @@
+../../_loose/misc/formal_training_test_20260529_133444.md

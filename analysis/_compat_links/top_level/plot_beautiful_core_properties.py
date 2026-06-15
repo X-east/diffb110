@@ -1,0 +1,1 @@
+../../../tools/analysis_scripts/legacy_top_level/plot_beautiful_core_properties.py

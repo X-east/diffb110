@@ -1,0 +1,45 @@
+{
+  "batch_size": 128,
+  "box": {
+    "center_x": -21.484,
+    "center_y": 70.592,
+    "center_z": 21.081,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [
+    "batch_0003: returncode=1"
+  ],
+  "gpu_id": 0,
+  "input_sdf": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffpharma.sdf",
+  "merged_success_sdf_count": 349,
+  "model": "DiffPharma",
+  "output_dir": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/docking/unidock_fast_5xzr_8j6/DiffPharma",
+  "receptor": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_pocket8A.pdbqt",
+  "score_max_worst": 4.417,
+  "score_mean": -8.531553008595989,
+  "score_median": -8.82,
+  "score_min_best": -14.658,
+  "score_top_1pct": [
+    -14.658,
+    -13.41,
+    -12.961
+  ],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 104.896160364151,
+  "split_summary": {
+    "input_sdf_records_seen": "477",
+    "read_failed": "0",
+    "split_ligands": "477",
+    "write_failed": "0"
+  },
+  "success_count": 349,
+  "success_rate": 0.7316561844863732,
+  "total_ligands": 477
+}
+
+real 106.98
+user 98.73
+sys 10.60

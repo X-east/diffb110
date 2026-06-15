@@ -1,0 +1,5 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,reconstruct_error:MolReconsError,,24,1.0052316188812256
+1,ok,CC1CC23OC2(O)C24C5=CC=CC26C(=O)C64C(=O)C24OC2(O1)C34O5,24,1.033429741859436
+2,reconstruct_error:MolReconsError,,24,1.0092979669570923
+3,reconstruct_error:MolReconsError,,24,0.9719999432563782

@@ -1,0 +1,51 @@
+2026-06-09 15:32:28,807 INFO diffgui_100step_smoke: starting DiffGui 100-step rollout smoke
+2026-06-09 15:32:28,807 INFO diffgui_100step_smoke: args={'sample_config': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/configs/sample/sample.yml'), 'checkpoint': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt'), 'pocket_pdb': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb'), 'ligand_sdf': 'None', 'output_dir': PosixPath('/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2'), 'device': 'cuda:0', 'num_timesteps': 100, 'num_graphs': 4, 'ligand_atoms': 24, 'seed': 260611, 'gui_strength': 0.0, 'actor_lr': 1e-06, 'precision': 'bf16', 'graph_micro_batch_size': 2, 'freeze_mode': 'last_n_blocks', 'train_last_n_blocks': 1, 'add_edge': 'None'}
+2026-06-09 15:32:32,995 INFO diffgui_100step_smoke: loaded checkpoint iteration=250000
+2026-06-09 15:32:32,998 INFO diffgui_100step_smoke: forced model.diff.num_timesteps=100
+2026-06-09 15:32:33,242 INFO diffgui_100step_smoke: model.num_timesteps=100
+2026-06-09 15:32:33,242 INFO diffgui_100step_smoke: load_report={'loaded_keys': 854, 'skipped_transition_keys': 13, 'missing_keys': 13, 'unexpected_keys': 0}
+2026-06-09 15:33:09,788 INFO diffgui_100step_smoke: policy_batch old_logprob_shape=(100, 4) timesteps_shape=(100, 4)
+2026-06-09 15:33:54,828 INFO diffgui_100step_smoke: actor_metrics={'AMPEnabled': 1.0, 'ClipFrac': 0.08999999612569809, 'FrozenParams': 7350694.0, 'GradNorm': 0.13609281182289124, 'GraphMicroBatchSize': 2.0, 'LogProbCurrentMean': 0.7635306119918823, 'LogProbHalfedge': -0.03173519857227802, 'LogProbNode': -0.16818908601999283, 'LogProbOldMean': 1.0117782354354858, 'LogProbPos': 0.9634549021720886, 'Loss': -0.7095626294612885, 'NumSteps': 100.0, 'PPO_ApproxKL': 2.146154522895813, 'PPO_Loss': -0.7095626294612885, 'RatioMean': 0.9464993178844452, 'TrainBatchSize': 4.0, 'TrainableParams': 985207.0, 'PPO_Epochs': 1.0}
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 2 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 4 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Can't kekulize mol.  Unkekulized atoms: 8 10 14 21 23
+
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 9 C, 5, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+[15:33:54] Explicit valence for atom # 5 F, 2, is greater than permitted
+2026-06-09 15:33:54,875 INFO diffgui_100step_smoke: summary={"stage": "diffgui_100step_rollout_smoke", "checkpoint": "/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt", "pocket_pdb": "/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb", "device": "cuda:0", "num_timesteps": 100, "model_num_timesteps": 100, "num_graphs": 4, "ligand_atoms": 24, "gui_strength": 0.0, "precision": "bf16", "graph_micro_batch_size": 2, "freeze_mode": "last_n_blocks", "train_last_n_blocks": 1, "old_logprob_shape": [100, 4], "timesteps_shape": [100, 4], "actor_metrics": {"AMPEnabled": 1.0, "ClipFrac": 0.08999999612569809, "FrozenParams": 7350694.0, "GradNorm": 0.13609281182289124, "GraphMicroBatchSize": 2.0, "LogProbCurrentMean": 0.7635306119918823, "LogProbHalfedge": -0.03173519857227802, "LogProbNode": -0.16818908601999283, "LogProbOldMean": 1.0117782354354858, "LogProbPos": 0.9634549021720886, "Loss": -0.7095626294612885, "NumSteps": 100.0, "PPO_ApproxKL": 2.146154522895813, "PPO_Loss": -0.7095626294612885, "RatioMean": 0.9464993178844452, "TrainBatchSize": 4.0, "TrainableParams": 985207.0, "PPO_Epochs": 1.0}, "load_report": {"loaded_keys": 854, "skipped_transition_keys": 13, "missing_keys": 13, "unexpected_keys": 0}, "reconstruction": {"attempted": 4, "written_mols": 0, "success": 0}, "outputs": {"log": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2/rollout.log", "sdf": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2/generated_100step_smoke.sdf", "csv": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2/molecules.csv", "summary": "/data/disk6/DiffB110/analysis/diffgui_100step_multigpu_smoke_20260609_batch32/rank02_gpu2/summary.json"}}

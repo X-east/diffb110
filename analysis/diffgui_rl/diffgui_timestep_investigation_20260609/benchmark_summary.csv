@@ -1,0 +1,7 @@
+name,group,summary_path,timesteps,total_batch,per_gpu_batch,workers,failed_workers,reconstruction_success,reconstruction_attempted,reconstruction_success_ratio,elapsed_seconds,max_peak_used_mb,old_logprob_shape,trainable_params
+wrong_timeemb_200_b16_gui0,wrong_timeemb,analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2/multi_summary.json,200,16,2,8,0,2,16,0.125,99.03747139615007,2661,"[(200, 2)]",985207.0
+wrong_timeemb_200_b32_gui0,wrong_timeemb,analysis/diffgui_200step_batch_sweep_20260609/batch32_pergpu4/multi_summary.json,200,32,4,8,0,6,32,0.1875,179.57892004400492,2657,"[(200, 4)]",985207.0
+wrong_timeemb_200_b16_gui3,wrong_timeemb,analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/multi_summary.json,200,16,2,8,0,2,16,0.125,95.85984305618331,2659,"[(200, 2)]",985207.0
+fixed_timeemb_200_b16_gui3,fixed_timeemb,analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix2/multi_summary.json,200,16,2,8,0,16,16,1.0,98.4433146128431,2659,"[(200, 2)]",985207.0
+fixed_timeemb_100_b32_gui3,fixed_timeemb,analysis/diffgui_200step_timestep_fix_20260609/step100_batch32_pergpu4_gui3_timefix/multi_summary.json,100,32,4,8,0,28,32,0.875,97.47779288003221,2651,"[(100, 4)]",985207.0
+fixed_timeemb_200_b32_gui3,fixed_timeemb,analysis/diffgui_200step_timestep_fix_20260609/step200_batch32_pergpu4_gui3_timefix/multi_summary.json,200,32,4,8,0,30,32,0.9375,177.931455839891,2657,"[(200, 4)]",985207.0

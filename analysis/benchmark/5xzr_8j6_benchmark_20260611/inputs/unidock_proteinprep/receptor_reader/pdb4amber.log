@@ -1,0 +1,32 @@
+
+==================================================
+Summary of pdb4amber for: /data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/inputs/unidock_proteinprep/receptor_reader/protein_fixed.pdb
+===================================================
+
+----------Chains
+The following (original) chains have been found:
+A
+
+---------- Alternate Locations (Original Residues!))
+
+The following residues had alternate locations:
+None
+-----------Non-standard-resnames
+
+
+---------- Gaps (Renumbered Residues!)
+gap of 9.906448 A between LEU 11 and LEU 12
+gap of 8.803072 A between LEU 12 and LEU 13
+gap of 13.614789 A between VAL 14 and GLN 15
+gap of 10.054034 A between ARG 21 and ARG 22
+gap of 3.622040 A between ARG 22 and GLU 23
+gap of 6.740226 A between LEU 24 and GLN 25
+gap of 3.229928 A between GLY 26 and TRP 27
+gap of 19.249692 A between GLU 37 and ASP 38
+gap of 3.338753 A between MET 45 and ARG 46
+gap of 14.817146 A between ARG 46 and TYR 47
+gap of 4.610856 A between TYR 47 and TYR 48
+
+---------- Missing heavy atom(s)
+
+None

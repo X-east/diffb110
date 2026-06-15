@@ -1,0 +1,3 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,ok,Oc1ccc2c(c1)=Nc1c=2c2oc3ccccc3c3ccnc1c3=2,24,2.006148338317871
+1,ok,O=CNC1NCNC(c2ccccc2)C(F)C1Nc1ccccc1,24,1.9883826971054077

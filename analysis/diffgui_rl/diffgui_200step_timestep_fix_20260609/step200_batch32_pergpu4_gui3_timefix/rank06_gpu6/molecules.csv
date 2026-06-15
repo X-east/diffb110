@@ -1,0 +1,5 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,ok,N#Cc1cnnc(-c2ccc3ccccc3n2)c1-c1ccccc1,24,2.0241129398345947
+1,ok,OCCC1=Nc2ccccc2C12c1c(Cl)nnc(-n3cccc3)c12,24,2.0100176334381104
+2,ok,NC(=O)C1NNC(c2ccccc2)C1c1cccc2ccccc12,24,2.0209264755249023
+3,ok,COc1cccc(NC2NNC3CCN(C)C4CCCCC4C32)c1,24,2.008704662322998

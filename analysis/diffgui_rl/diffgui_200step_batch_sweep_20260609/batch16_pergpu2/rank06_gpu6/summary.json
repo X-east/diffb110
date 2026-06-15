@@ -1,0 +1,60 @@
+{
+  "stage": "diffgui_100step_rollout_smoke",
+  "checkpoint": "/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt",
+  "pocket_pdb": "/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb",
+  "device": "cuda:0",
+  "num_timesteps": 200,
+  "model_num_timesteps": 200,
+  "num_graphs": 2,
+  "ligand_atoms": 24,
+  "gui_strength": 0.0,
+  "precision": "bf16",
+  "graph_micro_batch_size": 2,
+  "freeze_mode": "last_n_blocks",
+  "train_last_n_blocks": 1,
+  "old_logprob_shape": [
+    200,
+    2
+  ],
+  "timesteps_shape": [
+    200,
+    2
+  ],
+  "actor_metrics": {
+    "AMPEnabled": 1.0,
+    "ClipFrac": 0.04999999701976776,
+    "FrozenParams": 7407794.0,
+    "GradNorm": 0.09008325636386871,
+    "GraphMicroBatchSize": 2.0,
+    "LogProbCurrentMean": 1.8582994937896729,
+    "LogProbHalfedge": -0.01786784455180168,
+    "LogProbNode": -0.09828373044729233,
+    "LogProbOldMean": 2.0240609645843506,
+    "LogProbPos": 1.974450945854187,
+    "Loss": -0.725911557674408,
+    "NumSteps": 200.0,
+    "PPO_ApproxKL": 1.751169204711914,
+    "PPO_Loss": -0.725911557674408,
+    "RatioMean": 0.9652963876724243,
+    "TrainBatchSize": 2.0,
+    "TrainableParams": 985207.0,
+    "PPO_Epochs": 1.0
+  },
+  "load_report": {
+    "loaded_keys": 854,
+    "skipped_transition_keys": 13,
+    "missing_keys": 13,
+    "unexpected_keys": 0
+  },
+  "reconstruction": {
+    "attempted": 2,
+    "written_mols": 0,
+    "success": 0
+  },
+  "outputs": {
+    "log": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2/rank06_gpu6/rollout.log",
+    "sdf": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2/rank06_gpu6/generated_100step_smoke.sdf",
+    "csv": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2/rank06_gpu6/molecules.csv",
+    "summary": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2/rank06_gpu6/summary.json"
+  }
+}

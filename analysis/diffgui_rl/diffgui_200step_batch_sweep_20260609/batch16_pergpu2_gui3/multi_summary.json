@@ -1,0 +1,395 @@
+{
+  "stage": "diffgui_multigpu_smoke",
+  "requested_gpus": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ],
+  "successful_workers": 8,
+  "failed_workers": 0,
+  "total_graphs": 16,
+  "num_timesteps": 200,
+  "num_graphs_per_gpu": 2,
+  "ligand_atoms": 24,
+  "seed_base": 260700,
+  "precision": "bf16",
+  "freeze_mode": "last_n_blocks",
+  "train_last_n_blocks": 1,
+  "graph_micro_batch_size": 2,
+  "reconstruction_attempted": 16,
+  "reconstruction_success": 2,
+  "reconstruction_success_ratio": 0.125,
+  "numsteps_values": [
+    200.0,
+    200.0,
+    200.0,
+    200.0,
+    200.0,
+    200.0,
+    200.0,
+    200.0
+  ],
+  "trainable_params_values": [
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0,
+    985207.0
+  ],
+  "failed": [],
+  "workers": [
+    {
+      "rank": 0,
+      "gpu": "0",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank00_gpu0",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank00_gpu0.log",
+      "seed": 260700,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.06749999523162842,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.12472095340490341,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.7598642110824585,
+        "LogProbHalfedge": -0.022198857739567757,
+        "LogProbNode": -0.11250513046979904,
+        "LogProbOldMean": 1.9904437065124512,
+        "LogProbPos": 1.8945680856704712,
+        "Loss": -0.7176282405853271,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 4.4469895362854,
+        "PPO_Loss": -0.7176282405853271,
+        "RatioMean": 0.9592171311378479,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 1,
+      "gpu": "1",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank01_gpu1",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank01_gpu1.log",
+      "seed": 260701,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.04749999940395355,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.07184482365846634,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.8243482112884521,
+        "LogProbHalfedge": -0.017904961481690407,
+        "LogProbNode": -0.1034311056137085,
+        "LogProbOldMean": 2.007021903991699,
+        "LogProbPos": 1.9456843137741089,
+        "Loss": -0.723152756690979,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 2.2167205810546875,
+        "PPO_Loss": -0.723152756690979,
+        "RatioMean": 0.9660455584526062,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 2,
+      "gpu": "2",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank02_gpu2",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank02_gpu2.log",
+      "seed": 260702,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.057499997317790985,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.09022947400808334,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.8460562229156494,
+        "LogProbHalfedge": -0.02062986046075821,
+        "LogProbNode": -0.11768098920583725,
+        "LogProbOldMean": 2.017951011657715,
+        "LogProbPos": 1.9843670129776,
+        "Loss": -0.7218917608261108,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 2.3209707736968994,
+        "PPO_Loss": -0.7218917608261108,
+        "RatioMean": 0.9648833870887756,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 3,
+      "gpu": "3",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank03_gpu3",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank03_gpu3.log",
+      "seed": 260703,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.03749999776482582,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.11036547273397446,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.879960536956787,
+        "LogProbHalfedge": -0.02260582335293293,
+        "LogProbNode": -0.10114911943674088,
+        "LogProbOldMean": 2.019805908203125,
+        "LogProbPos": 2.0037155151367188,
+        "Loss": -0.7298475503921509,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 1.3617663383483887,
+        "PPO_Loss": -0.7298475503921509,
+        "RatioMean": 0.9714993834495544,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 4,
+      "gpu": "4",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank04_gpu4",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank04_gpu4.log",
+      "seed": 260704,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.05249999836087227,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.09168331325054169,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.8644319772720337,
+        "LogProbHalfedge": -0.021777307614684105,
+        "LogProbNode": -0.09811633825302124,
+        "LogProbOldMean": 2.0162901878356934,
+        "LogProbPos": 1.9843257665634155,
+        "Loss": -0.7250003814697266,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 1.5354468822479248,
+        "PPO_Loss": -0.7250003814697266,
+        "RatioMean": 0.9667223691940308,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 2,
+        "success": 2
+      }
+    },
+    {
+      "rank": 5,
+      "gpu": "5",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank05_gpu5",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank05_gpu5.log",
+      "seed": 260705,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.044999998062849045,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.08635856211185455,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.8677564859390259,
+        "LogProbHalfedge": -0.019309628754854202,
+        "LogProbNode": -0.11078374832868576,
+        "LogProbOldMean": 2.01845645904541,
+        "LogProbPos": 1.997849941253662,
+        "Loss": -0.7254751920700073,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 1.498704195022583,
+        "PPO_Loss": -0.7254751920700073,
+        "RatioMean": 0.966589629650116,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 6,
+      "gpu": "6",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank06_gpu6",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank06_gpu6.log",
+      "seed": 260706,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.03999999910593033,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.1049141138792038,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.879834532737732,
+        "LogProbHalfedge": -0.01997631974518299,
+        "LogProbNode": -0.10658134520053864,
+        "LogProbOldMean": 2.002187490463257,
+        "LogProbPos": 2.006392240524292,
+        "Loss": -0.7283071875572205,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 0.8876760005950928,
+        "PPO_Loss": -0.7283071875572205,
+        "RatioMean": 0.970324695110321,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    },
+    {
+      "rank": 7,
+      "gpu": "7",
+      "return_code": 0,
+      "rank_dir": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank07_gpu7",
+      "log_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/rank07_gpu7.log",
+      "seed": 260707,
+      "old_logprob_shape": [
+        200,
+        2
+      ],
+      "actor_metrics": {
+        "AMPEnabled": 1.0,
+        "ClipFrac": 0.07750000059604645,
+        "FrozenParams": 7407794.0,
+        "GradNorm": 0.1043458804488182,
+        "GraphMicroBatchSize": 2.0,
+        "LogProbCurrentMean": 1.8651093244552612,
+        "LogProbHalfedge": -0.0194384902715683,
+        "LogProbNode": -0.11863627284765244,
+        "LogProbOldMean": 2.0155861377716064,
+        "LogProbPos": 2.0031843185424805,
+        "Loss": -0.7208123803138733,
+        "NumSteps": 200.0,
+        "PPO_ApproxKL": 1.1807050704956055,
+        "PPO_Loss": -0.7208123803138733,
+        "RatioMean": 0.9584242105484009,
+        "TrainBatchSize": 2.0,
+        "TrainableParams": 985207.0,
+        "PPO_Epochs": 1.0
+      },
+      "reconstruction": {
+        "attempted": 2,
+        "written_mols": 0,
+        "success": 0
+      }
+    }
+  ],
+  "elapsed_seconds": 95.85984305618331,
+  "gpu_memory": {
+    "sample_path": "/data/disk6/DiffB110/analysis/diffgui_200step_batch_sweep_20260609/batch16_pergpu2_gui3/gpu_memory_samples.csv",
+    "sample_count": 680,
+    "errors": [],
+    "peak_by_gpu": {
+      "0": {
+        "peak_used_mb": 2651,
+        "free_mb_at_peak": 7227,
+        "elapsed_at_peak_seconds": 49.37810733704828
+      },
+      "1": {
+        "peak_used_mb": 2639,
+        "free_mb_at_peak": 7239,
+        "elapsed_at_peak_seconds": 49.37810733704828
+      },
+      "2": {
+        "peak_used_mb": 2651,
+        "free_mb_at_peak": 7227,
+        "elapsed_at_peak_seconds": 49.37810733704828
+      },
+      "3": {
+        "peak_used_mb": 2653,
+        "free_mb_at_peak": 7225,
+        "elapsed_at_peak_seconds": 47.157686691964045
+      },
+      "4": {
+        "peak_used_mb": 2641,
+        "free_mb_at_peak": 7237,
+        "elapsed_at_peak_seconds": 48.26089258189313
+      },
+      "5": {
+        "peak_used_mb": 2659,
+        "free_mb_at_peak": 7219,
+        "elapsed_at_peak_seconds": 48.26089258189313
+      },
+      "6": {
+        "peak_used_mb": 2651,
+        "free_mb_at_peak": 7227,
+        "elapsed_at_peak_seconds": 49.37810733704828
+      },
+      "7": {
+        "peak_used_mb": 2639,
+        "free_mb_at_peak": 7239,
+        "elapsed_at_peak_seconds": 48.26089258189313
+      }
+    },
+    "max_peak_used_mb": 2659
+  }
+}

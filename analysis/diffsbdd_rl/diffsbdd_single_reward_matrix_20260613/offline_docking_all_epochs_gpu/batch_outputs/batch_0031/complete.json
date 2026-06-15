@@ -1,0 +1,1282 @@
+{
+  "chembl_classifier_e0001_m00030": {
+    "failure_reason": "",
+    "score": -8.618,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00031": {
+    "failure_reason": "",
+    "score": -7.004,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00032": {
+    "failure_reason": "",
+    "score": -6.817,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00033": {
+    "failure_reason": "",
+    "score": -6.439,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00034": {
+    "failure_reason": "",
+    "score": -10.446,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00035": {
+    "failure_reason": "",
+    "score": -7.27,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00036": {
+    "failure_reason": "",
+    "score": -6.621,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00037": {
+    "failure_reason": "",
+    "score": -8.869,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00038": {
+    "failure_reason": "",
+    "score": -9.644,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00039": {
+    "failure_reason": "",
+    "score": -8.665,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00040": {
+    "failure_reason": "",
+    "score": -7.256,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00041": {
+    "failure_reason": "",
+    "score": -8.545,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00042": {
+    "failure_reason": "",
+    "score": -6.829,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00043": {
+    "failure_reason": "",
+    "score": -6.978,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00044": {
+    "failure_reason": "",
+    "score": -9.458,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00045": {
+    "failure_reason": "",
+    "score": -8.721,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00046": {
+    "failure_reason": "",
+    "score": -4.682,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00047": {
+    "failure_reason": "",
+    "score": -7.507,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00048": {
+    "failure_reason": "",
+    "score": -7.194,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00049": {
+    "failure_reason": "",
+    "score": -7.184,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00050": {
+    "failure_reason": "",
+    "score": -7.965,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00051": {
+    "failure_reason": "",
+    "score": -10.07,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00052": {
+    "failure_reason": "",
+    "score": -9.95,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00053": {
+    "failure_reason": "",
+    "score": -5.999,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00054": {
+    "failure_reason": "",
+    "score": -6.556,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00055": {
+    "failure_reason": "",
+    "score": -7.554,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00056": {
+    "failure_reason": "",
+    "score": -10.033,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00057": {
+    "failure_reason": "",
+    "score": -8.038,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00058": {
+    "failure_reason": "",
+    "score": -8.289,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00059": {
+    "failure_reason": "",
+    "score": -6.171,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00060": {
+    "failure_reason": "",
+    "score": -6.597,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00061": {
+    "failure_reason": "",
+    "score": -9.731,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00062": {
+    "failure_reason": "",
+    "score": -7.868,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00063": {
+    "failure_reason": "",
+    "score": -9.62,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00064": {
+    "failure_reason": "",
+    "score": -9.524,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00065": {
+    "failure_reason": "",
+    "score": -7.444,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00066": {
+    "failure_reason": "",
+    "score": -10.668,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00067": {
+    "failure_reason": "",
+    "score": -3.792,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00068": {
+    "failure_reason": "",
+    "score": -8.668,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00069": {
+    "failure_reason": "",
+    "score": -7.143,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00070": {
+    "failure_reason": "",
+    "score": -7.241,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00071": {
+    "failure_reason": "",
+    "score": -8.716,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00072": {
+    "failure_reason": "",
+    "score": -7.872,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00073": {
+    "failure_reason": "",
+    "score": -5.631,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00074": {
+    "failure_reason": "",
+    "score": -9.452,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00075": {
+    "failure_reason": "",
+    "score": -3.648,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00076": {
+    "failure_reason": "",
+    "score": -10.164,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00077": {
+    "failure_reason": "",
+    "score": -8.799,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00078": {
+    "failure_reason": "",
+    "score": -8.707,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00079": {
+    "failure_reason": "",
+    "score": -7.322,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00080": {
+    "failure_reason": "",
+    "score": -7.526,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00081": {
+    "failure_reason": "",
+    "score": -7.823,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00082": {
+    "failure_reason": "",
+    "score": -9.014,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00083": {
+    "failure_reason": "",
+    "score": -8.227,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00084": {
+    "failure_reason": "",
+    "score": -7.791,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00085": {
+    "failure_reason": "",
+    "score": -8.277,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00086": {
+    "failure_reason": "",
+    "score": -8.849,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00087": {
+    "failure_reason": "",
+    "score": -7.686,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00088": {
+    "failure_reason": "",
+    "score": -8.286,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00089": {
+    "failure_reason": "",
+    "score": -7.542,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00090": {
+    "failure_reason": "",
+    "score": -6.763,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00091": {
+    "failure_reason": "",
+    "score": -7.744,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00092": {
+    "failure_reason": "",
+    "score": -7.88,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00093": {
+    "failure_reason": "",
+    "score": -7.249,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00094": {
+    "failure_reason": "",
+    "score": -7.076,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00095": {
+    "failure_reason": "",
+    "score": -8.23,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00096": {
+    "failure_reason": "",
+    "score": -4.382,
+    "success": true
+  },
+  "chembl_classifier_e0001_m00097": {
+    "failure_reason": "",
+    "score": -6.366,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00000": {
+    "failure_reason": "",
+    "score": -7.154,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00001": {
+    "failure_reason": "",
+    "score": -6.518,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00002": {
+    "failure_reason": "",
+    "score": -7.076,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00003": {
+    "failure_reason": "",
+    "score": -7.335,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00004": {
+    "failure_reason": "",
+    "score": -7.209,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00005": {
+    "failure_reason": "",
+    "score": -6.541,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00006": {
+    "failure_reason": "",
+    "score": -6.655,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00007": {
+    "failure_reason": "",
+    "score": -7.899,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00008": {
+    "failure_reason": "",
+    "score": -7.692,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00009": {
+    "failure_reason": "",
+    "score": -7.95,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00010": {
+    "failure_reason": "",
+    "score": -7.613,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00011": {
+    "failure_reason": "",
+    "score": -6.025,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00012": {
+    "failure_reason": "",
+    "score": -4.806,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00013": {
+    "failure_reason": "",
+    "score": -4.62,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00014": {
+    "failure_reason": "",
+    "score": -7.892,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00015": {
+    "failure_reason": "",
+    "score": -8.611,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00016": {
+    "failure_reason": "",
+    "score": -9.161,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00017": {
+    "failure_reason": "",
+    "score": -5.043,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00018": {
+    "failure_reason": "",
+    "score": -6.782,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00019": {
+    "failure_reason": "",
+    "score": -8.152,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00020": {
+    "failure_reason": "",
+    "score": -8.539,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00021": {
+    "failure_reason": "",
+    "score": -5.44,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00022": {
+    "failure_reason": "",
+    "score": -7.367,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00023": {
+    "failure_reason": "",
+    "score": -9.246,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00024": {
+    "failure_reason": "",
+    "score": -6.493,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00025": {
+    "failure_reason": "",
+    "score": -5.902,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00026": {
+    "failure_reason": "",
+    "score": -6.251,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00027": {
+    "failure_reason": "",
+    "score": -5.906,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00028": {
+    "failure_reason": "",
+    "score": -6.678,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00029": {
+    "failure_reason": "",
+    "score": -9.459,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00030": {
+    "failure_reason": "",
+    "score": -6.026,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00031": {
+    "failure_reason": "",
+    "score": -7.713,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00032": {
+    "failure_reason": "",
+    "score": -10.355,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00033": {
+    "failure_reason": "",
+    "score": -7.887,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00034": {
+    "failure_reason": "",
+    "score": -6.662,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00035": {
+    "failure_reason": "",
+    "score": -10.919,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00036": {
+    "failure_reason": "",
+    "score": -9.978,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00037": {
+    "failure_reason": "",
+    "score": -7.278,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00038": {
+    "failure_reason": "",
+    "score": -8.038,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00039": {
+    "failure_reason": "",
+    "score": -9.482,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00040": {
+    "failure_reason": "",
+    "score": -9.138,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00041": {
+    "failure_reason": "",
+    "score": -7.087,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00042": {
+    "failure_reason": "",
+    "score": -7.929,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00043": {
+    "failure_reason": "",
+    "score": -5.116,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00044": {
+    "failure_reason": "",
+    "score": -8.006,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00045": {
+    "failure_reason": "",
+    "score": -10.092,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00046": {
+    "failure_reason": "",
+    "score": -5.896,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00047": {
+    "failure_reason": "",
+    "score": -5.37,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00048": {
+    "failure_reason": "",
+    "score": -6.038,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00049": {
+    "failure_reason": "",
+    "score": -7.867,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00050": {
+    "failure_reason": "",
+    "score": -4.682,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00051": {
+    "failure_reason": "",
+    "score": -11.407,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00052": {
+    "failure_reason": "",
+    "score": -9.019,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00053": {
+    "failure_reason": "",
+    "score": -8.061,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00054": {
+    "failure_reason": "",
+    "score": -8.053,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00055": {
+    "failure_reason": "",
+    "score": -9.741,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00056": {
+    "failure_reason": "",
+    "score": -7.843,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00057": {
+    "failure_reason": "",
+    "score": -7.952,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00058": {
+    "failure_reason": "",
+    "score": -5.017,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00059": {
+    "failure_reason": "",
+    "score": -7.678,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00060": {
+    "failure_reason": "",
+    "score": -6.133,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00061": {
+    "failure_reason": "",
+    "score": -6.87,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00062": {
+    "failure_reason": "",
+    "score": -8.024,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00063": {
+    "failure_reason": "",
+    "score": -8.341,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00064": {
+    "failure_reason": "",
+    "score": -7.578,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00065": {
+    "failure_reason": "",
+    "score": -9.243,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00066": {
+    "failure_reason": "",
+    "score": -6.646,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00067": {
+    "failure_reason": "",
+    "score": -7.516,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00068": {
+    "failure_reason": "",
+    "score": -8.979,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00069": {
+    "failure_reason": "",
+    "score": -4.734,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00070": {
+    "failure_reason": "",
+    "score": -7.066,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00071": {
+    "failure_reason": "",
+    "score": -6.041,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00072": {
+    "failure_reason": "",
+    "score": -7.75,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00073": {
+    "failure_reason": "",
+    "score": -8.579,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00074": {
+    "failure_reason": "",
+    "score": -7.184,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00075": {
+    "failure_reason": "",
+    "score": -9.416,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00076": {
+    "failure_reason": "",
+    "score": -8.355,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00077": {
+    "failure_reason": "",
+    "score": -5.292,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00078": {
+    "failure_reason": "",
+    "score": -8.692,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00079": {
+    "failure_reason": "",
+    "score": -9.213,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00080": {
+    "failure_reason": "",
+    "score": -8.495,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00081": {
+    "failure_reason": "",
+    "score": -7.019,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00082": {
+    "failure_reason": "",
+    "score": -8.503,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00083": {
+    "failure_reason": "",
+    "score": -7.667,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00084": {
+    "failure_reason": "",
+    "score": -6.397,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00085": {
+    "failure_reason": "",
+    "score": -8.314,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00086": {
+    "failure_reason": "",
+    "score": -4.912,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00087": {
+    "failure_reason": "",
+    "score": -6.794,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00088": {
+    "failure_reason": "",
+    "score": -8.053,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00089": {
+    "failure_reason": "",
+    "score": -7.991,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00090": {
+    "failure_reason": "",
+    "score": -7.213,
+    "success": true
+  },
+  "chembl_classifier_e0002_m00091": {
+    "failure_reason": "",
+    "score": -5.904,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00000": {
+    "failure_reason": "",
+    "score": -6.871,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00001": {
+    "failure_reason": "",
+    "score": -6.035,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00002": {
+    "failure_reason": "",
+    "score": -11.359,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00003": {
+    "failure_reason": "",
+    "score": -6.952,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00004": {
+    "failure_reason": "",
+    "score": -9.338,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00005": {
+    "failure_reason": "",
+    "score": -7.685,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00006": {
+    "failure_reason": "",
+    "score": -7.188,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00007": {
+    "failure_reason": "",
+    "score": 6.328,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00008": {
+    "failure_reason": "",
+    "score": -6.992,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00009": {
+    "failure_reason": "",
+    "score": -7.589,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00010": {
+    "failure_reason": "",
+    "score": -6.031,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00011": {
+    "failure_reason": "",
+    "score": -8.795,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00012": {
+    "failure_reason": "",
+    "score": -8.359,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00013": {
+    "failure_reason": "",
+    "score": -6.234,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00014": {
+    "failure_reason": "",
+    "score": -8.182,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00015": {
+    "failure_reason": "",
+    "score": -9.003,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00016": {
+    "failure_reason": "",
+    "score": -7.687,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00017": {
+    "failure_reason": "",
+    "score": -8.888,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00018": {
+    "failure_reason": "",
+    "score": -6.35,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00019": {
+    "failure_reason": "",
+    "score": -4.958,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00020": {
+    "failure_reason": "",
+    "score": -7.237,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00021": {
+    "failure_reason": "",
+    "score": -9.59,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00022": {
+    "failure_reason": "",
+    "score": -9.699,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00023": {
+    "failure_reason": "",
+    "score": -7.806,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00024": {
+    "failure_reason": "",
+    "score": -6.973,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00025": {
+    "failure_reason": "",
+    "score": -8.389,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00026": {
+    "failure_reason": "",
+    "score": -6.896,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00027": {
+    "failure_reason": "",
+    "score": -9.259,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00028": {
+    "failure_reason": "",
+    "score": -5.21,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00029": {
+    "failure_reason": "",
+    "score": -7.578,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00030": {
+    "failure_reason": "",
+    "score": -6.239,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00031": {
+    "failure_reason": "",
+    "score": -5.419,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00032": {
+    "failure_reason": "",
+    "score": -7.603,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00033": {
+    "failure_reason": "",
+    "score": -6.394,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00034": {
+    "failure_reason": "",
+    "score": -7.73,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00035": {
+    "failure_reason": "",
+    "score": -7.389,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00036": {
+    "failure_reason": "",
+    "score": -8.037,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00037": {
+    "failure_reason": "",
+    "score": -8.07,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00038": {
+    "failure_reason": "",
+    "score": -6.484,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00039": {
+    "failure_reason": "",
+    "score": -9.297,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00040": {
+    "failure_reason": "",
+    "score": -5.945,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00041": {
+    "failure_reason": "",
+    "score": -5.744,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00042": {
+    "failure_reason": "",
+    "score": -5.35,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00043": {
+    "failure_reason": "",
+    "score": -6.73,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00044": {
+    "failure_reason": "",
+    "score": -8.78,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00045": {
+    "failure_reason": "",
+    "score": -10.149,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00046": {
+    "failure_reason": "",
+    "score": -6.649,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00047": {
+    "failure_reason": "",
+    "score": -9.164,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00048": {
+    "failure_reason": "",
+    "score": -9.837,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00049": {
+    "failure_reason": "",
+    "score": -5.365,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00050": {
+    "failure_reason": "",
+    "score": -7.568,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00051": {
+    "failure_reason": "",
+    "score": -6.483,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00052": {
+    "failure_reason": "",
+    "score": -8.435,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00053": {
+    "failure_reason": "",
+    "score": -7.204,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00054": {
+    "failure_reason": "",
+    "score": -8.914,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00055": {
+    "failure_reason": "",
+    "score": -7.5,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00056": {
+    "failure_reason": "",
+    "score": -6.408,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00057": {
+    "failure_reason": "",
+    "score": -7.755,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00058": {
+    "failure_reason": "",
+    "score": -4.085,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00059": {
+    "failure_reason": "",
+    "score": -7.605,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00060": {
+    "failure_reason": "",
+    "score": -5.659,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00061": {
+    "failure_reason": "",
+    "score": -6.718,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00062": {
+    "failure_reason": "",
+    "score": -7.988,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00063": {
+    "failure_reason": "",
+    "score": -7.788,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00064": {
+    "failure_reason": "",
+    "score": -8.022,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00065": {
+    "failure_reason": "",
+    "score": -6.929,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00066": {
+    "failure_reason": "",
+    "score": -8.173,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00067": {
+    "failure_reason": "",
+    "score": -6.097,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00068": {
+    "failure_reason": "",
+    "score": -4.553,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00069": {
+    "failure_reason": "",
+    "score": -7.971,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00070": {
+    "failure_reason": "",
+    "score": -7.189,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00071": {
+    "failure_reason": "",
+    "score": -9.363,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00072": {
+    "failure_reason": "",
+    "score": -6.315,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00073": {
+    "failure_reason": "",
+    "score": -7.226,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00074": {
+    "failure_reason": "",
+    "score": -7.835,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00075": {
+    "failure_reason": "",
+    "score": -4.787,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00076": {
+    "failure_reason": "",
+    "score": -8.33,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00077": {
+    "failure_reason": "",
+    "score": -6.905,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00078": {
+    "failure_reason": "",
+    "score": -7.324,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00079": {
+    "failure_reason": "",
+    "score": -9.226,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00080": {
+    "failure_reason": "",
+    "score": -9.426,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00081": {
+    "failure_reason": "",
+    "score": -6.638,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00082": {
+    "failure_reason": "",
+    "score": -10.179,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00083": {
+    "failure_reason": "",
+    "score": -5.324,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00084": {
+    "failure_reason": "",
+    "score": -9.229,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00085": {
+    "failure_reason": "",
+    "score": -9.167,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00086": {
+    "failure_reason": "",
+    "score": -6.8,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00087": {
+    "failure_reason": "",
+    "score": -7.993,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00088": {
+    "failure_reason": "",
+    "score": -8.012,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00089": {
+    "failure_reason": "",
+    "score": -9.47,
+    "success": true
+  },
+  "chembl_classifier_e0003_m00090": {
+    "failure_reason": "",
+    "score": -5.861,
+    "success": true
+  },
+  "chembl_classifier_e0004_m00000": {
+    "failure_reason": "",
+    "score": -9.82,
+    "success": true
+  },
+  "chembl_classifier_e0004_m00001": {
+    "failure_reason": "",
+    "score": -6.338,
+    "success": true
+  },
+  "chembl_classifier_e0004_m00002": {
+    "failure_reason": "",
+    "score": -7.947,
+    "success": true
+  },
+  "chembl_classifier_e0004_m00003": {
+    "failure_reason": "",
+    "score": -7.83,
+    "success": true
+  },
+  "chembl_classifier_e0004_m00004": {
+    "failure_reason": "",
+    "score": -9.163,
+    "success": true
+  }
+}

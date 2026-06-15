@@ -1,0 +1,4 @@
+gpu_id,count,seed,config
+0,7,20260611,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu0.yml
+1,7,20260712,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu1.yml
+2,7,20260813,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu2.yml

@@ -1,0 +1,46 @@
+{
+  "input_sdf_files": 7,
+  "limit": 500,
+  "model": "DiffSBDD",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffsbdd.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_0/generated.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_1/generated.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_2/generated.sdf",
+      "readable": 72,
+      "written": 72
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_3/generated.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_4/generated.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_5/generated.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffsbdd/gpu_6/generated.sdf",
+      "readable": 71,
+      "written": 71
+    }
+  ],
+  "readable_records_seen": 500,
+  "write_failed_records": 0,
+  "written_records": 500
+}

@@ -1,0 +1,45 @@
+# ChEMBL classifier v0.3.1 scaffold hard-negative training.
+#
+# Difference from v0.2.1:
+# - positives/negatives come from v0.3 scaffold curation
+# - includes all DiffGui RL epoch molecules from recent failed/diagnostic runs
+# - ring and halogen hard negatives are reason-labeled for category evaluation
+# - bad_poly_fused_or_bridge_ring is promoted to strong negative weight floor 3.0
+
+model:
+  input_dim: 2220
+  hidden_dims: [512, 128]
+  dropout_rates: [0.3, 0.2]
+
+training:
+  n_positives: 100000
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 1e-5
+  max_epochs: 100
+  early_stopping_patience: 15
+  train_split: 0.8
+  val_split: 0.1
+  seed: 45
+  auto_pos_weight: true
+
+data:
+  explicit_positive_samples: "analysis/classifier_v0_3_scaffold_curation_20260610/selected_positives_v0_3_1_scaffold_strongpoly.smi"
+  explicit_negative_samples: "analysis/classifier_v0_3_scaffold_curation_20260610/selected_negatives_v0_3_1_scaffold_strongpoly_labeled.smi"
+  include_legacy_negatives: false
+
+  chembl_molecules: "data/chembl/chembl_36_molecules.csv.gz"
+  chembl_properties: "data/chembl/chembl_36_properties.csv.gz"
+
+  n_jobs: 18
+  experiment_dirs: []
+  n_synthetic_pah: 0
+  n_synthetic_garbage: 0
+  n_chembl_outliers: 0
+
+output:
+  model_dir: "chembl_classifier/models"
+  model_name: "chembl_classifier_selected_v0_3_1_scaffold_strongpoly.pt"
+  dataset_cache: "chembl_classifier/models/dataset_selected_v0_3_1_scaffold_strongpoly.pt"
+  evaluation_dir: "chembl_classifier/models/evaluation_selected_v0_3_1_scaffold_strongpoly"
+  norm_stats: "reference project/molskill/data/chembl_population_mean_std.csv"

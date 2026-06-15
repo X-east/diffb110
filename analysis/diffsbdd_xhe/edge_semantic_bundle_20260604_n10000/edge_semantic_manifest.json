@@ -1,0 +1,52 @@
+{
+  "semantic_npz": "analysis/edge_semantic_bundle_20260604_n10000/train_edge_semantic.npz",
+  "source_npz": "data/crossdocked_raw/processed_edge_noH_full/train.npz",
+  "raw_ligand_root": "data/crossdocked_raw/crossdocked_pocket10",
+  "dataset": "crossdock_full",
+  "samples": 10000,
+  "load_error_counts": {
+    "success": 10000
+  },
+  "total_charge_counts": {
+    "0": 10000
+  },
+  "match_counts": {
+    "atom_count_match": {
+      "count": 9999,
+      "denominator": 10000,
+      "rate": 0.9999
+    },
+    "atom_symbol_match": {
+      "count": 9999,
+      "denominator": 10000,
+      "rate": 0.9999
+    },
+    "bond_count_match": {
+      "count": 9999,
+      "denominator": 10000,
+      "rate": 0.9999
+    },
+    "bond_pair_set_match": {
+      "count": 9999,
+      "denominator": 10000,
+      "rate": 0.9999
+    },
+    "bond_type_map_match": {
+      "count": 9999,
+      "denominator": 10000,
+      "rate": 0.9999
+    }
+  },
+  "processed_bond_type_counts": {
+    "single": 132947,
+    "double": 21075,
+    "triple": 519,
+    "aromatic": 99048
+  },
+  "original_bond_type_counts": {
+    "single": 132948,
+    "double": 21075,
+    "triple": 519,
+    "aromatic": 99048
+  }
+}

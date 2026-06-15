@@ -1,0 +1,4261 @@
+0|DYR_STAAU_2_158_0/4xe6_X_rec_3fqc_55v_lig_tt_docked_4_pocket10.pdb_DYR_STAAU_2_158_0/4xe6_X_rec_3fqc_55v_lig_tt_docked_4.sdf|plain
+     RDKit          3D
+
+ 26 27  0  0  0  0  0  0  0  0999 V2000
+   -2.5786  -32.7595    7.3113 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8753  -32.0664    8.3457 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5383  -33.3046    6.3675 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.5118  -35.1606    9.6260 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.7170  -34.1842    9.0787 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6887  -35.6828    8.8683 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6322  -35.1840    7.4367 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.6265  -34.3187    7.1131 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.6007  -33.7028    7.7906 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2067  -36.0149   11.5978 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3296  -35.6070   10.8841 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.7541  -36.3834    9.3702 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8942  -36.1963   10.1098 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.5898  -35.5611    6.5749 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.5763  -36.1837    5.3127 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2714  -31.4702    6.4404 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9536  -30.3786    5.8416 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.7406  -29.3826    5.3498 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.2113  -29.3247    5.6831 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.5648  -30.3198    6.5289 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.9736  -28.3439    5.1428 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.6157  -27.3114    4.2964 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.4711  -26.4133    3.8618 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.2895  -27.4778    4.0980 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3353  -28.2915    4.4793 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0275  -28.3400    4.1207 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1  9  1  0
+  1 16  1  0
+  4  5  2  0
+  4  6  1  0
+  4 11  1  0
+  5  9  1  0
+  6  7  2  0
+  6 12  1  0
+  7  8  1  0
+  7 14  1  0
+  8  9  2  0
+ 10 11  1  0
+ 12 13  1  0
+ 14 15  1  0
+ 16 17  2  3
+ 17 18  1  0
+ 18 19  2  0
+ 18 25  1  0
+ 19 20  1  0
+ 19 21  1  0
+ 21 22  2  0
+ 22 23  1  0
+ 22 24  1  0
+ 24 25  2  0
+ 25 26  1  0
+M  END
+>  <sample_idx>  (1) 
+0
+
+>  <num_atoms>  (1) 
+26
+
+>  <num_halfedges>  (1) 
+325
+
+>  <target_bond_count>  (1) 
+27
+
+>  <pred_bond_count>  (1) 
+27
+
+>  <halfedge_accuracy>  (1) 
+0.9938461780548096
+
+>  <exact_halfedge_match>  (1) 
+0
+
+>  <bond_pair_set_match>  (1) 
+1
+
+>  <bond_type_map_match>  (1) 
+0
+
+>  <missing_bond_count>  (1) 
+0
+
+>  <extra_bond_count>  (1) 
+0
+
+>  <bond_type_mismatch_count>  (1) 
+2
+
+>  <bond_pair_precision>  (1) 
+1.0
+
+>  <bond_pair_recall>  (1) 
+1.0
+
+>  <bond_pair_f1>  (1) 
+1.0
+
+>  <pred_bond_length_mean>  (1) 
+1.4078879488839044
+
+>  <pred_bond_length_p95>  (1) 
+1.5146814346313477
+
+>  <bad_bond_length_count>  (1) 
+0
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <plain_sanitize_success>  (1) 
+1
+
+>  <plain_repair_strategy>  (1) 
+none
+
+>  <plain_sanitize_error>  (1) 
+
+
+>  <plain_smiles_no_stereo>  (1) 
+CCc1c(OC)cc(C(C)(N)C=Cc2c(O)cc(O)nc2O)nc1OC
+
+>  <semantic_sanitize_success>  (1) 
+1
+
+>  <semantic_repair_strategy>  (1) 
+none
+
+>  <semantic_sanitize_error>  (1) 
+
+
+>  <semantic_smiles_no_stereo>  (1) 
+CCc1c(OC)cc(C(C)(N)C=Cc2c(O)cc(O)nc2O)nc1OC
+
+>  <original_smiles_no_stereo>  (1) 
+COc1cc(C(C)(C)C#Cc2c(C)nc(N)nc2N)cc(OC)c1OC
+
+>  <plain_smiles_no_stereo_match>  (1) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (1) 
+0
+
+>  <mode>  (1) 
+reconstruct
+
+>  <start_timestep>  (1) 
+100
+
+>  <reverse_steps>  (1) 
+101
+
+>  <sample_seconds>  (1) 
+1.6265153884887695
+
+>  <atom_accuracy>  (1) 
+0.7307692170143127
+
+>  <position_rmse>  (1) 
+0.1477820392961855
+
+>  <pred_atom_formula>  (1) 
+C18N3O5
+
+>  <target_atom_formula>  (1) 
+C19N4O3
+
+$$$$
+3|CHK2_HUMAN_210_526_0/4a9s_A_rec_4bdk_rqq_lig_tt_min_0_pocket10.pdb_CHK2_HUMAN_210_526_0/4a9s_A_rec_4bdk_rqq_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 22 24  0  0  0  0  0  0  0  0999 V2000
+   86.5519  -48.1438   26.3714 O   0  0  0  0  0  0  0  0  0  0  0  0
+   85.6336  -47.2325   26.4710 C   0  0  0  0  0  0  0  0  0  0  0  0
+   85.5613  -46.7113   27.8535 C   0  0  0  0  0  0  0  0  0  0  0  0
+   84.9172  -46.6176   25.3514 C   0  0  0  0  0  0  0  0  0  0  0  0
+   85.0292  -46.9804   23.9983 C   0  0  0  0  0  0  0  0  0  0  0  0
+   84.3673  -46.4625   22.9594 C   0  0  0  0  0  0  0  0  0  0  0  0
+   83.9762  -45.6063   25.4003 C   0  0  0  0  0  0  0  0  0  0  0  0
+   83.2514  -44.9873   24.4439 C   0  0  0  0  0  0  0  0  0  0  0  0
+   82.3423  -43.9535   24.5778 N   0  0  0  0  0  0  0  0  0  0  0  0
+   81.5629  -43.3974   23.6373 C   0  0  0  0  0  0  0  0  0  0  0  0
+   81.7454  -43.8158   22.3514 C   0  0  0  0  0  0  0  0  0  0  0  0
+   82.6460  -44.8153   22.0971 C   0  0  0  0  0  0  0  0  0  0  0  0
+   83.4076  -45.4461   23.0093 C   0  0  0  0  0  0  0  0  0  0  0  0
+   86.3053  -46.8175   29.0225 C   0  0  0  0  0  0  0  0  0  0  0  0
+   87.2438  -46.0273   29.7167 C   0  0  0  0  0  0  0  0  0  0  0  0
+   87.3256  -45.5070   31.0029 C   0  0  0  0  0  0  0  0  0  0  0  0
+   88.0358  -44.4628   31.4259 C   0  0  0  0  0  0  0  0  0  0  0  0
+   88.9701  -43.6975   30.6744 C   0  0  0  0  0  0  0  0  0  0  0  0
+   88.9545  -44.2533   29.3301 C   0  0  0  0  0  0  0  0  0  0  0  0
+   88.2582  -45.3015   28.9768 C   0  0  0  0  0  0  0  0  0  0  0  0
+   89.7821  -42.6724   31.0216 C   0  0  0  0  0  0  0  0  0  0  0  0
+   90.9455  -42.6070   31.7230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  2  3  1  0
+  2  4  1  0
+  3 14  1  0
+  4  5  2  0
+  4  7  1  0
+  5  6  1  0
+  6 13  2  0
+  7  8  2  0
+  8  9  1  0
+  8 13  1  0
+  9 10  2  0
+ 10 11  1  0
+ 11 12  2  0
+ 12 13  1  0
+ 14 15  1  0
+ 15 16  2  0
+ 15 20  1  0
+ 16 17  1  0
+ 17 18  2  0
+ 18 19  1  0
+ 18 21  1  0
+ 19 20  2  0
+ 21 22  1  0
+M  END
+>  <sample_idx>  (2) 
+3
+
+>  <num_atoms>  (2) 
+22
+
+>  <num_halfedges>  (2) 
+231
+
+>  <target_bond_count>  (2) 
+24
+
+>  <pred_bond_count>  (2) 
+24
+
+>  <halfedge_accuracy>  (2) 
+1.0
+
+>  <exact_halfedge_match>  (2) 
+1
+
+>  <bond_pair_set_match>  (2) 
+1
+
+>  <bond_type_map_match>  (2) 
+1
+
+>  <missing_bond_count>  (2) 
+0
+
+>  <extra_bond_count>  (2) 
+0
+
+>  <bond_type_mismatch_count>  (2) 
+0
+
+>  <bond_pair_precision>  (2) 
+1.0
+
+>  <bond_pair_recall>  (2) 
+1.0
+
+>  <bond_pair_f1>  (2) 
+1.0
+
+>  <pred_bond_length_mean>  (2) 
+1.3875722239414852
+
+>  <pred_bond_length_p95>  (2) 
+1.4770955562591552
+
+>  <bad_bond_length_count>  (2) 
+0
+
+>  <bad_bond_length_fraction>  (2) 
+0.0
+
+>  <plain_sanitize_success>  (2) 
+1
+
+>  <plain_repair_strategy>  (2) 
+none
+
+>  <plain_sanitize_error>  (2) 
+
+
+>  <plain_smiles_no_stereo>  (2) 
+CCc1ccc(CCC(=O)c2ccc3cccnc3c2)cc1
+
+>  <semantic_sanitize_success>  (2) 
+1
+
+>  <semantic_repair_strategy>  (2) 
+none
+
+>  <semantic_sanitize_error>  (2) 
+
+
+>  <semantic_smiles_no_stereo>  (2) 
+CCc1ccc(CCC(=O)c2ccc3cccnc3c2)cc1
+
+>  <original_smiles_no_stereo>  (2) 
+COc1ccc(CNC(=O)c2ccc3nccnc3c2)cc1
+
+>  <plain_smiles_no_stereo_match>  (2) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (2) 
+0
+
+>  <mode>  (2) 
+reconstruct
+
+>  <start_timestep>  (2) 
+100
+
+>  <reverse_steps>  (2) 
+101
+
+>  <sample_seconds>  (2) 
+1.1956965923309326
+
+>  <atom_accuracy>  (2) 
+0.8636363744735718
+
+>  <position_rmse>  (2) 
+0.16206539085897786
+
+>  <pred_atom_formula>  (2) 
+C20N1O1
+
+>  <target_atom_formula>  (2) 
+C17N3O2
+
+$$$$
+4|FLA_STRCT_1_299_0/1rqp_A_rec_2v7v_5fd_lig_tt_docked_0_pocket10.pdb_FLA_STRCT_1_299_0/1rqp_A_rec_2v7v_5fd_lig_tt_docked_0.sdf|plain
+     RDKit          3D
+
+ 19 21  0  0  0  0  0  0  0  0999 V2000
+   41.6932   10.3408  -25.5470 N   0  0  0  0  0  0  0  0  0  0  0  0
+   40.3248   10.6618  -26.3057 C   0  0  0  0  0  0  0  0  0  0  0  0
+   40.4673   10.2412  -27.6213 N   0  0  0  0  0  0  0  0  0  0  0  0
+   41.7237    9.5669  -27.8994 C   0  0  0  0  0  0  0  0  0  0  0  0
+   42.4756    9.5767  -26.6129 C   0  0  0  0  0  0  0  0  0  0  0  0
+   43.6177    9.0044  -26.5696 N   0  0  0  0  0  0  0  0  0  0  0  0
+   44.1729    8.4406  -27.6374 C   0  0  0  0  0  0  0  0  0  0  0  0
+   43.5593    8.3977  -28.8192 C   0  0  0  0  0  0  0  0  0  0  0  0
+   42.2210    8.9612  -29.0143 C   0  0  0  0  0  0  0  0  0  0  0  0
+   41.5892    8.8708  -30.1667 O   0  0  0  0  0  0  0  0  0  0  0  0
+   43.7724   12.4248  -23.7769 O   0  0  0  0  0  0  0  0  0  0  0  0
+   42.5519   12.0042  -23.6771 C   0  0  0  0  0  0  0  0  0  0  0  0
+   41.8238   12.3049  -22.2433 C   0  0  0  0  0  0  0  0  0  0  0  0
+   42.5696   13.1067  -21.5246 O   0  0  0  0  0  0  0  0  0  0  0  0
+   40.9996   11.1422  -21.9290 C   0  0  0  0  0  0  0  0  0  0  0  0
+   40.9588   10.2969  -23.2125 O   0  0  0  0  0  0  0  0  0  0  0  0
+   41.8543   10.7633  -24.2700 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.6591   11.2192  -21.3580 C   0  0  0  0  0  0  0  0  0  0  0  0
+   38.6513   11.6209  -22.1171 F   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  1 17  1  0
+  2  3  2  0
+  3  4  1  0
+  4  5  2  0
+  4  9  1  0
+  5  6  1  0
+  6  7  2  0
+  7  8  1  0
+  8  9  2  0
+  9 10  1  0
+ 11 12  1  0
+ 12 13  1  0
+ 12 17  1  0
+ 13 14  1  0
+ 13 15  1  0
+ 15 16  1  0
+ 15 18  1  0
+ 16 17  1  0
+ 18 19  1  0
+M  END
+>  <sample_idx>  (3) 
+4
+
+>  <num_atoms>  (3) 
+19
+
+>  <num_halfedges>  (3) 
+171
+
+>  <target_bond_count>  (3) 
+21
+
+>  <pred_bond_count>  (3) 
+21
+
+>  <halfedge_accuracy>  (3) 
+1.0
+
+>  <exact_halfedge_match>  (3) 
+1
+
+>  <bond_pair_set_match>  (3) 
+1
+
+>  <bond_type_map_match>  (3) 
+1
+
+>  <missing_bond_count>  (3) 
+0
+
+>  <extra_bond_count>  (3) 
+0
+
+>  <bond_type_mismatch_count>  (3) 
+0
+
+>  <bond_pair_precision>  (3) 
+1.0
+
+>  <bond_pair_recall>  (3) 
+1.0
+
+>  <bond_pair_f1>  (3) 
+1.0
+
+>  <pred_bond_length_mean>  (3) 
+1.424762833686102
+
+>  <pred_bond_length_p95>  (3) 
+1.5973025560379028
+
+>  <bad_bond_length_count>  (3) 
+0
+
+>  <bad_bond_length_fraction>  (3) 
+0.0
+
+>  <plain_sanitize_success>  (3) 
+1
+
+>  <plain_repair_strategy>  (3) 
+none
+
+>  <plain_sanitize_error>  (3) 
+
+
+>  <plain_smiles_no_stereo>  (3) 
+Oc1ccnc2c1ncn2C1OC(CF)C(O)C1O
+
+>  <semantic_sanitize_success>  (3) 
+1
+
+>  <semantic_repair_strategy>  (3) 
+none
+
+>  <semantic_sanitize_error>  (3) 
+
+
+>  <semantic_smiles_no_stereo>  (3) 
+Oc1ccnc2c1ncn2C1OC(CF)C(O)C1O
+
+>  <original_smiles_no_stereo>  (3) 
+Nc1ncnc2c1ncn2C1OC(CF)C(O)C1O
+
+>  <plain_smiles_no_stereo_match>  (3) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (3) 
+0
+
+>  <mode>  (3) 
+reconstruct
+
+>  <start_timestep>  (3) 
+100
+
+>  <reverse_steps>  (3) 
+101
+
+>  <sample_seconds>  (3) 
+1.173323154449463
+
+>  <atom_accuracy>  (3) 
+0.8947368264198303
+
+>  <position_rmse>  (3) 
+0.16603602115776933
+
+>  <pred_atom_formula>  (3) 
+C11F1N3O4
+
+>  <target_atom_formula>  (3) 
+C10F1N5O3
+
+$$$$
+5|ESR1_HUMAN_300_553_0/5acc_A_rec_5acc_ke9_lig_tt_min_0_pocket10.pdb_ESR1_HUMAN_300_553_0/5acc_A_rec_5acc_ke9_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 32 35  0  0  0  0  0  0  0  0999 V2000
+   14.6616   27.1857  -11.6159 N   0  0  0  0  0  0  0  0  0  0  0  0
+   14.6434   27.1175  -12.9672 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.8735   26.0758  -13.6237 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.5137   24.8671  -13.9509 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.2750   23.4883  -14.1181 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.2598   22.5851  -14.1716 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.3352   21.3064  -14.4767 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.5201   20.6732  -14.6351 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.6284   21.5139  -14.6308 N   0  0  0  0  0  0  0  0  0  0  0  0
+   15.7086   22.7878  -14.4172 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.6411   23.7636  -14.3915 N   0  0  0  0  0  0  0  0  0  0  0  0
+   16.0770   25.2118  -14.1339 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.6801   26.4959  -14.3068 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.8289   27.6598  -13.7462 N   0  0  0  0  0  0  0  0  0  0  0  0
+   17.7652   26.7836  -15.3344 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.2598   26.5663  -16.7554 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.1182   26.8184  -17.7677 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.3978   27.1906  -17.6712 N   0  0  0  0  0  0  0  0  0  0  0  0
+   19.9232   27.3385  -16.4224 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.1483   27.1690  -15.2425 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.6955   27.3463  -13.9880 F   0  0  0  0  0  0  0  0  0  0  0  0
+   15.9363   26.2578  -16.8456 F   0  0  0  0  0  0  0  0  0  0  0  0
+   20.2225   27.3373  -18.9624 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.0345   26.8007  -20.0618 N   0  0  0  0  0  0  0  0  0  0  0  0
+   20.8895   26.9520  -21.4878 S   0  0  0  0  0  0  0  0  0  0  0  0
+   20.2640   26.4138  -22.5916 O   0  0  0  0  0  0  0  0  0  0  0  0
+   21.9601   27.7635  -21.0605 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.2195   28.9779  -13.6560 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.8277   30.3192  -14.4892 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.8102   31.2683  -14.4246 O   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5626   29.9509  -15.8483 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.6006   30.6714  -13.9331 F   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  2  3  1  0
+  2 14  1  0
+  3  4  1  0
+  4  5  2  0
+  4 12  1  0
+  5  6  1  0
+  5 10  1  0
+  6  7  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  1  0
+ 10 11  2  0
+ 11 12  1  0
+ 12 13  1  0
+ 13 14  1  0
+ 13 15  1  0
+ 14 28  1  0
+ 15 16  1  0
+ 15 20  1  0
+ 16 17  1  0
+ 16 22  1  0
+ 17 18  1  0
+ 18 19  1  0
+ 18 23  1  0
+ 19 20  1  0
+ 20 21  1  0
+ 23 24  2  3
+ 24 25  1  0
+ 25 26  2  0
+ 25 27  2  0
+ 28 29  1  0
+ 29 30  1  0
+ 29 31  1  0
+ 29 32  1  0
+M  END
+>  <sample_idx>  (4) 
+5
+
+>  <num_atoms>  (4) 
+32
+
+>  <num_halfedges>  (4) 
+496
+
+>  <target_bond_count>  (4) 
+35
+
+>  <pred_bond_count>  (4) 
+35
+
+>  <halfedge_accuracy>  (4) 
+0.9919354915618896
+
+>  <exact_halfedge_match>  (4) 
+0
+
+>  <bond_pair_set_match>  (4) 
+1
+
+>  <bond_type_map_match>  (4) 
+0
+
+>  <missing_bond_count>  (4) 
+0
+
+>  <extra_bond_count>  (4) 
+0
+
+>  <bond_type_mismatch_count>  (4) 
+4
+
+>  <bond_pair_precision>  (4) 
+1.0
+
+>  <bond_pair_recall>  (4) 
+1.0
+
+>  <bond_pair_f1>  (4) 
+1.0
+
+>  <pred_bond_length_mean>  (4) 
+1.4320218529020037
+
+>  <pred_bond_length_p95>  (4) 
+1.6244287967681885
+
+>  <bad_bond_length_count>  (4) 
+0
+
+>  <bad_bond_length_fraction>  (4) 
+0.0
+
+>  <plain_sanitize_success>  (4) 
+1
+
+>  <plain_repair_strategy>  (4) 
+fix_aromatic
+
+>  <plain_sanitize_error>  (4) 
+
+
+>  <plain_smiles_no_stereo>  (4) 
+NC1CC2=C3COCNC3=NC2C(C2C(F)CN(C=N[SH](=O)=O)CC2F)N1CC(O)(O)F
+
+>  <semantic_sanitize_success>  (4) 
+1
+
+>  <semantic_repair_strategy>  (4) 
+fix_aromatic
+
+>  <semantic_sanitize_error>  (4) 
+
+
+>  <semantic_smiles_no_stereo>  (4) 
+NC1CC2=C3COCNC3=NC2C(C2C(F)CN(C=N[SH](=O)=O)CC2F)N1CC(O)(O)F
+
+>  <original_smiles_no_stereo>  (4) 
+CC1CC2=c3ccccc3=NC2C(c2c(F)cc(C=CC(=O)O)cc2F)N1CC(C)(C)F
+
+>  <plain_smiles_no_stereo_match>  (4) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (4) 
+0
+
+>  <mode>  (4) 
+reconstruct
+
+>  <start_timestep>  (4) 
+100
+
+>  <reverse_steps>  (4) 
+101
+
+>  <sample_seconds>  (4) 
+1.1945221424102783
+
+>  <atom_accuracy>  (4) 
+0.75
+
+>  <position_rmse>  (4) 
+0.13603783390561863
+
+>  <pred_atom_formula>  (4) 
+C17F3N6O5S1
+
+>  <target_atom_formula>  (4) 
+C25F3N2O2
+
+$$$$
+6|MCR_HUMAN_724_984_ligBind_0/1y9r_A_rec_2a3i_c0r_lig_tt_docked_0_pocket10.pdb_MCR_HUMAN_724_984_ligBind_0/1y9r_A_rec_2a3i_c0r_lig_tt_docked_0.sdf|plain
+     RDKit          3D
+
+ 25 28  0  0  0  0  0  0  0  0999 V2000
+    7.9664   18.3714   13.8545 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.2804   18.1096   12.5884 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.2960   16.6725   12.1007 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.9830   15.8426   13.2927 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.7011   16.0515   14.5816 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.6820   15.1766   15.7354 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.1445   15.3378   17.0232 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.4621   16.7113   17.7604 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.2606   17.7452   16.4309 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.5507   17.5652   15.0261 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.4531   19.2361   17.3097 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.2721   19.1711   18.4196 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.9528   18.4591   19.7229 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.8905   16.8673   19.1865 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0346   16.1127   20.5334 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.5118   16.9603   21.5875 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.8004   18.3337   21.1871 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.6678   18.7597   20.1420 O   0  0  0  0  0  0  0  0  0  0  0  0
+    5.9966   17.8409   15.2921 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.6301   16.2831   10.9746 O   0  0  0  0  0  0  0  0  0  0  0  0
+    7.2449   19.8747   17.2572 O   0  0  0  0  0  0  0  0  0  0  0  0
+    9.7436   19.4702   22.2231 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0577   19.1995   23.2608 O   0  0  0  0  0  0  0  0  0  0  0  0
+   10.2450   21.0368   22.2001 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.8269   22.0006   22.9308 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1 10  1  0
+  2  3  1  0
+  3  4  1  0
+  3 20  2  0
+  4  5  2  0
+  5  6  1  0
+  5 10  1  0
+  6  7  1  0
+  7  8  1  0
+  8  9  1  0
+  8 14  1  0
+  9 10  1  0
+  9 11  1  0
+ 10 19  1  0
+ 11 12  1  0
+ 11 21  1  0
+ 12 13  1  0
+ 13 14  1  0
+ 13 17  1  0
+ 13 18  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 22  1  0
+ 22 23  2  0
+ 22 24  1  0
+ 24 25  1  0
+M  END
+>  <sample_idx>  (5) 
+6
+
+>  <num_atoms>  (5) 
+25
+
+>  <num_halfedges>  (5) 
+300
+
+>  <target_bond_count>  (5) 
+28
+
+>  <pred_bond_count>  (5) 
+28
+
+>  <halfedge_accuracy>  (5) 
+1.0
+
+>  <exact_halfedge_match>  (5) 
+1
+
+>  <bond_pair_set_match>  (5) 
+1
+
+>  <bond_type_map_match>  (5) 
+1
+
+>  <missing_bond_count>  (5) 
+0
+
+>  <extra_bond_count>  (5) 
+0
+
+>  <bond_type_mismatch_count>  (5) 
+0
+
+>  <bond_pair_precision>  (5) 
+1.0
+
+>  <bond_pair_recall>  (5) 
+1.0
+
+>  <bond_pair_f1>  (5) 
+1.0
+
+>  <pred_bond_length_mean>  (5) 
+1.4900226422718592
+
+>  <pred_bond_length_p95>  (5) 
+1.6964076995849608
+
+>  <bad_bond_length_count>  (5) 
+0
+
+>  <bad_bond_length_fraction>  (5) 
+0.0
+
+>  <plain_sanitize_success>  (5) 
+1
+
+>  <plain_repair_strategy>  (5) 
+none
+
+>  <plain_sanitize_error>  (5) 
+
+
+>  <plain_smiles_no_stereo>  (5) 
+CC12C=CC(=O)C=C1CCC1C2C(O)CC2(O)C(C(=O)CO)CCC12
+
+>  <semantic_sanitize_success>  (5) 
+1
+
+>  <semantic_repair_strategy>  (5) 
+none
+
+>  <semantic_sanitize_error>  (5) 
+
+
+>  <semantic_smiles_no_stereo>  (5) 
+CC12C=CC(=O)C=C1CCC1C2C(O)CC2(O)C(C(=O)CO)CCC12
+
+>  <original_smiles_no_stereo>  (5) 
+CC12C=CC(=O)C=C1CCC1C2C(O)CC2(C)C(C(=O)CO)CCC12
+
+>  <plain_smiles_no_stereo_match>  (5) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (5) 
+0
+
+>  <mode>  (5) 
+reconstruct
+
+>  <start_timestep>  (5) 
+100
+
+>  <reverse_steps>  (5) 
+101
+
+>  <sample_seconds>  (5) 
+1.1785106658935547
+
+>  <atom_accuracy>  (5) 
+0.9599999785423279
+
+>  <position_rmse>  (5) 
+0.19228040806539345
+
+>  <pred_atom_formula>  (5) 
+C20O5
+
+>  <target_atom_formula>  (5) 
+C21O4
+
+$$$$
+7|CSK21_HUMAN_1_335_ATPsite_0/3owj_A_rec_5n1v_8gq_lig_tt_min_0_pocket10.pdb_CSK21_HUMAN_1_335_ATPsite_0/3owj_A_rec_5n1v_8gq_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 36 41  0  0  0  0  0  0  0  0999 V2000
+   14.0532    6.7608   16.8509 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.1007    5.6046   17.6672 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.9777    5.4203   19.0213 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.5516    6.6616   15.5314 N   0  0  0  0  0  0  0  0  0  0  0  0
+   12.3834    8.6737   21.0617 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.7785    7.5926   21.9350 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.3292    3.4017   19.8984 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.9591    2.4248   19.1248 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.0476    1.5945   19.0352 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.4113    1.6750   18.7585 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.9066    2.6654   16.9516 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.5017    2.3728   15.6342 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.4552    2.6471   14.5257 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.0094    3.9769   16.5361 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.4410    5.9921   14.6498 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.3189    5.1244   12.4684 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.8758    5.1969   10.9918 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.6362    6.0232   10.9930 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.3096    6.3727   12.4283 N   0  0  0  0  0  0  0  0  0  0  0  0
+   15.2496    5.8771   13.2812 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.6412    5.3564   15.1240 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.2516    4.5556   13.1792 N   0  0  0  0  0  0  0  0  0  0  0  0
+   17.5477    4.5162   14.5109 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.5086    3.7350   15.1745 N   0  0  0  0  0  0  0  0  0  0  0  0
+   19.0666    1.7522   17.5396 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.2672    4.2632   19.6391 O   0  0  0  0  0  0  0  0  0  0  0  0
+   13.5317    6.6327   19.7800 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.4162    6.6119   21.1363 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.6966    7.3566   23.2062 O   0  0  0  0  0  0  0  0  0  0  0  0
+   13.0084    8.9548   19.8569 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.4433    7.8496   18.9944 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.6860    7.8942   17.6453 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.0864    1.4721   13.7730 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.5734    0.8292   12.7408 N   0  0  0  0  0  0  0  0  0  0  0  0
+   17.1403    3.9526    9.0722 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.4973    4.5535    9.9907 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  4  1  0
+  1 32  1  0
+  2  3  1  0
+  3 26  1  0
+  3 27  1  0
+  4 15  1  0
+  5  6  1  0
+  5 30  1  0
+  6 28  1  0
+  6 29  2  0
+  7  8  1  0
+  7 26  1  0
+  8  9  1  0
+  9 10  1  0
+ 10 25  1  0
+ 11 12  1  0
+ 11 14  1  0
+ 11 25  1  0
+ 12 13  1  0
+ 13 24  1  0
+ 13 33  1  0
+ 14 24  1  0
+ 15 20  1  0
+ 15 21  1  0
+ 16 17  1  0
+ 16 20  1  0
+ 16 22  1  0
+ 17 18  1  0
+ 17 36  1  0
+ 18 19  1  0
+ 19 20  1  0
+ 21 23  1  0
+ 22 23  1  0
+ 23 24  1  0
+ 27 28  1  0
+ 27 31  1  0
+ 30 31  1  0
+ 31 32  1  0
+ 33 34  1  0
+ 35 36  1  0
+M  END
+>  <sample_idx>  (6) 
+7
+
+>  <num_atoms>  (6) 
+36
+
+>  <num_halfedges>  (6) 
+630
+
+>  <target_bond_count>  (6) 
+41
+
+>  <pred_bond_count>  (6) 
+41
+
+>  <halfedge_accuracy>  (6) 
+0.9936507940292358
+
+>  <exact_halfedge_match>  (6) 
+0
+
+>  <bond_pair_set_match>  (6) 
+1
+
+>  <bond_type_map_match>  (6) 
+0
+
+>  <missing_bond_count>  (6) 
+0
+
+>  <extra_bond_count>  (6) 
+0
+
+>  <bond_type_mismatch_count>  (6) 
+4
+
+>  <bond_pair_precision>  (6) 
+1.0
+
+>  <bond_pair_recall>  (6) 
+1.0
+
+>  <bond_pair_f1>  (6) 
+1.0
+
+>  <pred_bond_length_mean>  (6) 
+1.4198992892009457
+
+>  <pred_bond_length_p95>  (6) 
+1.5489619970321655
+
+>  <bad_bond_length_count>  (6) 
+0
+
+>  <bad_bond_length_fraction>  (6) 
+0.0
+
+>  <plain_sanitize_success>  (6) 
+1
+
+>  <plain_repair_strategy>  (6) 
+fix_valence
+
+>  <plain_sanitize_error>  (6) 
+
+
+>  <plain_smiles_no_stereo>  (6) 
+NCC1CC2CN1C1CC(NC3CC4CCC(=O)CC4C(C3)OCCCCO2)C2NCC(CO)C2N1
+
+>  <semantic_sanitize_success>  (6) 
+1
+
+>  <semantic_repair_strategy>  (6) 
+fix_valence
+
+>  <semantic_sanitize_error>  (6) 
+
+
+>  <semantic_smiles_no_stereo>  (6) 
+NCC1CC2CN1C1CC(NC3CC4CCC(=O)CC4C(C3)OCCCCO2)C2NCC(CO)C2N1
+
+>  <original_smiles_no_stereo>  (6) 
+N#Cc1cnn2c3cc(nc12)N1CC(CC1CO)OCCCCOc1cc(cc2c1NC(=O)CC2)N3
+
+>  <plain_smiles_no_stereo_match>  (6) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (6) 
+0
+
+>  <mode>  (6) 
+reconstruct
+
+>  <start_timestep>  (6) 
+100
+
+>  <reverse_steps>  (6) 
+101
+
+>  <sample_seconds>  (6) 
+1.1965923309326172
+
+>  <atom_accuracy>  (6) 
+0.8888888955116272
+
+>  <position_rmse>  (6) 
+0.1637132765271319
+
+>  <pred_atom_formula>  (6) 
+C27N5O4
+
+>  <target_atom_formula>  (6) 
+C25N7O4
+
+$$$$
+8|NT5M_HUMAN_31_228_0/2jau_A_rec_1z4p_dgp_lig_tt_min_0_pocket10.pdb_NT5M_HUMAN_31_228_0/2jau_A_rec_1z4p_dgp_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 23 25  0  0  0  0  0  0  0  0999 V2000
+   -4.6951   22.8695   25.8114 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2268   23.9292   26.6702 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.3874   23.5868   24.6252 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.7061   23.7404   24.4111 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.5930   25.0192   24.7126 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2904   25.3116   26.0223 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5877   26.3379   26.5046 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.5161   27.0195   25.5939 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8259   28.0330   26.4549 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.3845   28.0404   27.7296 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.2007   28.6844   28.9585 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.2977   29.6098   29.1017 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.0145   28.2645   29.9874 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9972   27.4119   30.1899 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.6754   27.1146   31.2629 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1528   26.8064   28.8990 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5207   26.9691   27.8046 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.0865   21.6062   25.6900 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1693   20.5324   24.9517 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2963   19.8101   24.0477 P   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.8929   18.4617   23.8435 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8857   19.6949   24.4754 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.3114   20.4513   22.6554 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1 18  1  0
+  2  6  1  0
+  3  4  1  0
+  3  5  1  0
+  5  6  1  0
+  6  7  1  0
+  7  8  1  0
+  7 17  1  0
+  8  9  1  0
+  9 10  1  0
+ 10 11  1  0
+ 10 17  1  0
+ 11 12  2  0
+ 11 13  1  0
+ 13 14  1  0
+ 14 15  1  0
+ 14 16  1  0
+ 16 17  1  0
+ 18 19  1  0
+ 19 20  1  0
+ 20 21  1  0
+ 20 22  1  0
+ 20 23  2  0
+M  END
+>  <sample_idx>  (7) 
+8
+
+>  <num_atoms>  (7) 
+23
+
+>  <num_halfedges>  (7) 
+253
+
+>  <target_bond_count>  (7) 
+25
+
+>  <pred_bond_count>  (7) 
+25
+
+>  <halfedge_accuracy>  (7) 
+0.9960474371910095
+
+>  <exact_halfedge_match>  (7) 
+0
+
+>  <bond_pair_set_match>  (7) 
+1
+
+>  <bond_type_map_match>  (7) 
+0
+
+>  <missing_bond_count>  (7) 
+0
+
+>  <extra_bond_count>  (7) 
+0
+
+>  <bond_type_mismatch_count>  (7) 
+1
+
+>  <bond_pair_precision>  (7) 
+1.0
+
+>  <bond_pair_recall>  (7) 
+1.0
+
+>  <bond_pair_f1>  (7) 
+1.0
+
+>  <pred_bond_length_mean>  (7) 
+1.4298707914352418
+
+>  <pred_bond_length_p95>  (7) 
+1.5632473230361938
+
+>  <bad_bond_length_count>  (7) 
+0
+
+>  <bad_bond_length_fraction>  (7) 
+0.0
+
+>  <plain_sanitize_success>  (7) 
+1
+
+>  <plain_repair_strategy>  (7) 
+fix_valence
+
+>  <plain_sanitize_error>  (7) 
+
+
+>  <plain_smiles_no_stereo>  (7) 
+NC1NC(=O)C2CCN(C3NC(O)C(COP(=O)(O)O)O3)C2N1
+
+>  <semantic_sanitize_success>  (7) 
+1
+
+>  <semantic_repair_strategy>  (7) 
+none
+
+>  <semantic_sanitize_error>  (7) 
+
+
+>  <semantic_smiles_no_stereo>  (7) 
+Nc1nc(=O)c2ccn(C3NC(O)C(COP(=O)(O)O)O3)c2[nH]1
+
+>  <original_smiles_no_stereo>  (7) 
+Nc1nc(=O)c2ncn(C3CC(O)C(COP(=O)(O)O)O3)c2[nH]1
+
+>  <plain_smiles_no_stereo_match>  (7) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (7) 
+0
+
+>  <mode>  (7) 
+reconstruct
+
+>  <start_timestep>  (7) 
+100
+
+>  <reverse_steps>  (7) 
+101
+
+>  <sample_seconds>  (7) 
+1.1800594329833984
+
+>  <atom_accuracy>  (7) 
+0.9130434989929199
+
+>  <position_rmse>  (7) 
+0.14301793315579
+
+>  <pred_atom_formula>  (7) 
+C10N5O7P1
+
+>  <target_atom_formula>  (7) 
+C10N5O7P1
+
+$$$$
+10|HEMH_HUMAN_65_423_0/4mk4_A_rec_2pnj_chd_lig_tt_min_0_pocket10.pdb_HEMH_HUMAN_65_423_0/4mk4_A_rec_2pnj_chd_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 29 32  0  0  0  0  0  0  0  0999 V2000
+   38.0440   34.5701   14.5105 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.2684   35.5779   15.0715 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.9105   36.3711   16.2223 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.0910   36.9985   17.1004 O   0  0  0  0  0  0  0  0  0  0  0  0
+   39.1573   35.7570   16.5317 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.8654   34.5670   16.1502 C   0  0  0  0  0  0  0  0  0  0  0  0
+   40.6611   33.7636   17.0526 C   0  0  0  0  0  0  0  0  0  0  0  0
+   40.1321   32.6922   17.8587 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.5419   33.0691   19.1638 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.3056   31.6389   17.0718 C   0  0  0  0  0  0  0  0  0  0  0  0
+   38.5137   32.3539   15.8936 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.0992   33.6697   15.0657 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.4029   31.5527   15.4966 C   0  0  0  0  0  0  0  0  0  0  0  0
+   36.7925   30.3705   16.0837 C   0  0  0  0  0  0  0  0  0  0  0  0
+   35.5511   30.5162   16.6869 O   0  0  0  0  0  0  0  0  0  0  0  0
+   37.8229   29.3337   16.6919 C   0  0  0  0  0  0  0  0  0  0  0  0
+   38.8440   30.3148   17.5128 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.3391   29.2630   18.6964 C   0  0  0  0  0  0  0  0  0  0  0  0
+   38.5068   28.1389   18.7662 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.3661   28.1314   17.7975 C   0  0  0  0  0  0  0  0  0  0  0  0
+   38.6285   28.5958   15.6746 C   0  0  0  0  0  0  0  0  0  0  0  0
+   39.9555   33.1054   14.1322 O   0  0  0  0  0  0  0  0  0  0  0  0
+   36.4332   26.9440   17.6802 C   0  0  0  0  0  0  0  0  0  0  0  0
+   35.0477   27.1222   18.0658 C   0  0  0  0  0  0  0  0  0  0  0  0
+   36.9548   25.6751   17.4391 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.0387   24.6905   16.4872 C   0  0  0  0  0  0  0  0  0  0  0  0
+   37.2865   22.3518   16.9928 O   0  0  0  0  0  0  0  0  0  0  0  0
+   36.3815   23.3810   16.7589 S   0  0  0  0  0  0  0  0  0  0  0  0
+   35.0335   23.7166   17.1228 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 12  1  0
+  2  3  1  0
+  3  4  1  0
+  3  5  1  0
+  5  6  1  0
+  6  7  1  0
+  6 12  1  0
+  7  8  1  0
+  8  9  1  0
+  8 10  1  0
+ 10 11  1  0
+ 10 17  1  0
+ 11 12  1  0
+ 11 13  1  0
+ 12 22  1  0
+ 13 14  1  0
+ 14 15  1  0
+ 14 16  1  0
+ 16 17  1  0
+ 16 20  1  0
+ 16 21  1  0
+ 17 18  1  0
+ 18 19  1  0
+ 19 20  1  0
+ 20 23  1  0
+ 23 24  1  0
+ 23 25  1  0
+ 25 26  1  0
+ 26 28  1  0
+ 27 28  2  0
+ 28 29  2  0
+M  END
+>  <sample_idx>  (8) 
+10
+
+>  <num_atoms>  (8) 
+29
+
+>  <num_halfedges>  (8) 
+406
+
+>  <target_bond_count>  (8) 
+32
+
+>  <pred_bond_count>  (8) 
+32
+
+>  <halfedge_accuracy>  (8) 
+0.9975369572639465
+
+>  <exact_halfedge_match>  (8) 
+0
+
+>  <bond_pair_set_match>  (8) 
+1
+
+>  <bond_type_map_match>  (8) 
+0
+
+>  <missing_bond_count>  (8) 
+0
+
+>  <extra_bond_count>  (8) 
+0
+
+>  <bond_type_mismatch_count>  (8) 
+1
+
+>  <bond_pair_precision>  (8) 
+1.0
+
+>  <bond_pair_recall>  (8) 
+1.0
+
+>  <bond_pair_f1>  (8) 
+1.0
+
+>  <pred_bond_length_mean>  (8) 
+1.4858680628240108
+
+>  <pred_bond_length_p95>  (8) 
+1.6600152194499969
+
+>  <bad_bond_length_count>  (8) 
+0
+
+>  <bad_bond_length_fraction>  (8) 
+0.0
+
+>  <plain_sanitize_success>  (8) 
+1
+
+>  <plain_repair_strategy>  (8) 
+none
+
+>  <plain_sanitize_error>  (8) 
+
+
+>  <plain_smiles_no_stereo>  (8) 
+CC1CC2CC(O)CCC2(O)C2CC(O)C3(C)C(C(C)CC[SH](=O)=O)CCC3C12
+
+>  <semantic_sanitize_success>  (8) 
+1
+
+>  <semantic_repair_strategy>  (8) 
+none
+
+>  <semantic_sanitize_error>  (8) 
+
+
+>  <semantic_smiles_no_stereo>  (8) 
+CC1CC2CC(O)CCC2(O)C2CC(O)C3(C)C(C(C)CC[SH](=O)=O)CCC3C12
+
+>  <original_smiles_no_stereo>  (8) 
+CC(CCC(=O)O)C1CCC2C3C(O)CC4CC(O)CCC4(C)C3CC(O)C12C
+
+>  <plain_smiles_no_stereo_match>  (8) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (8) 
+0
+
+>  <mode>  (8) 
+reconstruct
+
+>  <start_timestep>  (8) 
+100
+
+>  <reverse_steps>  (8) 
+101
+
+>  <sample_seconds>  (8) 
+1.1645584106445312
+
+>  <atom_accuracy>  (8) 
+0.8965517282485962
+
+>  <position_rmse>  (8) 
+0.1910589044293122
+
+>  <pred_atom_formula>  (8) 
+C23O5S1
+
+>  <target_atom_formula>  (8) 
+C24O5
+
+$$$$
+11|HYES_HUMAN_230_551_0/3ant_A_rec_4c4x_w9m_lig_tt_docked_0_pocket10.pdb_HYES_HUMAN_230_551_0/3ant_A_rec_4c4x_w9m_lig_tt_docked_0.sdf|plain
+     RDKit          3D
+
+ 14 14  0  0  0  0  0  0  0  0999 V2000
+   16.9380    9.1570   12.8522 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.1555    9.8991   12.2274 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.4094    9.7063   13.8971 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.5807    8.0002   12.1110 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.4591   10.9783   13.0335 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.6476    9.3829   11.1749 N   0  0  0  0  0  0  0  0  0  0  0  0
+   16.7740   10.7240   14.7923 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.8913   11.3659   14.1480 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.2518   11.0066   16.0673 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.8253   10.5771   17.3541 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.2092   11.3577   18.5814 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.8959    9.2160   17.7728 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.0226   12.6271   18.4672 N   0  0  0  0  0  0  0  0  0  0  0  0
+   14.9349   10.5757   19.6835 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  3  1  0
+  1  4  1  0
+  2  5  1  0
+  2  6  1  0
+  3  7  2  0
+  5  8  2  0
+  7  8  1  0
+  7  9  1  0
+  9 10  1  0
+ 10 11  1  0
+ 10 12  2  0
+ 11 13  1  0
+ 11 14  1  0
+M  END
+>  <sample_idx>  (9) 
+11
+
+>  <num_atoms>  (9) 
+14
+
+>  <num_halfedges>  (9) 
+91
+
+>  <target_bond_count>  (9) 
+14
+
+>  <pred_bond_count>  (9) 
+14
+
+>  <halfedge_accuracy>  (9) 
+1.0
+
+>  <exact_halfedge_match>  (9) 
+1
+
+>  <bond_pair_set_match>  (9) 
+1
+
+>  <bond_type_map_match>  (9) 
+1
+
+>  <missing_bond_count>  (9) 
+0
+
+>  <extra_bond_count>  (9) 
+0
+
+>  <bond_type_mismatch_count>  (9) 
+0
+
+>  <bond_pair_precision>  (9) 
+1.0
+
+>  <bond_pair_recall>  (9) 
+1.0
+
+>  <bond_pair_f1>  (9) 
+1.0
+
+>  <pred_bond_length_mean>  (9) 
+1.3983289769717626
+
+>  <pred_bond_length_p95>  (9) 
+1.5647190511226654
+
+>  <bad_bond_length_count>  (9) 
+0
+
+>  <bad_bond_length_fraction>  (9) 
+0.0
+
+>  <plain_sanitize_success>  (9) 
+1
+
+>  <plain_repair_strategy>  (9) 
+none
+
+>  <plain_sanitize_error>  (9) 
+
+
+>  <plain_smiles_no_stereo>  (9) 
+C=C(Cc1ccc(N)c(C)c1)C(C)N
+
+>  <semantic_sanitize_success>  (9) 
+1
+
+>  <semantic_repair_strategy>  (9) 
+none
+
+>  <semantic_sanitize_error>  (9) 
+
+
+>  <semantic_smiles_no_stereo>  (9) 
+C=C(Cc1ccc(N)c(C)c1)C(C)N
+
+>  <original_smiles_no_stereo>  (9) 
+CN(C)C(=O)Nc1ccc(Cl)c(Cl)c1
+
+>  <plain_smiles_no_stereo_match>  (9) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (9) 
+0
+
+>  <mode>  (9) 
+reconstruct
+
+>  <start_timestep>  (9) 
+100
+
+>  <reverse_steps>  (9) 
+101
+
+>  <sample_seconds>  (9) 
+1.173407793045044
+
+>  <atom_accuracy>  (9) 
+0.5714285969734192
+
+>  <position_rmse>  (9) 
+0.16540330836406225
+
+>  <pred_atom_formula>  (9) 
+C12N2
+
+>  <target_atom_formula>  (9) 
+C9Cl2N2O1
+
+$$$$
+12|BRD1_HUMAN_554_688_0/5pnx_A_rec_5n49_8lw_lig_tt_min_0_pocket10.pdb_BRD1_HUMAN_554_688_0/5pnx_A_rec_5n49_8lw_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 28 32  0  0  0  0  0  0  0  0999 V2000
+  -33.6899    2.0515    8.2846 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -34.2798    0.6872    8.2598 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -33.6366   -0.1925    7.5236 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -35.5134    0.4836    8.9771 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -36.1475    1.4479    9.7775 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -36.1617   -0.8342    8.8874 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -37.1869   -1.0035    9.6751 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -37.8340   -0.1504   10.4591 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -37.3706    1.1946   10.5396 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -37.8936    2.2213   11.2957 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -37.3897    3.4943   11.3300 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -36.2485    3.7562   10.6182 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -35.5925    2.7881    9.8798 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -34.3493    3.0616    9.1169 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -33.7828    4.2519    9.1022 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -33.4221    2.8918    5.2472 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -32.2803    2.7484    6.0132 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -30.9813    2.8912    5.6470 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -29.7564    2.8084    6.2099 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -28.3898    2.9182    5.8769 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -27.9116    3.2789    4.6536 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -27.4613    2.6966    7.1030 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -26.2225    2.6852    7.1951 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -28.5789    2.3590    8.2921 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -27.9721    2.0741    9.5088 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -29.8353    2.4234    7.7832 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -31.1314    2.2825    8.1314 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -32.3997    2.3347    7.5634 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 14  1  0
+  1 28  1  0
+  2  3  2  0
+  2  4  1  0
+  4  5  2  0
+  4  6  1  0
+  5  9  1  0
+  5 13  1  0
+  6  7  2  0
+  7  8  1  0
+  8  9  2  0
+  9 10  1  0
+ 10 11  2  0
+ 11 12  1  0
+ 12 13  2  0
+ 13 14  1  0
+ 14 15  2  0
+ 16 17  1  0
+ 17 18  2  0
+ 17 28  1  0
+ 18 19  1  0
+ 19 20  1  0
+ 19 26  2  0
+ 20 21  1  0
+ 20 22  1  0
+ 22 23  2  0
+ 22 24  1  0
+ 24 25  1  0
+ 24 26  1  0
+ 26 27  1  0
+ 27 28  2  0
+M  END
+>  <sample_idx>  (10) 
+12
+
+>  <num_atoms>  (10) 
+28
+
+>  <num_halfedges>  (10) 
+378
+
+>  <target_bond_count>  (10) 
+32
+
+>  <pred_bond_count>  (10) 
+32
+
+>  <halfedge_accuracy>  (10) 
+0.9894179701805115
+
+>  <exact_halfedge_match>  (10) 
+0
+
+>  <bond_pair_set_match>  (10) 
+1
+
+>  <bond_type_map_match>  (10) 
+0
+
+>  <missing_bond_count>  (10) 
+0
+
+>  <extra_bond_count>  (10) 
+0
+
+>  <bond_type_mismatch_count>  (10) 
+4
+
+>  <bond_pair_precision>  (10) 
+1.0
+
+>  <bond_pair_recall>  (10) 
+1.0
+
+>  <bond_pair_f1>  (10) 
+1.0
+
+>  <pred_bond_length_mean>  (10) 
+1.4190209060907364
+
+>  <pred_bond_length_p95>  (10) 
+1.6146860063076018
+
+>  <bad_bond_length_count>  (10) 
+0
+
+>  <bad_bond_length_fraction>  (10) 
+0.0
+
+>  <plain_sanitize_success>  (10) 
+1
+
+>  <plain_repair_strategy>  (10) 
+none
+
+>  <plain_sanitize_error>  (10) 
+
+
+>  <plain_smiles_no_stereo>  (10) 
+Cc1cc2c(cc1N1C(=O)c3cccc4cncc(c34)C1=O)N(O)C(=O)C2C
+
+>  <semantic_sanitize_success>  (10) 
+1
+
+>  <semantic_repair_strategy>  (10) 
+none
+
+>  <semantic_sanitize_error>  (10) 
+
+
+>  <semantic_smiles_no_stereo>  (10) 
+Cc1cc2c(cc1N1C(=O)c3cccc4cncc(c34)C1=O)N(O)C(=O)C2C
+
+>  <original_smiles_no_stereo>  (10) 
+Cc1cc2c(cc1N1C(=O)c3cccc4cccc(c34)C1=O)n(C)c(=O)n2C
+
+>  <plain_smiles_no_stereo_match>  (10) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (10) 
+0
+
+>  <mode>  (10) 
+reconstruct
+
+>  <start_timestep>  (10) 
+100
+
+>  <reverse_steps>  (10) 
+101
+
+>  <sample_seconds>  (10) 
+1.166487455368042
+
+>  <atom_accuracy>  (10) 
+0.8928571343421936
+
+>  <position_rmse>  (10) 
+0.13729495832069805
+
+>  <pred_atom_formula>  (10) 
+C21N3O4
+
+>  <target_atom_formula>  (10) 
+C22N3O3
+
+$$$$
+13|HMDH_HUMAN_434_880_0/3ccw_A_rec_2q6c_hr1_lig_tt_docked_0_pocket10.pdb_HMDH_HUMAN_434_880_0/3ccw_A_rec_2q6c_hr1_lig_tt_docked_0.sdf|plain
+     RDKit          3D
+
+ 41 45  0  0  0  0  0  0  0  0999 V2000
+    4.9742   24.4646   22.6363 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.2760   24.0921   24.8484 C   0  0  0  0  0  0  0  0  0  0  0  0
+   10.6149   25.9744   25.3162 O   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0982   26.6508   24.1674 N   0  0  0  0  0  0  0  0  0  0  0  0
+    6.3154   26.0102   20.3572 O   0  0  0  0  0  0  0  0  0  0  0  0
+    6.9350   25.8582   21.5311 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.3681   25.1441   22.5728 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.1519   24.9729   23.8703 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.4873   25.5847   23.9513 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.4645   25.5413   25.1086 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.0578   26.2590   22.8279 C   0  0  0  0  0  0  0  0  0  0  0  0
+   10.3590   26.8223   23.0699 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.3088   26.4450   21.6294 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.8670   23.8217   24.0752 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0091   24.1403   28.6886 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.3209   22.4195   26.6144 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.6978   22.0598   27.8907 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.6865   23.6629   26.2181 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.5711   22.8676   29.0247 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.6376   24.5279   27.4240 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.0269   22.4834   30.2568 O   0  0  0  0  0  0  0  0  0  0  0  0
+   10.0768   27.3230   18.4640 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.6184   28.6372   20.3902 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.7946   27.1820   20.4918 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.5912   26.6414   19.5206 N   0  0  0  0  0  0  0  0  0  0  0  0
+    9.7527   28.6294   18.3421 O   0  0  0  0  0  0  0  0  0  0  0  0
+    9.1309   29.3171   19.3175 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.8640   24.3045   21.6891 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5550   24.9546   21.9047 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.7211   23.1050   20.8123 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.7542   23.1616   24.4953 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.0970   22.9042   25.7453 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.6244   21.6086   26.2194 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.2755   21.4754   25.7796 O   0  0  0  0  0  0  0  0  0  0  0  0
+    3.5031   20.4780   26.1612 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0844   19.7470   27.3066 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.4040   19.9713   28.5085 O   0  0  0  0  0  0  0  0  0  0  0  0
+    4.5747   18.3863   27.0638 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.8849   17.3547   27.8893 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.5611   17.0784   27.4700 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.4496   16.9286   29.0030 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  7  2  0
+  1 14  1  0
+  1 28  1  0
+  2  8  1  0
+  2 14  1  0
+  2 18  1  0
+  3  4  1  0
+  3 10  1  0
+  4 12  2  0
+  5  6  2  0
+  6  7  1  0
+  6 13  1  0
+  7  8  1  0
+  8  9  2  0
+  9 10  1  0
+  9 11  1  0
+ 11 12  1  0
+ 11 13  2  0
+ 13 24  1  0
+ 14 31  1  0
+ 15 19  1  0
+ 15 20  1  0
+ 16 17  1  0
+ 16 18  1  0
+ 17 19  2  0
+ 18 20  1  0
+ 19 21  1  0
+ 22 25  1  0
+ 22 26  1  0
+ 23 24  1  0
+ 23 27  1  0
+ 24 25  1  0
+ 26 27  1  0
+ 28 29  1  0
+ 28 30  1  0
+ 31 32  1  0
+ 32 33  2  3
+ 33 34  1  0
+ 33 35  1  0
+ 35 36  1  0
+ 36 37  1  0
+ 36 38  1  0
+ 38 39  1  0
+ 39 40  1  0
+ 39 41  2  0
+M  END
+>  <sample_idx>  (11) 
+13
+
+>  <num_atoms>  (11) 
+41
+
+>  <num_halfedges>  (11) 
+820
+
+>  <target_bond_count>  (11) 
+45
+
+>  <pred_bond_count>  (11) 
+45
+
+>  <halfedge_accuracy>  (11) 
+0.9914634227752686
+
+>  <exact_halfedge_match>  (11) 
+0
+
+>  <bond_pair_set_match>  (11) 
+1
+
+>  <bond_type_map_match>  (11) 
+0
+
+>  <missing_bond_count>  (11) 
+0
+
+>  <extra_bond_count>  (11) 
+0
+
+>  <bond_type_mismatch_count>  (11) 
+7
+
+>  <bond_pair_precision>  (11) 
+1.0
+
+>  <bond_pair_recall>  (11) 
+1.0
+
+>  <bond_pair_f1>  (11) 
+1.0
+
+>  <pred_bond_length_mean>  (11) 
+1.4345408042271932
+
+>  <pred_bond_length_p95>  (11) 
+1.5740601301193236
+
+>  <bad_bond_length_count>  (11) 
+0
+
+>  <bad_bond_length_fraction>  (11) 
+0.0
+
+>  <plain_sanitize_success>  (11) 
+1
+
+>  <plain_repair_strategy>  (11) 
+fix_aromatic
+
+>  <plain_sanitize_error>  (11) 
+
+
+>  <plain_smiles_no_stereo>  (11) 
+CC(=O)CC(O)CC(O)=COC1C(C(C)C)=C2C(=O)C(C3CCOCN3)=C3C=NOCC3=C2C1C1CC=C(O)CC1
+
+>  <semantic_sanitize_success>  (11) 
+1
+
+>  <semantic_repair_strategy>  (11) 
+fix_aromatic
+
+>  <semantic_sanitize_error>  (11) 
+
+
+>  <semantic_smiles_no_stereo>  (11) 
+CC(=O)CC(O)CC(O)=COC1C(C(C)C)=C2C(=O)C(C3CCOCN3)=C3C=NOCC3=C2C1C1CC=C(O)CC1
+
+>  <original_smiles_no_stereo>  (11) 
+CC(C)n1c(CCC(O)CC(O)CC(=O)O)c(-c2ccc(F)cc2)c2c3ccccc3n(-c3ccccc3)c(=O)c21
+
+>  <plain_smiles_no_stereo_match>  (11) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (11) 
+0
+
+>  <mode>  (11) 
+reconstruct
+
+>  <start_timestep>  (11) 
+100
+
+>  <reverse_steps>  (11) 
+101
+
+>  <sample_seconds>  (11) 
+1.1816022396087646
+
+>  <atom_accuracy>  (11) 
+0.7804877758026123
+
+>  <position_rmse>  (11) 
+0.14935165548064777
+
+>  <pred_atom_formula>  (11) 
+C31N2O8
+
+>  <target_atom_formula>  (11) 
+C33F1N2O5
+
+$$$$
+15|OGA_BACTN_18_737_0/2wzh_A_rec_5fl0_71i_lig_it1_it2_tt_docked_3_pocket10.pdb_OGA_BACTN_18_737_0/2wzh_A_rec_5fl0_71i_lig_it1_it2_tt_docked_3.sdf|plain
+     RDKit          3D
+
+ 18 19  0  0  0  0  0  0  0  0999 V2000
+   52.2349  -21.6911  -40.1859 C   0  0  0  0  0  0  0  0  0  0  0  0
+   53.5531  -21.2310  -40.1652 O   0  0  0  0  0  0  0  0  0  0  0  0
+   51.2744  -20.7672  -39.5850 C   0  0  0  0  0  0  0  0  0  0  0  0
+   49.9603  -21.1271  -39.2671 C   0  0  0  0  0  0  0  0  0  0  0  0
+   51.8052  -19.4980  -38.9846 C   0  0  0  0  0  0  0  0  0  0  0  0
+   50.9776  -18.7087  -38.2839 O   0  0  0  0  0  0  0  0  0  0  0  0
+   53.2253  -19.1721  -38.9723 C   0  0  0  0  0  0  0  0  0  0  0  0
+   54.1696  -20.2972  -39.4338 C   0  0  0  0  0  0  0  0  0  0  0  0
+   53.9053  -18.5206  -37.8627 O   0  0  0  0  0  0  0  0  0  0  0  0
+   55.0373  -19.3559  -37.2564 C   0  0  0  0  0  0  0  0  0  0  0  0
+   55.1863  -20.4302  -38.1912 C   0  0  0  0  0  0  0  0  0  0  0  0
+   52.9424  -22.8799  -42.1630 O   0  0  0  0  0  0  0  0  0  0  0  0
+   52.0701  -22.7856  -41.1736 C   0  0  0  0  0  0  0  0  0  0  0  0
+   55.5716  -19.0931  -36.0024 C   0  0  0  0  0  0  0  0  0  0  0  0
+   56.4061  -19.2260  -34.9178 C   0  0  0  0  0  0  0  0  0  0  0  0
+   56.9019  -18.8713  -33.7653 O   0  0  0  0  0  0  0  0  0  0  0  0
+   57.2649  -19.5282  -32.6158 C   0  0  0  0  0  0  0  0  0  0  0  0
+   58.0557  -20.5576  -32.3080 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1 13  1  0
+  2  8  1  0
+  3  4  1  0
+  3  5  1  0
+  5  6  1  0
+  5  7  1  0
+  7  8  1  0
+  7  9  1  0
+  8 11  1  0
+  9 10  1  0
+ 10 11  1  0
+ 10 14  1  0
+ 12 13  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 18  1  0
+M  END
+>  <sample_idx>  (12) 
+15
+
+>  <num_atoms>  (12) 
+18
+
+>  <num_halfedges>  (12) 
+153
+
+>  <target_bond_count>  (12) 
+19
+
+>  <pred_bond_count>  (12) 
+19
+
+>  <halfedge_accuracy>  (12) 
+0.9934640526771545
+
+>  <exact_halfedge_match>  (12) 
+0
+
+>  <bond_pair_set_match>  (12) 
+1
+
+>  <bond_type_map_match>  (12) 
+0
+
+>  <missing_bond_count>  (12) 
+0
+
+>  <extra_bond_count>  (12) 
+0
+
+>  <bond_type_mismatch_count>  (12) 
+1
+
+>  <bond_pair_precision>  (12) 
+1.0
+
+>  <bond_pair_recall>  (12) 
+1.0
+
+>  <bond_pair_f1>  (12) 
+1.0
+
+>  <pred_bond_length_mean>  (12) 
+1.4233096210580123
+
+>  <pred_bond_length_p95>  (12) 
+1.5467739820480346
+
+>  <bad_bond_length_count>  (12) 
+0
+
+>  <bad_bond_length_fraction>  (12) 
+0.0
+
+>  <plain_sanitize_success>  (12) 
+1
+
+>  <plain_repair_strategy>  (12) 
+none
+
+>  <plain_sanitize_error>  (12) 
+
+
+>  <plain_smiles_no_stereo>  (12) 
+CC1C(CO)OC2CC(CCOCO)OC2C1O
+
+>  <semantic_sanitize_success>  (12) 
+1
+
+>  <semantic_repair_strategy>  (12) 
+none
+
+>  <semantic_sanitize_error>  (12) 
+
+
+>  <semantic_smiles_no_stereo>  (12) 
+CC1C(CO)OC2CC(CCOCO)OC2C1O
+
+>  <original_smiles_no_stereo>  (12) 
+CCCCNC1=NC2C(OC(CO)C(O)C2O)S1
+
+>  <plain_smiles_no_stereo_match>  (12) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (12) 
+0
+
+>  <mode>  (12) 
+reconstruct
+
+>  <start_timestep>  (12) 
+100
+
+>  <reverse_steps>  (12) 
+101
+
+>  <sample_seconds>  (12) 
+1.1822457313537598
+
+>  <atom_accuracy>  (12) 
+0.6666666865348816
+
+>  <position_rmse>  (12) 
+0.2280678723278262
+
+>  <pred_atom_formula>  (12) 
+C12O6
+
+>  <target_atom_formula>  (12) 
+C11N2O4S1
+
+$$$$
+16|NRAM_INBLE_72_466_0/1nsc_A_rec_1vcj_iba_lig_tt_docked_4_pocket10.pdb_NRAM_INBLE_72_466_0/1nsc_A_rec_1vcj_iba_lig_tt_docked_4.sdf|plain
+     RDKit          3D
+
+ 25 26  0  0  0  0  0  0  0  0999 V2000
+  -13.9831  -26.5141   11.7354 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.6720  -27.8770   12.0686 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.8392  -28.8007   11.6240 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.7433  -28.1453   10.8294 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -16.0514  -26.8852   10.5946 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.0442  -25.9504   11.1030 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.6445  -28.2831   13.0459 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.3099  -28.2144   14.6633 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.3245  -29.3472   14.8555 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.7125  -29.7922   13.6026 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.4051  -29.2316   12.4172 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.4324  -29.4835   11.1919 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.4647  -28.3292   15.6677 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.8810  -28.2516   16.8811 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.6122  -26.8092   14.8879 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.0198  -26.1841   13.8309 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -17.2431  -26.3026    9.8525 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -18.5476  -26.6525   10.3300 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -17.0472  -25.5695    8.8180 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.8739  -30.1253   12.0731 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.4162  -31.3340   12.6816 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.4486  -32.4084   13.0646 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.3398  -32.7618   12.5198 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -16.7754  -31.7267   12.3099 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -17.1940  -32.1873   11.0790 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  6  1  0
+  2  3  1  0
+  2  7  1  0
+  3  4  1  0
+  3 20  1  0
+  4  5  1  0
+  5  6  1  0
+  5 17  1  0
+  7  8  1  0
+  7 11  1  0
+  8  9  1  0
+  8 13  1  0
+  8 15  1  0
+  9 10  1  0
+ 10 11  1  0
+ 11 12  2  0
+ 13 14  1  0
+ 15 16  1  0
+ 17 18  1  0
+ 17 19  2  0
+ 20 21  1  0
+ 21 22  1  0
+ 21 24  1  0
+ 22 23  2  0
+ 24 25  1  0
+M  END
+>  <sample_idx>  (13) 
+16
+
+>  <num_atoms>  (13) 
+25
+
+>  <num_halfedges>  (13) 
+300
+
+>  <target_bond_count>  (13) 
+26
+
+>  <pred_bond_count>  (13) 
+26
+
+>  <halfedge_accuracy>  (13) 
+0.996666669845581
+
+>  <exact_halfedge_match>  (13) 
+0
+
+>  <bond_pair_set_match>  (13) 
+1
+
+>  <bond_type_map_match>  (13) 
+0
+
+>  <missing_bond_count>  (13) 
+0
+
+>  <extra_bond_count>  (13) 
+0
+
+>  <bond_type_mismatch_count>  (13) 
+1
+
+>  <bond_pair_precision>  (13) 
+1.0
+
+>  <bond_pair_recall>  (13) 
+1.0
+
+>  <bond_pair_f1>  (13) 
+1.0
+
+>  <pred_bond_length_mean>  (13) 
+1.4426193237304688
+
+>  <pred_bond_length_p95>  (13) 
+1.6360034346580505
+
+>  <bad_bond_length_count>  (13) 
+0
+
+>  <bad_bond_length_fraction>  (13) 
+0.0
+
+>  <plain_sanitize_success>  (13) 
+1
+
+>  <plain_repair_strategy>  (13) 
+fix_valence
+
+>  <plain_sanitize_error>  (13) 
+
+
+>  <plain_smiles_no_stereo>  (13) 
+CCC(C=O)NC1CN(C(C)=O)CCC1C1C(=O)CCC1(CO)CO
+
+>  <semantic_sanitize_success>  (13) 
+1
+
+>  <semantic_repair_strategy>  (13) 
+fix_valence
+
+>  <semantic_sanitize_error>  (13) 
+
+
+>  <semantic_smiles_no_stereo>  (13) 
+CCC(C=O)NC1CN(C(C)=O)CCC1C1C(=O)CCC1(CO)CO
+
+>  <original_smiles_no_stereo>  (13) 
+CCC(CC)Nc1cc(C(=O)O)ccc1N1C(=O)CCC1(CN)CO
+
+>  <plain_smiles_no_stereo_match>  (13) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (13) 
+0
+
+>  <mode>  (13) 
+reconstruct
+
+>  <start_timestep>  (13) 
+100
+
+>  <reverse_steps>  (13) 
+101
+
+>  <sample_seconds>  (13) 
+1.1860060691833496
+
+>  <atom_accuracy>  (13) 
+0.800000011920929
+
+>  <position_rmse>  (13) 
+0.1804965712005009
+
+>  <pred_atom_formula>  (13) 
+C18N2O5
+
+>  <target_atom_formula>  (13) 
+C18N3O4
+
+$$$$
+17|TDT_MOUSE_133_530_0/4i29_A_rec_4qz9_dct_lig_tt_min_0_pocket10.pdb_TDT_MOUSE_133_530_0/4i29_A_rec_4qz9_dct_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 27 28  0  0  0  0  0  0  0  0999 V2000
+   13.8971    8.8033   21.6039 O   0  0  0  0  0  0  0  0  0  0  0  0
+   15.1467    9.1487   22.3243 P   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5547   10.5951   22.1308 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.8963    8.8863   23.7636 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.3510    8.2531   21.8572 O   0  0  0  0  0  0  0  0  0  0  0  0
+   17.6036    7.3287   22.2225 P   0  0  0  0  0  0  0  0  0  0  0  0
+   17.8249    6.4275   21.0164 O   0  0  0  0  0  0  0  0  0  0  0  0
+   17.0972    6.4888   23.3453 O   0  0  0  0  0  0  0  0  0  0  0  0
+   18.7580    8.1658   22.5522 O   0  0  0  0  0  0  0  0  0  0  0  0
+   19.5316    8.1211   23.7965 P   0  0  0  0  0  0  0  0  0  0  0  0
+   20.7491    9.0453   23.8167 O   0  0  0  0  0  0  0  0  0  0  0  0
+   18.8070    8.4618   25.0487 O   0  0  0  0  0  0  0  0  0  0  0  0
+   20.1183    6.7019   23.9012 O   0  0  0  0  0  0  0  0  0  0  0  0
+   13.0496    7.7401   21.9354 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.5098    7.0364   18.6851 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.6593    5.9271   18.7590 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.3273    6.0806   19.9894 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.3895    6.8316   21.0323 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.3440    7.2882   20.1702 O   0  0  0  0  0  0  0  0  0  0  0  0
+   11.7411    8.1815   17.9092 N   0  0  0  0  0  0  0  0  0  0  0  0
+   11.0012    8.3277   16.5774 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.2347    9.5180   16.0203 N   0  0  0  0  0  0  0  0  0  0  0  0
+   11.9562   10.6708   16.2449 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.6332   10.4166   17.5368 N   0  0  0  0  0  0  0  0  0  0  0  0
+   12.3670    9.3507   18.2506 C   0  0  0  0  0  0  0  0  0  0  0  0
+   10.2480    7.2661   16.2350 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.0955   11.7933   15.5358 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 14  1  0
+  2  3  2  0
+  2  4  1  0
+  2  5  1  0
+  5  6  1  0
+  6  7  2  0
+  6  8  1  0
+  6  9  1  0
+  9 10  1  0
+ 10 11  2  0
+ 10 12  1  0
+ 10 13  2  0
+ 14 18  1  0
+ 15 16  1  0
+ 15 19  1  0
+ 15 20  1  0
+ 16 17  1  0
+ 17 18  1  0
+ 18 19  1  0
+ 20 21  1  0
+ 20 25  1  0
+ 21 22  1  0
+ 21 26  2  0
+ 22 23  2  0
+ 23 24  1  0
+ 23 27  1  0
+ 24 25  2  0
+M  END
+>  <sample_idx>  (14) 
+17
+
+>  <num_atoms>  (14) 
+27
+
+>  <num_halfedges>  (14) 
+351
+
+>  <target_bond_count>  (14) 
+28
+
+>  <pred_bond_count>  (14) 
+28
+
+>  <halfedge_accuracy>  (14) 
+0.9971510171890259
+
+>  <exact_halfedge_match>  (14) 
+0
+
+>  <bond_pair_set_match>  (14) 
+1
+
+>  <bond_type_map_match>  (14) 
+0
+
+>  <missing_bond_count>  (14) 
+0
+
+>  <extra_bond_count>  (14) 
+0
+
+>  <bond_type_mismatch_count>  (14) 
+1
+
+>  <bond_pair_precision>  (14) 
+1.0
+
+>  <bond_pair_recall>  (14) 
+1.0
+
+>  <bond_pair_f1>  (14) 
+1.0
+
+>  <pred_bond_length_mean>  (14) 
+1.46505839909826
+
+>  <pred_bond_length_p95>  (14) 
+1.59621222615242
+
+>  <bad_bond_length_count>  (14) 
+0
+
+>  <bad_bond_length_fraction>  (14) 
+0.0
+
+>  <plain_sanitize_success>  (14) 
+1
+
+>  <plain_repair_strategy>  (14) 
+none
+
+>  <plain_sanitize_error>  (14) 
+
+
+>  <plain_smiles_no_stereo>  (14) 
+C=C1N=C(O)N=CN1C1CCC(COP(=O)(O)OP(=O)(O)O[PH](=O)(=O)O)O1
+
+>  <semantic_sanitize_success>  (14) 
+1
+
+>  <semantic_repair_strategy>  (14) 
+none
+
+>  <semantic_sanitize_error>  (14) 
+
+
+>  <semantic_smiles_no_stereo>  (14) 
+C=C1N=C(O)N=CN1C1CCC(COP(=O)(O)OP(=O)(O)O[PH](=O)(=O)O)O1
+
+>  <original_smiles_no_stereo>  (14) 
+Nc1ccn(C2CCC(COP(=O)(O)OP(=O)(O)OP(=O)(O)O)O2)c(=O)n1
+
+>  <plain_smiles_no_stereo_match>  (14) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (14) 
+0
+
+>  <mode>  (14) 
+reconstruct
+
+>  <start_timestep>  (14) 
+100
+
+>  <reverse_steps>  (14) 
+101
+
+>  <sample_seconds>  (14) 
+1.1761343479156494
+
+>  <atom_accuracy>  (14) 
+0.8888888955116272
+
+>  <position_rmse>  (14) 
+0.14503098131182457
+
+>  <pred_atom_formula>  (14) 
+C9N3O12P3
+
+>  <target_atom_formula>  (14) 
+C9N3O12P3
+
+$$$$
+18|HYES_HUMAN_230_551_0/4y2r_A_rec_1zd2_nc3_lig_tt_docked_2_pocket10.pdb_HYES_HUMAN_230_551_0/4y2r_A_rec_1zd2_nc3_lig_tt_docked_2.sdf|plain
+     RDKit          3D
+
+ 14 14  0  0  0  0  0  0  0  0999 V2000
+   16.4835   10.6447   14.8203 N   0  0  0  0  0  0  0  0  0  0  0  0
+   15.2527   10.9063   15.5413 S   0  0  0  0  0  0  0  0  0  0  0  0
+   15.0597   11.1355   16.8853 N   0  0  0  0  0  0  0  0  0  0  0  0
+   14.1483   10.9495   14.7472 O   0  0  0  0  0  0  0  0  0  0  0  0
+   17.0482   10.2406   13.6354 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.3433   10.5763   13.1185 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.8254   10.0870   11.9362 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.1425    9.2203   11.2123 N   0  0  0  0  0  0  0  0  0  0  0  0
+   16.9170    8.8957   11.5597 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.4713    9.2242   12.7891 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.1870   11.5369   17.7857 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.9509   12.7885   18.5579 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.9416   13.0597   19.4368 O   0  0  0  0  0  0  0  0  0  0  0  0
+   13.0556   13.6090   18.1312 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  2  3  1  0
+  2  4  2  0
+  3 11  1  0
+  5  6  1  0
+  5 10  1  0
+  6  7  1  0
+  7  8  1  0
+  8  9  1  0
+  9 10  1  0
+ 11 12  1  0
+ 12 13  1  0
+ 12 14  2  0
+M  END
+>  <sample_idx>  (15) 
+18
+
+>  <num_atoms>  (15) 
+14
+
+>  <num_halfedges>  (15) 
+91
+
+>  <target_bond_count>  (15) 
+14
+
+>  <pred_bond_count>  (15) 
+14
+
+>  <halfedge_accuracy>  (15) 
+1.0
+
+>  <exact_halfedge_match>  (15) 
+1
+
+>  <bond_pair_set_match>  (15) 
+1
+
+>  <bond_type_map_match>  (15) 
+1
+
+>  <missing_bond_count>  (15) 
+0
+
+>  <extra_bond_count>  (15) 
+0
+
+>  <bond_type_mismatch_count>  (15) 
+0
+
+>  <bond_pair_precision>  (15) 
+1.0
+
+>  <bond_pair_recall>  (15) 
+1.0
+
+>  <bond_pair_f1>  (15) 
+1.0
+
+>  <pred_bond_length_mean>  (15) 
+1.3738341927528381
+
+>  <pred_bond_length_p95>  (15) 
+1.4639164328575134
+
+>  <bad_bond_length_count>  (15) 
+0
+
+>  <bad_bond_length_fraction>  (15) 
+0.0
+
+>  <plain_sanitize_success>  (15) 
+1
+
+>  <plain_repair_strategy>  (15) 
+none
+
+>  <plain_sanitize_error>  (15) 
+
+
+>  <plain_smiles_no_stereo>  (15) 
+O=C(O)CNS(=O)NC1CCNCC1
+
+>  <semantic_sanitize_success>  (15) 
+1
+
+>  <semantic_repair_strategy>  (15) 
+none
+
+>  <semantic_sanitize_error>  (15) 
+
+
+>  <semantic_smiles_no_stereo>  (15) 
+O=C(O)CNS(=O)NC1CCNCC1
+
+>  <original_smiles_no_stereo>  (15) 
+O=C(O)CNC(=O)NC1CCCCC1
+
+>  <plain_smiles_no_stereo_match>  (15) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (15) 
+0
+
+>  <mode>  (15) 
+reconstruct
+
+>  <start_timestep>  (15) 
+100
+
+>  <reverse_steps>  (15) 
+101
+
+>  <sample_seconds>  (15) 
+1.1658289432525635
+
+>  <atom_accuracy>  (15) 
+0.8571428656578064
+
+>  <position_rmse>  (15) 
+0.1425975237674513
+
+>  <pred_atom_formula>  (15) 
+C7N3O3S1
+
+>  <target_atom_formula>  (15) 
+C9N2O3
+
+$$$$
+19|KEAP1_HUMAN_319_613_0/4l7d_A_rec_5fzn_fb2_lig_tt_min_0_pocket10.pdb_KEAP1_HUMAN_319_613_0/4l7d_A_rec_5fzn_fb2_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+   -7.6629   16.7047   -2.9188 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.8835   17.1101   -2.7059 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.5367   17.8152   -3.6250 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.9780   18.0948   -4.8646 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.6937   17.7652   -4.9314 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0635   17.0092   -4.0223 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.7565   18.9111   -5.8816 S   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.8858   19.8950   -6.4344 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.8422   19.4391   -5.0860 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.2671   18.0687   -6.9496 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  6  1  0
+  2  3  1  0
+  3  4  2  0
+  4  5  1  0
+  4  7  1  0
+  5  6  2  0
+  7  8  2  0
+  7  9  2  0
+  7 10  1  0
+M  END
+>  <sample_idx>  (16) 
+19
+
+>  <num_atoms>  (16) 
+10
+
+>  <num_halfedges>  (16) 
+45
+
+>  <target_bond_count>  (16) 
+10
+
+>  <pred_bond_count>  (16) 
+10
+
+>  <halfedge_accuracy>  (16) 
+1.0
+
+>  <exact_halfedge_match>  (16) 
+1
+
+>  <bond_pair_set_match>  (16) 
+1
+
+>  <bond_type_map_match>  (16) 
+1
+
+>  <missing_bond_count>  (16) 
+0
+
+>  <extra_bond_count>  (16) 
+0
+
+>  <bond_type_mismatch_count>  (16) 
+0
+
+>  <bond_pair_precision>  (16) 
+1.0
+
+>  <bond_pair_recall>  (16) 
+1.0
+
+>  <bond_pair_f1>  (16) 
+1.0
+
+>  <pred_bond_length_mean>  (16) 
+1.3824260830879211
+
+>  <pred_bond_length_p95>  (16) 
+1.4891451120376586
+
+>  <bad_bond_length_count>  (16) 
+0
+
+>  <bad_bond_length_fraction>  (16) 
+0.0
+
+>  <plain_sanitize_success>  (16) 
+1
+
+>  <plain_repair_strategy>  (16) 
+none
+
+>  <plain_sanitize_error>  (16) 
+
+
+>  <plain_smiles_no_stereo>  (16) 
+O=S(=O)(O)c1ccncc1
+
+>  <semantic_sanitize_success>  (16) 
+1
+
+>  <semantic_repair_strategy>  (16) 
+none
+
+>  <semantic_sanitize_error>  (16) 
+
+
+>  <semantic_smiles_no_stereo>  (16) 
+O=S(=O)(O)c1ccncc1
+
+>  <original_smiles_no_stereo>  (16) 
+NS(=O)(=O)c1ccccc1
+
+>  <plain_smiles_no_stereo_match>  (16) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (16) 
+0
+
+>  <mode>  (16) 
+reconstruct
+
+>  <start_timestep>  (16) 
+100
+
+>  <reverse_steps>  (16) 
+101
+
+>  <sample_seconds>  (16) 
+1.0714213848114014
+
+>  <atom_accuracy>  (16) 
+0.800000011920929
+
+>  <position_rmse>  (16) 
+0.10058119216391763
+
+>  <pred_atom_formula>  (16) 
+C5N1O3S1
+
+>  <target_atom_formula>  (16) 
+C6N1O2S1
+
+$$$$
+20|DYR_STAAU_2_158_0/4lag_X_rec_4lek_1dn_lig_tt_docked_2_pocket10.pdb_DYR_STAAU_2_158_0/4lag_X_rec_4lek_1dn_lig_tt_docked_2.sdf|plain
+     RDKit          3D
+
+ 30 34  0  0  0  0  0  0  0  0999 V2000
+   -5.7035  -33.2985    6.4347 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.0156  -34.0952    7.6652 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.7984  -35.3015    7.7263 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.8796  -35.4853    6.8451 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8815  -36.3050    6.4677 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.8830  -36.3043    5.5183 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.8375  -35.0481    4.5797 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8136  -34.2011    5.0031 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.8534  -34.1842    5.9469 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0038  -26.2766    4.4377 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.1240  -27.3020    4.4502 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9207  -27.4542    3.9827 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.4447  -28.5808    5.0212 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6703  -29.6352    5.1459 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.9872  -30.8357    5.7922 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.3101  -32.1034    5.8605 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9857  -31.9539    5.1429 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.6621  -30.7986    4.6845 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3068  -29.6170    4.5080 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9550  -28.3717    3.8612 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7617  -28.3055    3.2913 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9623  -33.7513    8.3944 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.2744  -32.5196    8.3963 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1117  -32.4379    9.2638 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.0159  -33.6287    9.9617 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.1047  -34.5758    9.5128 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.7199  -37.3458    5.1805 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.4985  -38.6810    5.0503 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.6259  -34.8319    3.5864 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.5577  -34.9442    2.1970 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  9  1  0
+  1 16  1  0
+  2  3  2  0
+  2 22  1  0
+  3  4  1  0
+  4  5  2  0
+  4  9  1  0
+  5  6  1  0
+  6  7  2  0
+  6 27  1  0
+  7  8  1  0
+  7 29  1  0
+  8  9  2  0
+ 10 11  1  0
+ 11 12  2  0
+ 11 13  1  0
+ 12 20  1  0
+ 13 14  1  0
+ 14 15  2  0
+ 14 19  1  0
+ 15 16  1  0
+ 16 17  1  0
+ 17 18  1  0
+ 18 19  2  0
+ 19 20  1  0
+ 20 21  1  0
+ 22 23  1  0
+ 22 26  1  0
+ 23 24  2  0
+ 24 25  1  0
+ 25 26  2  0
+ 27 28  1  0
+ 29 30  1  0
+M  END
+>  <sample_idx>  (17) 
+20
+
+>  <num_atoms>  (17) 
+30
+
+>  <num_halfedges>  (17) 
+435
+
+>  <target_bond_count>  (17) 
+34
+
+>  <pred_bond_count>  (17) 
+34
+
+>  <halfedge_accuracy>  (17) 
+0.9908046126365662
+
+>  <exact_halfedge_match>  (17) 
+0
+
+>  <bond_pair_set_match>  (17) 
+1
+
+>  <bond_type_map_match>  (17) 
+0
+
+>  <missing_bond_count>  (17) 
+0
+
+>  <extra_bond_count>  (17) 
+0
+
+>  <bond_type_mismatch_count>  (17) 
+4
+
+>  <bond_pair_precision>  (17) 
+1.0
+
+>  <bond_pair_recall>  (17) 
+1.0
+
+>  <bond_pair_f1>  (17) 
+1.0
+
+>  <pred_bond_length_mean>  (17) 
+1.4160820350927465
+
+>  <pred_bond_length_p95>  (17) 
+1.594540399312973
+
+>  <bad_bond_length_count>  (17) 
+0
+
+>  <bad_bond_length_fraction>  (17) 
+0.0
+
+>  <plain_sanitize_success>  (17) 
+1
+
+>  <plain_repair_strategy>  (17) 
+none
+
+>  <plain_sanitize_error>  (17) 
+
+
+>  <plain_smiles_no_stereo>  (17) 
+CCc1cc2nc(-n3cccn3)n(C3C=C4OC(O)=NC(N)C4=NC3)c2cc1OC
+
+>  <semantic_sanitize_success>  (17) 
+1
+
+>  <semantic_repair_strategy>  (17) 
+none
+
+>  <semantic_sanitize_error>  (17) 
+
+
+>  <semantic_smiles_no_stereo>  (17) 
+CCc1cc2nc(-n3cccn3)n(C3C=C4OC(O)=NC(N)C4=NC3)c2cc1OC
+
+>  <original_smiles_no_stereo>  (17) 
+COc1cc2nc(-c3nccs3)n(-c3ccc4c(c3)NC(N)=NC4N)c2cc1OC
+
+>  <plain_smiles_no_stereo_match>  (17) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (17) 
+0
+
+>  <mode>  (17) 
+reconstruct
+
+>  <start_timestep>  (17) 
+100
+
+>  <reverse_steps>  (17) 
+101
+
+>  <sample_seconds>  (17) 
+1.167008876800537
+
+>  <atom_accuracy>  (17) 
+0.800000011920929
+
+>  <position_rmse>  (17) 
+0.135921401133875
+
+>  <pred_atom_formula>  (17) 
+C20N7O3
+
+>  <target_atom_formula>  (17) 
+C20N7O2S1
+
+$$$$
+21|GNAI3_HUMAN_28_353_GTP_0/2ode_A_rec_2ode_gdp_lig_tt_min_0_pocket10.pdb_GNAI3_HUMAN_28_353_GTP_0/2ode_A_rec_2ode_gdp_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 28 30  0  0  0  0  0  0  0  0999 V2000
+   19.0867    9.7847   33.5291 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.8214    8.5622   32.7751 O   0  0  0  0  0  0  0  0  0  0  0  0
+   19.2233    9.3279   34.9551 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.3380    9.4461   35.8894 O   0  0  0  0  0  0  0  0  0  0  0  0
+   19.6564    7.7403   34.8968 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.6139    7.0513   36.0300 O   0  0  0  0  0  0  0  0  0  0  0  0
+   19.2476    7.2980   33.4463 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.7167    6.2982   32.6742 N   0  0  0  0  0  0  0  0  0  0  0  0
+   20.8567    6.5473   31.5617 C   0  0  0  0  0  0  0  0  0  0  0  0
+   21.0726    5.3020   30.8764 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.1702    4.3176   31.3484 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.9371    2.9869   31.0333 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.6327    2.3962   30.1028 O   0  0  0  0  0  0  0  0  0  0  0  0
+   18.9285    2.4230   31.7936 N   0  0  0  0  0  0  0  0  0  0  0  0
+   18.0921    2.8579   32.7500 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.1151    2.1977   33.4207 O   0  0  0  0  0  0  0  0  0  0  0  0
+   18.3803    4.2135   33.0070 N   0  0  0  0  0  0  0  0  0  0  0  0
+   19.3097    4.9302   32.4508 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.0766   10.6958   32.8944 C   0  0  0  0  0  0  0  0  0  0  0  0
+   21.3712   10.2234   32.7033 O   0  0  0  0  0  0  0  0  0  0  0  0
+   22.6100   10.9373   32.4484 P   0  0  0  0  0  0  0  0  0  0  0  0
+   22.8888   12.0012   33.5017 O   0  0  0  0  0  0  0  0  0  0  0  0
+   23.8370   10.0210   32.4531 O   0  0  0  0  0  0  0  0  0  0  0  0
+   22.6648   11.6073   31.0258 O   0  0  0  0  0  0  0  0  0  0  0  0
+   23.4333   12.6258   30.0323 P   0  0  0  0  0  0  0  0  0  0  0  0
+   24.8327   12.5697   30.5273 O   0  0  0  0  0  0  0  0  0  0  0  0
+   22.8824   13.9771   30.2395 O   0  0  0  0  0  0  0  0  0  0  0  0
+   23.2795   12.2040   28.5881 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1 19  1  0
+  2  7  1  0
+  3  4  2  0
+  3  5  1  0
+  5  6  1  0
+  5  7  1  0
+  7  8  1  0
+  8  9  1  0
+  8 18  1  0
+  9 10  1  0
+ 10 11  1  0
+ 11 12  1  0
+ 11 18  1  0
+ 12 13  2  0
+ 12 14  1  0
+ 14 15  1  0
+ 15 16  1  0
+ 15 17  1  0
+ 17 18  1  0
+ 19 20  1  0
+ 20 21  1  0
+ 21 22  2  0
+ 21 23  2  0
+ 21 24  1  0
+ 24 25  1  0
+ 25 26  1  0
+ 25 27  1  0
+ 25 28  2  0
+M  END
+>  <sample_idx>  (18) 
+21
+
+>  <num_atoms>  (18) 
+28
+
+>  <num_halfedges>  (18) 
+378
+
+>  <target_bond_count>  (18) 
+30
+
+>  <pred_bond_count>  (18) 
+30
+
+>  <halfedge_accuracy>  (18) 
+0.9947090148925781
+
+>  <exact_halfedge_match>  (18) 
+0
+
+>  <bond_pair_set_match>  (18) 
+1
+
+>  <bond_type_map_match>  (18) 
+0
+
+>  <missing_bond_count>  (18) 
+0
+
+>  <extra_bond_count>  (18) 
+0
+
+>  <bond_type_mismatch_count>  (18) 
+2
+
+>  <bond_pair_precision>  (18) 
+1.0
+
+>  <bond_pair_recall>  (18) 
+1.0
+
+>  <bond_pair_f1>  (18) 
+1.0
+
+>  <pred_bond_length_mean>  (18) 
+1.4536267280578614
+
+>  <pred_bond_length_p95>  (18) 
+1.614891231060028
+
+>  <bad_bond_length_count>  (18) 
+0
+
+>  <bad_bond_length_fraction>  (18) 
+0.0
+
+>  <plain_sanitize_success>  (18) 
+1
+
+>  <plain_repair_strategy>  (18) 
+fix_valence
+
+>  <plain_sanitize_error>  (18) 
+
+
+>  <plain_smiles_no_stereo>  (18) 
+O=C1C(CO[PH](=O)(=O)OP(=O)(O)O)OC(N2CCC3C(=O)NC(O)NC32)C1O
+
+>  <semantic_sanitize_success>  (18) 
+1
+
+>  <semantic_repair_strategy>  (18) 
+none
+
+>  <semantic_sanitize_error>  (18) 
+
+
+>  <semantic_smiles_no_stereo>  (18) 
+O=C1C(CO[PH](=O)(=O)OP(=O)(O)O)OC(n2ccc3c(=O)nc(O)[nH]c32)C1O
+
+>  <original_smiles_no_stereo>  (18) 
+Nc1nc(=O)c2ncn(C3OC(COP(=O)(O)OP(=O)(O)O)C(O)C3O)c2[nH]1
+
+>  <plain_smiles_no_stereo_match>  (18) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (18) 
+0
+
+>  <mode>  (18) 
+reconstruct
+
+>  <start_timestep>  (18) 
+100
+
+>  <reverse_steps>  (18) 
+101
+
+>  <sample_seconds>  (18) 
+1.1811022758483887
+
+>  <atom_accuracy>  (18) 
+0.9285714030265808
+
+>  <position_rmse>  (18) 
+0.13857421659936023
+
+>  <pred_atom_formula>  (18) 
+C11N3O12P2
+
+>  <target_atom_formula>  (18) 
+C10N5O11P2
+
+$$$$
+22|POL_HV1H2_489_587_0/1qbu_A_rec_1mes_dmp_lig_tt_docked_0_pocket10.pdb_POL_HV1H2_489_587_0/1qbu_A_rec_1mes_dmp_lig_tt_docked_0.sdf|plain
+     RDKit          3D
+
+ 42 46  0  0  0  0  0  0  0  0999 V2000
+   -8.9949  -14.3977   13.6089 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.7716  -17.0019   14.4938 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.2083  -17.7513   14.3493 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.0881  -17.3013   13.0874 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.2013  -15.7542   12.8262 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.7564  -15.4462   14.7414 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.0126  -14.8310   12.4726 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.3572  -13.2680   13.4962 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.2196  -19.0562   14.7813 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.1762  -18.0875   12.7384 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.2461  -14.8887   16.0347 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.4399  -15.1906   17.4358 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.6776  -14.8694   18.1470 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.9203  -15.3290   19.4257 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.0658  -16.1888   20.1101 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8595  -16.5691   19.3946 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5980  -16.0726   18.1451 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.1919  -16.7482   21.3885 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.2612  -17.8024   21.6768 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5292  -17.6477   13.9372 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.1900  -17.8831   14.4728 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.0990  -16.9665   14.3173 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.9296  -17.0550   15.0432 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.8500  -18.0546   16.0033 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9267  -18.8528   16.2106 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.0278  -18.8434   15.4824 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.3884  -14.9510   13.4139 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.8020  -13.6040   13.1692 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.4603  -12.4514   13.9476 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.5867  -11.1460   13.5218 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.2564  -10.8741   12.3426 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.6334  -11.9545   11.5609 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.5100  -13.2587   11.9645 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.7397  -14.1170   11.1879 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.6565  -14.5277    9.8324 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.7754  -14.6653    8.9880 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.7110  -15.1823    7.7300 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.4878  -15.6491    7.1184 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.3665  -15.5249    7.9499 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.4293  -15.0221    9.2294 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.5350  -15.9933    5.7780 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.5230  -15.3721    4.9793 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  6  1  0
+  1  7  1  0
+  1  8  2  0
+  2  3  1  0
+  2  6  1  0
+  2 20  1  0
+  3  4  1  0
+  3  9  1  0
+  4  5  1  0
+  4 10  1  0
+  5  7  1  0
+  5 27  1  0
+  6 11  1  0
+  7 34  1  0
+ 11 12  1  0
+ 12 13  2  0
+ 12 17  1  0
+ 13 14  1  0
+ 14 15  2  0
+ 15 16  1  0
+ 15 18  1  0
+ 16 17  2  0
+ 18 19  1  0
+ 20 21  1  0
+ 21 22  2  0
+ 21 26  1  0
+ 22 23  1  0
+ 23 24  2  0
+ 24 25  1  0
+ 25 26  2  0
+ 27 28  1  0
+ 28 29  2  0
+ 28 33  1  0
+ 29 30  1  0
+ 30 31  2  0
+ 31 32  1  0
+ 32 33  2  0
+ 34 35  1  0
+ 35 36  2  0
+ 35 40  1  0
+ 36 37  1  0
+ 37 38  2  0
+ 38 39  1  0
+ 38 41  1  0
+ 39 40  2  0
+ 41 42  1  0
+M  END
+>  <sample_idx>  (19) 
+22
+
+>  <num_atoms>  (19) 
+42
+
+>  <num_halfedges>  (19) 
+861
+
+>  <target_bond_count>  (19) 
+46
+
+>  <pred_bond_count>  (19) 
+46
+
+>  <halfedge_accuracy>  (19) 
+1.0
+
+>  <exact_halfedge_match>  (19) 
+1
+
+>  <bond_pair_set_match>  (19) 
+1
+
+>  <bond_type_map_match>  (19) 
+1
+
+>  <missing_bond_count>  (19) 
+0
+
+>  <extra_bond_count>  (19) 
+0
+
+>  <bond_type_mismatch_count>  (19) 
+0
+
+>  <bond_pair_precision>  (19) 
+1.0
+
+>  <bond_pair_recall>  (19) 
+1.0
+
+>  <bond_pair_f1>  (19) 
+1.0
+
+>  <pred_bond_length_mean>  (19) 
+1.438309988249903
+
+>  <pred_bond_length_p95>  (19) 
+1.583152949810028
+
+>  <bad_bond_length_count>  (19) 
+0
+
+>  <bad_bond_length_fraction>  (19) 
+0.0
+
+>  <plain_sanitize_success>  (19) 
+1
+
+>  <plain_repair_strategy>  (19) 
+none
+
+>  <plain_sanitize_error>  (19) 
+
+
+>  <plain_smiles_no_stereo>  (19) 
+O=C1C(Cc2ccc(CO)cc2)C(Cc2cccnc2)C(O)C(O)C(Cc2ccccc2)C1Cc1ccc(CO)cn1
+
+>  <semantic_sanitize_success>  (19) 
+1
+
+>  <semantic_repair_strategy>  (19) 
+none
+
+>  <semantic_sanitize_error>  (19) 
+
+
+>  <semantic_smiles_no_stereo>  (19) 
+O=C1C(Cc2ccc(CO)cc2)C(Cc2cccnc2)C(O)C(O)C(Cc2ccccc2)C1Cc1ccc(CO)cn1
+
+>  <original_smiles_no_stereo>  (19) 
+O=C1N(Cc2ccc(CO)cc2)C(Cc2ccccc2)C(O)C(O)C(Cc2ccccc2)N1Cc1ccc(CO)cc1
+
+>  <plain_smiles_no_stereo_match>  (19) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (19) 
+0
+
+>  <mode>  (19) 
+reconstruct
+
+>  <start_timestep>  (19) 
+100
+
+>  <reverse_steps>  (19) 
+101
+
+>  <sample_seconds>  (19) 
+1.18392014503479
+
+>  <atom_accuracy>  (19) 
+0.9047619104385376
+
+>  <position_rmse>  (19) 
+0.18868455627030373
+
+>  <pred_atom_formula>  (19) 
+C35N2O5
+
+>  <target_atom_formula>  (19) 
+C35N2O5
+
+$$$$
+23|ARGB_ECOLI_1_258_0/1gs5_A_rec_1oh9_nlg_lig_tt_docked_2_pocket10.pdb_ARGB_ECOLI_1_258_0/1gs5_A_rec_1oh9_nlg_lig_tt_docked_2.sdf|plain
+     RDKit          3D
+
+ 13 12  0  0  0  0  0  0  0  0999 V2000
+   32.3368   10.8893   40.5592 C   0  0  0  0  0  0  0  0  0  0  0  0
+   34.7289   10.6373   41.8901 C   0  0  0  0  0  0  0  0  0  0  0  0
+   36.0151   10.8615   41.5318 O   0  0  0  0  0  0  0  0  0  0  0  0
+   34.3860   10.0724   43.0891 O   0  0  0  0  0  0  0  0  0  0  0  0
+   33.6747   10.9029   40.9218 C   0  0  0  0  0  0  0  0  0  0  0  0
+   31.9873    9.6060   39.6444 C   0  0  0  0  0  0  0  0  0  0  0  0
+   30.9769    8.9296   39.9426 O   0  0  0  0  0  0  0  0  0  0  0  0
+   33.0434    9.4379   38.8148 O   0  0  0  0  0  0  0  0  0  0  0  0
+   31.3611   11.8599   40.6682 C   0  0  0  0  0  0  0  0  0  0  0  0
+   30.1691   12.2468   41.2020 C   0  0  0  0  0  0  0  0  0  0  0  0
+   29.5940   12.1467   42.5293 C   0  0  0  0  0  0  0  0  0  0  0  0
+   29.2197   10.8802   42.9411 O   0  0  0  0  0  0  0  0  0  0  0  0
+   29.6980   13.1532   43.3350 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  1  0
+  1  6  1  0
+  1  9  1  0
+  2  3  1  0
+  2  4  1  0
+  2  5  1  0
+  6  7  2  0
+  6  8  1  0
+  9 10  1  0
+ 10 11  1  0
+ 11 12  1  0
+ 11 13  2  0
+M  END
+>  <sample_idx>  (20) 
+23
+
+>  <num_atoms>  (20) 
+13
+
+>  <num_halfedges>  (20) 
+78
+
+>  <target_bond_count>  (20) 
+12
+
+>  <pred_bond_count>  (20) 
+12
+
+>  <halfedge_accuracy>  (20) 
+0.9871794581413269
+
+>  <exact_halfedge_match>  (20) 
+0
+
+>  <bond_pair_set_match>  (20) 
+1
+
+>  <bond_type_map_match>  (20) 
+0
+
+>  <missing_bond_count>  (20) 
+0
+
+>  <extra_bond_count>  (20) 
+0
+
+>  <bond_type_mismatch_count>  (20) 
+1
+
+>  <bond_pair_precision>  (20) 
+1.0
+
+>  <bond_pair_recall>  (20) 
+1.0
+
+>  <bond_pair_f1>  (20) 
+1.0
+
+>  <pred_bond_length_mean>  (20) 
+1.3878516058127086
+
+>  <pred_bond_length_p95>  (20) 
+1.5271110713481901
+
+>  <bad_bond_length_count>  (20) 
+0
+
+>  <bad_bond_length_fraction>  (20) 
+0.0
+
+>  <plain_sanitize_success>  (20) 
+1
+
+>  <plain_repair_strategy>  (20) 
+none
+
+>  <plain_sanitize_error>  (20) 
+
+
+>  <plain_smiles_no_stereo>  (20) 
+O=C(O)CCC(CC(O)O)C(=O)O
+
+>  <semantic_sanitize_success>  (20) 
+1
+
+>  <semantic_repair_strategy>  (20) 
+none
+
+>  <semantic_sanitize_error>  (20) 
+
+
+>  <semantic_smiles_no_stereo>  (20) 
+O=C(O)CCC(CC(O)O)C(=O)O
+
+>  <original_smiles_no_stereo>  (20) 
+CC(=O)NC(CCC(=O)O)C(=O)O
+
+>  <plain_smiles_no_stereo_match>  (20) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (20) 
+0
+
+>  <mode>  (20) 
+reconstruct
+
+>  <start_timestep>  (20) 
+100
+
+>  <reverse_steps>  (20) 
+101
+
+>  <sample_seconds>  (20) 
+1.163619041442871
+
+>  <atom_accuracy>  (20) 
+0.8461538553237915
+
+>  <position_rmse>  (20) 
+0.16914175442853735
+
+>  <pred_atom_formula>  (20) 
+C7O6
+
+>  <target_atom_formula>  (20) 
+C7N1O5
+
+$$$$
+25|NGAL_HUMAN_15_198_0/3hwf_A_rec_1x71_db1_lig_tt_min_0_pocket10.pdb_NGAL_HUMAN_15_198_0/3hwf_A_rec_1x71_db1_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 11 11  0  0  0  0  0  0  0  0999 V2000
+   51.1947   39.8706   41.6294 C   0  0  0  0  0  0  0  0  0  0  0  0
+   49.5185   40.4583   43.5027 O   0  0  0  0  0  0  0  0  0  0  0  0
+   51.7703   40.5591   42.6763 C   0  0  0  0  0  0  0  0  0  0  0  0
+   50.6806   40.9297   43.7864 C   0  0  0  0  0  0  0  0  0  0  0  0
+   51.2285   41.6465   44.7830 C   0  0  0  0  0  0  0  0  0  0  0  0
+   52.4591   42.0354   45.0018 C   0  0  0  0  0  0  0  0  0  0  0  0
+   53.4004   41.6947   43.9580 N   0  0  0  0  0  0  0  0  0  0  0  0
+   52.9946   41.0275   42.9273 C   0  0  0  0  0  0  0  0  0  0  0  0
+   55.2722   41.2415   41.9139 C   0  0  0  0  0  0  0  0  0  0  0  0
+   53.5767   39.7310   41.0317 O   0  0  0  0  0  0  0  0  0  0  0  0
+   54.1115   40.6308   41.8275 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0
+  2  4  1  0
+  3  4  2  0
+  3  8  1  0
+  4  5  1  0
+  5  6  2  0
+  6  7  1  0
+  7  8  2  0
+  8 11  1  0
+  9 11  2  0
+ 10 11  1  0
+M  END
+>  <sample_idx>  (21) 
+25
+
+>  <num_atoms>  (21) 
+11
+
+>  <num_halfedges>  (21) 
+55
+
+>  <target_bond_count>  (21) 
+11
+
+>  <pred_bond_count>  (21) 
+11
+
+>  <halfedge_accuracy>  (21) 
+1.0
+
+>  <exact_halfedge_match>  (21) 
+1
+
+>  <bond_pair_set_match>  (21) 
+1
+
+>  <bond_type_map_match>  (21) 
+1
+
+>  <missing_bond_count>  (21) 
+0
+
+>  <extra_bond_count>  (21) 
+0
+
+>  <bond_type_mismatch_count>  (21) 
+0
+
+>  <bond_pair_precision>  (21) 
+1.0
+
+>  <bond_pair_recall>  (21) 
+1.0
+
+>  <bond_pair_f1>  (21) 
+1.0
+
+>  <pred_bond_length_mean>  (21) 
+1.385208249092102
+
+>  <pred_bond_length_p95>  (21) 
+1.6080045104026794
+
+>  <bad_bond_length_count>  (21) 
+0
+
+>  <bad_bond_length_fraction>  (21) 
+0.0
+
+>  <plain_sanitize_success>  (21) 
+1
+
+>  <plain_repair_strategy>  (21) 
+none
+
+>  <plain_sanitize_error>  (21) 
+
+
+>  <plain_smiles_no_stereo>  (21) 
+C=C(O)c1nccc(O)c1C
+
+>  <semantic_sanitize_success>  (21) 
+1
+
+>  <semantic_repair_strategy>  (21) 
+none
+
+>  <semantic_sanitize_error>  (21) 
+
+
+>  <semantic_smiles_no_stereo>  (21) 
+C=C(O)c1nccc(O)c1C
+
+>  <original_smiles_no_stereo>  (21) 
+NC(=O)c1cccc(O)c1O
+
+>  <plain_smiles_no_stereo_match>  (21) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (21) 
+0
+
+>  <mode>  (21) 
+reconstruct
+
+>  <start_timestep>  (21) 
+100
+
+>  <reverse_steps>  (21) 
+101
+
+>  <sample_seconds>  (21) 
+1.1296641826629639
+
+>  <atom_accuracy>  (21) 
+0.6363636255264282
+
+>  <position_rmse>  (21) 
+0.08619964508799649
+
+>  <pred_atom_formula>  (21) 
+C8N1O2
+
+>  <target_atom_formula>  (21) 
+C7N1O3
+
+$$$$
+26|AURKA_HUMAN_122_397_0/4uzh_A_rec_4uzh_jve_lig_tt_min_0_pocket10.pdb_AURKA_HUMAN_122_397_0/4uzh_A_rec_4uzh_jve_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 21 24  0  0  0  0  0  0  0  0999 V2000
+   -6.6560   32.8228    9.4447 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.9150   33.2581    8.4222 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.8270   32.7725    7.1933 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.9822   31.3178    7.0397 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.8789   31.3272    9.4359 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.4165   30.6278    8.3161 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.2123   29.0381    8.7188 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6157   30.7520    5.8737 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5146   29.3620   10.8414 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0865   28.4477    9.6316 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.8357   28.6394   11.9091 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.2596   30.6801   10.6187 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5416   26.9249   10.3440 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.7868   27.1782   11.5711 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9544   27.9757    8.1170 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9288   26.7498    7.0253 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.6982   28.3255    8.4592 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.6902   26.2597    6.9000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.1315   26.4841    6.5848 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.5010   27.7984    8.1765 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.5088   26.6704    7.3962 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  1  0
+  2  3  1  0
+  3  4  1  0
+  4  6  1  0
+  4  8  2  0
+  5  6  2  0
+  5 12  1  0
+  6  7  1  0
+  7 10  1  0
+  7 15  1  0
+  9 10  1  0
+  9 11  2  0
+  9 12  1  0
+ 10 13  1  0
+ 11 14  1  0
+ 13 14  2  0
+ 15 16  2  0
+ 15 17  1  0
+ 16 18  1  0
+ 16 19  1  0
+ 17 20  2  0
+ 18 21  2  0
+ 20 21  1  0
+M  END
+>  <sample_idx>  (22) 
+26
+
+>  <num_atoms>  (22) 
+21
+
+>  <num_halfedges>  (22) 
+210
+
+>  <target_bond_count>  (22) 
+24
+
+>  <pred_bond_count>  (22) 
+24
+
+>  <halfedge_accuracy>  (22) 
+0.9904761910438538
+
+>  <exact_halfedge_match>  (22) 
+0
+
+>  <bond_pair_set_match>  (22) 
+1
+
+>  <bond_type_map_match>  (22) 
+0
+
+>  <missing_bond_count>  (22) 
+0
+
+>  <extra_bond_count>  (22) 
+0
+
+>  <bond_type_mismatch_count>  (22) 
+2
+
+>  <bond_pair_precision>  (22) 
+1.0
+
+>  <bond_pair_recall>  (22) 
+1.0
+
+>  <bond_pair_f1>  (22) 
+1.0
+
+>  <pred_bond_length_mean>  (22) 
+1.440862014889717
+
+>  <pred_bond_length_p95>  (22) 
+1.728361541032791
+
+>  <bad_bond_length_count>  (22) 
+0
+
+>  <bad_bond_length_fraction>  (22) 
+0.0
+
+>  <plain_sanitize_success>  (22) 
+1
+
+>  <plain_repair_strategy>  (22) 
+none
+
+>  <plain_sanitize_error>  (22) 
+
+
+>  <plain_smiles_no_stereo>  (22) 
+C=C1CNCC2=C1C(c1ccccc1O)C1C=NN=C1C2
+
+>  <semantic_sanitize_success>  (22) 
+1
+
+>  <semantic_repair_strategy>  (22) 
+fix_valence
+
+>  <semantic_sanitize_error>  (22) 
+
+
+>  <semantic_smiles_no_stereo>  (22) 
+C=C1CNCC2=C1C(c1ccccc1O)C1CNNC1C2
+
+>  <original_smiles_no_stereo>  (22) 
+O=C1CNCC2=C1C(c1ccccc1F)c1c[nH]nc1N2
+
+>  <plain_smiles_no_stereo_match>  (22) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (22) 
+0
+
+>  <mode>  (22) 
+reconstruct
+
+>  <start_timestep>  (22) 
+100
+
+>  <reverse_steps>  (22) 
+101
+
+>  <sample_seconds>  (22) 
+1.1833159923553467
+
+>  <atom_accuracy>  (22) 
+0.8571428656578064
+
+>  <position_rmse>  (22) 
+0.1479032463939033
+
+>  <pred_atom_formula>  (22) 
+C17N3O1
+
+>  <target_atom_formula>  (22) 
+C15F1N4O1
+
+$$$$
+28|MMP12_HUMAN_105_264_0/5n5j_A_rec_1jiz_cgs_lig_tt_min_0_pocket10.pdb_MMP12_HUMAN_105_264_0/5n5j_A_rec_1jiz_cgs_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 27 28  0  0  0  0  0  0  0  0999 V2000
+  -12.4774   -5.2279   20.9237 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.7640   -5.7676   19.2174 S   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.0158   -4.6640   18.8257 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.4087   -7.0854   19.3760 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.2222   -5.7736   17.9029 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.3318   -6.6978   17.9274 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.3552   -6.7474   17.1182 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.6375   -5.7737   16.0511 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.6389   -4.7925   16.0839 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.5290   -4.8191   16.8313 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -16.7182   -5.8517   15.3610 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -17.5937   -6.9271   15.2344 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.2114   -6.1725   21.8305 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.0027   -7.3384   22.6050 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.7013   -7.5827   23.2053 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.3691   -8.7452   23.7899 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.2169   -9.8120   23.9271 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.4501   -9.6474   23.3321 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.8087   -8.4817   22.7324 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.4445   -3.3981   21.5092 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.0960   -2.5194   20.4693 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.5267   -1.4934   19.4272 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.3747   -2.7638   20.1493 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.1995   -0.7314   18.5670 O   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.1980   -2.8370   22.8876 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.5018   -1.4864   23.0889 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.4411   -3.4481   23.9004 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1 13  1  0
+  1 20  1  0
+  2  3  2  0
+  2  4  2  0
+  2  5  1  0
+  5  6  2  0
+  5 10  1  0
+  6  7  1  0
+  7  8  2  0
+  8  9  1  0
+  8 11  1  0
+  9 10  2  0
+ 11 12  1  0
+ 13 14  1  0
+ 14 15  2  0
+ 14 19  1  0
+ 15 16  1  0
+ 16 17  2  0
+ 17 18  1  0
+ 18 19  2  0
+ 20 21  1  0
+ 20 25  1  0
+ 21 22  1  0
+ 21 23  2  0
+ 22 24  1  0
+ 25 26  1  0
+ 25 27  1  0
+M  END
+>  <sample_idx>  (23) 
+28
+
+>  <num_atoms>  (23) 
+27
+
+>  <num_halfedges>  (23) 
+351
+
+>  <target_bond_count>  (23) 
+28
+
+>  <pred_bond_count>  (23) 
+28
+
+>  <halfedge_accuracy>  (23) 
+1.0
+
+>  <exact_halfedge_match>  (23) 
+1
+
+>  <bond_pair_set_match>  (23) 
+1
+
+>  <bond_type_map_match>  (23) 
+1
+
+>  <missing_bond_count>  (23) 
+0
+
+>  <extra_bond_count>  (23) 
+0
+
+>  <bond_type_mismatch_count>  (23) 
+0
+
+>  <bond_pair_precision>  (23) 
+1.0
+
+>  <bond_pair_recall>  (23) 
+1.0
+
+>  <bond_pair_f1>  (23) 
+1.0
+
+>  <pred_bond_length_mean>  (23) 
+1.4631398107324327
+
+>  <pred_bond_length_p95>  (23) 
+1.9248121201992034
+
+>  <bad_bond_length_count>  (23) 
+0
+
+>  <bad_bond_length_fraction>  (23) 
+0.0
+
+>  <plain_sanitize_success>  (23) 
+1
+
+>  <plain_repair_strategy>  (23) 
+none
+
+>  <plain_sanitize_error>  (23) 
+
+
+>  <plain_smiles_no_stereo>  (23) 
+COc1ccc(S(=O)(=O)C(Cc2ccccc2)C(C(=O)CO)C(C)C)nc1
+
+>  <semantic_sanitize_success>  (23) 
+1
+
+>  <semantic_repair_strategy>  (23) 
+none
+
+>  <semantic_sanitize_error>  (23) 
+
+
+>  <semantic_smiles_no_stereo>  (23) 
+COc1ccc(S(=O)(=O)C(Cc2ccccc2)C(C(=O)CO)C(C)C)nc1
+
+>  <original_smiles_no_stereo>  (23) 
+COc1ccc(S(=O)(=O)N(Cc2cccnc2)C(C(=O)NO)C(C)C)cc1
+
+>  <plain_smiles_no_stereo_match>  (23) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (23) 
+0
+
+>  <mode>  (23) 
+reconstruct
+
+>  <start_timestep>  (23) 
+100
+
+>  <reverse_steps>  (23) 
+101
+
+>  <sample_seconds>  (23) 
+1.1892075538635254
+
+>  <atom_accuracy>  (23) 
+0.8518518805503845
+
+>  <position_rmse>  (23) 
+0.19285296584297343
+
+>  <pred_atom_formula>  (23) 
+C20N1O5S1
+
+>  <target_atom_formula>  (23) 
+C18N3O5S1
+
+$$$$
+30|FABF_ECOLI_1_413_0/3g11_A_rec_3g0y_p9a_lig_tt_min_0_pocket10.pdb_FABF_ECOLI_1_413_0/3g11_A_rec_3g0y_p9a_lig_tt_min_0.sdf|plain
+     RDKit          3D
+
+ 32 36  0  0  0  0  0  0  0  0999 V2000
+   -6.0399   67.8415   69.2471 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.2195   68.7418   67.1789 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.2152   68.6471   68.6700 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0540   70.0437   65.6233 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3512   66.3240   66.6334 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.0513   65.9951   64.8373 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.3500   66.7077   65.7765 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.8368   68.0855   66.1207 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.8338   68.7474   65.2840 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.4367   67.9414   64.3322 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0521   66.6293   64.1128 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.4805   64.2467   65.0792 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.7628   63.9585   63.9207 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6923   64.5627   64.5753 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1145   69.2773   69.4138 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7250   69.0396   69.6210 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.3760   72.7596   67.8386 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.6005   68.7028   72.5215 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.5326   69.5403   70.3419 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7571   69.4839   71.9133 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0918   70.5942   72.5834 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0254   71.8586   71.9686 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6979   72.1826   70.6907 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.1237   71.0454   69.7479 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.9779   71.4176   68.3278 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6794   71.5464   68.0098 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8818   72.7529   68.8573 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.9201   72.3350   70.2857 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.0875   73.5874   70.0741 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.4202   73.7245   68.6966 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2446   74.9772   68.0972 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2648   68.5786   70.1068 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  2  0
+  2  3  1  0
+  2  8  1  0
+  3 15  1  0
+  4  9  1  0
+  5  7  1  0
+  6  7  2  0
+  6 11  1  0
+  6 14  1  0
+  7  8  1  0
+  8  9  2  0
+  9 10  1  0
+ 10 11  2  0
+ 12 14  2  0
+ 13 14  1  0
+ 15 16  1  0
+ 16 19  1  0
+ 17 25  1  0
+ 17 30  1  0
+ 18 20  2  0
+ 19 20  1  0
+ 19 24  1  0
+ 19 32  1  0
+ 20 21  1  0
+ 21 22  1  0
+ 22 23  1  0
+ 23 24  1  0
+ 23 28  1  0
+ 23 29  1  0
+ 24 25  1  0
+ 25 26  1  0
+ 26 27  1  0
+ 27 28  1  0
+ 27 30  1  0
+ 29 30  1  0
+ 30 31  1  0
+M  END
+>  <sample_idx>  (24) 
+30
+
+>  <num_atoms>  (24) 
+32
+
+>  <num_halfedges>  (24) 
+496
+
+>  <target_bond_count>  (24) 
+36
+
+>  <pred_bond_count>  (24) 
+36
+
+>  <halfedge_accuracy>  (24) 
+1.0
+
+>  <exact_halfedge_match>  (24) 
+1
+
+>  <bond_pair_set_match>  (24) 
+1
+
+>  <bond_type_map_match>  (24) 
+1
+
+>  <missing_bond_count>  (24) 
+0
+
+>  <extra_bond_count>  (24) 
+0
+
+>  <bond_type_mismatch_count>  (24) 
+0
+
+>  <bond_pair_precision>  (24) 
+1.0
+
+>  <bond_pair_recall>  (24) 
+1.0
+
+>  <bond_pair_f1>  (24) 
+1.0
+
+>  <pred_bond_length_mean>  (24) 
+1.4722321728865306
+
+>  <pred_bond_length_p95>  (24) 
+1.6703849136829376
+
+>  <bad_bond_length_count>  (24) 
+0
+
+>  <bad_bond_length_fraction>  (24) 
+0.0
+
+>  <plain_sanitize_success>  (24) 
+1
+
+>  <plain_repair_strategy>  (24) 
+none
+
+>  <plain_sanitize_error>  (24) 
+
+
+>  <plain_smiles_no_stereo>  (24) 
+CC12CC3CC1CC1(C2)OCC(=O)C(C)(CCC(=O)Cc2c(O)ccc(C(=O)O)c2O)C31
+
+>  <semantic_sanitize_success>  (24) 
+1
+
+>  <semantic_repair_strategy>  (24) 
+none
+
+>  <semantic_sanitize_error>  (24) 
+
+
+>  <semantic_smiles_no_stereo>  (24) 
+CC12CC3CC1CC1(C2)OCC(=O)C(C)(CCC(=O)Cc2c(O)ccc(C(=O)O)c2O)C31
+
+>  <original_smiles_no_stereo>  (24) 
+CC12CC34CCC(=O)C(C)(CCC(=O)Nc5c(O)ccc(C(=O)O)c5O)C3C(CC1C4)O2
+
+>  <plain_smiles_no_stereo_match>  (24) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (24) 
+0
+
+>  <mode>  (24) 
+reconstruct
+
+>  <start_timestep>  (24) 
+100
+
+>  <reverse_steps>  (24) 
+101
+
+>  <sample_seconds>  (24) 
+1.181748390197754
+
+>  <atom_accuracy>  (24) 
+0.90625
+
+>  <position_rmse>  (24) 
+0.1554135404254043
+
+>  <pred_atom_formula>  (24) 
+C25O7
+
+>  <target_atom_formula>  (24) 
+C24N1O7
+
+$$$$
+31|FPPS_HUMAN_69_419_catalytic_0/4kpd_A_rec_4kqu_ahd_lig_tt_docked_0_pocket10.pdb_FPPS_HUMAN_69_419_catalytic_0/4kpd_A_rec_4kqu_ahd_lig_tt_docked_0.sdf|plain
+     RDKit          3D
+
+ 14 12  0  0  0  0  0  0  0  0999 V2000
+   14.7085  -33.5050   24.4617 C   0  0  0  0  0  0  0  0  0  0  0  0
+   13.9214  -33.5267   25.5691 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.8562  -31.8576   26.4683 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.6048  -33.3166   26.2226 P   0  0  0  0  0  0  0  0  0  0  0  0
+   17.5749  -34.0652   25.4392 O   0  0  0  0  0  0  0  0  0  0  0  0
+   15.7134  -34.0229   27.1837 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.8263  -34.8687   23.7106 P   0  0  0  0  0  0  0  0  0  0  0  0
+   16.1357  -35.1589   23.1292 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.4271  -35.9159   24.6563 O   0  0  0  0  0  0  0  0  0  0  0  0
+   13.8056  -34.7446   22.6115 O   0  0  0  0  0  0  0  0  0  0  0  0
+   14.9050  -32.2930   23.7544 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.3760  -31.0470   23.7752 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.2732  -29.8726   24.4315 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.0275  -29.4491   25.7023 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  7  1  0
+  1 11  1  0
+  3  4  2  0
+  4  5  1  0
+  4  6  2  0
+  7  8  1  0
+  7  9  1  0
+  7 10  2  0
+ 11 12  1  0
+ 12 13  1  0
+ 13 14  1  0
+M  END
+>  <sample_idx>  (25) 
+31
+
+>  <num_atoms>  (25) 
+14
+
+>  <num_halfedges>  (25) 
+91
+
+>  <target_bond_count>  (25) 
+13
+
+>  <pred_bond_count>  (25) 
+12
+
+>  <halfedge_accuracy>  (25) 
+0.9780219793319702
+
+>  <exact_halfedge_match>  (25) 
+0
+
+>  <bond_pair_set_match>  (25) 
+0
+
+>  <bond_type_map_match>  (25) 
+0
+
+>  <missing_bond_count>  (25) 
+1
+
+>  <extra_bond_count>  (25) 
+0
+
+>  <bond_type_mismatch_count>  (25) 
+1
+
+>  <bond_pair_precision>  (25) 
+1.0
+
+>  <bond_pair_recall>  (25) 
+0.9230769230769231
+
+>  <bond_pair_f1>  (25) 
+0.9600000000000001
+
+>  <pred_bond_length_mean>  (25) 
+1.4399579564730327
+
+>  <pred_bond_length_p95>  (25) 
+1.5303706169128417
+
+>  <bad_bond_length_count>  (25) 
+0
+
+>  <bad_bond_length_fraction>  (25) 
+0.0
+
+>  <plain_sanitize_success>  (25) 
+1
+
+>  <plain_repair_strategy>  (25) 
+none
+
+>  <plain_sanitize_error>  (25) 
+
+
+>  <plain_smiles_no_stereo>  (25) 
+CCCCC(O)P(=O)(O)O.O=P(=O)O
+
+>  <semantic_sanitize_success>  (25) 
+1
+
+>  <semantic_repair_strategy>  (25) 
+none
+
+>  <semantic_sanitize_error>  (25) 
+
+
+>  <semantic_smiles_no_stereo>  (25) 
+CCCCC(O)P(=O)(O)O.O=P(=O)O
+
+>  <original_smiles_no_stereo>  (25) 
+NCCCC(O)(P(=O)(O)O)P(=O)(O)O
+
+>  <plain_smiles_no_stereo_match>  (25) 
+0
+
+>  <semantic_smiles_no_stereo_match>  (25) 
+0
+
+>  <mode>  (25) 
+reconstruct
+
+>  <start_timestep>  (25) 
+100
+
+>  <reverse_steps>  (25) 
+101
+
+>  <sample_seconds>  (25) 
+1.1839749813079834
+
+>  <atom_accuracy>  (25) 
+0.9285714030265808
+
+>  <position_rmse>  (25) 
+0.18086245186085528
+
+>  <pred_atom_formula>  (25) 
+C5O7P2
+
+>  <target_atom_formula>  (25) 
+C4N1O7P2
+
+$$$$

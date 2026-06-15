@@ -1,0 +1,5 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,ok,c1ccc2c(c1)nc1cccc3cccc4c5cnnc2c5c1c34,24,0.9563064575195312
+1,ok,Oc1ccc2nc3[nH]c4cccc5nc6nnc7c1c2c3c(c54)c67,24,1.0251973867416382
+2,ok,O=C1NCc2ccccc3c(=O)n4c(c1cc1cccc(O)c14)c2-3,24,1.0095049142837524
+3,ok,Nc1ncc2c3c1C(=O)c1cccc4c1[N+]3(CC4)c1ccccc1-2,24,0.9788973331451416

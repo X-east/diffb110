@@ -1,0 +1,37 @@
+{
+  "batch_size": 64,
+  "box": {
+    "center_x": -21.484,
+    "center_y": 70.592,
+    "center_z": 21.081,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [],
+  "gpu_id": 0,
+  "input_sdf": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffgui.sdf",
+  "merged_success_sdf_count": 21,
+  "model": "DiffGui",
+  "output_dir": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/docking/unidock_fast_5xzr_8j6/DiffGui",
+  "receptor": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/inputs/5XZR_8J6_pocket8A.pdbqt",
+  "score_max_worst": -8.387,
+  "score_mean": -10.275952380952381,
+  "score_median": -10.439,
+  "score_min_best": -11.87,
+  "score_top_1pct": [
+    -11.87
+  ],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 15.546021223068237,
+  "split_summary": {
+    "input_sdf_records_seen": "21",
+    "read_failed": "0",
+    "split_ligands": "21",
+    "write_failed": "0"
+  },
+  "success_count": 21,
+  "success_rate": 1.0,
+  "total_ligands": 21
+}

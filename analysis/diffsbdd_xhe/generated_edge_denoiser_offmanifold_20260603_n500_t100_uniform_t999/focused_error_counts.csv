@@ -1,0 +1,13 @@
+method,error,count,fraction
+openbabel,success,327,0.654
+openbabel,AtomValenceException,173,0.346
+edm,AtomValenceException,259,0.518
+edm,success,241,0.482
+edge_denoiser_b,KekulizeException,266,0.532
+edge_denoiser_b,success,130,0.26
+edge_denoiser_b,AtomValenceException,74,0.148
+edge_denoiser_b,AtomKekulizeException,30,0.06
+edge_denoiser_c,KekulizeException,247,0.494
+edge_denoiser_c,success,132,0.264
+edge_denoiser_c,AtomValenceException,83,0.166
+edge_denoiser_c,AtomKekulizeException,38,0.076

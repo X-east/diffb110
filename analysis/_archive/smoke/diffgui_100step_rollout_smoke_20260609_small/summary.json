@@ -1,0 +1,52 @@
+{
+  "stage": "diffgui_100step_rollout_smoke",
+  "checkpoint": "/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt",
+  "pocket_pdb": "/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb",
+  "device": "cuda:0",
+  "num_timesteps": 100,
+  "model_num_timesteps": 100,
+  "num_graphs": 1,
+  "ligand_atoms": 8,
+  "gui_strength": 0.0,
+  "old_logprob_shape": [
+    100,
+    1
+  ],
+  "timesteps_shape": [
+    100,
+    1
+  ],
+  "actor_metrics": {
+    "ClipFrac": 0.28999999165534973,
+    "GradNorm": 0.7373373508453369,
+    "LogProbCurrentMean": -2.658944606781006,
+    "LogProbHalfedge": -0.06924373656511307,
+    "LogProbNode": -0.21868297457695007,
+    "LogProbOldMean": 0.9884374737739563,
+    "LogProbPos": -2.3710179328918457,
+    "Loss": -0.432677298784256,
+    "NumSteps": 100.0,
+    "PPO_ApproxKL": 581.6200561523438,
+    "PPO_Loss": -0.432677298784256,
+    "RatioMean": 0.8673049807548523,
+    "TrainBatchSize": 1.0,
+    "PPO_Epochs": 1.0
+  },
+  "load_report": {
+    "loaded_keys": 854,
+    "skipped_transition_keys": 13,
+    "missing_keys": 13,
+    "unexpected_keys": 0
+  },
+  "reconstruction": {
+    "attempted": 1,
+    "written_mols": 1,
+    "success": 1
+  },
+  "outputs": {
+    "log": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_small/rollout.log",
+    "sdf": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_small/generated_100step_smoke.sdf",
+    "csv": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_small/molecules.csv",
+    "summary": "/data/disk6/DiffB110/analysis/diffgui_100step_rollout_smoke_20260609_small/summary.json"
+  }
+}

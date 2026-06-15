@@ -1,0 +1,5 @@
+mol_index,status,smiles,num_atoms,old_logprob_mean
+0,ok,O=C1C2CCCC3OC34C(=O)C(O)C3(CCCC5(C(=O)C25)C3O)C14,24,1.0068631172180176
+1,reconstruct_error:MolReconsError,,24,1.0086418390274048
+2,reconstruct_error:MolReconsError,,24,0.9861721992492676
+3,reconstruct_error:MolReconsError,,24,1.0477160215377808

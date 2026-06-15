@@ -1,0 +1,60 @@
+{
+  "stage": "diffgui_100step_rollout_smoke",
+  "checkpoint": "/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt",
+  "pocket_pdb": "/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb",
+  "device": "cuda:0",
+  "num_timesteps": 200,
+  "model_num_timesteps": 200,
+  "num_graphs": 2,
+  "ligand_atoms": 24,
+  "gui_strength": 3.0,
+  "precision": "bf16",
+  "graph_micro_batch_size": 2,
+  "freeze_mode": "last_n_blocks",
+  "train_last_n_blocks": 1,
+  "old_logprob_shape": [
+    200,
+    2
+  ],
+  "timesteps_shape": [
+    200,
+    2
+  ],
+  "actor_metrics": {
+    "AMPEnabled": 1.0,
+    "ClipFrac": 0.13750000298023224,
+    "FrozenParams": 7407794.0,
+    "GradNorm": 0.07356448471546173,
+    "GraphMicroBatchSize": 2.0,
+    "LogProbCurrentMean": 1.5684871673583984,
+    "LogProbHalfedge": -0.019363395869731903,
+    "LogProbNode": -0.11346463859081268,
+    "LogProbOldMean": 1.9885711669921875,
+    "LogProbPos": 1.7013152837753296,
+    "Loss": -0.6749258041381836,
+    "NumSteps": 200.0,
+    "PPO_ApproxKL": 9.765742301940918,
+    "PPO_Loss": -0.6749258041381836,
+    "RatioMean": 0.9009877443313599,
+    "TrainBatchSize": 2.0,
+    "TrainableParams": 985207.0,
+    "PPO_Epochs": 1.0
+  },
+  "load_report": {
+    "loaded_keys": 852,
+    "skipped_regenerated_keys": 15,
+    "missing_keys": 15,
+    "unexpected_keys": 0
+  },
+  "reconstruction": {
+    "attempted": 2,
+    "written_mols": 2,
+    "success": 2
+  },
+  "outputs": {
+    "log": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix2/rank06_gpu6/rollout.log",
+    "sdf": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix2/rank06_gpu6/generated_100step_smoke.sdf",
+    "csv": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix2/rank06_gpu6/molecules.csv",
+    "summary": "/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix2/rank06_gpu6/summary.json"
+  }
+}

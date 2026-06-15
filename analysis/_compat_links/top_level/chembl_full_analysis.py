@@ -1,0 +1,1 @@
+../../../tools/analysis_scripts/legacy_top_level/chembl_full_analysis.py

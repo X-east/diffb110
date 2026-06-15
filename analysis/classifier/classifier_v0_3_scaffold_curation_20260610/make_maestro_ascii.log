@@ -1,0 +1,6 @@
+output_dir=/data/disk6/DiffB110/analysis/classifier_v0_3_scaffold_curation_20260610/bad_molecule_review_maestro_ascii
+bad_rows=30630
+all_bad_primary_sdf_count=30630
+primary_reason_files=10
+all_reason_files=10
+

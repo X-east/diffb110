@@ -1,0 +1,37 @@
+2026-06-09 16:55:57,900 INFO DiffGuiDockingSweep: starting DiffGui docking batch sweep
+2026-06-09 16:55:57,900 INFO DiffGuiDockingSweep: config_path=/data/disk6/DiffB110/launch/diffgui_docking_batch_sweep_smoke.yaml
+2026-06-09 16:55:57,900 INFO DiffGuiDockingSweep: output_dir=/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2
+2026-06-09 16:55:57,984 INFO DiffGuiDockingSweep: git={'commit': '367bf29', 'status_short': '?? analysis/diffgui_100step_multigpu_smoke_20260609/\n?? analysis/diffgui_100step_multigpu_smoke_20260609_batch32/\n?? analysis/diffgui_100step_rollout_smoke_20260609/\n?? analysis/diffgui_100step_rollout_smoke_20260609_1x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_amp_2x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_freeze_last1_2x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_small/\n?? analysis/diffgui_200step_batch_sweep_20260609/\n?? analysis/diffgui_200step_timestep_fix_20260609/\n?? analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2/\n?? analysis/diffgui_timestep_investigation_20260609/\n?? launch/diffgui_docking_batch_sweep_smoke.yaml\n?? scripts/diffgui_docking_batch_sweep.py'}
+2026-06-09 16:55:57,985 INFO DiffGuiDockingSweep: conda_prefix=/home/md666/miniforge3/envs/diffgui python=/home/md666/miniforge3/envs/diffgui/bin/python
+2026-06-09 16:55:57,985 INFO DiffGuiDockingSweep: cuda_visible_devices=
+2026-06-09 16:55:57,985 INFO DiffGuiDockingSweep: resolved_sweep_cfg={"output_dir": "analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2", "batch_sizes": [2], "device": "cuda:7", "reward_env": "dif", "reward_device": "cpu", "reward_batch_size": 2, "reward_timeout_seconds": 1800, "num_timesteps": 100, "auto_configure_timesteps": true, "ligand_atoms": 24, "seed_base": 26060915, "gui_strength": 3.0, "precision": "bf16", "graph_micro_batch_size": 2, "normalize_advantages": true, "advantage_epsilon": 1e-06, "advantage_clip_min": -2.0, "advantage_clip_max": 2.0, "failure_advantage": -1.0, "memory_poll_interval": 1.0}
+2026-06-09 16:56:00,961 INFO DiffGuiDockingSweep: loaded DiffGui checkpoint=/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt iteration=250000 load_report={'loaded_keys': 852, 'skipped_timestep_derived_keys': 15, 'skipped_total_keys': 15, 'missing_keys': 15, 'unexpected_keys': 0}
+2026-06-09 16:56:00,962 INFO DiffGuiDockingSweep: DiffGui model.num_timesteps=100
+2026-06-09 16:56:20,962 INFO DiffGuiDockingSweep: launch reward-only subprocess env=dif cmd=conda run -n dif python ddpo/main_diffgui_reward_only.py --config /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2/batch_002/reward_only_config.yaml --log-level INFO
+2026-06-09 16:56:21,138 ERROR DiffGuiDockingSweep: batch=2 failed
+Traceback (most recent call last):
+  File "scripts/diffgui_docking_batch_sweep.py", line 126, in main
+    batch_dir=batch_dir,
+  File "scripts/diffgui_docking_batch_sweep.py", line 244, in run_one_batch
+    batch_size=reward_batch_size,
+  File "scripts/diffgui_docking_batch_sweep.py", line 583, in _score_reconstructed_sdf
+    timeout=int(sweep_cfg.get("reward_timeout_seconds", 1800)),
+  File "/home/md666/miniforge3/envs/diffgui/lib/python3.7/subprocess.py", line 488, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/home/md666/miniforge3/envs/diffgui/lib/python3.7/subprocess.py", line 800, in __init__
+    restore_signals, start_new_session)
+  File "/home/md666/miniforge3/envs/diffgui/lib/python3.7/subprocess.py", line 1551, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: 'conda'
+2026-06-09 16:57:17,628 INFO DiffGuiDockingSweep: starting DiffGui docking batch sweep
+2026-06-09 16:57:17,628 INFO DiffGuiDockingSweep: config_path=/data/disk6/DiffB110/launch/diffgui_docking_batch_sweep_smoke.yaml
+2026-06-09 16:57:17,628 INFO DiffGuiDockingSweep: output_dir=/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2
+2026-06-09 16:57:17,715 INFO DiffGuiDockingSweep: git={'commit': '367bf29', 'status_short': '?? analysis/diffgui_100step_multigpu_smoke_20260609/\n?? analysis/diffgui_100step_multigpu_smoke_20260609_batch32/\n?? analysis/diffgui_100step_rollout_smoke_20260609/\n?? analysis/diffgui_100step_rollout_smoke_20260609_1x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_amp_2x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_amp_micro_2x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_freeze_last1_2x24/\n?? analysis/diffgui_100step_rollout_smoke_20260609_small/\n?? analysis/diffgui_200step_batch_sweep_20260609/\n?? analysis/diffgui_200step_timestep_fix_20260609/\n?? analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2/\n?? analysis/diffgui_timestep_investigation_20260609/\n?? launch/diffgui_docking_batch_sweep_smoke.yaml\n?? scripts/diffgui_docking_batch_sweep.py'}
+2026-06-09 16:57:17,716 INFO DiffGuiDockingSweep: conda_prefix=/home/md666/miniforge3/envs/diffgui python=/home/md666/miniforge3/envs/diffgui/bin/python
+2026-06-09 16:57:17,716 INFO DiffGuiDockingSweep: cuda_visible_devices=
+2026-06-09 16:57:17,716 INFO DiffGuiDockingSweep: resolved_sweep_cfg={"output_dir": "analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2", "batch_sizes": [2], "device": "cuda:7", "reward_env": "dif", "reward_device": "cpu", "reward_batch_size": 2, "reward_timeout_seconds": 1800, "num_timesteps": 100, "auto_configure_timesteps": true, "ligand_atoms": 24, "seed_base": 26060915, "gui_strength": 3.0, "precision": "bf16", "graph_micro_batch_size": 2, "normalize_advantages": true, "advantage_epsilon": 1e-06, "advantage_clip_min": -2.0, "advantage_clip_max": 2.0, "failure_advantage": -1.0, "memory_poll_interval": 1.0}
+2026-06-09 16:57:20,806 INFO DiffGuiDockingSweep: loaded DiffGui checkpoint=/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt iteration=250000 load_report={'loaded_keys': 852, 'skipped_timestep_derived_keys': 15, 'skipped_total_keys': 15, 'missing_keys': 15, 'unexpected_keys': 0}
+2026-06-09 16:57:20,808 INFO DiffGuiDockingSweep: DiffGui model.num_timesteps=100
+2026-06-09 16:57:40,941 INFO DiffGuiDockingSweep: launch reward-only subprocess env=dif cmd=/home/md666/miniforge3/bin/conda run -n dif python ddpo/main_diffgui_reward_only.py --config /data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2/batch_002/reward_only_config.yaml --log-level INFO
+2026-06-09 16:57:53,832 INFO DiffGuiDockingSweep: reward-only rows=2 log=/data/disk6/DiffB110/analysis/diffgui_docking_batch_sweep_20260609_preflight_bs2/batch_002/reward_only_subprocess.log
+2026-06-09 16:58:14,998 INFO DiffGuiDockingSweep: batch=2 done total=57.10s recon=2/2 docking_success=2 reward_mean=1.1955 ppo_loss=0.0092

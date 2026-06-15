@@ -1,0 +1,1282 @@
+{
+  "sa_e0010_m00069": {
+    "failure_reason": "",
+    "score": -6.28,
+    "success": true
+  },
+  "sa_e0010_m00070": {
+    "failure_reason": "",
+    "score": -8.231,
+    "success": true
+  },
+  "sa_e0010_m00071": {
+    "failure_reason": "",
+    "score": -7.899,
+    "success": true
+  },
+  "sa_e0010_m00072": {
+    "failure_reason": "",
+    "score": -7.388,
+    "success": true
+  },
+  "sa_e0010_m00073": {
+    "failure_reason": "",
+    "score": -7.947,
+    "success": true
+  },
+  "sa_e0010_m00074": {
+    "failure_reason": "",
+    "score": -10.053,
+    "success": true
+  },
+  "sa_e0010_m00075": {
+    "failure_reason": "",
+    "score": -9.912,
+    "success": true
+  },
+  "sa_e0010_m00076": {
+    "failure_reason": "",
+    "score": -8.35,
+    "success": true
+  },
+  "sa_e0010_m00077": {
+    "failure_reason": "",
+    "score": -7.685,
+    "success": true
+  },
+  "sa_e0010_m00078": {
+    "failure_reason": "",
+    "score": -8.512,
+    "success": true
+  },
+  "sa_e0010_m00079": {
+    "failure_reason": "",
+    "score": -9.749,
+    "success": true
+  },
+  "sa_e0010_m00080": {
+    "failure_reason": "",
+    "score": -8.468,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00000": {
+    "failure_reason": "",
+    "score": -5.29,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00001": {
+    "failure_reason": "",
+    "score": -9.37,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00002": {
+    "failure_reason": "",
+    "score": -7.395,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00003": {
+    "failure_reason": "",
+    "score": -8.744,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00004": {
+    "failure_reason": "",
+    "score": -6.659,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00005": {
+    "failure_reason": "",
+    "score": -7.413,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00006": {
+    "failure_reason": "",
+    "score": -6.771,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00007": {
+    "failure_reason": "",
+    "score": -4.626,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00008": {
+    "failure_reason": "",
+    "score": -7.943,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00009": {
+    "failure_reason": "",
+    "score": -7.906,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00010": {
+    "failure_reason": "",
+    "score": -6.595,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00011": {
+    "failure_reason": "",
+    "score": -4.797,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00012": {
+    "failure_reason": "",
+    "score": -7.792,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00013": {
+    "failure_reason": "",
+    "score": -9.462,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00014": {
+    "failure_reason": "",
+    "score": -6.703,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00015": {
+    "failure_reason": "",
+    "score": -6.093,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00016": {
+    "failure_reason": "",
+    "score": -9.37,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00017": {
+    "failure_reason": "",
+    "score": -5.113,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00018": {
+    "failure_reason": "",
+    "score": -6.812,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00019": {
+    "failure_reason": "",
+    "score": -6.748,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00020": {
+    "failure_reason": "",
+    "score": -7.751,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00021": {
+    "failure_reason": "",
+    "score": -7.618,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00022": {
+    "failure_reason": "",
+    "score": -9.784,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00023": {
+    "failure_reason": "",
+    "score": -7.094,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00024": {
+    "failure_reason": "",
+    "score": -8.075,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00025": {
+    "failure_reason": "",
+    "score": -7.569,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00026": {
+    "failure_reason": "",
+    "score": -9.074,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00027": {
+    "failure_reason": "",
+    "score": -7.198,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00028": {
+    "failure_reason": "",
+    "score": -8.452,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00029": {
+    "failure_reason": "",
+    "score": -7.057,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00030": {
+    "failure_reason": "",
+    "score": -8.081,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00031": {
+    "failure_reason": "",
+    "score": -6.793,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00032": {
+    "failure_reason": "",
+    "score": -9.771,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00033": {
+    "failure_reason": "",
+    "score": -8.807,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00034": {
+    "failure_reason": "",
+    "score": -8.714,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00035": {
+    "failure_reason": "",
+    "score": -7.528,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00036": {
+    "failure_reason": "",
+    "score": -8.231,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00037": {
+    "failure_reason": "",
+    "score": -8.377,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00038": {
+    "failure_reason": "",
+    "score": -9.183,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00039": {
+    "failure_reason": "",
+    "score": -7.048,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00040": {
+    "failure_reason": "",
+    "score": -9.002,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00041": {
+    "failure_reason": "",
+    "score": -5.495,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00042": {
+    "failure_reason": "",
+    "score": -6.726,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00043": {
+    "failure_reason": "",
+    "score": -9.55,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00044": {
+    "failure_reason": "",
+    "score": -8.337,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00045": {
+    "failure_reason": "",
+    "score": -8.947,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00046": {
+    "failure_reason": "",
+    "score": -8.311,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00047": {
+    "failure_reason": "",
+    "score": -8.795,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00048": {
+    "failure_reason": "",
+    "score": -6.945,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00049": {
+    "failure_reason": "",
+    "score": -8.233,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00050": {
+    "failure_reason": "",
+    "score": -7.79,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00051": {
+    "failure_reason": "",
+    "score": -6.529,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00052": {
+    "failure_reason": "",
+    "score": -6.041,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00053": {
+    "failure_reason": "",
+    "score": -4.394,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00054": {
+    "failure_reason": "",
+    "score": -9.723,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00055": {
+    "failure_reason": "",
+    "score": -8.13,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00056": {
+    "failure_reason": "",
+    "score": -7.497,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00057": {
+    "failure_reason": "",
+    "score": -8.382,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00058": {
+    "failure_reason": "",
+    "score": -9.458,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00059": {
+    "failure_reason": "",
+    "score": -7.755,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00060": {
+    "failure_reason": "",
+    "score": -8.248,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00061": {
+    "failure_reason": "",
+    "score": -7.445,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00062": {
+    "failure_reason": "",
+    "score": -8.837,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00063": {
+    "failure_reason": "",
+    "score": -7.211,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00064": {
+    "failure_reason": "",
+    "score": -9.382,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00065": {
+    "failure_reason": "",
+    "score": -6.039,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00066": {
+    "failure_reason": "",
+    "score": -7.441,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00067": {
+    "failure_reason": "",
+    "score": -5.924,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00068": {
+    "failure_reason": "",
+    "score": -7.887,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00069": {
+    "failure_reason": "",
+    "score": -6.765,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00070": {
+    "failure_reason": "",
+    "score": -7.872,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00071": {
+    "failure_reason": "",
+    "score": -8.708,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00072": {
+    "failure_reason": "",
+    "score": -8.717,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00073": {
+    "failure_reason": "",
+    "score": -7.569,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00074": {
+    "failure_reason": "",
+    "score": -9.517,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00075": {
+    "failure_reason": "",
+    "score": -8.506,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00076": {
+    "failure_reason": "",
+    "score": -7.837,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00077": {
+    "failure_reason": "",
+    "score": -7.996,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00078": {
+    "failure_reason": "",
+    "score": -7.823,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00079": {
+    "failure_reason": "",
+    "score": -8.408,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00080": {
+    "failure_reason": "",
+    "score": -8.583,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00081": {
+    "failure_reason": "",
+    "score": -7.3,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00082": {
+    "failure_reason": "",
+    "score": -8.214,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00083": {
+    "failure_reason": "",
+    "score": -8.212,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00084": {
+    "failure_reason": "",
+    "score": -7.486,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00085": {
+    "failure_reason": "",
+    "score": -6.864,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00086": {
+    "failure_reason": "",
+    "score": -9.62,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00087": {
+    "failure_reason": "",
+    "score": -4.898,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00088": {
+    "failure_reason": "",
+    "score": -6.481,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00089": {
+    "failure_reason": "",
+    "score": -6.913,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00090": {
+    "failure_reason": "",
+    "score": -6.854,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00091": {
+    "failure_reason": "",
+    "score": -9.103,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00092": {
+    "failure_reason": "",
+    "score": -9.327,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00093": {
+    "failure_reason": "",
+    "score": -8.817,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00094": {
+    "failure_reason": "",
+    "score": -3.385,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00095": {
+    "failure_reason": "",
+    "score": -5.772,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00096": {
+    "failure_reason": "",
+    "score": -7.581,
+    "success": true
+  },
+  "tpsa_distribution_e0001_m00097": {
+    "failure_reason": "",
+    "score": -10.24,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00000": {
+    "failure_reason": "",
+    "score": -9.056,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00001": {
+    "failure_reason": "",
+    "score": -9.505,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00002": {
+    "failure_reason": "",
+    "score": -7.711,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00003": {
+    "failure_reason": "",
+    "score": -8.438,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00004": {
+    "failure_reason": "",
+    "score": -7.059,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00005": {
+    "failure_reason": "",
+    "score": -9.331,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00006": {
+    "failure_reason": "",
+    "score": -9.058,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00007": {
+    "failure_reason": "",
+    "score": -7.811,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00008": {
+    "failure_reason": "",
+    "score": -7.904,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00009": {
+    "failure_reason": "",
+    "score": -9.147,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00010": {
+    "failure_reason": "",
+    "score": -6.987,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00011": {
+    "failure_reason": "",
+    "score": -8.058,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00012": {
+    "failure_reason": "",
+    "score": -8.001,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00013": {
+    "failure_reason": "",
+    "score": -7.966,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00014": {
+    "failure_reason": "",
+    "score": -6.803,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00015": {
+    "failure_reason": "",
+    "score": -7.893,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00016": {
+    "failure_reason": "",
+    "score": -7.278,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00017": {
+    "failure_reason": "",
+    "score": -5.918,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00018": {
+    "failure_reason": "",
+    "score": -8.985,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00019": {
+    "failure_reason": "",
+    "score": -9.096,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00020": {
+    "failure_reason": "",
+    "score": -7.737,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00021": {
+    "failure_reason": "",
+    "score": -7.364,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00022": {
+    "failure_reason": "",
+    "score": -8.324,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00023": {
+    "failure_reason": "",
+    "score": -5.158,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00024": {
+    "failure_reason": "",
+    "score": -6.809,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00025": {
+    "failure_reason": "",
+    "score": -8.789,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00026": {
+    "failure_reason": "",
+    "score": -7.179,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00027": {
+    "failure_reason": "",
+    "score": -7.251,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00028": {
+    "failure_reason": "",
+    "score": -7.388,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00029": {
+    "failure_reason": "",
+    "score": -5.43,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00030": {
+    "failure_reason": "",
+    "score": -8.536,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00031": {
+    "failure_reason": "",
+    "score": -6.496,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00032": {
+    "failure_reason": "",
+    "score": -9.611,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00033": {
+    "failure_reason": "",
+    "score": -9.087,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00034": {
+    "failure_reason": "",
+    "score": -8.973,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00035": {
+    "failure_reason": "",
+    "score": -6.425,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00036": {
+    "failure_reason": "",
+    "score": -7.439,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00037": {
+    "failure_reason": "",
+    "score": -9.637,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00038": {
+    "failure_reason": "",
+    "score": -10.729,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00039": {
+    "failure_reason": "",
+    "score": -7.667,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00040": {
+    "failure_reason": "",
+    "score": -7.77,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00041": {
+    "failure_reason": "",
+    "score": -8.251,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00042": {
+    "failure_reason": "",
+    "score": -8.117,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00043": {
+    "failure_reason": "",
+    "score": -4.759,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00044": {
+    "failure_reason": "",
+    "score": -8.501,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00045": {
+    "failure_reason": "",
+    "score": -6.742,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00046": {
+    "failure_reason": "",
+    "score": -8.221,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00047": {
+    "failure_reason": "",
+    "score": -7.196,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00048": {
+    "failure_reason": "",
+    "score": -8.214,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00049": {
+    "failure_reason": "",
+    "score": -9.895,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00050": {
+    "failure_reason": "",
+    "score": -8.843,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00051": {
+    "failure_reason": "",
+    "score": -6.177,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00052": {
+    "failure_reason": "",
+    "score": -7.127,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00053": {
+    "failure_reason": "",
+    "score": -7.871,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00054": {
+    "failure_reason": "",
+    "score": -7.584,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00055": {
+    "failure_reason": "",
+    "score": -8.37,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00056": {
+    "failure_reason": "",
+    "score": -9.251,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00057": {
+    "failure_reason": "",
+    "score": -8.209,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00058": {
+    "failure_reason": "",
+    "score": -6.43,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00059": {
+    "failure_reason": "",
+    "score": -9.326,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00060": {
+    "failure_reason": "",
+    "score": -7.786,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00061": {
+    "failure_reason": "",
+    "score": -8.54,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00062": {
+    "failure_reason": "",
+    "score": -7.819,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00063": {
+    "failure_reason": "",
+    "score": -10.605,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00064": {
+    "failure_reason": "",
+    "score": -7.332,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00065": {
+    "failure_reason": "",
+    "score": -8.972,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00066": {
+    "failure_reason": "",
+    "score": -10.306,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00067": {
+    "failure_reason": "",
+    "score": -4.235,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00068": {
+    "failure_reason": "",
+    "score": -9.175,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00069": {
+    "failure_reason": "",
+    "score": -8.234,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00070": {
+    "failure_reason": "",
+    "score": -7.263,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00071": {
+    "failure_reason": "",
+    "score": -6.718,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00072": {
+    "failure_reason": "",
+    "score": -7.63,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00073": {
+    "failure_reason": "",
+    "score": -7.968,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00074": {
+    "failure_reason": "",
+    "score": -11.712,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00075": {
+    "failure_reason": "",
+    "score": -6.171,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00076": {
+    "failure_reason": "",
+    "score": -6.444,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00077": {
+    "failure_reason": "",
+    "score": -7.333,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00078": {
+    "failure_reason": "",
+    "score": -8.716,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00079": {
+    "failure_reason": "",
+    "score": -8.12,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00080": {
+    "failure_reason": "",
+    "score": -7.958,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00081": {
+    "failure_reason": "",
+    "score": -6.289,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00082": {
+    "failure_reason": "",
+    "score": -7.276,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00083": {
+    "failure_reason": "",
+    "score": -6.652,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00084": {
+    "failure_reason": "",
+    "score": -6.854,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00085": {
+    "failure_reason": "",
+    "score": -9.437,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00086": {
+    "failure_reason": "",
+    "score": -10.066,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00087": {
+    "failure_reason": "",
+    "score": -9.151,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00088": {
+    "failure_reason": "",
+    "score": -7.399,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00089": {
+    "failure_reason": "",
+    "score": -8.43,
+    "success": true
+  },
+  "tpsa_distribution_e0002_m00090": {
+    "failure_reason": "",
+    "score": -5.953,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00000": {
+    "failure_reason": "",
+    "score": -7.172,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00001": {
+    "failure_reason": "",
+    "score": 8.568,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00002": {
+    "failure_reason": "",
+    "score": -8.439,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00003": {
+    "failure_reason": "",
+    "score": -6.964,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00004": {
+    "failure_reason": "",
+    "score": -6.864,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00005": {
+    "failure_reason": "",
+    "score": -5.755,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00006": {
+    "failure_reason": "",
+    "score": -5.444,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00007": {
+    "failure_reason": "",
+    "score": -7.142,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00008": {
+    "failure_reason": "",
+    "score": -7.236,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00009": {
+    "failure_reason": "",
+    "score": -4.814,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00010": {
+    "failure_reason": "",
+    "score": -8.954,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00011": {
+    "failure_reason": "",
+    "score": -9.657,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00012": {
+    "failure_reason": "",
+    "score": -9.506,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00013": {
+    "failure_reason": "",
+    "score": -8.118,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00014": {
+    "failure_reason": "",
+    "score": -6.048,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00015": {
+    "failure_reason": "",
+    "score": -7.34,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00016": {
+    "failure_reason": "",
+    "score": -4.472,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00017": {
+    "failure_reason": "",
+    "score": -7.472,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00018": {
+    "failure_reason": "",
+    "score": -8.026,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00019": {
+    "failure_reason": "",
+    "score": -6.994,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00020": {
+    "failure_reason": "",
+    "score": -7.5,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00021": {
+    "failure_reason": "",
+    "score": -4.187,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00022": {
+    "failure_reason": "",
+    "score": -5.801,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00023": {
+    "failure_reason": "",
+    "score": -4.691,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00024": {
+    "failure_reason": "",
+    "score": -5.483,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00025": {
+    "failure_reason": "",
+    "score": -6.086,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00026": {
+    "failure_reason": "",
+    "score": -7.32,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00027": {
+    "failure_reason": "",
+    "score": -9.428,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00028": {
+    "failure_reason": "",
+    "score": -7.546,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00029": {
+    "failure_reason": "",
+    "score": -7.373,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00030": {
+    "failure_reason": "",
+    "score": -5.993,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00031": {
+    "failure_reason": "",
+    "score": -8.099,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00032": {
+    "failure_reason": "",
+    "score": -7.921,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00033": {
+    "failure_reason": "",
+    "score": -9.742,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00034": {
+    "failure_reason": "",
+    "score": -8.116,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00035": {
+    "failure_reason": "",
+    "score": -5.74,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00036": {
+    "failure_reason": "",
+    "score": -5.361,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00037": {
+    "failure_reason": "",
+    "score": -7.744,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00038": {
+    "failure_reason": "",
+    "score": -7.502,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00039": {
+    "failure_reason": "",
+    "score": -5.36,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00040": {
+    "failure_reason": "",
+    "score": -9.53,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00041": {
+    "failure_reason": "",
+    "score": -7.828,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00042": {
+    "failure_reason": "",
+    "score": -9.26,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00043": {
+    "failure_reason": "",
+    "score": -5.994,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00044": {
+    "failure_reason": "",
+    "score": -7.936,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00045": {
+    "failure_reason": "",
+    "score": -7.865,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00046": {
+    "failure_reason": "",
+    "score": -4.918,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00047": {
+    "failure_reason": "",
+    "score": -6.664,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00048": {
+    "failure_reason": "",
+    "score": -7.712,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00049": {
+    "failure_reason": "",
+    "score": -9.906,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00050": {
+    "failure_reason": "",
+    "score": -8.157,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00051": {
+    "failure_reason": "",
+    "score": -6.924,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00052": {
+    "failure_reason": "",
+    "score": -8.073,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00053": {
+    "failure_reason": "",
+    "score": -8.416,
+    "success": true
+  },
+  "tpsa_distribution_e0003_m00054": {
+    "failure_reason": "",
+    "score": -9.028,
+    "success": true
+  }
+}

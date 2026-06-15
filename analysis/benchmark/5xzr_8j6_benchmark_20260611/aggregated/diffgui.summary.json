@@ -1,0 +1,2511 @@
+{
+  "input_sdf_files": 504,
+  "limit": 500,
+  "model": "DiffGui",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffgui.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/70.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/71.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/72.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/8.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_204138/data_SDF/9.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/70.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/71.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/72.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/8.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_204138/data_SDF/9.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/70.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/71.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/8.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_204138/data_SDF/9.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/70.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/71.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/8.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_3/diffgui_c1101_gpu3_20260611_204138/data_SDF/9.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/70.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/8.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_4/diffgui_c1101_gpu4_20260611_204138/data_SDF/9.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/70.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/71.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/8.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_5/diffgui_c1101_gpu5_20260611_204138/data_SDF/9.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/10.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/11.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/12.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/13.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/14.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/15.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/16.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/17.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/18.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/19.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/20.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/21.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/22.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/23.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/24.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/25.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/26.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/27.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/28.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/29.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/30.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/31.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/32.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/33.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/34.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/35.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/36.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/37.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/38.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/39.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/40.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/41.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/42.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/43.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/44.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/45.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/46.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/47.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/48.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/49.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/50.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/51.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/52.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/53.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/54.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/55.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/56.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/57.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/58.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/59.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/60.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/61.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/62.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/63.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/64.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/65.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/66.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/67.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/68.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_6/diffgui_c1101_gpu6_20260611_204138/data_SDF/69.sdf",
+      "readable": 1,
+      "written": 1
+    }
+  ],
+  "readable_records_seen": 500,
+  "write_failed_records": 0,
+  "written_records": 500
+}

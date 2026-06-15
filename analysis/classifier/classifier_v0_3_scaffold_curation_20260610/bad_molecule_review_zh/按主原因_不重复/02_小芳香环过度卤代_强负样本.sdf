@@ -1,0 +1,6711 @@
+00001_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+  9  9  0  0  0  0  0  0  0  0999 V2000
+  208.6598  211.4086  171.7980 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.7560  213.8317  174.8864 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4114  212.6554  173.1164 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.8107  213.0577  173.7379 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3026  213.8714  174.6830 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9398  212.6875  172.6655 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.3913  213.0971  173.5581 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4952  214.2332  175.3992 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6380  212.5940  173.1020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  1  0
+  2  4  2  0
+  2  8  1  0
+  3  4  1  0
+  4  9  1  0
+  5  7  1  0
+  5  8  2  0
+  6  7  1  0
+  7  9  2  0
+M  END
+>  <mol_index>  (1) 
+21
+
+>  <old_logprob_mean>  (1) 
+1.98803151
+
+>  <diffgui_num_timesteps>  (1) 
+200
+
+>  <mol_id>  (1) 
+diffgui_dock_00020
+
+>  <source_index>  (1) 
+20
+
+>  <original_name>  (1) 
+diffgui_ring_rl_epoch_0006_000148
+
+>  <rdkit_valid>  (1) 
+1
+
+>  <sanitize_status>  (1) 
+ok
+
+>  <smiles>  (1) 
+Clc1cccc(Cl)c1Cl
+
+>  <nodesxsample>  (1) 
+9
+
+>  <docking_raw>  (1) 
+-6.439000129699707
+
+>  <docking_reward>  (1) 
+0.6438999772071838
+
+>  <ligand_efficiency_raw>  (1) 
+0.7154444456100464
+
+>  <ligand_efficiency_reward>  (1) 
+0.7154444456100464
+
+>  <chemistry_guard_reward>  (1) 
+1.0
+
+>  <chemistry_guard_success>  (1) 
+1
+
+>  <heavy_atom_count>  (1) 
+9
+
+>  <carbon_fraction>  (1) 
+0.6666666666666666
+
+>  <hetero_atom_count>  (1) 
+3
+
+>  <hetero_atom_fraction>  (1) 
+0.3333333432674408
+
+>  <aromatic_ring_count>  (1) 
+1
+
+>  <three_member_ring_count>  (1) 
+0
+
+>  <fragment_count>  (1) 
+1
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <halogen_bad_position_count>  (1) 
+0.0
+
+>  <chemistry_guard_violation_count>  (1) 
+0.0
+
+>  <ring_complexity_reward>  (1) 
+1.0
+
+>  <ring_complexity_success>  (1) 
+1
+
+>  <ring_complexity_ring_count>  (1) 
+1.0
+
+>  <ring_complexity_aromatic_ring_count>  (1) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (1) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (1) 
+1.0
+
+>  <ring_complexity_spiro_atom_count>  (1) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (1) 
+0.0
+
+>  <ring_complexity_penalty>  (1) 
+0.0
+
+>  <reward_total_raw>  (1) 
+0.8042261004447937
+
+>  <reward_total>  (1) 
+0.8042261004447937
+
+>  <stability>  (1) 
+1.0
+
+>  <global_id>  (1) 
+diffgui_ring_rl_epoch_0006_000148
+
+>  <source>  (1) 
+diffgui_ring_rl_epoch_0006
+
+>  <source_path>  (1) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0006/molecules.sdf
+
+>  <source_mol_id>  (1) 
+diffgui_dock_00020|reward=0.8042|valid=1|ok
+
+>  <label>  (1) 
+bad
+
+>  <primary_reason>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (1) 
+4.0
+
+>  <benzene_ring_count>  (1) 
+1
+
+>  <heterocycle_ring_count>  (1) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (1) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (1) 
+0
+
+>  <ring_count>  (1) 
+1
+
+>  <max_fused_ring_system_size>  (1) 
+1
+
+>  <spiro_atom_count>  (1) 
+0
+
+>  <bridgehead_atom_count>  (1) 
+0
+
+>  <total_halogen_count>  (1) 
+3
+
+>  <aromatic_halogen_count>  (1) 
+3
+
+>  <heavy_halogen_count>  (1) 
+0
+
+>  <br_i_count>  (1) 
+0
+
+>  <logp>  (1) 
+3.6468000000000007
+
+>  <tpsa>  (1) 
+0.0
+
+>  <hba>  (1) 
+0
+
+>  <hbd>  (1) 
+0
+
+>  <murcko_scaffold>  (1) 
+c1ccccc1
+
+>  <label_zh>  (1) 
+坏分子
+
+>  <current_bucket_reason_code>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (1) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (1) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (1) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (1) 
+小芳香环过度卤代
+
+>  <reason_count>  (1) 
+1
+
+>  <is_multi_reason_zh>  (1) 
+否
+
+>  <severity_zh>  (1) 
+强负样本
+
+>  <bucket_type_zh>  (1) 
+主原因不重复分桶
+
+>  <review_note_zh>  (1) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00002_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  208.5247  212.2208  172.8688 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5862  214.0532  175.0415 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7884  212.7775  173.3015 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7602  213.6588  174.3938 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3196  214.3215  174.9490 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.2899  212.5531  173.5354 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8521  214.1299  175.2594 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  208.4460  211.1203  171.4639 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.3604  213.5349  174.5887 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1015  211.8778  173.2008 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  2  0
+  1  6  1  0
+  1  8  1  0
+  2  4  2  0
+  2  9  1  0
+  3  4  1  0
+  4  5  1  0
+  6  9  2  0
+  6 10  1  0
+  7  9  1  0
+M  END
+>  <mol_index>  (2) 
+4
+
+>  <old_logprob_mean>  (2) 
+2.03342199
+
+>  <diffgui_num_timesteps>  (2) 
+200
+
+>  <mol_id>  (2) 
+diffgui_dock_00004
+
+>  <source_index>  (2) 
+4
+
+>  <original_name>  (2) 
+diffgui_ring_rl_epoch_0009_000132
+
+>  <rdkit_valid>  (2) 
+1
+
+>  <sanitize_status>  (2) 
+ok
+
+>  <smiles>  (2) 
+Oc1c(Cl)cc(Cl)cc1Cl
+
+>  <nodesxsample>  (2) 
+10
+
+>  <docking_raw>  (2) 
+-6.11899995803833
+
+>  <docking_reward>  (2) 
+0.6118999719619751
+
+>  <ligand_efficiency_raw>  (2) 
+0.6118999719619751
+
+>  <ligand_efficiency_reward>  (2) 
+0.6118999719619751
+
+>  <chemistry_guard_reward>  (2) 
+1.0
+
+>  <chemistry_guard_success>  (2) 
+1
+
+>  <heavy_atom_count>  (2) 
+10
+
+>  <carbon_fraction>  (2) 
+0.6
+
+>  <hetero_atom_count>  (2) 
+4
+
+>  <hetero_atom_fraction>  (2) 
+0.4000000059604645
+
+>  <aromatic_ring_count>  (2) 
+1
+
+>  <three_member_ring_count>  (2) 
+0
+
+>  <fragment_count>  (2) 
+1
+
+>  <bad_bond_length_fraction>  (2) 
+0.0
+
+>  <halogen_bad_position_count>  (2) 
+0.0
+
+>  <chemistry_guard_violation_count>  (2) 
+0.0
+
+>  <ring_complexity_reward>  (2) 
+1.0
+
+>  <ring_complexity_success>  (2) 
+1
+
+>  <ring_complexity_ring_count>  (2) 
+1.0
+
+>  <ring_complexity_aromatic_ring_count>  (2) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (2) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (2) 
+1.0
+
+>  <ring_complexity_spiro_atom_count>  (2) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (2) 
+0.0
+
+>  <ring_complexity_penalty>  (2) 
+0.0
+
+>  <reward_total_raw>  (2) 
+0.7671400308609009
+
+>  <reward_total>  (2) 
+0.7671400308609009
+
+>  <stability>  (2) 
+1.0
+
+>  <global_id>  (2) 
+diffgui_ring_rl_epoch_0009_000132
+
+>  <source>  (2) 
+diffgui_ring_rl_epoch_0009
+
+>  <source_path>  (2) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0009/molecules.sdf
+
+>  <source_mol_id>  (2) 
+diffgui_dock_00004|reward=0.7671|valid=1|ok
+
+>  <label>  (2) 
+bad
+
+>  <primary_reason>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (2) 
+4.0
+
+>  <benzene_ring_count>  (2) 
+1
+
+>  <heterocycle_ring_count>  (2) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (2) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (2) 
+0
+
+>  <ring_count>  (2) 
+1
+
+>  <max_fused_ring_system_size>  (2) 
+1
+
+>  <spiro_atom_count>  (2) 
+0
+
+>  <bridgehead_atom_count>  (2) 
+0
+
+>  <total_halogen_count>  (2) 
+3
+
+>  <aromatic_halogen_count>  (2) 
+3
+
+>  <heavy_halogen_count>  (2) 
+0
+
+>  <br_i_count>  (2) 
+0
+
+>  <logp>  (2) 
+3.3524000000000007
+
+>  <tpsa>  (2) 
+20.23
+
+>  <hba>  (2) 
+1
+
+>  <hbd>  (2) 
+1
+
+>  <murcko_scaffold>  (2) 
+c1ccccc1
+
+>  <label_zh>  (2) 
+坏分子
+
+>  <current_bucket_reason_code>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (2) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (2) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (2) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (2) 
+小芳香环过度卤代
+
+>  <reason_count>  (2) 
+1
+
+>  <is_multi_reason_zh>  (2) 
+否
+
+>  <severity_zh>  (2) 
+强负样本
+
+>  <bucket_type_zh>  (2) 
+主原因不重复分桶
+
+>  <review_note_zh>  (2) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00003_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+  9  9  0  0  0  0  0  0  0  0999 V2000
+  208.7464  211.8576  172.1355 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3027  213.5917  173.9388 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9433  213.2358  172.5619 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.6380  212.9003  172.8920 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.4490  212.5908  173.1154 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7114  213.3913  174.0614 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3040  212.0185  172.0283 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5960  214.2167  175.3803 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  211.2285  212.5525  173.1700 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  2  0
+  1  7  1  0
+  2  4  1  0
+  2  6  2  0
+  3  4  1  0
+  4  7  2  0
+  5  6  1  0
+  5  9  1  0
+  6  8  1  0
+M  END
+>  <mol_index>  (3) 
+10
+
+>  <old_logprob_mean>  (3) 
+1.99109209
+
+>  <diffgui_num_timesteps>  (3) 
+200
+
+>  <mol_id>  (3) 
+diffgui_dock_00010
+
+>  <source_index>  (3) 
+10
+
+>  <original_name>  (3) 
+diffgui_ring_rl_epoch_0013_000077
+
+>  <rdkit_valid>  (3) 
+1
+
+>  <sanitize_status>  (3) 
+ok
+
+>  <smiles>  (3) 
+Clc1ccc(Cl)c(Cl)c1
+
+>  <nodesxsample>  (3) 
+9
+
+>  <docking_raw>  (3) 
+-6.295000076293945
+
+>  <docking_reward>  (3) 
+0.6294999718666077
+
+>  <ligand_efficiency_raw>  (3) 
+0.6994444727897644
+
+>  <ligand_efficiency_reward>  (3) 
+0.6994444727897644
+
+>  <chemistry_guard_reward>  (3) 
+1.0
+
+>  <chemistry_guard_success>  (3) 
+1
+
+>  <heavy_atom_count>  (3) 
+9
+
+>  <carbon_fraction>  (3) 
+0.6666666666666666
+
+>  <hetero_atom_count>  (3) 
+3
+
+>  <hetero_atom_fraction>  (3) 
+0.3333333432674408
+
+>  <aromatic_ring_count>  (3) 
+1
+
+>  <three_member_ring_count>  (3) 
+0
+
+>  <fragment_count>  (3) 
+1
+
+>  <bad_bond_length_fraction>  (3) 
+0.0
+
+>  <halogen_bad_position_count>  (3) 
+0.0
+
+>  <chemistry_guard_violation_count>  (3) 
+0.0
+
+>  <ring_complexity_reward>  (3) 
+1.0
+
+>  <ring_complexity_success>  (3) 
+1
+
+>  <ring_complexity_ring_count>  (3) 
+1.0
+
+>  <ring_complexity_aromatic_ring_count>  (3) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (3) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (3) 
+1.0
+
+>  <ring_complexity_spiro_atom_count>  (3) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (3) 
+0.0
+
+>  <ring_complexity_penalty>  (3) 
+0.0
+
+>  <reward_total_raw>  (3) 
+0.7951861619949341
+
+>  <reward_total>  (3) 
+0.7951861619949341
+
+>  <stability>  (3) 
+1.0
+
+>  <global_id>  (3) 
+diffgui_ring_rl_epoch_0013_000077
+
+>  <source>  (3) 
+diffgui_ring_rl_epoch_0013
+
+>  <source_path>  (3) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0013/molecules.sdf
+
+>  <source_mol_id>  (3) 
+diffgui_dock_00010|reward=0.7952|valid=1|ok
+
+>  <label>  (3) 
+bad
+
+>  <primary_reason>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (3) 
+4.0
+
+>  <benzene_ring_count>  (3) 
+1
+
+>  <heterocycle_ring_count>  (3) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (3) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (3) 
+0
+
+>  <ring_count>  (3) 
+1
+
+>  <max_fused_ring_system_size>  (3) 
+1
+
+>  <spiro_atom_count>  (3) 
+0
+
+>  <bridgehead_atom_count>  (3) 
+0
+
+>  <total_halogen_count>  (3) 
+3
+
+>  <aromatic_halogen_count>  (3) 
+3
+
+>  <heavy_halogen_count>  (3) 
+0
+
+>  <br_i_count>  (3) 
+0
+
+>  <logp>  (3) 
+3.6468000000000007
+
+>  <tpsa>  (3) 
+0.0
+
+>  <hba>  (3) 
+0
+
+>  <hbd>  (3) 
+0
+
+>  <murcko_scaffold>  (3) 
+c1ccccc1
+
+>  <label_zh>  (3) 
+坏分子
+
+>  <current_bucket_reason_code>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (3) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (3) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (3) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (3) 
+小芳香环过度卤代
+
+>  <reason_count>  (3) 
+1
+
+>  <is_multi_reason_zh>  (3) 
+否
+
+>  <severity_zh>  (3) 
+强负样本
+
+>  <bucket_type_zh>  (3) 
+主原因不重复分桶
+
+>  <review_note_zh>  (3) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00004_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 13 13  0  0  0  0  0  0  0  0999 V2000
+  208.0111  211.0426  171.4509 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  212.7319  213.1021  173.3526 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.2472  212.2149  172.4970 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3257  212.7213  172.7432 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6535  212.8006  173.8358 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8639  213.5977  174.6163 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1577  214.1749  173.0592 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8224  212.1124  172.6224 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0359  214.3817  175.9844 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  208.1236  212.8207  173.6584 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9629  213.0147  173.4532 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2819  213.7171  174.5248 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8627  212.3100  172.6789 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  8  1  0
+  2 11  1  0
+  3  8  2  0
+  3 11  1  0
+  4  7  1  0
+  4 13  1  0
+  5 10  1  0
+  5 13  1  0
+  6  9  1  0
+  6 10  2  0
+  6 12  1  0
+  8 10  1  0
+ 11 12  2  0
+M  END
+>  <mol_index>  (4) 
+7
+
+>  <old_logprob_mean>  (4) 
+2.01780343
+
+>  <diffgui_num_timesteps>  (4) 
+200
+
+>  <mol_id>  (4) 
+diffgui_dock_00007
+
+>  <source_index>  (4) 
+7
+
+>  <original_name>  (4) 
+diffgui_ring_rl_epoch_0013_000145
+
+>  <rdkit_valid>  (4) 
+1
+
+>  <sanitize_status>  (4) 
+ok
+
+>  <smiles>  (4) 
+OCCOc1c(Cl)cc(Cl)cc1Cl
+
+>  <nodesxsample>  (4) 
+13
+
+>  <docking_raw>  (4) 
+-6.599999904632568
+
+>  <docking_reward>  (4) 
+0.6600000262260437
+
+>  <ligand_efficiency_raw>  (4) 
+0.5076923370361328
+
+>  <ligand_efficiency_reward>  (4) 
+0.5076923370361328
+
+>  <chemistry_guard_reward>  (4) 
+1.0
+
+>  <chemistry_guard_success>  (4) 
+1
+
+>  <heavy_atom_count>  (4) 
+13
+
+>  <carbon_fraction>  (4) 
+0.6153846153846154
+
+>  <hetero_atom_count>  (4) 
+5
+
+>  <hetero_atom_fraction>  (4) 
+0.38461539149284363
+
+>  <aromatic_ring_count>  (4) 
+1
+
+>  <three_member_ring_count>  (4) 
+0
+
+>  <fragment_count>  (4) 
+1
+
+>  <bad_bond_length_fraction>  (4) 
+0.0
+
+>  <halogen_bad_position_count>  (4) 
+0.0
+
+>  <chemistry_guard_violation_count>  (4) 
+0.0
+
+>  <ring_complexity_reward>  (4) 
+1.0
+
+>  <ring_complexity_success>  (4) 
+1
+
+>  <ring_complexity_ring_count>  (4) 
+1.0
+
+>  <ring_complexity_aromatic_ring_count>  (4) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (4) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (4) 
+1.0
+
+>  <ring_complexity_spiro_atom_count>  (4) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (4) 
+0.0
+
+>  <ring_complexity_penalty>  (4) 
+0.0
+
+>  <reward_total_raw>  (4) 
+0.7579231262207031
+
+>  <reward_total>  (4) 
+0.7579231262207031
+
+>  <stability>  (4) 
+1.0
+
+>  <global_id>  (4) 
+diffgui_ring_rl_epoch_0013_000145
+
+>  <source>  (4) 
+diffgui_ring_rl_epoch_0013
+
+>  <source_path>  (4) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0013/molecules.sdf
+
+>  <source_mol_id>  (4) 
+diffgui_dock_00007|reward=0.7579|valid=1|ok
+
+>  <label>  (4) 
+bad
+
+>  <primary_reason>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (4) 
+4.0
+
+>  <benzene_ring_count>  (4) 
+1
+
+>  <heterocycle_ring_count>  (4) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (4) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (4) 
+0
+
+>  <ring_count>  (4) 
+1
+
+>  <max_fused_ring_system_size>  (4) 
+1
+
+>  <spiro_atom_count>  (4) 
+0
+
+>  <bridgehead_atom_count>  (4) 
+0
+
+>  <total_halogen_count>  (4) 
+3
+
+>  <aromatic_halogen_count>  (4) 
+3
+
+>  <heavy_halogen_count>  (4) 
+0
+
+>  <br_i_count>  (4) 
+0
+
+>  <logp>  (4) 
+3.017900000000001
+
+>  <tpsa>  (4) 
+29.46
+
+>  <hba>  (4) 
+2
+
+>  <hbd>  (4) 
+1
+
+>  <murcko_scaffold>  (4) 
+c1ccccc1
+
+>  <label_zh>  (4) 
+坏分子
+
+>  <current_bucket_reason_code>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (4) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (4) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (4) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (4) 
+小芳香环过度卤代
+
+>  <reason_count>  (4) 
+1
+
+>  <is_multi_reason_zh>  (4) 
+否
+
+>  <severity_zh>  (4) 
+强负样本
+
+>  <bucket_type_zh>  (4) 
+主原因不重复分桶
+
+>  <review_note_zh>  (4) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00005_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 18  0  0  0  0  0  0  0  0999 V2000
+  207.6094  212.8193  173.7578 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1308  212.9713  174.3488 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1121  212.1000  172.5838 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9543  211.1149  172.7360 O   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5573  212.1702  172.2394 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9713  211.4805  171.3106 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2243  214.1306  175.3314 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5616  213.6238  174.6200 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7215  214.3188  175.7706 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2138  212.8825  172.7543 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.4857  212.9067  173.1087 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9624  213.6394  174.2795 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7683  211.9977  172.0424 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1282  211.3796  170.7799 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  204.4961  213.3444  171.8388 O   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2242  211.1996  171.7414 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1302  214.5605  175.3018 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  2  0
+  1  8  1  0
+  2  7  1  0
+  3  5  1  0
+  3 16  1  0
+  4 13  2  0
+  5 11  2  0
+  5 14  1  0
+  6 13  1  0
+  6 16  2  3
+  7  9  1  0
+  8  9  1  0
+  8 12  2  0
+ 10 11  1  0
+ 11 12  1  0
+ 12 17  1  0
+ 13 15  1  0
+M  END
+>  <mol_index>  (5) 
+20
+
+>  <old_logprob_mean>  (5) 
+1.98757601
+
+>  <diffgui_num_timesteps>  (5) 
+200
+
+>  <mol_id>  (5) 
+diffgui_dock_00017
+
+>  <source_index>  (5) 
+17
+
+>  <original_name>  (5) 
+diffgui_ring_rl_epoch_0019_000039
+
+>  <rdkit_valid>  (5) 
+1
+
+>  <sanitize_status>  (5) 
+ok
+
+>  <smiles>  (5) 
+O=C(O)C=Cc1c(Cl)c(Cl)c(Cl)c2c1CCC2
+
+>  <nodesxsample>  (5) 
+17
+
+>  <docking_raw>  (5) 
+-9.251999855041504
+
+>  <docking_reward>  (5) 
+0.9251999855041504
+
+>  <ligand_efficiency_raw>  (5) 
+0.5442352890968323
+
+>  <ligand_efficiency_reward>  (5) 
+0.5442352890968323
+
+>  <chemistry_guard_reward>  (5) 
+1.0
+
+>  <chemistry_guard_success>  (5) 
+1
+
+>  <heavy_atom_count>  (5) 
+17
+
+>  <carbon_fraction>  (5) 
+0.7058823529411765
+
+>  <hetero_atom_count>  (5) 
+5
+
+>  <hetero_atom_fraction>  (5) 
+0.29411765933036804
+
+>  <aromatic_ring_count>  (5) 
+1
+
+>  <three_member_ring_count>  (5) 
+0
+
+>  <fragment_count>  (5) 
+1
+
+>  <bad_bond_length_fraction>  (5) 
+0.0
+
+>  <halogen_bad_position_count>  (5) 
+0.0
+
+>  <chemistry_guard_violation_count>  (5) 
+0.0
+
+>  <ring_complexity_reward>  (5) 
+1.0
+
+>  <ring_complexity_success>  (5) 
+1
+
+>  <ring_complexity_ring_count>  (5) 
+2.0
+
+>  <ring_complexity_aromatic_ring_count>  (5) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (5) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (5) 
+2.0
+
+>  <ring_complexity_spiro_atom_count>  (5) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (5) 
+0.0
+
+>  <ring_complexity_penalty>  (5) 
+0.0
+
+>  <reward_total_raw>  (5) 
+0.8598788380622864
+
+>  <reward_total>  (5) 
+0.8598788380622864
+
+>  <stability>  (5) 
+1.0
+
+>  <global_id>  (5) 
+diffgui_ring_rl_epoch_0019_000039
+
+>  <source>  (5) 
+diffgui_ring_rl_epoch_0019
+
+>  <source_path>  (5) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0019/molecules.sdf
+
+>  <source_mol_id>  (5) 
+diffgui_dock_00017|reward=0.8599|valid=1|ok
+
+>  <label>  (5) 
+bad
+
+>  <primary_reason>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (5) 
+4.0
+
+>  <benzene_ring_count>  (5) 
+1
+
+>  <heterocycle_ring_count>  (5) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (5) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (5) 
+1
+
+>  <ring_count>  (5) 
+2
+
+>  <max_fused_ring_system_size>  (5) 
+2
+
+>  <spiro_atom_count>  (5) 
+0
+
+>  <bridgehead_atom_count>  (5) 
+0
+
+>  <total_halogen_count>  (5) 
+3
+
+>  <aromatic_halogen_count>  (5) 
+3
+
+>  <heavy_halogen_count>  (5) 
+0
+
+>  <br_i_count>  (5) 
+0
+
+>  <logp>  (5) 
+4.233300000000002
+
+>  <tpsa>  (5) 
+37.3
+
+>  <hba>  (5) 
+1
+
+>  <hbd>  (5) 
+1
+
+>  <murcko_scaffold>  (5) 
+c1ccc2c(c1)CCC2
+
+>  <label_zh>  (5) 
+坏分子
+
+>  <current_bucket_reason_code>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (5) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (5) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (5) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (5) 
+小芳香环过度卤代
+
+>  <reason_count>  (5) 
+1
+
+>  <is_multi_reason_zh>  (5) 
+否
+
+>  <severity_zh>  (5) 
+强负样本
+
+>  <bucket_type_zh>  (5) 
+主原因不重复分桶
+
+>  <review_note_zh>  (5) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00006_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 14 15  0  0  0  0  0  0  0  0999 V2000
+  205.3075  213.2311  172.6959 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1310  214.2101  176.5029 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  205.4737  213.7573  175.0687 O   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3043  212.9262  173.0873 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.0707  211.6075  171.7198 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1642  211.5334  170.9322 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.5269  212.9084  173.4199 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.0569  213.4990  174.6707 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5843  212.3042  172.4457 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1384  212.3130  172.6641 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6017  213.0638  173.9305 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0832  213.3612  173.9609 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6146  213.5488  174.9193 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5247  211.9144  171.9818 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 12  1  0
+  1 14  1  0
+  2 13  1  0
+  3 12  2  0
+  4  7  1  0
+  5 10  1  0
+  5 14  1  0
+  6  9  1  0
+  7  8  2  0
+  7  9  1  0
+  8 13  1  0
+  9 10  2  0
+ 10 11  1  0
+ 11 12  1  0
+ 11 13  2  0
+M  END
+>  <mol_index>  (6) 
+12
+
+>  <old_logprob_mean>  (6) 
+1.97927248
+
+>  <diffgui_num_timesteps>  (6) 
+200
+
+>  <mol_id>  (6) 
+diffgui_dock_00012
+
+>  <source_index>  (6) 
+12
+
+>  <original_name>  (6) 
+diffgui_ring_rl_epoch_0023_000060
+
+>  <rdkit_valid>  (6) 
+1
+
+>  <sanitize_status>  (6) 
+ok
+
+>  <smiles>  (6) 
+O=C1OCCc2c(Cl)c(Cl)cc(Cl)c21
+
+>  <nodesxsample>  (6) 
+14
+
+>  <docking_raw>  (6) 
+-7.619999885559082
+
+>  <docking_reward>  (6) 
+0.7620000243186951
+
+>  <ligand_efficiency_raw>  (6) 
+0.5442857146263123
+
+>  <ligand_efficiency_reward>  (6) 
+0.5442857146263123
+
+>  <chemistry_guard_reward>  (6) 
+1.0
+
+>  <chemistry_guard_success>  (6) 
+1
+
+>  <heavy_atom_count>  (6) 
+14
+
+>  <carbon_fraction>  (6) 
+0.6428571428571429
+
+>  <hetero_atom_count>  (6) 
+5
+
+>  <hetero_atom_fraction>  (6) 
+0.3571428656578064
+
+>  <aromatic_ring_count>  (6) 
+1
+
+>  <three_member_ring_count>  (6) 
+0
+
+>  <fragment_count>  (6) 
+1
+
+>  <bad_bond_length_fraction>  (6) 
+0.0
+
+>  <halogen_bad_position_count>  (6) 
+0.0
+
+>  <chemistry_guard_violation_count>  (6) 
+0.0
+
+>  <ring_complexity_reward>  (6) 
+1.0
+
+>  <ring_complexity_success>  (6) 
+1
+
+>  <ring_complexity_ring_count>  (6) 
+2.0
+
+>  <ring_complexity_aromatic_ring_count>  (6) 
+1.0
+
+>  <ring_complexity_three_member_ring_count>  (6) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (6) 
+2.0
+
+>  <ring_complexity_spiro_atom_count>  (6) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (6) 
+0.0
+
+>  <ring_complexity_penalty>  (6) 
+0.0
+
+>  <reward_total_raw>  (6) 
+0.8027714490890503
+
+>  <reward_total>  (6) 
+0.8027714490890503
+
+>  <stability>  (6) 
+1.0
+
+>  <global_id>  (6) 
+diffgui_ring_rl_epoch_0023_000060
+
+>  <source>  (6) 
+diffgui_ring_rl_epoch_0023
+
+>  <source_path>  (6) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0023/molecules.sdf
+
+>  <source_mol_id>  (6) 
+diffgui_dock_00012|reward=0.8028|valid=1|ok
+
+>  <label>  (6) 
+bad
+
+>  <primary_reason>  (6) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (6) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (6) 
+4.0
+
+>  <benzene_ring_count>  (6) 
+1
+
+>  <heterocycle_ring_count>  (6) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (6) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (6) 
+0
+
+>  <ring_count>  (6) 
+2
+
+>  <max_fused_ring_system_size>  (6) 
+2
+
+>  <spiro_atom_count>  (6) 
+0
+
+>  <bridgehead_atom_count>  (6) 
+0
+
+>  <total_halogen_count>  (6) 
+3
+
+>  <aromatic_halogen_count>  (6) 
+3
+
+>  <heavy_halogen_count>  (6) 
+0
+
+>  <br_i_count>  (6) 
+0
+
+>  <logp>  (6) 
+3.359700000000002
+
+>  <tpsa>  (6) 
+26.3
+
+>  <hba>  (6) 
+2
+
+>  <hbd>  (6) 
+0
+
+>  <murcko_scaffold>  (6) 
+O=C1OCCc2ccccc21
+
+>  <label_zh>  (6) 
+坏分子
+
+>  <current_bucket_reason_code>  (6) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (6) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (6) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (6) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (6) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (6) 
+小芳香环过度卤代
+
+>  <reason_count>  (6) 
+1
+
+>  <is_multi_reason_zh>  (6) 
+否
+
+>  <severity_zh>  (6) 
+强负样本
+
+>  <bucket_type_zh>  (6) 
+主原因不重复分桶
+
+>  <review_note_zh>  (6) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00007_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  209.6705  212.7463  173.2487 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3579  212.8631  173.5574 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.0016  212.5023  172.6270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9304  211.9611  171.8154 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7278  213.2925  174.0695 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2221  213.7991  174.7823 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.2835  212.0780  172.1310 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3628  212.4844  172.1046 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.3869  213.1508  173.7576 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1667  214.0530  175.3365 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  5  2  0
+  1  7  1  0
+  3  4  1  0
+  3  8  1  0
+  3  9  2  0
+  4  7  2  0
+  5  9  1  0
+  5 10  1  0
+  6  9  1  0
+M  END
+>  <mol_index>  (7) 
+0
+
+>  <old_logprob_mean>  (7) 
+2.01618123
+
+>  <diffgui_num_timesteps>  (7) 
+200
+
+>  <mol_id>  (7) 
+diffgui_dock_00000
+
+>  <source_index>  (7) 
+0
+
+>  <original_name>  (7) 
+diffgui_dock_classifier_epoch_0006_000107
+
+>  <rdkit_valid>  (7) 
+1
+
+>  <sanitize_status>  (7) 
+ok
+
+>  <smiles>  (7) 
+Cc1c(Cl)ccc(Cl)c1Cl
+
+>  <nodesxsample>  (7) 
+10
+
+>  <docking_raw>  (7) 
+-7.085000038146973
+
+>  <docking_reward>  (7) 
+0.7085000276565552
+
+>  <ligand_efficiency_raw>  (7) 
+0.7085000276565552
+
+>  <chembl_classifier_reward>  (7) 
+-1.0
+
+>  <reward_total_raw>  (7) 
+-0.1457499861717224
+
+>  <reward_total>  (7) 
+-0.1457499861717224
+
+>  <stability>  (7) 
+1.0
+
+>  <global_id>  (7) 
+diffgui_dock_classifier_epoch_0006_000107
+
+>  <source>  (7) 
+diffgui_dock_classifier_epoch_0006
+
+>  <source_path>  (7) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0006/molecules.sdf
+
+>  <source_mol_id>  (7) 
+diffgui_dock_00000|reward=-0.1457|valid=1|ok
+
+>  <label>  (7) 
+bad
+
+>  <primary_reason>  (7) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (7) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (7) 
+4.0
+
+>  <heavy_atom_count>  (7) 
+10
+
+>  <carbon_fraction>  (7) 
+0.7
+
+>  <hetero_atom_count>  (7) 
+3
+
+>  <aromatic_ring_count>  (7) 
+1
+
+>  <benzene_ring_count>  (7) 
+1
+
+>  <heterocycle_ring_count>  (7) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (7) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (7) 
+0
+
+>  <ring_count>  (7) 
+1
+
+>  <max_fused_ring_system_size>  (7) 
+1
+
+>  <three_member_ring_count>  (7) 
+0
+
+>  <spiro_atom_count>  (7) 
+0
+
+>  <bridgehead_atom_count>  (7) 
+0
+
+>  <total_halogen_count>  (7) 
+3
+
+>  <aromatic_halogen_count>  (7) 
+3
+
+>  <heavy_halogen_count>  (7) 
+0
+
+>  <br_i_count>  (7) 
+0
+
+>  <logp>  (7) 
+3.9552200000000006
+
+>  <tpsa>  (7) 
+0.0
+
+>  <hba>  (7) 
+0
+
+>  <hbd>  (7) 
+0
+
+>  <fragment_count>  (7) 
+1
+
+>  <murcko_scaffold>  (7) 
+c1ccccc1
+
+>  <label_zh>  (7) 
+坏分子
+
+>  <current_bucket_reason_code>  (7) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (7) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (7) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (7) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (7) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (7) 
+小芳香环过度卤代
+
+>  <reason_count>  (7) 
+1
+
+>  <is_multi_reason_zh>  (7) 
+否
+
+>  <severity_zh>  (7) 
+强负样本
+
+>  <bucket_type_zh>  (7) 
+主原因不重复分桶
+
+>  <review_note_zh>  (7) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00008_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 19  0  0  0  0  0  0  0  0999 V2000
+  209.0193  212.2421  172.2993 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2535  213.0385  175.2972 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0533  212.7065  173.2309 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4809  213.2978  174.4080 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3928  212.4673  172.4934 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5817  212.6880  172.9938 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7952  213.1859  173.6390 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7940  213.0950  174.0462 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6444  211.5285  170.5141 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  204.5447  212.7149  171.5505 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3872  213.4443  173.8587 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.7843  213.2746  172.6011 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8583  212.3900  171.7529 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.4799  213.4810  173.8953 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.5166  213.4627  175.5927 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8731  213.6375  174.5427 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3079  214.6640  175.8295 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  2  0
+  1  5  1  0
+  2  8  1  0
+  2 15  1  0
+  3  4  1  0
+  3  6  1  0
+  4 15  1  0
+  4 16  2  0
+  5  7  2  0
+  6  8  2  0
+  6 13  1  0
+  7 14  1  0
+  7 16  1  0
+  8 11  1  0
+  9 13  1  0
+ 10 12  1  0
+ 10 13  2  0
+ 11 12  2  0
+ 16 17  1  0
+M  END
+>  <mol_index>  (8) 
+7
+
+>  <old_logprob_mean>  (8) 
+2.00608778
+
+>  <diffgui_num_timesteps>  (8) 
+200
+
+>  <mol_id>  (8) 
+diffgui_dock_00005
+
+>  <source_index>  (8) 
+5
+
+>  <original_name>  (8) 
+diffgui_dock_classifier_epoch_0015_000070
+
+>  <rdkit_valid>  (8) 
+1
+
+>  <sanitize_status>  (8) 
+ok
+
+>  <smiles>  (8) 
+Clc1ccc2c(c1Cl)COc1cccc(Cl)c1-2
+
+>  <nodesxsample>  (8) 
+17
+
+>  <docking_raw>  (8) 
+-9.314000129699707
+
+>  <docking_reward>  (8) 
+0.9314000010490417
+
+>  <ligand_efficiency_raw>  (8) 
+0.5478823781013489
+
+>  <chembl_classifier_reward>  (8) 
+-0.7768387198448181
+
+>  <reward_total_raw>  (8) 
+0.07728064060211182
+
+>  <reward_total>  (8) 
+0.07728064060211182
+
+>  <stability>  (8) 
+1.0
+
+>  <global_id>  (8) 
+diffgui_dock_classifier_epoch_0015_000070
+
+>  <source>  (8) 
+diffgui_dock_classifier_epoch_0015
+
+>  <source_path>  (8) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0015/molecules.sdf
+
+>  <source_mol_id>  (8) 
+diffgui_dock_00005|reward=0.0773|valid=1|ok
+
+>  <label>  (8) 
+bad
+
+>  <primary_reason>  (8) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (8) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (8) 
+4.0
+
+>  <heavy_atom_count>  (8) 
+17
+
+>  <carbon_fraction>  (8) 
+0.7647058823529411
+
+>  <hetero_atom_count>  (8) 
+4
+
+>  <aromatic_ring_count>  (8) 
+2
+
+>  <benzene_ring_count>  (8) 
+2
+
+>  <heterocycle_ring_count>  (8) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (8) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (8) 
+0
+
+>  <ring_count>  (8) 
+3
+
+>  <max_fused_ring_system_size>  (8) 
+3
+
+>  <three_member_ring_count>  (8) 
+0
+
+>  <spiro_atom_count>  (8) 
+0
+
+>  <bridgehead_atom_count>  (8) 
+0
+
+>  <total_halogen_count>  (8) 
+3
+
+>  <aromatic_halogen_count>  (8) 
+3
+
+>  <heavy_halogen_count>  (8) 
+0
+
+>  <br_i_count>  (8) 
+0
+
+>  <logp>  (8) 
+5.206200000000002
+
+>  <tpsa>  (8) 
+9.23
+
+>  <hba>  (8) 
+1
+
+>  <hbd>  (8) 
+0
+
+>  <fragment_count>  (8) 
+1
+
+>  <murcko_scaffold>  (8) 
+c1ccc2c(c1)COc1ccccc1-2
+
+>  <label_zh>  (8) 
+坏分子
+
+>  <current_bucket_reason_code>  (8) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (8) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (8) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (8) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (8) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (8) 
+小芳香环过度卤代
+
+>  <reason_count>  (8) 
+1
+
+>  <is_multi_reason_zh>  (8) 
+否
+
+>  <severity_zh>  (8) 
+强负样本
+
+>  <bucket_type_zh>  (8) 
+主原因不重复分桶
+
+>  <review_note_zh>  (8) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00009_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 13 13  0  0  0  0  0  0  0  0999 V2000
+  208.0999  212.6846  173.5272 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2441  213.9598  174.8644 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0865  212.0128  172.7760 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9634  212.5657  172.1347 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9258  213.4504  174.7314 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1521  212.9176  173.2648 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.4821  213.1824  173.7648 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3901  213.4968  175.5685 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.4207  212.5663  173.0839 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5010  211.8469  170.8342 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6804  211.5549  171.6882 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  205.3157  213.5362  172.5875 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9354  214.0978  175.3661 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0
+  1  5  2  0
+  1  9  1  0
+  2  7  1  0
+  2 13  2  0
+  3  4  1  0
+  4 10  1  0
+  4 12  2  0
+  5  8  1  0
+  5 13  1  0
+  6  7  1  0
+  7  9  2  0
+  9 11  1  0
+M  END
+>  <mol_index>  (9) 
+12
+
+>  <old_logprob_mean>  (9) 
+1.97015548
+
+>  <diffgui_num_timesteps>  (9) 
+200
+
+>  <mol_id>  (9) 
+diffgui_dock_00010
+
+>  <source_index>  (9) 
+10
+
+>  <original_name>  (9) 
+diffgui_dock_classifier_epoch_0015_000095
+
+>  <rdkit_valid>  (9) 
+1
+
+>  <sanitize_status>  (9) 
+ok
+
+>  <smiles>  (9) 
+CC(=O)Nc1c(Cl)ccc(Cl)c1Cl
+
+>  <nodesxsample>  (9) 
+13
+
+>  <docking_raw>  (9) 
+-7.235000133514404
+
+>  <docking_reward>  (9) 
+0.7235000133514404
+
+>  <ligand_efficiency_raw>  (9) 
+0.556538462638855
+
+>  <chembl_classifier_reward>  (9) 
+1.0
+
+>  <reward_total_raw>  (9) 
+0.8617500066757202
+
+>  <reward_total>  (9) 
+0.8617500066757202
+
+>  <stability>  (9) 
+1.0
+
+>  <global_id>  (9) 
+diffgui_dock_classifier_epoch_0015_000095
+
+>  <source>  (9) 
+diffgui_dock_classifier_epoch_0015
+
+>  <source_path>  (9) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0015/molecules.sdf
+
+>  <source_mol_id>  (9) 
+diffgui_dock_00010|reward=0.8618|valid=1|ok
+
+>  <label>  (9) 
+bad
+
+>  <primary_reason>  (9) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (9) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (9) 
+4.0
+
+>  <heavy_atom_count>  (9) 
+13
+
+>  <carbon_fraction>  (9) 
+0.6153846153846154
+
+>  <hetero_atom_count>  (9) 
+5
+
+>  <aromatic_ring_count>  (9) 
+1
+
+>  <benzene_ring_count>  (9) 
+1
+
+>  <heterocycle_ring_count>  (9) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (9) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (9) 
+0
+
+>  <ring_count>  (9) 
+1
+
+>  <max_fused_ring_system_size>  (9) 
+1
+
+>  <three_member_ring_count>  (9) 
+0
+
+>  <spiro_atom_count>  (9) 
+0
+
+>  <bridgehead_atom_count>  (9) 
+0
+
+>  <total_halogen_count>  (9) 
+3
+
+>  <aromatic_halogen_count>  (9) 
+3
+
+>  <heavy_halogen_count>  (9) 
+0
+
+>  <br_i_count>  (9) 
+0
+
+>  <logp>  (9) 
+3.605200000000001
+
+>  <tpsa>  (9) 
+29.1
+
+>  <hba>  (9) 
+1
+
+>  <hbd>  (9) 
+1
+
+>  <fragment_count>  (9) 
+1
+
+>  <murcko_scaffold>  (9) 
+c1ccccc1
+
+>  <label_zh>  (9) 
+坏分子
+
+>  <current_bucket_reason_code>  (9) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (9) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (9) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (9) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (9) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (9) 
+小芳香环过度卤代
+
+>  <reason_count>  (9) 
+1
+
+>  <is_multi_reason_zh>  (9) 
+否
+
+>  <severity_zh>  (9) 
+强负样本
+
+>  <bucket_type_zh>  (9) 
+主原因不重复分桶
+
+>  <review_note_zh>  (9) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00010_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 16 17  0  0  0  0  0  0  0  0999 V2000
+  206.0414  212.0496  172.4752 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3746  212.5968  172.4853 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.5978  212.9623  173.9142 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.8693  213.6503  175.1238 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3204  212.6558  173.6086 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7513  214.3223  175.0167 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  207.0328  211.6459  171.5933 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5911  214.0277  176.2678 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  208.3764  211.9498  171.8777 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6740  212.6302  173.0407 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8725  213.0774  172.6226 O   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1710  213.7466  174.5862 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1504  210.8371  171.8865 O   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9779  213.0332  173.4137 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1461  214.0525  175.4916 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6390  211.9706  172.2862 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  2  0
+  1  7  1  0
+  1 16  1  0
+  2 14  1  0
+  3  4  2  0
+  3  5  1  0
+  3 10  1  0
+  4  8  1  0
+  4 15  1  0
+  6 12  1  0
+  7  9  2  0
+  9 10  1  0
+ 10 14  2  0
+ 11 16  1  0
+ 12 14  1  0
+ 12 15  2  0
+ 13 16  2  0
+M  END
+>  <mol_index>  (10) 
+23
+
+>  <old_logprob_mean>  (10) 
+2.01693034
+
+>  <diffgui_num_timesteps>  (10) 
+200
+
+>  <mol_id>  (10) 
+diffgui_dock_00021
+
+>  <source_index>  (10) 
+21
+
+>  <original_name>  (10) 
+diffgui_dock_classifier_epoch_0018_000106
+
+>  <rdkit_valid>  (10) 
+1
+
+>  <sanitize_status>  (10) 
+ok
+
+>  <smiles>  (10) 
+O=C(O)c1ccc2c(Cl)c(Cl)cc(Cl)c2n1
+
+>  <nodesxsample>  (10) 
+16
+
+>  <docking_raw>  (10) 
+-8.298999786376953
+
+>  <docking_reward>  (10) 
+0.8299000263214111
+
+>  <ligand_efficiency_raw>  (10) 
+0.5186874866485596
+
+>  <chembl_classifier_reward>  (10) 
+1.0
+
+>  <reward_total_raw>  (10) 
+0.9149500131607056
+
+>  <reward_total>  (10) 
+0.9149500131607056
+
+>  <stability>  (10) 
+1.0
+
+>  <global_id>  (10) 
+diffgui_dock_classifier_epoch_0018_000106
+
+>  <source>  (10) 
+diffgui_dock_classifier_epoch_0018
+
+>  <source_path>  (10) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0018/molecules.sdf
+
+>  <source_mol_id>  (10) 
+diffgui_dock_00021|reward=0.9150|valid=1|ok
+
+>  <label>  (10) 
+bad
+
+>  <primary_reason>  (10) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (10) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (10) 
+4.0
+
+>  <heavy_atom_count>  (10) 
+16
+
+>  <carbon_fraction>  (10) 
+0.625
+
+>  <hetero_atom_count>  (10) 
+6
+
+>  <aromatic_ring_count>  (10) 
+2
+
+>  <benzene_ring_count>  (10) 
+1
+
+>  <heterocycle_ring_count>  (10) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (10) 
+1
+
+>  <aliphatic_carbocycle_ring_count>  (10) 
+0
+
+>  <ring_count>  (10) 
+2
+
+>  <max_fused_ring_system_size>  (10) 
+2
+
+>  <three_member_ring_count>  (10) 
+0
+
+>  <spiro_atom_count>  (10) 
+0
+
+>  <bridgehead_atom_count>  (10) 
+0
+
+>  <total_halogen_count>  (10) 
+3
+
+>  <aromatic_halogen_count>  (10) 
+3
+
+>  <heavy_halogen_count>  (10) 
+0
+
+>  <br_i_count>  (10) 
+0
+
+>  <logp>  (10) 
+3.893200000000002
+
+>  <tpsa>  (10) 
+50.190000000000005
+
+>  <hba>  (10) 
+2
+
+>  <hbd>  (10) 
+1
+
+>  <fragment_count>  (10) 
+1
+
+>  <murcko_scaffold>  (10) 
+c1ccc2ncccc2c1
+
+>  <label_zh>  (10) 
+坏分子
+
+>  <current_bucket_reason_code>  (10) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (10) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (10) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (10) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (10) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (10) 
+小芳香环过度卤代
+
+>  <reason_count>  (10) 
+1
+
+>  <is_multi_reason_zh>  (10) 
+否
+
+>  <severity_zh>  (10) 
+强负样本
+
+>  <bucket_type_zh>  (10) 
+主原因不重复分桶
+
+>  <review_note_zh>  (10) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00011_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 14 15  0  0  0  0  0  0  0  0999 V2000
+  206.5447  211.9646  172.5900 C   0  0  1  0  0  0  0  0  0  0  0  0
+  209.1904  212.0173  172.3188 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9525  213.1740  174.0287 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9568  212.3362  172.9279 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1366  214.6744  175.9348 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  205.7859  212.6148  173.7262 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2099  210.9769  170.9816 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.3649  212.5292  172.7777 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1433  213.6773  174.5051 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3445  213.3757  173.8722 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8351  214.0646  174.4551 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  204.6303  212.3565  174.0321 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9440  212.5600  171.2635 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6516  213.3862  174.5094 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  4  1  0
+  1  6  1  0
+  1 13  1  6
+  2  4  2  0
+  2  7  1  0
+  2  8  1  0
+  3  4  1  0
+  3  9  2  0
+  3 14  1  0
+  5  9  1  0
+  6 12  2  0
+  6 14  1  0
+  8 10  2  0
+  9 10  1  0
+ 10 11  1  0
+M  END
+>  <mol_index>  (11) 
+2
+
+>  <old_logprob_mean>  (11) 
+1.99599075
+
+>  <diffgui_num_timesteps>  (11) 
+200
+
+>  <mol_id>  (11) 
+diffgui_dock_00001
+
+>  <source_index>  (11) 
+1
+
+>  <original_name>  (11) 
+diffgui_dock_classifier_epoch_0020_000147
+
+>  <rdkit_valid>  (11) 
+1
+
+>  <sanitize_status>  (11) 
+ok
+
+>  <smiles>  (11) 
+CC1C(=O)Nc2c(Cl)c(Cl)cc(Cl)c21
+
+>  <nodesxsample>  (11) 
+14
+
+>  <docking_raw>  (11) 
+-7.6479997634887695
+
+>  <docking_reward>  (11) 
+0.7648000121116638
+
+>  <ligand_efficiency_raw>  (11) 
+0.5462856888771057
+
+>  <chembl_classifier_reward>  (11) 
+1.0
+
+>  <reward_total_raw>  (11) 
+0.8824000358581543
+
+>  <reward_total>  (11) 
+0.8824000358581543
+
+>  <stability>  (11) 
+1.0
+
+>  <global_id>  (11) 
+diffgui_dock_classifier_epoch_0020_000147
+
+>  <source>  (11) 
+diffgui_dock_classifier_epoch_0020
+
+>  <source_path>  (11) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0020/molecules.sdf
+
+>  <source_mol_id>  (11) 
+diffgui_dock_00001|reward=0.8824|valid=1|ok
+
+>  <label>  (11) 
+bad
+
+>  <primary_reason>  (11) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (11) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (11) 
+4.0
+
+>  <heavy_atom_count>  (11) 
+14
+
+>  <carbon_fraction>  (11) 
+0.6428571428571429
+
+>  <hetero_atom_count>  (11) 
+5
+
+>  <aromatic_ring_count>  (11) 
+1
+
+>  <benzene_ring_count>  (11) 
+1
+
+>  <heterocycle_ring_count>  (11) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (11) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (11) 
+0
+
+>  <ring_count>  (11) 
+2
+
+>  <max_fused_ring_system_size>  (11) 
+2
+
+>  <three_member_ring_count>  (11) 
+0
+
+>  <spiro_atom_count>  (11) 
+0
+
+>  <bridgehead_atom_count>  (11) 
+0
+
+>  <total_halogen_count>  (11) 
+3
+
+>  <aromatic_halogen_count>  (11) 
+3
+
+>  <heavy_halogen_count>  (11) 
+0
+
+>  <br_i_count>  (11) 
+0
+
+>  <logp>  (11) 
+3.702400000000001
+
+>  <tpsa>  (11) 
+29.1
+
+>  <hba>  (11) 
+1
+
+>  <hbd>  (11) 
+1
+
+>  <fragment_count>  (11) 
+1
+
+>  <murcko_scaffold>  (11) 
+O=C1Cc2ccccc2N1
+
+>  <label_zh>  (11) 
+坏分子
+
+>  <current_bucket_reason_code>  (11) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (11) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (11) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (11) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (11) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (11) 
+小芳香环过度卤代
+
+>  <reason_count>  (11) 
+1
+
+>  <is_multi_reason_zh>  (11) 
+否
+
+>  <severity_zh>  (11) 
+强负样本
+
+>  <bucket_type_zh>  (11) 
+主原因不重复分桶
+
+>  <review_note_zh>  (11) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00012_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  207.2350  213.1731  174.1371 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1745  213.8346  174.9926 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5306  213.8355  174.6894 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9701  213.1112  173.5612 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6897  212.5199  173.0448 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5559  211.7838  171.9684 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  211.6734  212.9804  173.2262 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.4844  214.6297  175.5374 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0475  212.4698  172.7410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6006  211.5873  171.3685 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  5  1  0
+  2  3  1  0
+  3  4  2  0
+  3  8  1  0
+  4  7  1  0
+  4  9  1  0
+  5  6  1  0
+  5  9  2  0
+  9 10  1  0
+M  END
+>  <mol_index>  (12) 
+9
+
+>  <old_logprob_mean>  (12) 
+2.02268219
+
+>  <diffgui_num_timesteps>  (12) 
+200
+
+>  <mol_id>  (12) 
+diffgui_dock_00008
+
+>  <source_index>  (12) 
+8
+
+>  <original_name>  (12) 
+diffgui_dock_classifier_epoch_0021_000050
+
+>  <rdkit_valid>  (12) 
+1
+
+>  <sanitize_status>  (12) 
+ok
+
+>  <smiles>  (12) 
+Cc1ccc(Cl)c(Cl)c1Cl
+
+>  <nodesxsample>  (12) 
+10
+
+>  <docking_raw>  (12) 
+-6.985000133514404
+
+>  <docking_reward>  (12) 
+0.6984999775886536
+
+>  <ligand_efficiency_raw>  (12) 
+0.6984999775886536
+
+>  <chembl_classifier_reward>  (12) 
+-1.0
+
+>  <reward_total_raw>  (12) 
+-0.15075001120567322
+
+>  <reward_total>  (12) 
+-0.15075001120567322
+
+>  <stability>  (12) 
+1.0
+
+>  <global_id>  (12) 
+diffgui_dock_classifier_epoch_0021_000050
+
+>  <source>  (12) 
+diffgui_dock_classifier_epoch_0021
+
+>  <source_path>  (12) 
+OUT/diffgui-8gpu-chembl21-dock_20260609_224313/epochs/epoch_0021/molecules.sdf
+
+>  <source_mol_id>  (12) 
+diffgui_dock_00008|reward=-0.1508|valid=1|ok
+
+>  <label>  (12) 
+bad
+
+>  <primary_reason>  (12) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (12) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (12) 
+4.0
+
+>  <heavy_atom_count>  (12) 
+10
+
+>  <carbon_fraction>  (12) 
+0.7
+
+>  <hetero_atom_count>  (12) 
+3
+
+>  <aromatic_ring_count>  (12) 
+1
+
+>  <benzene_ring_count>  (12) 
+1
+
+>  <heterocycle_ring_count>  (12) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (12) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (12) 
+0
+
+>  <ring_count>  (12) 
+1
+
+>  <max_fused_ring_system_size>  (12) 
+1
+
+>  <three_member_ring_count>  (12) 
+0
+
+>  <spiro_atom_count>  (12) 
+0
+
+>  <bridgehead_atom_count>  (12) 
+0
+
+>  <total_halogen_count>  (12) 
+3
+
+>  <aromatic_halogen_count>  (12) 
+3
+
+>  <heavy_halogen_count>  (12) 
+0
+
+>  <br_i_count>  (12) 
+0
+
+>  <logp>  (12) 
+3.9552200000000015
+
+>  <tpsa>  (12) 
+0.0
+
+>  <hba>  (12) 
+0
+
+>  <hbd>  (12) 
+0
+
+>  <fragment_count>  (12) 
+1
+
+>  <murcko_scaffold>  (12) 
+c1ccccc1
+
+>  <label_zh>  (12) 
+坏分子
+
+>  <current_bucket_reason_code>  (12) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (12) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (12) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (12) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (12) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (12) 
+小芳香环过度卤代
+
+>  <reason_count>  (12) 
+1
+
+>  <is_multi_reason_zh>  (12) 
+否
+
+>  <severity_zh>  (12) 
+强负样本
+
+>  <bucket_type_zh>  (12) 
+主原因不重复分桶
+
+>  <review_note_zh>  (12) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00013_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 18  0  0  0  0  0  0  0  0999 V2000
+  210.3473  212.8831  173.1960 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2777  212.5305  174.0428 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1754  212.0950  172.6027 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8297  213.0706  176.5023 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3568  213.3642  172.7310 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.4992  212.2312  172.3222 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0117  213.8876  175.9786 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7047  212.4310  175.6945 O   0  0  0  0  0  0  0  0  0  0  0  0
+  212.0721  212.9162  172.9288 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  205.3905  212.2212  172.7454 C   0  0  1  0  0  0  0  0  0  0  0  0
+  208.5143  213.3144  174.6549 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8602  212.7105  175.4414 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6608  212.6076  173.7793 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7990  212.1690  171.2782 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8620  213.4855  174.3205 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9370  214.4838  175.2873 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.1571  211.5858  170.8806 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  6  2  0
+  1  9  1  0
+  1 15  1  0
+  2 10  1  0
+  2 12  1  0
+  2 13  1  0
+  3  6  1  0
+  3 13  2  0
+  4  7  1  0
+  4 12  1  0
+ 10  5  1  6
+  6 17  1  0
+  7 11  1  0
+  8 12  2  0
+ 10 14  1  0
+ 11 13  1  0
+ 11 15  2  0
+ 15 16  1  0
+M  END
+>  <mol_index>  (13) 
+17
+
+>  <old_logprob_mean>  (13) 
+2.00007510
+
+>  <diffgui_num_timesteps>  (13) 
+200
+
+>  <mol_id>  (13) 
+diffgui_dock_00015
+
+>  <source_index>  (13) 
+15
+
+>  <original_name>  (13) 
+diffgui_docking_only_epoch_0004_000038
+
+>  <rdkit_valid>  (13) 
+1
+
+>  <sanitize_status>  (13) 
+ok
+
+>  <smiles>  (13) 
+CC(C)N1C(=O)CCc2c1cc(Cl)c(Cl)c2Cl
+
+>  <nodesxsample>  (13) 
+17
+
+>  <docking_raw>  (13) 
+-9.37600040435791
+
+>  <docking_reward>  (13) 
+0.9376000165939331
+
+>  <ligand_efficiency_raw>  (13) 
+0.5515294075012207
+
+>  <reward_total_raw>  (13) 
+0.9376000165939331
+
+>  <reward_total>  (13) 
+0.9376000165939331
+
+>  <stability>  (13) 
+1.0
+
+>  <global_id>  (13) 
+diffgui_docking_only_epoch_0004_000038
+
+>  <source>  (13) 
+diffgui_docking_only_epoch_0004
+
+>  <source_path>  (13) 
+OUT/diffgui-8gpu-docking-only-lr1e5-last2_20260610_094719/epochs/epoch_0004/molecules.sdf
+
+>  <source_mol_id>  (13) 
+diffgui_dock_00015|reward=0.9376|valid=1|ok
+
+>  <label>  (13) 
+bad
+
+>  <primary_reason>  (13) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (13) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (13) 
+4.0
+
+>  <heavy_atom_count>  (13) 
+17
+
+>  <carbon_fraction>  (13) 
+0.7058823529411765
+
+>  <hetero_atom_count>  (13) 
+5
+
+>  <aromatic_ring_count>  (13) 
+1
+
+>  <benzene_ring_count>  (13) 
+1
+
+>  <heterocycle_ring_count>  (13) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (13) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (13) 
+0
+
+>  <ring_count>  (13) 
+2
+
+>  <max_fused_ring_system_size>  (13) 
+2
+
+>  <three_member_ring_count>  (13) 
+0
+
+>  <spiro_atom_count>  (13) 
+0
+
+>  <bridgehead_atom_count>  (13) 
+0
+
+>  <total_halogen_count>  (13) 
+3
+
+>  <aromatic_halogen_count>  (13) 
+3
+
+>  <heavy_halogen_count>  (13) 
+0
+
+>  <br_i_count>  (13) 
+0
+
+>  <logp>  (13) 
+4.334400000000002
+
+>  <tpsa>  (13) 
+20.310000000000002
+
+>  <hba>  (13) 
+1
+
+>  <hbd>  (13) 
+0
+
+>  <fragment_count>  (13) 
+1
+
+>  <murcko_scaffold>  (13) 
+O=C1CCc2ccccc2N1
+
+>  <label_zh>  (13) 
+坏分子
+
+>  <current_bucket_reason_code>  (13) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (13) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (13) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (13) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (13) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (13) 
+小芳香环过度卤代
+
+>  <reason_count>  (13) 
+1
+
+>  <is_multi_reason_zh>  (13) 
+否
+
+>  <severity_zh>  (13) 
+强负样本
+
+>  <bucket_type_zh>  (13) 
+主原因不重复分桶
+
+>  <review_note_zh>  (13) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00014_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  209.8773  211.4987  171.3171 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  211.0004  212.9630  173.8487 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.6084  212.9383  172.9932 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9497  214.2990  175.5973 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.4362  212.2682  172.1491 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2986  212.9276  173.5363 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8048  212.2656  172.4160 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0611  213.5814  174.0926 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4342  213.5764  174.3896 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9591  213.1200  172.5157 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  7  1  0
+  2  6  1  0
+  3  5  2  0
+  3  8  1  0
+  3 10  1  0
+  4  9  1  0
+  5  7  1  0
+  6  7  2  0
+  6  9  1  0
+  8  9  2  0
+M  END
+>  <mol_index>  (14) 
+6
+
+>  <old_logprob_mean>  (14) 
+1.99837923
+
+>  <diffgui_num_timesteps>  (14) 
+200
+
+>  <mol_id>  (14) 
+diffgui_dock_00005
+
+>  <source_index>  (14) 
+5
+
+>  <original_name>  (14) 
+diffgui_docking_only_epoch_0004_000093
+
+>  <rdkit_valid>  (14) 
+1
+
+>  <sanitize_status>  (14) 
+ok
+
+>  <smiles>  (14) 
+Cc1cc(Cl)cc(Cl)c1Cl
+
+>  <nodesxsample>  (14) 
+10
+
+>  <docking_raw>  (14) 
+-6.947999954223633
+
+>  <docking_reward>  (14) 
+0.6948000192642212
+
+>  <ligand_efficiency_raw>  (14) 
+0.6948000192642212
+
+>  <reward_total_raw>  (14) 
+0.6948000192642212
+
+>  <reward_total>  (14) 
+0.6948000192642212
+
+>  <stability>  (14) 
+1.0
+
+>  <global_id>  (14) 
+diffgui_docking_only_epoch_0004_000093
+
+>  <source>  (14) 
+diffgui_docking_only_epoch_0004
+
+>  <source_path>  (14) 
+OUT/diffgui-8gpu-docking-only-lr1e5-last2_20260610_094719/epochs/epoch_0004/molecules.sdf
+
+>  <source_mol_id>  (14) 
+diffgui_dock_00005|reward=0.6948|valid=1|ok
+
+>  <label>  (14) 
+bad
+
+>  <primary_reason>  (14) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (14) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (14) 
+4.0
+
+>  <heavy_atom_count>  (14) 
+10
+
+>  <carbon_fraction>  (14) 
+0.7
+
+>  <hetero_atom_count>  (14) 
+3
+
+>  <aromatic_ring_count>  (14) 
+1
+
+>  <benzene_ring_count>  (14) 
+1
+
+>  <heterocycle_ring_count>  (14) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (14) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (14) 
+0
+
+>  <ring_count>  (14) 
+1
+
+>  <max_fused_ring_system_size>  (14) 
+1
+
+>  <three_member_ring_count>  (14) 
+0
+
+>  <spiro_atom_count>  (14) 
+0
+
+>  <bridgehead_atom_count>  (14) 
+0
+
+>  <total_halogen_count>  (14) 
+3
+
+>  <aromatic_halogen_count>  (14) 
+3
+
+>  <heavy_halogen_count>  (14) 
+0
+
+>  <br_i_count>  (14) 
+0
+
+>  <logp>  (14) 
+3.9552200000000015
+
+>  <tpsa>  (14) 
+0.0
+
+>  <hba>  (14) 
+0
+
+>  <hbd>  (14) 
+0
+
+>  <fragment_count>  (14) 
+1
+
+>  <murcko_scaffold>  (14) 
+c1ccccc1
+
+>  <label_zh>  (14) 
+坏分子
+
+>  <current_bucket_reason_code>  (14) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (14) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (14) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (14) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (14) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (14) 
+小芳香环过度卤代
+
+>  <reason_count>  (14) 
+1
+
+>  <is_multi_reason_zh>  (14) 
+否
+
+>  <severity_zh>  (14) 
+强负样本
+
+>  <bucket_type_zh>  (14) 
+主原因不重复分桶
+
+>  <review_note_zh>  (14) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00015_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  207.3512  212.3309  172.5281 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9209  213.4601  174.5699 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2362  213.4458  174.1817 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3902  214.3221  175.2053 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.1281  211.7977  171.4509 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.9553  212.8698  173.7381 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6358  212.7919  174.1470 O   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3094  212.6416  172.6506 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  208.6776  212.2631  172.1591 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6257  212.8047  173.0294 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  5  1  0
+  1  6  2  0
+  1  9  1  0
+  2  3  2  0
+  2  6  1  0
+  3  4  1  0
+  3 10  1  0
+  6  7  1  0
+  8 10  1  0
+  9 10  2  0
+M  END
+>  <mol_index>  (15) 
+16
+
+>  <old_logprob_mean>  (15) 
+1.96572483
+
+>  <diffgui_num_timesteps>  (15) 
+200
+
+>  <mol_id>  (15) 
+diffgui_dock_00015
+
+>  <source_index>  (15) 
+15
+
+>  <original_name>  (15) 
+diffgui_docking_only_epoch_0005_000014
+
+>  <rdkit_valid>  (15) 
+1
+
+>  <sanitize_status>  (15) 
+ok
+
+>  <smiles>  (15) 
+Oc1cc(Cl)c(Cl)cc1Cl
+
+>  <nodesxsample>  (15) 
+10
+
+>  <docking_raw>  (15) 
+-6.313000202178955
+
+>  <docking_reward>  (15) 
+0.6312999725341797
+
+>  <ligand_efficiency_raw>  (15) 
+0.6312999725341797
+
+>  <reward_total_raw>  (15) 
+0.6312999725341797
+
+>  <reward_total>  (15) 
+0.6312999725341797
+
+>  <stability>  (15) 
+1.0
+
+>  <global_id>  (15) 
+diffgui_docking_only_epoch_0005_000014
+
+>  <source>  (15) 
+diffgui_docking_only_epoch_0005
+
+>  <source_path>  (15) 
+OUT/diffgui-8gpu-docking-only-lr1e5-last2_20260610_094719/epochs/epoch_0005/molecules.sdf
+
+>  <source_mol_id>  (15) 
+diffgui_dock_00015|reward=0.6313|valid=1|ok
+
+>  <label>  (15) 
+bad
+
+>  <primary_reason>  (15) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (15) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (15) 
+4.0
+
+>  <heavy_atom_count>  (15) 
+10
+
+>  <carbon_fraction>  (15) 
+0.6
+
+>  <hetero_atom_count>  (15) 
+4
+
+>  <aromatic_ring_count>  (15) 
+1
+
+>  <benzene_ring_count>  (15) 
+1
+
+>  <heterocycle_ring_count>  (15) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (15) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (15) 
+0
+
+>  <ring_count>  (15) 
+1
+
+>  <max_fused_ring_system_size>  (15) 
+1
+
+>  <three_member_ring_count>  (15) 
+0
+
+>  <spiro_atom_count>  (15) 
+0
+
+>  <bridgehead_atom_count>  (15) 
+0
+
+>  <total_halogen_count>  (15) 
+3
+
+>  <aromatic_halogen_count>  (15) 
+3
+
+>  <heavy_halogen_count>  (15) 
+0
+
+>  <br_i_count>  (15) 
+0
+
+>  <logp>  (15) 
+3.3524000000000003
+
+>  <tpsa>  (15) 
+20.23
+
+>  <hba>  (15) 
+1
+
+>  <hbd>  (15) 
+1
+
+>  <fragment_count>  (15) 
+1
+
+>  <murcko_scaffold>  (15) 
+c1ccccc1
+
+>  <label_zh>  (15) 
+坏分子
+
+>  <current_bucket_reason_code>  (15) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (15) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (15) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (15) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (15) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (15) 
+小芳香环过度卤代
+
+>  <reason_count>  (15) 
+1
+
+>  <is_multi_reason_zh>  (15) 
+否
+
+>  <severity_zh>  (15) 
+强负样本
+
+>  <bucket_type_zh>  (15) 
+主原因不重复分桶
+
+>  <review_note_zh>  (15) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00016_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 19  0  0  0  0  0  0  0  0999 V2000
+  208.3305  211.6957  171.7523 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4235  212.5595  172.7829 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9763  214.5093  174.1430 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3555  213.8393  174.5055 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.8212  213.8923  174.6216 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6464  213.0606  173.4273 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3880  214.3986  175.2811 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1440  213.9908  172.2069 F   0  0  0  0  0  0  0  0  0  0  0  0
+  204.0143  212.5776  173.9479 F   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0784  211.3580  171.2609 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9688  211.9510  171.8112 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3314  213.1168  173.3990 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7153  214.2007  174.8787 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7655  213.4956  173.2942 C   0  0  2  0  0  0  0  0  0  0  0  0
+  210.9691  212.8354  173.0135 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.0002  213.4276  173.7584 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0594  212.8016  172.8257 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1 10  1  0
+  2  6  1  0
+  2 12  1  0
+ 14  3  1  1
+  4  5  1  0
+  4  6  2  0
+  4  7  1  0
+  5 12  1  0
+  6 15  1  0
+  7 13  2  0
+  8 14  1  0
+  9 14  1  0
+ 10 11  2  0
+ 11 17  1  0
+ 12 17  2  0
+ 13 16  1  0
+ 14 17  1  0
+ 15 16  2  0
+M  END
+>  <mol_index>  (16) 
+11
+
+>  <old_logprob_mean>  (16) 
+2.06775665
+
+>  <diffgui_num_timesteps>  (16) 
+200
+
+>  <mol_id>  (16) 
+diffgui_dock_00011
+
+>  <source_index>  (16) 
+11
+
+>  <original_name>  (16) 
+diffgui_docking_only_epoch_0005_000136
+
+>  <rdkit_valid>  (16) 
+1
+
+>  <sanitize_status>  (16) 
+ok
+
+>  <smiles>  (16) 
+FC(F)(F)c1cccc2c1Cc1ccccc1-2
+
+>  <nodesxsample>  (16) 
+17
+
+>  <docking_raw>  (16) 
+-10.895999908447266
+
+>  <docking_reward>  (16) 
+1.0895999670028687
+
+>  <ligand_efficiency_raw>  (16) 
+0.6409412026405334
+
+>  <reward_total_raw>  (16) 
+1.0895999670028687
+
+>  <reward_total>  (16) 
+1.0895999670028687
+
+>  <stability>  (16) 
+1.0
+
+>  <global_id>  (16) 
+diffgui_docking_only_epoch_0005_000136
+
+>  <source>  (16) 
+diffgui_docking_only_epoch_0005
+
+>  <source_path>  (16) 
+OUT/diffgui-8gpu-docking-only-lr1e5-last2_20260610_094719/epochs/epoch_0005/molecules.sdf
+
+>  <source_mol_id>  (16) 
+diffgui_dock_00011|reward=1.0896|valid=1|ok
+
+>  <label>  (16) 
+bad
+
+>  <primary_reason>  (16) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (16) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (16) 
+4.0
+
+>  <heavy_atom_count>  (16) 
+17
+
+>  <carbon_fraction>  (16) 
+0.8235294117647058
+
+>  <hetero_atom_count>  (16) 
+3
+
+>  <aromatic_ring_count>  (16) 
+2
+
+>  <benzene_ring_count>  (16) 
+2
+
+>  <heterocycle_ring_count>  (16) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (16) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (16) 
+1
+
+>  <ring_count>  (16) 
+3
+
+>  <max_fused_ring_system_size>  (16) 
+3
+
+>  <three_member_ring_count>  (16) 
+0
+
+>  <spiro_atom_count>  (16) 
+0
+
+>  <bridgehead_atom_count>  (16) 
+0
+
+>  <total_halogen_count>  (16) 
+3
+
+>  <aromatic_halogen_count>  (16) 
+0
+
+>  <heavy_halogen_count>  (16) 
+0
+
+>  <br_i_count>  (16) 
+0
+
+>  <logp>  (16) 
+4.276600000000003
+
+>  <tpsa>  (16) 
+0.0
+
+>  <hba>  (16) 
+0
+
+>  <hbd>  (16) 
+0
+
+>  <fragment_count>  (16) 
+1
+
+>  <murcko_scaffold>  (16) 
+c1ccc2c(c1)Cc1ccccc1-2
+
+>  <label_zh>  (16) 
+坏分子
+
+>  <current_bucket_reason_code>  (16) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (16) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (16) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (16) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (16) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (16) 
+小芳香环过度卤代
+
+>  <reason_count>  (16) 
+1
+
+>  <is_multi_reason_zh>  (16) 
+否
+
+>  <severity_zh>  (16) 
+强负样本
+
+>  <bucket_type_zh>  (16) 
+主原因不重复分桶
+
+>  <review_note_zh>  (16) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00017_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 15 16  0  0  0  0  0  0  0  0999 V2000
+  204.5393  211.8725  172.7987 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3044  213.0214  174.0478 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4877  213.1745  172.4733 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1778  213.9178  176.3061 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  209.4931  212.7328  173.3136 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3171  211.7158  171.8983 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.9517  212.5862  173.5685 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7028  214.2028  175.6567 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1190  211.1837  173.8589 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2326  212.8938  172.0665 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8715  213.9497  174.8717 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3515  211.6314  174.3056 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5252  213.7167  175.2327 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1718  212.7501  172.8743 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.7177  213.1898  173.7345 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  2  0
+  1 10  1  0
+  2  5  2  0
+  2  7  1  0
+  2 13  1  0
+  3  7  1  0
+  3 10  2  0
+  4 13  1  0
+  5  6  1  0
+  5 15  1  0
+  7 12  2  0
+  8 11  1  0
+  8 13  2  0
+  9 12  1  0
+ 11 15  2  0
+ 14 15  1  0
+M  END
+>  <benchmark_model>  (17) 
+DiffGui
+
+>  <benchmark_index>  (17) 
+69
+
+>  <benchmark_source_sdf>  (17) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260603_202710/data_SDF/71.sdf
+
+>  <mol_id>  (17) 
+diffgui_260609_500_00069
+
+>  <source_index>  (17) 
+69
+
+>  <sanitize_status>  (17) 
+ok
+
+>  <scoring_valid>  (17) 
+1
+
+>  <canonical_smiles>  (17) 
+Clc1ccc(Cl)c(-c2ncccn2)c1Cl
+
+>  <heavy_atom_count>  (17) 
+15
+
+>  <carbon_fraction>  (17) 
+0.6666666666666666
+
+>  <hetero_atom_count>  (17) 
+5
+
+>  <hetero_atom_fraction>  (17) 
+0.333333
+
+>  <logp>  (17) 
+4.1038000000000014
+
+>  <tpsa>  (17) 
+25.78
+
+>  <qed>  (17) 
+0.720523
+
+>  <hba>  (17) 
+2
+
+>  <hbd>  (17) 
+0
+
+>  <rotatable_bonds>  (17) 
+1
+
+>  <ring_count>  (17) 
+2
+
+>  <aromatic_ring_count>  (17) 
+2
+
+>  <three_member_ring_count>  (17) 
+0
+
+>  <fragment_count>  (17) 
+1
+
+>  <bad_bond_length_fraction>  (17) 
+0.000000
+
+>  <halogen_bad_position_count>  (17) 
+0
+
+>  <guard_violation_count>  (17) 
+0
+
+>  <p_good_v02>  (17) 
+0.999693
+
+>  <p_good_v021>  (17) 
+0.999586
+
+>  <rank_v02>  (17) 
+0.931864
+
+>  <rank_v021>  (17) 
+0.909820
+
+>  <dynamic_score_v02>  (17) 
+0.931864
+
+>  <v021_low_q20_flag>  (17) 
+0
+
+>  <guard_penalty>  (17) 
+0.000000
+
+>  <guarded_score>  (17) 
+0.931864
+
+>  <score>  (17) 
+0.931864
+
+>  <score_definition>  (17) 
+guarded_score=rank_v02-guard_penalty
+
+>  <global_id>  (17) 
+diffgui_500_scored_000069
+
+>  <source>  (17) 
+diffgui_500_scored
+
+>  <source_path>  (17) 
+analysis/diffgui_classifier_score_20260609/diffgui_500_scored.sdf
+
+>  <source_mol_id>  (17) 
+diffgui_260609_500_00069
+
+>  <smiles>  (17) 
+Clc1ccc(Cl)c(-c2ncccn2)c1Cl
+
+>  <label>  (17) 
+bad
+
+>  <primary_reason>  (17) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (17) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (17) 
+4.0
+
+>  <benzene_ring_count>  (17) 
+1
+
+>  <heterocycle_ring_count>  (17) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (17) 
+1
+
+>  <aliphatic_carbocycle_ring_count>  (17) 
+0
+
+>  <max_fused_ring_system_size>  (17) 
+1
+
+>  <spiro_atom_count>  (17) 
+0
+
+>  <bridgehead_atom_count>  (17) 
+0
+
+>  <total_halogen_count>  (17) 
+3
+
+>  <aromatic_halogen_count>  (17) 
+3
+
+>  <heavy_halogen_count>  (17) 
+0
+
+>  <br_i_count>  (17) 
+0
+
+>  <murcko_scaffold>  (17) 
+c1ccc(-c2ncccn2)cc1
+
+>  <original_name>  (17) 
+diffgui_500_scored_000069
+
+>  <label_zh>  (17) 
+坏分子
+
+>  <current_bucket_reason_code>  (17) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (17) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (17) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (17) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (17) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (17) 
+小芳香环过度卤代
+
+>  <reason_count>  (17) 
+1
+
+>  <is_multi_reason_zh>  (17) 
+否
+
+>  <severity_zh>  (17) 
+强负样本
+
+>  <bucket_type_zh>  (17) 
+主原因不重复分桶
+
+>  <review_note_zh>  (17) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00018_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 16 18  0  0  0  0  0  0  0  0999 V2000
+  206.9673  213.9050  174.9505 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3241  213.4498  173.7841 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5807  212.8845  172.1553 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8326  214.0138  174.9553 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5064  214.3016  175.4509 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8387  212.8001  173.0584 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4070  213.8317  174.7271 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5892  213.1078  173.5499 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2838  212.8081  172.9731 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0168  213.5004  173.3181 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9314  214.4361  174.2095 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  210.9502  213.2682  173.8191 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5656  212.1435  171.4236 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.5431  212.8187  173.3055 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  206.8434  212.1008  171.8539 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0207  211.1097  171.0550 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  7  1  0
+  2  9  2  0
+  2 10  1  0
+  3 10  2  0
+  3 13  1  0
+  4  5  1  0
+  4 12  2  0
+  5  7  2  0
+  6  8  2  0
+  6 12  1  0
+  7  8  1  0
+  8  9  1  0
+  9 15  1  0
+ 10 11  1  0
+ 12 14  1  0
+ 13 15  2  0
+ 15 16  1  0
+M  END
+>  <benchmark_model>  (18) 
+DiffGui
+
+>  <benchmark_index>  (18) 
+196
+
+>  <benchmark_source_sdf>  (18) 
+/home/md666/data/disk6/DiffB110/analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260603_202710/data_SDF/56.sdf
+
+>  <mol_id>  (18) 
+diffgui_260609_500_00196
+
+>  <source_index>  (18) 
+196
+
+>  <sanitize_status>  (18) 
+ok
+
+>  <scoring_valid>  (18) 
+1
+
+>  <canonical_smiles>  (18) 
+Clc1ccc2oc3c(Cl)ccc(Cl)c3c2c1
+
+>  <heavy_atom_count>  (18) 
+16
+
+>  <carbon_fraction>  (18) 
+0.75
+
+>  <hetero_atom_count>  (18) 
+4
+
+>  <hetero_atom_fraction>  (18) 
+0.250000
+
+>  <logp>  (18) 
+5.546200000000002
+
+>  <tpsa>  (18) 
+13.14
+
+>  <qed>  (18) 
+0.522536
+
+>  <hba>  (18) 
+1
+
+>  <hbd>  (18) 
+0
+
+>  <rotatable_bonds>  (18) 
+0
+
+>  <ring_count>  (18) 
+3
+
+>  <aromatic_ring_count>  (18) 
+3
+
+>  <three_member_ring_count>  (18) 
+0
+
+>  <fragment_count>  (18) 
+1
+
+>  <bad_bond_length_fraction>  (18) 
+0.000000
+
+>  <halogen_bad_position_count>  (18) 
+0
+
+>  <guard_violation_count>  (18) 
+0
+
+>  <p_good_v02>  (18) 
+0.880096
+
+>  <p_good_v021>  (18) 
+0.527874
+
+>  <rank_v02>  (18) 
+0.621242
+
+>  <rank_v021>  (18) 
+0.555110
+
+>  <dynamic_score_v02>  (18) 
+0.621242
+
+>  <v021_low_q20_flag>  (18) 
+0
+
+>  <guard_penalty>  (18) 
+0.000000
+
+>  <guarded_score>  (18) 
+0.621242
+
+>  <score>  (18) 
+0.621242
+
+>  <score_definition>  (18) 
+guarded_score=rank_v02-guard_penalty
+
+>  <global_id>  (18) 
+diffgui_500_scored_000196
+
+>  <source>  (18) 
+diffgui_500_scored
+
+>  <source_path>  (18) 
+analysis/diffgui_classifier_score_20260609/diffgui_500_scored.sdf
+
+>  <source_mol_id>  (18) 
+diffgui_260609_500_00196
+
+>  <smiles>  (18) 
+Clc1ccc2oc3c(Cl)ccc(Cl)c3c2c1
+
+>  <label>  (18) 
+bad
+
+>  <primary_reason>  (18) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (18) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (18) 
+4.0
+
+>  <benzene_ring_count>  (18) 
+2
+
+>  <heterocycle_ring_count>  (18) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (18) 
+1
+
+>  <aliphatic_carbocycle_ring_count>  (18) 
+0
+
+>  <max_fused_ring_system_size>  (18) 
+3
+
+>  <spiro_atom_count>  (18) 
+0
+
+>  <bridgehead_atom_count>  (18) 
+0
+
+>  <total_halogen_count>  (18) 
+3
+
+>  <aromatic_halogen_count>  (18) 
+3
+
+>  <heavy_halogen_count>  (18) 
+0
+
+>  <br_i_count>  (18) 
+0
+
+>  <murcko_scaffold>  (18) 
+c1ccc2c(c1)oc1ccccc12
+
+>  <original_name>  (18) 
+diffgui_500_scored_000196
+
+>  <label_zh>  (18) 
+坏分子
+
+>  <current_bucket_reason_code>  (18) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (18) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (18) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (18) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (18) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (18) 
+小芳香环过度卤代
+
+>  <reason_count>  (18) 
+1
+
+>  <is_multi_reason_zh>  (18) 
+否
+
+>  <severity_zh>  (18) 
+强负样本
+
+>  <bucket_type_zh>  (18) 
+主原因不重复分桶
+
+>  <review_note_zh>  (18) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00019_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 13 14  0  0  0  0  0  0  0  0999 V2000
+  208.2110  213.2370  174.3830 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8800  214.3420  175.5720 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.4670  211.7650  173.1900 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6240  214.5160  176.2330 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3690  213.3690  174.6170 F   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1980  213.8740  172.4310 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8580  212.2580  172.4370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6060  213.9270  175.4810 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6250  212.4570  173.4340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9480  212.9640  173.4150 C   0  0  1  0  0  0  0  0  0  0  0  0
+  210.3690  212.9150  173.4410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5610  213.5400  174.4250 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3690  211.9670  172.3840 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 12  1  0
+  1  8  2  0
+  2  4  1  0
+ 10  3  1  6
+  6 10  1  0
+  7 11  2  0
+  8  4  1  0
+  9  1  1  0
+ 10 11  1  0
+ 10  5  1  0
+ 11 12  1  0
+ 12  2  2  0
+ 13  7  1  0
+ 13  9  2  0
+M  END
+>  <global_id>  (19) 
+diffsbdd_260407_10000_1_filtered_002632
+
+>  <source>  (19) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (19) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (19) 
+
+
+>  <smiles>  (19) 
+FC(F)(F)c1cccc2c1=CCN=2
+
+>  <label>  (19) 
+bad
+
+>  <primary_reason>  (19) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (19) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (19) 
+4.0
+
+>  <heavy_atom_count>  (19) 
+13
+
+>  <carbon_fraction>  (19) 
+0.6923076923076923
+
+>  <hetero_atom_count>  (19) 
+4
+
+>  <aromatic_ring_count>  (19) 
+1
+
+>  <benzene_ring_count>  (19) 
+1
+
+>  <heterocycle_ring_count>  (19) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (19) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (19) 
+0
+
+>  <ring_count>  (19) 
+2
+
+>  <max_fused_ring_system_size>  (19) 
+2
+
+>  <three_member_ring_count>  (19) 
+0
+
+>  <spiro_atom_count>  (19) 
+0
+
+>  <bridgehead_atom_count>  (19) 
+0
+
+>  <total_halogen_count>  (19) 
+3
+
+>  <aromatic_halogen_count>  (19) 
+0
+
+>  <heavy_halogen_count>  (19) 
+0
+
+>  <br_i_count>  (19) 
+0
+
+>  <logp>  (19) 
+1.1191
+
+>  <tpsa>  (19) 
+12.36
+
+>  <hba>  (19) 
+1
+
+>  <hbd>  (19) 
+0
+
+>  <fragment_count>  (19) 
+1
+
+>  <murcko_scaffold>  (19) 
+C1=c2ccccc2=NC1
+
+>  <original_name>  (19) 
+diffsbdd_260407_10000_1_filtered_002632
+
+>  <label_zh>  (19) 
+坏分子
+
+>  <current_bucket_reason_code>  (19) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (19) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (19) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (19) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (19) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (19) 
+小芳香环过度卤代
+
+>  <reason_count>  (19) 
+1
+
+>  <is_multi_reason_zh>  (19) 
+否
+
+>  <severity_zh>  (19) 
+强负样本
+
+>  <bucket_type_zh>  (19) 
+主原因不重复分桶
+
+>  <review_note_zh>  (19) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00020_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 18  0  0  0  0  0  0  0  0999 V2000
+  204.9620  215.0870  177.2840 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2550  211.8560  172.7020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.5570  211.4020  170.4020 C   0  0  2  0  0  0  0  0  0  0  0  0
+  205.1950  214.1000  178.1390 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3860  211.2470  171.8950 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9800  213.9490  175.5290 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.3830  211.9210  170.2060 F   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8750  212.9990  172.2380 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8730  213.0200  173.3730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6180  213.5520  173.1710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.2980  211.7370  169.3720 F   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3540  215.0200  175.9210 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8200  213.0020  177.7550 N   0  0  0  0  0  0  0  0  0  0  0  0
+  203.5170  210.0950  170.4760 F   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2610  212.9550  176.5020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.2250  211.8690  171.5930 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6840  213.6900  174.2480 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  4  2  0
+  2  9  2  0
+  3 14  1  1
+  3 16  1  0
+  5  2  1  0
+  6 12  2  0
+  6 15  1  0
+  7  3  1  0
+  8 10  2  0
+  9 17  1  0
+ 10  9  1  0
+ 11  3  1  0
+ 12  1  1  0
+ 13  4  1  0
+ 15 13  2  0
+ 16  5  2  0
+ 16  8  1  0
+ 17  6  1  0
+M  END
+>  <global_id>  (20) 
+diffsbdd_260407_10000_1_filtered_003686
+
+>  <source>  (20) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (20) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (20) 
+
+
+>  <smiles>  (20) 
+FC(F)(F)c1ccc(Oc2cccnc2)cc1
+
+>  <label>  (20) 
+bad
+
+>  <primary_reason>  (20) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (20) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (20) 
+4.0
+
+>  <heavy_atom_count>  (20) 
+17
+
+>  <carbon_fraction>  (20) 
+0.7058823529411765
+
+>  <hetero_atom_count>  (20) 
+5
+
+>  <aromatic_ring_count>  (20) 
+2
+
+>  <benzene_ring_count>  (20) 
+1
+
+>  <heterocycle_ring_count>  (20) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (20) 
+1
+
+>  <aliphatic_carbocycle_ring_count>  (20) 
+0
+
+>  <ring_count>  (20) 
+2
+
+>  <max_fused_ring_system_size>  (20) 
+1
+
+>  <three_member_ring_count>  (20) 
+0
+
+>  <spiro_atom_count>  (20) 
+0
+
+>  <bridgehead_atom_count>  (20) 
+0
+
+>  <total_halogen_count>  (20) 
+3
+
+>  <aromatic_halogen_count>  (20) 
+0
+
+>  <heavy_halogen_count>  (20) 
+0
+
+>  <br_i_count>  (20) 
+0
+
+>  <logp>  (20) 
+3.8927000000000023
+
+>  <tpsa>  (20) 
+22.12
+
+>  <hba>  (20) 
+2
+
+>  <hbd>  (20) 
+0
+
+>  <fragment_count>  (20) 
+1
+
+>  <murcko_scaffold>  (20) 
+c1ccc(Oc2cccnc2)cc1
+
+>  <original_name>  (20) 
+diffsbdd_260407_10000_1_filtered_003686
+
+>  <label_zh>  (20) 
+坏分子
+
+>  <current_bucket_reason_code>  (20) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (20) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (20) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (20) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (20) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (20) 
+小芳香环过度卤代
+
+>  <reason_count>  (20) 
+1
+
+>  <is_multi_reason_zh>  (20) 
+否
+
+>  <severity_zh>  (20) 
+强负样本
+
+>  <bucket_type_zh>  (20) 
+主原因不重复分桶
+
+>  <review_note_zh>  (20) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00021_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 16 16  0  0  0  0  0  0  0  0999 V2000
+  209.8810  214.5220  177.3530 F   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2570  212.4500  172.4440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6840  213.9690  176.3970 F   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3010  211.9940  171.5320 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1450  215.5400  175.1910 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5220  214.6720  175.9800 C   0  0  2  0  0  0  0  0  0  0  0  0
+  207.9590  212.1540  175.6810 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2570  213.7390  175.2230 O   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4980  213.0360  173.9290 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8650  212.9860  173.6230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5770  212.6570  173.0370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6330  211.6940  175.6290 O   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6820  213.3000  175.4280 O   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9070  213.6090  175.2290 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.9760  212.1480  171.8270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5680  212.6580  175.5030 C   0  0  0  0  0  0  0  0  0  0  0  0
+  2 10  2  0
+  4 15  2  0
+  4  2  1  0
+  6  5  1  6
+  6  3  1  0
+  6  1  1  0
+  8 16  2  0
+  9 14  1  0
+ 10  9  1  0
+ 11  9  2  0
+ 13  7  1  0
+ 14 13  1  6
+ 14  6  1  0
+ 15 11  1  0
+ 16 12  1  0
+ 16  7  1  0
+M  END
+>  <global_id>  (21) 
+diffsbdd_260407_10000_1_filtered_004273
+
+>  <source>  (21) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (21) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (21) 
+
+
+>  <smiles>  (21) 
+O=C(O)COC(c1ccccc1)C(F)(F)F
+
+>  <label>  (21) 
+bad
+
+>  <primary_reason>  (21) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (21) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (21) 
+4.0
+
+>  <heavy_atom_count>  (21) 
+16
+
+>  <carbon_fraction>  (21) 
+0.625
+
+>  <hetero_atom_count>  (21) 
+6
+
+>  <aromatic_ring_count>  (21) 
+1
+
+>  <benzene_ring_count>  (21) 
+1
+
+>  <heterocycle_ring_count>  (21) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (21) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (21) 
+0
+
+>  <ring_count>  (21) 
+1
+
+>  <max_fused_ring_system_size>  (21) 
+1
+
+>  <three_member_ring_count>  (21) 
+0
+
+>  <spiro_atom_count>  (21) 
+0
+
+>  <bridgehead_atom_count>  (21) 
+0
+
+>  <total_halogen_count>  (21) 
+3
+
+>  <aromatic_halogen_count>  (21) 
+0
+
+>  <heavy_halogen_count>  (21) 
+0
+
+>  <br_i_count>  (21) 
+0
+
+>  <logp>  (21) 
+2.3911999999999995
+
+>  <tpsa>  (21) 
+46.53
+
+>  <hba>  (21) 
+2
+
+>  <hbd>  (21) 
+1
+
+>  <fragment_count>  (21) 
+1
+
+>  <murcko_scaffold>  (21) 
+c1ccccc1
+
+>  <original_name>  (21) 
+diffsbdd_260407_10000_1_filtered_004273
+
+>  <label_zh>  (21) 
+坏分子
+
+>  <current_bucket_reason_code>  (21) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (21) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (21) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (21) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (21) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (21) 
+小芳香环过度卤代
+
+>  <reason_count>  (21) 
+1
+
+>  <is_multi_reason_zh>  (21) 
+否
+
+>  <severity_zh>  (21) 
+强负样本
+
+>  <bucket_type_zh>  (21) 
+主原因不重复分桶
+
+>  <review_note_zh>  (21) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00022_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 16 17  0  0  0  0  0  0  0  0999 V2000
+  210.7260  214.3230  175.2750 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2760  213.2760  174.3720 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9820  213.1230  173.9880 C   0  0  1  0  0  0  0  0  0  0  0  0
+  210.6700  213.4480  174.1720 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6670  213.2370  174.8100 S   0  0  0  0  0  0  0  0  0  0  0  0
+  212.0130  213.0240  173.5670 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.5350  214.5210  175.9860 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9590  213.1790  173.1890 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.9490  214.1010  173.6740 F   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8260  212.7510  172.2270 F   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2130  214.1980  177.0260 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3590  214.8060  177.5110 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5010  212.9950  173.6730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.5730  211.9580  174.1430 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3990  213.7800  175.6730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3300  213.4250  176.7350 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  7  2  0
+  2 15  2  0
+  3  2  1  6
+  3  5  1  0
+  4  1  1  0
+  6  9  1  6
+  6 14  1  0
+  6  4  1  0
+  8  3  1  0
+  8  5  1  0
+ 10  6  1  0
+ 11 12  3  0
+ 13  4  2  0
+ 13  2  1  0
+ 15  7  1  0
+ 15 16  1  0
+ 16 11  1  0
+M  END
+>  <global_id>  (22) 
+diffsbdd_260407_10000_1_filtered_004288
+
+>  <source>  (22) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (22) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (22) 
+
+
+>  <smiles>  (22) 
+N#CCc1ccc(C(F)(F)F)cc1C1CS1
+
+>  <label>  (22) 
+bad
+
+>  <primary_reason>  (22) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (22) 
+bad_three_member_ring|bad_overhalogenated_small_aromatic
+
+>  <weight>  (22) 
+4.0
+
+>  <heavy_atom_count>  (22) 
+16
+
+>  <carbon_fraction>  (22) 
+0.6875
+
+>  <hetero_atom_count>  (22) 
+5
+
+>  <aromatic_ring_count>  (22) 
+1
+
+>  <benzene_ring_count>  (22) 
+1
+
+>  <heterocycle_ring_count>  (22) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (22) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (22) 
+0
+
+>  <ring_count>  (22) 
+2
+
+>  <max_fused_ring_system_size>  (22) 
+1
+
+>  <three_member_ring_count>  (22) 
+1
+
+>  <spiro_atom_count>  (22) 
+0
+
+>  <bridgehead_atom_count>  (22) 
+0
+
+>  <total_halogen_count>  (22) 
+3
+
+>  <aromatic_halogen_count>  (22) 
+0
+
+>  <heavy_halogen_count>  (22) 
+0
+
+>  <br_i_count>  (22) 
+0
+
+>  <logp>  (22) 
+3.559380000000001
+
+>  <tpsa>  (22) 
+23.79
+
+>  <hba>  (22) 
+2
+
+>  <hbd>  (22) 
+0
+
+>  <fragment_count>  (22) 
+1
+
+>  <murcko_scaffold>  (22) 
+c1ccc(C2CS2)cc1
+
+>  <original_name>  (22) 
+diffsbdd_260407_10000_1_filtered_004288
+
+>  <label_zh>  (22) 
+坏分子
+
+>  <current_bucket_reason_code>  (22) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (22) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (22) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (22) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (22) 
+bad_three_member_ring|bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (22) 
+三元环；小芳香环过度卤代
+
+>  <reason_count>  (22) 
+2
+
+>  <is_multi_reason_zh>  (22) 
+是
+
+>  <severity_zh>  (22) 
+强负样本
+
+>  <bucket_type_zh>  (22) 
+主原因不重复分桶
+
+>  <review_note_zh>  (22) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00023_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 12 12  0  0  0  0  0  0  0  0999 V2000
+  210.1550  214.4500  175.3420 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4370  214.4420  175.7000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3320  213.7600  174.9700 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5820  213.7240  174.2860 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5790  212.3040  170.9960 C   0  0  1  0  0  0  0  0  0  0  0  0
+  210.5030  212.9850  173.6000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5220  211.9480  170.3100 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8780  213.5070  170.4340 F   0  0  0  0  0  0  0  0  0  0  0  0
+  212.6100  212.1330  173.1840 O   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8390  212.9100  173.9470 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.0720  212.4610  172.3210 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.5680  211.6260  170.7300 F   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  3  2  1  0
+  4  1  1  0
+  5 11  1  0
+  6 10  1  0
+  6  4  2  0
+  5  7  1  6
+  8  5  1  0
+  9 10  1  0
+ 10  3  2  0
+ 11  6  1  0
+ 12  5  1  0
+M  END
+>  <global_id>  (23) 
+diffsbdd_260407_10000_1_filtered_004495
+
+>  <source>  (23) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (23) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (23) 
+
+
+>  <smiles>  (23) 
+Oc1ccccc1NC(F)(F)F
+
+>  <label>  (23) 
+bad
+
+>  <primary_reason>  (23) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (23) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (23) 
+4.0
+
+>  <heavy_atom_count>  (23) 
+12
+
+>  <carbon_fraction>  (23) 
+0.5833333333333334
+
+>  <hetero_atom_count>  (23) 
+5
+
+>  <aromatic_ring_count>  (23) 
+1
+
+>  <benzene_ring_count>  (23) 
+1
+
+>  <heterocycle_ring_count>  (23) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (23) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (23) 
+0
+
+>  <ring_count>  (23) 
+1
+
+>  <max_fused_ring_system_size>  (23) 
+1
+
+>  <three_member_ring_count>  (23) 
+0
+
+>  <spiro_atom_count>  (23) 
+0
+
+>  <bridgehead_atom_count>  (23) 
+0
+
+>  <total_halogen_count>  (23) 
+3
+
+>  <aromatic_halogen_count>  (23) 
+0
+
+>  <heavy_halogen_count>  (23) 
+0
+
+>  <br_i_count>  (23) 
+0
+
+>  <logp>  (23) 
+2.3239000000000005
+
+>  <tpsa>  (23) 
+32.26
+
+>  <hba>  (23) 
+2
+
+>  <hbd>  (23) 
+2
+
+>  <fragment_count>  (23) 
+1
+
+>  <murcko_scaffold>  (23) 
+c1ccccc1
+
+>  <original_name>  (23) 
+diffsbdd_260407_10000_1_filtered_004495
+
+>  <label_zh>  (23) 
+坏分子
+
+>  <current_bucket_reason_code>  (23) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (23) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (23) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (23) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (23) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (23) 
+小芳香环过度卤代
+
+>  <reason_count>  (23) 
+1
+
+>  <is_multi_reason_zh>  (23) 
+否
+
+>  <severity_zh>  (23) 
+强负样本
+
+>  <bucket_type_zh>  (23) 
+主原因不重复分桶
+
+>  <review_note_zh>  (23) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00024_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 15 16  0  0  0  0  0  0  0  0999 V2000
+  211.6040  212.4850  172.5140 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9860  215.0890  175.9720 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7790  213.2430  176.6880 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5710  212.2580  172.3750 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2750  212.9370  173.4490 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2080  212.1720  172.6730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9100  211.9630  171.1620 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8590  212.8590  174.1910 S   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4520  212.6580  170.9730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8990  214.1190  175.6700 C   0  0  2  0  0  0  0  0  0  0  0  0
+  210.0950  214.6600  175.5250 F   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1540  211.5610  171.7410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3430  211.7880  171.1370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4190  213.3720  174.4060 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7390  212.5040  173.6930 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 15  2  0
+  4  6  2  0
+  4  5  1  0
+  5 15  1  0
+  5 14  2  0
+  6  8  1  0
+  7  1  1  0
+  8 14  1  0
+  9 12  1  0
+ 10  2  1  1
+ 10  3  1  0
+ 11 10  1  0
+ 12  6  1  0
+ 13  7  2  0
+ 13  4  1  0
+ 14 10  1  0
+M  END
+>  <global_id>  (24) 
+diffsbdd_260407_10000_2_filtered_001626
+
+>  <source>  (24) 
+diffsbdd_260407_10000_2_filtered
+
+>  <source_path>  (24) 
+OUT/260407_generate_ligands_10000/260407generated_10000-2_filtered.sdf
+
+>  <source_mol_id>  (24) 
+
+
+>  <smiles>  (24) 
+CCc1sc(C(F)(F)F)c2ccccc12
+
+>  <label>  (24) 
+bad
+
+>  <primary_reason>  (24) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (24) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (24) 
+4.0
+
+>  <heavy_atom_count>  (24) 
+15
+
+>  <carbon_fraction>  (24) 
+0.7333333333333333
+
+>  <hetero_atom_count>  (24) 
+4
+
+>  <aromatic_ring_count>  (24) 
+2
+
+>  <benzene_ring_count>  (24) 
+1
+
+>  <heterocycle_ring_count>  (24) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (24) 
+1
+
+>  <aliphatic_carbocycle_ring_count>  (24) 
+0
+
+>  <ring_count>  (24) 
+2
+
+>  <max_fused_ring_system_size>  (24) 
+2
+
+>  <three_member_ring_count>  (24) 
+0
+
+>  <spiro_atom_count>  (24) 
+0
+
+>  <bridgehead_atom_count>  (24) 
+0
+
+>  <total_halogen_count>  (24) 
+3
+
+>  <aromatic_halogen_count>  (24) 
+0
+
+>  <heavy_halogen_count>  (24) 
+0
+
+>  <br_i_count>  (24) 
+0
+
+>  <logp>  (24) 
+4.482500000000003
+
+>  <tpsa>  (24) 
+0.0
+
+>  <hba>  (24) 
+1
+
+>  <hbd>  (24) 
+0
+
+>  <fragment_count>  (24) 
+1
+
+>  <murcko_scaffold>  (24) 
+c1ccc2cscc2c1
+
+>  <original_name>  (24) 
+diffsbdd_260407_10000_2_filtered_001626
+
+>  <label_zh>  (24) 
+坏分子
+
+>  <current_bucket_reason_code>  (24) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (24) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (24) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (24) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (24) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (24) 
+小芳香环过度卤代
+
+>  <reason_count>  (24) 
+1
+
+>  <is_multi_reason_zh>  (24) 
+否
+
+>  <severity_zh>  (24) 
+强负样本
+
+>  <bucket_type_zh>  (24) 
+主原因不重复分桶
+
+>  <review_note_zh>  (24) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00025_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 14 14  0  0  0  0  0  0  0  0999 V2000
+  213.6800  214.5760  173.4020 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1860  214.5330  176.0080 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1810  213.0830  176.3390 C   0  0  1  0  0  0  0  0  0  0  0  0
+  209.0390  212.5630  174.6870 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.5890  213.3950  172.0930 F   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4780  211.9050  176.4970 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9200  213.7980  174.6870 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2810  212.7030  174.2320 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6070  214.1480  177.2610 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.8360  213.5670  173.3230 C   0  0  1  0  0  0  0  0  0  0  0  0
+  213.4720  212.4320  173.6520 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4670  213.3790  175.5800 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4260  214.7950  175.4880 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7250  213.7790  174.1390 N   0  0  0  0  0  0  0  0  0  0  0  0
+  3  6  1  1
+  3  9  1  0
+  4 12  1  0
+ 10  5  1  6
+  7 13  2  0
+  8  7  1  0
+  8  4  2  0
+ 10  1  1  0
+ 10 11  1  0
+ 10 14  1  0
+ 12  2  2  0
+ 12  3  1  0
+ 13  2  1  0
+ 14  7  1  0
+M  END
+>  <global_id>  (25) 
+diffsbdd_260407_10000_3_filtered_000690
+
+>  <source>  (25) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (25) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (25) 
+
+
+>  <smiles>  (25) 
+CC(C)c1ccc(NC(F)(F)F)cc1
+
+>  <label>  (25) 
+bad
+
+>  <primary_reason>  (25) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (25) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (25) 
+4.0
+
+>  <heavy_atom_count>  (25) 
+14
+
+>  <carbon_fraction>  (25) 
+0.7142857142857143
+
+>  <hetero_atom_count>  (25) 
+4
+
+>  <aromatic_ring_count>  (25) 
+1
+
+>  <benzene_ring_count>  (25) 
+1
+
+>  <heterocycle_ring_count>  (25) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (25) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (25) 
+0
+
+>  <ring_count>  (25) 
+1
+
+>  <max_fused_ring_system_size>  (25) 
+1
+
+>  <three_member_ring_count>  (25) 
+0
+
+>  <spiro_atom_count>  (25) 
+0
+
+>  <bridgehead_atom_count>  (25) 
+0
+
+>  <total_halogen_count>  (25) 
+3
+
+>  <aromatic_halogen_count>  (25) 
+0
+
+>  <heavy_halogen_count>  (25) 
+0
+
+>  <br_i_count>  (25) 
+0
+
+>  <logp>  (25) 
+3.7417000000000025
+
+>  <tpsa>  (25) 
+12.03
+
+>  <hba>  (25) 
+1
+
+>  <hbd>  (25) 
+1
+
+>  <fragment_count>  (25) 
+1
+
+>  <murcko_scaffold>  (25) 
+c1ccccc1
+
+>  <original_name>  (25) 
+diffsbdd_260407_10000_3_filtered_000690
+
+>  <label_zh>  (25) 
+坏分子
+
+>  <current_bucket_reason_code>  (25) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (25) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (25) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (25) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (25) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (25) 
+小芳香环过度卤代
+
+>  <reason_count>  (25) 
+1
+
+>  <is_multi_reason_zh>  (25) 
+否
+
+>  <severity_zh>  (25) 
+强负样本
+
+>  <bucket_type_zh>  (25) 
+主原因不重复分桶
+
+>  <review_note_zh>  (25) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00026_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 10 10  0  0  0  0  0  0  0  0999 V2000
+  210.7260  213.1930  173.6100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0690  215.5250  175.6630 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2310  212.2120  173.0590 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2310  211.9330  172.2780 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0960  213.7110  176.6610 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4370  212.9950  174.1140 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0800  211.1840  171.1540 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8070  214.3420  175.7300 C   0  0  1  0  0  0  0  0  0  0  0  0
+  209.7330  213.4800  174.4560 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4990  212.3700  172.4890 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  2  0
+  8  2  1  6
+  3  6  2  0
+  4 10  2  0
+  4  3  1  0
+  6  9  1  0
+  7  4  1  0
+  8  5  1  0
+  9  8  1  0
+ 10  1  1  0
+M  END
+>  <global_id>  (26) 
+diffsbdd_260407_10000_3_filtered_000717
+
+>  <source>  (26) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (26) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (26) 
+
+
+>  <smiles>  (26) 
+Fc1ccc(C(F)F)cc1
+
+>  <label>  (26) 
+bad
+
+>  <primary_reason>  (26) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (26) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (26) 
+4.0
+
+>  <heavy_atom_count>  (26) 
+10
+
+>  <carbon_fraction>  (26) 
+0.7
+
+>  <hetero_atom_count>  (26) 
+3
+
+>  <aromatic_ring_count>  (26) 
+1
+
+>  <benzene_ring_count>  (26) 
+1
+
+>  <heterocycle_ring_count>  (26) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (26) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (26) 
+0
+
+>  <ring_count>  (26) 
+1
+
+>  <max_fused_ring_system_size>  (26) 
+1
+
+>  <three_member_ring_count>  (26) 
+0
+
+>  <spiro_atom_count>  (26) 
+0
+
+>  <bridgehead_atom_count>  (26) 
+0
+
+>  <total_halogen_count>  (26) 
+3
+
+>  <aromatic_halogen_count>  (26) 
+1
+
+>  <heavy_halogen_count>  (26) 
+0
+
+>  <br_i_count>  (26) 
+0
+
+>  <logp>  (26) 
+2.763300000000001
+
+>  <tpsa>  (26) 
+0.0
+
+>  <hba>  (26) 
+0
+
+>  <hbd>  (26) 
+0
+
+>  <fragment_count>  (26) 
+1
+
+>  <murcko_scaffold>  (26) 
+c1ccccc1
+
+>  <original_name>  (26) 
+diffsbdd_260407_10000_3_filtered_000717
+
+>  <label_zh>  (26) 
+坏分子
+
+>  <current_bucket_reason_code>  (26) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (26) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (26) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (26) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (26) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (26) 
+小芳香环过度卤代
+
+>  <reason_count>  (26) 
+1
+
+>  <is_multi_reason_zh>  (26) 
+否
+
+>  <severity_zh>  (26) 
+强负样本
+
+>  <bucket_type_zh>  (26) 
+主原因不重复分桶
+
+>  <review_note_zh>  (26) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00027_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 12 12  0  0  0  0  0  0  0  0999 V2000
+  206.4970  212.5950  176.1710 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8680  212.9920  173.7520 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.1870  213.6680  175.8170 C   0  0  1  0  0  0  0  0  0  0  0  0
+  210.5890  212.3200  172.7900 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9610  214.0820  174.4270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5820  213.4830  174.3610 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5190  214.7150  175.9450 F   0  0  0  0  0  0  0  0  0  0  0  0
+  212.7070  213.3090  173.4010 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5700  212.7600  174.0890 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9650  212.4940  172.5930 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2550  213.7180  176.5540 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.6020  213.8350  174.5670 C   0  0  0  0  0  0  0  0  0  0  0  0
+  2  9  1  0
+  2 12  2  0
+  3  7  1  6
+  3  1  1  0
+  3 11  1  0
+  4  2  1  0
+  5 12  1  0
+  6  3  1  0
+  8  5  2  0
+  9  6  1  0
+ 10  4  2  0
+ 10  8  1  0
+M  END
+>  <global_id>  (27) 
+diffsbdd_260407_10000_3_filtered_001141
+
+>  <source>  (27) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (27) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (27) 
+
+
+>  <smiles>  (27) 
+FC(F)(F)CNc1ccccc1
+
+>  <label>  (27) 
+bad
+
+>  <primary_reason>  (27) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (27) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (27) 
+4.0
+
+>  <heavy_atom_count>  (27) 
+12
+
+>  <carbon_fraction>  (27) 
+0.6666666666666666
+
+>  <hetero_atom_count>  (27) 
+4
+
+>  <aromatic_ring_count>  (27) 
+1
+
+>  <benzene_ring_count>  (27) 
+1
+
+>  <heterocycle_ring_count>  (27) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (27) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (27) 
+0
+
+>  <ring_count>  (27) 
+1
+
+>  <max_fused_ring_system_size>  (27) 
+1
+
+>  <three_member_ring_count>  (27) 
+0
+
+>  <spiro_atom_count>  (27) 
+0
+
+>  <bridgehead_atom_count>  (27) 
+0
+
+>  <total_halogen_count>  (27) 
+3
+
+>  <aromatic_halogen_count>  (27) 
+0
+
+>  <heavy_halogen_count>  (27) 
+0
+
+>  <br_i_count>  (27) 
+0
+
+>  <logp>  (27) 
+2.660800000000001
+
+>  <tpsa>  (27) 
+12.03
+
+>  <hba>  (27) 
+1
+
+>  <hbd>  (27) 
+1
+
+>  <fragment_count>  (27) 
+1
+
+>  <murcko_scaffold>  (27) 
+c1ccccc1
+
+>  <original_name>  (27) 
+diffsbdd_260407_10000_3_filtered_001141
+
+>  <label_zh>  (27) 
+坏分子
+
+>  <current_bucket_reason_code>  (27) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (27) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (27) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (27) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (27) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (27) 
+小芳香环过度卤代
+
+>  <reason_count>  (27) 
+1
+
+>  <is_multi_reason_zh>  (27) 
+否
+
+>  <severity_zh>  (27) 
+强负样本
+
+>  <bucket_type_zh>  (27) 
+主原因不重复分桶
+
+>  <review_note_zh>  (27) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00028_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 18  0  0  0  0  0  0  0  0999 V2000
+  212.2300  212.5750  173.1670 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1040  213.7130  175.2420 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7900  213.1290  174.2820 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8770  212.4290  173.2170 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7950  214.0630  174.9790 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.9400  213.5050  173.9160 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1380  214.2330  174.8100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1470  214.7590  175.9700 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2370  212.4150  173.4460 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7600  214.5360  176.1200 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0450  211.9860  171.4240 C   0  0  1  0  0  0  0  0  0  0  0  0
+  206.9510  213.1080  170.6690 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2250  211.4150  170.9260 F   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2400  212.2700  172.9370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1590  213.2050  174.1370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  213.0260  211.7390  172.4530 F   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8560  211.1030  171.1530 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  4  2  0
+  1  6  1  0
+  2 10  2  0
+  3  2  1  0
+  4 15  1  0
+  5  8  2  0
+  6  7  2  0
+  7  5  1  0
+  8 10  1  0
+  9  3  1  0
+ 11 14  1  0
+ 12 11  1  0
+ 13 11  1  0
+ 14  9  1  0
+ 15  3  2  0
+ 15  5  1  0
+ 16  1  1  0
+ 11 17  1  1
+M  END
+>  <global_id>  (28) 
+diffsbdd_260407_10000_3_filtered_002826
+
+>  <source>  (28) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (28) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (28) 
+
+
+>  <smiles>  (28) 
+OC(F)(F)CNc1nccc2ccc(F)cc12
+
+>  <label>  (28) 
+bad
+
+>  <primary_reason>  (28) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (28) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (28) 
+4.0
+
+>  <heavy_atom_count>  (28) 
+17
+
+>  <carbon_fraction>  (28) 
+0.6470588235294118
+
+>  <hetero_atom_count>  (28) 
+6
+
+>  <aromatic_ring_count>  (28) 
+2
+
+>  <benzene_ring_count>  (28) 
+1
+
+>  <heterocycle_ring_count>  (28) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (28) 
+1
+
+>  <aliphatic_carbocycle_ring_count>  (28) 
+0
+
+>  <ring_count>  (28) 
+2
+
+>  <max_fused_ring_system_size>  (28) 
+2
+
+>  <three_member_ring_count>  (28) 
+0
+
+>  <spiro_atom_count>  (28) 
+0
+
+>  <bridgehead_atom_count>  (28) 
+0
+
+>  <total_halogen_count>  (28) 
+3
+
+>  <aromatic_halogen_count>  (28) 
+1
+
+>  <heavy_halogen_count>  (28) 
+0
+
+>  <br_i_count>  (28) 
+0
+
+>  <logp>  (28) 
+2.3709000000000002
+
+>  <tpsa>  (28) 
+45.150000000000006
+
+>  <hba>  (28) 
+3
+
+>  <hbd>  (28) 
+2
+
+>  <fragment_count>  (28) 
+1
+
+>  <murcko_scaffold>  (28) 
+c1ccc2cnccc2c1
+
+>  <original_name>  (28) 
+diffsbdd_260407_10000_3_filtered_002826
+
+>  <label_zh>  (28) 
+坏分子
+
+>  <current_bucket_reason_code>  (28) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (28) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (28) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (28) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (28) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (28) 
+小芳香环过度卤代
+
+>  <reason_count>  (28) 
+1
+
+>  <is_multi_reason_zh>  (28) 
+否
+
+>  <severity_zh>  (28) 
+强负样本
+
+>  <bucket_type_zh>  (28) 
+主原因不重复分桶
+
+>  <review_note_zh>  (28) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00029_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 12 12  0  0  0  0  0  0  0  0999 V2000
+  207.3500  214.6800  175.0420 F   0  0  0  0  0  0  0  0  0  0  0  0
+  211.0780  212.4410  172.2690 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.9050  213.5020  173.4010 F   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7970  212.4460  175.8890 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2540  214.5840  176.2330 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7340  212.0740  172.2160 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7540  213.6550  174.3370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4420  213.7760  175.3960 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.2260  211.1750  171.0370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.8040  212.5690  173.1580 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.5480  213.2200  173.3710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3520  213.2730  174.2230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  8  1  0
+  2 11  2  0
+  6  2  1  0
+  6 10  2  0
+  8  4  1  1
+  8  5  1  0
+  9  6  1  0
+ 10 12  1  0
+ 11  3  1  0
+ 11  7  1  0
+ 12  7  2  0
+ 12  8  1  0
+M  END
+>  <global_id>  (29) 
+diffsbdd_260407_10000_4_raw_002120
+
+>  <source>  (29) 
+diffsbdd_260407_10000_4_raw
+
+>  <source_path>  (29) 
+OUT/260407_generate_ligands_10000/260407generated_10000-4.sdf
+
+>  <source_mol_id>  (29) 
+
+
+>  <smiles>  (29) 
+Cc1cc(F)cc(C(C)(F)F)c1
+
+>  <label>  (29) 
+bad
+
+>  <primary_reason>  (29) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (29) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (29) 
+4.0
+
+>  <heavy_atom_count>  (29) 
+12
+
+>  <carbon_fraction>  (29) 
+0.75
+
+>  <hetero_atom_count>  (29) 
+3
+
+>  <aromatic_ring_count>  (29) 
+1
+
+>  <benzene_ring_count>  (29) 
+1
+
+>  <heterocycle_ring_count>  (29) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (29) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (29) 
+0
+
+>  <ring_count>  (29) 
+1
+
+>  <max_fused_ring_system_size>  (29) 
+1
+
+>  <three_member_ring_count>  (29) 
+0
+
+>  <spiro_atom_count>  (29) 
+0
+
+>  <bridgehead_atom_count>  (29) 
+0
+
+>  <total_halogen_count>  (29) 
+3
+
+>  <aromatic_halogen_count>  (29) 
+1
+
+>  <heavy_halogen_count>  (29) 
+0
+
+>  <br_i_count>  (29) 
+0
+
+>  <logp>  (29) 
+3.245820000000002
+
+>  <tpsa>  (29) 
+0.0
+
+>  <hba>  (29) 
+0
+
+>  <hbd>  (29) 
+0
+
+>  <fragment_count>  (29) 
+1
+
+>  <murcko_scaffold>  (29) 
+c1ccccc1
+
+>  <original_name>  (29) 
+diffsbdd_260407_10000_4_raw_002120
+
+>  <label_zh>  (29) 
+坏分子
+
+>  <current_bucket_reason_code>  (29) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (29) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (29) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (29) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (29) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (29) 
+小芳香环过度卤代
+
+>  <reason_count>  (29) 
+1
+
+>  <is_multi_reason_zh>  (29) 
+否
+
+>  <severity_zh>  (29) 
+强负样本
+
+>  <bucket_type_zh>  (29) 
+主原因不重复分桶
+
+>  <review_note_zh>  (29) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00030_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 18  0  0  0  0  0  0  0  0999 V2000
+  212.2450  212.0460  173.6040 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9000  214.4420  175.2250 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.0860  211.5130  173.7920 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1110  212.6860  174.4160 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.3590  212.4110  172.7250 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8430  213.1430  173.2600 C   0  0  1  0  0  0  0  0  0  0  0  0
+  206.9110  213.5570  174.5260 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4100  212.9940  172.0670 F   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2150  212.8000  173.6690 C   0  0  2  0  0  0  0  0  0  0  0  0
+  209.8710  214.7600  176.1120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1380  212.6100  172.2640 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2620  213.6020  174.8130 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3700  213.1380  173.9280 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5570  214.3560  175.9610 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6100  212.3750  171.3470 S   0  0  0  0  0  0  0  0  0  0  0  0
+  210.6360  213.5720  174.1480 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.8590  213.9140  173.1570 F   0  0  0  0  0  0  0  0  0  0  0  0
+  2 10  2  0
+  3  4  1  0
+  5  3  1  0
+  6  1  1  1
+  6 16  1  0
+  7 12  1  0
+  8  6  1  0
+  9  4  1  0
+  9  7  1  6
+ 11  9  1  0
+ 12 14  2  0
+ 13 16  2  0
+ 13 12  1  0
+ 14 10  1  0
+ 15 11  1  0
+ 15  5  1  0
+ 16  2  1  0
+ 17  6  1  0
+M  END
+>  <global_id>  (30) 
+diffsbdd_260407_10000_4_raw_002136
+
+>  <source>  (30) 
+diffsbdd_260407_10000_4_raw
+
+>  <source_path>  (30) 
+OUT/260407_generate_ligands_10000/260407generated_10000-4.sdf
+
+>  <source_mol_id>  (30) 
+
+
+>  <smiles>  (30) 
+FC(F)(F)c1cccc(NC2CCCSC2)c1
+
+>  <label>  (30) 
+bad
+
+>  <primary_reason>  (30) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (30) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (30) 
+4.0
+
+>  <heavy_atom_count>  (30) 
+17
+
+>  <carbon_fraction>  (30) 
+0.7058823529411765
+
+>  <hetero_atom_count>  (30) 
+5
+
+>  <aromatic_ring_count>  (30) 
+1
+
+>  <benzene_ring_count>  (30) 
+1
+
+>  <heterocycle_ring_count>  (30) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (30) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (30) 
+0
+
+>  <ring_count>  (30) 
+2
+
+>  <max_fused_ring_system_size>  (30) 
+1
+
+>  <three_member_ring_count>  (30) 
+0
+
+>  <spiro_atom_count>  (30) 
+0
+
+>  <bridgehead_atom_count>  (30) 
+0
+
+>  <total_halogen_count>  (30) 
+3
+
+>  <aromatic_halogen_count>  (30) 
+0
+
+>  <heavy_halogen_count>  (30) 
+0
+
+>  <br_i_count>  (30) 
+0
+
+>  <logp>  (30) 
+4.012900000000003
+
+>  <tpsa>  (30) 
+12.03
+
+>  <hba>  (30) 
+2
+
+>  <hbd>  (30) 
+1
+
+>  <fragment_count>  (30) 
+1
+
+>  <murcko_scaffold>  (30) 
+c1ccc(NC2CCCSC2)cc1
+
+>  <original_name>  (30) 
+diffsbdd_260407_10000_4_raw_002136
+
+>  <label_zh>  (30) 
+坏分子
+
+>  <current_bucket_reason_code>  (30) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (30) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (30) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (30) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (30) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (30) 
+小芳香环过度卤代
+
+>  <reason_count>  (30) 
+1
+
+>  <is_multi_reason_zh>  (30) 
+否
+
+>  <severity_zh>  (30) 
+强负样本
+
+>  <bucket_type_zh>  (30) 
+主原因不重复分桶
+
+>  <review_note_zh>  (30) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00031_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 16 18  0  0  0  0  0  0  0  0999 V2000
+  212.0210  213.2530  173.1520 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.6870  213.0940  173.1740 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6160  214.5750  176.2280 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9680  213.4180  174.2440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9640  211.7710  170.9420 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4430  214.1500  175.2350 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.5420  213.9430  174.2340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6730  212.5190  172.6390 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4480  211.2460  170.7210 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7860  212.9650  173.8590 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6250  211.8600  171.4570 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1220  211.3620  170.5860 F   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2910  211.5200  171.3910 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7520  214.3690  175.2430 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5760  212.4760  173.6090 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0020  211.9500  172.5860 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0
+  1  7  1  0
+  2  4  1  0
+  4  6  2  0
+  5 11  1  0
+  6 14  1  0
+  6  3  1  0
+  7 14  2  0
+  8  2  1  0
+  8 10  1  0
+  9 13  1  0
+  9 11  1  0
+ 10  4  1  0
+ 11  8  2  0
+ 12 13  1  0
+ 13 16  2  0
+ 15 10  2  0
+ 16 15  1  0
+M  END
+>  <global_id>  (31) 
+diffsbdd_260407_10000_5_raw_002834
+
+>  <source>  (31) 
+diffsbdd_260407_10000_5_raw
+
+>  <source_path>  (31) 
+OUT/260407_generate_ligands_10000/260407generated_10000-5.sdf
+
+>  <source_mol_id>  (31) 
+
+
+>  <smiles>  (31) 
+FC1=CN=C2C(=C(F)C1)c1cccc(F)c12
+
+>  <label>  (31) 
+bad
+
+>  <primary_reason>  (31) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (31) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (31) 
+4.0
+
+>  <heavy_atom_count>  (31) 
+16
+
+>  <carbon_fraction>  (31) 
+0.75
+
+>  <hetero_atom_count>  (31) 
+4
+
+>  <aromatic_ring_count>  (31) 
+1
+
+>  <benzene_ring_count>  (31) 
+1
+
+>  <heterocycle_ring_count>  (31) 
+1
+
+>  <aromatic_heterocycle_ring_count>  (31) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (31) 
+1
+
+>  <ring_count>  (31) 
+3
+
+>  <max_fused_ring_system_size>  (31) 
+3
+
+>  <three_member_ring_count>  (31) 
+0
+
+>  <spiro_atom_count>  (31) 
+0
+
+>  <bridgehead_atom_count>  (31) 
+0
+
+>  <total_halogen_count>  (31) 
+3
+
+>  <aromatic_halogen_count>  (31) 
+1
+
+>  <heavy_halogen_count>  (31) 
+0
+
+>  <br_i_count>  (31) 
+0
+
+>  <logp>  (31) 
+3.523600000000002
+
+>  <tpsa>  (31) 
+12.36
+
+>  <hba>  (31) 
+1
+
+>  <hbd>  (31) 
+0
+
+>  <fragment_count>  (31) 
+1
+
+>  <murcko_scaffold>  (31) 
+C1=CN=C2C(=CC1)c1ccccc12
+
+>  <original_name>  (31) 
+diffsbdd_260407_10000_5_raw_002834
+
+>  <label_zh>  (31) 
+坏分子
+
+>  <current_bucket_reason_code>  (31) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (31) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (31) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (31) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (31) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (31) 
+小芳香环过度卤代
+
+>  <reason_count>  (31) 
+1
+
+>  <is_multi_reason_zh>  (31) 
+否
+
+>  <severity_zh>  (31) 
+强负样本
+
+>  <bucket_type_zh>  (31) 
+主原因不重复分桶
+
+>  <review_note_zh>  (31) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00032_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 16 17  0  0  0  0  0  0  0  0999 V2000
+  210.1780  211.6260  171.3060 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6830  211.4580  170.8500 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9590  214.0360  175.6630 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3780  213.8790  172.6940 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4220  212.4450  172.3570 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9100  210.7640  171.3600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.0360  211.4420  170.3760 O   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1980  213.6290  174.0190 C   0  0  1  0  0  0  0  0  0  0  0  0
+  209.8720  212.9570  173.4200 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5330  212.9240  173.6710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7250  213.6440  174.3340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9890  214.0940  176.0550 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.7620  212.4730  174.2820 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.3560  214.3060  175.5550 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.8110  214.6260  174.6790 F   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1550  213.5880  174.7930 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  6  1  0
+  1  5  1  0
+  2  6  1  0
+  3 12  1  0
+  8  4  1  6
+  5  9  1  0
+  7  1  2  0
+  8 13  1  0
+  8 11  1  0
+  8 15  1  0
+  9 10  2  0
+  9 11  1  0
+ 10 16  1  0
+ 11 14  2  0
+ 14  3  1  0
+ 16  3  2  0
+ 16 12  1  0
+M  END
+>  <global_id>  (32) 
+diffsbdd_260407_10000_5_raw_003112
+
+>  <source>  (32) 
+diffsbdd_260407_10000_5_raw
+
+>  <source_path>  (32) 
+OUT/260407_generate_ligands_10000/260407generated_10000-5.sdf
+
+>  <source_mol_id>  (32) 
+
+
+>  <smiles>  (32) 
+CCC(=O)Nc1cc2c(cc1C(F)(F)F)C2
+
+>  <label>  (32) 
+bad
+
+>  <primary_reason>  (32) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (32) 
+bad_three_member_ring|bad_overhalogenated_small_aromatic
+
+>  <weight>  (32) 
+4.0
+
+>  <heavy_atom_count>  (32) 
+16
+
+>  <carbon_fraction>  (32) 
+0.6875
+
+>  <hetero_atom_count>  (32) 
+5
+
+>  <aromatic_ring_count>  (32) 
+1
+
+>  <benzene_ring_count>  (32) 
+1
+
+>  <heterocycle_ring_count>  (32) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (32) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (32) 
+1
+
+>  <ring_count>  (32) 
+2
+
+>  <max_fused_ring_system_size>  (32) 
+2
+
+>  <three_member_ring_count>  (32) 
+1
+
+>  <spiro_atom_count>  (32) 
+0
+
+>  <bridgehead_atom_count>  (32) 
+0
+
+>  <total_halogen_count>  (32) 
+3
+
+>  <aromatic_halogen_count>  (32) 
+0
+
+>  <heavy_halogen_count>  (32) 
+0
+
+>  <br_i_count>  (32) 
+0
+
+>  <logp>  (32) 
+2.9581000000000017
+
+>  <tpsa>  (32) 
+29.1
+
+>  <hba>  (32) 
+1
+
+>  <hbd>  (32) 
+1
+
+>  <fragment_count>  (32) 
+1
+
+>  <murcko_scaffold>  (32) 
+c1ccc2c(c1)C2
+
+>  <original_name>  (32) 
+diffsbdd_260407_10000_5_raw_003112
+
+>  <label_zh>  (32) 
+坏分子
+
+>  <current_bucket_reason_code>  (32) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (32) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (32) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (32) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (32) 
+bad_three_member_ring|bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (32) 
+三元环；小芳香环过度卤代
+
+>  <reason_count>  (32) 
+2
+
+>  <is_multi_reason_zh>  (32) 
+是
+
+>  <severity_zh>  (32) 
+强负样本
+
+>  <bucket_type_zh>  (32) 
+主原因不重复分桶
+
+>  <review_note_zh>  (32) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$
+00033_小芳香环过度卤代_强负样本
+     RDKit          3D
+
+ 17 18  0  0  0  0  0  0  0  0999 V2000
+  204.7130  212.9070  173.4730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1630  212.9530  173.8600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5620  212.5660  170.8520 S   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3450  213.0110  174.6000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7430  213.8450  174.6960 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.7790  212.7290  174.8120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5390  212.6610  172.3940 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6980  212.7090  173.7940 C   0  0  1  0  0  0  0  0  0  0  0  0
+  207.1280  212.4530  176.4710 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  205.0020  211.1660  169.8730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9830  212.2890  172.9490 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9900  212.4730  172.4850 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9750  213.4430  173.7900 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1820  214.1520  174.8090 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3760  212.5470  172.8950 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1620  214.4530  175.6110 F   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6920  214.8960  175.6950 F   0  0  0  0  0  0  0  0  0  0  0  0
+  1  4  1  0
+  2  5  2  0
+  3  7  1  0
+  4  6  1  0
+  5 14  1  0
+  5 16  1  0
+  6  9  1  0
+  7 12  2  0
+  7  1  1  0
+  8  2  1  6
+  8  6  1  0
+ 10  3  1  0
+ 11  2  1  0
+ 12  8  1  0
+ 13 14  2  0
+ 14 17  1  0
+ 15 11  2  0
+ 15 13  1  0
+M  END
+>  <global_id>  (33) 
+diffsbdd_260407_10000_5_raw_004696
+
+>  <source>  (33) 
+diffsbdd_260407_10000_5_raw
+
+>  <source_path>  (33) 
+OUT/260407_generate_ligands_10000/260407generated_10000-5.sdf
+
+>  <source_mol_id>  (33) 
+
+
+>  <smiles>  (33) 
+CSC1=CC(c2cccc(F)c2F)C(Cl)CC1
+
+>  <label>  (33) 
+bad
+
+>  <primary_reason>  (33) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons>  (33) 
+bad_overhalogenated_small_aromatic
+
+>  <weight>  (33) 
+4.0
+
+>  <heavy_atom_count>  (33) 
+17
+
+>  <carbon_fraction>  (33) 
+0.7647058823529411
+
+>  <hetero_atom_count>  (33) 
+4
+
+>  <aromatic_ring_count>  (33) 
+1
+
+>  <benzene_ring_count>  (33) 
+1
+
+>  <heterocycle_ring_count>  (33) 
+0
+
+>  <aromatic_heterocycle_ring_count>  (33) 
+0
+
+>  <aliphatic_carbocycle_ring_count>  (33) 
+1
+
+>  <ring_count>  (33) 
+2
+
+>  <max_fused_ring_system_size>  (33) 
+1
+
+>  <three_member_ring_count>  (33) 
+0
+
+>  <spiro_atom_count>  (33) 
+0
+
+>  <bridgehead_atom_count>  (33) 
+0
+
+>  <total_halogen_count>  (33) 
+3
+
+>  <aromatic_halogen_count>  (33) 
+2
+
+>  <heavy_halogen_count>  (33) 
+0
+
+>  <br_i_count>  (33) 
+0
+
+>  <logp>  (33) 
+4.696500000000002
+
+>  <tpsa>  (33) 
+0.0
+
+>  <hba>  (33) 
+1
+
+>  <hbd>  (33) 
+0
+
+>  <fragment_count>  (33) 
+1
+
+>  <murcko_scaffold>  (33) 
+C1=CC(c2ccccc2)CCC1
+
+>  <original_name>  (33) 
+diffsbdd_260407_10000_5_raw_004696
+
+>  <label_zh>  (33) 
+坏分子
+
+>  <current_bucket_reason_code>  (33) 
+bad_overhalogenated_small_aromatic
+
+>  <current_bucket_reason_zh>  (33) 
+小芳香环过度卤代
+
+>  <primary_reason_code>  (33) 
+bad_overhalogenated_small_aromatic
+
+>  <primary_reason_zh>  (33) 
+小芳香环过度卤代
+
+>  <all_reasons_code>  (33) 
+bad_overhalogenated_small_aromatic
+
+>  <all_reasons_zh>  (33) 
+小芳香环过度卤代
+
+>  <reason_count>  (33) 
+1
+
+>  <is_multi_reason_zh>  (33) 
+否
+
+>  <severity_zh>  (33) 
+强负样本
+
+>  <bucket_type_zh>  (33) 
+主原因不重复分桶
+
+>  <review_note_zh>  (33) 
+单个小芳香环上连太多卤素，尤其多 Br/Cl/F，分子过小且不自然。
+
+$$$$

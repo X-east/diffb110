@@ -1,0 +1,8 @@
+gpu_id,count,seed,config
+0,72,20260611,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu0.yml
+1,72,20260712,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu1.yml
+2,72,20260813,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu2.yml
+3,71,20260914,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu3.yml
+4,71,20261015,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu4.yml
+5,71,20261116,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu5.yml
+6,71,20261217,/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/configs/diffgui/diffgui_c1101_gpu6.yml

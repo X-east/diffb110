@@ -1,0 +1,78 @@
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/lightning_utilities/core/imports.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Disabling PyTorch because PyTorch >= 2.2 is required but found 2.0.1+cu118
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Lightning automatically upgraded your loaded checkpoint from v1.8.1 to v1.9.4. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint --file analysis/reference_project_generation_20260530_173617/deppa_downloads/crossdocked_fullatom_cond.ckpt`
+
+  0%|          | 0/1 [00:00<?, ?it/s]/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:45:40] Both bonds on one end of an atropisomer are on the same side - atoms are: 16 20
+[23:45:40] The 2 defining bonds for an atropisomer are co-planar - atoms are: 16 21
+[23:45:40] Both bonds on one end of an atropisomer are on the same side - atoms are: 7 23
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:46:01] Both bonds on one end of an atropisomer are on the same side - atoms are: 2 35
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+[23:46:01] The 2 defining bonds for an atropisomer are co-planar - atoms are: 4 9
+[23:46:01] Both bonds on one end of an atropisomer are on the same side - atoms are: 9 20
+[23:46:01] Both bonds on one end of an atropisomer are on the same side - atoms are: 10 23
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:46:22] Both bonds on one end of an atropisomer are on the same side - atoms are: 15 29
+[23:46:22] Both bonds on one end of an atropisomer are on the same side - atoms are: 22 17
+[23:46:22] Both bonds on one end of an atropisomer are on the same side - atoms are: 15 17
+[23:46:22] Both bonds on one end of an atropisomer are on the same side - atoms are: 20 19
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+[23:46:22] The 2 defining bonds for an atropisomer are co-planar - atoms are: 5 0
+[23:46:22] Both bonds on one end of an atropisomer are on the same side - atoms are: 7 4
+[23:46:22] Both bonds on one end of an atropisomer are on the same side - atoms are: 0 7
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+[23:46:42] Both bonds on one end of an atropisomer are on the same side - atoms are: 15 24
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:47:03] Both bonds on one end of an atropisomer are on the same side - atoms are: 28 6
+[23:47:03] Both bonds on one end of an atropisomer are on the same side - atoms are: 29 1
+==============================
+*** Open Babel Error  in TetStereoToWedgeHash
+  Failed to set stereochemistry as unable to find an available bond
+[23:47:03] Both bonds on one end of an atropisomer are on the same side - atoms are: 23 8
+[23:47:03] Both bonds on one end of an atropisomer are on the same side - atoms are: 23 28
+[23:47:03] Both bonds on one end of an atropisomer are on the same side - atoms are: 28 3
+[23:47:03] Both bonds on one end of an atropisomer are on the same side - atoms are: 16 17
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:47:23] Both bonds on one end of an atropisomer are on the same side - atoms are: 20 19
+[23:47:23] Both bonds on one end of an atropisomer are on the same side - atoms are: 20 18
+[23:47:23] Both bonds on one end of an atropisomer are on the same side - atoms are: 19 17
+[23:47:23] Both bonds on one end of an atropisomer are on the same side - atoms are: 5 13
+[23:47:23] Both bonds on one end of an atropisomer are on the same side - atoms are: 30 13
+[23:47:23] The 2 defining bonds for an atropisomer are co-planar - atoms are: 30 5
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:47:44] Both bonds on one end of an atropisomer are on the same side - atoms are: 23 20
+/home/md666/miniforge3/envs/deppa_ref/lib/python3.10/site-packages/openbabel/__init__.py:14: UserWarning: "import openbabel" is deprecated, instead use "from openbabel import openbabel"
+  warnings.warn('"import openbabel" is deprecated, instead use "from openbabel import openbabel"')
+[23:48:04] The 2 defining bonds for an atropisomer are co-planar - atoms are: 16 27
+[23:48:04] Both bonds on one end of an atropisomer are on the same side - atoms are: 26 20
+
+Last processed: 5XZR_1. Validity: 100.00%. 2.32 sec/mol.:   0%|          | 0/1 [02:44<?, ?it/s]
+Last processed: 5XZR_1. Validity: 100.00%. 2.32 sec/mol.: 100%|██████████| 1/1 [02:44<00:00, 164.48s/it]
+Last processed: 5XZR_1. Validity: 100.00%. 2.32 sec/mol.: 100%|██████████| 1/1 [02:44<00:00, 164.48s/it]
+
+Entropy of n_nodes: H[N] 9.266731262207031
+Time per pocket: 164.478 \pm 0.00
+
+real 182.04
+user 179.73
+sys 2.70

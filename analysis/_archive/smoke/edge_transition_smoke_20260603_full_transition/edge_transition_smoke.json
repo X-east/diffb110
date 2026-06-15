@@ -1,0 +1,66 @@
+{
+  "edge_npz": "analysis/edge_data_chain_20260602_repair_n1000/train_edge.npz",
+  "analyzed_molecules": 128,
+  "total_halfedges": 38001,
+  "total_real_bonds": 3191,
+  "no_bond_fraction": 0.9160284996032715,
+  "one_hot_shape": [
+    38001,
+    5
+  ],
+  "nll_shape": [
+    38001
+  ],
+  "uniform_logits_nll_mean": 1.6094380617141724,
+  "clean_class_counts": {
+    "no_bond": 34810,
+    "single": 1691,
+    "double": 273,
+    "triple": 7,
+    "aromatic": 1220
+  },
+  "timestep_rows": [
+    {
+      "timestep": 0,
+      "noise_probability_mean": 0.00010001659393310547,
+      "changed_fraction": 7.894528971519321e-05,
+      "min_label": 0,
+      "max_label": 4,
+      "class_counts": {
+        "no_bond": 34807,
+        "single": 1691,
+        "double": 273,
+        "triple": 7,
+        "aromatic": 1223
+      }
+    },
+    {
+      "timestep": 500,
+      "noise_probability_mean": 0.9222031235694885,
+      "changed_fraction": 0.7394805550575256,
+      "min_label": 0,
+      "max_label": 4,
+      "class_counts": {
+        "no_bond": 9644,
+        "single": 7140,
+        "double": 7029,
+        "triple": 6991,
+        "aromatic": 7197
+      }
+    },
+    {
+      "timestep": 999,
+      "noise_probability_mean": 0.9999598264694214,
+      "changed_fraction": 0.7946106791496277,
+      "min_label": 0,
+      "max_label": 4,
+      "class_counts": {
+        "no_bond": 7756,
+        "single": 7660,
+        "double": 7473,
+        "triple": 7613,
+        "aromatic": 7499
+      }
+    }
+  ]
+}

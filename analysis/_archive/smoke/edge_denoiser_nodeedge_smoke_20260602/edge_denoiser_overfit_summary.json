@@ -1,0 +1,77 @@
+{
+  "edge_npz": "analysis/edge_data_chain_20260602_n1000/train_edge.npz",
+  "semantic_npz": "analysis/edge_semantic_bundle_20260602_n1000/train_edge_semantic.npz",
+  "device": "cpu",
+  "max_molecules": 8,
+  "batch_size": 4,
+  "epochs": 2,
+  "lr": 0.002,
+  "focal_gamma": 1.0,
+  "num_timesteps": 1000,
+  "model_kind": "node_edge",
+  "model_config": {
+    "num_atom_types": 10,
+    "num_edge_types": 5,
+    "num_timesteps": 1000,
+    "hidden_dim": 32,
+    "num_layers": 2,
+    "distance_basis_dim": 8,
+    "dropout": 0.0
+  },
+  "class_counts": {
+    "no_bond": 2556,
+    "single": 128,
+    "double": 13,
+    "triple": 2,
+    "aromatic": 90
+  },
+  "class_weight": {
+    "no_bond": 0.09352387487888336,
+    "single": 0.4163829982280731,
+    "double": 1.2639323472976685,
+    "triple": 2.730405807495117,
+    "aromatic": 0.49575501680374146
+  },
+  "first_epoch": {
+    "epoch": 1,
+    "train_loss": 0.1683712179684733,
+    "eval_loss": 1.407166039058922,
+    "accuracy": 0.9143062029401219,
+    "balanced_accuracy": 0.19953051209449768,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 0.9976525902748108,
+    "recall_no_bond": 0.9976525902748108,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  },
+  "final_epoch": {
+    "epoch": 2,
+    "train_loss": 0.14137545893187162,
+    "eval_loss": 1.188273778095088,
+    "accuracy": 0.9164575116529222,
+    "balanced_accuracy": 0.20000000298023224,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 1.0,
+    "recall_no_bond": 1.0,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  },
+  "best_balanced_accuracy_epoch": {
+    "epoch": 2,
+    "train_loss": 0.14137545893187162,
+    "eval_loss": 1.188273778095088,
+    "accuracy": 0.9164575116529222,
+    "balanced_accuracy": 0.20000000298023224,
+    "real_bond_recall": 0.0,
+    "no_bond_recall": 1.0,
+    "recall_no_bond": 1.0,
+    "recall_single": 0.0,
+    "recall_double": 0.0,
+    "recall_triple": 0.0,
+    "recall_aromatic": 0.0
+  }
+}

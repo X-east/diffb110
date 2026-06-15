@@ -1,0 +1,116 @@
+{
+  "input_sdf_files": 22,
+  "limit": 21,
+  "model": "DiffGui",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffgui.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_0/diffgui_c1101_gpu0_20260611_201905/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/6.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_1/diffgui_c1101_gpu1_20260611_201905/data_SDF/7.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_201906/data_SDF/0.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_201906/data_SDF/1.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_201906/data_SDF/2.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_201906/data_SDF/3.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_201906/data_SDF/4.sdf",
+      "readable": 1,
+      "written": 1
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffgui/gpu_2/diffgui_c1101_gpu2_20260611_201906/data_SDF/5.sdf",
+      "readable": 1,
+      "written": 1
+    }
+  ],
+  "readable_records_seen": 21,
+  "write_failed_records": 0,
+  "written_records": 21
+}

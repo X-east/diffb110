@@ -1,0 +1,12 @@
+2026-06-09 16:18:25,470 INFO diffgui_100step_smoke: starting DiffGui 100-step rollout smoke
+2026-06-09 16:18:25,470 INFO diffgui_100step_smoke: args={'sample_config': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/configs/sample/sample.yml'), 'checkpoint': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/ckpt/trained.pt'), 'pocket_pdb': PosixPath('/data/disk6/DiffB110/reference project/DiffGui/sample/3ztx_pocket.pdb'), 'ligand_sdf': 'None', 'output_dir': PosixPath('/data/disk6/DiffB110/analysis/diffgui_200step_timestep_fix_20260609/batch16_pergpu2_gui3_timefix/rank07_gpu7'), 'device': 'cuda:0', 'num_timesteps': 200, 'num_graphs': 2, 'ligand_atoms': 24, 'seed': 260807, 'gui_strength': 3.0, 'actor_lr': 1e-06, 'precision': 'bf16', 'graph_micro_batch_size': 2, 'freeze_mode': 'last_n_blocks', 'train_last_n_blocks': 1, 'add_edge': 'None'}
+2026-06-09 16:18:29,803 INFO diffgui_100step_smoke: loaded checkpoint iteration=250000
+2026-06-09 16:18:29,805 INFO diffgui_100step_smoke: forced model.diff.num_timesteps=200
+Traceback (most recent call last):
+  File "/data/disk6/DiffB110/scripts/diffgui_100step_rollout_smoke.py", line 395, in <module>
+    main()
+  File "/data/disk6/DiffB110/scripts/diffgui_100step_rollout_smoke.py", line 103, in main
+    load_report = _load_matching_network_weights(model, ckpt["model"])
+  File "/data/disk6/DiffB110/scripts/diffgui_100step_rollout_smoke.py", line 289, in _load_matching_network_weights
+    raise RuntimeError(f"Unexpected non-transition checkpoint shape mismatches: {non_transition_skipped[:10]}")
+RuntimeError: Unexpected non-transition checkpoint shape mismatches: ['time_emb.0.coeff', 'time_emb.0.offset']

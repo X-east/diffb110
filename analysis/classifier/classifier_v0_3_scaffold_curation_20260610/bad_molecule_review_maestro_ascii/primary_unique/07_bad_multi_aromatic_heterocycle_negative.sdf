@@ -1,0 +1,2318 @@
+00001_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 21 24  0  0  0  0  0  0  0  0999 V2000
+  206.0809  211.3579  170.7946 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1311  212.8928  173.7514 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.6465  213.0084  173.1758 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.0957  212.9025  172.3679 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9715  212.4643  176.1241 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2570  214.4293  174.7515 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1465  211.7741  171.6462 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9260  212.1720  172.3896 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4436  212.1149  172.0200 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6277  211.4468  170.3838 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.6592  212.2242  171.1746 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4286  212.8320  172.7842 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.4490  213.3949  174.0651 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4421  212.1838  172.0352 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9964  214.4241  174.8417 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9396  213.5602  173.6302 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5372  214.2129  175.2428 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7484  214.6208  176.1889 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7596  214.7233  175.6116 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0311  213.1241  174.7339 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4532  213.5245  177.0740 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  2  0
+  1 10  1  0
+  2  8  1  0
+  2 13  2  0
+  2 20  1  0
+  3 13  1  0
+  3 14  2  0
+  3 16  1  0
+  4 11  1  0
+  4 12  2  0
+  5 20  1  0
+  5 21  1  0
+  6 18  1  0
+  6 20  1  0
+  7  8  2  0
+  7 14  1  0
+  8  9  1  0
+  9 12  1  0
+ 10 11  2  0
+ 13 17  1  0
+ 15 16  2  0
+ 15 19  1  0
+ 17 19  2  0
+ 18 21  1  0
+M  END
+>  <mol_index>  (1) 
+11
+
+>  <old_logprob_mean>  (1) 
+2.00339818
+
+>  <diffgui_num_timesteps>  (1) 
+200
+
+>  <mol_id>  (1) 
+diffgui_dock_00011
+
+>  <source_index>  (1) 
+11
+
+>  <original_name>  (1) 
+diffgui_ring_rl_epoch_0020_000128
+
+>  <rdkit_valid>  (1) 
+1
+
+>  <sanitize_status>  (1) 
+ok
+
+>  <smiles>  (1) 
+c1cncc(-c2cnc3cccnc3c2N2CCCC2)c1
+
+>  <nodesxsample>  (1) 
+21
+
+>  <docking_raw>  (1) 
+-9.517000198364258
+
+>  <docking_reward>  (1) 
+0.95169997215271
+
+>  <ligand_efficiency_raw>  (1) 
+0.45319047570228577
+
+>  <ligand_efficiency_reward>  (1) 
+0.45319047570228577
+
+>  <chemistry_guard_reward>  (1) 
+1.0
+
+>  <chemistry_guard_success>  (1) 
+1
+
+>  <heavy_atom_count>  (1) 
+21
+
+>  <carbon_fraction>  (1) 
+0.8095238095238095
+
+>  <hetero_atom_count>  (1) 
+4
+
+>  <hetero_atom_fraction>  (1) 
+0.190476194024086
+
+>  <aromatic_ring_count>  (1) 
+3
+
+>  <three_member_ring_count>  (1) 
+0
+
+>  <fragment_count>  (1) 
+1
+
+>  <bad_bond_length_fraction>  (1) 
+0.0
+
+>  <halogen_bad_position_count>  (1) 
+0.0
+
+>  <chemistry_guard_violation_count>  (1) 
+0.0
+
+>  <ring_complexity_reward>  (1) 
+0.8799999952316284
+
+>  <ring_complexity_success>  (1) 
+1
+
+>  <ring_complexity_ring_count>  (1) 
+4.0
+
+>  <ring_complexity_aromatic_ring_count>  (1) 
+3.0
+
+>  <ring_complexity_three_member_ring_count>  (1) 
+0.0
+
+>  <ring_complexity_max_fused_ring_system_size>  (1) 
+2.0
+
+>  <ring_complexity_spiro_atom_count>  (1) 
+0.0
+
+>  <ring_complexity_bridgehead_atom_count>  (1) 
+0.0
+
+>  <ring_complexity_penalty>  (1) 
+0.11999999731779099
+
+>  <reward_total_raw>  (1) 
+0.8103926181793213
+
+>  <reward_total>  (1) 
+0.8103926181793213
+
+>  <stability>  (1) 
+1.0
+
+>  <global_id>  (1) 
+diffgui_ring_rl_epoch_0020_000128
+
+>  <source>  (1) 
+diffgui_ring_rl_epoch_0020
+
+>  <source_path>  (1) 
+OUT/diffgui-8gpu-ring-last3-lr3e5_20260610_114650/epochs/epoch_0020/molecules.sdf
+
+>  <source_mol_id>  (1) 
+diffgui_dock_00011|reward=0.8104|valid=1|ok
+
+>  <label>  (1) 
+bad
+
+>  <primary_reason>  (1) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (1) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (1) 
+2.5
+
+>  <benzene_ring_count>  (1) 
+0
+
+>  <heterocycle_ring_count>  (1) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (1) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (1) 
+0
+
+>  <ring_count>  (1) 
+4
+
+>  <max_ring_size>  (1) 
+6
+
+>  <large_ring_count>  (1) 
+0
+
+>  <large_ring_fused_with_six_count>  (1) 
+0
+
+>  <max_fused_ring_system_size>  (1) 
+2
+
+>  <three_member_fused_ring_count>  (1) 
+0
+
+>  <three_member_spiro_ring_count>  (1) 
+0
+
+>  <three_member_high_degree_carbon_count>  (1) 
+0
+
+>  <spiro_atom_count>  (1) 
+0
+
+>  <bridgehead_atom_count>  (1) 
+0
+
+>  <total_halogen_count>  (1) 
+0
+
+>  <aromatic_halogen_count>  (1) 
+0
+
+>  <heavy_halogen_count>  (1) 
+0
+
+>  <br_i_count>  (1) 
+0
+
+>  <logp>  (1) 
+3.2920000000000007
+
+>  <tpsa>  (1) 
+41.910000000000004
+
+>  <hba>  (1) 
+4
+
+>  <hbd>  (1) 
+0
+
+>  <murcko_scaffold>  (1) 
+c1cncc(-c2cnc3cccnc3c2N2CCCC2)c1
+
+>  <label_ascii>  (1) 
+bad
+
+>  <current_bucket_reason_code>  (1) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (1) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (1) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (1) 
+1
+
+>  <is_multi_reason>  (1) 
+0
+
+>  <severity_ascii>  (1) 
+negative
+
+>  <bucket_type_ascii>  (1) 
+primary_unique
+
+$$$$
+00002_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 35 38  0  0  0  0  0  0  0  0999 V2000
+  210.7950  213.0910  173.5180 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.3890  213.4510  176.9830 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.0140  214.4100  175.9250 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9050  214.4890  174.9510 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8510  212.2210  172.3720 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2520  211.9940  171.8850 S   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8340  213.7100  173.9060 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3740  212.2630  173.1600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5660  212.5830  174.5520 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1390  212.9890  171.8410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9640  211.3430  170.3710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2360  211.1770  170.5830 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.4900  213.8280  178.2130 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5890  211.4210  170.3790 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2660  210.3250  170.8960 O   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7850  214.6230  175.7150 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5430  213.1710  174.0620 C   0  0  0  0  0  0  0  0  0  0  0  0
+  213.1080  211.9230  172.1880 O   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4790  214.9480  175.7980 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.4910  212.2690  176.6930 O   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6740  211.5290  169.8100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3740  212.3940  170.4640 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8200  211.7810  171.6930 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0650  214.2680  174.7460 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5880  213.2000  174.2780 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2490  211.9820  175.9270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6410  213.9090  175.3650 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9660  211.7630  171.7120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3520  213.2540  174.0440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4470  215.2390  176.9260 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.3480  212.7720  176.8110 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1580  210.8290  169.8370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4760  214.1680  177.1280 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.1490  215.4550  175.7780 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6310  211.0500  170.5320 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  7  2  0
+  1 25  1  0
+  2 13  1  0
+  3  2  1  0
+  4 16  2  0
+  5  1  1  0
+  7  4  1  0
+  8 29  1  0
+  9 26  1  0
+ 10  8  1  0
+ 11  6  1  0
+ 12 23  2  0
+ 14 22  1  0
+ 14 15  2  0
+ 17  9  1  0
+ 19 30  1  0
+ 20  2  2  0
+ 21 11  1  0
+ 21 14  1  0
+ 22 10  1  0
+ 23  6  1  0
+ 23  5  1  0
+ 24 19  2  0
+ 25 27  2  0
+ 26 31  1  0
+ 27 16  1  0
+ 28 18  2  0
+ 28  5  1  0
+ 29 17  1  0
+ 29 24  2  0
+ 30 33  1  0
+ 31 33  1  0
+ 32 11  2  0
+ 32 12  1  0
+ 34 19  1  0
+ 34  3  1  0
+ 35 12  1  0
+ 35 28  1  0
+M  END
+>  <global_id>  (2) 
+diffsbdd_260407_10000_1_filtered_000248
+
+>  <source>  (2) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (2) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (2) 
+
+
+>  <smiles>  (2) 
+O=C(O)CCC1=C=C(CCCC(=O)Cc2cc3oc(=O)n(-c4ccccn4)c3s2)CNCCCC1
+
+>  <label>  (2) 
+bad
+
+>  <primary_reason>  (2) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (2) 
+bad_multi_aromatic_heterocycle|bad_large_ring
+
+>  <weight>  (2) 
+3.0
+
+>  <heavy_atom_count>  (2) 
+35
+
+>  <carbon_fraction>  (2) 
+0.7428571428571429
+
+>  <hetero_atom_count>  (2) 
+9
+
+>  <aromatic_ring_count>  (2) 
+3
+
+>  <benzene_ring_count>  (2) 
+0
+
+>  <heterocycle_ring_count>  (2) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (2) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (2) 
+0
+
+>  <ring_count>  (2) 
+4
+
+>  <max_ring_size>  (2) 
+9
+
+>  <large_ring_count>  (2) 
+1
+
+>  <large_ring_fused_with_six_count>  (2) 
+0
+
+>  <max_fused_ring_system_size>  (2) 
+2
+
+>  <three_member_ring_count>  (2) 
+0
+
+>  <three_member_fused_ring_count>  (2) 
+0
+
+>  <three_member_spiro_ring_count>  (2) 
+0
+
+>  <three_member_high_degree_carbon_count>  (2) 
+0
+
+>  <spiro_atom_count>  (2) 
+0
+
+>  <bridgehead_atom_count>  (2) 
+0
+
+>  <total_halogen_count>  (2) 
+0
+
+>  <aromatic_halogen_count>  (2) 
+0
+
+>  <heavy_halogen_count>  (2) 
+0
+
+>  <br_i_count>  (2) 
+0
+
+>  <logp>  (2) 
+4.412100000000004
+
+>  <tpsa>  (2) 
+114.42999999999999
+
+>  <hba>  (2) 
+8
+
+>  <hbd>  (2) 
+2
+
+>  <fragment_count>  (2) 
+1
+
+>  <murcko_scaffold>  (2) 
+O=C(CCCC1=C=CCCCCNC1)Cc1cc2oc(=O)n(-c3ccccn3)c2s1
+
+>  <original_name>  (2) 
+diffsbdd_260407_10000_1_filtered_000248
+
+>  <label_ascii>  (2) 
+bad
+
+>  <current_bucket_reason_code>  (2) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (2) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (2) 
+bad_multi_aromatic_heterocycle|bad_large_ring
+
+>  <reason_count>  (2) 
+2
+
+>  <is_multi_reason>  (2) 
+1
+
+>  <severity_ascii>  (2) 
+negative
+
+>  <bucket_type_ascii>  (2) 
+primary_unique
+
+$$$$
+00003_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 21 24  0  0  0  0  0  0  0  0999 V2000
+  205.9780  211.9670  176.0150 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.4610  213.8760  175.5640 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0600  212.2450  172.9550 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0210  212.8790  177.8190 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1130  211.8190  177.0090 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7170  212.3460  172.7850 S   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1750  212.6620  173.4980 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9380  211.6290  171.6810 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3990  213.3830  174.7000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5860  213.2090  173.9000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9150  213.7700  177.3720 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7760  213.7550  174.8600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2290  210.8100  169.2230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.5610  214.6370  175.7900 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.0010  214.5920  175.2620 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4690  211.4360  171.3630 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.2390  210.7650  170.1320 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.5410  210.2480  169.2910 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1450  213.5350  173.9510 S   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6070  210.1670  168.2210 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4200  213.1940  176.2600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 21  2  0
+  1  5  1  0
+  2 21  1  0
+  3  7  1  0
+  5  4  1  0
+  6  7  1  0
+  6 10  1  0
+  7  9  2  0
+  8  3  1  0
+  9 12  1  0
+  9  2  1  0
+ 10 19  1  0
+ 10 12  2  0
+ 11  4  2  0
+ 12 14  1  0
+ 13 17  1  0
+ 15 14  2  0
+ 16  8  1  0
+ 17 16  1  6
+ 18 17  1  0
+ 19 15  1  0
+ 20 13  1  0
+ 20 18  1  0
+ 21 11  1  0
+M  END
+>  <global_id>  (3) 
+diffsbdd_260407_10000_1_filtered_004277
+
+>  <source>  (3) 
+diffsbdd_260407_10000_1_filtered
+
+>  <source_path>  (3) 
+OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf
+
+>  <source_mol_id>  (3) 
+
+
+>  <smiles>  (3) 
+c1cc2c(Nc3cn[nH]n3)c(NCCC3CNC3)sc2s1
+
+>  <label>  (3) 
+bad
+
+>  <primary_reason>  (3) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (3) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (3) 
+2.5
+
+>  <heavy_atom_count>  (3) 
+21
+
+>  <carbon_fraction>  (3) 
+0.6190476190476191
+
+>  <hetero_atom_count>  (3) 
+8
+
+>  <aromatic_ring_count>  (3) 
+3
+
+>  <benzene_ring_count>  (3) 
+0
+
+>  <heterocycle_ring_count>  (3) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (3) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (3) 
+0
+
+>  <ring_count>  (3) 
+4
+
+>  <max_ring_size>  (3) 
+5
+
+>  <large_ring_count>  (3) 
+0
+
+>  <large_ring_fused_with_six_count>  (3) 
+0
+
+>  <max_fused_ring_system_size>  (3) 
+2
+
+>  <three_member_ring_count>  (3) 
+0
+
+>  <three_member_fused_ring_count>  (3) 
+0
+
+>  <three_member_spiro_ring_count>  (3) 
+0
+
+>  <three_member_high_degree_carbon_count>  (3) 
+0
+
+>  <spiro_atom_count>  (3) 
+0
+
+>  <bridgehead_atom_count>  (3) 
+0
+
+>  <total_halogen_count>  (3) 
+0
+
+>  <aromatic_halogen_count>  (3) 
+0
+
+>  <heavy_halogen_count>  (3) 
+0
+
+>  <br_i_count>  (3) 
+0
+
+>  <logp>  (3) 
+2.8459000000000003
+
+>  <tpsa>  (3) 
+77.66
+
+>  <hba>  (3) 
+7
+
+>  <hbd>  (3) 
+4
+
+>  <fragment_count>  (3) 
+1
+
+>  <murcko_scaffold>  (3) 
+c1cc2c(Nc3cn[nH]n3)c(NCCC3CNC3)sc2s1
+
+>  <original_name>  (3) 
+diffsbdd_260407_10000_1_filtered_004277
+
+>  <label_ascii>  (3) 
+bad
+
+>  <current_bucket_reason_code>  (3) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (3) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (3) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (3) 
+1
+
+>  <is_multi_reason>  (3) 
+0
+
+>  <severity_ascii>  (3) 
+negative
+
+>  <bucket_type_ascii>  (3) 
+primary_unique
+
+$$$$
+00004_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 26 29  0  0  0  0  0  0  0  0999 V2000
+  211.9910  214.0800  174.4680 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9300  212.7460  174.5890 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9120  214.2710  177.2490 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.9200  212.8250  173.0760 O   0  0  0  0  0  0  0  0  0  0  0  0
+  213.1110  213.8790  173.8310 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0580  211.3440  170.7660 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0690  212.7020  173.1430 N   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4110  211.8390  169.9720 C   0  0  2  0  0  0  0  0  0  0  0  0
+  206.3320  212.4120  175.4880 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5730  212.4410  176.5780 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8780  210.9690  169.5940 S   0  0  0  0  0  0  0  0  0  0  0  0
+  202.7020  211.6740  168.7770 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7840  212.3220  173.2150 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7350  214.1560  176.1070 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.5980  212.3920  171.4750 S   0  0  0  0  0  0  0  0  0  0  0  0
+  206.7430  212.9900  173.0510 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.7010  211.7570  170.2970 C   0  0  0  0  0  0  0  0  0  0  0  0
+  201.3670  212.1470  168.8470 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0450  212.2750  171.5020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1450  213.0920  174.1260 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.8550  213.2740  177.4630 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.0320  212.7790  172.2440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5990  213.0500  175.3140 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.6090  215.2060  175.4660 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.5200  212.1930  171.8060 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6590  212.8570  174.4130 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 24  1  0
+  3 21  2  0
+  4 13  1  0
+  4  5  1  0
+  5  1  2  0
+  6 25  2  0
+  7 26  2  3
+  8 12  1  6
+  8 17  1  0
+  8 15  1  0
+  9 10  2  0
+ 10 21  1  0
+ 11 17  1  0
+ 11  6  1  0
+ 12 18  1  0
+ 13 20  2  0
+ 14  3  1  0
+ 15 22  1  0
+ 16  7  1  0
+ 17 19  2  0
+ 19 25  1  0
+ 19 22  1  0
+ 20  1  1  0
+ 20  2  1  0
+ 23  9  1  0
+ 23 14  2  0
+ 25 16  1  0
+ 26  2  1  0
+ 26 23  1  0
+M  END
+>  <global_id>  (4) 
+diffsbdd_260407_10000_2_filtered_000346
+
+>  <source>  (4) 
+diffsbdd_260407_10000_2_filtered
+
+>  <source_path>  (4) 
+OUT/260407_generate_ligands_10000/260407generated_10000-2_filtered.sdf
+
+>  <source_mol_id>  (4) 
+
+
+>  <smiles>  (4) 
+Cc1nonc1CC(=NNc1csc2c1CSC2CN)c1cccnc1
+
+>  <label>  (4) 
+bad
+
+>  <primary_reason>  (4) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (4) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (4) 
+2.5
+
+>  <heavy_atom_count>  (4) 
+26
+
+>  <carbon_fraction>  (4) 
+0.6538461538461539
+
+>  <hetero_atom_count>  (4) 
+9
+
+>  <aromatic_ring_count>  (4) 
+3
+
+>  <benzene_ring_count>  (4) 
+0
+
+>  <heterocycle_ring_count>  (4) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (4) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (4) 
+0
+
+>  <ring_count>  (4) 
+4
+
+>  <max_ring_size>  (4) 
+6
+
+>  <large_ring_count>  (4) 
+0
+
+>  <large_ring_fused_with_six_count>  (4) 
+0
+
+>  <max_fused_ring_system_size>  (4) 
+2
+
+>  <three_member_ring_count>  (4) 
+0
+
+>  <three_member_fused_ring_count>  (4) 
+0
+
+>  <three_member_spiro_ring_count>  (4) 
+0
+
+>  <three_member_high_degree_carbon_count>  (4) 
+0
+
+>  <spiro_atom_count>  (4) 
+0
+
+>  <bridgehead_atom_count>  (4) 
+0
+
+>  <total_halogen_count>  (4) 
+0
+
+>  <aromatic_halogen_count>  (4) 
+0
+
+>  <heavy_halogen_count>  (4) 
+0
+
+>  <br_i_count>  (4) 
+0
+
+>  <logp>  (4) 
+3.1400200000000007
+
+>  <tpsa>  (4) 
+102.22
+
+>  <hba>  (4) 
+9
+
+>  <hbd>  (4) 
+2
+
+>  <fragment_count>  (4) 
+1
+
+>  <murcko_scaffold>  (4) 
+c1cncc(C(Cc2cnon2)=NNc2csc3c2CSC3)c1
+
+>  <original_name>  (4) 
+diffsbdd_260407_10000_2_filtered_000346
+
+>  <label_ascii>  (4) 
+bad
+
+>  <current_bucket_reason_code>  (4) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (4) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (4) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (4) 
+1
+
+>  <is_multi_reason>  (4) 
+0
+
+>  <severity_ascii>  (4) 
+negative
+
+>  <bucket_type_ascii>  (4) 
+primary_unique
+
+$$$$
+00005_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 37 40  0  0  0  0  0  0  0  0999 V2000
+  210.7490  212.6950  172.9100 N   0  0  0  0  0  0  0  0  0  0  0  0
+  201.2780  212.6330  174.0670 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7000  214.8360  176.2280 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.0920  211.5200  170.9110 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2990  212.0300  171.8870 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7530  214.1270  175.6870 C   0  0  0  0  0  0  0  0  0  0  0  0
+  201.4110  211.3440  174.5930 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.7450  212.3230  172.0980 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.2090  214.1400  174.6580 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.5360  214.0190  174.1920 C   0  0  1  0  0  0  0  0  0  0  0  0
+  204.8160  213.3800  173.6750 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9610  214.1780  177.1230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8730  214.8720  175.7270 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3550  211.5090  170.8710 N   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1570  210.7990  169.7690 S   0  0  0  0  0  0  0  0  0  0  0  0
+  212.8070  214.1530  173.0280 F   0  0  0  0  0  0  0  0  0  0  0  0
+  202.1770  212.9510  171.2100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9440  213.3510  174.6250 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5540  213.9350  176.5340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.1120  212.0270  170.5540 C   0  0  1  0  0  0  0  0  0  0  0  0
+  206.0690  212.2450  175.7320 O   0  0  0  0  0  0  0  0  0  0  0  0
+  209.0570  211.8820  171.5800 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7260  211.2240  170.5150 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.2570  211.3080  169.6150 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7080  212.9090  177.5560 C   0  0  0  0  0  0  0  0  0  0  0  0
+  201.8090  215.1640  174.1260 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5780  212.6660  171.7080 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.6290  212.8700  172.5500 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3830  211.1030  170.3340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.3370  213.0030  172.1010 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.5360  213.4450  173.3650 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.7160  212.8160  176.5330 C   0  0  2  0  0  0  0  0  0  0  0  0
+  206.4070  211.8170  170.9480 C   0  0  0  0  0  0  0  0  0  0  0  0
+  213.5410  213.8470  174.9380 F   0  0  0  0  0  0  0  0  0  0  0  0
+  202.2950  213.6680  174.3180 C   0  0  2  0  0  0  0  0  0  0  0  0
+  203.7780  214.7080  177.7260 N   0  0  0  0  0  0  0  0  0  0  0  0
+  210.2730  213.3310  174.0020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 37  1  0
+  2 35  1  0
+  2  7  1  0
+  4  5  2  0
+  5  1  1  0
+  6  3  2  0
+  6 19  1  0
+  8 28  1  0
+  9 13  2  0
+ 10  9  1  0
+ 10 34  1  1
+ 12 25  1  0
+ 12 36  1  0
+ 13  3  1  0
+ 14  4  1  0
+ 15 23  1  0
+ 15  4  1  0
+ 16 10  1  0
+ 17 30  1  0
+ 18  6  1  0
+ 20 24  1  1
+ 20 33  1  0
+ 20 27  1  0
+ 22  5  1  0
+ 23 22  2  0
+ 27 30  2  0
+ 27 28  1  0
+ 28 11  1  0
+ 29 23  1  0
+ 29 33  1  0
+ 30 31  1  0
+ 31 11  2  0
+ 31 35  1  0
+ 32 21  1  6
+ 32 19  1  0
+ 32 25  1  0
+ 33  8  2  0
+ 35 26  1  6
+ 37 18  2  0
+ 37  9  1  0
+M  END
+>  <global_id>  (5) 
+diffsbdd_260407_10000_2_filtered_004032
+
+>  <source>  (5) 
+diffsbdd_260407_10000_2_filtered
+
+>  <source_path>  (5) 
+OUT/260407_generate_ligands_10000/260407generated_10000-2_filtered.sdf
+
+>  <source_mol_id>  (5) 
+
+
+>  <smiles>  (5) 
+Cc1c(C(C)NN)nn2c1C(O)C(Cc1cc(Nc3cc(CC(O)CCN)ncc3C(F)F)c(N)s1)=N2
+
+>  <label>  (5) 
+bad
+
+>  <primary_reason>  (5) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (5) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (5) 
+2.5
+
+>  <heavy_atom_count>  (5) 
+37
+
+>  <carbon_fraction>  (5) 
+0.6216216216216216
+
+>  <hetero_atom_count>  (5) 
+14
+
+>  <aromatic_ring_count>  (5) 
+3
+
+>  <benzene_ring_count>  (5) 
+0
+
+>  <heterocycle_ring_count>  (5) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (5) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (5) 
+0
+
+>  <ring_count>  (5) 
+4
+
+>  <max_ring_size>  (5) 
+6
+
+>  <large_ring_count>  (5) 
+0
+
+>  <large_ring_fused_with_six_count>  (5) 
+0
+
+>  <max_fused_ring_system_size>  (5) 
+2
+
+>  <three_member_ring_count>  (5) 
+0
+
+>  <three_member_fused_ring_count>  (5) 
+0
+
+>  <three_member_spiro_ring_count>  (5) 
+0
+
+>  <three_member_high_degree_carbon_count>  (5) 
+0
+
+>  <spiro_atom_count>  (5) 
+0
+
+>  <bridgehead_atom_count>  (5) 
+0
+
+>  <total_halogen_count>  (5) 
+2
+
+>  <aromatic_halogen_count>  (5) 
+0
+
+>  <heavy_halogen_count>  (5) 
+0
+
+>  <br_i_count>  (5) 
+0
+
+>  <logp>  (5) 
+2.1817199999999985
+
+>  <tpsa>  (5) 
+185.65
+
+>  <hba>  (5) 
+12
+
+>  <hbd>  (5) 
+7
+
+>  <fragment_count>  (5) 
+1
+
+>  <murcko_scaffold>  (5) 
+c1cc(Nc2csc(CC3=Nn4nccc4C3)c2)ccn1
+
+>  <original_name>  (5) 
+diffsbdd_260407_10000_2_filtered_004032
+
+>  <label_ascii>  (5) 
+bad
+
+>  <current_bucket_reason_code>  (5) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (5) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (5) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (5) 
+1
+
+>  <is_multi_reason>  (5) 
+0
+
+>  <severity_ascii>  (5) 
+negative
+
+>  <bucket_type_ascii>  (5) 
+primary_unique
+
+$$$$
+00006_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 27 30  0  0  0  0  0  0  0  0999 V2000
+  205.9730  212.1970  172.8370 O   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5450  213.5170  175.2980 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2020  213.2470  173.1690 C   0  0  1  0  0  0  0  0  0  0  0  0
+  205.5160  214.8000  175.2340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.9190  212.1570  170.0630 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.2740  212.8310  176.9900 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0300  212.0930  170.8000 N   0  0  0  0  0  0  0  0  0  0  0  0
+  212.2110  211.8780  173.1320 F   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2600  212.3290  173.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.2580  211.9230  172.1670 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.5380  212.6750  171.8410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8030  214.1490  176.7570 O   0  0  0  0  0  0  0  0  0  0  0  0
+  203.6140  212.6410  172.6840 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.1060  214.7760  175.5490 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9240  212.3310  172.1370 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.7090  212.4250  170.5440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.3770  214.0770  176.2110 N   0  0  0  0  0  0  0  0  0  0  0  0
+  213.3470  213.6100  173.5450 F   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2690  213.0510  173.7900 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.9010  212.9910  174.1120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8680  213.6050  171.9690 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.0580  213.6990  174.6980 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.4110  213.8810  174.2170 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5080  212.4090  172.5610 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7710  212.8040  176.7300 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0740  213.4960  175.4370 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6180  214.1200  175.8040 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  9  1  0
+  2 26  1  0
+  2 17  2  0
+  3 18  1  1
+  3 23  1  0
+  4 26  1  0
+  4 14  1  0
+  5 16  2  0
+  5  7  1  0
+  7 15  2  0
+  8  3  1  0
+  9 20  1  0
+ 10 24  1  0
+ 10  9  2  0
+ 11 13  2  0
+ 12  6  1  0
+ 14 12  1  0
+ 15 13  1  0
+ 15  1  1  0
+ 16 11  1  0
+ 19 20  2  0
+ 19 22  1  0
+ 20  2  1  0
+ 21  3  1  0
+ 22 27  2  0
+ 23 22  1  0
+ 24 19  1  0
+ 25  6  1  0
+ 26 25  1  0
+ 27 17  1  0
+M  END
+>  <global_id>  (6) 
+diffsbdd_260407_10000_3_filtered_000727
+
+>  <source>  (6) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (6) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (6) 
+
+
+>  <smiles>  (6) 
+FC(F)(F)Cc1nnc(N2CCOCC2)c2c(Oc3ccccn3)coc12
+
+>  <label>  (6) 
+bad
+
+>  <primary_reason>  (6) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (6) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (6) 
+2.5
+
+>  <heavy_atom_count>  (6) 
+27
+
+>  <carbon_fraction>  (6) 
+0.6296296296296297
+
+>  <hetero_atom_count>  (6) 
+10
+
+>  <aromatic_ring_count>  (6) 
+3
+
+>  <benzene_ring_count>  (6) 
+0
+
+>  <heterocycle_ring_count>  (6) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (6) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (6) 
+0
+
+>  <ring_count>  (6) 
+4
+
+>  <max_ring_size>  (6) 
+6
+
+>  <large_ring_count>  (6) 
+0
+
+>  <large_ring_fused_with_six_count>  (6) 
+0
+
+>  <max_fused_ring_system_size>  (6) 
+2
+
+>  <three_member_ring_count>  (6) 
+0
+
+>  <three_member_fused_ring_count>  (6) 
+0
+
+>  <three_member_spiro_ring_count>  (6) 
+0
+
+>  <three_member_high_degree_carbon_count>  (6) 
+0
+
+>  <spiro_atom_count>  (6) 
+0
+
+>  <bridgehead_atom_count>  (6) 
+0
+
+>  <total_halogen_count>  (6) 
+3
+
+>  <aromatic_halogen_count>  (6) 
+0
+
+>  <heavy_halogen_count>  (6) 
+0
+
+>  <br_i_count>  (6) 
+0
+
+>  <logp>  (6) 
+3.3515000000000024
+
+>  <tpsa>  (6) 
+73.51
+
+>  <hba>  (6) 
+7
+
+>  <hbd>  (6) 
+0
+
+>  <fragment_count>  (6) 
+1
+
+>  <murcko_scaffold>  (6) 
+c1ccc(Oc2coc3cnnc(N4CCOCC4)c23)nc1
+
+>  <original_name>  (6) 
+diffsbdd_260407_10000_3_filtered_000727
+
+>  <label_ascii>  (6) 
+bad
+
+>  <current_bucket_reason_code>  (6) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (6) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (6) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (6) 
+1
+
+>  <is_multi_reason>  (6) 
+0
+
+>  <severity_ascii>  (6) 
+negative
+
+>  <bucket_type_ascii>  (6) 
+primary_unique
+
+$$$$
+00007_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 27 30  0  0  0  0  0  0  0  0999 V2000
+  204.4710  213.0850  177.3350 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0180  213.0680  172.7380 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5840  213.1730  173.6670 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2970  213.1880  173.5950 C   0  0  1  0  0  0  0  0  0  0  0  0
+  202.7620  212.9610  172.1680 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5900  215.3890  177.7590 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9980  212.4760  175.9670 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.6800  213.2760  173.0210 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7620  211.8730  171.6950 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.5950  213.6440  174.6010 O   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4960  214.2870  175.3530 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.2290  214.2230  175.6940 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7780  212.4600  177.3360 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5050  211.7580  172.0440 O   0  0  0  0  0  0  0  0  0  0  0  0
+  202.2210  212.2250  170.0220 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0710  213.7220  175.0750 N   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2590  212.2390  173.4550 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.7870  212.3390  172.4400 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.0920  212.5090  172.6340 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.8700  212.6110  171.1450 S   0  0  0  0  0  0  0  0  0  0  0  0
+  211.5250  215.0600  176.0750 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5590  214.4560  176.7280 C   0  0  1  0  0  0  0  0  0  0  0  0
+  211.0040  212.0780  171.9760 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.9680  213.2870  173.7100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.8070  213.6100  174.2710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.1950  212.7530  171.0880 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.0000  214.4500  175.4960 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 13  1  0
+  2  8  2  0
+  2  4  1  0
+  3 25  2  0
+  3 10  1  0
+  4 17  1  1
+  4 16  1  0
+  5  8  1  0
+  7 13  1  0
+  9 14  1  0
+  9 18  1  0
+ 10 12  1  0
+ 11 12  2  0
+ 11 21  1  0
+ 14 17  1  0
+ 15 26  1  0
+ 16 27  1  0
+ 16  7  1  0
+ 18  3  1  0
+ 19 24  2  0
+ 20  2  1  0
+ 22  1  1  0
+ 22  6  1  1
+ 23 18  2  0
+ 23 19  1  0
+ 24 25  1  0
+ 25 11  1  0
+ 26 20  1  0
+ 26  5  2  0
+ 27 22  1  0
+M  END
+>  <global_id>  (7) 
+diffsbdd_260407_10000_3_filtered_003302
+
+>  <source>  (7) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (7) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (7) 
+
+
+>  <smiles>  (7) 
+Cc1ncc(C(CONc2nccc3c(C)coc23)N2CCCC(O)C2)s1
+
+>  <label>  (7) 
+bad
+
+>  <primary_reason>  (7) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (7) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (7) 
+2.5
+
+>  <heavy_atom_count>  (7) 
+27
+
+>  <carbon_fraction>  (7) 
+0.7037037037037037
+
+>  <hetero_atom_count>  (7) 
+8
+
+>  <aromatic_ring_count>  (7) 
+3
+
+>  <benzene_ring_count>  (7) 
+0
+
+>  <heterocycle_ring_count>  (7) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (7) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (7) 
+0
+
+>  <ring_count>  (7) 
+4
+
+>  <max_ring_size>  (7) 
+6
+
+>  <large_ring_count>  (7) 
+0
+
+>  <large_ring_fused_with_six_count>  (7) 
+0
+
+>  <max_fused_ring_system_size>  (7) 
+2
+
+>  <three_member_ring_count>  (7) 
+0
+
+>  <three_member_fused_ring_count>  (7) 
+0
+
+>  <three_member_spiro_ring_count>  (7) 
+0
+
+>  <three_member_high_degree_carbon_count>  (7) 
+0
+
+>  <spiro_atom_count>  (7) 
+0
+
+>  <bridgehead_atom_count>  (7) 
+0
+
+>  <total_halogen_count>  (7) 
+0
+
+>  <aromatic_halogen_count>  (7) 
+0
+
+>  <heavy_halogen_count>  (7) 
+0
+
+>  <br_i_count>  (7) 
+0
+
+>  <logp>  (7) 
+3.4426400000000026
+
+>  <tpsa>  (7) 
+83.65
+
+>  <hba>  (7) 
+8
+
+>  <hbd>  (7) 
+2
+
+>  <fragment_count>  (7) 
+1
+
+>  <murcko_scaffold>  (7) 
+c1cc2ccoc2c(NOCC(c2cncs2)N2CCCCC2)n1
+
+>  <original_name>  (7) 
+diffsbdd_260407_10000_3_filtered_003302
+
+>  <label_ascii>  (7) 
+bad
+
+>  <current_bucket_reason_code>  (7) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (7) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (7) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (7) 
+1
+
+>  <is_multi_reason>  (7) 
+0
+
+>  <severity_ascii>  (7) 
+negative
+
+>  <bucket_type_ascii>  (7) 
+primary_unique
+
+$$$$
+00008_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 18 21  0  0  0  0  0  0  0  0999 V2000
+  209.8490  212.2280  172.1460 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5720  213.1150  174.0440 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8050  212.9670  173.3970 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.9050  213.3100  174.2440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3340  213.5290  174.5990 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5440  214.0610  175.5490 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.6990  213.6750  174.8600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.0700  213.3810  173.7300 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3380  212.8610  172.6860 S   0  0  0  0  0  0  0  0  0  0  0  0
+  209.6380  214.2150  175.5260 S   0  0  0  0  0  0  0  0  0  0  0  0
+  203.3470  213.6100  173.8400 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9090  214.0020  174.8610 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.2610  213.9460  175.1090 N   0  0  0  0  0  0  0  0  0  0  0  0
+  212.1160  214.5620  175.0680 N   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4440  212.8930  173.6970 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.5970  214.6380  176.7360 S   0  0  0  0  0  0  0  0  0  0  0  0
+  211.1140  212.0310  171.6600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.0010  214.4060  175.9480 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0
+  2  4  1  0
+  2  7  1  0
+  3  8  1  0
+  3  4  2  0
+  4 10  1  0
+  5  7  1  0
+  5  6  1  0
+  6 16  1  0
+  7 18  2  0
+  8 12  2  0
+  9  8  1  0
+ 11 13  1  0
+ 12 14  1  0
+ 12 10  1  0
+ 13  6  2  0
+ 15 11  1  0
+ 15  5  2  0
+ 17  1  2  0
+ 17  9  1  0
+ 18 16  1  0
+M  END
+>  <global_id>  (8) 
+diffsbdd_260407_10000_3_filtered_004966
+
+>  <source>  (8) 
+diffsbdd_260407_10000_3_filtered
+
+>  <source_path>  (8) 
+OUT/260407_generate_ligands_10000/260407generated_10000-3_filtered.sdf
+
+>  <source_mol_id>  (8) 
+
+
+>  <smiles>  (8) 
+Nc1sc(Nc2nsc3c2=NCN=3)c2ccsc12
+
+>  <label>  (8) 
+bad
+
+>  <primary_reason>  (8) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (8) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (8) 
+2.5
+
+>  <heavy_atom_count>  (8) 
+18
+
+>  <carbon_fraction>  (8) 
+0.5555555555555556
+
+>  <hetero_atom_count>  (8) 
+8
+
+>  <aromatic_ring_count>  (8) 
+3
+
+>  <benzene_ring_count>  (8) 
+0
+
+>  <heterocycle_ring_count>  (8) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (8) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (8) 
+0
+
+>  <ring_count>  (8) 
+4
+
+>  <max_ring_size>  (8) 
+5
+
+>  <large_ring_count>  (8) 
+0
+
+>  <large_ring_fused_with_six_count>  (8) 
+0
+
+>  <max_fused_ring_system_size>  (8) 
+2
+
+>  <three_member_ring_count>  (8) 
+0
+
+>  <three_member_fused_ring_count>  (8) 
+0
+
+>  <three_member_spiro_ring_count>  (8) 
+0
+
+>  <three_member_high_degree_carbon_count>  (8) 
+0
+
+>  <spiro_atom_count>  (8) 
+0
+
+>  <bridgehead_atom_count>  (8) 
+0
+
+>  <total_halogen_count>  (8) 
+0
+
+>  <aromatic_halogen_count>  (8) 
+0
+
+>  <heavy_halogen_count>  (8) 
+0
+
+>  <br_i_count>  (8) 
+0
+
+>  <logp>  (8) 
+1.9553999999999998
+
+>  <tpsa>  (8) 
+75.66
+
+>  <hba>  (8) 
+8
+
+>  <hbd>  (8) 
+2
+
+>  <fragment_count>  (8) 
+1
+
+>  <murcko_scaffold>  (8) 
+c1cc2c(Nc3nsc4c3=NCN=4)scc2s1
+
+>  <original_name>  (8) 
+diffsbdd_260407_10000_3_filtered_004966
+
+>  <label_ascii>  (8) 
+bad
+
+>  <current_bucket_reason_code>  (8) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (8) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (8) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (8) 
+1
+
+>  <is_multi_reason>  (8) 
+0
+
+>  <severity_ascii>  (8) 
+negative
+
+>  <bucket_type_ascii>  (8) 
+primary_unique
+
+$$$$
+00009_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 21 24  0  0  0  0  0  0  0  0999 V2000
+  213.2330  214.1530  173.7990 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.7950  212.6360  176.4560 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8700  213.4560  174.6440 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.9410  211.3770  170.2740 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.8350  211.8690  172.6230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.0740  214.0930  174.9600 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8430  211.6220  171.5870 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2180  214.8430  176.9670 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.2120  213.0430  173.0750 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.7160  213.5040  175.5780 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4560  211.6670  170.6310 S   0  0  0  0  0  0  0  0  0  0  0  0
+  207.7890  212.4570  175.7230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.3600  212.3470  171.9120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.0540  211.8470  171.5980 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.4250  214.6350  176.2050 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.4680  213.7860  177.0420 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.8810  213.7400  173.9730 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.7190  211.2910  169.5240 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4620  211.7130  172.0430 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1720  212.2220  172.5510 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9430  212.9250  173.5090 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1 17  1  0
+  2 16  2  0
+  3  6  2  0
+  3 10  1  0
+  4  7  1  0
+  7 19  2  0
+  7  5  1  0
+  8 16  1  0
+  9 21  1  0
+  9 17  1  0
+ 10 12  2  0
+ 10 15  1  0
+ 11 19  1  0
+ 12  2  1  0
+ 13  9  2  0
+ 14 13  1  0
+ 14 20  2  0
+ 15  8  2  0
+ 17  6  1  0
+ 18  4  2  0
+ 18 11  1  0
+ 20  5  1  0
+ 20 21  1  0
+ 21  3  1  0
+M  END
+>  <global_id>  (9) 
+diffsbdd_260407_10000_4_raw_000514
+
+>  <source>  (9) 
+diffsbdd_260407_10000_4_raw
+
+>  <source_path>  (9) 
+OUT/260407_generate_ligands_10000/260407generated_10000-4.sdf
+
+>  <source_mol_id>  (9) 
+
+
+>  <smiles>  (9) 
+Cn1nc(-c2cncnc2)n2c(Cc3ccsc3)ccc12
+
+>  <label>  (9) 
+bad
+
+>  <primary_reason>  (9) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (9) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (9) 
+2.5
+
+>  <heavy_atom_count>  (9) 
+21
+
+>  <carbon_fraction>  (9) 
+0.7142857142857143
+
+>  <hetero_atom_count>  (9) 
+6
+
+>  <aromatic_ring_count>  (9) 
+4
+
+>  <benzene_ring_count>  (9) 
+0
+
+>  <heterocycle_ring_count>  (9) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (9) 
+4
+
+>  <aliphatic_carbocycle_ring_count>  (9) 
+0
+
+>  <ring_count>  (9) 
+4
+
+>  <max_ring_size>  (9) 
+6
+
+>  <large_ring_count>  (9) 
+0
+
+>  <large_ring_fused_with_six_count>  (9) 
+0
+
+>  <max_fused_ring_system_size>  (9) 
+2
+
+>  <three_member_ring_count>  (9) 
+0
+
+>  <three_member_fused_ring_count>  (9) 
+0
+
+>  <three_member_spiro_ring_count>  (9) 
+0
+
+>  <three_member_high_degree_carbon_count>  (9) 
+0
+
+>  <spiro_atom_count>  (9) 
+0
+
+>  <bridgehead_atom_count>  (9) 
+0
+
+>  <total_halogen_count>  (9) 
+0
+
+>  <aromatic_halogen_count>  (9) 
+0
+
+>  <heavy_halogen_count>  (9) 
+0
+
+>  <br_i_count>  (9) 
+0
+
+>  <logp>  (9) 
+2.7821000000000007
+
+>  <tpsa>  (9) 
+48.010000000000005
+
+>  <hba>  (9) 
+6
+
+>  <hbd>  (9) 
+0
+
+>  <fragment_count>  (9) 
+1
+
+>  <murcko_scaffold>  (9) 
+c1ncc(-c2n[nH]c3ccc(Cc4ccsc4)n23)cn1
+
+>  <original_name>  (9) 
+diffsbdd_260407_10000_4_raw_000514
+
+>  <label_ascii>  (9) 
+bad
+
+>  <current_bucket_reason_code>  (9) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (9) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (9) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (9) 
+1
+
+>  <is_multi_reason>  (9) 
+0
+
+>  <severity_ascii>  (9) 
+negative
+
+>  <bucket_type_ascii>  (9) 
+primary_unique
+
+$$$$
+00010_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 25 28  0  0  0  0  0  0  0  0999 V2000
+  207.5210  213.0900  174.6480 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9830  212.4090  173.0370 N   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4330  213.0840  173.6480 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.8000  211.6300  171.5090 O   0  0  0  0  0  0  0  0  0  0  0  0
+  203.0130  212.8400  170.8730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2080  212.9310  174.3800 C   0  0  0  0  0  0  0  0  0  0  0  0
+  202.9160  211.7330  170.0520 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.1620  211.8110  171.8440 N   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8190  212.0060  173.4700 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7470  212.9730  173.2730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.5680  210.6450  171.7600 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3290  213.2790  171.4320 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.1640  212.5480  173.5540 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.7910  213.6880  173.8430 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2210  212.1470  172.5820 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.0460  212.1700  172.2390 F   0  0  0  0  0  0  0  0  0  0  0  0
+  210.1940  213.9180  174.6580 N   0  0  0  0  0  0  0  0  0  0  0  0
+  211.2080  214.5510  175.3230 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6480  212.0670  172.3110 C   0  0  2  0  0  0  0  0  0  0  0  0
+  203.7320  210.5600  170.4830 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.3670  212.4260  172.9820 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0550  213.8470  175.8530 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.5100  214.4850  174.9260 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3850  213.2140  175.2160 O   0  0  0  0  0  0  0  0  0  0  0  0
+  207.2100  214.0470  177.0510 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1 22  1  0
+  2  6  1  0
+  3 17  1  0
+  4  8  1  0
+  4 15  1  0
+  5 12  1  0
+  6  1  1  0
+  6 24  2  0
+  7 20  1  0
+  7  5  1  0
+  8 21  2  0
+ 10  3  2  0
+ 10 14  1  0
+ 11 19  1  0
+ 12 19  1  0
+ 13  1  1  0
+ 14 23  2  0
+ 15  2  1  0
+ 15 13  2  0
+ 16 10  1  0
+ 17 18  2  0
+ 19  2  1  0
+ 19  9  1  1
+ 20 11  1  0
+ 21 13  1  0
+ 21  3  1  0
+ 22 25  1  0
+ 23 18  1  0
+M  END
+>  <global_id>  (10) 
+diffsbdd_260407_10000_5_raw_001774
+
+>  <source>  (10) 
+diffsbdd_260407_10000_5_raw
+
+>  <source_path>  (10) 
+OUT/260407_generate_ligands_10000/260407generated_10000-5.sdf
+
+>  <source_mol_id>  (10) 
+
+
+>  <smiles>  (10) 
+CCn1c(=O)n(C2(C)CCNCC2)c2onc(-c3ncccc3F)c21
+
+>  <label>  (10) 
+bad
+
+>  <primary_reason>  (10) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (10) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (10) 
+2.5
+
+>  <heavy_atom_count>  (10) 
+25
+
+>  <carbon_fraction>  (10) 
+0.68
+
+>  <hetero_atom_count>  (10) 
+8
+
+>  <aromatic_ring_count>  (10) 
+3
+
+>  <benzene_ring_count>  (10) 
+0
+
+>  <heterocycle_ring_count>  (10) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (10) 
+3
+
+>  <aliphatic_carbocycle_ring_count>  (10) 
+0
+
+>  <ring_count>  (10) 
+4
+
+>  <max_ring_size>  (10) 
+6
+
+>  <large_ring_count>  (10) 
+0
+
+>  <large_ring_fused_with_six_count>  (10) 
+0
+
+>  <max_fused_ring_system_size>  (10) 
+2
+
+>  <three_member_ring_count>  (10) 
+0
+
+>  <three_member_fused_ring_count>  (10) 
+0
+
+>  <three_member_spiro_ring_count>  (10) 
+0
+
+>  <three_member_high_degree_carbon_count>  (10) 
+0
+
+>  <spiro_atom_count>  (10) 
+0
+
+>  <bridgehead_atom_count>  (10) 
+0
+
+>  <total_halogen_count>  (10) 
+1
+
+>  <aromatic_halogen_count>  (10) 
+1
+
+>  <heavy_halogen_count>  (10) 
+0
+
+>  <br_i_count>  (10) 
+0
+
+>  <logp>  (10) 
+2.1106
+
+>  <tpsa>  (10) 
+77.88
+
+>  <hba>  (10) 
+7
+
+>  <hbd>  (10) 
+1
+
+>  <fragment_count>  (10) 
+1
+
+>  <murcko_scaffold>  (10) 
+O=c1[nH]c2c(-c3ccccn3)noc2n1C1CCNCC1
+
+>  <original_name>  (10) 
+diffsbdd_260407_10000_5_raw_001774
+
+>  <label_ascii>  (10) 
+bad
+
+>  <current_bucket_reason_code>  (10) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (10) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (10) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (10) 
+1
+
+>  <is_multi_reason>  (10) 
+0
+
+>  <severity_ascii>  (10) 
+negative
+
+>  <bucket_type_ascii>  (10) 
+primary_unique
+
+$$$$
+00011_bad_multi_aromatic_heterocycle_negative
+     RDKit          3D
+
+ 31 34  0  0  0  0  0  0  0  0999 V2000
+  208.5890  210.9970  171.2140 O   0  0  0  0  0  0  0  0  0  0  0  0
+  210.7910  214.5110  175.4880 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.8430  212.4710  172.5730 C   0  0  0  0  0  0  0  0  0  0  0  0
+  209.5810  213.1840  173.8020 C   0  0  0  0  0  0  0  0  0  0  0  0
+  205.4250  210.8800  169.2100 C   0  0  0  0  0  0  0  0  0  0  0  0
+  211.7250  212.0270  170.9250 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.4370  213.5560  174.6360 N   0  0  0  0  0  0  0  0  0  0  0  0
+  205.9030  213.2920  173.9120 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4880  212.9870  178.3550 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.3850  210.2490  168.1860 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.4990  215.1390  174.4620 C   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0650  213.1850  174.1090 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.0120  210.3720  168.0840 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4050  215.2400  175.5330 C   0  0  0  0  0  0  0  0  0  0  0  0
+  210.9540  212.2550  171.6710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.6050  210.9510  170.2510 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.9980  211.7910  178.8480 N   0  0  0  0  0  0  0  0  0  0  0  0
+  206.8730  213.6890  174.8190 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.6760  211.9410  172.2070 C   0  0  0  0  0  0  0  0  0  0  0  0
+  207.5800  212.4120  173.0410 C   0  0  0  0  0  0  0  0  0  0  0  0
+  212.3460  214.6550  175.7790 C   0  0  0  0  0  0  0  0  0  0  0  0
+  206.2650  211.2060  170.1990 C   0  0  0  0  0  0  0  0  0  0  0  0
+  203.7660  214.5210  176.7690 N   0  0  0  0  0  0  0  0  0  0  0  0
+  209.9650  215.2100  176.0480 O   0  0  0  0  0  0  0  0  0  0  0  0
+  205.3690  209.9500  166.8160 F   0  0  0  0  0  0  0  0  0  0  0  0
+  206.1960  212.2970  173.0580 O   0  0  0  0  0  0  0  0  0  0  0  0
+  203.8810  214.1110  179.0180 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.3670  213.2890  176.8690 C   0  0  0  0  0  0  0  0  0  0  0  0
+  204.6030  213.8100  173.8810 N   0  0  0  0  0  0  0  0  0  0  0  0
+  203.4440  215.0100  177.9170 N   0  0  0  0  0  0  0  0  0  0  0  0
+  208.0770  210.4790  169.1520 N   0  0  0  0  0  0  0  0  0  0  0  0
+  1 19  1  0
+  2 21  1  0
+  2 24  2  0
+  3  4  2  0
+  4 12  1  0
+  4  7  1  0
+  5 22  2  0
+  6 15  3  0
+  7  2  1  0
+  8 18  2  0
+  9 17  1  0
+  9 27  1  0
+ 10 31  1  0
+ 11 14  1  0
+ 12 18  1  0
+ 13 10  2  0
+ 13  5  1  0
+ 14 23  1  0
+ 15  3  1  0
+ 16  1  1  0
+ 19  3  1  0
+ 19 20  2  0
+ 20 26  1  0
+ 20 12  1  0
+ 22 16  1  0
+ 23 28  1  0
+ 23 30  1  0
+ 25 13  1  0
+ 26  8  1  0
+ 28  9  2  0
+ 29  8  1  0
+ 29 11  1  0
+ 30 27  2  0
+ 31 16  2  0
+M  END
+>  <global_id>  (11) 
+diffsbdd_260407_10000_5_raw_004970
+
+>  <source>  (11) 
+diffsbdd_260407_10000_5_raw
+
+>  <source_path>  (11) 
+OUT/260407_generate_ligands_10000/260407generated_10000-5.sdf
+
+>  <source_mol_id>  (11) 
+
+
+>  <smiles>  (11) 
+C#Cc1c(Oc2ccc(F)cn2)c2oc(NCCn3cc(N)cn3)nn2c1NC(C)=O
+
+>  <label>  (11) 
+bad
+
+>  <primary_reason>  (11) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons>  (11) 
+bad_multi_aromatic_heterocycle
+
+>  <weight>  (11) 
+2.5
+
+>  <heavy_atom_count>  (11) 
+31
+
+>  <carbon_fraction>  (11) 
+0.6129032258064516
+
+>  <hetero_atom_count>  (11) 
+12
+
+>  <aromatic_ring_count>  (11) 
+4
+
+>  <benzene_ring_count>  (11) 
+0
+
+>  <heterocycle_ring_count>  (11) 
+4
+
+>  <aromatic_heterocycle_ring_count>  (11) 
+4
+
+>  <aliphatic_carbocycle_ring_count>  (11) 
+0
+
+>  <ring_count>  (11) 
+4
+
+>  <max_ring_size>  (11) 
+6
+
+>  <large_ring_count>  (11) 
+0
+
+>  <large_ring_fused_with_six_count>  (11) 
+0
+
+>  <max_fused_ring_system_size>  (11) 
+2
+
+>  <three_member_ring_count>  (11) 
+0
+
+>  <three_member_fused_ring_count>  (11) 
+0
+
+>  <three_member_spiro_ring_count>  (11) 
+0
+
+>  <three_member_high_degree_carbon_count>  (11) 
+0
+
+>  <spiro_atom_count>  (11) 
+0
+
+>  <bridgehead_atom_count>  (11) 
+0
+
+>  <total_halogen_count>  (11) 
+1
+
+>  <aromatic_halogen_count>  (11) 
+1
+
+>  <heavy_halogen_count>  (11) 
+0
+
+>  <br_i_count>  (11) 
+0
+
+>  <logp>  (11) 
+2.0841999999999996
+
+>  <tpsa>  (11) 
+137.52999999999997
+
+>  <hba>  (11) 
+10
+
+>  <hbd>  (11) 
+3
+
+>  <fragment_count>  (11) 
+1
+
+>  <murcko_scaffold>  (11) 
+c1ccc(Oc2ccn3nc(NCCn4cccn4)oc23)nc1
+
+>  <original_name>  (11) 
+diffsbdd_260407_10000_5_raw_004970
+
+>  <label_ascii>  (11) 
+bad
+
+>  <current_bucket_reason_code>  (11) 
+bad_multi_aromatic_heterocycle
+
+>  <primary_reason_code>  (11) 
+bad_multi_aromatic_heterocycle
+
+>  <all_reasons_code>  (11) 
+bad_multi_aromatic_heterocycle
+
+>  <reason_count>  (11) 
+1
+
+>  <is_multi_reason>  (11) 
+0
+
+>  <severity_ascii>  (11) 
+negative
+
+>  <bucket_type_ascii>  (11) 
+primary_unique
+
+$$$$

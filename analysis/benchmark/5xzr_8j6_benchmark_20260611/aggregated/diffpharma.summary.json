@@ -1,0 +1,46 @@
+{
+  "input_sdf_files": 7,
+  "limit": 500,
+  "model": "DiffPharma",
+  "output": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/aggregated/diffpharma.sdf",
+  "per_file": [
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_0/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 68
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_1/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 69
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_2/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 72,
+      "written": 63
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_3/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 67
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_4/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 69
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_5/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 71
+    },
+    {
+      "path": "/data/disk6/DiffB110/analysis/5xzr_8j6_benchmark_20260611/outputs/diffpharma/gpu_6/processed/5XZR_8J6_protein_only_gen.sdf",
+      "readable": 71,
+      "written": 70
+    }
+  ],
+  "readable_records_seen": 500,
+  "write_failed_records": 23,
+  "written_records": 477
+}

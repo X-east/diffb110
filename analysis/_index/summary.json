@@ -1,0 +1,122 @@
+{
+  "generated_at": "2026-06-15T09:56:17",
+  "analysis_dir": "/data/disk6/DiffB110/analysis",
+  "directory_count": 107,
+  "top_level_file_count": 0,
+  "total_size_bytes": 8034477083,
+  "category_summary": [
+    {
+      "category": "benchmark",
+      "directory_count": 10,
+      "size_bytes": 2704545491,
+      "file_count": 15457,
+      "report_dir_count": 8,
+      "png_count": 73,
+      "sdf_count": 13353,
+      "csv_count": 93,
+      "size_human": "2.5G",
+      "size_gb": 2.519
+    },
+    {
+      "category": "diffsbdd_xhe",
+      "directory_count": 34,
+      "size_bytes": 2548839849,
+      "file_count": 506,
+      "report_dir_count": 26,
+      "png_count": 92,
+      "sdf_count": 51,
+      "csv_count": 99,
+      "size_human": "2.4G",
+      "size_gb": 2.374
+    },
+    {
+      "category": "classifier",
+      "directory_count": 16,
+      "size_bytes": 2211202160,
+      "file_count": 310,
+      "report_dir_count": 7,
+      "png_count": 67,
+      "sdf_count": 108,
+      "csv_count": 52,
+      "size_human": "2.1G",
+      "size_gb": 2.059
+    },
+    {
+      "category": "diffgui_rl",
+      "directory_count": 11,
+      "size_bytes": 231178861,
+      "file_count": 3656,
+      "report_dir_count": 2,
+      "png_count": 24,
+      "sdf_count": 3080,
+      "csv_count": 108,
+      "size_human": "220.5M",
+      "size_gb": 0.215
+    },
+    {
+      "category": "diffsbdd_rl",
+      "directory_count": 14,
+      "size_bytes": 119108994,
+      "file_count": 17547,
+      "report_dir_count": 8,
+      "png_count": 39,
+      "sdf_count": 17197,
+      "csv_count": 49,
+      "size_human": "113.6M",
+      "size_gb": 0.111
+    },
+    {
+      "category": "internal",
+      "directory_count": 4,
+      "size_bytes": 111873899,
+      "file_count": 544,
+      "report_dir_count": 2,
+      "png_count": 144,
+      "sdf_count": 59,
+      "csv_count": 107,
+      "size_human": "106.7M",
+      "size_gb": 0.104
+    },
+    {
+      "category": "diffsbdd_small_mod",
+      "directory_count": 9,
+      "size_bytes": 63217984,
+      "file_count": 215,
+      "report_dir_count": 5,
+      "png_count": 98,
+      "sdf_count": 20,
+      "csv_count": 58,
+      "size_human": "60.3M",
+      "size_gb": 0.059
+    },
+    {
+      "category": "reconstruction",
+      "directory_count": 5,
+      "size_bytes": 29071593,
+      "file_count": 72,
+      "report_dir_count": 5,
+      "png_count": 24,
+      "sdf_count": 7,
+      "csv_count": 21,
+      "size_human": "27.7M",
+      "size_gb": 0.027
+    },
+    {
+      "category": "preprocessing",
+      "directory_count": 4,
+      "size_bytes": 15438252,
+      "file_count": 12,
+      "report_dir_count": 1,
+      "png_count": 4,
+      "sdf_count": 0,
+      "csv_count": 3,
+      "size_human": "14.7M",
+      "size_gb": 0.014
+    }
+  ],
+  "suggested_action_counts": {
+    "keep_internal": 4,
+    "keep_review_before_move": 66,
+    "move_candidate_with_symlink": 37
+  }
+}
