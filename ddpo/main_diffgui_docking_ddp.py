@@ -31,12 +31,21 @@ if str(DIFFGUI_ROOT) not in sys.path:
     sys.path.insert(0, str(DIFFGUI_ROOT))
 
 from ddpo.diffgui.runtime.actor import DiffGuiActor  # noqa: E402
+from ddpo.diffgui.runtime.good_pool import DiffGuiGoodMoleculePool, GoodPoolSelection  # noqa: E402
 from ddpo.diffgui.runtime.per_timestep_diagnostics import (  # noqa: E402
     export_per_timestep,
     merge_per_timestep,
 )
+from ddpo.diffgui.runtime.replay import (  # noqa: E402
+    DiffGuiTrajectoryReplayBuffer,
+    build_train_batch_with_replay,
+)
 from ddpo.diffgui.runtime.rollout import DiffGuiRollout  # noqa: E402
 from ddpo.diffgui.runtime.structural_stats import compute_structural_metrics  # noqa: E402
+from ddpo.diffgui.runtime.training_filter import (  # noqa: E402
+    DiffGuiTrainingFilter,
+    annotate_molecule_rows,
+)
 from ddpo.main_diffgui_docking_train import (  # noqa: E402
     _build_actor_config,
     _prepare_run_dir,
@@ -161,7 +170,28 @@ def _run_training(
         find_unused_parameters=bool(config.get("train", {}).get("ddp_find_unused_parameters", False)),
     )
     actor = DiffGuiActor(ddp_model, _build_actor_config(config))
+    training_filter = DiffGuiTrainingFilter(config.get("diffgui_training_filter", {}) or {})
+    good_pool = DiffGuiGoodMoleculePool(
+        run_dir / str((config.get("diffgui_good_molecule_pool", {}) or {}).get("subdir", "good_molecule_pool")),
+        config.get("diffgui_good_molecule_pool", {}) or {},
+        rank=int(dist_info["rank"]),
+    )
+    replay_buffer = DiffGuiTrajectoryReplayBuffer(
+        run_dir / str((config.get("diffgui_trajectory_replay", {}) or {}).get("subdir", "trajectory_replay")),
+        {
+            **(config.get("diffgui_trajectory_replay", {}) or {}),
+            "seed": int(config.get("diffgui_docking_batch_sweep", {}).get("seed_base", 260609)),
+        },
+        rank=int(dist_info["rank"]),
+    )
     LOGGER.info("actor_freeze_report=%s", actor.freeze_report)
+    LOGGER.info(
+        "diffgui_training_filter_enabled=%s good_pool_enabled=%s trajectory_replay_enabled=%s store_enabled=%s",
+        training_filter.enabled,
+        good_pool.enabled,
+        replay_buffer.enabled,
+        replay_buffer.store_enabled,
+    )
 
     metrics_rows: list[dict[str, Any]] = []
     metrics_csv = run_dir / "metrics" / "metrics.csv"
@@ -171,6 +201,9 @@ def _run_training(
             config=rank_config,
             model=ddp_model,
             actor=actor,
+            training_filter=training_filter,
+            good_pool=good_pool,
+            replay_buffer=replay_buffer,
             featurizer=featurizer,
             sample_cfg=sample_cfg,
             epoch=epoch,
@@ -213,6 +246,9 @@ def _run_epoch(
     config: dict[str, Any],
     model: DDP,
     actor: DiffGuiActor,
+    training_filter: DiffGuiTrainingFilter,
+    good_pool: DiffGuiGoodMoleculePool,
+    replay_buffer: DiffGuiTrajectoryReplayBuffer,
     featurizer: Any,
     sample_cfg: Any,
     epoch: int,
@@ -310,8 +346,79 @@ def _run_epoch(
             seed=seed,
         )
 
+        filter_selection = training_filter.select(molecule_rows, batch_size=per_rank_batch)
+        filter_selection = training_filter.crop_for_ddp(filter_selection, device=device)
+        if good_pool.enabled or replay_buffer.store_enabled:
+            good_selection = good_pool.add_epoch(
+                molecule_rows=molecule_rows,
+                training_selection=filter_selection,
+                epoch=epoch,
+                generated_sdf=epoch_dir / "generated.sdf",
+                top_sdf_path=epoch_dir / "good_pool_selected.sdf",
+            )
+        else:
+            good_selection = GoodPoolSelection(
+                metrics={
+                    "good_pool_enabled": 0.0,
+                    "good_pool_selected_count": 0.0,
+                    "good_pool_retained_count": 0.0,
+                }
+            )
+        replay_store_metrics = replay_buffer.store(
+            policy_batch=policy_batch,
+            selection=good_selection,
+            epoch=epoch,
+        )
+        molecule_rows = annotate_molecule_rows(
+            molecule_rows,
+            filter_selection,
+            good_indices=set(good_selection.indices),
+        )
+        _write_csv_rows(
+            epoch_dir / "molecules_with_rewards.csv",
+            molecule_rows,
+            fieldnames=_ordered_fieldnames(molecule_rows),
+        )
+        _write_csv_rows(
+            epoch_dir / "training_filter_decisions.csv",
+            filter_selection.decision_rows(),
+            fieldnames=_ordered_fieldnames(filter_selection.decision_rows()),
+        )
+        if filter_selection.train_indices:
+            train_batch = policy_batch.select_graphs(filter_selection.train_indices)
+            train_batch, replay_train_metrics = build_train_batch_with_replay(
+                current_batch=train_batch,
+                replay_buffer=replay_buffer,
+                epoch=epoch,
+                ddp_device=device,
+            )
+        else:
+            train_batch = None
+            replay_train_metrics = {
+                "trajectory_replay_enabled": float(replay_buffer.enabled),
+                "trajectory_replay_current_count": 0.0,
+                "trajectory_replay_sample_count": 0.0,
+                "trajectory_replay_train_total_count": 0.0,
+            }
+
         phase_start = time.perf_counter()
-        actor_metrics = actor.update_policy(policy_batch)
+        if train_batch is None:
+            actor_metrics = {
+                "PPO_Loss": 0.0,
+                "PPO_ApproxKL": 0.0,
+                "ClipFrac": 0.0,
+                "RatioMean": 0.0,
+                "TrainBatchSize": 0.0,
+                "PPO_Skipped": 1.0,
+            }
+            actor.last_step_metrics = []
+        else:
+            actor_metrics = actor.update_policy(train_batch)
+            actor_metrics["PPO_Skipped"] = 0.0
+        actor_metrics.update(filter_selection.metrics)
+        actor_metrics.update(good_selection.metrics)
+        actor_metrics.update(replay_store_metrics)
+        actor_metrics.update(replay_train_metrics)
         timing["ppo_seconds"] = time.perf_counter() - phase_start
         step_metrics_path = _write_step_metrics_csv(
             epoch_dir / "ppo_step_metrics.csv",
@@ -354,7 +461,11 @@ def _run_epoch(
                 "epoch_dir": str(epoch_dir),
                 "molecule_records": int(len(molecule_rows)),
                 "outputs_molecule_csv": str(epoch_dir / "molecules_with_rewards.csv"),
+                "outputs_training_filter_csv": str(epoch_dir / "training_filter_decisions.csv"),
                 "outputs_ppo_step_metrics": str(step_metrics_path),
+                "outputs_good_pool_manifest": str(good_pool.manifest_path),
+                "outputs_good_pool_selected_sdf": str(epoch_dir / "good_pool_selected.sdf"),
+                "outputs_trajectory_replay_manifest": str(replay_buffer.manifest_path),
             }
         )
         (epoch_dir / "summary.json").write_text(json.dumps(row, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -756,6 +867,41 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "ClipFrac": _mean(rows, "ClipFrac"),
         "RatioMean": _mean(rows, "RatioMean"),
         "GradNorm": _mean(rows, "GradNorm"),
+        "training_filter_enabled": _mean(rows, "training_filter_enabled"),
+        "train_candidate_count": _sum(rows, "train_candidate_count"),
+        "train_pre_ddp_selected_count": _sum(rows, "train_pre_ddp_selected_count"),
+        "train_ddp_min_count": min(float(row.get("train_ddp_min_count", 0.0)) for row in rows) if rows else 0.0,
+        "train_selected_count": _sum(rows, "train_selected_count"),
+        "train_discarded_count": _sum(rows, "train_discarded_count"),
+        "ppo_skipped_by_training_filter": max(float(row.get("ppo_skipped_by_training_filter", 0.0)) for row in rows)
+        if rows
+        else 0.0,
+        "PPO_Skipped": max(float(row.get("PPO_Skipped", 0.0)) for row in rows) if rows else 0.0,
+        "good_pool_enabled": _mean(rows, "good_pool_enabled"),
+        "good_pool_selected_count": _sum(rows, "good_pool_selected_count"),
+        "good_pool_selected_score_mean": _mean(rows, "good_pool_selected_score_mean"),
+        "good_pool_selected_score_max": max(float(row.get("good_pool_selected_score_max", 0.0)) for row in rows)
+        if rows
+        else 0.0,
+        "good_pool_retained_count": _sum(rows, "good_pool_retained_count"),
+        "good_pool_retained_score_mean": _mean(rows, "good_pool_retained_score_mean"),
+        "good_pool_retained_score_max": max(float(row.get("good_pool_retained_score_max", 0.0)) for row in rows)
+        if rows
+        else 0.0,
+        "trajectory_replay_enabled": _mean(rows, "trajectory_replay_enabled"),
+        "trajectory_replay_current_count": _sum(rows, "trajectory_replay_current_count"),
+        "trajectory_replay_sample_count": _sum(rows, "trajectory_replay_sample_count"),
+        "trajectory_replay_train_total_count": _sum(rows, "trajectory_replay_train_total_count"),
+        "trajectory_replay_eligible_shards": _sum(rows, "trajectory_replay_eligible_shards"),
+        "trajectory_replay_age_mean": _mean(rows, "trajectory_replay_age_mean"),
+        "trajectory_replay_age_max": max(float(row.get("trajectory_replay_age_max", 0.0)) for row in rows)
+        if rows
+        else 0.0,
+        "trajectory_replay_store_count": _sum(rows, "trajectory_replay_store_count"),
+        "trajectory_replay_store_score_mean": _mean(rows, "trajectory_replay_store_score_mean"),
+        "trajectory_replay_store_score_max": max(float(row.get("trajectory_replay_store_score_max", 0.0)) for row in rows)
+        if rows
+        else 0.0,
         "torch_peak_allocated_mb": max(float(row.get("torch_peak_allocated_mb", 0.0)) for row in rows) if rows else 0.0,
         "gpu_monitor_peak_used_mb": max(float(row.get("gpu_monitor_peak_used_mb", 0.0)) for row in rows) if rows else 0.0,
         "elapsed_train_seconds": float(elapsed),
@@ -767,6 +913,12 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
 def _mean(rows: list[dict[str, Any]], key: str) -> float:
     values = [float(row[key]) for row in rows if key in row and row[key] != ""]
     return float(sum(values) / len(values)) if values else 0.0
+
+
+def _sum(rows: list[dict[str, Any]], key: str) -> float:
+    """Return the numeric sum for a metric key across rank rows."""
+    values = [float(row[key]) for row in rows if key in row and row[key] != ""]
+    return float(sum(values)) if values else 0.0
 
 
 def _save_checkpoint(

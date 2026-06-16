@@ -14,6 +14,43 @@ diffgui_training:
   batch_size: 2
   checkpoint_every_epochs: 1
 
+diffgui_training_filter:
+  enabled: false
+  require_reconstruction_success: true
+  require_rdkit_valid: true
+  min_train_graphs_per_rank: 1
+  extreme_reward_quantile_drop: 0.0
+  missing_quality_filter_policy: "ignore"
+  quality_filters:
+    fragment_count:
+      max: 1
+    three_member_ring_count:
+      max: 0
+
+diffgui_good_molecule_pool:
+  enabled: false
+  top_k_per_rank_per_epoch: 4
+  retained_top_k: 128
+  retention_window_epochs: 10
+  score_key: "reward_total"
+  require_training_keep: true
+  deduplicate_smiles: true
+  missing_quality_filter_policy: "ignore"
+  quality_filters:
+    fragment_count:
+      max: 1
+    three_member_ring_count:
+      max: 0
+
+diffgui_trajectory_replay:
+  enabled: false
+  store_enabled: false
+  warmup_epochs: 2
+  replay_ratio: 0.10
+  max_age_epochs: 3
+  max_replay_graphs_per_rank: 2
+  sample_strategy: "top_score_recent"
+
 diffgui_docking_batch_sweep:
   device: "cuda:0"
   reward_env: "dif"
