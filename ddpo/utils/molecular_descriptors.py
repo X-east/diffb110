@@ -19,7 +19,7 @@ from typing import Any
 
 import numpy as np
 from rdkit import Chem
-from rdkit.Chem import Descriptors, rdMolDescriptors
+from rdkit.Chem import AllChem, Descriptors, rdMolDescriptors
 
 # ---------------------------------------------------------------------------
 # Fingerprint parameters (match DiversityReward defaults)
@@ -254,12 +254,26 @@ def compute_fingerprint_pairwise_similarities(
     if len(rdmols) < 2:
         return [0.0] * len(rdmols)
 
-    # Lazy import — avoids dragging the full reward stack on load.
-    from ddpo.rewards.diversity_reward import DiversityReward  # noqa: E402
+    bit_sets: list[set[int]] = []
+    for mol in rdmols:
+        fp = AllChem.GetMorganFingerprintAsBitVect(
+            mol,
+            radius=DEFAULT_FINGERPRINT_RADIUS,
+            nBits=DEFAULT_FINGERPRINT_BITS,
+            useFeatures=use_features,
+        )
+        bit_sets.append(set(int(bit) for bit in fp.GetOnBits()))
 
-    fps = DiversityReward.compute_fingerprints(rdmols, use_features=use_features)
-    bit_sets = [DiversityReward.fingerprint_on_bits(fp) for fp in fps]
-    return DiversityReward.compute_mean_similarities_from_bit_sets(bit_sets)
+    similarities: list[float] = []
+    for i, bits in enumerate(bit_sets):
+        pair_sims: list[float] = []
+        for j, ref_bits in enumerate(bit_sets):
+            if i == j:
+                continue
+            union_size = len(bits | ref_bits)
+            pair_sims.append(float(len(bits & ref_bits) / union_size) if union_size else 0.0)
+        similarities.append(float(sum(pair_sims) / len(pair_sims)) if pair_sims else 0.0)
+    return similarities
 
 
 def compute_molecular_descriptors(

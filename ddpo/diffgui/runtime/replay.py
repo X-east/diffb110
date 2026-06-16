@@ -42,17 +42,29 @@ class DiffGuiTrajectoryReplayBuffer:
         self.store_enabled = bool(cfg.get("store_enabled", self.enabled))
         self.warmup_epochs = max(0, int(cfg.get("warmup_epochs", 0)))
         self.replay_ratio = max(0.0, float(cfg.get("replay_ratio", 0.0)))
+        self.current_replay_ratio = self.replay_ratio
         self.sample_size = None if cfg.get("sample_size") is None else max(0, int(cfg.get("sample_size")))
         self.max_replay_graphs_per_rank = cfg.get("max_replay_graphs_per_rank")
         if self.max_replay_graphs_per_rank is not None:
             self.max_replay_graphs_per_rank = max(0, int(self.max_replay_graphs_per_rank))
         self.max_age_epochs = max(1, int(cfg.get("max_age_epochs", 3)))
         self.sample_strategy = str(cfg.get("sample_strategy", "top_score_recent"))
+        self.max_approx_kl = _optional_float(cfg.get("max_approx_kl", 0.03))
+        self.max_clipfrac = _optional_float(cfg.get("max_clipfrac", 0.30))
+        self.max_ratio_mean_deviation = _optional_float(cfg.get("max_ratio_mean_deviation", 0.20))
+        self.ratio_decay = min(1.0, max(0.0, float(cfg.get("ratio_decay", 0.5))))
+        self.ratio_recovery = max(1.0, float(cfg.get("ratio_recovery", 1.0)))
+        self.min_replay_ratio = max(0.0, float(cfg.get("min_replay_ratio", 0.0)))
+        self.disable_on_violation = bool(cfg.get("disable_on_violation", False))
         self.seed = int(cfg.get("seed", 42))
         self.rng = random.Random(self.seed + self.rank)
         self.shards_dir = self.root_dir / f"rank_{self.rank:02d}" / "shards"
         self.manifest_path = self.root_dir / f"trajectory_manifest_rank{self.rank:02d}.jsonl"
+        self.gate_state_path = self.root_dir / f"replay_gate_state_rank{self.rank:02d}.json"
         self._manifest = self._load_manifest()
+        self.violation_streak = 0
+        self.recovery_streak = 0
+        self._load_gate_state()
         if self.enabled or self.store_enabled:
             self.shards_dir.mkdir(parents=True, exist_ok=True)
             self.root_dir.mkdir(parents=True, exist_ok=True)
@@ -93,6 +105,8 @@ class DiffGuiTrajectoryReplayBuffer:
             return ReplaySample(
                 metrics={
                     "trajectory_replay_enabled": float(self.enabled),
+                    "trajectory_replay_base_ratio": float(self.replay_ratio),
+                    "trajectory_replay_effective_ratio": float(self.current_replay_ratio),
                     "trajectory_replay_sample_count": 0.0,
                     "trajectory_replay_eligible_shards": 0.0,
                 }
@@ -103,6 +117,8 @@ class DiffGuiTrajectoryReplayBuffer:
             return ReplaySample(
                 metrics={
                     "trajectory_replay_enabled": 1.0,
+                    "trajectory_replay_base_ratio": float(self.replay_ratio),
+                    "trajectory_replay_effective_ratio": float(self.current_replay_ratio),
                     "trajectory_replay_sample_count": 0.0,
                     "trajectory_replay_eligible_shards": float(eligible_count),
                 }
@@ -112,6 +128,8 @@ class DiffGuiTrajectoryReplayBuffer:
             return ReplaySample(
                 metrics={
                     "trajectory_replay_enabled": 1.0,
+                    "trajectory_replay_base_ratio": float(self.replay_ratio),
+                    "trajectory_replay_effective_ratio": float(self.current_replay_ratio),
                     "trajectory_replay_sample_count": 0.0,
                     "trajectory_replay_eligible_shards": 0.0,
                 }
@@ -137,6 +155,8 @@ class DiffGuiTrajectoryReplayBuffer:
             return ReplaySample(
                 metrics={
                     "trajectory_replay_enabled": 1.0,
+                    "trajectory_replay_base_ratio": float(self.replay_ratio),
+                    "trajectory_replay_effective_ratio": float(self.current_replay_ratio),
                     "trajectory_replay_sample_count": 0.0,
                     "trajectory_replay_eligible_shards": float(len(eligible)),
                 }
@@ -152,6 +172,8 @@ class DiffGuiTrajectoryReplayBuffer:
             batch=batch,
             metrics={
                 "trajectory_replay_enabled": 1.0,
+                "trajectory_replay_base_ratio": float(self.replay_ratio),
+                "trajectory_replay_effective_ratio": float(self.current_replay_ratio),
                 "trajectory_replay_sample_count": float(batch.advantages.shape[0]),
                 "trajectory_replay_eligible_shards": float(len(eligible)),
                 "trajectory_replay_age_mean": age_mean,
@@ -164,10 +186,83 @@ class DiffGuiTrajectoryReplayBuffer:
         if self.sample_size is not None:
             target = int(self.sample_size)
         else:
-            target = int(math.floor(max(0, int(current_batch_size)) * self.replay_ratio))
+            target = int(math.floor(max(0, int(current_batch_size)) * self.current_replay_ratio))
         if self.max_replay_graphs_per_rank is not None:
             target = min(target, int(self.max_replay_graphs_per_rank))
         return max(0, target)
+
+    def observe_update_metrics(self, metrics: dict[str, Any], *, epoch: int) -> dict[str, float]:
+        """Update replay gate state from PPO KL/clip metrics for future epochs."""
+        ratio_before = float(self.current_replay_ratio)
+        replay_count = _float_or_none(metrics.get("trajectory_replay_sample_count")) or 0.0
+        gate_enabled = bool(self.enabled and self._constraints_enabled())
+        if not gate_enabled or replay_count <= 0:
+            gate_metrics = {
+                "trajectory_replay_gate_enabled": float(gate_enabled),
+                "trajectory_replay_gate_observed": 0.0,
+                "trajectory_replay_gate_violation": 0.0,
+                "trajectory_replay_gate_ratio_before": ratio_before,
+                "trajectory_replay_gate_ratio_after": float(self.current_replay_ratio),
+                "trajectory_replay_gate_violation_streak": float(self.violation_streak),
+                "trajectory_replay_gate_recovery_streak": float(self.recovery_streak),
+            }
+            self._write_gate_state(epoch=epoch, reasons=[])
+            return gate_metrics
+
+        reasons = self._violation_reasons(metrics)
+        if reasons:
+            self.violation_streak += 1
+            self.recovery_streak = 0
+            if self.disable_on_violation:
+                self.current_replay_ratio = 0.0
+            else:
+                decayed = self.current_replay_ratio * self.ratio_decay
+                self.current_replay_ratio = max(self.min_replay_ratio, decayed)
+        else:
+            self.violation_streak = 0
+            self.recovery_streak += 1
+            if self.ratio_recovery > 1.0 and self.current_replay_ratio < self.replay_ratio:
+                self.current_replay_ratio = min(self.replay_ratio, self.current_replay_ratio * self.ratio_recovery)
+
+        self._write_gate_state(epoch=epoch, reasons=reasons)
+        return {
+            "trajectory_replay_gate_enabled": 1.0,
+            "trajectory_replay_gate_observed": 1.0,
+            "trajectory_replay_gate_violation": float(bool(reasons)),
+            "trajectory_replay_gate_reason_count": float(len(reasons)),
+            "trajectory_replay_gate_ratio_before": ratio_before,
+            "trajectory_replay_gate_ratio_after": float(self.current_replay_ratio),
+            "trajectory_replay_gate_violation_streak": float(self.violation_streak),
+            "trajectory_replay_gate_recovery_streak": float(self.recovery_streak),
+            "trajectory_replay_gate_approx_kl": float(_float_or_none(metrics.get("PPO_ApproxKL")) or 0.0),
+            "trajectory_replay_gate_clipfrac": float(_float_or_none(metrics.get("ClipFrac")) or 0.0),
+            "trajectory_replay_gate_ratio_mean": float(_float_or_none(metrics.get("RatioMean")) or 0.0),
+        }
+
+    def _constraints_enabled(self) -> bool:
+        """Return whether any replay off-policy guard is configured."""
+        return any(
+            value is not None
+            for value in (self.max_approx_kl, self.max_clipfrac, self.max_ratio_mean_deviation)
+        )
+
+    def _violation_reasons(self, metrics: dict[str, Any]) -> list[str]:
+        """Return replay gate violation reason strings."""
+        reasons: list[str] = []
+        approx_kl = _float_or_none(metrics.get("PPO_ApproxKL"))
+        if self.max_approx_kl is not None and approx_kl is not None and approx_kl > self.max_approx_kl:
+            reasons.append("approx_kl")
+        clipfrac = _float_or_none(metrics.get("ClipFrac"))
+        if self.max_clipfrac is not None and clipfrac is not None and clipfrac > self.max_clipfrac:
+            reasons.append("clipfrac")
+        ratio_mean = _float_or_none(metrics.get("RatioMean"))
+        if (
+            self.max_ratio_mean_deviation is not None
+            and ratio_mean is not None
+            and abs(ratio_mean - 1.0) > self.max_ratio_mean_deviation
+        ):
+            reasons.append("ratio_mean")
+        return reasons
 
     def _eligible_shards(self, epoch: int) -> list[dict[str, Any]]:
         """Return previous-epoch shards inside the age window."""
@@ -219,6 +314,39 @@ class DiffGuiTrajectoryReplayBuffer:
         with self.manifest_path.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
         self._manifest.append(record)
+
+    def _load_gate_state(self) -> None:
+        """Load persisted replay gate ratio state if present."""
+        if not self.gate_state_path.exists():
+            return
+        try:
+            state = json.loads(self.gate_state_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return
+        ratio = _float_or_none(state.get("current_replay_ratio"))
+        if ratio is not None:
+            self.current_replay_ratio = min(self.replay_ratio, max(self.min_replay_ratio, ratio))
+        self.violation_streak = max(0, int(state.get("violation_streak", 0) or 0))
+        self.recovery_streak = max(0, int(state.get("recovery_streak", 0) or 0))
+
+    def _write_gate_state(self, *, epoch: int, reasons: list[str]) -> None:
+        """Persist replay gate state for run-level auditability."""
+        if not (self.enabled or self.store_enabled):
+            return
+        payload = {
+            "epoch": int(epoch),
+            "rank": int(self.rank),
+            "base_replay_ratio": float(self.replay_ratio),
+            "current_replay_ratio": float(self.current_replay_ratio),
+            "violation_streak": int(self.violation_streak),
+            "recovery_streak": int(self.recovery_streak),
+            "last_violation_reasons": list(reasons),
+            "max_approx_kl": self.max_approx_kl,
+            "max_clipfrac": self.max_clipfrac,
+            "max_ratio_mean_deviation": self.max_ratio_mean_deviation,
+        }
+        self.gate_state_path.parent.mkdir(parents=True, exist_ok=True)
+        self.gate_state_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def concat_diffgui_policy_batches(batches: list[DiffGuiPolicyBatch]) -> DiffGuiPolicyBatch:
@@ -359,3 +487,10 @@ def _float_or_none(value: Any) -> float | None:
     except (TypeError, ValueError):
         return None
     return numeric if math.isfinite(numeric) else None
+
+
+def _optional_float(value: Any) -> float | None:
+    """Return ``None`` for unset values, otherwise a finite float."""
+    if value is None or value == "":
+        return None
+    return _float_or_none(value)

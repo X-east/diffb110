@@ -163,13 +163,16 @@ def _run_training(
         device=device,
     )
     DiffGuiActor._apply_freeze_policy(model, config.get("train", {}).get("freeze", {}))
-    ddp_model = DDP(
-        model,
-        device_ids=[dist_info["local_rank"]],
-        output_device=dist_info["local_rank"],
-        find_unused_parameters=bool(config.get("train", {}).get("ddp_find_unused_parameters", False)),
-    )
-    actor = DiffGuiActor(ddp_model, _build_actor_config(config))
+    if dist_info["world_size"] > 1:
+        training_model: torch.nn.Module = DDP(
+            model,
+            device_ids=[dist_info["local_rank"]],
+            output_device=dist_info["local_rank"],
+            find_unused_parameters=bool(config.get("train", {}).get("ddp_find_unused_parameters", False)),
+        )
+    else:
+        training_model = model
+    actor = DiffGuiActor(training_model, _build_actor_config(config))
     training_filter = DiffGuiTrainingFilter(config.get("diffgui_training_filter", {}) or {})
     good_pool = DiffGuiGoodMoleculePool(
         run_dir / str((config.get("diffgui_good_molecule_pool", {}) or {}).get("subdir", "good_molecule_pool")),
@@ -199,7 +202,7 @@ def _run_training(
     for epoch in range(1, epochs + 1):
         local_row = _run_epoch(
             config=rank_config,
-            model=ddp_model,
+            model=training_model,
             actor=actor,
             training_filter=training_filter,
             good_pool=good_pool,
@@ -220,7 +223,8 @@ def _run_training(
             _write_metrics_csv(run_dir / "training_summary.csv", metrics_rows)
             _write_summary_plot(run_dir / "metrics" / "training_summary.png", metrics_rows)
             if _should_save_checkpoint(config, epoch):
-                checkpoint_path = _save_checkpoint(run_dir, epoch, ddp_model.module, actor, config, row, dist_info)
+                checkpoint_model = training_model.module if hasattr(training_model, "module") else training_model
+                checkpoint_path = _save_checkpoint(run_dir, epoch, checkpoint_model, actor, config, row, dist_info)
                 row["checkpoint"] = str(checkpoint_path)
                 _write_metrics_csv(metrics_csv, metrics_rows)
                 _write_metrics_csv(run_dir / "training_summary.csv", metrics_rows)
@@ -244,7 +248,7 @@ def _run_training(
 def _run_epoch(
     *,
     config: dict[str, Any],
-    model: DDP,
+    model: torch.nn.Module,
     actor: DiffGuiActor,
     training_filter: DiffGuiTrainingFilter,
     good_pool: DiffGuiGoodMoleculePool,
@@ -419,6 +423,7 @@ def _run_epoch(
         actor_metrics.update(good_selection.metrics)
         actor_metrics.update(replay_store_metrics)
         actor_metrics.update(replay_train_metrics)
+        actor_metrics.update(replay_buffer.observe_update_metrics(actor_metrics, epoch=epoch))
         timing["ppo_seconds"] = time.perf_counter() - phase_start
         step_metrics_path = _write_step_metrics_csv(
             epoch_dir / "ppo_step_metrics.csv",
@@ -902,6 +907,31 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "trajectory_replay_store_score_max": max(float(row.get("trajectory_replay_store_score_max", 0.0)) for row in rows)
         if rows
         else 0.0,
+        "trajectory_replay_gate_enabled": _mean(rows, "trajectory_replay_gate_enabled"),
+        "trajectory_replay_gate_observed": _mean(rows, "trajectory_replay_gate_observed"),
+        "trajectory_replay_gate_violation": max(float(row.get("trajectory_replay_gate_violation", 0.0)) for row in rows)
+        if rows
+        else 0.0,
+        "trajectory_replay_gate_reason_count": max(
+            float(row.get("trajectory_replay_gate_reason_count", 0.0)) for row in rows
+        )
+        if rows
+        else 0.0,
+        "trajectory_replay_gate_ratio_before": _mean(rows, "trajectory_replay_gate_ratio_before"),
+        "trajectory_replay_gate_ratio_after": _mean(rows, "trajectory_replay_gate_ratio_after"),
+        "trajectory_replay_gate_violation_streak": max(
+            float(row.get("trajectory_replay_gate_violation_streak", 0.0)) for row in rows
+        )
+        if rows
+        else 0.0,
+        "trajectory_replay_gate_recovery_streak": min(
+            float(row.get("trajectory_replay_gate_recovery_streak", 0.0)) for row in rows
+        )
+        if rows
+        else 0.0,
+        "trajectory_replay_gate_approx_kl": _mean(rows, "trajectory_replay_gate_approx_kl"),
+        "trajectory_replay_gate_clipfrac": _mean(rows, "trajectory_replay_gate_clipfrac"),
+        "trajectory_replay_gate_ratio_mean": _mean(rows, "trajectory_replay_gate_ratio_mean"),
         "torch_peak_allocated_mb": max(float(row.get("torch_peak_allocated_mb", 0.0)) for row in rows) if rows else 0.0,
         "gpu_monitor_peak_used_mb": max(float(row.get("gpu_monitor_peak_used_mb", 0.0)) for row in rows) if rows else 0.0,
         "elapsed_train_seconds": float(elapsed),

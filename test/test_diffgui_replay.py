@@ -180,3 +180,48 @@ def test_trajectory_replay_store_sample_and_build_train_batch(tmp_path: Path) ->
     assert replay_metrics["trajectory_replay_sample_count"] == 1.0
     assert train_batch.advantages.shape[0] == 3
     train_batch.validate()
+
+
+def test_replay_gate_decays_ratio_on_kl_or_clip_violation(tmp_path: Path) -> None:
+    """Replay gate should lower the effective replay ratio after stale-policy signals."""
+    buffer = DiffGuiTrajectoryReplayBuffer(
+        tmp_path / "replay_gate",
+        {
+            "enabled": True,
+            "store_enabled": False,
+            "replay_ratio": 0.4,
+            "max_approx_kl": 0.03,
+            "max_clipfrac": 0.30,
+            "ratio_decay": 0.5,
+        },
+        rank=0,
+    )
+
+    metrics = buffer.observe_update_metrics(
+        {"trajectory_replay_sample_count": 2.0, "PPO_ApproxKL": 0.05, "ClipFrac": 0.10, "RatioMean": 1.0},
+        epoch=3,
+    )
+
+    assert metrics["trajectory_replay_gate_violation"] == 1.0
+    assert metrics["trajectory_replay_gate_ratio_before"] == 0.4
+    assert metrics["trajectory_replay_gate_ratio_after"] == 0.2
+    assert buffer.current_replay_ratio == 0.2
+    assert buffer.gate_state_path.exists()
+
+
+def test_replay_gate_ignores_current_only_updates(tmp_path: Path) -> None:
+    """Replay gate should not decay ratio when no replay samples were used."""
+    buffer = DiffGuiTrajectoryReplayBuffer(
+        tmp_path / "replay_gate_no_sample",
+        {"enabled": True, "replay_ratio": 0.4, "max_approx_kl": 0.03},
+        rank=0,
+    )
+
+    metrics = buffer.observe_update_metrics(
+        {"trajectory_replay_sample_count": 0.0, "PPO_ApproxKL": 1.0, "ClipFrac": 1.0, "RatioMean": 2.0},
+        epoch=1,
+    )
+
+    assert metrics["trajectory_replay_gate_observed"] == 0.0
+    assert metrics["trajectory_replay_gate_violation"] == 0.0
+    assert buffer.current_replay_ratio == 0.4

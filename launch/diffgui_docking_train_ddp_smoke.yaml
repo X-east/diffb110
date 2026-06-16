@@ -5,7 +5,7 @@ dataset: crossdock
 diffgui_model:
   sample_config: "reference project/DiffGui/configs/sample/sample.yml"
   checkpoint: "reference project/DiffGui/ckpt/trained.pt"
-  pocket_pdb: "analysis/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
+  pocket_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
   ligand_sdf: "None"
 
 diffgui_training:
@@ -50,6 +50,13 @@ diffgui_trajectory_replay:
   max_age_epochs: 3
   max_replay_graphs_per_rank: 2
   sample_strategy: "top_score_recent"
+  max_approx_kl: 0.03
+  max_clipfrac: 0.30
+  max_ratio_mean_deviation: 0.20
+  ratio_decay: 0.5
+  ratio_recovery: 1.0
+  min_replay_ratio: 0.0
+  disable_on_violation: false
 
 diffgui_docking_batch_sweep:
   device: "cuda:0"
