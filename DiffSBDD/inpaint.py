@@ -5,7 +5,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from Bio.PDB import PDBParser
-from rdkit import Chem
+from rdkit import Chem, Geometry
 from torch_scatter import scatter_mean
 from openbabel import openbabel
 openbabel.obErrorLog.StopLogging()  # suppress OpenBabel messages
@@ -34,6 +34,18 @@ def prepare_from_sdf_files(sdf_files, atom_encoder):
     return torch.cat(ligand_coords, dim=0), torch.cat(atom_one_hot, dim=0)
 
 
+def read_fixed_substructure_sdf(sdf_file):
+    """Read a fixed substructure molecule from an SDF file."""
+    rdmol = Chem.SDMolSupplier(str(sdf_file), sanitize=False)[0]
+    if rdmol is None:
+        raise ValueError(f"Could not read fixed substructure from {sdf_file}")
+    try:
+        Chem.SanitizeMol(rdmol)
+    except ValueError:
+        pass
+    return rdmol
+
+
 def prepare_ligand_from_pdb(biopython_atoms, atom_encoder):
 
     coord = torch.tensor(np.array([a.get_coord()
@@ -59,6 +71,180 @@ def prepare_substructure(ref_ligand, fix_atoms, pdb_model):
         coord, one_hot = prepare_ligand_from_pdb(fixed_atoms, model.lig_type_encoder)
 
     return coord, one_hot
+
+
+def _restore_fixed_ligand_atoms(xh_lig, lig_mask, x_fixed, one_hot_fixed,
+                                n_fixed, x_dims):
+    """Restore fixed ligand atom coordinates and atom types before reconstruction."""
+    if n_fixed == 0:
+        return xh_lig
+
+    x_fixed = x_fixed.to(device=xh_lig.device, dtype=xh_lig.dtype)
+    one_hot_fixed = one_hot_fixed.to(device=xh_lig.device, dtype=xh_lig.dtype)
+    for batch_idx in torch.unique(lig_mask, sorted=True):
+        atom_indices = torch.nonzero(lig_mask == batch_idx, as_tuple=False).view(-1)
+        if atom_indices.numel() < n_fixed:
+            raise ValueError(
+                f"Cannot restore {n_fixed} fixed atoms for ligand batch "
+                f"{int(batch_idx)} with only {int(atom_indices.numel())} atoms"
+            )
+        fixed_indices = atom_indices[:n_fixed]
+        xh_lig[fixed_indices, :x_dims] = x_fixed
+        xh_lig[fixed_indices, x_dims:] = one_hot_fixed
+
+    return xh_lig
+
+
+def _preserve_fixed_substructure_graph(mol, fixed_mol, match_tolerance=0.05):
+    """Preserve atom order, coordinates, and internal bonds of fixed atoms."""
+    n_fixed = fixed_mol.GetNumAtoms()
+    fixed_to_old = _match_fixed_atoms_by_coordinate(
+        mol,
+        fixed_mol,
+        match_tolerance=match_tolerance,
+    )
+    fixed_old_indices = set(fixed_to_old.values())
+    generated_old_indices = [
+        atom.GetIdx() for atom in mol.GetAtoms()
+        if atom.GetIdx() not in fixed_old_indices
+    ]
+
+    old_to_new = {
+        old_idx: fixed_idx for fixed_idx, old_idx in fixed_to_old.items()
+    }
+    old_to_new.update(
+        {
+            old_idx: n_fixed + new_offset
+            for new_offset, old_idx in enumerate(generated_old_indices)
+        }
+    )
+
+    preserved = Chem.RWMol()
+    for atom in fixed_mol.GetAtoms():
+        preserved.AddAtom(Chem.Atom(atom))
+    for old_idx in generated_old_indices:
+        preserved.AddAtom(Chem.Atom(mol.GetAtomWithIdx(old_idx)))
+
+    _copy_reordered_conformer(
+        preserved,
+        mol,
+        fixed_mol,
+        generated_old_indices,
+    )
+    _copy_fixed_core_bonds(preserved, fixed_mol)
+    _copy_generated_and_attachment_bonds(preserved, mol, fixed_old_indices, old_to_new)
+
+    out = preserved.GetMol()
+    _copy_mol_properties(mol, out)
+    return out
+
+
+def _match_fixed_atoms_by_coordinate(mol, fixed_mol, match_tolerance):
+    """Match fixed atoms to a reconstructed molecule using element and coordinates."""
+    if mol.GetNumConformers() == 0 or fixed_mol.GetNumConformers() == 0:
+        raise ValueError("Fixed-core graph preservation requires conformers")
+
+    mol_conf = mol.GetConformer()
+    fixed_conf = fixed_mol.GetConformer()
+    unused_old_indices = {atom.GetIdx() for atom in mol.GetAtoms()}
+    fixed_to_old = {}
+    for fixed_atom in fixed_mol.GetAtoms():
+        fixed_idx = fixed_atom.GetIdx()
+        fixed_symbol = fixed_atom.GetSymbol()
+        fixed_pos = fixed_conf.GetAtomPosition(fixed_idx)
+        candidates = []
+        for old_idx in unused_old_indices:
+            old_atom = mol.GetAtomWithIdx(old_idx)
+            if old_atom.GetSymbol() != fixed_symbol:
+                continue
+            old_pos = mol_conf.GetAtomPosition(old_idx)
+            distance = fixed_pos.Distance(old_pos)
+            candidates.append((distance, old_idx))
+        if not candidates:
+            raise ValueError(
+                f"No reconstructed atom can match fixed atom {fixed_idx} "
+                f"({fixed_symbol})"
+            )
+        distance, old_idx = min(candidates)
+        if distance > match_tolerance:
+            raise ValueError(
+                f"Fixed atom {fixed_idx} ({fixed_symbol}) nearest match is "
+                f"{distance:.4f} A away, above tolerance {match_tolerance:.4f} A"
+            )
+        fixed_to_old[fixed_idx] = old_idx
+        unused_old_indices.remove(old_idx)
+
+    return fixed_to_old
+
+
+def _copy_reordered_conformer(preserved, mol, fixed_mol, generated_old_indices):
+    """Copy fixed coordinates first, then generated coordinates."""
+    fixed_conf = fixed_mol.GetConformer()
+    mol_conf = mol.GetConformer()
+    conformer = Chem.Conformer(preserved.GetNumAtoms())
+    conformer.Set3D(True)
+    n_fixed = fixed_mol.GetNumAtoms()
+    for fixed_idx in range(n_fixed):
+        pos = fixed_conf.GetAtomPosition(fixed_idx)
+        conformer.SetAtomPosition(
+            fixed_idx,
+            Geometry.Point3D(float(pos.x), float(pos.y), float(pos.z)),
+        )
+    for new_offset, old_idx in enumerate(generated_old_indices):
+        pos = mol_conf.GetAtomPosition(old_idx)
+        conformer.SetAtomPosition(
+            n_fixed + new_offset,
+            Geometry.Point3D(float(pos.x), float(pos.y), float(pos.z)),
+        )
+    preserved.AddConformer(conformer)
+
+
+def _copy_fixed_core_bonds(preserved, fixed_mol):
+    """Copy all bonds between fixed atoms from the fixed-core molecule."""
+    for bond in fixed_mol.GetBonds():
+        begin_idx = bond.GetBeginAtomIdx()
+        end_idx = bond.GetEndAtomIdx()
+        preserved.AddBond(begin_idx, end_idx, bond.GetBondType())
+        _copy_bond_flags(
+            bond,
+            preserved.GetBondBetweenAtoms(begin_idx, end_idx),
+        )
+
+
+def _copy_generated_and_attachment_bonds(preserved, mol, fixed_old_indices, old_to_new):
+    """Copy generated-generated and fixed-generated bonds from reconstruction."""
+    for bond in mol.GetBonds():
+        old_begin = bond.GetBeginAtomIdx()
+        old_end = bond.GetEndAtomIdx()
+        if old_begin in fixed_old_indices and old_end in fixed_old_indices:
+            continue
+        if old_begin not in old_to_new or old_end not in old_to_new:
+            continue
+        new_begin = old_to_new[old_begin]
+        new_end = old_to_new[old_end]
+        if new_begin == new_end:
+            continue
+        if preserved.GetBondBetweenAtoms(new_begin, new_end) is not None:
+            continue
+        preserved.AddBond(new_begin, new_end, bond.GetBondType())
+        _copy_bond_flags(
+            bond,
+            preserved.GetBondBetweenAtoms(new_begin, new_end),
+        )
+
+
+def _copy_bond_flags(source_bond, target_bond):
+    """Copy non-query bond flags needed for aromatic core preservation."""
+    if target_bond is None:
+        return
+    target_bond.SetIsAromatic(source_bond.GetIsAromatic())
+    target_bond.SetIsConjugated(source_bond.GetIsConjugated())
+
+
+def _copy_mol_properties(source, target):
+    """Copy string properties from one RDKit molecule to another."""
+    for prop_name in source.GetPropNames(includePrivate=True, includeComputed=False):
+        target.SetProp(prop_name, source.GetProp(prop_name))
 
 
 def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
@@ -106,6 +292,14 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
     # Get fixed ligand substructure
     x_fixed, one_hot_fixed = prepare_substructure(ligand, fix_atoms, pdb_model)
     n_fixed = len(x_fixed)
+    fixed_mol = None
+    if fix_atoms[0].endswith(".sdf"):
+        fixed_mol = read_fixed_substructure_sdf(fix_atoms[0])
+        if fixed_mol.GetNumAtoms() != n_fixed:
+            raise ValueError(
+                f"Fixed SDF atom count {fixed_mol.GetNumAtoms()} does not "
+                f"match fixed tensor atom count {n_fixed}"
+            )
 
     if add_n_nodes is None:
         num_nodes_lig = model.ddpm.size_distribution.sample_conditional(
@@ -171,14 +365,23 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
         (pocket_com_before - pocket_com_after)[pocket_mask]
     xh_lig[:, :model.x_dims] += \
         (pocket_com_before - pocket_com_after)[lig_mask]
+    xh_lig = _restore_fixed_ligand_atoms(
+        xh_lig,
+        lig_mask,
+        x_fixed,
+        one_hot_fixed,
+        n_fixed,
+        model.x_dims,
+    )
 
     # Build mol objects
     x = xh_lig[:, :model.x_dims].detach().cpu()
     atom_type = xh_lig[:, model.x_dims:].argmax(1).detach().cpu()
+    lig_mask_cpu = lig_mask.detach().cpu()
 
     molecules = []
-    for mol_pc in zip(utils.batch_to_list(x, lig_mask),
-                      utils.batch_to_list(atom_type, lig_mask)):
+    for mol_pc in zip(utils.batch_to_list(x, lig_mask_cpu),
+                      utils.batch_to_list(atom_type, lig_mask_cpu)):
 
         mol = reconstruct_molecule(
             *mol_pc,
@@ -186,6 +389,8 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
             method=reconstruction_method,
             add_coords=True,
         )
+        if fixed_mol is not None:
+            mol = _preserve_fixed_substructure_graph(mol, fixed_mol)
         mol = process_molecule(mol,
                                add_hydrogens=False,
                                sanitize=sanitize,
