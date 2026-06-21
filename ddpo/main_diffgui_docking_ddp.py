@@ -70,6 +70,7 @@ from scripts.diffgui_docking_batch_sweep import (  # noqa: E402
     _seed_diffgui,
     _start_gpu_memory_monitor,
     _stop_gpu_memory_monitor,
+    _torch_load_checkpoint,
     _torch_peak_memory_mb,
     _write_reconstructed_outputs,
     _write_summary_plot,
@@ -113,13 +114,17 @@ def main() -> None:
 
         rows = _run_training(args=args, config=config, run_dir=run_dir, dist_info=dist_info)
         if dist_info["rank"] == 0:
+            train_cfg = config.get("diffgui_training", {})
             summary = {
                 "stage": "diffgui_docking_ddp_train",
                 "run_dir": str(run_dir),
                 "world_size": int(dist_info["world_size"]),
-                "epochs": int(config.get("diffgui_training", {}).get("epochs", 1)),
-                "per_rank_batch_size": int(config.get("diffgui_training", {}).get("batch_size", 1)),
-                "global_batch_size": int(config.get("diffgui_training", {}).get("batch_size", 1))
+                "epochs": int(train_cfg.get("epochs", 1)),
+                "epoch_offset": int(train_cfg.get("epoch_offset", 0)),
+                "first_epoch": int(rows[0].get("epoch", 0)) if rows else 0,
+                "final_epoch": int(rows[-1].get("epoch", 0)) if rows else 0,
+                "per_rank_batch_size": int(train_cfg.get("batch_size", 1)),
+                "global_batch_size": int(train_cfg.get("batch_size", 1))
                 * int(dist_info["world_size"]),
                 "metrics_csv": str(run_dir / "metrics" / "metrics.csv"),
                 "final_metrics": rows[-1] if rows else {},
@@ -147,18 +152,22 @@ def _run_training(
     sweep_cfg = config.get("diffgui_docking_batch_sweep", {})
     model_cfg = config.get("diffgui_model", {})
     epochs = int(train_cfg.get("epochs", 1))
+    epoch_offset = int(train_cfg.get("epoch_offset", 0))
     per_rank_batch = int(train_cfg.get("batch_size", 1))
     if epochs <= 0 or per_rank_batch <= 0:
         raise ValueError("diffgui_training.epochs and batch_size must be positive.")
+    if epoch_offset < 0:
+        raise ValueError("diffgui_training.epoch_offset must be non-negative.")
 
     device = torch.device(f"cuda:{dist_info['local_rank']}" if torch.cuda.is_available() else "cpu")
     if device.type != "cuda":
         raise RuntimeError("DiffGui DDP currently requires CUDA.")
     torch.cuda.set_device(device)
     rank_config = _rank_config(config, dist_info, device)
+    checkpoint_path = _resolve_path(model_cfg.get("checkpoint", DIFFGUI_ROOT / "ckpt/trained.pt"))
     model, featurizer, sample_cfg = _load_diffgui_model(
         sample_config=_resolve_path(model_cfg.get("sample_config", DIFFGUI_ROOT / "configs/sample/sample.yml")),
-        checkpoint=_resolve_path(model_cfg.get("checkpoint", DIFFGUI_ROOT / "ckpt/trained.pt")),
+        checkpoint=checkpoint_path,
         num_timesteps=int(sweep_cfg.get("num_timesteps", 100)),
         device=device,
     )
@@ -173,6 +182,7 @@ def _run_training(
     else:
         training_model = model
     actor = DiffGuiActor(training_model, _build_actor_config(config))
+    _restore_actor_optimizer_state(actor=actor, checkpoint=checkpoint_path, device=device)
     training_filter = DiffGuiTrainingFilter(config.get("diffgui_training_filter", {}) or {})
     good_pool = DiffGuiGoodMoleculePool(
         run_dir / str((config.get("diffgui_good_molecule_pool", {}) or {}).get("subdir", "good_molecule_pool")),
@@ -199,7 +209,8 @@ def _run_training(
     metrics_rows: list[dict[str, Any]] = []
     metrics_csv = run_dir / "metrics" / "metrics.csv"
     start_time = time.perf_counter()
-    for epoch in range(1, epochs + 1):
+    for local_epoch in range(1, epochs + 1):
+        epoch = epoch_offset + local_epoch
         local_row = _run_epoch(
             config=rank_config,
             model=training_model,
@@ -943,6 +954,33 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
 def _mean(rows: list[dict[str, Any]], key: str) -> float:
     values = [float(row[key]) for row in rows if key in row and row[key] != ""]
     return float(sum(values) / len(values)) if values else 0.0
+
+
+def _restore_actor_optimizer_state(*, actor: DiffGuiActor, checkpoint: Path, device: torch.device) -> None:
+    """Restore PPO optimizer state when the checkpoint was saved by this trainer."""
+    ckpt = _torch_load_checkpoint(checkpoint, device)
+    optimizer_state = ckpt.get("optimizer_state_dict")
+    if optimizer_state is None:
+        LOGGER.info("checkpoint has no optimizer_state_dict; using fresh optimizer checkpoint=%s", checkpoint)
+        return
+    try:
+        actor.optimizer.load_state_dict(optimizer_state)
+    except Exception as exc:
+        raise RuntimeError(f"Failed to restore optimizer_state_dict from {checkpoint}") from exc
+    _move_optimizer_state_to_device(actor.optimizer, device)
+    LOGGER.info(
+        "restored optimizer_state_dict checkpoint=%s checkpoint_epoch=%s",
+        checkpoint,
+        ckpt.get("epoch", ""),
+    )
+
+
+def _move_optimizer_state_to_device(optimizer: torch.optim.Optimizer, device: torch.device) -> None:
+    """Move optimizer tensors to the rank-local training device."""
+    for state in optimizer.state.values():
+        for key, value in list(state.items()):
+            if torch.is_tensor(value):
+                state[key] = value.to(device)
 
 
 def _sum(rows: list[dict[str, Any]], key: str) -> float:

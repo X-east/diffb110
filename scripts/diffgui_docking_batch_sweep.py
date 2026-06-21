@@ -395,6 +395,14 @@ def _resolve_path(value: Any) -> Path:
     return path if path.is_absolute() else PROJECT_ROOT / path
 
 
+def _torch_load_checkpoint(checkpoint: Path, device: torch.device) -> dict[str, Any]:
+    """Load a torch checkpoint across PyTorch versions."""
+    try:
+        return torch.load(str(checkpoint), map_location=device, weights_only=False)
+    except TypeError:
+        return torch.load(str(checkpoint), map_location=device)
+
+
 def _setup_logging(log_path: Path, log_level: str) -> None:
     """Configure concise terminal and durable file logs."""
     LOGGER.setLevel(getattr(logging, log_level))
@@ -432,10 +440,13 @@ def _load_diffgui_model(
     num_timesteps: int,
     device: torch.device,
 ) -> tuple[torch.nn.Module, Any, Any]:
-    """Load the reference DiffGui checkpoint with corrected timestep buffers."""
+    """Load a reference or PPO-trained DiffGui checkpoint with corrected timestep buffers."""
     sample_cfg = load_diffgui_config(sample_config)
-    ckpt = torch.load(str(checkpoint), map_location=device)
-    train_cfg = ckpt["config"]
+    train_cfg, model_state, checkpoint_meta = _load_diffgui_checkpoint_state(
+        checkpoint=checkpoint,
+        device=device,
+        visited=set(),
+    )
     force_diff_config_num_timesteps(train_cfg.model.diff, num_timesteps)
     featurizer = FeatureComplex(train_cfg.data.transform.ligand_atom_mode, sample=True)
     model = DiffGui(
@@ -444,11 +455,70 @@ def _load_diffgui_model(
         ligand_node_types=featurizer.atom_feat_dim,
         num_edge_types=featurizer.bond_feat_dim,
     ).to(device)
-    load_report = load_diffgui_network_state(model, ckpt["model"])
+    load_report = load_diffgui_network_state(model, model_state)
     model.eval()
-    LOGGER.info("loaded DiffGui checkpoint=%s iteration=%s load_report=%s", checkpoint, ckpt.get("iteration"), load_report)
+    LOGGER.info(
+        "loaded DiffGui checkpoint=%s checkpoint_meta=%s load_report=%s",
+        checkpoint,
+        checkpoint_meta,
+        load_report,
+    )
     LOGGER.info("DiffGui model.num_timesteps=%d", int(model.num_timesteps))
     return model, featurizer, sample_cfg
+
+
+def _load_diffgui_checkpoint_state(
+    *,
+    checkpoint: Path,
+    device: torch.device,
+    visited: set[Path],
+) -> tuple[Any, dict[str, torch.Tensor], dict[str, Any]]:
+    """Return the base DiffGui config plus model weights from supported checkpoints."""
+    resolved = checkpoint.resolve()
+    if resolved in visited:
+        raise RuntimeError(f"DiffGui checkpoint base chain contains a cycle at {resolved}")
+    visited.add(resolved)
+
+    ckpt = _torch_load_checkpoint(resolved, device)
+    if "model" in ckpt and "config" in ckpt:
+        return (
+            ckpt["config"],
+            ckpt["model"],
+            {
+                "format": "reference_diffgui",
+                "checkpoint": str(resolved),
+                "iteration": ckpt.get("iteration", ""),
+            },
+        )
+
+    if "model_state_dict" in ckpt:
+        saved_config = ckpt.get("config")
+        if not isinstance(saved_config, dict):
+            raise KeyError(f"DiffGui training checkpoint has no dict config: {resolved}")
+        model_cfg = saved_config.get("diffgui_model") or {}
+        base_checkpoint_value = model_cfg.get("base_checkpoint") or model_cfg.get("checkpoint")
+        if not base_checkpoint_value:
+            raise KeyError(f"DiffGui training checkpoint has no base checkpoint in config: {resolved}")
+        base_checkpoint = _resolve_path(base_checkpoint_value)
+        train_cfg, _, base_meta = _load_diffgui_checkpoint_state(
+            checkpoint=base_checkpoint,
+            device=device,
+            visited=visited,
+        )
+        return (
+            train_cfg,
+            ckpt["model_state_dict"],
+            {
+                "format": "diffgui_ddp_training",
+                "checkpoint": str(resolved),
+                "epoch": ckpt.get("epoch", ""),
+                "stage": ckpt.get("stage", ""),
+                "base_checkpoint": str(base_checkpoint),
+                "base_meta": base_meta,
+            },
+        )
+
+    raise KeyError(f"Unsupported DiffGui checkpoint format: {resolved}")
 
 
 def _build_prompt(
