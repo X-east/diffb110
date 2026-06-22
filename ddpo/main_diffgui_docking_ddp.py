@@ -30,6 +30,11 @@ if str(PROJECT_ROOT) not in sys.path:
 if str(DIFFGUI_ROOT) not in sys.path:
     sys.path.insert(0, str(DIFFGUI_ROOT))
 
+from ddpo.diffgui.deppa import (  # noqa: E402
+    build_local_deppa_records,
+    compute_deppa_advantages,
+    is_deppa_mode_enabled,
+)
 from ddpo.diffgui.runtime.actor import DiffGuiActor  # noqa: E402
 from ddpo.diffgui.runtime.good_pool import DiffGuiGoodMoleculePool, GoodPoolSelection  # noqa: E402
 from ddpo.diffgui.runtime.per_timestep_diagnostics import (  # noqa: E402
@@ -343,12 +348,29 @@ def _run_epoch(
         )
         timing["reward_seconds"] = time.perf_counter() - phase_start
 
-        rewards_by_graph = _rewards_by_graph_index(
-            reconstruction_rows=reconstruction_rows,
-            reward_rows=reward_rows,
-            failure_penalty=float(sweep_cfg.get("failure_advantage", -1.0)),
-        )
-        advantages = _make_global_advantages(rewards_by_graph, sweep_cfg=sweep_cfg, dist_info=dist_info)
+        deppa_result = None
+        if is_deppa_mode_enabled(config):
+            local_deppa_records = build_local_deppa_records(
+                reconstruction_rows=reconstruction_rows,
+                reward_rows=reward_rows,
+                rank=rank,
+                config=config.get("diffgui_deppa_mode", {}) or {},
+            )
+            gathered_deppa_records = _all_gather_object(local_deppa_records, int(dist_info["world_size"]))
+            deppa_result = compute_deppa_advantages(
+                local_records=local_deppa_records,
+                gathered_records=gathered_deppa_records,
+                config=config.get("diffgui_deppa_mode", {}) or {},
+            )
+            rewards_by_graph = deppa_result.rewards_by_graph
+            advantages = deppa_result.advantages
+        else:
+            rewards_by_graph = _rewards_by_graph_index(
+                reconstruction_rows=reconstruction_rows,
+                reward_rows=reward_rows,
+                failure_penalty=float(sweep_cfg.get("failure_advantage", -1.0)),
+            )
+            advantages = _make_global_advantages(rewards_by_graph, sweep_cfg=sweep_cfg, dist_info=dist_info)
         policy_batch = _replace_policy_advantages(policy_batch, advantages)
         molecule_rows = write_molecule_records_csv(
             epoch_dir / "molecules_with_rewards.csv",
@@ -360,6 +382,13 @@ def _run_epoch(
             rank=rank,
             seed=seed,
         )
+        if deppa_result is not None:
+            molecule_rows = _merge_molecule_deppa_fields(molecule_rows, deppa_result.fields_by_graph)
+            _write_csv_rows(
+                epoch_dir / "molecules_with_rewards.csv",
+                molecule_rows,
+                fieldnames=_ordered_fieldnames(molecule_rows),
+            )
 
         filter_selection = training_filter.select(molecule_rows, batch_size=per_rank_batch)
         filter_selection = training_filter.crop_for_ddp(filter_selection, device=device)
@@ -466,6 +495,8 @@ def _run_epoch(
             gpu_memory=memory,
             output_dir=epoch_dir,
         )
+        if deppa_result is not None:
+            row.update(deppa_result.summary)
         row.update(
             {
                 "rank": rank,
@@ -775,6 +806,21 @@ def _write_csv_rows(path: Path, rows: list[dict[str, Any]], *, fieldnames: list[
             writer.writerow({key: _csv_value(row.get(key, "")) for key in fields})
 
 
+def _merge_molecule_deppa_fields(
+    molecule_rows: list[dict[str, Any]],
+    fields_by_graph: dict[int, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Attach DePPA audit fields to molecule rows by local graph index."""
+    merged: list[dict[str, Any]] = []
+    for row in molecule_rows:
+        out = dict(row)
+        graph_index = _row_int(out, "local_mol_index", default=-1)
+        if graph_index in fields_by_graph:
+            out.update(fields_by_graph[graph_index])
+        merged.append(out)
+    return merged
+
+
 def _ordered_fieldnames(rows: list[dict[str, Any]], *, preferred: list[str] | None = None) -> list[str]:
     """Return preferred fields followed by dynamic fields."""
     ordered = list(preferred or [])
@@ -947,6 +993,7 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "gpu_monitor_peak_used_mb": max(float(row.get("gpu_monitor_peak_used_mb", 0.0)) for row in rows) if rows else 0.0,
         "elapsed_train_seconds": float(elapsed),
     }
+    row.update(_aggregate_prefixed_numeric_metrics(rows, "deppa_"))
     row["rank_rows_json"] = json.dumps(rows, ensure_ascii=False)
     return row
 
@@ -954,6 +1001,34 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
 def _mean(rows: list[dict[str, Any]], key: str) -> float:
     values = [float(row[key]) for row in rows if key in row and row[key] != ""]
     return float(sum(values) / len(values)) if values else 0.0
+
+
+def _aggregate_prefixed_numeric_metrics(rows: list[dict[str, Any]], prefix: str) -> dict[str, float]:
+    """Aggregate optional prefixed metrics that may be absent in legacy runs."""
+    aggregated: dict[str, float] = {}
+    keys = sorted({key for row in rows for key in row if str(key).startswith(prefix)})
+    for key in keys:
+        values: list[float] = []
+        for row in rows:
+            if key not in row or row[key] == "":
+                continue
+            try:
+                values.append(float(row[key]))
+            except (TypeError, ValueError):
+                continue
+        if not values:
+            continue
+        if key.endswith("_valid_count") or key.endswith("_invalid_count"):
+            aggregated[key] = float(sum(values))
+        elif key.endswith("_enabled"):
+            aggregated[key] = float(max(values))
+        elif key.endswith("_min"):
+            aggregated[key] = float(min(values))
+        elif key.endswith("_max"):
+            aggregated[key] = float(max(values))
+        else:
+            aggregated[key] = float(sum(values) / len(values))
+    return aggregated
 
 
 def _restore_actor_optimizer_state(*, actor: DiffGuiActor, checkpoint: Path, device: torch.device) -> None:
