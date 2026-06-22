@@ -814,7 +814,10 @@ def _merge_molecule_deppa_fields(
     merged: list[dict[str, Any]] = []
     for row in molecule_rows:
         out = dict(row)
-        graph_index = _row_int(out, "local_mol_index", default=-1)
+        try:
+            graph_index = int(float(out.get("local_mol_index", -1)))
+        except (TypeError, ValueError):
+            graph_index = -1
         if graph_index in fields_by_graph:
             out.update(fields_by_graph[graph_index])
         merged.append(out)
