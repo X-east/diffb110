@@ -1,0 +1,175 @@
+name: diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to200-20260622
+dataset: crossdock
+diffgui_model:
+  sample_config: reference project/DiffGui/configs/sample/sample.yml
+  checkpoint: OUT/diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to50_20260621_225705/checkpoints/latest.pt
+  base_checkpoint: reference project/DiffGui/ckpt/trained.pt
+  pocket_pdb: analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+  ligand_sdf: None
+diffgui_training:
+  output_root: OUT
+  epochs: 150
+  epoch_offset: 50
+  batch_size: 18
+  checkpoint_every_epochs: 5
+diffgui_docking_batch_sweep:
+  device: cuda:0
+  reward_env: dif
+  reward_device: cuda
+  reward_batch_size: null
+  reward_timeout_seconds: 3600
+  num_timesteps: 200
+  auto_configure_timesteps: true
+  ligand_size_mode: priori
+  ligand_atoms: 24
+  seed_base: 260618400
+  gui_strength: 3.0
+  precision: bf16
+  graph_micro_batch_size: 1
+  normalize_advantages: true
+  advantage_epsilon: 1.0e-06
+  advantage_clip_min: -2.0
+  advantage_clip_max: 2.0
+  failure_advantage: -1.0
+  memory_poll_interval: 5.0
+pocket:
+  pdb_path: ./data/8GJL.pdb
+  ref_ligand: C:1101
+  pdbqt_path: ./data/8gjl.pdbqt
+reward:
+  weights:
+    docking: 0.25
+    ligand_efficiency: 0.15
+    qed: 0.0
+    sa: 0.0
+    aromatic_scaffold: 0.35
+    ring_complexity: 0.0
+    ring_pathology: 0.1
+    chembl_classifier: 0.0
+    chemistry_guard: 0.15
+  per_component_normalization:
+    enabled: false
+  normalization:
+    enabled: false
+  docking:
+    backend: unidock
+    receptor_file: ./data/8gjl.pdbqt
+    normalization_factor: -10.0
+    center_x: 207.293
+    center_y: 212.43
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    exhaustiveness: 8
+    search_mode: fast
+  ligand_efficiency:
+    failure_penalty: -1.0
+    min_le: 0.0
+    max_le: 1.2
+    scale: 1.0
+  aromatic_scaffold:
+    failure_penalty: -1.0
+    base_reward: 0.0
+    min_reward: -1.0
+    max_reward: 1.0
+    reward_all_aromatic_rings: true
+    aromatic_one_ring_bonus: 0.7
+    aromatic_two_ring_bonus: 0.9
+    aromatic_three_ring_bonus: 1.0
+    missing_aromatic_penalty: 0.4
+    max_rewarded_aromatic_ring_count: 3
+    extra_aromatic_ring_penalty: 0.45
+    max_aliphatic_ring_count: 2
+    aliphatic_ring_penalty: 0.25
+    max_aliphatic_carbocycle_ring_count: 1
+    aliphatic_carbocycle_penalty: 0.25
+    exact_single_benzene_reward: 1.0
+    missing_benzene_penalty: 0.25
+    max_benzene_ring_count: 2
+    extra_benzene_penalty: 0.25
+    max_heterocycle_ring_count: 999
+    multi_heterocycle_penalty: 0.0
+    max_fused_ring_system_size: 4
+    fused_penalty: 0.15
+    max_three_member_ring_count: 0
+    three_member_penalty: 0.3
+    max_total_halogen_count: 3
+    total_halogen_penalty: 0.15
+    max_aromatic_halogen_count: 2
+    aromatic_halogen_penalty: 0.15
+  ring_complexity:
+    failure_penalty: -1.0
+    base_reward: 1.0
+    min_reward: -1.0
+    max_reward: 1.0
+    target_ring_count: 3
+    target_aromatic_ring_count: 4
+    target_fused_ring_system_size: 3
+    max_three_member_ring_count: 1
+    max_spiro_atom_count: 1
+    max_bridgehead_atom_count: 2
+    ring_penalty: 0.25
+    aromatic_penalty: 0.0
+    fused_penalty: 0.2
+    three_member_penalty: 0.3
+    spiro_penalty: 0.1
+    bridgehead_penalty: 0.1
+  chemistry_guard:
+    enabled: true
+    failure_penalty: -1.0
+    base_reward: 1.0
+    violation_penalty: 0.2
+    min_reward: -1.0
+    max_reward: 1.0
+    max_carbon_fraction: 0.85
+    min_hetero_atom_fraction: 0.05
+    max_three_member_ring_count: 0
+    max_fragment_count: 1
+    max_bad_bond_length_fraction: 0.05
+    max_halogen_bad_position_count: 0
+  monitor_components:
+  - docking
+  qed:
+    failure_penalty: -1.0
+  sa:
+    failure_penalty: -1.0
+  ring_pathology:
+    failure_penalty: -1.0
+    base_reward: 1.0
+    min_reward: -1.0
+    max_reward: 1.0
+    max_allowed_ring_count: 3
+    min_large_ring_size: 7
+    max_allowed_three_member_ring_count: 1
+    ring_count_penalty: 0.25
+    large_ring_penalty: 0.45
+    large_ring_fused_six_penalty: 0.65
+    extra_three_member_penalty: 0.45
+    three_member_fused_or_spiro_penalty: 0.65
+  chembl_classifier:
+    model_path: ./chembl_classifier/models/chembl_classifier_selected_v0_3_1_scaffold_strongpoly.pt
+    failure_penalty: -1.0
+    good_threshold: 0.5
+    bad_threshold: 0.5
+    cap_high: 0.8
+    cap_low: 0.2
+    max_reward: 1.0
+    penalty: -1.0
+    device: cuda
+train:
+  learning_rate: 3.0e-05
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 0.0
+  adam_epsilon: 1.0e-08
+  clip_range: 0.2
+  max_grad_norm: 1.0
+  ppo_epochs: 1
+  diffgui_logprob_reduction: mean
+  precision: bf16
+  graph_micro_batch_size: 1
+  ddp_find_unused_parameters: false
+  freeze:
+    mode: last_n_blocks
+    train_last_n_blocks: 3

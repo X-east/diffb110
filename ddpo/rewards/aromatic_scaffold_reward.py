@@ -23,8 +23,10 @@ class AromaticScaffoldFacts:
     """Per-molecule aromatic scaffold facts used for reward shaping."""
 
     benzene_ring_count: int = 0
+    aromatic_ring_count: int = 0
     heterocycle_ring_count: int = 0
     aromatic_heterocycle_ring_count: int = 0
+    aliphatic_ring_count: int = 0
     aliphatic_carbocycle_ring_count: int = 0
     max_fused_ring_system_size: int = 0
     three_member_ring_count: int = 0
@@ -57,6 +59,17 @@ class AromaticScaffoldReward(BaseReward):
         total_halogen_penalty: float = 0.20,
         max_aromatic_halogen_count: int = 2,
         aromatic_halogen_penalty: float = 0.20,
+        reward_all_aromatic_rings: bool = False,
+        aromatic_one_ring_bonus: float = 0.70,
+        aromatic_two_ring_bonus: float = 0.90,
+        aromatic_three_ring_bonus: float = 1.00,
+        missing_aromatic_penalty: float = 0.40,
+        max_rewarded_aromatic_ring_count: int = 3,
+        extra_aromatic_ring_penalty: float = 0.45,
+        max_aliphatic_ring_count: int = 2,
+        aliphatic_ring_penalty: float = 0.25,
+        max_aliphatic_carbocycle_ring_count: int = 1,
+        aliphatic_carbocycle_penalty: float = 0.25,
     ) -> None:
         """Initialize aromatic scaffold reward parameters."""
         if min_reward > max_reward:
@@ -80,6 +93,17 @@ class AromaticScaffoldReward(BaseReward):
         self.total_halogen_penalty = float(total_halogen_penalty)
         self.max_aromatic_halogen_count = int(max_aromatic_halogen_count)
         self.aromatic_halogen_penalty = float(aromatic_halogen_penalty)
+        self.reward_all_aromatic_rings = bool(reward_all_aromatic_rings)
+        self.aromatic_one_ring_bonus = float(aromatic_one_ring_bonus)
+        self.aromatic_two_ring_bonus = float(aromatic_two_ring_bonus)
+        self.aromatic_three_ring_bonus = float(aromatic_three_ring_bonus)
+        self.missing_aromatic_penalty = float(missing_aromatic_penalty)
+        self.max_rewarded_aromatic_ring_count = int(max_rewarded_aromatic_ring_count)
+        self.extra_aromatic_ring_penalty = float(extra_aromatic_ring_penalty)
+        self.max_aliphatic_ring_count = int(max_aliphatic_ring_count)
+        self.aliphatic_ring_penalty = float(aliphatic_ring_penalty)
+        self.max_aliphatic_carbocycle_ring_count = int(max_aliphatic_carbocycle_ring_count)
+        self.aliphatic_carbocycle_penalty = float(aliphatic_carbocycle_penalty)
 
     def calculate_rewards(self, data: "DataProto") -> "DataProto":
         """Calculate aromatic scaffold reward and write molecule facts."""
@@ -124,8 +148,10 @@ class AromaticScaffoldReward(BaseReward):
         atom_rings = [tuple(ring) for ring in ring_info.AtomRings()]
 
         benzene_ring_count = 0
+        aromatic_ring_count = 0
         heterocycle_ring_count = 0
         aromatic_heterocycle_ring_count = 0
+        aliphatic_ring_count = 0
         aliphatic_carbocycle_ring_count = 0
         three_member_ring_count = 0
 
@@ -136,6 +162,10 @@ class AromaticScaffoldReward(BaseReward):
             has_hetero = any(atom.GetAtomicNum() not in (1, 6) for atom in atoms)
             if len(ring) == 3:
                 three_member_ring_count += 1
+            if is_aromatic:
+                aromatic_ring_count += 1
+            else:
+                aliphatic_ring_count += 1
             if is_aromatic and len(ring) == 6 and is_all_carbon:
                 benzene_ring_count += 1
             if has_hetero:
@@ -148,14 +178,28 @@ class AromaticScaffoldReward(BaseReward):
         total_halogen_count = sum(1 for atom in mol.GetAtoms() if atom.GetAtomicNum() in HALOGEN_ATOMIC_NUMBERS)
         aromatic_halogen_count = _aromatic_halogen_count(mol)
 
-        bonus = self.exact_single_benzene_reward if benzene_ring_count == 1 else 0.0
-        penalty = 0.0
-        penalty += self.missing_benzene_penalty * int(benzene_ring_count == 0)
-        penalty += self.extra_benzene_penalty * max(0, benzene_ring_count - self.max_benzene_ring_count)
-        penalty += self.multi_heterocycle_penalty * max(
-            0,
-            heterocycle_ring_count - self.max_heterocycle_ring_count,
-        )
+        if self.reward_all_aromatic_rings:
+            bonus = self._aromatic_ring_bonus(aromatic_ring_count)
+            penalty = 0.0
+            penalty += self.missing_aromatic_penalty * int(aromatic_ring_count == 0)
+            penalty += self.extra_aromatic_ring_penalty * max(
+                0,
+                aromatic_ring_count - self.max_rewarded_aromatic_ring_count,
+            )
+            penalty += self.aliphatic_ring_penalty * max(0, aliphatic_ring_count - self.max_aliphatic_ring_count)
+            penalty += self.aliphatic_carbocycle_penalty * max(
+                0,
+                aliphatic_carbocycle_ring_count - self.max_aliphatic_carbocycle_ring_count,
+            )
+        else:
+            bonus = self.exact_single_benzene_reward if benzene_ring_count == 1 else 0.0
+            penalty = 0.0
+            penalty += self.missing_benzene_penalty * int(benzene_ring_count == 0)
+            penalty += self.extra_benzene_penalty * max(0, benzene_ring_count - self.max_benzene_ring_count)
+            penalty += self.multi_heterocycle_penalty * max(
+                0,
+                heterocycle_ring_count - self.max_heterocycle_ring_count,
+            )
         penalty += self.fused_penalty * max(0, max_fused_size - self.max_fused_ring_system_size)
         penalty += self.three_member_penalty * max(0, three_member_ring_count - self.max_three_member_ring_count)
         penalty += self.total_halogen_penalty * max(0, total_halogen_count - self.max_total_halogen_count)
@@ -166,8 +210,10 @@ class AromaticScaffoldReward(BaseReward):
 
         return AromaticScaffoldFacts(
             benzene_ring_count=benzene_ring_count,
+            aromatic_ring_count=aromatic_ring_count,
             heterocycle_ring_count=heterocycle_ring_count,
             aromatic_heterocycle_ring_count=aromatic_heterocycle_ring_count,
+            aliphatic_ring_count=aliphatic_ring_count,
             aliphatic_carbocycle_ring_count=aliphatic_carbocycle_ring_count,
             max_fused_ring_system_size=max_fused_size,
             three_member_ring_count=three_member_ring_count,
@@ -176,6 +222,16 @@ class AromaticScaffoldReward(BaseReward):
             bonus=float(bonus),
             penalty=float(penalty),
         )
+
+    def _aromatic_ring_bonus(self, aromatic_ring_count: int) -> float:
+        """Return the configured 1-3 aromatic-ring bonus."""
+        if aromatic_ring_count <= 0:
+            return 0.0
+        if aromatic_ring_count == 1:
+            return self.aromatic_one_ring_bonus
+        if aromatic_ring_count == 2:
+            return self.aromatic_two_ring_bonus
+        return self.aromatic_three_ring_bonus
 
     def _write_fields(
         self,
@@ -194,6 +250,11 @@ class AromaticScaffoldReward(BaseReward):
             device=device,
             dtype=float_dtype,
         )
+        data.batch["aromatic_scaffold_aromatic_ring_count"] = _tensor(
+            [f.aromatic_ring_count for f in facts],
+            device=device,
+            dtype=float_dtype,
+        )
         data.batch["aromatic_scaffold_heterocycle_ring_count"] = _tensor(
             [f.heterocycle_ring_count for f in facts],
             device=device,
@@ -201,6 +262,11 @@ class AromaticScaffoldReward(BaseReward):
         )
         data.batch["aromatic_scaffold_aromatic_heterocycle_ring_count"] = _tensor(
             [f.aromatic_heterocycle_ring_count for f in facts],
+            device=device,
+            dtype=float_dtype,
+        )
+        data.batch["aromatic_scaffold_aliphatic_ring_count"] = _tensor(
+            [f.aliphatic_ring_count for f in facts],
             device=device,
             dtype=float_dtype,
         )

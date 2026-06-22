@@ -370,6 +370,19 @@ def build_rewarder(config: dict, dataset_info: dict, logger: logging.Logger):
             total_halogen_penalty=float(aromatic_cfg.get("total_halogen_penalty", 0.20)),
             max_aromatic_halogen_count=int(aromatic_cfg.get("max_aromatic_halogen_count", 2)),
             aromatic_halogen_penalty=float(aromatic_cfg.get("aromatic_halogen_penalty", 0.20)),
+            reward_all_aromatic_rings=bool(aromatic_cfg.get("reward_all_aromatic_rings", False)),
+            aromatic_one_ring_bonus=float(aromatic_cfg.get("aromatic_one_ring_bonus", 0.70)),
+            aromatic_two_ring_bonus=float(aromatic_cfg.get("aromatic_two_ring_bonus", 0.90)),
+            aromatic_three_ring_bonus=float(aromatic_cfg.get("aromatic_three_ring_bonus", 1.00)),
+            missing_aromatic_penalty=float(aromatic_cfg.get("missing_aromatic_penalty", 0.40)),
+            max_rewarded_aromatic_ring_count=int(aromatic_cfg.get("max_rewarded_aromatic_ring_count", 3)),
+            extra_aromatic_ring_penalty=float(aromatic_cfg.get("extra_aromatic_ring_penalty", 0.45)),
+            max_aliphatic_ring_count=int(aromatic_cfg.get("max_aliphatic_ring_count", 2)),
+            aliphatic_ring_penalty=float(aromatic_cfg.get("aliphatic_ring_penalty", 0.25)),
+            max_aliphatic_carbocycle_ring_count=int(
+                aromatic_cfg.get("max_aliphatic_carbocycle_ring_count", 1)
+            ),
+            aliphatic_carbocycle_penalty=float(aromatic_cfg.get("aliphatic_carbocycle_penalty", 0.25)),
         )
         weights_dict["aromatic_scaffold"] = float(weights_cfg.get("aromatic_scaffold", 0.0))
 
