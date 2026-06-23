@@ -128,10 +128,10 @@ reward:
     search_mode: "fast"
 
 train:
-  learning_rate: 1.0e-6
+  learning_rate: 1.0e-5
   adam_beta1: 0.9
   adam_beta2: 0.999
-  adam_weight_decay: 0.0
+  adam_weight_decay: 1.0e-4
   adam_epsilon: 1.0e-8
   clip_range: 0.2
   max_grad_norm: 1.0
