@@ -18,10 +18,10 @@ diffgui_deppa_mode:
   enabled: true
   enabled_metrics: [qed, sa, vina_score, distance]
   weights:
-    qed: 0.27
-    sa: 0.13
-    vina_score: 0.30
-    distance: 0.30
+    qed: 0.20
+    sa: 0.20
+    vina_score: 0.50
+    distance: 0.10
     strain: 0.0
   normal_eps: 1.0e-3
   invalid_penalty_std: 3.0

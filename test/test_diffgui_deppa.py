@@ -10,6 +10,11 @@ from ddpo.diffgui.deppa import (
     compute_deppa_k3_kl,
     is_deppa_mode_enabled,
 )
+from ddpo.diffgui.deppa.advantage import (
+    DEFAULT_DIVERSITY_BITS,
+    DEFAULT_DIVERSITY_RADIUS,
+    DEFAULT_WEIGHTS,
+)
 
 
 def _reconstruction_rows(count: int) -> list[dict[str, object]]:
@@ -21,6 +26,23 @@ def test_deppa_switch_is_explicit() -> None:
     assert not is_deppa_mode_enabled({})
     assert not is_deppa_mode_enabled({"diffgui_deppa_mode": {"enabled": False}})
     assert is_deppa_mode_enabled({"diffgui_deppa_mode": {"enabled": True}})
+
+
+def test_deppa_default_weights_follow_pdf_reward_mix() -> None:
+    """Default weights should match the DePPA PDF appendix reward formula."""
+    assert DEFAULT_WEIGHTS == {
+        "qed": 0.20,
+        "sa": 0.20,
+        "vina_score": 0.50,
+        "distance": 0.10,
+        "strain": 0.0,
+    }
+
+
+def test_deppa_diversity_fingerprint_follows_pdf_default() -> None:
+    """Default diversity should use Morgan fingerprints as described in the PDF."""
+    assert DEFAULT_DIVERSITY_RADIUS == 2
+    assert DEFAULT_DIVERSITY_BITS == 2048
 
 
 def test_deppa_vina_uses_negative_docking_raw_as_higher_better() -> None:

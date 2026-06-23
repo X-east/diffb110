@@ -15,17 +15,27 @@ from typing import Any
 
 import torch
 from rdkit import Chem, DataStructs
+from rdkit.Chem import rdFingerprintGenerator
 
 
 DEFAULT_WEIGHTS: dict[str, float] = {
-    "qed": 0.27,
-    "sa": 0.13,
-    "vina_score": 0.30,
-    "distance": 0.30,
+    "qed": 0.20,
+    "sa": 0.20,
+    "vina_score": 0.50,
+    "distance": 0.10,
     "strain": 0.0,
 }
 
 DEFAULT_ENABLED_METRICS = ("qed", "sa", "vina_score", "distance")
+DEFAULT_DIVERSITY_RADIUS = 2
+DEFAULT_DIVERSITY_BITS = 2048
+
+# Keep the legacy metric name ``distance`` in configs/CSVs, but compute it as
+# DePPA's Morgan-fingerprint diversity term.
+_DIVERSITY_FINGERPRINT_GENERATOR = rdFingerprintGenerator.GetMorganGenerator(
+    radius=DEFAULT_DIVERSITY_RADIUS,
+    fpSize=DEFAULT_DIVERSITY_BITS,
+)
 
 
 @dataclass
@@ -257,7 +267,7 @@ def _attach_distance_metric(records: list[dict[str, Any]]) -> None:
         mol = Chem.MolFromSmiles(smiles) if smiles else None
         if mol is None:
             continue
-        keyed_fps.append((_record_key(record), Chem.RDKFingerprint(mol)))
+        keyed_fps.append((_record_key(record), _DIVERSITY_FINGERPRINT_GENERATOR.GetFingerprint(mol)))
     if len(keyed_fps) < 2:
         distances = {key: 0.0 for key, _fp in keyed_fps}
     else:
