@@ -1,0 +1,95 @@
+---
+description: Current project context — DiffGui RL main line, environment, paths, and key rules
+globs: "**/*"
+alwaysApply: true
+---
+
+Before modifying code related to environment setup, file paths, training, sampling,
+docking, scoring, or rewards, first read:
+- `docs/project_context.md`
+- `docs/project_paths.md`
+- `docs/workflow_commands.md`
+- `AGENTS.md`
+
+Rules:
+- Do not assume paths. Use canonical paths from docs.
+- Do not introduce Ray.
+- Assume GPU-based docking/scoring.
+- Do not silently change reward semantics.
+- Do not silently change diffusion timestep semantics, mask semantics, or batch semantics.
+- If docs and code conflict, report the conflict explicitly.
+
+## Current Main Line
+
+- **Current RL training entry point**: `ddpo/main_diffgui_docking_ddp.py` (DiffGui PPO/DDPO).
+- **Retained baseline**: `ddpo/main_diffsbdd_ddp.py` (DiffSBDD DDPO, for comparison only).
+- **Launch scripts**: under `launch/`, not `scripts/`.
+- **Configs**: under `configs/`.
+- **Output root**: `output/` for diffgui runs, not `OUT/`.
+
+## Training Workflow
+
+- Remote training uses `tmux` to survive SSH disconnects.
+- Launch scripts redirect stdout/stderr to durable `.log` files.
+- Do not run long training directly in a bare SSH terminal or IDE terminal.
+- Training logs must be written to files, not only to stdout.
+
+## Output Directory Structure (Current DDP Format)
+
+```
+output/<run_name>/
+├── resolved_config.yaml        # Full resolved config snapshot
+├── training_summary.csv        # Per-epoch summary (rewards/loss/validity/time)
+├── metrics/
+│   └── metrics.csv             # Scalar metrics per epoch
+├── checkpoints/                # DDP checkpoint shards
+│   ├── epoch_0005/
+│   └── ...
+├── epochs/
+│   ├── epoch_0001/
+│   │   ├── metrics.json
+│   │   └── molecules.sdf
+│   └── ...
+└── logs/
+    └── training_<timestamp>.log
+```
+
+## Analysis and Summary Documents
+
+- Task work records go to `work_records/<YYMM>/<YYMMDD>/`, one `.md` per task.
+- Daily summaries go to `work_days/`.
+- Analysis scripts and evidence (CSV/JSON/SDF/plots) go to `analysis/`.
+- Do NOT use the deprecated `something/` directory.
+
+## Docking Backend Status
+
+- Primary docking backend: **UniDock** (`unidock`).
+- Do not rewrite UniDock configs to AutoDock-GPU automatically.
+- Do not remove AutoDock-GPU backend code or historical records unless explicitly
+  requested.
+
+## Permission and Sudo Rules
+
+- Do NOT silently skip steps that fail due to permission errors.
+- When a command fails with "Permission denied", immediately stop and ask the
+  user to run the specific command with `sudo`.
+- Provide the exact `sudo` command for the user to copy-paste.
+- Do not attempt workarounds without first asking if sudo is available.
+- After asking the user to run a sudo command, poll every 5 seconds to verify the
+  result before proceeding. Confirm by checking the filesystem or running a
+  verification command. Only continue once the check passes.
+
+## Version Tags
+
+Format: `[YYYY-MM-DD HH:MM] tag-name — 中文简介`
+
+- `[2026-03-14 23:00] autodockgpu-rl-test-pass` — AutoDock-GPU + Lightning DDP DDPO 端到端测试通过。
+- `[2026-03-15 20:00] tmux-training-workflow` — 确立 tmux 为远程训练标准工作流。
+- `[2026-05-18 10:30] unidock-chembl-prior-6gpu` — UniDock + ChEMBL prior 6 卡训练入口。
+- `[2026-06-24 10:00] diffgui-rl-mainline` — DiffGui RL 成为当前主线，DiffSBDD 降为保留对照线；文档、规则、入口全面同步。
+
+## AutoDock-GPU Device Numbering (only if that backend is explicitly enabled)
+
+- AutoDock-GPU `--devnum` is **1-indexed**: `--devnum 1` = first GPU (GPU 0 in nvidia-smi).
+- `nvidia-smi` and CUDA (`CUDA_VISIBLE_DEVICES`) are **0-indexed**.
+- Example: to use nvidia-smi GPU 2, set `gpu_id=2` → `--devnum 3`.

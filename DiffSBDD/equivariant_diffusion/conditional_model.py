@@ -6,6 +6,10 @@ import torch.nn.functional as F
 from torch_scatter import scatter_add, scatter_mean
 
 import utils
+from equivariant_diffusion.dual_r_constraints import (
+    apply_dual_r_latent_constraints,
+    should_apply_dual_r_constraints,
+)
 from generation_refinement import apply_atom_score_bias, apply_local_atom_score_mask
 from equivariant_diffusion.en_diffusion import EnVariationalDiffusion
 
@@ -114,7 +118,8 @@ class ConditionalDDPM(EnVariationalDiffusion):
                              batch_size, fix_noise=False,
                              atom_score_bias=None, atom_temperature=1.0,
                              atom_local_mask_config=None, atom_decoder=None,
-                             atom_score_diagnostics=None):
+                             atom_score_diagnostics=None,
+                             dual_r_constraint_config=None):
         """Samples x ~ p(x|z0)."""
         t_zeros = torch.zeros(size=(batch_size, 1), device=z0_lig.device)
         gamma_0 = self.gamma(t_zeros)
@@ -148,6 +153,20 @@ class ConditionalDDPM(EnVariationalDiffusion):
             )
         if atom_score_diagnostics is not None:
             atom_score_diagnostics.update(raw_h_lig, h_lig)
+        if (
+            dual_r_constraint_config is not None
+            and getattr(dual_r_constraint_config, "apply_final", False)
+        ):
+            final_xh_lig = torch.cat([x_lig, h_lig], dim=1)
+            final_xh_lig = apply_dual_r_latent_constraints(
+                final_xh_lig,
+                lig_mask,
+                dual_r_constraint_config,
+                n_dims=self.n_dims,
+                coordinate_scale=1.0,
+            )
+            x_lig = final_xh_lig[:, :self.n_dims]
+            h_lig = final_xh_lig[:, self.n_dims:]
         h_lig = F.one_hot(torch.argmax(h_lig, dim=1), self.atom_nf)
         # h_pocket = F.one_hot(torch.argmax(h_pocket, dim=1), self.residue_nf)
 
@@ -584,7 +603,7 @@ class ConditionalDDPM(EnVariationalDiffusion):
 
     @torch.no_grad()
     def inpaint(self, ligand, pocket, lig_fixed, resamplings=1, return_frames=1,
-                timesteps=None, center='ligand'):
+                timesteps=None, center='ligand', dual_r_constraint_config=None):
         """
         Draw samples from the generative model while fixing parts of the input.
         Optionally, return intermediate states for visualization purposes.
@@ -686,6 +705,24 @@ class ConditionalDDPM(EnVariationalDiffusion):
                 # combine
                 z_lig = z_lig_known * lig_fixed + z_lig_unknown * (
                             1 - lig_fixed)
+                if should_apply_dual_r_constraints(
+                    dual_r_constraint_config,
+                    step=s,
+                ):
+                    z_lig = apply_dual_r_latent_constraints(
+                        z_lig,
+                        ligand['mask'],
+                        dual_r_constraint_config,
+                        n_dims=self.n_dims,
+                        coordinate_scale=float(self.norm_values[0]),
+                    )
+                    z_lig[:, :self.n_dims], xh_pocket[:, :self.n_dims] = \
+                        self.remove_mean_batch(
+                            z_lig[:, :self.n_dims],
+                            xh_pocket[:, :self.n_dims],
+                            ligand['mask'],
+                            pocket['mask'],
+                        )
 
                 if u < resamplings - 1:
                     # Noise the sample
@@ -703,7 +740,13 @@ class ConditionalDDPM(EnVariationalDiffusion):
 
         # Finally sample p(x, h | z_0).
         x_lig, h_lig, x_pocket, h_pocket = self.sample_p_xh_given_z0(
-            z_lig, xh_pocket, ligand['mask'], pocket['mask'], n_samples)
+            z_lig,
+            xh_pocket,
+            ligand['mask'],
+            pocket['mask'],
+            n_samples,
+            dual_r_constraint_config=dual_r_constraint_config,
+        )
 
         # Overwrite last frame with the resulting x and h.
         out_lig[0] = torch.cat([x_lig, h_lig], dim=1)

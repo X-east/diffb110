@@ -1,178 +1,159 @@
-# DiffB110: DiffSBDD-DDPO 分子生成与优化
+# DiffB110: DiffGui / DiffSBDD 分子生成与强化学习优化
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+> 以 DiffGui 强化学习为当前主线，保留 DiffSBDD 强化学习与模型改造作为对照和备用路线的口袋特异性 3D 分子生成、奖励建模、DDPO/PPO 优化和分子质量诊断工作区。
 
-> **基于 DiffSBDD 的口袋特异性 3D 分子生成、模型内部改造与 DDPO 强化学习优化**
+**最后更新**: 2026-06-18
 
----
+## 项目定位
 
-## 项目概述
+DiffB110 现在不是单一模型仓库，而是一个完整研究工作区。当前主线已经转向 DiffGui 强化学习，重点是在同一靶点/同一任务上验证 reward 优化是否真实、分子是否仍然合法且结构合理。工作区包含：
 
-本项目面向 RE-CmeB / CmeB 口袋，围绕 DiffSBDD 进行 3D 分子生成、模型内部质量改造和 DDPO/PPO 强化学习优化。核心目标是生成具有潜在结合能力、化学结构合理、可继续筛选和优化的候选分子。
+- DiffGui 参考模型与解耦强化学习流程；
+- DiffSBDD 生成底座、强化学习对照和模型内部改造；
+- DDPO/PPO runtime、reward system、训练记录和 replay/good-pool 机制；
+- ChEMBL MLP / D-MPNN 分类器与分子先验；
+- UniDock docking、QED/SA/LE、环结构、化学 guard、多样性和分布漂移监控；
+- `analysis/` 与 `work_records/` 中沉淀的实验图表、失败分析和路线决策。
 
-当前项目分为三条并行路线：
+当前研究重点已经从“单纯提高 docking reward”转为：
 
-1. **小改路线**：保留 DiffSBDD 生成主链，在模型内部加入 atom prior、x0 geometry/bond length loss、bond-aware auxiliary head 等轻量增强，暂不引入完整 edge diffusion。
-2. **大改路线**：把 DiffSBDD 本体升级为可选 DiffSBDD-xhe 模式，在原有 `x/h` 扩散链中加入 bond type / halfedge 的 `e` 扩散；standalone edge diffusion 只作为隔离验证工具，不作为最终替代底座。
-3. **强化学习路线**：继续维护 DDPO/PPO 主线，升级 reward function，引入 docking、classifier、QED/SA、化学几何护栏和分布约束；高分且结构合理的分子会进入候选池，用于 replay buffer、自训练或偏好微调。
+1. 保持生成分子合法性和多样性；
+2. 抑制高碳、低极性、复杂坏环、reward hacking 等漂移；
+3. 用明确的结构 facts、classifier/D-MPNN 和 docking 共同筛选候选物；
+4. 对 DiffSBDD 与 DiffGui 的能力边界分别测试，而不是混成一条路线。
 
-### 已完成核心能力
+## 当前主线
 
-- **DDP 多卡训练** — `torchrun` + `main_diffsbdd_ddp.py`，8卡生产环境已验证
-- **UniDock/QED/SA 奖励** — 完整的 Docking + 类药性多目标奖励管线
-- **高维 ChEMBL classifier reward** — 2220 维分子特征 MLP 奖励已接入
-- **模型质量诊断与多模型横评** — 已对 DiffSBDD、DiffGui、DePPA、PMDM、DiffInt、DiffPharma 在 8GJL/C1101 上进行统一生成与 docking 对比
-- **DiffSBDD-xhe 数据链基础** — 已建立 halfedge 数据、oracle reconstruction、edge semantic bundle、standalone edge denoiser/DDP/sampler 验证闭环，下一步迁移进 DiffSBDD 本体
-- **KL 散度约束** — 已接入 Actor loss，`kl_coef` 可配置（当前默认 0.0，未实际测试）
-- **代码大规模解耦重构** — Docking 模块 4 层分离、分子语义管线统一、加氢+Gasteiger 电荷
-- **配置驱动** — YAML 配置 + 工厂模式构建全部组件
-
----
+| 主线 | 主要目录 | 当前定位 |
+|---|---|---|
+| DiffGui RL | `ddpo/diffgui/`、`reference project/DiffGui/`、`launch/run_diffgui_*.sh`、`OUT/diffgui-*` | 当前正式强化学习主线，入口为 `ddpo/main_diffgui_docking_ddp.py` |
+| DiffSBDD RL | `ddpo/`、`DiffSBDD/`、`launch/`、`OUT/diffsbdd-*` | 保留的 DDPO/PPO 对照线，入口为 `ddpo/main_diffsbdd_ddp.py` |
+| ChEMBL / D-MPNN reward | `chembl_classifier/`、`ddpo/rewards/chembl_*` | MLP 与 D-MPNN 分类器，用于 reward、筛选和 top 分子复核 |
+| DiffSBDD 小改 | `DiffSBDD/equivariant_diffusion/`、`analysis/diffsbdd_small_mod/` | atom prior、geometry/bond loss、局部质量修正 |
+| DiffSBDD x/h/e 大改 | `DiffSBDD/edge_diffusion/`、`analysis/diffsbdd_xhe/` | halfedge/edge diffusion 验证路线，仍属于高风险研究线 |
+| 双 R / 对称侧链 | `ddpo/constraints/`、`analysis/dual_sidechain_*`、`work_records/26-6/260617*` | 已完成可行性复核；不作为当前主方法平台 |
 
 ## 项目结构
 
-```
+```text
 DiffB110/
-├── ddpo/                              # 核心集成代码（训练主线）
-│   ├── main_diffsbdd_ddp.py           # 多卡 DDP 训练入口（生产用）
-│   ├── main_diffsbdd_single_gpu.py    # 单卡调试入口
-│   ├── main_diffsbdd.py               # 旧入口（含 Ray 逻辑，legacy）
-│   ├── integration/                   # DiffSBDD 适配层
-│   │   ├── diffsbdd_model.py          # DiffSBDDModel 包装器
-│   │   └── mask_utils.py              # mask 格式转换
-│   ├── kl/                            # KL 散度约束
-│   │   └── gaussian_kl.py             # 高斯 KL 计算纯函数
-│   ├── rewards/                       # 奖励系统（4层解耦）
-│   │   ├── docking.py                 # 对接奖励语义层
-│   │   ├── docking_preparation.py     # SDF 输入准备 + 加氢 + Gasteiger
-│   │   ├── docking_config.py          # 配置常量
-│   │   ├── docking_registry.py        # 后端注册与选择
-│   │   ├── docking_factory.py         # 工厂函数
-│   │   ├── docking_backends/          # 对接后端实现
-│   │   │   ├── unidock.py             # UniDock（当前主后端）
-│   │   │   ├── autodock_gpu.py        # AutoDock-GPU（备选）
-│   │   │   └── smina.py               # Smina（CPU 备用）
-│   │   ├── interfaces/                # 奖励抽象接口
-│   │   │   ├── base_reward.py
-│   │   │   ├── docking_backend.py
-│   │   │   └── docking_result.py
-│   │   ├── normalization.py           # 奖励 z-score 归一化
-│   │   ├── composite.py               # 组合奖励
-│   │   ├── qed_reward.py              # QED 奖励
-│   │   ├── sa_reward.py               # SA 奖励
-│   │   └── stability.py               # 稳定性奖励
-│   ├── runtime/                       # 运行时基础设施
-│   │   ├── build.py                   # 工厂：从 YAML 构建全部组件
-│   │   ├── rollout.py                 # 轨迹采样
-│   │   ├── recording/                 # 训练记录（run_recorder, schemas, writers）
-│   │   ├── data_loader.py             # 数据加载
-│   │   ├── distributed.py            # DDP 通信
-│   │   ├── seed.py                    # 随机种子管理
-│   │   └── train_helpers.py           # 训练辅助
-│   ├── utils/                         # 工具模块
-│   │   ├── molecule_semantics.py      # 统一分子构建+过滤+加氢+电荷
-│   │   ├── diffsbdd_filter.py         # 有效性过滤
-│   │   ├── molecule_recorder.py       # 分子级 CSV 记录
-│   │   ├── batch_recorder.py          # batch 级统计记录
-│   │   └── logger.py                  # 日志工具
-│   └── patches/                       # 历史补丁
-├── DiffSBDD/                          # 原始扩散模型工程（READ-ONLY）
-├── RLPF-verl_diffusion/               # RL 框架参考代码
-│   └── verl_diffusion/worker/actor/edm_actor.py  # EDMActor（PPO 策略更新）
-├── configs/                           # YAML 训练配置
-│   ├── qed_sa_docking_8gjl_8gpu.yaml  # 当前主生产线配置（8GJL + UniDock）
-│   ├── qed_sa_1gpu.yaml              # 单卡调试配置
-│   ├── qed_sa_2gpu.yaml              # 2 卡配置
-│   └── qed_sa_8gpu_16mol_50ep.yaml   # 8 卡无对接配置
-├── data/                              # 受体、配体、AutoGrid map
-│   ├── 8gjl.pdbqt                    # 当前 8GJL 工作流受体
-│   └── 8GJJ-C-Cip_charged.*          # 8GJJ 工作流受体 + map
-├── scripts/                           # 启动脚本
-│   └── run_rl_qed_sa_docking_8gjl_8gpu.sh  # 当前 8 卡生产启动脚本
-├── test/                              # 测试
-├── materials/                         # 设计笔记（流形奖励/判别器方案）
-└── OUT/                               # 训练输出
+├── ddpo/                    # DDPO/PPO runtime、reward、DiffSBDD/DiffGui 集成
+│   ├── main_diffgui_docking_ddp.py # DiffGui 当前主线 DDP 强化学习入口
+│   ├── main_diffsbdd_ddp.py        # DiffSBDD 保留/对照 DDP 强化学习入口
+│   ├── rewards/
+│   ├── runtime/
+│   ├── diffgui/runtime/
+│   └── integration/
+├── DiffSBDD/                # DiffSBDD 生成模型、inpaint、x/h/e、edge diffusion 探索
+├── chembl_classifier/       # ChEMBL MLP 与 D-MPNN 分类器训练、评估和模型文件
+├── launch/                  # 当前训练、smoke、矩阵实验的主要配置和启动脚本
+├── data/                    # 靶点、配体、ChEMBL、CrossDocked、RND-EPI 等输入数据
+├── OUT/                     # 正式训练、生成、smoke 的主要运行输出目录
+├── analysis/                # 分析报告、CSV/JSON/SDF、图表和路线复盘
+├── work_records/            # 任务级工作记录，按日期归档
+├── work_days/               # 日报、周报、汇报材料
+├── docs/                    # 当前项目说明、路径和工作流命令
+├── materials/               # 历史设计笔记 archive
+├── scripts/                 # 分子处理、docking、绘图和专项分析脚本
+├── test/                    # 单元/集成测试
+├── tools/                   # analysis 整理等辅助工具
+└── reference project/       # DiffGui、DePPA、molskill、现代 SBDD/RL 参考项目
 ```
 
----
+说明：
 
-## 技术路线
+- 正式运行输出使用 `OUT/`。
+- `analysis/` 是分析证据库，不作为正式训练输出根目录。
+- `output/` 不再作为活跃项目目录；历史 PDF 应归入 `work_days/` 或相关记录目录。
 
+## 主要入口
+
+### DiffGui PPO/DDPO
+
+DiffGui 模型路径必须使用专门的 `diffgui` 环境。不要把 DiffGui-only 依赖装进 `dif`。
+
+```bash
+bash launch/run_diffgui_docking_train_ddp_smoke.sh
+bash launch/run_diffgui_deppa_last3_lr1e5_b18x8_t200_100ep_20260623.sh
+bash launch/run_diffgui_ring_control_matrix_20260615.sh
 ```
-                    ┌──────────────────────────────────┐
-                    │ DiffSBDD 快速生成主线             │
-                    └──────────────────────────────────┘
-                                  ↓
-        ┌─────────────────────────┼─────────────────────────┐
-        ↓                         ↓                         ↓
- 小改路线                  大改路线                  强化学习路线
- atom prior               edge diffusion             DDPO/PPO
- geometry loss            x/h/e denoiser             docking/classifier
- bond-aware head          DiffSBDD-xhe mode           chemistry guards
-        ↓                         ↓                         ↓
- 短期改善质量              长期升级 DiffSBDD          高分好分子回流训练
+
+核心 Python 入口：
+
+```bash
+torchrun --nproc_per_node=<N> ddpo/main_diffgui_docking_ddp.py --config <launch/config.yaml>
+python ddpo/main_diffgui_reward_only.py --config <launch/config.yaml>
 ```
 
-三条路线保持解耦：
+统计口径：
 
-- 小改路线优先服务六个月内稳定产出。
-- 大改路线以可选 `DiffSBDD-xhe` 模式推进，standalone edge diffusion 仅作为验证平台，不破坏当前可运行 RL 主线。
-- 强化学习路线负责 reward、筛选、top-N/replay/self-training，但不盲目用高分分子直接重训。
+- `docs/DiffGui强化学习统计清单.md`
 
-### 训练入口
+### DiffSBDD DDPO/PPO
 
-| 入口 | 用途 | 命令 |
-|------|------|------|
-| `scripts/run_rl_qed_sa_docking_8gjl_8gpu.sh` | 8 卡生产 | `bash scripts/run_rl_qed_sa_docking_8gjl_8gpu.sh` |
-| `ddpo/main_diffsbdd_ddp.py` | 多卡 DDP | `torchrun --nproc_per_node=8 ddpo/main_diffsbdd_ddp.py` |
-| `ddpo/main_diffsbdd_single_gpu.py` | 单卡调试 | `python ddpo/main_diffsbdd_single_gpu.py --config_path configs/qed_sa_1gpu.yaml` |
+```bash
+bash launch/smoke.sh
 
----
+CONFIG_PATH=launch/8gpu_dock.yaml bash launch/run.sh
+CONFIG_PATH=launch/7gpu_dock_classifier_v0_1.yaml bash launch/run.sh
+```
 
-## 当前状态
+核心 Python 入口：
 
-### 已完成
+```bash
+torchrun --nproc_per_node=<N> ddpo/main_diffsbdd_ddp.py --config <launch/config.yaml>
+```
 
-- [x] DDP 8 卡训练管线（torchrun + main_diffsbdd_ddp.py）
-- [x] UniDock 对接后端 + AutoDock-GPU/Smina 备选
-- [x] QED + SA 类药性奖励
-- [x] 奖励 z-score 归一化（RewardNormalizer）
-- [x] KL 散度约束接入 edm_actor.py（kl_coef 可配置）
-- [x] Docking 模块 4 层解耦（docking → preparation → config → backends → registry）
-- [x] 分子语义统一（molecule_semantics.py + prepare_mol_for_docking）
-- [x] 加氢 + Gasteiger 电荷管线
-- [x] 配置驱动工厂模式（runtime/build.py）
-- [x] 训练记录系统（recording/）
-- [x] 参考模型深拷贝（ref_model for KL）
+### DiffSBDD 生成
 
-### 未完成验证项
+```bash
+python DiffSBDD/generate_ligands.py <CHECKPOINT> \
+  --pdbfile <PDB_FILE> \
+  --outfile <OUTPUT_FILE> \
+  --n_samples <N>
+```
 
-- [ ] KL 散度约束实际测试（当前 kl_coef=0.0）
-- [ ] 加氢 + Gasteiger 电荷对 docking 效果的真实训练验证
-- [ ] `compute_gaussian_kl()` NaN/Inf 防护
-- [ ] KL 分离日志（当前只有混合 loss，无法单独监控 KL）
-- [ ] 奖励漂移（reward drift）治理
+### ChEMBL / D-MPNN 分类器
 
-### 下一阶段研究目标
+```bash
+conda run -n dif python chembl_classifier/train.py
+conda run -n dif python chembl_classifier/evaluate.py
+conda run -n dif python chembl_classifier/dmpnn/train.py --config chembl_classifier/config_dmpnn_v0_1_scaffold_strongpoly.yaml
+```
 
-1. **小改路线** — atom composition prior、x0 geometry/bond length loss、bond-aware auxiliary head。
-2. **大改路线** — 将 halfedge 数据链、edge transition、edge head、sampler、predicted-edge decoder 迁移进 DiffSBDD 本体，形成可选 DiffSBDD-xhe 模式，并在 supervised generation 稳定后再考虑 RL logprob 接入。
-3. **强化学习路线** — docking/classifier + 化学几何护栏，保存高分合法分子用于 replay buffer、自训练或偏好微调。
-4. **评价体系** — 对生成分子统一计算 validity、ring、atom composition、bad bond length、docking、classifier、top-N pose 检查。
+## 主要证据目录
 
----
+| 目录 | 用途 |
+|---|---|
+| `OUT/` | 每次正式训练/生成/smoke 的原始运行证据 |
+| `analysis/` | 每次分析、图表、SDF、CSV、报告 |
+| `work_records/` | 每次任务的动机、命令、结果和风险 |
+| `work_days/` | 面向日报/周报/月报的汇总材料 |
+| `launch/archive/logs/` | 批量 launcher 的历史 master log |
 
-## 成功指标
+判断训练状态时优先看：
 
-| 指标 | 目标 |
-|------|------|
-| Docking Score | < -8 kcal/mol |
-| 分子有效性 | > 80% |
-| QED | > 0.5 |
-| SA Score | < 4 |
+1. `OUT/<run>/logs/rank_00/train.log`
+2. `OUT/<run>/training_summary.csv`
+3. `OUT/<run>/summary.json`
+4. `OUT/<run>/epochs/epoch_*/molecules.csv`
+5. `OUT/<run>/checkpoints/`
+6. `nvidia-smi` 进程和显存证据
 
----
+## 当前重要结论
 
-**Last Updated**: 2026-06-04
+- DiffGui RL 是当前主训练平台，评估重点是同一靶点内的 reward 优化、坏环/复杂环控制、成药性、多样性和 top-N 复筛。
+- DiffSBDD RL 仍保留为速度更快的对照和备用路线，但不再是当前主线。
+- DiffSBDD x/h/e 大改有理论价值，但工程风险高，目前作为参考记录和方法储备。
+- MLP classifier 不能单独承担药物样约束；D-MPNN、explicit ring facts、docking 和人工/规则审计需要配合。
+- 好分子 replay 只能短窗口、小比例，并需要 KL/clip gate；正式混入 PPO 前必须先做 retained pool 审计。
+
+## 文档入口
+
+| 文件 | 内容 |
+|---|---|
+| `docs/project_context.md` | 当前项目方向、分子语义、reward 体系 |
+| `docs/project_paths.md` | 当前目录、输出、记录和参考项目路径 |
+| `docs/workflow_commands.md` | 训练、生成、DiffGui、分类器、测试命令 |
+| `docs/DiffGui强化学习统计清单.md` | 当前 DiffGui RL 主线的统计与阶段总结口径 |
+| `work_records/26-6/260618/260618-05 项目文件夹架构全景梳理.md` | 按文件夹架构的全项目介绍 |

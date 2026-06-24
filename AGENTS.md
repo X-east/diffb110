@@ -2,13 +2,16 @@
 
 ## Project Scope
 
-This repository is the DiffB110 project: DiffSBDD generation for the RE-CmeB
-target, optimized with DDPO/PPO and composite molecular rewards. Treat
-`ddpo/main_diffsbdd_ddp.py` as the current training entry point.
+This repository is the DiffB110 project: pocket-conditioned 3D molecule
+generation for the RE-CmeB / CmeB target, with the current research main line
+focused on DiffGui DDPO/PPO reinforcement learning. Treat
+`ddpo/main_diffgui_docking_ddp.py` as the current DiffGui RL training entry
+point. `ddpo/main_diffsbdd_ddp.py` remains the retained DiffSBDD RL baseline and
+comparison path.
 
 Before changing project code, read:
 
-- `docs/项目情况快速总览.md`
+- `docs/project_context.md`
 - `docs/workflow_commands.md`
 - the relevant module near the requested change
 
@@ -82,12 +85,23 @@ Before changing project code, read:
   analysis.
 - Save plots into the same analysis directory as the report, preferably as
   `.png` for quick viewing and `.svg` when vector output is useful.
-- Reference generated plots and data files from the Markdown report with
-  relative links to files in the same analysis directory, so rendered previews
-  show figures inline and readers can open the exact CSV/JSON/SDF evidence.
+- Embed generated plots directly in the Markdown report with Markdown image
+  syntax such as `![caption](plot.png)`. Do not list plot files only as plain
+  links or paths.
+- Include tabular results directly in the Markdown report as Markdown tables or
+  concise summary tables. CSV/JSON/SDF paths are supporting evidence, not a
+  substitute for in-report tables or figures.
+- Reference raw data files from the Markdown report with relative links to files
+  in the same analysis directory, so readers can open the exact CSV/JSON/SDF
+  evidence after seeing the embedded figure/table in context.
 - Plot filenames should be descriptive and stable, such as
   `global_distribution_comparison.png`, `run_drift_summary.png`, or
   `top_reward_failure_modes.png`.
+- When a task also needs a durable work record, use the work record as the
+  single narrative report by default. Keep `analysis/` for scripts, CSV/JSON,
+  plots, SDFs, and other evidence files, and do not create a separate detailed
+  `analysis/.../report.md` unless the user explicitly asks for an additional
+  standalone report.
 
 ## Training Logging
 
@@ -137,9 +151,16 @@ Before changing project code, read:
   changes or commands, verification results, output files, and remaining risks.
 - Daily/task reports must include detailed quantitative data when available:
   summary tables, key counts/rates/timings, and links to the exact generated
-  CSV/JSON/SDF files. When plots are useful, save them beside the report and
-  embed them with Markdown relative links such as
-  `![caption](metric_by_method.png)`.
+  CSV/JSON/SDF files. Figures and charts must be embedded directly in the
+  report/record with Markdown image syntax such as
+  `![caption](metric_by_method.png)`; do not provide only a file link or path.
+- Images embedded from `work_records/` Markdown or archived HTML must be copied
+  into the same directory as the document and referenced with a local filename
+  such as `![caption](metric_by_method.png)` or `src="metric_by_method.png"`.
+  Do not leave work-record image links pointing to `analysis/`, `OUT/`,
+  `data/`, absolute paths, or parent directories; keep the work record
+  self-contained for PDF export and archival movement. CSV/JSON/SDF evidence
+  may still be linked to its source directory.
 
 ## Work Days (Daily Summaries & Reports)
 
@@ -147,6 +168,9 @@ Before changing project code, read:
 - Weekly merged PDF reports go to `work_days/每周/`.
 - Monthly summary documents (when available) go to `work_days/每月/`.
 - Conversion scripts (e.g. `md-pdf.py`) stay at `work_days/` root for reuse.
+- **Naming format**: `谢东宸<YYMMDD>-<YYMMDD>[ 简短描述].ext`. No verbose labels
+  such as "每日总结合并"; use "工作总结" or a brief distinguishing phrase only
+  when multiple files share the same date range.
 
 ## Code Style
 

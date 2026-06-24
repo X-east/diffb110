@@ -14,8 +14,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GENERATOR="$ROOT/launch/generate_diffgui_ring_control_matrix_20260615.py"
-MATRIX_DIR="$ROOT/launch/generated/diffgui_ring_control_matrix_20260615"
-LOG_DIR="$ROOT/launch/logs/diffgui_ring_control_matrix_20260615"
+MATRIX_DIR="$ROOT/launch/archive/generated/diffgui_ring_control_matrix_20260615"
+LOG_DIR="$ROOT/launch/archive/logs/diffgui_ring_control_matrix_20260615"
 
 # ── Overridable ──
 DRY_RUN="${DRY_RUN:-0}"

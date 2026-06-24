@@ -13,8 +13,8 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE_CONFIG = ROOT / "launch" / "diffsbdd_8gpu_anticarbon_guard_20260611.yaml"
-OUT_DIR = ROOT / "launch" / "generated" / "diffsbdd_single_reward_matrix_20260612"
+BASE_CONFIG = ROOT / "launch" / "archive" / "research_lines" / "diffsbdd_8gpu_anticarbon_guard_20260611.yaml"
+OUT_DIR = ROOT / "launch" / "archive" / "generated" / "diffsbdd_single_reward_matrix_20260612"
 MATRIX_CSV = OUT_DIR / "matrix.csv"
 MATRIX_JSON = OUT_DIR / "matrix.json"
 README = OUT_DIR / "README.md"

@@ -30,7 +30,7 @@ from DiffSBDD.constants import dataset_params, FLOAT_TYPE, INT_TYPE
 from DiffSBDD import utils as diffsbdd_utils
 
 from ddpo.integration.model_base import BaseModel
-
+from ddpo.constraints.symmetry import SymmetrySpec, SymmetryConstraintApplier
 
 VALID_LOGPROB_MODES = frozenset({
     "mean_per_element",
@@ -74,6 +74,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
         atom_nf: Number of atom features (ligand atom types)
         aa_nf: Number of amino acid features (pocket residue types)
         dataset_info: Dataset configuration from DiffSBDD constants
+        symmetry_spec: Optional SymmetrySpec for paired-sidechain constraints
+        symmetry_applier: Optional SymmetryConstraintApplier (built from spec)
     """
 
     def forward(self, mode: str, **kwargs):
@@ -157,6 +159,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
         # Cache pocket data for single sample (will be replicated for batches)
         self._pocket_single = self.model.prepare_pocket(self.residues, repeats=1)
         
+        # Symmetry constraint (lazy-init, set via configure_symmetry)
+        self.symmetry_spec: SymmetrySpec | None = None
+        self.symmetry_applier: SymmetryConstraintApplier | None = None
+
         # Store paths for reference
         self.checkpoint_path = checkpoint_path
         self.pocket_pdb_path = pocket_pdb_path
@@ -453,6 +459,20 @@ class DiffSBDDModel(nn.Module, BaseModel):
     # BaseModel interface methods (to be implemented in subsequent tasks)
     # =========================================================================
     
+    def configure_symmetry(self, spec: SymmetrySpec) -> None:
+        """Install a paired-sidechain symmetry constraint for sampling.
+
+        Args:
+            spec: A validated :class:`SymmetrySpec`.  Pass ``None`` to clear
+                  the constraint and revert to unconstrained generation.
+
+        The constraint is applied inside :meth:`sample` and
+        :meth:`sample_p_zs_given_zt`; it has no effect on training helpers
+        unless the caller explicitly passes an ``action_mask``.
+        """
+        self.symmetry_spec = spec
+        self.symmetry_applier = SymmetryConstraintApplier(spec) if spec else None
+
     def sample(self, *args, **kwargs):
         """
         Sample from the model (Task 4.7).
@@ -467,7 +487,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
         zs: torch.Tensor,
         mu: torch.Tensor,
         sigma: torch.Tensor,
-        node_mask: torch.Tensor = None
+        node_mask: torch.Tensor = None,
+        action_mask: torch.Tensor = None,
     ) -> torch.Tensor:
         """
         Compute log probability of zs given zt for Gaussian transition.
@@ -484,6 +505,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
             mu: [B, N, D] mean of the Gaussian distribution
             sigma: Scalar, [B, 1, 1], or [B, N, D] standard deviation
             node_mask: [B, N, 1] mask tensor (1=valid, 0=padding)
+            action_mask: [B, N, D] optional per-dimension mask for constrained
+                         dimensions (e.g. R2.h that is copied from R1).
+                         When provided, takes precedence over node_mask for
+                         masking AND normalization.
             
         Returns:
             log_prob: [B] log probability for each sample in batch
@@ -524,38 +549,36 @@ class DiffSBDDModel(nn.Module, BaseModel):
         zs_detached = zs.detach()
         
         # Compute log probability contribution.
-        # Apply node_mask to ignore padding positions
         log_p = -0.5 * ((zs_detached - mu) ** 2) / (sigma_safe ** 2)
         if self.logprob_mode.startswith("full_"):
             log_p = log_p - torch.log(sigma_safe) - 0.5 * math.log(2.0 * math.pi)
         
-        if node_mask is not None:
+        # Apply mask: action_mask [B,N,D] takes precedence over node_mask [B,N,1]
+        if action_mask is not None:
+            log_p = log_p * action_mask
+            free_dims = action_mask.sum(dim=(1, 2))  # [B]
+        elif node_mask is not None:
             log_p = log_p * node_mask
+            D = zs.shape[-1]
+            valid_nodes = node_mask.sum(dim=tuple(range(1, node_mask.ndim)))
+            if self.logprob_mode.endswith("per_element"):
+                free_dims = valid_nodes * D
+            else:
+                free_dims = valid_nodes
+        else:
+            D = zs.shape[-1]
+            free_dims = torch.full(
+                (zs.shape[0],),
+                float(zs.shape[1]) * D if self.logprob_mode.endswith("per_element") else float(zs.shape[1]),
+                device=zs.device, dtype=log_p.dtype,
+            )
         
-        # Sum over all dimensions except batch, then normalize
-        # Normalization factor: number of valid elements = sum(node_mask) * D
-        # D = feature dimension (n_dims + atom_nf for DiffSBDD)
-        D = zs.shape[-1]  # Feature dimension
-        
-        # Sum over nodes and features: [B, N, D] -> [B]
+        # Sum over all dimensions except batch: [B, N, D] -> [B]
         log_p_sum = log_p.sum(dim=tuple(range(1, log_p.ndim)))
         
-        if node_mask is not None:
-            valid_nodes = node_mask.sum(dim=tuple(range(1, node_mask.ndim)))
-        else:
-            valid_nodes = torch.full(
-                (zs.shape[0],),
-                float(zs.shape[1]),
-                device=zs.device,
-                dtype=log_p_sum.dtype,
-            )
-        if self.logprob_mode.endswith("per_element"):
-            valid_count = valid_nodes * D
-        else:
-            valid_count = valid_nodes
+        # Normalize by number of free (unmasked) elements
+        log_prob = log_p_sum / (free_dims + epsilon)
         
-        # Normalize by number of valid elements
-        log_prob = log_p_sum / (valid_count + epsilon)
         
         # NaN/Inf 保护：log_prob 异常会导致 PPO ratio 爆炸，进而导致 backward 挂死
         if self.logprob_clamp_min is not None or self.logprob_clamp_max is not None:
@@ -721,7 +744,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
         edge_mask: torch.Tensor,
         context: torch.Tensor = None,
         fix_noise: bool = False,
-        prev_sample: torch.Tensor = None
+        prev_sample: torch.Tensor = None,
+        action_mask: torch.Tensor = None,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Sample zs given zt for single diffusion step.
@@ -740,6 +764,9 @@ class DiffSBDDModel(nn.Module, BaseModel):
             fix_noise: If True, use fixed noise for reproducibility
             prev_sample: [B, N, D] if provided, compute log_prob for this sample
                         instead of the newly sampled zs (used by Actor)
+            action_mask: [B, N, D] optional per-dimension mask for constrained
+                         dimensions. When provided, only free dimensions
+                         contribute to log_prob and normalization.
             
         Returns:
             zs: [B, N, D] sampled latent at time s
@@ -777,15 +804,13 @@ class DiffSBDDModel(nn.Module, BaseModel):
         # =====================================================================
         # Step 10: Compute log probability
         # =====================================================================
-        # If prev_sample is provided (Actor training), compute log_prob for it
-        # Otherwise, compute log_prob for the newly sampled zs
         if prev_sample is not None:
             log_prob = self.compute_log_p_zs_given_zt(
-                prev_sample, mu, sigma, node_mask
+                prev_sample, mu, sigma, node_mask, action_mask
             )
         else:
             log_prob = self.compute_log_p_zs_given_zt(
-                zs, mu, sigma, node_mask
+                zs, mu, sigma, node_mask, action_mask
             )
         
         return zs, log_prob, mu, sigma
@@ -854,6 +879,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
         edge_mask: torch.Tensor,
         prev_sample: torch.Tensor,
         context: torch.Tensor = None,
+        action_mask: torch.Tensor = None,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Compute (log_prob, mu, sigma) under the current policy via forward.
 
@@ -863,6 +889,8 @@ class DiffSBDDModel(nn.Module, BaseModel):
 
         ``edge_mask`` and ``context`` are accepted for interface stability but
         are not consumed by DiffSBDD's current reverse transition computation.
+        ``action_mask`` is optional and forwards to the log-probability
+        computation for constrained action spaces.
         """
         del edge_mask, context
         max_nodes = zt.shape[1]
@@ -873,7 +901,7 @@ class DiffSBDDModel(nn.Module, BaseModel):
             node_mask=node_mask,
         )
         mu = self._diffsbdd_to_padded_format(mu_flat, ligand_mask, max_nodes)
-        log_prob = self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask)
+        log_prob = self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask, action_mask)
         return log_prob, mu, sigma
 
     # =========================================================================
@@ -968,6 +996,15 @@ class DiffSBDDModel(nn.Module, BaseModel):
             z = self._diffsbdd_to_padded_format(z_flat, ligand_mask, max_nodes)
             
             # =====================================================================
+            # Step 1.5: Build action_mask for symmetry constraints (if active)
+            # =====================================================================
+            sampling_action_mask = None
+            if self.symmetry_applier is not None and self.symmetry_applier.enabled:
+                sampling_action_mask = self.symmetry_applier.build_action_mask(
+                    node_mask, int(z.shape[-1])
+                )
+            
+            # =====================================================================
             # Step 2: Initialize trajectory recording
             # =====================================================================
             latents = [z.clone().cpu()]
@@ -1002,8 +1039,13 @@ class DiffSBDDModel(nn.Module, BaseModel):
                 # Sample z_s given z_t
                 z, logp, mu, sigma = self.sample_p_zs_given_zt(
                     s_array, t_array, z, node_mask, edge_mask, 
-                    context=context, fix_noise=fix_noise
+                    context=context, fix_noise=fix_noise,
+                    action_mask=sampling_action_mask,
                 )
+                
+                # Apply symmetry constraint: R2.h = R1.h (after sampling)
+                if self.symmetry_applier is not None and self.symmetry_applier.enabled:
+                    z = self.symmetry_applier.apply(z, node_mask)
                 
                 # Record trajectory
                 latents.append(z.clone().cpu())

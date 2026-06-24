@@ -1,0 +1,24 @@
+{
+  "model_path": "/data/disk6/DiffB110/chembl_classifier/models/chembl_dmpnn_v0_1_scaffold_strongpoly.pt",
+  "dataset_csv": "/data/disk6/DiffB110/chembl_classifier/models/dmpnn_dataset_v0_1_scaffold_strongpoly.csv",
+  "best_epoch": 53,
+  "best_val_loss": 0.06381123910533734,
+  "test_metrics": {
+    "loss": 0.07967813383055002,
+    "accuracy": 0.9681623578071594,
+    "precision": 0.9831183810422565,
+    "recall": 0.9290527150217994,
+    "auc": 0.9957926664465763
+  },
+  "elapsed_seconds": 50980.719450712204,
+  "model_config": {
+    "atom_fdim": 41,
+    "bond_fdim": 11,
+    "hidden_size": 300,
+    "depth": 3,
+    "ffn_hidden_size": 300,
+    "ffn_num_layers": 2,
+    "dropout": 0.1,
+    "aggregation": "mean"
+  }
+}

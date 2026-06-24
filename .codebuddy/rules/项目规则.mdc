@@ -189,12 +189,14 @@ logger = logging.getLogger(__name__)  # 或统一 "DiffSBDD-DDPO"
 | **复用已有实现** | ECFP4/FCFP4 指纹复用 `DiversityReward` 的 stateless classmethod |
 | **MMD 可选** | 需外部预计算参考分布后传入；无参考时 = 0.0，不影响训练 |
 
+> 以下为 2026-05-21 DiffSBDD 保留线历史实现记录，DiffGui 主线不适用。
+
 ### 具体改动
 
 ```
 新增:  ddpo/utils/molecular_descriptors.py         ← 核心纯函数模块
 修改:  ddpo/runtime/train_helpers.py               ← 导入 + 添加提取辅助函数
-修改:  ddpo/main_diffsbdd_ddp.py                   ← 在 run_epoch_ddp 中注入 metrics
+修改:  ddpo/main_diffsbdd_ddp.py                   ← 在 run_epoch_ddp 中注入 metrics（DiffSBDD 保留线）
 修改:  ddpo/runtime/recording/writers/metrics_writer.py  ← SUMMARY_HEADER 加 ~20 列
 修改:  .codebuddy/rules/项目规则.mdc                ← 本记录
 ```
@@ -397,15 +399,16 @@ training_summary.csv  ← 新增 22 列
 
 编号按当天任务顺序递增；如果用户给了明确编号，优先沿用用户指定编号。
 
-### 每日/周/月总结规范（2026-06-08 制定）
+### 每日/周/月总结规范（2026-06-08 制定，2026-06-24 更新命名格式）
 
 | 规则 | 要求 |
 |------|------|
 | 根目录 | `/home/md666/data/disk6/DiffB110/work_days/` |
 | 每日总结 | `.md` 文件直接放在根目录，格式 `<YYMMDD> 每日总结.md` |
-| 每周合并 PDF | 放在 `work_days/每周/` 下 |
+| 每周文件 | 放在 `work_days/每周/` 下，格式 `谢东宸<YYMMDD>-<YYMMDD>[ 简短描述].ext` |
 | 每月总结 | 放在 `work_days/每月/` 下（暂无） |
 | 转换脚本 | `md-pdf.py` 等脚本留在 `work_days/` 根目录复用 |
+| 命名禁止 | **不要**在文件名中使用"每日总结合并"等冗长标签；同一日期范围的多份文件用简短区分词（如"工作总结""组会汇报"），单份文件可省略描述 |
 
 ### 禁止行为
 

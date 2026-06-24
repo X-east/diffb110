@@ -1,266 +1,259 @@
 # Project Context
 
+> **最后更新**: 2026-06-18
+
+This document records the current project direction, molecule semantics, reward semantics, and route-level decisions for DiffB110.
+
 ## 1. Current Project Direction
 
-This project uses `DiffSBDD` for 3D molecular diffusion generation and `DDPO/PPO` for reinforcement learning optimization.
+DiffB110 uses DiffGui and DiffSBDD for pocket-aware 3D molecular generation, with DDPO/PPO for reinforcement learning optimization and local analysis artifacts for route decisions. As of 2026-06-24, the current research main line is DiffGui reinforcement learning on the same target/task; DiffSBDD RL is retained as a baseline and backup path.
 
-The current direction has evolved from simple docking + drug-likeness rewards to a **high-dimensional feature classifier-based reward system**:
+The project has evolved from simple docking + QED/SA optimization into a multi-objective molecular-quality control system:
 
-- **DDP entrypoint**: `ddpo/main_diffsbdd_ddp.py` (PyTorch native DistributedDataParallel, launched via `torchrun`)
-- **Launch configs**: `launch/*.yaml` + `launch/*.sh` (6 different configurations for different reward combinations)
-- **Core reward component**: `ChemblClassifierReward` — a 2220-dimension MLP classifier trained on ChEMBL positive/negative molecules, used as a PPO reward signal
-- **Supporting rewards**: fingerprint similarity priors (ECFP4/FCFP4), logP distribution matching, MolSkill human preference, diversity penalties, ligand efficiency
-- **Normalization**: dual-layer — per-component EMA z-score (`ComponentNormalizer`) + global z-score (`RewardNormalizer`)
-- **Monitoring**: 22 molecular descriptors tracked per-epoch (LogP/TPSA/HBA/HBD/carbon fraction/heteroatom count/aromatic rings/fingerprint diversity/MMD)
-- **Smoke testing**: `launch/smoke.sh` (1 GPU / 1 epoch / batch=4, auto-cleanup)
-- **Classifier pipeline**: standalone `chembl_classifier/` (data extraction → training → evaluation → integration to reward)
-- **Docking backend**: `unidock` for the current 8GJL target
+- **DiffGui PPO entrypoint**: `ddpo/main_diffgui_docking_ddp.py`
+- **DiffSBDD retained DDPO entrypoint**: `ddpo/main_diffsbdd_ddp.py`
+- **Launch configs**: `launch/*.yaml` and `launch/*.sh`
+- **Main outputs**: `OUT/`
+- **Analysis evidence**: `analysis/`
+- **Task records**: `work_records/`
+- **Core rewards**: docking, ligand efficiency, QED, SA, ChEMBL priors, ChEMBL MLP, ChEMBL D-MPNN, ring/pathology facts, chemistry guards, distribution matching, and diversity penalties
+- **Monitoring**: validity, docking success, reward components, descriptor drift, carbon fraction, hetero atoms, TPSA, HBA/HBD, logP, ring count, aromatic rings, three-member rings, fused/complex rings, fingerprint similarity, and MMD
+- **Docking backend**: UniDock in the `dif` environment
 
-Key changes from earlier project state:
-- ❌ No longer Lightning DDP → ✅ PyTorch native DDP
-- ❌ No longer just QED/SA/docking → ✅ Multi-component classifier-centered reward system
-- ❌ `docs/` previously described a different project state → ✅ Now updated to reflect current state (2026-05-27)
+Key changes from earlier project states:
 
-## 2. Unified Molecule Semantics (Current Decision)
+- No longer Lightning DDP; current mainline uses PyTorch native DDP.
+- No longer just QED/SA/docking; current reward work is multi-component and descriptor-aware.
+- No longer only a 2220D MLP classifier; D-MPNN and explicit structural facts are now part of the reward/assessment design.
+- DiffGui is no longer only a reference sampler; it is the current environment-isolated PPO/DDPO main line.
+- Symmetric dual-R sidechain generation has been investigated deeply and is not a current near-term main method.
 
-This document records the current agreed molecule semantics for the project.
+## 2. Current Research Lines
 
-### 2.1 Single source of truth
+| Line | Main Code / Evidence | Current Status |
+|---|---|---|
+| DiffGui RL | `ddpo/main_diffgui_docking_ddp.py`, `ddpo/diffgui/runtime/`, `analysis/diffgui_rl/`, `OUT/diffgui-*` | Current main RL platform; focus on same-target reward optimization, ring/pathology control, top-N reranking, and molecule-quality retention |
+| DiffSBDD RL | `ddpo/main_diffsbdd_ddp.py`, `analysis/diffsbdd_rl/`, `OUT/diffsbdd-*` | Retained DDPO baseline and backup path; reward drift and structural guards remain useful comparison evidence |
+| ChEMBL / D-MPNN | `chembl_classifier/`, `ddpo/rewards/chembl_*` | MLP exists; D-MPNN is the stronger learned-prior candidate but must be calibrated |
+| DiffSBDD small mods | `DiffSBDD/equivariant_diffusion/`, `analysis/diffsbdd_small_mod/` | Local quality improvements remain possible |
+| DiffSBDD x/h/e | `DiffSBDD/edge_diffusion/`, `analysis/diffsbdd_xhe/` | Scientifically meaningful but high-risk and not yet the stable mainline |
+| Symmetric dual-R | `ddpo/constraints/`, `analysis/dual_sidechain_honokiol_9pc_*`, `work_records/26-6/260617/` | Explored deeply; current hard/soft constraint route is not promising as a main method |
 
-The single primary molecule object used downstream is:
-- `rdmol`: the RDKit `Mol` converted from the OpenBabel-reconstructed structure of one diffusion sample after removing padding according to `nodesxsample`
+## 3. Unified Molecule Semantics
 
-A diffusion sample itself is **not yet** the final chemistry object.
-The sample consists of:
+The downstream molecule object should have one source of truth:
+
+- `rdmol`: the RDKit `Mol` converted from the reconstructed structure of one diffusion sample after removing padding according to `nodesxsample`.
+
+A diffusion sample itself is not yet the final chemistry object. A sample usually contains:
+
 - coordinates `x`
 - atom-type tensor `categorical`
 - valid node count `nodesxsample`
+- optional trajectory/logprob metadata
 
 The canonical reconstruction rule is:
-- first use **OpenBabel** to reconstruct structure / perceive bonds from the diffusion geometry
-- then convert that reconstructed structure into one canonical **RDKit `Mol`**
-- all downstream chemistry logic must use that converted `rdmol`
 
-OpenBabel is the structure reconstruction backend.
-RDKit `Mol` is the single downstream chemistry object.
+1. Diffusion model generates a sample.
+2. Remove padding according to `nodesxsample`.
+3. Reconstruct or perceive bonds from geometry using the configured reconstruction path.
+4. Convert the reconstructed structure into one unified RDKit molecule.
+5. Run RDKit legality/sanitize checks.
+6. Compute rewards and descriptors from that same molecule object.
+7. Export docking inputs from that same molecule object.
+8. Use SMILES only for logging, deduplication, novelty, and reporting.
 
-### 2.2 Canonical pipeline
+### Required Rules
 
-The canonical molecule pipeline is:
+| Rule | Meaning |
+|---|---|
+| Single molecule object | Filter, drug-likeness reward, docking, descriptor extraction, and SDF export should not independently reconstruct divergent molecules |
+| RDKit validity as gate | `rdkit_valid` is a required gate before docking and most reward calculations |
+| Finite failure penalties | Failed molecules receive finite penalties, not `NaN` or `Inf` |
+| SMILES is auxiliary | SMILES should not become the primary reward calculation object unless explicitly justified |
+| Failure reasons are explicit | Reconstruction, sanitize, docking, classifier, and reward failures should be separately recorded |
 
-1. Diffusion model generates a `sample`
-2. Remove padding according to `nodesxsample`
-3. Use **OpenBabel** to reconstruct structure / infer bonds from the diffusion geometry
-4. Convert the reconstructed structure into one unified RDKit `Mol` (`rdmol`)
-5. Run RDKit sanitize / legality check on that `rdmol`
-6. Compute QED / SA directly from that same `rdmol`
-7. Export SDF / PDBQT for docking from that same `rdmol`
-8. Use SMILES only for logging / deduplication / novelty checks
-9. Combine component rewards explicitly into final total reward
+## 4. Canonical Per-Sample Fields
 
-### 2.3 Required rules
+Each generated sample should conceptually be tracked with these layers:
 
-#### Rule A — single molecule object
-All downstream chemistry logic must use the same converted `rdmol`.
-Do not let filter, drug-likeness reward, and docking each reconstruct molecules independently with diverging semantics.
+| Layer | Fields |
+|---|---|
+| Sample | `x`, `categorical`, `nodesxsample`, `sample_id` |
+| Reconstruction | `reconstruction_success`, `rdmol`, `build_success`, `failure_reason` |
+| RDKit legality | `sanitize_success`, `rdkit_valid` |
+| Representation | `smiles`, `canonical_smiles`, `inchikey`, `murcko_scaffold` |
+| Drug-likeness | `qed`, `sa_raw`, `sa_norm` |
+| Docking | `docking_input_success`, `docking_success`, `docking_raw`, `docking_reward` |
+| Structure facts | `ring_count`, `aromatic_ring_count`, `three_member_ring_count`, `fragment_count`, `spiro_atom_count`, `bridgehead_atom_count` |
+| Reward | component rewards, `reward_total`, `reward_for_advantage`, `advantage` |
+| Training selection | `training_keep`, `training_filter_reason`, replay/good-pool flags when enabled |
 
-#### Rule B — OpenBabel reconstruction, RDKit downstream
-OpenBabel is responsible for structure reconstruction / bond perception from diffusion geometry.
-RDKit `Mol` is responsible for all downstream chemistry semantics.
-Do not allow separate downstream branches that continue using OpenBabel objects as primary chemistry objects.
+Recommended failure types:
 
-#### Rule C — OpenBabel-invalid means invalid molecule
-If OpenBabel reconstruction judges a sample unreasonable / invalid, that sample is an invalid molecule.
-It must receive the maximum failure penalty and skip all downstream stages.
-That means:
-- do not continue to RDKit sanitize
-- do not compute QED / SA
-- do not prepare docking input
-- do not run docking
-
-#### Rule D — RDKit validity as docking gate
-`rdkit_valid` is the required gate before docking.
-If the converted RDKit molecule fails RDKit sanitize, it must not proceed to docking.
-
-#### Rule E — QED / SA input
-QED and SA must be computed directly from the unified `rdmol`.
-Do **not** use SMILES as the primary input path for QED / SA.
-Do **not** round-trip through `Mol -> SMILES -> Mol` unless there is a documented exceptional reason.
-
-#### Rule F — docking input source
-Docking input files must be exported from the unified `rdmol`.
-Do not create a separate "raw diffusion output -> SDF/PDBQT" path that bypasses the canonical RDKit molecule.
-
-#### Rule G — SMILES role
-SMILES is an auxiliary representation only.
-SMILES may be used for:
-- logging
-- CSV export
-- duplicate filtering
-- novelty checks against training data
-
-SMILES must not become the primary chemistry object for reward calculation.
-
-## 3. Canonical Per-Sample Fields
-
-Each generated sample should conceptually be tracked with the following layers.
-
-### 3.1 Sample layer
-- `x`
-- `categorical`
-- `nodesxsample`
-- `sample_id`
-
-### 3.2 Reconstruction layer
-- `obabel_reconstruct_success`
-- `rdmol`
-- `build_success`
-
-### 3.3 RDKit legality layer
-- `sanitize_success`
-- `rdkit_valid`
-
-### 3.4 Representation layer
-- `smiles`
-- `canonical_smiles`
-
-### 3.5 Drug-likeness layer
-- `qed`
-- `sa_raw`
-- `sa_norm`
-- `druglikeness_reward`
-- `druglikeness_success`
-
-### 3.6 Docking layer
-- `docking_input_success`
-- `dock_success`
-- `dock_score_raw`
-- `dock_score_norm`
-- `docking_reward`
-
-### 3.7 Final reward layer
-- `total_reward`
-- `failure_type`
-
-Recommended `failure_type` values:
-- `build_failed`
+- `reconstruction_failed`
 - `sanitize_failed`
-- `druglikeness_failed`
+- `rdkit_invalid`
 - `docking_input_failed`
 - `docking_backend_failed`
+- `classifier_failed`
+- `reward_missing`
 - `success`
 
-## 4. Reward Semantics（2026-05 更新：高维特征分类器体系）
+## 5. Reward Semantics
 
-The project has evolved from simple QED/SA/docking rewards to a **multi-component reward system**
-centered around a ChEMBL classifier and fingerprint priors.
+The project uses a multi-component reward system. The exact active components are determined by `launch/*.yaml`.
 
-### 4.1 Current reward components
+| Component | YAML Key | Type | Notes |
+|---|---|---|---|
+| Docking | `docking` | Structure-based | UniDock score normalized into reward |
+| Ligand Efficiency | `ligand_efficiency` | Structure-based efficiency | Docking score divided by molecule size |
+| QED | `qed` | Drug-likeness | RDKit QED |
+| SA | `sa` | Synthesis proxy | Synthetic accessibility |
+| ChEMBL Prior ECFP4 | `chembl_prior_ecfp4` | Distribution prior | Fingerprint similarity |
+| ChEMBL Prior FCFP4 | `chembl_prior_fcfp4` | Distribution prior | Feature fingerprint similarity |
+| ChEMBL MLP | `chembl_classifier` | Learned prior | 2220D Morgan/RDKit descriptor classifier |
+| ChEMBL D-MPNN | `chembl_dmpnn` | Learned graph prior | Message-passing classifier reward |
+| MolSkill | `molskill` | Preference model | Historical/optional reward |
+| LogP Distribution | `logp_distribution` | Distribution matching | Baseline distribution control |
+| TPSA Distribution | `tpsa_distribution` | Distribution matching | Baseline distribution control |
+| Diversity ECFP4 | `diversity_ecfp4` | Batch penalty | Within-batch similarity penalty |
+| Diversity FCFP4 | `diversity_fcfp4` | Batch penalty | Within-batch similarity penalty |
+| Ring Complexity | `ring_complexity` | Structural rule | Coarse ring/fused/spiro/bridgehead control |
+| Ring Pathology | `ring_pathology` | Structural rule | Large rings, fused large rings, abnormal small rings |
+| Aromatic Scaffold | `aromatic_scaffold` | Structural rule | Preserve reasonable aromatic scaffold |
+| Chemistry Guard | `chemistry_guard` | Structural guard | Carbon/hetero/fragment/bond-length/halogen checks |
+| Stability wrapper | `stability` | Wrapper | Injects validity/failure fields |
 
-| Component | YAML Key | Type | Description |
-|-----------|----------|------|-------------|
-| QED | `qed` | Drug-likeness | Quantitative Estimate of Drug-likeness |
-| SA | `sa` | Drug-likeness | Synthetic Accessibility |
-| Docking | `docking` | Structure-based | UniDock docking score (kcal/mol) |
-| Ligand Efficiency | `ligand_efficiency` | Efficiency | dock_score / heavy_atoms |
-| ChEMBL Prior ECFP4 | `chembl_prior_ecfp4` | Distribution prior | ECFP4 fingerprint similarity to ChEMBL |
-| ChEMBL Prior FCFP4 | `chembl_prior_fcfp4` | Distribution prior | FCFP4 fingerprint similarity to ChEMBL |
-| **ChEMBL Classifier** | `chembl_classifier` | **MLP classifier** | **2220D MLP (Morgan FP + RDKit 2D descriptors)** |
-| MolSkill | `molskill` | Human preference | MolSkill human-judgment model |
-| LogP Distribution | `logp_distribution` | Distribution matching | LogP distribution vs ChEMBL baseline |
-| Diversity ECFP4 | `diversity_ecfp4` | Batch penalty | Within-batch ECFP4 similarity penalty |
-| Diversity FCFP4 | `diversity_fcfp4` | Batch penalty | Within-batch FCFP4 similarity penalty |
-| Connectivity | `connectivity` | Validity | Fragment / disconnected structure penalty |
-| Component Normalizer | (built-in) | Normalization | Per-component EMA z-score (optional) |
-| Stability | `stability` | Wrapper | Injects RDKit validity / stability fields |
+Reward assembly flow:
 
-### 4.2 ChEMBL Classifier reward（核心新增）
-
-```python
-# chembl_classifier_reward.py → ChemblClassifierReward(BaseReward)
-# Featurizer: MolSkill "morgan_count_rdkit_2d" (2048 Morgan FP + 172 RDKit 2D = 2220D)
-# Model: 3-layer MLP (2220 → 512 → 128 → 1, BatchNorm + ReLU + Dropout)
-# Output: P(ChEMBL-like) ∈ [0, 1]
-# Reward mapping:
-#   prob ≥ good_threshold → linear map to [0, max_reward], saturates at cap_high
-#   prob < bad_threshold  → linear map to [penalty, 0], floors at cap_low
-#   middle region → neutral 0
-# Invalid molecules → failure_penalty (default: -1.0)
+```text
+YAML config
+  -> ddpo.rewards.factory
+  -> component reward instances
+  -> optional ComponentNormalizer
+  -> CompositeReward
+  -> optional StabilityAwareReward
+  -> batch["reward_total"]
+  -> RewardNormalizer / advantage construction
+  -> PPO update
 ```
 
-### 4.3 Training configurations
+Naming consistency must hold across:
 
-```yaml
-# Example: 7gpu_classifier_only.yaml
-reward:
-  weights:
-    chembl_classifier: 1.0
-    qed: 0
-    sa: 0
-    docking: 0
-  per_component_normalization:
-    enabled: true
-    momentum: 0.01
-  normalization:
-    enabled: true
-    method: "zscore_total"
-    clamp: { enabled: true, min: -2.0, max: 2.0 }
-  chembl_classifier:
-    good_threshold: 0.5
-    cap_high: 0.8
-    cap_low: 0.2
-    max_reward: 1.0
-    penalty: -1.0
+```text
+YAML key -> reward_prefix -> batch field -> dataclass/schema -> CSV column -> terminal display
 ```
 
-### 4.4 Reward assembly flow
+## 6. ChEMBL MLP And D-MPNN
 
-```
-YAML Config (launch/*.yaml)
-    ↓
-factory.build_rewarder(config, dataset_info, logger)
-    ├── get_enabled_rewards(config)  →  weight > 0 的组件列表
-    ├── 逐组件实例化 (QED/SA/Docking/Classifier/Prior/Diversity/...)
-    ├── 可选 ComponentNormalizer (EMA z-score)
-    ├── CompositeReward(rewards, weights, component_normalizer)
-    └── StabilityAwareReward(composite_reward, dataset_info)
-        ↓
-训练循环: rewarder.calculate_rewards(data)  →  batch['reward_total']
-```
+### MLP Classifier
 
-### 4.5 Naming consistency chain
+The MLP classifier uses 2220 features:
 
-YAML key → `reward_prefix` → batch field → CSV column → terminal display must be consistent.
-See `.codebuddy/rules/项目规则.mdc` §七 for the full checklist.
+- 2048 Morgan fingerprint dimensions
+- RDKit 2D descriptors
 
-## 5. Naming Guidance
+It is useful as a learned soft prior, but recent experiments show it should not be the only quality criterion.
 
-To reduce ambiguity, prefer these names:
-- use `rdkit_valid` instead of bare `valid`
-- avoid using `stability` if it really means RDKit sanitize success
-- if needed, separate:
-  - `build_success`
-  - `sanitize_success`
-  - `rdkit_valid`
-  - `dock_success`
+Key files:
+
+- `chembl_classifier/model.py`
+- `chembl_classifier/train.py`
+- `chembl_classifier/evaluate.py`
+- `ddpo/rewards/chembl_classifier_reward.py`
+
+### D-MPNN
+
+D-MPNN is the current graph-based learned-prior candidate.
+
+Key files:
+
+- `chembl_classifier/dmpnn/`
+- `chembl_classifier/config_dmpnn_v0_1_scaffold_strongpoly.yaml`
+- `ddpo/rewards/chembl_dmpnn_reward.py`
+- `test/test_chembl_dmpnn_data.py`
+- `test/test_chembl_dmpnn_training.py`
+- `test/test_chembl_dmpnn_reward.py`
+
+D-MPNN must be calibrated against docking, explicit structural facts, descriptor drift, top-molecule review, and diversity.
+
+## 7. DiffGui-Specific Context
+
+DiffGui is handled as an environment-isolated path:
+
+- Reference project: `reference project/DiffGui/`
+- Main PPO entrypoint: `ddpo/main_diffgui_docking_ddp.py`
+- Runtime modules: `ddpo/diffgui/runtime/`
+- Outputs: `OUT/diffgui-*`
+- Analyses: `analysis/diffgui_rl/`
+
+Current DiffGui conclusion:
+
+- DiffGui RL is the current main reinforcement-learning route.
+- Its routine evaluation is same-target/same-task optimization, not cross-target generalization.
+- It is useful for testing distribution shaping, especially ring/pathology control.
+- DiffGui should not currently be used as the main hard symmetric dual-R sidechain platform.
+- Good-molecule replay is implemented but should only be used with a short window, small ratio, and KL/clip gate after good-pool auditing.
+
+## 8. Symmetric Dual-R Context
+
+The dual-R / symmetric sidechain route was analyzed in detail in June 2026.
+
+Current conclusion:
+
+- DiffSBDD fixed-core/inpaint can run, but generated sidechains were often poor or degenerate.
+- DiffGui has explicit edge/halfedge diffusion, but the hard dual-R mechanism remains unclear and high risk.
+- The current route should remain documented as evidence, not treated as the near-term main method.
+
+Key evidence:
+
+- `analysis/dual_sidechain_honokiol_9pc_20260617/`
+- `analysis/dual_sidechain_honokiol_9pc_20260618/`
+- `work_records/26-6/260617/`
+- `work_records/26-6/260618/260618-01 DiffGui双R侧链解耦推进分析.md`
+
+## 9. Naming Guidance
+
+Prefer explicit field names:
+
+- `rdkit_valid`, not bare `valid`
+- `reconstruction_success`
+- `sanitize_success`
+- `docking_success`
+- `reward_found`
+- `training_keep`
 
 Do not use one overloaded field to mean all of:
+
 - RDKit legality
 - reward success
 - docking success
+- training participation
 
-## 6. Implementation Guidance
+## 10. Implementation Guidance
 
-When updating code related to molecule reconstruction, filtering, reward, logging, or docking:
+When updating reconstruction, filtering, reward, logging, docking, or replay code:
+
 - preserve diffusion trajectory semantics
 - preserve timestep semantics
 - preserve mask semantics
 - preserve batch semantics
 - do not silently change reward meaning
-- do not silently mix different molecule-building paths
-
-Preferred implementation direction:
-- factor molecule reconstruction into one shared canonical path
-- let filter, drug-likeness reward, and docking consume the same reconstructed `rdmol`
+- do not silently mix molecule-building paths
 - make failure boundaries explicit
 - keep per-component logging explicit
+- write local artifacts under `OUT/` or `analysis/` as appropriate
+
+## 11. Evidence Rule
+
+For project-level conclusions, inspect the relevant artifacts:
+
+- raw run outputs: `OUT/`
+- analysis reports and plots: `analysis/`
+- task records: `work_records/`
+- daily/weekly summaries: `work_days/`
+- launch configs: `launch/`
+- resolved run configs: `OUT/<run>/config/resolved_config.yaml`
+
+Do not rely on old README text or memory when run artifacts are available.

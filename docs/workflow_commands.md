@@ -1,239 +1,261 @@
 # Workflow Commands
 
-> **最后更新**: 2026-05-27
+> **最后更新**: 2026-06-18
 
 This document records the current verified workflow entrypoints, launch scripts, and supporting utilities in the repository.
 
-## 1. Environment
+## 1. Environments
 
-All project commands should be run in the `dif` environment.
+### Main DiffB110 / DiffSBDD environment
 
-~~~bash
+Use `dif` for the main project runtime, DiffSBDD DDPO, reward scoring, analysis scripts, classifier training, and most tests.
+
+```bash
 conda activate dif
 python --version
 python -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.device_count())"
 nvidia-smi
-~~~
+```
 
-## 2. Primary Runtime Method (Multi-GPU DDP via torchrun)
+### DiffGui environment
 
-The current verified training method uses **PyTorch native DDP** launched via `torchrun`.
-All training configs live in `launch/`.
+Use `diffgui` for any task that imports the reference DiffGui model, loads `reference project/DiffGui/ckpt/trained.pt`, performs DiffGui generation, or runs DiffGui PPO/DDPO.
 
-### Current training entrypoints
+Do not install DiffGui-only dependencies into `dif`.
 
-| Launch Script | GPUs | Reward Configuration |
-|--------------|------|---------------------|
-| `bash launch/run_6gpu_dock.sh` | 6 | docking + ChEMBL prior + logP distribution |
-| `bash launch/run_6gpu_chembl_only.sh` | 6 | ChEMBL prior ECFP4+FCFP4 + logP + classifier |
-| `bash launch/run_8gpu_dock.sh` | 8 | docking + ChEMBL prior + logP distribution |
-| `bash launch/run_8gpu_chembl_only.sh` | 8 | ChEMBL prior ECFP4+FCFP4 + logP |
-| `bash launch/run.sh` | config-driven | Generic entrypoint (CONFIG_PATH env var, defaults to `run.yaml`) |
-| `bash launch/smoke.sh` | 1 | QED only, 1 epoch, auto-cleanup |
+## 2. DiffGui PPO/DDPO Current Main Line
 
-### Smoke test (mandatory after code changes)
+DiffGui has its own decoupled runtime under `ddpo/diffgui/` and must run in the `diffgui` environment when the reference model is loaded. This is the current reinforcement-learning main line.
 
-~~~bash
-bash launch/smoke.sh
-~~~
+### Main Python entrypoints
 
-Runs 1 epoch with batch=4 on 1 GPU, validates the full DDP pipeline, and auto-cleans GPU memory/port.
+```bash
+torchrun --nproc_per_node=<N> ddpo/main_diffgui_docking_ddp.py --config <launch/config.yaml>
+python ddpo/main_diffgui_reward_only.py --config <launch/config.yaml>
+```
 
-### Single GPU debugging (legacy)
+### Launch scripts
 
-~~~bash
-python ddpo/main_diffsbdd_single_gpu.py --config_path launch/smoke.yaml
-~~~
+| Command | Use |
+|---|---|
+| `bash launch/run_diffgui_docking_train_ddp_smoke.sh` | DiffGui DDP smoke |
+| `bash launch/run_diffgui_deppa_last3_lr1e5_b18x8_t200_100ep_20260623.sh` | Current DePPA-style DiffGui RL formal run |
+| `bash launch/run_diffgui_next6_matrix_20260618.sh` | DiffGui next6 serial matrix |
+| `bash launch/run_diffgui_ring_control_matrix_20260615.sh` | QED/SA/ring/combination matrix |
+| `bash launch/start_diffgui_next4_continue_to50_20260621.sh` | Continue next4 run to 50 total epochs |
 
-## 3. Key Python Entrypoints
+Historical DiffGui launchers live under `launch/archive/diffgui_historical/`
+and should be used only to reproduce earlier runs.
 
-### RL / DDPO training entrypoint (current mainline)
-- `ddpo/main_diffsbdd_ddp.py`
+### Important DiffGui evidence paths
 
-Launched via torchrun shell scripts in `launch/`. Direct invocation (rarely needed):
-~~~bash
-torchrun --nproc_per_node=6 --master_port=29500 ddpo/main_diffsbdd_ddp.py --config launch/6gpu_dock.yaml
-~~~
+- `OUT/diffgui-*`
+- `launch/archive/logs/diffgui_ring_control_matrix_*`
+- `analysis/diffgui_rl/`
+- `ddpo/diffgui/runtime/rollout.py`
+- `ddpo/diffgui/runtime/logprob_adapter.py`
+- `ddpo/diffgui/runtime/actor.py`
+- `ddpo/diffgui/runtime/training_filter.py`
+- `ddpo/diffgui/runtime/good_pool.py`
+- `ddpo/diffgui/runtime/replay.py`
 
-### Single GPU entrypoint (legacy)
-- `ddpo/main_diffsbdd_single_gpu.py`
+`launch/archive/logs/` and `launch/archive/runtime_logs/` are run evidence, not
+maintained entrypoints.
 
-CLI:
-~~~bash
-python ddpo/main_diffsbdd_single_gpu.py --config_path launch/smoke.yaml
-~~~
+DiffGui RL stage-summary statistics are documented in:
 
-Arguments:
-- `--config_path CONFIG_PATH` (required)
-- `--save_path SAVE_PATH`
-- `--seed SEED`
-- `--log_level {DEBUG,INFO,WARNING,ERROR}`
-- `--resume`
-- `--checkpoint_path CHECKPOINT_PATH`
+- `docs/DiffGui强化学习统计清单.md`
 
-### Legacy Ray entrypoint
-- `ddpo/main_diffsbdd.py`
+## 3. DiffSBDD DDPO/PPO Retained Baseline
 
-CLI:
-~~~bash
-python ddpo/main_diffsbdd.py --help
-~~~
+The retained DiffSBDD reinforcement-learning path uses PyTorch native DDP via `torchrun`. Use it for comparison, backup, or historical reproduction, not as the current research main line.
 
-Arguments: `--config_path`, `--save_path`, `--log_level`, `--seed`, `--resume`, `--checkpoint_path`
+### Main Python entrypoint
 
-### ChEMBL classifier training pipeline
-- `chembl_classifier/data/extract_negatives.py` — extract rule-based negative samples
-- `chembl_classifier/data/build_dataset.py` — build featurized `dataset.pt`
-- `chembl_classifier/train.py` — train the MLP classifier
-- `chembl_classifier/evaluate.py` — evaluate AUROC / threshold analysis
-- `chembl_classifier/config.yaml` — training hyperparameters
+```bash
+torchrun --nproc_per_node=<N> ddpo/main_diffsbdd_ddp.py --config <launch/config.yaml>
+```
 
-### DiffSBDD base model training
-- `DiffSBDD/train.py`
+### Standard launch scripts
 
-CLI:
-~~~bash
-python DiffSBDD/train.py --help
-~~~
-Arguments: `--config CONFIG`, `--resume RESUME`
+| Command | Use |
+|---|---|
+| `bash launch/smoke.sh` | Standard 1 GPU smoke test |
+| `CONFIG_PATH=launch/8gpu_dock.yaml bash launch/run.sh` | 8 GPU docking + ChEMBL prior + logP |
+| `CONFIG_PATH=launch/8gpu_chembl_only.yaml bash launch/run.sh` | 8 GPU ChEMBL/prior run |
+| `CONFIG_PATH=launch/7gpu_dock_classifier_v0_1.yaml bash launch/run.sh` | docking + classifier |
+| `bash launch/run_diffsbdd_single_reward_matrix_20260612.sh` | DiffSBDD single-reward matrix |
 
-### DiffSBDD ligand generation
-- `DiffSBDD/generate_ligands.py`
+Do not use the old `run_6gpu*.sh` / `run_8gpu*.sh` wrappers for new jobs unless
+they are repaired first. They have been moved to
+`launch/archive/legacy_diffsbdd_wrappers/`, overlap with `launch/run.sh`, and
+still reference the obsolete `launch/yaml_launch_env.py` helper in several
+places. Prefer:
 
-CLI:
-~~~bash
-python DiffSBDD/generate_ligands.py --help
-~~~
-Arguments: positional `checkpoint`, `--pdbfile`, `--resi_list`, `--ref_ligand`, `--outfile`, `--n_samples`, `--batch_size`, etc.
+```bash
+CONFIG_PATH=launch/<config>.yaml bash launch/run.sh
+```
 
-### Uni-Dock tool entrypoint
-- UniDock is installed as a conda package in the `dif` environment (not a local repo copy).
-- Tool entrypoint: `unidock_tools` (importable via Python)
+### Legacy entrypoints
 
-CLI:
-~~~bash
-python -m unidock_tools.main --help
-~~~
-Subcommands: `proteinprep`, `unidock_pipeline`, `mcdock`, `ligandprep`
+| Entrypoint | Status |
+|---|---|
+| `ddpo/main_diffsbdd_ddp.py` | Retained DiffSBDD DDP path |
+| `ddpo/main_diffsbdd_single_gpu.py` | Legacy single-GPU debug path |
+| `ddpo/main_diffsbdd.py` | Legacy Ray-style reference |
 
-## 4. Entrypoint Relationship
-
-In the current repository snapshot:
-
-- The verified active RL training code path is `ddpo/main_diffsbdd_ddp.py` (PyTorch native DDP via `torchrun`)
-- Launch is always via `bash launch/<config>.sh` (shell wrappers that set up torchrun with correct CUDA_VISIBLE_DEVICES, etc.)
-- `ddpo/main_diffsbdd_single_gpu.py` is a legacy single-GPU entrypoint, useful for quick debugging
-- `ddpo/main_diffsbdd.py` is the legacy Ray entrypoint, preserved for historical reference
-- `ddpo/main_diffsbdd_lightning.py` — does not exist in this checkout, was part of a historical Lightning-based DDP effort. Use `ddpo/main_diffsbdd_ddp.py` instead.
-
-Underlying modules still used by the active DDP path:
-- `ddpo/runtime/rollout.py` — rollout logic
-- `ddpo/runtime/train_helpers.py` — training loop orchestration + molecular descriptor computation
-- `ddpo/integration/diffsbdd_model.py` — DiffSBDD model adapter
-- `ddpo/runtime/actor.py` — 当前 policy update（从 RLPF actor 本地化）
-
-## 5. Additional Launch Configurations
-
-All launch configurations are in `launch/`. Beyond the primary `.sh` scripts listed above, the directory contains:
-
-| YAML Config | Notes |
-|-------------|-------|
-| `launch/7gpu_classifier_only.yaml` | Pure classifier reward, no dedicated `.sh` (use `run.sh` with `CONFIG_PATH`) |
-| `launch/7gpu_dock_classifier_v0_1.yaml` | docking + classifier combined |
-| `launch/molskill_test.yaml` | Pure MolSkill test, no dedicated `.sh` |
-| `launch/run_6gpu_dock_kl_sweep.sh` | KL coefficient sweep (based on 6gpu_dock config) |
-
-Notes:
-- The primary production workflows use `run_<config>.sh` script wrappers.
-- Additional YAML-only configs can be launched via `bash launch/run.sh` with `CONFIG_PATH` environment variable.
-- `reference project/` contains historical RLPF implementations, git-ignored.
-
-## 6. DiffSBDD Commands
+## 4. DiffSBDD Base Model Training And Generation
 
 ### Base model training
-~~~bash
-python DiffSBDD/train.py --config <CONFIG_YAML>
-~~~
+
+```bash
+conda run -n dif python DiffSBDD/train.py --config <DiffSBDD/config.yaml>
+```
 
 ### Ligand generation
-~~~bash
-python DiffSBDD/generate_ligands.py <CHECKPOINT> \
-    --pdbfile <PDB_FILE> \
-    --outfile <OUTPUT_FILE> \
-    --n_samples <N>
-~~~
 
-## 7. Testing Commands
+```bash
+conda run -n dif python DiffSBDD/generate_ligands.py <CHECKPOINT> \
+  --pdbfile <PDB_FILE> \
+  --outfile <OUTPUT_FILE> \
+  --n_samples <N> \
+  --batch_size <B>
+```
 
-### Smoke test (mandatory after code changes)
-~~~bash
+### Inpaint / fixed-core generation
+
+```bash
+conda run -n dif python DiffSBDD/inpaint.py --help
+```
+
+Recent dual-R/fixed-core work is documented under:
+
+- `analysis/dual_sidechain_honokiol_9pc_20260617/`
+- `analysis/dual_sidechain_honokiol_9pc_20260618/`
+- `work_records/26-6/260617/`
+- `work_records/26-6/260618/260618-01 DiffGui双R侧链解耦推进分析.md`
+
+## 5. ChEMBL MLP And D-MPNN Classifiers
+
+### MLP classifier
+
+```bash
+conda run -n dif python chembl_classifier/data/extract_negatives.py
+conda run -n dif python chembl_classifier/data/build_dataset.py
+conda run -n dif python chembl_classifier/train.py
+conda run -n dif python chembl_classifier/evaluate.py
+```
+
+Key configs and models:
+
+- `chembl_classifier/config.yaml`
+- `chembl_classifier/config_v0_3_1_scaffold_strongpoly.yaml`
+- `chembl_classifier/models/chembl_classifier_selected_v0_3_1_scaffold_strongpoly.pt`
+
+### D-MPNN classifier
+
+```bash
+conda run -n dif python chembl_classifier/dmpnn/train.py \
+  --config chembl_classifier/config_dmpnn_v0_1_scaffold_strongpoly.yaml
+```
+
+Reward integration:
+
+- `ddpo/rewards/chembl_dmpnn_reward.py`
+- `test/test_chembl_dmpnn_data.py`
+- `test/test_chembl_dmpnn_training.py`
+- `test/test_chembl_dmpnn_reward.py`
+
+## 6. Docking
+
+UniDock is installed in the `dif` conda environment and is the current primary docking backend.
+
+```bash
+conda run -n dif python -m unidock_tools.main --help
+```
+
+Relevant code:
+
+- `ddpo/rewards/docking.py`
+- `ddpo/rewards/docking_preparation.py`
+- `ddpo/rewards/docking_factory.py`
+- `ddpo/rewards/docking_backends/`
+- `scripts/docking/`
+
+## 7. Tests And Smoke Checks
+
+### Syntax check changed Python files
+
+```bash
+conda run -n dif python -m py_compile <file1.py> <file2.py>
+```
+
+### Focused tests
+
+```bash
+conda run -n dif pytest -q test/test_dataproto_behavior.py
+conda run -n dif pytest -q test/test_diffgui_actor.py test/test_diffgui_replay.py
+conda run -n dif pytest -q test/test_chembl_dmpnn_data.py test/test_chembl_dmpnn_reward.py
+conda run -n dif pytest -q test/test_docking_preparation.py test/test_docking_reward_behavior.py
+```
+
+### Main DiffSBDD smoke
+
+```bash
 bash launch/smoke.sh
-~~~
-1 GPU / 1 epoch / batch=4 / QED only. Validates full DDP pipeline without crashing. Auto-cleans GPU memory.
+```
 
-### Unit / integration tests
-~~~bash
-python test/test_le_reward_integration.py
-python test/test_dataproto_behavior.py
-python test/test_no_rlpf_regression.py
-~~~
+### DiffGui smoke
 
-## 8. ChEMBL Classifier Commands
+Use the DiffGui launch script and a non-conflicting GPU/port when needed:
 
-~~~bash
-# Extract negative samples from ChEMBL (property rule-based)
-cd chembl_classifier
-python data/extract_negatives.py
+```bash
+CUDA_VISIBLE_DEVICES=<GPU_ID> \
+NPROC_PER_NODE=1 \
+MASTER_PORT=<PORT> \
+CONFIG_PATH=<launch/diffgui_config.yaml> \
+OUTPUT_DIR=<OUT/run_dir> \
+bash launch/run_diffgui_docking_train_ddp_smoke.sh
+```
 
-# Build featurized dataset (2220D Morgan FP + RDKit descriptors)
-python data/build_dataset.py
+## 8. Analysis And Reporting
 
-# Train the MLP classifier
-python train.py
+Analysis artifacts should live under `analysis/<topic>_<date>/` and include:
 
-# Evaluate on test set
-python evaluate.py
-~~~
+- `report.md`
+- CSV/JSON source tables
+- PNG/SVG plots embedded in the Markdown report
+- SDF files when molecule-level evidence is needed
 
-Training hyperparameters in `chembl_classifier/config.yaml`:
-- `model`: 2220 → 512 → 128 → 1 (BatchNorm + ReLU + Dropout)
-- `batch_size`: 256
-- `epochs`: 100
-- `train_split`: 0.8
+Task records should live under:
 
-## 9. Analysis Commands
+```text
+work_records/<YYMM>/<YYMMDD>/<YYMMDD>-<seq> <title>.md
+```
 
-~~~bash
-# Analyze training output
-python analysis/analyze_8gpu_chembl_only.py
-python analysis/analyze_7gpu_dock_ecfp4_fcfp4.py
-python analysis/analyze_7gpu_dock_ecfp4_fcfp4_20260526.py
-python analysis/analyze_reward_influence.py
-python analysis/analyze_fingerprint_exps.py
+Daily summaries live under:
 
-# Historical EDM evaluation from the reference RLPF tree (git-ignored)
-python "reference project/RLPF-verl_diffusion/Model/EDM/eval_analyze.py"
-~~~
+```text
+work_days/
+```
 
-## 10. Current Operational Status
+## 9. Current High-Value Analysis Directories
 
-- Verified project environment: `dif`
-- Canonical project root: `/home/md666/data/disk6/DiffB110`
-- Active training entrypoint: `ddpo/main_diffsbdd_ddp.py` (PyTorch native DDP)
-- Launch mechanism: `bash launch/<config>.sh` (torchrun-based)
-- Primary docking backend: UniDock
-- Core reward paradigm: high-dimensional feature classifier (2220D MLP) + fingerprint priors + distribution matching
-- Monitoring: 22 molecular descriptors per epoch
-- Legacy Ray-based scripts have been removed; only `ddpo/main_diffsbdd.py` is retained as a historical reference entrypoint.
-- References to Lightning DDP in older docs are now historical.
+| Directory | Use |
+|---|---|
+| `analysis/diffgui_rl/diffgui_single_reward_analysis_20260616/` | DiffGui single-reward matrix analysis |
+| `analysis/diffgui_rl/diffgui_rl_next_tests_20260618/` | DiffGui RL next-test plan |
+| `analysis/diffgui_rl/diffgui_ring_last3_lr3e5_training_plots_20260611/` | DiffGui ring-last3 detailed plots |
+| `analysis/diffsbdd_rl/diffsbdd_single_reward_matrix_20260613/` | DiffSBDD single-reward matrix |
+| `analysis/classifier/` | Classifier training/curation/figures |
+| `analysis/benchmark/` | Cross-model benchmark |
+| `analysis/dual_sidechain_honokiol_9pc_20260617/` | DiffSBDD dual-R fixed-core attempts |
+| `analysis/dual_sidechain_honokiol_9pc_20260618/` | DiffGui dual-R feasibility analysis |
 
-## 11. Known Entry-Point and Environment Issues
+## 10. Operational Notes
 
-### PyTorch version compatibility warning
-Current environment provides `torch==2.0.1+cu118`. Some imported components expect `PyTorch >= 2.2`. This does not prevent execution but is an environment compatibility risk.
-
-### Uni-Dock local package conflict
-Running `python Uni-Dock/unidock_tools/src/unidock_tools/application/unidock_pipeline.py --help` fails because Python imports the installed `unidock_tools` package from the environment instead of the local repository source.
-
-### Historical note
-Early legacy Ray-based scripts (`scripts/train_8gpu.sh`, `ddpo/configs/run_training.sh`, etc.) have been removed in the codebase cleanup. Current training uses only `launch/*.sh` (torchrun DDP).
+- Active launch configs are under `launch/`, not top-level `configs/`.
+- Formal outputs go to `OUT/`.
+- `analysis/` is for interpreted artifacts and should embed charts in reports.
+- `output/` is not an active root and should not be used for new run outputs.
+- For live progress checks, trust logs, rank epoch artifacts, checkpoints, and GPU process evidence before stale manifests.

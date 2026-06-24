@@ -184,6 +184,10 @@ out2/
 
 # launch runtime-generated configs
 launch/generated/
+launch/archive/generated/
+launch/archive/logs/
+launch/archive/runtime_logs/
+launch/archive/cache/
 
 # thesis / screening work
 bishe/
@@ -228,3 +232,4 @@ analysis/edge_denoiser_ablation_summary_*
 analysis/edge_diffusion_xhe_*
 analysis/edge_transition_smoke_*
 analysis/oracle_original_sdf_audit_*/*.py
+tools/clash/

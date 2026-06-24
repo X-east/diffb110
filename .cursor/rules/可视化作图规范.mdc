@@ -1,0 +1,99 @@
+---
+description: 分子性质分布图、对接分数图、benchmark 横评图的标准作图规范
+alwaysApply: true
+enabled: true
+updatedAt: 2026-06-16T00:00:00.000Z
+provider: 
+---
+
+# 可视化作图规范
+
+参考实现：`tools/analysis_scripts/legacy_top_level/plot_beautiful_core_properties.py`
+
+## 一、全局风格
+
+```python
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style="whitegrid", context="paper", font_scale=1.2)
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['axes.edgecolor'] = '#d4d4d4'
+plt.rcParams['axes.linewidth'] = 1.2
+```
+
+- **DPI**：单图 300，合图 300
+- **隐藏 top/right spine**，left/bottom spine 设为 `#cccccc`
+- **中文标题**用英文（seaborn 对中文兼容性差）
+
+## 二、按性质选图类型
+
+| 性质类型 | 图类型 | 示例 |
+|----------|--------|------|
+| 连续分布（LogP, TPSA, QED, SA_Score） | **小提琴图 + stripplot 散点叠加** | `sns.violinplot(inner="quartile")` + `sns.stripplot(alpha=0.15)` |
+| 离散/计数（MolWt, RotBonds） | **直方图 + KDE 曲线** | `sns.histplot(kde=True)` |
+| 对接分数分布 | **小提琴图 + stripplot**，叠加 Native 参考线 | `sns.violinplot()` + `ax.axhline()` |
+| 多模型对比 | 同一张图内并排 violin，每个模型一个颜色 | positions=[1,2,3...] |
+| 多性质总览 | 2×3 或 2×4 网格，每个子图一个性质 | `fig, axes = plt.subplots(nrows, ncols)` |
+
+## 三、阈值/参考线
+
+每条阈值线必须：
+- 红色虚线：`color="#E74C3C", linestyle="--", linewidth=2.0, alpha=0.85`
+- 文字标签标注阈值含义（如 `< 500`、`0 - 3`、`Native: -12.74`）
+- 对接分数图必须标注 Native ligand 的对接分数
+
+```python
+ax.axhline(native_score, color="#E74C3C", linestyle="--", linewidth=2.0, alpha=0.85, zorder=4)
+ax.text(x_pos, native_score, f'Native: {native_score:.2f}', color="#E74C3C", fontweight='bold')
+```
+
+## 四、配色
+
+| 用途 | 颜色 |
+|------|------|
+| DiffSBDD | `#E74C3C` (红) |
+| DiffGui | `#3498DB` (蓝) |
+| MolWt 直方图 | `#4A90E2` |
+| LogP 小提琴 | `#F39C12` |
+| TPSA 小提琴 | `#2ECC71` |
+| QED 小提琴 | `#E74C3C` |
+| SA_Score 小提琴 | `#1ABC9C` |
+| Native/参考 | `#2ECC71` (绿) |
+
+## 五、输出规范
+
+每个 benchmark 的 `evaluation/` 目录下统一输出：
+
+```
+evaluation/
+├── <model_name>/
+│   ├── MolWt.png / LogP.png / TPSA.png / QED.png / SA_Score.png
+│   ├── docking_score.png
+│   └── core_properties_combined.png
+├── model_comparison/
+│   ├── docking_score_violin.png
+│   └── properties_comparison.png
+├── violin_summary_stats.csv
+└── per_molecule_metrics.csv  （已有）
+```
+
+## 六、汇总表 CSV
+
+每张图对应一个 CSV，列：
+`性质名称, 判别标准, 中位数, 最大值, 最小值, 平均值, 通过分子数, 通过分子比例, 总分子数`
+
+最后加一行 `ALL_CRITERIA`（同时满足所有标准的分子数）。
+
+## 七、禁止行为
+
+- ❌ `plt.show()` — 永远用 `fig.savefig()` + `plt.close(fig)`
+- ❌ 低 DPI（<200）— 正式图最低 300
+- ❌ 无阈值线/参考线的裸图
+- ❌ 中文 title/label（用英文，或确认 seaborn 字体支持后再用中文）
+- ❌ 对接分数图不做 Native 参考线
+- ❌ 多个 benchmark 的输出混在同一个目录

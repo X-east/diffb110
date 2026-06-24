@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PYTHON_BIN="${PYTHON_BIN:-/home/md666/miniforge3/envs/dif/bin/python}"
 GENERATOR="$ROOT/launch/generate_diffsbdd_single_reward_matrix_20260612.py"
-MATRIX_DIR="$ROOT/launch/generated/diffsbdd_single_reward_matrix_20260612"
-LOG_DIR="$ROOT/launch/logs/diffsbdd_single_reward_matrix_20260612"
+MATRIX_DIR="$ROOT/launch/archive/generated/diffsbdd_single_reward_matrix_20260612"
+LOG_DIR="$ROOT/launch/archive/logs/diffsbdd_single_reward_matrix_20260612"
 
 DRY_RUN="${DRY_RUN:-0}"
 ONLY="${ONLY:-}"

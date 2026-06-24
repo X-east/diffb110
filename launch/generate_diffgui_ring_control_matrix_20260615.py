@@ -24,8 +24,8 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE_CONFIG = ROOT / "launch" / "diffgui_8gpu_b24_aromatic_last3_lr3e5.yaml"
-OUT_DIR = ROOT / "launch" / "generated" / "diffgui_ring_control_matrix_20260615"
+BASE_CONFIG = ROOT / "launch" / "archive" / "diffgui_historical" / "diffgui_8gpu_b24_aromatic_last3_lr3e5.yaml"
+OUT_DIR = ROOT / "launch" / "archive" / "generated" / "diffgui_ring_control_matrix_20260615"
 
 # 2026-06-15: 目录已从 analysis/8gjl_... 移动到 analysis/benchmark/8gjl_...
 POCKET_PDB = "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"

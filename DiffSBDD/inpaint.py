@@ -11,8 +11,9 @@ from openbabel import openbabel
 openbabel.obErrorLog.StopLogging()  # suppress OpenBabel messages
 
 import utils
-from lightning_modules import LigandPocketDDPM
+from equivariant_diffusion.dual_r_constraints import DualRConstraintConfig
 from constants import FLOAT_TYPE, INT_TYPE
+from lightning_modules import LigandPocketDDPM
 from analysis.molecule_builder import process_molecule
 from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
@@ -251,7 +252,8 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
                    add_n_nodes=None, center='ligand', sanitize=False,
                    largest_frag=False, relax_iter=0, timesteps=None,
                    resamplings=1, save_traj=False,
-                   reconstruction_method=DEFAULT_RECONSTRUCTION_METHOD):
+                   reconstruction_method=DEFAULT_RECONSTRUCTION_METHOD,
+                   dual_r_constraint_config=None):
     """
     Generate ligands given a pocket
     Args:
@@ -343,7 +345,8 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
     # Run sampling
     xh_lig, xh_pocket, lig_mask, pocket_mask = model.ddpm.inpaint(
         ligand, pocket, lig_fixed, center=center,
-        resamplings=resamplings, timesteps=timesteps, return_frames=frames)
+        resamplings=resamplings, timesteps=timesteps, return_frames=frames,
+        dual_r_constraint_config=dual_r_constraint_config)
 
     # Treat intermediate states as molecules for downstream processing
     if save_traj:
@@ -402,6 +405,15 @@ def inpaint_ligand(model, pdb_file, n_samples, ligand, fix_atoms,
     return molecules
 
 
+def _count_fixed_atoms_for_dual_r_config(fix_atoms):
+    """Return fixed atom count for dual-R slot indexing."""
+    if not fix_atoms:
+        raise ValueError("--dual_r_constraint requires --fix_atoms")
+    if fix_atoms[0].endswith(".sdf"):
+        return read_fixed_substructure_sdf(fix_atoms[0]).GetNumAtoms()
+    return len(fix_atoms)
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -424,6 +436,32 @@ if __name__ == "__main__":
         default=DEFAULT_RECONSTRUCTION_METHOD,
         choices=('openbabel', 'obabel', 'edm', 'distance', 'distance_rule'),
     )
+    parser.add_argument(
+        '--dual_r_constraint',
+        action='store_true',
+        help='Enable paired atom-type and root-distance constraints for dual-R inpainting.',
+    )
+    parser.add_argument('--dual_r_pair_count', type=int, default=0)
+    parser.add_argument('--dual_r_left_core_idx', type=int, default=0)
+    parser.add_argument('--dual_r_right_core_idx', type=int, default=11)
+    parser.add_argument('--dual_r_root_pair_index', type=int, default=0)
+    parser.add_argument('--dual_r_target_bond_length', type=float, default=1.50)
+    parser.add_argument('--dual_r_atom_sync_strength', type=float, default=1.0)
+    parser.add_argument('--dual_r_distance_strength', type=float, default=0.25)
+    parser.add_argument('--dual_r_max_distance_step', type=float, default=0.25)
+    parser.add_argument('--dual_r_apply_every_n_steps', type=int, default=1)
+    parser.add_argument(
+        '--dual_r_target_atom_types',
+        type=str,
+        default='',
+        help='Space-separated atom symbols per slot, e.g. "C O C N". '
+             'Empty = legacy symmetric sync.',
+    )
+    parser.add_argument(
+        '--dual_r_no_distance_all_pairs',
+        action='store_true',
+        help='Limit distance nudge to root pair only (legacy).',
+    )
     args = parser.parse_args()
 
     pdb_id = Path(args.pdbfile).stem
@@ -434,6 +472,45 @@ if __name__ == "__main__":
     model = LigandPocketDDPM.load_from_checkpoint(
         args.checkpoint, map_location=device)
     model = model.to(device)
+    dual_r_constraint_config = None
+    if args.dual_r_constraint:
+        if args.add_n_nodes is None:
+            raise ValueError("--dual_r_constraint requires explicit --add_n_nodes")
+        if args.add_n_nodes < 2 * args.dual_r_pair_count:
+            raise ValueError("--add_n_nodes must be at least 2 * --dual_r_pair_count")
+
+        # Parse target atom type symbols → type indices
+        target_type_indices: list[int] = []
+        if args.dual_r_target_atom_types.strip():
+            for sym in args.dual_r_target_atom_types.strip().split():
+                sym = sym.strip()
+                if sym not in model.lig_type_encoder:
+                    raise ValueError(
+                        f"Unknown atom type '{sym}' in --dual_r_target_atom_types. "
+                        f"Known: {sorted(model.lig_type_encoder.keys())}"
+                    )
+                target_type_indices.append(model.lig_type_encoder[sym])
+        if target_type_indices and len(target_type_indices) != args.dual_r_pair_count:
+            raise ValueError(
+                f"target_atom_types count ({len(target_type_indices)}) "
+                f"must match pair_count ({args.dual_r_pair_count})"
+            )
+
+        dual_r_constraint_config = DualRConstraintConfig(
+            enabled=True,
+            fixed_atom_count=_count_fixed_atoms_for_dual_r_config(args.fix_atoms),
+            pair_count=int(args.dual_r_pair_count),
+            left_core_idx=int(args.dual_r_left_core_idx),
+            right_core_idx=int(args.dual_r_right_core_idx),
+            root_pair_index=int(args.dual_r_root_pair_index),
+            target_bond_length=float(args.dual_r_target_bond_length),
+            atom_sync_strength=float(args.dual_r_atom_sync_strength),
+            distance_strength=float(args.dual_r_distance_strength),
+            max_distance_step=float(args.dual_r_max_distance_step),
+            apply_every_n_steps=int(args.dual_r_apply_every_n_steps),
+            target_atom_types=tuple(target_type_indices),
+            distance_all_pairs=not args.dual_r_no_distance_all_pairs,
+        ).build_target_one_hots(model.atom_nf)
 
     molecules = inpaint_ligand(model, args.pdbfile, args.n_samples,
                                args.ref_ligand, args.fix_atoms,
@@ -444,7 +521,8 @@ if __name__ == "__main__":
                                timesteps=args.timesteps,
                                resamplings=args.resamplings,
                                save_traj=args.save_traj,
-                               reconstruction_method=args.reconstruction_method)
+                               reconstruction_method=args.reconstruction_method,
+                               dual_r_constraint_config=dual_r_constraint_config)
 
     # Make SDF files
     utils.write_sdf_file(args.outfile, molecules)
