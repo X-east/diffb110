@@ -302,3 +302,26 @@ For substantial project tasks, summarize in Chinese with:
 - Keep summaries concise, data-first, and table-friendly: use numbers where
   possible, tables where they clarify comparison, and avoid vague praise or
   unsupported qualitative claims.
+
+## Random Seed Norm
+
+All molecule generation, benchmark cross-model evaluation, and sharded sampling
+use `seed = gpu_id` (1-based).
+
+| Scenario | Rule | Example |
+|---|---|---|
+| Multi-GPU sharded generation | per-shard `seed = gpu_id` (1-based) | GPU 1 -> seed 1, GPU 7 -> seed 7 |
+| Single-GPU generation | `seed = 1` | `--seed 1` |
+| Benchmark cross-model eval | all models use `seed = gpu_id` | aligns DiffGui/DiffSBDD/PMDM/GCDM-SBDD/GraphBP/Pocket2Mol |
+| DiffGui PPO/DDPO training | set `diffgui_docking_batch_sweep.seed_mode: gpu_id`; each local rank uses 1-based GPU/shard id | rank 0 -> seed 1, rank 7 -> seed 8 |
+
+Forbidden:
+- Date-based seeds such as `20260625 + gpu_id * 101`
+- `seed = 0`
+- Different seed formulas per model that make cross-model comparisons invalid
+- New DiffGui training configs that rely on date-based `seed_base` progression
+  instead of `seed_mode: gpu_id`
+
+Rationale: the formal benchmark `launch_benchmark.sh` already uses
+`seed = gpu_id` for the four main models (DiffGui/DiffSBDD/PMDM/GCDM-SBDD);
+GraphBP and Pocket2Mol were aligned to this convention on 2026-06-25.

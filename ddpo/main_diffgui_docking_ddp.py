@@ -284,7 +284,7 @@ def _run_epoch(
     epoch_dir.mkdir(parents=True, exist_ok=True)
     device = next(model.parameters()).device
     reward_batch_size = int(sweep_cfg.get("reward_batch_size") or per_rank_batch)
-    seed = int(sweep_cfg.get("seed_base", 260609)) + epoch * int(dist_info["world_size"]) + rank
+    seed, seed_mode = _diffgui_epoch_seed(sweep_cfg, epoch=epoch, dist_info=dist_info)
     _seed_diffgui(seed)
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats(device)
@@ -502,6 +502,7 @@ def _run_epoch(
                 "rank": rank,
                 "local_rank": int(dist_info["local_rank"]),
                 "world_size": int(dist_info["world_size"]),
+                "seed_mode": seed_mode,
                 "global_batch_size": int(per_rank_batch) * int(dist_info["world_size"]),
                 "epoch": int(epoch),
                 "global_step": int(epoch),
@@ -904,6 +905,9 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "global_batch_size": int(global_batch),
         "per_rank_batch_size": int(rows[0].get("batch_size", 0)) if rows else 0,
         "num_timesteps": int(rows[0].get("num_timesteps", 0)) if rows else 0,
+        "seed_mode": str(rows[0].get("seed_mode", "")) if rows else "",
+        "seed_min": min(int(row.get("seed", 0)) for row in rows) if rows else 0,
+        "seed_max": max(int(row.get("seed", 0)) for row in rows) if rows else 0,
         "ligand_size_mode": str(rows[0].get("ligand_size_mode", "")) if rows else "",
         "ligand_atoms_min": min(int(row.get("ligand_atoms_min", 0)) for row in rows) if rows else 0,
         "ligand_atoms_mean": _mean(rows, "ligand_atoms_mean"),
@@ -1061,6 +1065,27 @@ def _move_optimizer_state_to_device(optimizer: torch.optim.Optimizer, device: to
                 state[key] = value.to(device)
 
 
+def _diffgui_epoch_seed(
+    sweep_cfg: dict[str, Any],
+    *,
+    epoch: int,
+    dist_info: dict[str, int],
+) -> tuple[int, str]:
+    """Resolve the DiffGui training seed for one epoch and rank."""
+    mode = str(sweep_cfg.get("seed_mode", "legacy_epoch_rank")).strip().lower()
+    rank = int(dist_info["rank"])
+    local_rank = int(dist_info["local_rank"])
+    world_size = int(dist_info["world_size"])
+    if mode in {"gpu_id", "gpu_id_1based", "rank_1based", "local_rank_1based"}:
+        return local_rank + 1, "gpu_id"
+    if mode in {"legacy", "legacy_epoch_rank", "seed_base_epoch_rank"}:
+        return int(sweep_cfg.get("seed_base", 260609)) + int(epoch) * world_size + rank, "legacy_epoch_rank"
+    raise ValueError(
+        "diffgui_docking_batch_sweep.seed_mode must be one of "
+        "'gpu_id' or 'legacy_epoch_rank'."
+    )
+
+
 def _sum(rows: list[dict[str, Any]], key: str) -> float:
     """Return the numeric sum for a metric key across rank rows."""
     values = [float(row[key]) for row in rows if key in row and row[key] != ""]
@@ -1159,6 +1184,9 @@ def _write_run_manifest(
             "global_batch_size": int(config.get("diffgui_training", {}).get("batch_size", 1))
             * int(dist_info["world_size"]),
             "seed_base": int(config.get("diffgui_docking_batch_sweep", {}).get("seed_base", 260609)),
+            "seed_mode": str(
+                config.get("diffgui_docking_batch_sweep", {}).get("seed_mode", "legacy_epoch_rank")
+            ),
             "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", ""),
             "git": _git_snapshot(),
             "python": sys.executable,
