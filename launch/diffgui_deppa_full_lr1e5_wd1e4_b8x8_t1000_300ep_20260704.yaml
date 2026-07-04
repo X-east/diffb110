@@ -141,7 +141,7 @@ train:
   adam_epsilon: 1.0e-8
   clip_range: 0.2
   max_grad_norm: 1.0
-  ppo_epochs: 2
+  ppo_epochs: 1
   diffgui_logprob_reduction: "mean"
   precision: "bf16"
   graph_micro_batch_size: 1

@@ -25,7 +25,7 @@ echo "[DiffGui-DDP-Full-T1000] log=${LOG_PATH}"
 echo "[DiffGui-DDP-Full-T1000] env=${CONDA_ENV}"
 echo "[DiffGui-DDP-Full-T1000] cuda_visible_devices=${CUDA_VISIBLE_DEVICES}"
 echo "[DiffGui-DDP-Full-T1000] nproc_per_node=${NPROC_PER_NODE} master_port=${MASTER_PORT}"
-echo "[DiffGui-DDP-Full-T1000] common=8GPU, batch/rank=8, global_batch=64, epochs=300, checkpoint_every=1, steps=1000, seed_mode=gpu_id, freeze=none, lr=1e-5, weight_decay=1e-4, ppo_epochs=2, target=8GJL:C1101"
+echo "[DiffGui-DDP-Full-T1000] common=8GPU, batch/rank=8, global_batch=64, epochs=300, checkpoint_every=1, steps=1000, seed_mode=gpu_id, freeze=none, lr=1e-5, weight_decay=1e-4, ppo_epochs=1, one_update_per_generated_batch=true, target=8GJL:C1101"
 echo "[DiffGui-DDP-Full-T1000] start=$(date '+%F %T')"
 
 EXTRA_ARGS=()

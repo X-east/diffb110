@@ -325,3 +325,11 @@ Forbidden:
 Rationale: the formal benchmark `launch_benchmark.sh` already uses
 `seed = gpu_id` for the four main models (DiffGui/DiffSBDD/PMDM/GCDM-SBDD);
 GraphBP and Pocket2Mol were aligned to this convention on 2026-06-25.
+
+## DiffGui PPO Data-Reuse Norm
+
+For formal DiffGui PPO/DDPO training where each newly generated molecule should
+contribute to only one policy update, set `train.ppo_epochs: 1`. This controls
+how many PPO optimization passes reuse the current epoch's rollout batch; it is
+not checkpoint or optimizer-state reuse. Checkpoint reuse is controlled by
+`diffgui_model.checkpoint`.
