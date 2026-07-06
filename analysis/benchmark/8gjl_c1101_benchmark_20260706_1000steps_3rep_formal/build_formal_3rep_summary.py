@@ -12,6 +12,30 @@ ATTEMPTS = 1000
 
 MODEL_ORDER = ["DiffGui", "DiffSBDD", "PMDM", "GCDM-SBDD", "TargetDiff"]
 
+COUNT_KEYS = {
+    "sdf_records",
+    "rdkit_readable",
+    "sanitize_valid",
+    "unique_smiles",
+}
+
+SELECTED_PROPERTY_KEYS = [
+    "qed_mean",
+    "logp_mean",
+    "tpsa_mean",
+    "mw_mean",
+    "heavy_atoms_mean",
+    "hetero_atoms_mean",
+    "carbon_fraction_mean",
+    "ring_count_mean",
+    "aromatic_ring_count_mean",
+    "three_member_ring_count_mean",
+    "bad_bond_length_fraction_mean",
+    "num_fragments_mean",
+    "largest_fragment_atom_frac_mean",
+    "rotatable_bonds_mean",
+]
+
 RUNS = [
     {
         "repeat": "rep1",
@@ -63,8 +87,45 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def _read_csv_rows(path: Path) -> list[dict[str, str]]:
+    if not path.exists():
+        return []
+    with path.open(encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
 def _mean_std(values: list[float]) -> tuple[float, float]:
     return mean(values), stdev(values) if len(values) > 1 else 0.0
+
+
+def _is_float(value: str) -> bool:
+    try:
+        float(value)
+    except (TypeError, ValueError):
+        return False
+    return value != ""
+
+
+def _property_keys(rows: list[dict[str, object]]) -> list[str]:
+    skip = {
+        "repeat",
+        "model",
+        "diffusion_steps",
+        "attempts",
+        "seed_rule",
+        "source_model_summary",
+        "source_sdf",
+        "source_note",
+        *COUNT_KEYS,
+    }
+    keys: list[str] = []
+    for key in rows[0]:
+        if key in skip or key.endswith("_per_attempt"):
+            continue
+        values = [str(row.get(key, "")) for row in rows]
+        if all(_is_float(value) for value in values):
+            keys.append(key)
+    return keys
 
 
 def build_per_repeat_rows() -> list[dict[str, object]]:
@@ -81,6 +142,11 @@ def build_per_repeat_rows() -> list[dict[str, object]]:
             rdkit_readable = int(float(source_row["rdkit_readable"]))
             sanitize_valid = int(float(source_row["sanitize_valid"]))
             unique_smiles = int(float(source_row["unique_smiles"]))
+            numeric_properties = {
+                key: f"{float(value):.6f}"
+                for key, value in source_row.items()
+                if key not in {"model", "sdf_path", *COUNT_KEYS} and _is_float(value)
+            }
             rows.append(
                 {
                     "repeat": run["repeat"],
@@ -95,13 +161,7 @@ def build_per_repeat_rows() -> list[dict[str, object]]:
                     "written_per_attempt": f"{sdf_written / ATTEMPTS:.6f}",
                     "sanitize_valid_per_attempt": f"{sanitize_valid / ATTEMPTS:.6f}",
                     "unique_per_attempt": f"{unique_smiles / ATTEMPTS:.6f}",
-                    "qed_mean": f"{_float(source_row, 'qed_mean'):.6f}",
-                    "logp_mean": f"{_float(source_row, 'logp_mean'):.6f}",
-                    "tpsa_mean": f"{_float(source_row, 'tpsa_mean'):.6f}",
-                    "ring_count_mean": f"{_float(source_row, 'ring_count_mean'):.6f}",
-                    "aromatic_ring_count_mean": f"{_float(source_row, 'aromatic_ring_count_mean'):.6f}",
-                    "three_member_ring_count_mean": f"{_float(source_row, 'three_member_ring_count_mean'):.6f}",
-                    "carbon_fraction_mean": f"{_float(source_row, 'carbon_fraction_mean'):.6f}",
+                    **numeric_properties,
                     "source_model_summary": str(
                         run["model_overrides"].get(model, run["default_model_summary"])
                     ),
@@ -110,6 +170,39 @@ def build_per_repeat_rows() -> list[dict[str, object]]:
                 }
             )
     return rows
+
+
+def build_property_tables(per_repeat_rows: list[dict[str, object]]) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    keys = _property_keys(per_repeat_rows)
+    per_repeat_long: list[dict[str, object]] = []
+    summary_rows: list[dict[str, object]] = []
+    for row in per_repeat_rows:
+        for key in keys:
+            per_repeat_long.append(
+                {
+                    "repeat": row["repeat"],
+                    "model": row["model"],
+                    "metric": key,
+                    "value": row[key],
+                }
+            )
+    for model in MODEL_ORDER:
+        model_rows = [row for row in per_repeat_rows if row["model"] == model]
+        for key in keys:
+            values = [float(row[key]) for row in model_rows]
+            metric_mean, metric_std = _mean_std(values)
+            summary_rows.append(
+                {
+                    "model": model,
+                    "metric": key,
+                    "mean": f"{metric_mean:.6f}",
+                    "std": f"{metric_std:.6f}",
+                    "min": f"{min(values):.6f}",
+                    "max": f"{max(values):.6f}",
+                    "n_repeats": len(values),
+                }
+            )
+    return per_repeat_long, summary_rows
 
 
 def build_model_summary(per_repeat_rows: list[dict[str, object]]) -> list[dict[str, object]]:
@@ -150,7 +243,11 @@ def build_model_summary(per_repeat_rows: list[dict[str, object]]) -> list[dict[s
     return rows
 
 
-def write_plots(per_repeat_rows: list[dict[str, object]], summary_rows: list[dict[str, object]]) -> None:
+def write_plots(
+    per_repeat_rows: list[dict[str, object]],
+    summary_rows: list[dict[str, object]],
+    property_summary_rows: list[dict[str, object]],
+) -> None:
     import matplotlib.pyplot as plt
 
     colors = {
@@ -193,6 +290,28 @@ def write_plots(per_repeat_rows: list[dict[str, object]], summary_rows: list[dic
     fig.savefig(OUT_DIR / "sanitize_valid_rate_by_repeat.png", dpi=200)
     plt.close(fig)
 
+    selected = [key for key in SELECTED_PROPERTY_KEYS if any(row["metric"] == key for row in property_summary_rows)]
+    cols = 2
+    rows_n = math.ceil(len(selected) / cols)
+    fig, axes = plt.subplots(rows_n, cols, figsize=(11.0, 3.0 * rows_n))
+    flat_axes = axes.flatten() if hasattr(axes, "flatten") else [axes]
+    summary_by_model_metric = {
+        (row["model"], row["metric"]): row for row in property_summary_rows
+    }
+    for ax, metric in zip(flat_axes, selected):
+        values = [float(summary_by_model_metric[(model, metric)]["mean"]) for model in MODEL_ORDER]
+        stds = [float(summary_by_model_metric[(model, metric)]["std"]) for model in MODEL_ORDER]
+        ax.bar(range(len(MODEL_ORDER)), values, yerr=stds, capsize=3, color=[colors[m] for m in MODEL_ORDER])
+        ax.set_title(metric)
+        ax.set_xticks(range(len(MODEL_ORDER)))
+        ax.set_xticklabels(MODEL_ORDER, rotation=30, ha="right", fontsize=8)
+        ax.grid(axis="y", alpha=0.25)
+    for ax in flat_axes[len(selected):]:
+        ax.axis("off")
+    fig.tight_layout()
+    fig.savefig(OUT_DIR / "selected_property_summary_3rep.png", dpi=200)
+    plt.close(fig)
+
 
 def write_report(per_repeat_rows: list[dict[str, object]], summary_rows: list[dict[str, object]]) -> None:
     summary_headers = [
@@ -220,6 +339,8 @@ def write_report(per_repeat_rows: list[dict[str, object]], summary_rows: list[di
         "",
         "![sanitize-valid by repeat](sanitize_valid_rate_by_repeat.png)",
         "",
+        "![selected properties](selected_property_summary_3rep.png)",
+        "",
         "## Mean over repeats",
         "",
         "| " + " | ".join(summary_headers) + " |",
@@ -240,6 +361,60 @@ def write_report(per_repeat_rows: list[dict[str, object]], summary_rows: list[di
     for row in per_repeat_rows:
         lines.append("| " + " | ".join(str(row[key]) for key in repeat_headers) + " |")
 
+    docking_summary_path = OUT_DIR / "formal_3rep_docking_model_summary.csv"
+    docking_repeat_path = OUT_DIR / "formal_3rep_docking_per_repeat.csv"
+    docking_summary_rows = _read_csv_rows(docking_summary_path)
+    docking_repeat_rows = _read_csv_rows(docking_repeat_path)
+    if docking_summary_rows and docking_repeat_rows:
+        docking_summary_headers = [
+            "model",
+            "success_count_mean",
+            "score_mean_mean",
+            "score_median_mean",
+            "best_5pct_mean_mean",
+            "rate_le_-10_mean",
+        ]
+        docking_repeat_headers = [
+            "repeat",
+            "model",
+            "total_ligands",
+            "success_count",
+            "score_mean",
+            "score_median",
+            "best_5pct_mean",
+            "rate_le_-10",
+        ]
+        lines.extend(
+            [
+                "",
+                "## Docking",
+                "",
+                "Docking was run separately for every repeat/model sanitize-valid SDF with the existing UniDock fast protocol.",
+                "",
+                "![docking median](docking_score_median_3rep.png)",
+                "",
+                "![docking best5](docking_best5_mean_3rep.png)",
+                "",
+                "### Docking mean over repeats",
+                "",
+                "| " + " | ".join(docking_summary_headers) + " |",
+                "| " + " | ".join(["---"] * len(docking_summary_headers)) + " |",
+            ]
+        )
+        for row in docking_summary_rows:
+            lines.append("| " + " | ".join(str(row[key]) for key in docking_summary_headers) + " |")
+        lines.extend(
+            [
+                "",
+                "### Per-repeat docking",
+                "",
+                "| " + " | ".join(docking_repeat_headers) + " |",
+                "| " + " | ".join(["---"] * len(docking_repeat_headers)) + " |",
+            ]
+        )
+        for row in docking_repeat_rows:
+            lines.append("| " + " | ".join(str(row[key]) for key in docking_repeat_headers) + " |")
+
     lines.extend(
         [
             "",
@@ -247,6 +422,11 @@ def write_report(per_repeat_rows: list[dict[str, object]], summary_rows: list[di
             "",
             "- `formal_3rep_per_repeat_counts.csv`",
             "- `formal_3rep_model_summary.csv`",
+            "- `formal_3rep_property_per_repeat_long.csv`",
+            "- `formal_3rep_property_summary_long.csv`",
+            "- `formal_3rep_docking_per_repeat.csv`",
+            "- `formal_3rep_docking_model_summary.csv`",
+            "- `docking_summary.md`",
             "- `formal_3rep_sources.csv`",
         ]
     )
@@ -263,10 +443,13 @@ def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     per_repeat_rows = build_per_repeat_rows()
     summary_rows = build_model_summary(per_repeat_rows)
+    property_per_repeat_rows, property_summary_rows = build_property_tables(per_repeat_rows)
     _write_csv(OUT_DIR / "formal_3rep_per_repeat_counts.csv", per_repeat_rows)
     _write_csv(OUT_DIR / "formal_3rep_model_summary.csv", summary_rows)
+    _write_csv(OUT_DIR / "formal_3rep_property_per_repeat_long.csv", property_per_repeat_rows)
+    _write_csv(OUT_DIR / "formal_3rep_property_summary_long.csv", property_summary_rows)
     write_sources(per_repeat_rows)
-    write_plots(per_repeat_rows, summary_rows)
+    write_plots(per_repeat_rows, summary_rows, property_summary_rows)
     write_report(per_repeat_rows, summary_rows)
     print(f"wrote {OUT_DIR}")
 

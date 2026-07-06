@@ -1,0 +1,42 @@
+{
+  "batch_size": 128,
+  "box": {
+    "center_x": 207.293,
+    "center_y": 212.43,
+    "center_z": 172.771,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [],
+  "gpu_id": 1,
+  "input_sdf": "/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/diffsbdd.sanitize_valid.sdf",
+  "merged_success_sdf_count": 660,
+  "model": "DiffSBDD",
+  "output_dir": "/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/docking/rep3/diffsbdd",
+  "receptor": "/home/md666/data/disk6/DiffB110/data/8gjl.pdbqt",
+  "score_max_worst": 25.982,
+  "score_mean": -9.506306060606061,
+  "score_median": -9.6455,
+  "score_min_best": -15.82,
+  "score_top_1pct": [
+    -15.82,
+    -14.071,
+    -14.013,
+    -13.964,
+    -13.672,
+    -13.581
+  ],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 53.54848051071167,
+  "split_summary": {
+    "input_sdf_records_seen": "660",
+    "read_failed": "0",
+    "split_ligands": "660",
+    "write_failed": "0"
+  },
+  "success_count": 660,
+  "success_rate": 1.0,
+  "total_ligands": 660
+}

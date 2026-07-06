@@ -1,0 +1,46 @@
+{
+  "batch_size": 128,
+  "box": {
+    "center_x": 207.293,
+    "center_y": 212.43,
+    "center_z": 172.771,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [],
+  "gpu_id": 4,
+  "input_sdf": "/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/targetdiff.sanitize_valid.sdf",
+  "merged_success_sdf_count": 991,
+  "model": "TargetDiff",
+  "output_dir": "/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/docking/rep3/targetdiff",
+  "receptor": "/home/md666/data/disk6/DiffB110/data/8gjl.pdbqt",
+  "score_max_worst": -5.884,
+  "score_mean": -11.01543087790111,
+  "score_median": -10.978,
+  "score_min_best": -17.827,
+  "score_top_1pct": [
+    -17.827,
+    -17.028,
+    -16.718,
+    -16.563,
+    -16.451,
+    -16.285,
+    -16.107,
+    -16.0,
+    -15.899
+  ],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 62.28036284446716,
+  "split_summary": {
+    "input_sdf_records_seen": "991",
+    "read_failed": "0",
+    "split_ligands": "991",
+    "write_failed": "0"
+  },
+  "success_count": 991,
+  "success_rate": 1.0,
+  "total_ligands": 991
+}
+

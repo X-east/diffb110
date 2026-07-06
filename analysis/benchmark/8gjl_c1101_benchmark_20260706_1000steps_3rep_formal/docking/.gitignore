@@ -1,0 +1,5 @@
+**/batch_outputs/
+**/split_ligands/
+**/logs/batch_*.stderr.log
+**/logs/batch_*.stdout.log
+**/successful_docked_outputs.sdf

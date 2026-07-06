@@ -1,0 +1,42 @@
+{
+  "batch_size": 128,
+  "box": {
+    "center_x": 207.293,
+    "center_y": 212.43,
+    "center_z": 172.771,
+    "size_x": 20.0,
+    "size_y": 20.0,
+    "size_z": 20.0
+  },
+  "failed_batches": [],
+  "gpu_id": 3,
+  "input_sdf": "/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep2_1000steps_seed8_14/filtered_sanitize_valid/gcdm.sanitize_valid.sdf",
+  "merged_success_sdf_count": 536,
+  "model": "GCDM-SBDD",
+  "output_dir": "/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/docking/rep2/gcdm_sbdd",
+  "receptor": "/home/md666/data/disk6/DiffB110/data/8gjl.pdbqt",
+  "score_max_worst": -2.115,
+  "score_mean": -6.534108208955224,
+  "score_median": -6.593999999999999,
+  "score_min_best": -12.17,
+  "score_top_1pct": [
+    -12.17,
+    -11.491,
+    -11.436,
+    -11.433,
+    -11.208
+  ],
+  "scoring": "vina",
+  "search_mode": "fast",
+  "seconds": 27.899439811706543,
+  "split_summary": {
+    "input_sdf_records_seen": "536",
+    "read_failed": "0",
+    "split_ligands": "536",
+    "write_failed": "0"
+  },
+  "success_count": 536,
+  "success_rate": 1.0,
+  "total_ligands": 536
+}
+

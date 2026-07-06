@@ -1,0 +1,37 @@
+[docking] started at 2026-07-06T20:49:54+08:00
+[docking] exp=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal
+[docking] gpu_ids=0 1 2 3 4 batch_size=128
+[docking] run rep1 DiffGui gpu=0 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_diffgui_rep1_1000steps_seed1_7/filtered_sanitize_valid/diffgui.sanitize_valid.sdf
+[docking] done rep1 DiffGui
+[docking] run rep1 DiffSBDD gpu=1 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260630_all_1000steps/filtered_sanitize_valid/diffsbdd.sanitize_valid.sdf
+[docking] done rep1 DiffSBDD
+[docking] run rep1 PMDM gpu=2 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260630_all_1000steps/filtered_sanitize_valid/pmdm.sanitize_valid.sdf
+[docking] done rep1 PMDM
+[docking] run rep1 GCDM-SBDD gpu=3 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260630_all_1000steps/filtered_sanitize_valid/gcdm.sanitize_valid.sdf
+[docking] done rep1 GCDM-SBDD
+[docking] run rep1 TargetDiff gpu=4 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260630_all_1000steps/filtered_sanitize_valid/targetdiff.sanitize_valid.sdf
+[docking] done rep1 TargetDiff
+[docking] run rep2 DiffGui gpu=0 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep2_1000steps_seed8_14/filtered_sanitize_valid/diffgui.sanitize_valid.sdf
+[docking] done rep2 DiffGui
+[docking] run rep2 DiffSBDD gpu=1 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep2_1000steps_seed8_14/filtered_sanitize_valid/diffsbdd.sanitize_valid.sdf
+[docking] done rep2 DiffSBDD
+[docking] run rep2 PMDM gpu=2 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep2_1000steps_seed8_14/filtered_sanitize_valid/pmdm.sanitize_valid.sdf
+[docking] done rep2 PMDM
+[docking] run rep2 GCDM-SBDD gpu=3 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep2_1000steps_seed8_14/filtered_sanitize_valid/gcdm.sanitize_valid.sdf
+[docking] done rep2 GCDM-SBDD
+[docking] run rep2 TargetDiff gpu=4 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep2_1000steps_seed8_14/filtered_sanitize_valid/targetdiff.sanitize_valid.sdf
+[docking] done rep2 TargetDiff
+[docking] run rep3 DiffGui gpu=0 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/diffgui.sanitize_valid.sdf
+[docking] done rep3 DiffGui
+[docking] run rep3 DiffSBDD gpu=1 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/diffsbdd.sanitize_valid.sdf
+[docking] done rep3 DiffSBDD
+[docking] run rep3 PMDM gpu=2 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/pmdm.sanitize_valid.sdf
+[docking] done rep3 PMDM
+[docking] run rep3 GCDM-SBDD gpu=3 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/gcdm.sanitize_valid.sdf
+[docking] done rep3 GCDM-SBDD
+[docking] run rep3 TargetDiff gpu=4 sdf=/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260701_all_rep3_1000steps_seed15_21/filtered_sanitize_valid/targetdiff.sanitize_valid.sdf
+[docking] done rep3 TargetDiff
+[docking] summarizing
+wrote docking summary under /data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal
+
+[docking] completed at 2026-07-06T21:02:05+08:00
