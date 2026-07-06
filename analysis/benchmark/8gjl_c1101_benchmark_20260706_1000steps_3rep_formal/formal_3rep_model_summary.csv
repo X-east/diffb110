@@ -1,0 +1,6 @@
+model,repeats,diffusion_steps,attempts_per_repeat,sdf_written_mean,sdf_written_std,sanitize_valid_mean,sanitize_valid_std,unique_smiles_mean,unique_smiles_std,written_per_attempt_mean,written_per_attempt_std,sanitize_valid_per_attempt_mean,sanitize_valid_per_attempt_std,unique_per_attempt_mean,unique_per_attempt_std,sanitize_valid_min,sanitize_valid_max
+DiffGui,3,1000,1000,880.333,12.503,880.333,12.503,870.000,13.528,0.880333,0.012503,0.880333,0.012503,0.870000,0.013528,866,889
+DiffSBDD,3,1000,1000,1000.000,0.000,666.333,6.506,666.333,6.506,1.000000,0.000000,0.666333,0.006506,0.666333,0.006506,660,673
+PMDM,3,1000,1000,575.333,9.074,575.333,9.074,575.333,9.074,0.575333,0.009074,0.575333,0.009074,0.575333,0.009074,565,582
+GCDM-SBDD,3,1000,1000,1000.000,0.000,523.333,12.055,519.000,9.849,1.000000,0.000000,0.523333,0.012055,0.519000,0.009849,512,536
+TargetDiff,3,1000,1000,991.333,0.577,991.333,0.577,990.667,0.577,0.991333,0.000577,0.991333,0.000577,0.990667,0.000577,991,992
