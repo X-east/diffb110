@@ -15,10 +15,10 @@ LOG_PATH="${LOG_PATH:-$OUTPUT_DIR/logs/training.log}"
 PRECHECK_ONLY="${PRECHECK_ONLY:-0}"
 
 export CUDA_VISIBLE_DEVICES
-export OMP_NUM_THREADS="${OMP_NUM_THREADS:-2}"
-export MKL_NUM_THREADS="${MKL_NUM_THREADS:-2}"
-export OPENBLAS_NUM_THREADS="${OPENBLAS_NUM_THREADS:-2}"
-export NUMEXPR_NUM_THREADS="${NUMEXPR_NUM_THREADS:-2}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-4}"
+export MKL_NUM_THREADS="${MKL_NUM_THREADS:-4}"
+export OPENBLAS_NUM_THREADS="${OPENBLAS_NUM_THREADS:-4}"
+export NUMEXPR_NUM_THREADS="${NUMEXPR_NUM_THREADS:-4}"
 
 mkdir -p "$OUTPUT_DIR/logs" "$OUTPUT_DIR/config" "$OUTPUT_DIR/launch_snapshot"
 cp "$CONFIG_PATH" "$OUTPUT_DIR/config/launch_config.yaml"
@@ -35,10 +35,11 @@ echo "[DiffGui-PBValid] env=$CONDA_ENV pb_env=$PB_ENV"
 echo "[DiffGui-PBValid] cuda_visible_devices=$CUDA_VISIBLE_DEVICES"
 echo "[DiffGui-PBValid] nproc=$NPROC_PER_NODE batch_per_rank=8 global_batch=56 master_port=$MASTER_PORT"
 echo "[DiffGui-PBValid] steps=200 epochs=100 ppo_epochs=1 seed_mode=gpu_id"
+echo "[DiffGui-PBValid] logical_cpus_per_rank=4"
 
 cd "$ROOT"
 conda run -n "$PB_ENV" python -c "from posebusters import PoseBusters; PoseBusters(config='dock'); print('PoseBusters preflight OK')"
-conda run -n "$CONDA_ENV" python -c "import torch, yaml; cfg=yaml.safe_load(open('$CONFIG_SNAPSHOT')); assert cfg['diffgui_training']['batch_size']==8; assert cfg['diffgui_docking_batch_sweep']['num_timesteps']==200; assert cfg['diffgui_docking_batch_sweep']['seed_mode']=='gpu_id'; assert cfg['diffgui_posebusters_filter']['enabled'] is True; assert cfg['train']['ppo_epochs']==1; print('DiffGui config preflight OK', torch.__version__, torch.cuda.device_count())"
+conda run -n "$CONDA_ENV" python -c "import torch, yaml; cfg=yaml.safe_load(open('$CONFIG_SNAPSHOT')); assert cfg['diffgui_training']['batch_size']==8; assert cfg['diffgui_docking_batch_sweep']['num_timesteps']==200; assert cfg['diffgui_docking_batch_sweep']['seed_mode']=='gpu_id'; assert cfg['diffgui_posebusters_filter']['enabled'] is True; assert cfg['diffgui_runtime']['cpu_affinity']['logical_cpus_per_rank']==4; assert cfg['train']['ppo_epochs']==1; print('DiffGui config preflight OK', torch.__version__, torch.cuda.device_count())"
 
 if [[ "$PRECHECK_ONLY" == "1" ]]; then
   echo "[DiffGui-PBValid] PRECHECK_ONLY completed"

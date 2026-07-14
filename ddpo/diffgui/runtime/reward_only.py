@@ -12,6 +12,7 @@ import csv
 import json
 import logging
 import math
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -71,6 +72,7 @@ def run_reward_only_evaluation(
         JSON-serializable summary dictionary.
     """
     log = logger_obj or logger
+    log.info("cpu_affinity=%s", sorted(int(cpu) for cpu in os.sched_getaffinity(0)))
     eval_cfg = config.get("diffgui_reward_only", {})
     input_sdf = _resolve_path(project_root, eval_cfg.get("input_sdf"))
     output_dir = _resolve_path(project_root, eval_cfg.get("output_dir", "analysis/diffgui_reward_only_stage1"))

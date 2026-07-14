@@ -37,6 +37,7 @@ from ddpo.diffgui.deppa import (  # noqa: E402
     is_deppa_mode_enabled,
 )
 from ddpo.diffgui.runtime.actor import DiffGuiActor  # noqa: E402
+from ddpo.diffgui.runtime.cpu_affinity import apply_rank_cpu_affinity  # noqa: E402
 from ddpo.diffgui.runtime.good_pool import DiffGuiGoodMoleculePool, GoodPoolSelection  # noqa: E402
 from ddpo.diffgui.runtime.per_timestep_diagnostics import (  # noqa: E402
     export_per_timestep,
@@ -106,14 +107,20 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     """Run DiffGui docking training with PyTorch DDP."""
     args = parse_args()
+    config = _apply_cli_overrides(_load_yaml(args.config), args)
+    cpu_affinity = apply_rank_cpu_affinity(
+        config,
+        local_rank=int(os.environ.get("LOCAL_RANK", "0")),
+        world_size=int(os.environ.get("WORLD_SIZE", "1")),
+    )
     dist_info = _init_distributed()
     completed = False
     try:
-        config = _apply_cli_overrides(_load_yaml(args.config), args)
         run_dir = _resolve_shared_run_dir(config, args.output_dir, dist_info)
         _prepare_rank_dirs(run_dir, dist_info)
         _setup_logging(run_dir / "logs" / f"rank_{dist_info['rank']:02d}" / "train.log", args.log_level, dist_info)
         _log_startup(args, config, run_dir, dist_info)
+        LOGGER.info("cpu_affinity=%s", cpu_affinity)
 
         if dist_info["rank"] == 0:
             (run_dir / "config" / "resolved_config.yaml").write_text(

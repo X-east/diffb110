@@ -7,6 +7,7 @@ import csv
 import json
 import logging
 import math
+import os
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -231,6 +232,7 @@ def main() -> None:
         level=getattr(logging, args.log_level),
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
+    logger.info("cpu_affinity=%s", sorted(int(cpu) for cpu in os.sched_getaffinity(0)))
     run_posebusters_filter(
         input_sdf=args.input_sdf,
         receptor_pdb=args.receptor_pdb,

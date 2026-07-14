@@ -15,6 +15,11 @@ diffgui_training:
   batch_size: 8
   checkpoint_every_epochs: 5
 
+diffgui_runtime:
+  cpu_affinity:
+    enabled: true
+    logical_cpus_per_rank: 4
+
 diffgui_posebusters_filter:
   enabled: true
   environment: "dif"
