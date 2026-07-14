@@ -14,7 +14,7 @@ diffgui_training:
   epochs: 95
   epoch_offset: 5
   batch_size: 8
-  checkpoint_every_epochs: 5
+  checkpoint_every_epochs: 1
 
 diffgui_runtime:
   cpu_affinity:

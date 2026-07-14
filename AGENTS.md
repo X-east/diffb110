@@ -132,6 +132,11 @@ Before changing project code, read:
   devices and GPU count, dependency/preflight results for nonstandard backends
   such as DiffGui, output directory, checkpoint save paths, validation summaries,
   warning/error tracebacks, and final completion/interruption status.
+- Every formal training run must save a resumable checkpoint at the end of every
+  completed epoch. Set checkpoint cadence to one epoch (for example,
+  `checkpoint_every_epochs: 1`) and include model state, optimizer state, epoch,
+  resolved config, and metrics. Formal launchers must preflight or reject configs
+  that would leave any completed epoch without a checkpoint.
 - WandB and other remote experiment trackers are disabled for formal training
   records unless the user explicitly requests a separate one-off exception; even
   then local records must remain complete.

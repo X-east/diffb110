@@ -13,7 +13,7 @@ diffgui_training:
   output_root: "runs"
   epochs: 100
   batch_size: 8
-  checkpoint_every_epochs: 5
+  checkpoint_every_epochs: 1
 
 diffgui_runtime:
   cpu_affinity:
