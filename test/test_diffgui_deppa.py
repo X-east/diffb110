@@ -172,6 +172,35 @@ def test_deppa_no_valid_records_use_configured_fallback() -> None:
     assert result.advantages.tolist() == [-2.5]
 
 
+def test_deppa_pb_invalid_and_reconstruction_invalid_share_penalty() -> None:
+    """A PB-filtered reward miss should equal the ordinary illegal penalty."""
+    reconstruction_rows = _reconstruction_rows(4)
+    reconstruction_rows[3]["reconstruction_status"] = "failed"
+    reward_rows = [
+        {"source_graph_index": 0, "source_index": 0, "rdkit_valid": 1, "smiles": "CCO", "qed_raw": 0.1},
+        {"source_graph_index": 1, "source_index": 1, "rdkit_valid": 1, "smiles": "CCN", "qed_raw": 0.9},
+    ]
+    records = build_local_deppa_records(
+        reconstruction_rows=reconstruction_rows,
+        reward_rows=reward_rows,
+        rank=0,
+        config={},
+    )
+
+    result = compute_deppa_advantages(
+        local_records=records,
+        gathered_records=[records],
+        config={"enabled_metrics": ["qed"], "weights": {"qed": 1.0}, "invalid_penalty_std": 3.0},
+    )
+
+    assert records[2]["reconstruction_success"] == 1
+    assert records[2]["reward_found"] == 0
+    assert records[3]["reconstruction_success"] == 0
+    assert result.rewards_by_graph[2] == result.rewards_by_graph[3]
+    assert result.fields_by_graph[2]["deppa_valid"] == 0
+    assert result.fields_by_graph[3]["deppa_valid"] == 0
+
+
 def test_deppa_k3_kl_formula_and_clip() -> None:
     """K3 KL is exp(ref-current)-1-(ref-current), with optional clipping."""
     reference = torch.tensor([0.0, 4.0, -100.0])

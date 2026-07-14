@@ -14,6 +14,17 @@ diffgui_training:
   batch_size: 2
   checkpoint_every_epochs: 1
 
+diffgui_posebusters_filter:
+  enabled: true
+  environment: "dif"
+  config: "dock"
+  receptor_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
+  timeout_seconds: 1800
+  output_sdf: "pb_valid.sdf"
+  output_csv: "posebusters.csv"
+  summary_json: "posebusters_summary.json"
+  log_file: "posebusters_subprocess.log"
+
 diffgui_training_filter:
   enabled: false
   require_reconstruction_success: true
@@ -68,7 +79,7 @@ diffgui_docking_batch_sweep:
   auto_configure_timesteps: true
   ligand_size_mode: "priori"
   ligand_atoms: 24
-  seed_base: 260609200
+  seed_mode: "gpu_id"
   gui_strength: 3.0
   precision: "bf16"
   graph_micro_batch_size: 1

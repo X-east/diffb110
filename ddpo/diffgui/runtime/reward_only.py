@@ -32,6 +32,7 @@ class SdfMoleculeRecord:
     """One SDF record plus its sanitized reward-ready molecule."""
 
     source_index: int
+    source_graph_index: int
     original_mol: Chem.Mol | None
     reward_mol: Chem.Mol | None
     mol_id: str
@@ -164,6 +165,7 @@ def load_sdf_records(
             records.append(
                 SdfMoleculeRecord(
                     source_index=index,
+                    source_graph_index=index,
                     original_mol=None,
                     reward_mol=None,
                     mol_id=mol_id,
@@ -176,12 +178,14 @@ def load_sdf_records(
             continue
 
         original_name = mol.GetProp("_Name") if mol.HasProp("_Name") else ""
+        source_graph_index = _source_graph_index(mol, fallback=index)
         reward_mol, status = sanitize_sdf_mol(mol, strict_connectivity=strict_connectivity)
         rdkit_valid = int(reward_mol is not None)
         smiles = _safe_smiles(reward_mol) if reward_mol is not None else ""
         records.append(
             SdfMoleculeRecord(
                 source_index=index,
+                source_graph_index=source_graph_index,
                 original_mol=mol,
                 reward_mol=reward_mol,
                 mol_id=mol_id,
@@ -211,6 +215,18 @@ def sanitize_sdf_mol(mol: Chem.Mol, *, strict_connectivity: bool) -> tuple[Chem.
     return candidate, "ok"
 
 
+def _source_graph_index(mol: Chem.Mol, *, fallback: int) -> int:
+    """Read the original policy graph index from filtered DiffGui SDFs."""
+    for key in ("source_graph_index", "mol_index"):
+        if not mol.HasProp(key):
+            continue
+        try:
+            return int(float(mol.GetProp(key)))
+        except (TypeError, ValueError):
+            continue
+    return int(fallback)
+
+
 def build_reward_dataproto(
     records: list[SdfMoleculeRecord],
     *,
@@ -236,12 +252,14 @@ def build_reward_dataproto(
 
     rdkit_valid = np.asarray([record.rdkit_valid for record in records], dtype=np.int64)
     source_index = np.asarray([record.source_index for record in records], dtype=np.int64)
+    source_graph_index = np.asarray([record.source_graph_index for record in records], dtype=np.int64)
     non_tensors = {
         "rdmols": [record.reward_mol for record in records],
         "rdkit_valid": rdkit_valid,
         "smiles": [record.smiles for record in records],
         "mol_id": [record.mol_id for record in records],
         "source_index": source_index,
+        "source_graph_index": source_graph_index,
         "sanitize_status": [record.sanitize_status for record in records],
         "original_name": [record.original_name for record in records],
     }
@@ -257,6 +275,7 @@ def build_reward_dataproto(
     # Shared StabilityAwareReward expects rdkit_valid to be numeric-convertible.
     data.non_tensor_batch["rdkit_valid"] = rdkit_valid
     data.non_tensor_batch["source_index"] = source_index
+    data.non_tensor_batch["source_graph_index"] = source_graph_index
     return data
 
 
@@ -268,6 +287,7 @@ def extract_reward_rows(records: list[SdfMoleculeRecord], scored: DataProto) -> 
         row: dict[str, Any] = {
             "mol_id": record.mol_id,
             "source_index": record.source_index,
+            "source_graph_index": record.source_graph_index,
             "original_name": record.original_name,
             "rdkit_valid": record.rdkit_valid,
             "sanitize_status": record.sanitize_status,
@@ -453,6 +473,7 @@ def _ordered_fieldnames(rows: list[dict[str, Any]]) -> list[str]:
     base = [
         "mol_id",
         "source_index",
+        "source_graph_index",
         "original_name",
         "rdkit_valid",
         "sanitize_status",

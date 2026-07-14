@@ -164,13 +164,27 @@ def _reward_rows_by_graph_index(
     ok_indices = [int(row["mol_index"]) for row in reconstruction_rows if row.get("reconstruction_status") == "ok"]
     mapped: dict[int, dict[str, Any]] = {}
     for reward_row in reward_rows:
-        try:
-            source_index = int(reward_row.get("source_index", -1))
-        except (TypeError, ValueError):
-            continue
-        if 0 <= source_index < len(ok_indices):
-            mapped[ok_indices[source_index]] = reward_row
+        graph_index = _reward_graph_index(reward_row, ok_indices)
+        if graph_index is not None:
+            mapped[graph_index] = reward_row
     return mapped
+
+
+def _reward_graph_index(reward_row: dict[str, Any], ok_indices: list[int]) -> int | None:
+    """Map a possibly PB-filtered reward row to its original graph index."""
+    try:
+        direct_index = int(float(reward_row.get("source_graph_index", "")))
+    except (TypeError, ValueError):
+        direct_index = -1
+    if direct_index in set(ok_indices):
+        return direct_index
+    try:
+        source_index = int(reward_row.get("source_index", -1))
+    except (TypeError, ValueError):
+        return None
+    if 0 <= source_index < len(ok_indices):
+        return ok_indices[source_index]
+    return None
 
 
 def _metric_weights(config: dict[str, Any]) -> dict[str, float]:

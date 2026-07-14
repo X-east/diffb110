@@ -8,6 +8,7 @@ import json
 import logging
 import os
 import statistics
+import subprocess
 import sys
 import time
 from collections import Counter
@@ -64,6 +65,7 @@ from ddpo.utils.molecular_descriptors import (  # noqa: E402
 from scripts.diffgui_docking_batch_sweep import (  # noqa: E402
     _build_batch_summary_row,
     _build_prompt,
+    _conda_executable,
     _git_snapshot,
     _load_diffgui_model,
     _load_yaml,
@@ -246,13 +248,16 @@ def _run_training(
                 _write_metrics_csv(run_dir / "training_summary.csv", metrics_rows)
             _write_epoch_status(run_dir, epoch, row)
             LOGGER.info(
-                "epoch=%d/%d global_batch=%d reward_mean=%.4f recon=%d/%d docking_total=%.3f ppo_loss=%.4f elapsed=%.1fs",
+                "epoch=%d/%d global_batch=%d reward_mean=%.4f recon=%d/%d pb_valid=%d/%d pb_cond=%.3f docking_total=%.3f ppo_loss=%.4f elapsed=%.1fs",
                 epoch,
                 epochs,
                 int(row["global_batch_size"]),
                 float(row.get("reward_total_mean", 0.0)),
                 int(row.get("reconstruction_success", 0)),
                 int(row.get("reconstruction_attempted", 0)),
+                int(row.get("posebusters_pb_valid", 0)),
+                int(row.get("posebusters_total_attempts", 0)),
+                float(row.get("posebusters_pb_valid_rate_sanitize", 0.0)),
                 float(row.get("docking_success_ratio_total", row.get("docking_success_ratio", 0.0))),
                 float(row.get("PPO_Loss", 0.0)),
                 float(row["elapsed_train_seconds"]),
@@ -340,13 +345,33 @@ def _run_epoch(
         timing["reconstruction_seconds"] = time.perf_counter() - phase_start
 
         phase_start = time.perf_counter()
-        reward_rows = _score_reconstructed_sdf(
+        reward_rows_all = _score_reconstructed_sdf(
             config=config,
             input_sdf=epoch_dir / "generated.sdf",
             output_dir=epoch_dir,
             batch_size=reward_batch_size,
         )
         timing["reward_seconds"] = time.perf_counter() - phase_start
+
+        phase_start = time.perf_counter()
+        posebusters_summary, posebusters_rows, _pb_valid_sdf = _run_posebusters_gate(
+            config=config,
+            input_sdf=epoch_dir / "docking_scored.sdf",
+            output_dir=epoch_dir,
+            total_attempts=per_rank_batch,
+        )
+        reward_rows = _filter_reward_rows_by_posebusters(
+            reward_rows_all=reward_rows_all,
+            posebusters_rows=posebusters_rows,
+            reconstruction_rows=reconstruction_rows,
+            enabled=bool(posebusters_summary.get("posebusters_enabled", 0)),
+        )
+        _write_csv_rows(
+            epoch_dir / "docking_rewards_pb_valid.csv",
+            reward_rows,
+            fieldnames=_ordered_fieldnames(reward_rows),
+        )
+        timing["posebusters_seconds"] = time.perf_counter() - phase_start
 
         deppa_result = None
         if is_deppa_mode_enabled(config):
@@ -384,11 +409,12 @@ def _run_epoch(
         )
         if deppa_result is not None:
             molecule_rows = _merge_molecule_deppa_fields(molecule_rows, deppa_result.fields_by_graph)
-            _write_csv_rows(
-                epoch_dir / "molecules_with_rewards.csv",
-                molecule_rows,
-                fieldnames=_ordered_fieldnames(molecule_rows),
-            )
+        molecule_rows = _merge_molecule_posebusters_fields(molecule_rows, posebusters_rows)
+        _write_csv_rows(
+            epoch_dir / "molecules_with_rewards.csv",
+            molecule_rows,
+            fieldnames=_ordered_fieldnames(molecule_rows),
+        )
 
         filter_selection = training_filter.select(molecule_rows, batch_size=per_rank_batch)
         filter_selection = training_filter.crop_for_ddp(filter_selection, device=device)
@@ -497,6 +523,7 @@ def _run_epoch(
         )
         if deppa_result is not None:
             row.update(deppa_result.summary)
+        row.update(posebusters_summary)
         row.update(
             {
                 "rank": rank,
@@ -509,6 +536,9 @@ def _run_epoch(
                 "epoch_dir": str(epoch_dir),
                 "molecule_records": int(len(molecule_rows)),
                 "outputs_molecule_csv": str(epoch_dir / "molecules_with_rewards.csv"),
+                "outputs_posebusters_csv": str(epoch_dir / "posebusters.csv"),
+                "outputs_posebusters_valid_sdf": str(epoch_dir / "pb_valid.sdf"),
+                "outputs_pb_valid_reward_csv": str(epoch_dir / "docking_rewards_pb_valid.csv"),
                 "outputs_training_filter_csv": str(epoch_dir / "training_filter_decisions.csv"),
                 "outputs_ppo_step_metrics": str(step_metrics_path),
                 "outputs_good_pool_manifest": str(good_pool.manifest_path),
@@ -563,6 +593,7 @@ def _merge_epoch_artifacts(run_dir: Path, *, epoch: int, world_size: int) -> dic
     clipfrac_rows: list[dict[str, Any]] = []
     ratio_rows: list[dict[str, Any]] = []
     generated_sdfs: list[Path] = []
+    posebusters_sdfs: list[Path] = []
     scored_sdfs: list[Path] = []
     for rank in range(int(world_size)):
         rank_dir = epoch_dir / f"rank_{rank:02d}"
@@ -574,6 +605,9 @@ def _merge_epoch_artifacts(run_dir: Path, *, epoch: int, world_size: int) -> dic
         generated_sdf = rank_dir / "generated.sdf"
         if generated_sdf.exists():
             generated_sdfs.append(generated_sdf)
+        posebusters_sdf = rank_dir / "pb_valid.sdf"
+        if posebusters_sdf.exists():
+            posebusters_sdfs.append(posebusters_sdf)
         scored_sdf = rank_dir / "docking_scored.sdf"
         if scored_sdf.exists():
             scored_sdfs.append(scored_sdf)
@@ -595,8 +629,10 @@ def _merge_epoch_artifacts(run_dir: Path, *, epoch: int, world_size: int) -> dic
     ratio_merged_csv = merge_per_timestep(ratio_rows, epoch_dir / "ratio_by_timestep.csv", world_size)
 
     generated_merged = _merge_sdf_files(generated_sdfs, epoch_dir / "generated_merged.sdf")
-    scored_merged = _merge_sdf_files(scored_sdfs, epoch_dir / "molecules.sdf")
-    top_reward_sdf = _write_top_reward_sdf(scored_sdfs, epoch_dir / "top_reward.sdf", top_k=50)
+    posebusters_merged = _merge_sdf_files(posebusters_sdfs, epoch_dir / "pb_valid.sdf")
+    scored_all_merged = _merge_sdf_files(scored_sdfs, epoch_dir / "docking_scored_all.sdf")
+    scored_merged = _merge_sdf_files(posebusters_sdfs, epoch_dir / "molecules.sdf")
+    top_reward_sdf = _write_top_reward_sdf(posebusters_sdfs, epoch_dir / "top_reward.sdf", top_k=50)
 
     metrics = _compute_molecule_epoch_metrics(molecule_rows)
     metrics.update(
@@ -608,6 +644,8 @@ def _merge_epoch_artifacts(run_dir: Path, *, epoch: int, world_size: int) -> dic
             "epoch_clipfrac_by_timestep_csv": str(cf_merged_csv) if cf_merged_csv else "",
             "epoch_ratio_by_timestep_csv": str(ratio_merged_csv) if ratio_merged_csv else "",
             "epoch_generated_merged_sdf": str(generated_merged) if generated_merged else "",
+            "epoch_pb_valid_sdf": str(posebusters_merged) if posebusters_merged else "",
+            "epoch_docking_scored_all_sdf": str(scored_all_merged) if scored_all_merged else "",
             "epoch_molecules_sdf": str(scored_merged) if scored_merged else "",
             "epoch_top_reward_sdf": str(top_reward_sdf) if top_reward_sdf else "",
         }
@@ -632,16 +670,22 @@ def _annotate_duplicate_fields(rows: list[dict[str, Any]]) -> list[dict[str, Any
 
 
 def _is_full_success(row: dict[str, Any]) -> bool:
-    """Return whether a molecule passed reconstruction, sanitize, and docking."""
+    """Return whether a molecule passed reconstruction, PB, sanitize, and docking."""
+    pb_valid = _row_int(row, "pb_valid") == 1 if "pb_valid" in row else True
     return (
         _row_int(row, "reconstruction_success") == 1
+        and pb_valid
         and _row_int(row, "rdkit_valid") == 1
         and _row_int(row, "docking_success") == 1
     )
 
 
 def _merge_sdf_files(sources: list[Path], output_path: Path) -> Path | None:
-    """Merge readable molecules from several SDF files."""
+    """Merge readable molecules from several SDF files.
+
+    Molecules with RDKit stereochem invariant violations (e.g. chiral centers
+    with no eligible neighbors) are skipped rather than crashing the whole run.
+    """
     mols: list[Chem.Mol] = []
     for source in sources:
         supplier = Chem.SDMolSupplier(str(source), sanitize=False, removeHs=False)
@@ -650,16 +694,26 @@ def _merge_sdf_files(sources: list[Path], output_path: Path) -> Path | None:
         return None
     writer = Chem.SDWriter(str(output_path))
     writer.SetKekulize(False)
+    skipped = 0
     try:
         for mol in mols:
-            writer.write(mol)
+            try:
+                writer.write(mol)
+            except (RuntimeError, ValueError, Chem.AtomValenceException) as exc:
+                LOGGER.warning("Skipping molecule during SDF merge: %s", exc)
+                skipped += 1
     finally:
         writer.close()
+    if skipped:
+        LOGGER.info("SDF merge skipped %d/%d molecules due to RDKit errors", skipped, len(mols))
     return output_path
 
 
 def _write_top_reward_sdf(sources: list[Path], output_path: Path, *, top_k: int) -> Path | None:
-    """Write top reward molecules from scored rank SDFs."""
+    """Write top reward molecules from scored rank SDFs.
+
+    Molecules with RDKit stereochem invariant violations are skipped.
+    """
     mols: list[tuple[float, Chem.Mol]] = []
     for source in sources:
         supplier = Chem.SDMolSupplier(str(source), sanitize=False, removeHs=False)
@@ -673,11 +727,18 @@ def _write_top_reward_sdf(sources: list[Path], output_path: Path, *, top_k: int)
     mols.sort(key=lambda item: item[0], reverse=True)
     writer = Chem.SDWriter(str(output_path))
     writer.SetKekulize(False)
+    skipped = 0
     try:
         for _, mol in mols[: max(1, int(top_k))]:
-            writer.write(mol)
+            try:
+                writer.write(mol)
+            except (RuntimeError, ValueError, Chem.AtomValenceException) as exc:
+                LOGGER.warning("Skipping top-reward molecule during SDF write: %s", exc)
+                skipped += 1
     finally:
         writer.close()
+    if skipped:
+        LOGGER.info("Top-reward SDF write skipped %d molecules due to RDKit errors", skipped)
     return output_path
 
 
@@ -762,6 +823,12 @@ def _failure_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
         if _row_int(row, "reconstruction_success") != 1:
             counts[f"reconstruction:{row.get('reconstruction_status', 'unknown')}"] += 1
             continue
+        if "sanitize_valid" in row and _row_int(row, "sanitize_valid") != 1:
+            counts[f"sanitize:{row.get('posebusters_sanitize_status', 'unknown')}"] += 1
+            continue
+        if "pb_valid" in row and _row_int(row, "pb_valid") != 1:
+            counts["posebusters:pb_invalid"] += 1
+            continue
         if _row_int(row, "rdkit_valid") != 1:
             counts[f"sanitize:{row.get('sanitize_status', 'unknown')}"] += 1
             continue
@@ -796,6 +863,128 @@ def _read_csv_rows(path: Path) -> list[dict[str, Any]]:
         return list(csv.DictReader(handle))
 
 
+def _run_posebusters_gate(
+    *,
+    config: dict[str, Any],
+    input_sdf: Path,
+    output_dir: Path,
+    total_attempts: int,
+) -> tuple[dict[str, Any], list[dict[str, Any]], Path]:
+    """Run PoseBusters in the reward environment and return its valid SDF."""
+    pb_cfg = config.get("diffgui_posebusters_filter", {}) or {}
+    if not bool(pb_cfg.get("enabled", False)):
+        return (
+            {
+                "posebusters_enabled": 0,
+                "posebusters_total_attempts": int(total_attempts),
+                "posebusters_input_records": 0,
+                "posebusters_sanitize_valid": 0,
+                "posebusters_pb_evaluated": 0,
+                "posebusters_pb_valid": 0,
+                "posebusters_pb_invalid_sanitize_valid": 0,
+                "posebusters_invalid_total": 0,
+                "posebusters_sanitize_rate_attempts": 0.0,
+                "posebusters_pb_valid_rate_sanitize": 0.0,
+                "posebusters_pb_valid_rate_attempts": 0.0,
+            },
+            [],
+            input_sdf,
+        )
+
+    receptor_value = pb_cfg.get("receptor_pdb") or config.get("diffgui_model", {}).get("pocket_pdb")
+    if not receptor_value:
+        raise ValueError("diffgui_posebusters_filter.receptor_pdb or diffgui_model.pocket_pdb is required")
+    receptor_pdb = _resolve_path(receptor_value)
+    output_sdf = output_dir / str(pb_cfg.get("output_sdf", "pb_valid.sdf"))
+    output_csv = output_dir / str(pb_cfg.get("output_csv", "posebusters.csv"))
+    summary_json = output_dir / str(pb_cfg.get("summary_json", "posebusters_summary.json"))
+    log_path = output_dir / str(pb_cfg.get("log_file", "posebusters_subprocess.log"))
+    environment = str(
+        pb_cfg.get("environment")
+        or config.get("diffgui_docking_batch_sweep", {}).get("reward_env", "dif")
+    )
+    command = [
+        _conda_executable(),
+        "run",
+        "-n",
+        environment,
+        "python",
+        "-m",
+        "ddpo.diffgui.runtime.posebusters_filter",
+        "--input-sdf",
+        str(input_sdf),
+        "--receptor-pdb",
+        str(receptor_pdb),
+        "--output-sdf",
+        str(output_sdf),
+        "--output-csv",
+        str(output_csv),
+        "--summary-json",
+        str(summary_json),
+        "--total-attempts",
+        str(int(total_attempts)),
+        "--config-name",
+        str(pb_cfg.get("config", "dock")),
+        "--log-level",
+        "INFO",
+    ]
+    LOGGER.info("launch PoseBusters gate env=%s cmd=%s", environment, " ".join(command))
+    with log_path.open("w", encoding="utf-8") as log_file:
+        result = subprocess.run(
+            command,
+            cwd=PROJECT_ROOT,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=int(pb_cfg.get("timeout_seconds", 1800)),
+        )
+    if result.returncode != 0:
+        raise RuntimeError(f"PoseBusters subprocess failed rc={result.returncode}; see {log_path}")
+    summary = json.loads(summary_json.read_text(encoding="utf-8"))
+    rows = _read_csv_rows(output_csv)
+    LOGGER.info(
+        "PoseBusters gate attempts=%d sanitize=%d pb_valid=%d conditional=%.4f total=%.4f",
+        int(summary.get("posebusters_total_attempts", 0)),
+        int(summary.get("posebusters_sanitize_valid", 0)),
+        int(summary.get("posebusters_pb_valid", 0)),
+        float(summary.get("posebusters_pb_valid_rate_sanitize", 0.0)),
+        float(summary.get("posebusters_pb_valid_rate_attempts", 0.0)),
+    )
+    return summary, rows, output_sdf
+
+
+def _filter_reward_rows_by_posebusters(
+    *,
+    reward_rows_all: list[dict[str, Any]],
+    posebusters_rows: list[dict[str, Any]],
+    reconstruction_rows: list[dict[str, Any]],
+    enabled: bool,
+) -> list[dict[str, Any]]:
+    """Keep only PB-valid reward rows so all other graphs use illegal penalties."""
+    if not enabled:
+        return list(reward_rows_all)
+    pb_valid_graphs = {
+        _row_int(row, "source_graph_index", default=-1)
+        for row in posebusters_rows
+        if _row_int(row, "pb_valid") == 1
+    }
+    ok_indices = [
+        int(row["mol_index"])
+        for row in reconstruction_rows
+        if row.get("reconstruction_status") == "ok"
+    ]
+    filtered: list[dict[str, Any]] = []
+    for reward_row in reward_rows_all:
+        graph_index = _row_int(reward_row, "source_graph_index", default=-1)
+        if graph_index < 0:
+            source_index = _row_int(reward_row, "source_index", default=-1)
+            if 0 <= source_index < len(ok_indices):
+                graph_index = ok_indices[source_index]
+        if graph_index in pb_valid_graphs:
+            filtered.append(reward_row)
+    return filtered
+
+
 def _write_csv_rows(path: Path, rows: list[dict[str, Any]], *, fieldnames: list[str] | None = None) -> None:
     """Write CSV rows with a stable union schema."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -825,6 +1014,52 @@ def _merge_molecule_deppa_fields(
     return merged
 
 
+def _merge_molecule_posebusters_fields(
+    molecule_rows: list[dict[str, Any]],
+    posebusters_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Attach PB audit fields and final-legality flags by original graph index."""
+    fields_by_graph: dict[int, dict[str, Any]] = {}
+    for pb_row in posebusters_rows:
+        try:
+            graph_index = int(float(pb_row.get("source_graph_index", -1)))
+        except (TypeError, ValueError):
+            continue
+        fields: dict[str, Any] = {
+            "posebusters_source_index": pb_row.get("source_index", ""),
+            "posebusters_sanitize_status": pb_row.get("sanitize_status", ""),
+            "sanitize_valid": _row_int(pb_row, "sanitize_valid"),
+            "pb_evaluated": _row_int(pb_row, "pb_evaluated"),
+            "pb_valid": _row_int(pb_row, "pb_valid"),
+            "final_legal": _row_int(pb_row, "pb_valid"),
+            "posebusters_empty": _row_int(pb_row, "posebusters_empty"),
+            "posebusters_error": pb_row.get("posebusters_error", ""),
+        }
+        fields.update({key: value for key, value in pb_row.items() if str(key).startswith("pb_check_")})
+        fields_by_graph[graph_index] = fields
+
+    merged: list[dict[str, Any]] = []
+    for row in molecule_rows:
+        out = dict(row)
+        graph_index = _row_int(out, "local_mol_index", default=-1)
+        fields = fields_by_graph.get(
+            graph_index,
+            {
+                "posebusters_source_index": "",
+                "posebusters_sanitize_status": "not_evaluated",
+                "sanitize_valid": 0,
+                "pb_evaluated": 0,
+                "pb_valid": 0,
+                "final_legal": 0,
+                "posebusters_empty": 0,
+                "posebusters_error": "not_in_reconstructed_sdf",
+            },
+        )
+        out.update(fields)
+        merged.append(out)
+    return merged
+
+
 def _ordered_fieldnames(rows: list[dict[str, Any]], *, preferred: list[str] | None = None) -> list[str]:
     """Return preferred fields followed by dynamic fields."""
     ordered = list(preferred or [])
@@ -844,8 +1079,11 @@ def _csv_value(value: Any) -> Any:
 
 def _row_int(row: dict[str, Any], key: str, default: int = 0) -> int:
     """Read an int-ish CSV value."""
+    value = row.get(key, default)
+    if value is None or value == "":
+        value = default
     try:
-        return int(float(row.get(key, default) or default))
+        return int(float(value))
     except (TypeError, ValueError):
         return int(default)
 
@@ -895,6 +1133,11 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
     docking = sum(int(row.get("docking_success", 0)) for row in rows)
     reward_records = sum(int(row.get("reward_records", 0)) for row in rows)
     reward_valid = sum(int(row.get("reward_rdkit_valid", 0)) for row in rows)
+    pb_attempts = sum(int(row.get("posebusters_total_attempts", 0)) for row in rows)
+    pb_input_records = sum(int(row.get("posebusters_input_records", 0)) for row in rows)
+    pb_sanitize_valid = sum(int(row.get("posebusters_sanitize_valid", 0)) for row in rows)
+    pb_evaluated = sum(int(row.get("posebusters_pb_evaluated", 0)) for row in rows)
+    pb_valid = sum(int(row.get("posebusters_pb_valid", 0)) for row in rows)
     weighted_reward = sum(float(row.get("reward_total_mean", 0.0)) * int(row.get("batch_size", 0)) for row in rows)
     row: dict[str, Any] = {
         "status": "ok",
@@ -915,6 +1158,7 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "total_seconds": max(float(row.get("total_seconds", 0.0)) for row in rows) if rows else 0.0,
         "rollout_seconds": max(float(row.get("rollout_seconds", 0.0)) for row in rows) if rows else 0.0,
         "reward_seconds": max(float(row.get("reward_seconds", 0.0)) for row in rows) if rows else 0.0,
+        "posebusters_seconds": max(float(row.get("posebusters_seconds", 0.0)) for row in rows) if rows else 0.0,
         "ppo_seconds": max(float(row.get("ppo_seconds", 0.0)) for row in rows) if rows else 0.0,
         "seconds_per_graph": max(float(row.get("total_seconds", 0.0)) for row in rows) / float(max(global_batch, 1)),
         "reconstruction_attempted": int(attempted),
@@ -922,6 +1166,17 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "reconstruction_success_ratio": float(recon / attempted) if attempted else 0.0,
         "reward_records": int(reward_records),
         "reward_rdkit_valid": int(reward_valid),
+        "posebusters_enabled": max(int(row.get("posebusters_enabled", 0)) for row in rows) if rows else 0,
+        "posebusters_total_attempts": int(pb_attempts),
+        "posebusters_input_records": int(pb_input_records),
+        "posebusters_sanitize_valid": int(pb_sanitize_valid),
+        "posebusters_pb_evaluated": int(pb_evaluated),
+        "posebusters_pb_valid": int(pb_valid),
+        "posebusters_pb_invalid_sanitize_valid": int(max(0, pb_sanitize_valid - pb_valid)),
+        "posebusters_invalid_total": int(max(0, pb_attempts - pb_valid)),
+        "posebusters_sanitize_rate_attempts": float(pb_sanitize_valid / pb_attempts) if pb_attempts else 0.0,
+        "posebusters_pb_valid_rate_sanitize": float(pb_valid / pb_sanitize_valid) if pb_sanitize_valid else 0.0,
+        "posebusters_pb_valid_rate_attempts": float(pb_valid / pb_attempts) if pb_attempts else 0.0,
         "docking_success": int(docking),
         "docking_success_ratio": float(docking / attempted) if attempted else 0.0,
         "docking_success_ratio_total": float(docking / attempted) if attempted else 0.0,
