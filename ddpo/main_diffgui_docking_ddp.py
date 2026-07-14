@@ -42,6 +42,10 @@ from ddpo.diffgui.runtime.per_timestep_diagnostics import (  # noqa: E402
     export_per_timestep,
     merge_per_timestep,
 )
+from ddpo.diffgui.runtime.pre_reward_gate import (  # noqa: E402
+    merge_molecule_posebusters_fields,
+    run_posebusters_then_rewards,
+)
 from ddpo.diffgui.runtime.replay import (  # noqa: E402
     DiffGuiTrajectoryReplayBuffer,
     build_train_batch_with_replay,
@@ -344,36 +348,42 @@ def _run_epoch(
         )
         timing["reconstruction_seconds"] = time.perf_counter() - phase_start
 
-        phase_start = time.perf_counter()
-        reward_rows_all = _score_reconstructed_sdf(
+        gate_result = run_posebusters_then_rewards(
             config=config,
-            input_sdf=epoch_dir / "generated.sdf",
-            output_dir=epoch_dir,
-            batch_size=reward_batch_size,
-        )
-        timing["reward_seconds"] = time.perf_counter() - phase_start
-
-        phase_start = time.perf_counter()
-        posebusters_summary, posebusters_rows, _pb_valid_sdf = _run_posebusters_gate(
-            config=config,
-            input_sdf=epoch_dir / "docking_scored.sdf",
+            generated_sdf=epoch_dir / "generated.sdf",
             output_dir=epoch_dir,
             total_attempts=per_rank_batch,
+            reward_batch_size=reward_batch_size,
+            posebusters_runner=_run_posebusters_gate,
+            reward_runner=_score_reconstructed_sdf,
+            logger_obj=LOGGER,
         )
-        reward_rows = _filter_reward_rows_by_posebusters(
-            reward_rows_all=reward_rows_all,
-            posebusters_rows=posebusters_rows,
-            reconstruction_rows=reconstruction_rows,
-            enabled=bool(posebusters_summary.get("posebusters_enabled", 0)),
-        )
+        posebusters_summary = gate_result.posebusters_summary
+        posebusters_rows = gate_result.posebusters_rows
+        reward_rows = gate_result.reward_rows
+        reward_gate_audit = gate_result.audit
+        timing.update(gate_result.timing)
+        posebusters_enabled = bool(posebusters_summary.get("posebusters_enabled", 0))
         _write_csv_rows(
             epoch_dir / "docking_rewards_pb_valid.csv",
             reward_rows,
-            fieldnames=_ordered_fieldnames(reward_rows),
+            fieldnames=_ordered_fieldnames(
+                reward_rows,
+                preferred=[
+                    "mol_id",
+                    "source_index",
+                    "source_graph_index",
+                    "original_name",
+                    "rdkit_valid",
+                    "sanitize_status",
+                    "smiles",
+                    "reward_total",
+                ],
+            ),
         )
-        timing["posebusters_seconds"] = time.perf_counter() - phase_start
 
         deppa_result = None
+        ppo_skip_no_valid_reward = False
         if is_deppa_mode_enabled(config):
             local_deppa_records = build_local_deppa_records(
                 reconstruction_rows=reconstruction_rows,
@@ -389,6 +399,11 @@ def _run_epoch(
             )
             rewards_by_graph = deppa_result.rewards_by_graph
             advantages = deppa_result.advantages
+            gathered_valid_counts = _all_gather_object(
+                int(deppa_result.summary.get("deppa_valid_count", 0)),
+                int(dist_info["world_size"]),
+            )
+            ppo_skip_no_valid_reward = sum(int(value) for value in gathered_valid_counts) == 0
         else:
             rewards_by_graph = _rewards_by_graph_index(
                 reconstruction_rows=reconstruction_rows,
@@ -396,6 +411,8 @@ def _run_epoch(
                 failure_penalty=float(sweep_cfg.get("failure_advantage", -1.0)),
             )
             advantages = _make_global_advantages(rewards_by_graph, sweep_cfg=sweep_cfg, dist_info=dist_info)
+            gathered_reward_counts = _all_gather_object(len(reward_rows), int(dist_info["world_size"]))
+            ppo_skip_no_valid_reward = sum(int(value) for value in gathered_reward_counts) == 0
         policy_batch = _replace_policy_advantages(policy_batch, advantages)
         molecule_rows = write_molecule_records_csv(
             epoch_dir / "molecules_with_rewards.csv",
@@ -409,7 +426,8 @@ def _run_epoch(
         )
         if deppa_result is not None:
             molecule_rows = _merge_molecule_deppa_fields(molecule_rows, deppa_result.fields_by_graph)
-        molecule_rows = _merge_molecule_posebusters_fields(molecule_rows, posebusters_rows)
+        if posebusters_enabled:
+            molecule_rows = merge_molecule_posebusters_fields(molecule_rows, posebusters_rows)
         _write_csv_rows(
             epoch_dir / "molecules_with_rewards.csv",
             molecule_rows,
@@ -454,7 +472,7 @@ def _run_epoch(
             filter_selection.decision_rows(),
             fieldnames=_ordered_fieldnames(filter_selection.decision_rows()),
         )
-        if filter_selection.train_indices:
+        if filter_selection.train_indices and not ppo_skip_no_valid_reward:
             train_batch = policy_batch.select_graphs(filter_selection.train_indices)
             train_batch, replay_train_metrics = build_train_batch_with_replay(
                 current_batch=train_batch,
@@ -490,6 +508,7 @@ def _run_epoch(
         actor_metrics.update(replay_store_metrics)
         actor_metrics.update(replay_train_metrics)
         actor_metrics.update(replay_buffer.observe_update_metrics(actor_metrics, epoch=epoch))
+        actor_metrics["PPO_SkippedNoValidReward"] = float(ppo_skip_no_valid_reward)
         timing["ppo_seconds"] = time.perf_counter() - phase_start
         step_metrics_path = _write_step_metrics_csv(
             epoch_dir / "ppo_step_metrics.csv",
@@ -524,6 +543,7 @@ def _run_epoch(
         if deppa_result is not None:
             row.update(deppa_result.summary)
         row.update(posebusters_summary)
+        row.update(reward_gate_audit)
         row.update(
             {
                 "rank": rank,
@@ -688,6 +708,8 @@ def _merge_sdf_files(sources: list[Path], output_path: Path) -> Path | None:
     """
     mols: list[Chem.Mol] = []
     for source in sources:
+        if not source.exists() or source.stat().st_size == 0:
+            continue
         supplier = Chem.SDMolSupplier(str(source), sanitize=False, removeHs=False)
         mols.extend(mol for mol in supplier if mol is not None)
     if not mols:
@@ -716,6 +738,8 @@ def _write_top_reward_sdf(sources: list[Path], output_path: Path, *, top_k: int)
     """
     mols: list[tuple[float, Chem.Mol]] = []
     for source in sources:
+        if not source.exists() or source.stat().st_size == 0:
+            continue
         supplier = Chem.SDMolSupplier(str(source), sanitize=False, removeHs=False)
         for mol in supplier:
             if mol is None:
@@ -953,38 +977,6 @@ def _run_posebusters_gate(
     return summary, rows, output_sdf
 
 
-def _filter_reward_rows_by_posebusters(
-    *,
-    reward_rows_all: list[dict[str, Any]],
-    posebusters_rows: list[dict[str, Any]],
-    reconstruction_rows: list[dict[str, Any]],
-    enabled: bool,
-) -> list[dict[str, Any]]:
-    """Keep only PB-valid reward rows so all other graphs use illegal penalties."""
-    if not enabled:
-        return list(reward_rows_all)
-    pb_valid_graphs = {
-        _row_int(row, "source_graph_index", default=-1)
-        for row in posebusters_rows
-        if _row_int(row, "pb_valid") == 1
-    }
-    ok_indices = [
-        int(row["mol_index"])
-        for row in reconstruction_rows
-        if row.get("reconstruction_status") == "ok"
-    ]
-    filtered: list[dict[str, Any]] = []
-    for reward_row in reward_rows_all:
-        graph_index = _row_int(reward_row, "source_graph_index", default=-1)
-        if graph_index < 0:
-            source_index = _row_int(reward_row, "source_index", default=-1)
-            if 0 <= source_index < len(ok_indices):
-                graph_index = ok_indices[source_index]
-        if graph_index in pb_valid_graphs:
-            filtered.append(reward_row)
-    return filtered
-
-
 def _write_csv_rows(path: Path, rows: list[dict[str, Any]], *, fieldnames: list[str] | None = None) -> None:
     """Write CSV rows with a stable union schema."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -1010,52 +1002,6 @@ def _merge_molecule_deppa_fields(
             graph_index = -1
         if graph_index in fields_by_graph:
             out.update(fields_by_graph[graph_index])
-        merged.append(out)
-    return merged
-
-
-def _merge_molecule_posebusters_fields(
-    molecule_rows: list[dict[str, Any]],
-    posebusters_rows: list[dict[str, Any]],
-) -> list[dict[str, Any]]:
-    """Attach PB audit fields and final-legality flags by original graph index."""
-    fields_by_graph: dict[int, dict[str, Any]] = {}
-    for pb_row in posebusters_rows:
-        try:
-            graph_index = int(float(pb_row.get("source_graph_index", -1)))
-        except (TypeError, ValueError):
-            continue
-        fields: dict[str, Any] = {
-            "posebusters_source_index": pb_row.get("source_index", ""),
-            "posebusters_sanitize_status": pb_row.get("sanitize_status", ""),
-            "sanitize_valid": _row_int(pb_row, "sanitize_valid"),
-            "pb_evaluated": _row_int(pb_row, "pb_evaluated"),
-            "pb_valid": _row_int(pb_row, "pb_valid"),
-            "final_legal": _row_int(pb_row, "pb_valid"),
-            "posebusters_empty": _row_int(pb_row, "posebusters_empty"),
-            "posebusters_error": pb_row.get("posebusters_error", ""),
-        }
-        fields.update({key: value for key, value in pb_row.items() if str(key).startswith("pb_check_")})
-        fields_by_graph[graph_index] = fields
-
-    merged: list[dict[str, Any]] = []
-    for row in molecule_rows:
-        out = dict(row)
-        graph_index = _row_int(out, "local_mol_index", default=-1)
-        fields = fields_by_graph.get(
-            graph_index,
-            {
-                "posebusters_source_index": "",
-                "posebusters_sanitize_status": "not_evaluated",
-                "sanitize_valid": 0,
-                "pb_evaluated": 0,
-                "pb_valid": 0,
-                "final_legal": 0,
-                "posebusters_empty": 0,
-                "posebusters_error": "not_in_reconstructed_sdf",
-            },
-        )
-        out.update(fields)
         merged.append(out)
     return merged
 
@@ -1166,6 +1112,15 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         "reconstruction_success_ratio": float(recon / attempted) if attempted else 0.0,
         "reward_records": int(reward_records),
         "reward_rdkit_valid": int(reward_valid),
+        "reward_input_records": int(_sum(rows, "reward_input_records")),
+        "reward_skipped_by_posebusters": int(_sum(rows, "reward_skipped_by_posebusters")),
+        "reward_input_matches_pb_valid": min(
+            int(row_item.get("reward_input_matches_pb_valid", 0)) for row_item in rows
+        )
+        if rows
+        else 0,
+        "pb_valid_without_reward_count": int(_sum(rows, "pb_valid_without_reward_count")),
+        "reward_without_pb_valid_count": int(_sum(rows, "reward_without_pb_valid_count")),
         "posebusters_enabled": max(int(row.get("posebusters_enabled", 0)) for row in rows) if rows else 0,
         "posebusters_total_attempts": int(pb_attempts),
         "posebusters_input_records": int(pb_input_records),
@@ -1201,6 +1156,11 @@ def _aggregate_rank_rows(rows: list[dict[str, Any]], *, epoch: int, elapsed: flo
         if rows
         else 0.0,
         "PPO_Skipped": max(float(row.get("PPO_Skipped", 0.0)) for row in rows) if rows else 0.0,
+        "PPO_SkippedNoValidReward": max(
+            float(row.get("PPO_SkippedNoValidReward", 0.0)) for row in rows
+        )
+        if rows
+        else 0.0,
         "good_pool_enabled": _mean(rows, "good_pool_enabled"),
         "good_pool_selected_count": _sum(rows, "good_pool_selected_count"),
         "good_pool_selected_score_mean": _mean(rows, "good_pool_selected_score_mean"),
