@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-14T17:15:03",
+  "rdkit_version": "2022.09.5",
+  "selection_csv": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_2d_20260714/top50_molecule_selection.csv",
+  "identity_check": "100/100 original canonical isomeric SMILES matched",
+  "font": "Arial for atom labels",
+  "models": [
+    {
+      "model": "DiffGui",
+      "source_records": 886,
+      "selected_records": 50,
+      "asset_count": 50,
+      "original_source_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260701_diffgui_rep1_1000steps_seed1_7/filtered_sanitize_valid/diffgui.sanitize_valid.sdf",
+      "selected_original_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_editable_ppt_20260714/diffgui_rep1_pbvalid_top50_original_pre_ligprep.sdf"
+    },
+    {
+      "model": "DiffSBDD",
+      "source_records": 673,
+      "selected_records": 50,
+      "asset_count": 50,
+      "original_source_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260630_all_1000steps/filtered_sanitize_valid/diffsbdd.sanitize_valid.sdf",
+      "selected_original_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_editable_ppt_20260714/diffsbdd_rep1_pbvalid_top50_original_pre_ligprep.sdf"
+    }
+  ]
+}
