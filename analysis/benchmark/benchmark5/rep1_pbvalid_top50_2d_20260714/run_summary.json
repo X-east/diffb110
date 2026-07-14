@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-14T16:02:04",
+  "rdkit_version": "2022.09.5",
+  "selection": "rep1 -> sanitize-valid -> pb_valid=True -> docking score ascending -> top 50 per model",
+  "reference": {
+    "source": "/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_ligand.sdf",
+    "display": "C1101 crystal reference",
+    "docking_score": null,
+    "note": "No same-protocol redocking score exists in the formal benchmark; N/A is displayed."
+  },
+  "stats": [
+    {
+      "model": "DiffGui",
+      "attempts": 1000,
+      "sanitize_valid_count": 886,
+      "sanitize_valid_rate": 0.886,
+      "pb_valid_count": 846,
+      "pb_valid_rate_among_sanitize_valid": 0.9548532731376975,
+      "pb_valid_rate_per_attempt": 0.846,
+      "selected_count": 50,
+      "best_docking_score": -15.466,
+      "top50_cutoff_docking_score": -13.395,
+      "source_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/docking/rep1/diffgui/successful_docked_outputs.sdf",
+      "posebusters_csv": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/posebusters_queue/per_task/rep1_diffgui_posebusters.csv"
+    },
+    {
+      "model": "DiffSBDD",
+      "attempts": 1000,
+      "sanitize_valid_count": 673,
+      "sanitize_valid_rate": 0.673,
+      "pb_valid_count": 446,
+      "pb_valid_rate_among_sanitize_valid": 0.662704309063893,
+      "pb_valid_rate_per_attempt": 0.446,
+      "selected_count": 50,
+      "best_docking_score": -13.85,
+      "top50_cutoff_docking_score": -11.35,
+      "source_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/docking/rep1/diffsbdd/successful_docked_outputs.sdf",
+      "posebusters_csv": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/posebusters_queue/per_task/rep1_diffsbdd_posebusters.csv"
+    }
+  ],
+  "render_results": [
+    {
+      "model": "DiffGui",
+      "page_count": 2,
+      "mapping_csv": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_2d_20260714/diffgui/diffgui_rep1_pbvalid_top50_mapping.csv",
+      "selected_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_2d_20260714/diffgui/diffgui_rep1_pbvalid_top50.sdf",
+      "uncertain_double_bonds_cleared": 0,
+      "defined_ez_preserved": 0
+    },
+    {
+      "model": "DiffSBDD",
+      "page_count": 2,
+      "mapping_csv": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_2d_20260714/diffsbdd/diffsbdd_rep1_pbvalid_top50_mapping.csv",
+      "selected_sdf": "/data/disk6/DiffB110/analysis/benchmark/benchmark5/rep1_pbvalid_top50_2d_20260714/diffsbdd/diffsbdd_rep1_pbvalid_top50.sdf",
+      "uncertain_double_bonds_cleared": 5,
+      "defined_ez_preserved": 4
+    }
+  ]
+}
