@@ -1,0 +1,5 @@
+2026-07-16 17:38:58,911 INFO pbfast_100ep_analysis: loaded training summary rows=100
+2026-07-16 17:38:59,508 INFO pbfast_100ep_analysis: loaded molecule rows=5600
+2026-07-16 17:39:00,353 INFO pbfast_100ep_analysis: computed descriptors parsed=5255 invalid_or_missing=345
+2026-07-16 17:39:09,398 INFO pbfast_100ep_analysis: loaded ChEMBL rows=1550090 sample=5000
+2026-07-16 17:39:28,614 INFO pbfast_100ep_analysis: analysis complete output=/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis

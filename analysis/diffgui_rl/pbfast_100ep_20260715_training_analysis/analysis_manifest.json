@@ -1,0 +1,42 @@
+{
+  "run_dir": "/data/disk6/DiffB110/runs/diffgui-deppa-pbfast-cpu4-lr1e5-wd1e4-b8x7-t200-100ep_20260715_2018",
+  "run_status": "completed",
+  "epochs": 100,
+  "policy_molecule_records": 5600,
+  "rdkit_valid_records": 5255,
+  "pb_valid_records": 4042,
+  "docking_success_records": 4042,
+  "checkpoints": 100,
+  "top_reward_decile_threshold": 0.8640244483947754,
+  "late_top_reward_decile_count": 36,
+  "output_dir": "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis",
+  "figures": [
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/01_training_reward_docking.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/01_training_reward_docking.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/02_validity_diversity.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/02_validity_diversity.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/03_ppo_stability_runtime.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/03_ppo_stability_runtime.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/04_molecular_property_trends.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/04_molecular_property_trends.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/05_property_distributions_early_middle_late.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/05_property_distributions_early_middle_late.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/06_chembl_topdecile_comparison.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/06_chembl_topdecile_comparison.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/07_structural_risk_trends.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/07_structural_risk_trends.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/09_element_composition_trends.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/09_element_composition_trends.svg",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/08_window_summary.png",
+    "/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/08_window_summary.svg"
+  ],
+  "tables": [
+    "epoch_metrics_selected.csv",
+    "molecule_properties_all.csv",
+    "molecule_epoch_summary.csv",
+    "window_summary.csv",
+    "early_late_change_summary.csv",
+    "chembl_reference_summary.csv",
+    "late_top_reward_decile.csv"
+  ]
+}
