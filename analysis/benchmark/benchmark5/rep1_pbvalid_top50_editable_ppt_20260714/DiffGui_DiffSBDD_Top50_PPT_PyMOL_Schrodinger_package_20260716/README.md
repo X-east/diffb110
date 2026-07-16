@@ -4,7 +4,8 @@
 
 - `01_PPT/DiffGui_DiffSBDD_rep1_PBvalid_top50_original_editable_with_top1_interactions.pptx`：最终 6 页可编辑 PPT。前 4 页为两模型 Top50 原始二维结构，第 5、6 页为 PAβN 参考叠合与各模型 Top1 相互作用图。
 - `02_PyMOL/8GJL_PABN_DiffGui_DiffSBDD_top1_master.pse`：总 PyMOL 会话，包含 8GJL 蛋白、PAβN、DiffGui mol001、DiffSBDD mol001 四个独立对象。
-- `03_Schrodinger/8GJL_DiffGui_DiffSBDD_PBvalid_Top50_poseviewer.maegz`：Schrödinger Maestro 文件，共 101 个 entry；第 1 个为 8GJL/RE-CmeB 蛋白，随后为 DiffGui Top50 和 DiffSBDD Top50 的真实对接 pose。
+- `03_Schrodinger/8GJL_DiffGui_DiffSBDD_PBvalid_Top50_poseviewer.mae`：未压缩 Schrödinger Maestro 文件，共 101 个 entry；第 1 个为 8GJL/RE-CmeB 蛋白，随后为 DiffGui Top50 和 DiffSBDD Top50 的真实对接 pose。
+- 同目录 `.maegz` 为内容相同的压缩 Maestro 版本。
 
 ## 文件夹说明
 
@@ -39,4 +40,4 @@
 pymol 02_PyMOL/8GJL_PABN_DiffGui_DiffSBDD_top1_master.pse
 ```
 
-`03_Schrodinger/8GJL_DiffGui_DiffSBDD_PBvalid_Top50_poseviewer.maegz` 可直接使用 Maestro 打开。
+`03_Schrodinger/8GJL_DiffGui_DiffSBDD_PBvalid_Top50_poseviewer.mae` 或对应 `.maegz` 均可直接使用 Maestro 打开。

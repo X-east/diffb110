@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import json
 import os
 import shutil
@@ -463,6 +464,9 @@ def main() -> None:
         ],
         OUT / "schrodinger_top50_poseviewer.log",
     )
+    maestro_uncompressed = OUT / "8GJL_DiffGui_DiffSBDD_PBvalid_Top50_poseviewer.mae"
+    with gzip.open(maestro_path, "rb") as source, maestro_uncompressed.open("wb") as target:
+        shutil.copyfileobj(source, target)
     summary = {
         "receptor": str(RECEPTOR_PDBQT.resolve()),
         "reference_ligand": "PAβN ligand_000008",
@@ -470,6 +474,7 @@ def main() -> None:
         "pymol": shutil.which(PYMOL),
         "schrodinger_ligand_interaction_diagram": str(SCHRODINGER_LID),
         "schrodinger_poseviewer": str(maestro_path.resolve()),
+        "schrodinger_poseviewer_uncompressed": str(maestro_uncompressed.resolve()),
         "schrodinger_poseviewer_entries": 101,
         "master_pymol_session": str(master_pymol_session.resolve()),
         "master_pymol_objects": [
