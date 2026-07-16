@@ -27,6 +27,15 @@ class _FakePoseBusters:
         return pd.DataFrame([{"loaded": True, "geometry_ok": passes}])
 
 
+class _FakePoseBustersWithMissingCheck:
+    """Return a missing required binary check."""
+
+    def bust(self, *, mol_pred: str, mol_cond: str) -> pd.DataFrame:
+        """Return one passing check and one missing check."""
+        del mol_pred, mol_cond
+        return pd.DataFrame([{"loaded": True, "geometry_ok": pd.NA}])
+
+
 def _write_input_sdf(path: Path) -> None:
     """Write two sanitizable 3D molecules with non-consecutive graph ids."""
     writer = Chem.SDWriter(str(path))
@@ -76,3 +85,32 @@ def test_posebusters_filter_preserves_graph_indices_and_denominators(tmp_path: P
     )
     assert len(records) == 1
     assert records[0].source_graph_index == 2
+
+
+def test_posebusters_filter_fails_closed_on_missing_binary_check(tmp_path: Path) -> None:
+    """A missing or NaN PoseBusters check must never be treated as PB-valid."""
+    input_sdf = tmp_path / "input.sdf"
+    receptor = tmp_path / "receptor.pdb"
+    output_sdf = tmp_path / "pb_valid.sdf"
+    output_csv = tmp_path / "posebusters.csv"
+    summary_json = tmp_path / "summary.json"
+    _write_input_sdf(input_sdf)
+    receptor.write_text("HEADER TEST\nEND\n", encoding="utf-8")
+
+    summary = run_posebusters_filter(
+        input_sdf=input_sdf,
+        receptor_pdb=receptor,
+        output_sdf=output_sdf,
+        output_csv=output_csv,
+        summary_json=summary_json,
+        total_attempts=2,
+        buster=_FakePoseBustersWithMissingCheck(),
+    )
+
+    with output_csv.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    assert summary["posebusters_config"] == "dock_fast"
+    assert summary["posebusters_pb_valid"] == 0
+    assert [row["pb_valid"] for row in rows] == ["0", "0"]
+    assert [row["posebusters_missing_checks"] for row in rows] == ["geometry_ok", "geometry_ok"]
+    assert [row["pb_check_geometry_ok"] for row in rows] == ["", ""]

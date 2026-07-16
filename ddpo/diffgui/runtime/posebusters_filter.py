@@ -7,7 +7,9 @@ import csv
 import json
 import logging
 import math
+import multiprocessing as mp
 import os
+import signal
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -20,6 +22,10 @@ from posebusters import PoseBusters
 
 
 logger = logging.getLogger(__name__)
+
+
+DEFAULT_POSEBUSTERS_CONFIG = "dock_fast"
+DEFAULT_MOLECULE_TIMEOUT_SECONDS = 120.0
 
 
 def _get_name(self: object, mol_pred: Chem.Mol) -> str:
@@ -41,7 +47,8 @@ def run_posebusters_filter(
     output_csv: Path,
     summary_json: Path,
     total_attempts: int,
-    config_name: str = "dock",
+    config_name: str = DEFAULT_POSEBUSTERS_CONFIG,
+    molecule_timeout_seconds: float = DEFAULT_MOLECULE_TIMEOUT_SECONDS,
     buster: Any | None = None,
 ) -> dict[str, Any]:
     """Write PB-valid molecules and return denominator-explicit metrics."""
@@ -51,11 +58,13 @@ def run_posebusters_filter(
         raise FileNotFoundError(f"PoseBusters receptor does not exist: {receptor_pdb}")
     if total_attempts < 0:
         raise ValueError("total_attempts must be non-negative")
+    if molecule_timeout_seconds <= 0:
+        raise ValueError("molecule_timeout_seconds must be positive")
 
     output_sdf.parent.mkdir(parents=True, exist_ok=True)
     output_csv.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
-    evaluator = buster or PoseBusters(config=config_name)
+    evaluator = buster
     rows: list[dict[str, Any]] = []
     writer = Chem.SDWriter(str(output_sdf))
     writer.SetKekulize(False)
@@ -85,7 +94,15 @@ def run_posebusters_filter(
                 rows.append(row)
                 continue
             try:
-                pb_fields = _bust_one_molecule(evaluator, receptor_pdb, sanitized)
+                if buster is None:
+                    pb_fields = _bust_one_molecule_with_timeout(
+                        config_name=config_name,
+                        receptor_pdb=receptor_pdb,
+                        mol=sanitized,
+                        timeout_seconds=molecule_timeout_seconds,
+                    )
+                else:
+                    pb_fields = _bust_one_molecule(evaluator, receptor_pdb, sanitized)
                 row.update(pb_fields)
             except Exception as exc:
                 row["pb_evaluated"] = 1
@@ -163,16 +180,125 @@ def _bust_one_molecule(buster: Any, receptor_pdb: Path, mol: Chem.Mol) -> dict[s
     if result_df.empty:
         return {"pb_evaluated": 1, "pb_valid": 0, "posebusters_empty": 1}
     result_row = result_df.iloc[0]
-    boolean_values = [value for value in result_row.values if isinstance(value, (bool, np.bool_))]
+    missing_checks: list[str] = []
+    failed_checks: list[str] = []
     fields: dict[str, Any] = {
         "pb_evaluated": 1,
-        "pb_valid": int(bool(boolean_values) and all(bool(value) for value in boolean_values)),
         "posebusters_empty": 0,
     }
     for key, value in result_row.items():
+        metric_key = _metric_safe(key)
         if isinstance(value, (bool, np.bool_)):
-            fields[f"pb_check_{_metric_safe(key)}"] = int(bool(value))
+            fields[f"pb_check_{metric_key}"] = int(bool(value))
+            if not bool(value):
+                failed_checks.append(metric_key)
+        else:
+            fields[f"pb_check_{metric_key}"] = ""
+            missing_checks.append(metric_key)
+    fields["posebusters_missing_checks"] = ";".join(missing_checks)
+    fields["posebusters_failed_checks"] = ";".join(failed_checks)
+    fields["posebusters_check_count"] = int(len(result_row))
+    fields["posebusters_check_pass_count"] = int(
+        sum(isinstance(value, (bool, np.bool_)) and bool(value) for value in result_row.values)
+    )
+    fields["pb_valid"] = int(bool(result_row.size) and not missing_checks and not failed_checks)
     return fields
+
+
+def _bust_one_molecule_with_timeout(
+    *,
+    config_name: str,
+    receptor_pdb: Path,
+    mol: Chem.Mol,
+    timeout_seconds: float,
+) -> dict[str, Any]:
+    """Run one PoseBusters evaluation in an isolated, time-bounded process."""
+    context = mp.get_context("spawn")
+    receive_connection, send_connection = context.Pipe(duplex=False)
+    process = context.Process(
+        target=_posebusters_worker,
+        kwargs={
+            "send_connection": send_connection,
+            "config_name": config_name,
+            "receptor_pdb": str(receptor_pdb),
+            "mol_binary": mol.ToBinary(),
+        },
+    )
+    process.start()
+    send_connection.close()
+    process.join(timeout_seconds)
+    if process.is_alive():
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except (ProcessLookupError, PermissionError):
+            process.terminate()
+        process.join(5.0)
+        if process.is_alive():
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except (ProcessLookupError, PermissionError):
+                process.kill()
+            process.join(5.0)
+        receive_connection.close()
+        return {
+            "pb_evaluated": 1,
+            "pb_valid": 0,
+            "posebusters_empty": 0,
+            "posebusters_error": f"molecule_timeout:{timeout_seconds:.3f}s",
+            "posebusters_missing_checks": "timeout",
+            "posebusters_failed_checks": "",
+            "posebusters_check_count": 0,
+            "posebusters_check_pass_count": 0,
+        }
+
+    try:
+        if not receive_connection.poll():
+            return {
+                "pb_evaluated": 1,
+                "pb_valid": 0,
+                "posebusters_empty": 0,
+                "posebusters_error": f"worker_exit_without_result:{process.exitcode}",
+                "posebusters_missing_checks": "worker_result",
+                "posebusters_failed_checks": "",
+                "posebusters_check_count": 0,
+                "posebusters_check_pass_count": 0,
+            }
+        status, payload = receive_connection.recv()
+    finally:
+        receive_connection.close()
+    if status == "ok":
+        return dict(payload)
+    return {
+        "pb_evaluated": 1,
+        "pb_valid": 0,
+        "posebusters_empty": 0,
+        "posebusters_error": str(payload),
+        "posebusters_missing_checks": "worker_result",
+        "posebusters_failed_checks": "",
+        "posebusters_check_count": 0,
+        "posebusters_check_pass_count": 0,
+    }
+
+
+def _posebusters_worker(
+    *,
+    send_connection: Any,
+    config_name: str,
+    receptor_pdb: str,
+    mol_binary: bytes,
+) -> None:
+    """Evaluate one molecule and return only serializable audit fields."""
+    try:
+        if hasattr(os, "setsid"):
+            os.setsid()
+        evaluator = PoseBusters(config=config_name)
+        mol = Chem.Mol(mol_binary)
+        fields = _bust_one_molecule(evaluator, Path(receptor_pdb), mol)
+        send_connection.send(("ok", fields))
+    except BaseException as exc:
+        send_connection.send(("error", f"{type(exc).__name__}:{exc}"))
+    finally:
+        send_connection.close()
 
 
 def _source_graph_index(mol: Chem.Mol, fallback: int) -> int:
@@ -220,7 +346,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-csv", type=Path, required=True)
     parser.add_argument("--summary-json", type=Path, required=True)
     parser.add_argument("--total-attempts", type=int, required=True)
-    parser.add_argument("--config-name", default="dock")
+    parser.add_argument("--config-name", default=DEFAULT_POSEBUSTERS_CONFIG)
+    parser.add_argument(
+        "--molecule-timeout-seconds",
+        type=float,
+        default=DEFAULT_MOLECULE_TIMEOUT_SECONDS,
+    )
     parser.add_argument("--log-level", choices=["DEBUG", "INFO", "WARNING", "ERROR"], default="INFO")
     return parser.parse_args()
 
@@ -241,6 +372,7 @@ def main() -> None:
         summary_json=args.summary_json,
         total_attempts=args.total_attempts,
         config_name=args.config_name,
+        molecule_timeout_seconds=args.molecule_timeout_seconds,
     )
 
 

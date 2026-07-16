@@ -955,7 +955,9 @@ def _run_posebusters_gate(
         "--total-attempts",
         str(int(total_attempts)),
         "--config-name",
-        str(pb_cfg.get("config", "dock")),
+        str(pb_cfg.get("config", "dock_fast")),
+        "--molecule-timeout-seconds",
+        str(float(pb_cfg.get("molecule_timeout_seconds", 120.0))),
         "--log-level",
         "INFO",
     ]
