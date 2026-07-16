@@ -1,0 +1,3 @@
+2026-07-16 19:24:58,275 INFO pb_gate_diagnosis: loaded online PoseBusters rows=5267
+2026-07-16 19:24:59,477 INFO pb_gate_diagnosis: wrote figure=/data/disk6/DiffB110/analysis/diffgui_rl/pbfast_100ep_20260715_training_analysis/10_pb_gate_geometry_diagnosis.png
+2026-07-16 19:24:59,478 INFO pb_gate_diagnosis: analysis complete failure_rows=63 comparison_rows=4
