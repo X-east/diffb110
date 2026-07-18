@@ -1,0 +1,13 @@
+molecule_index,status,source_side,r1_atom_count,r2_atom_count,clash,min_clash_distance,attachment_bond_length,attachment_angle_1_deg,attachment_angle_2_deg,attachment_out_of_plane_deg,canonical_smiles
+0,r1_missing,,0,0,0,inf,nan,nan,nan,nan,
+1,r1_missing,,0,0,0,inf,nan,nan,nan,nan,
+2,disconnected,R2,1,1,0,inf,nan,nan,nan,nan,C.C.C=CCc1ccc(F)c(-c2ccc(F)c(CC3=C=C3C)c2)c1O.O.O
+3,r1_missing,,0,0,0,inf,nan,nan,nan,nan,
+4,disconnected,R1,1,1,0,inf,nan,nan,nan,nan,C=CCc1cc(F)c(Cl)c(-c2ccc(Cl)c(CC=C(O)O)c2)c1.N.O
+5,disconnected,R2,1,1,0,inf,nan,nan,nan,nan,C=CCc1cc(-c2cc([C@]3(C=N)C4=C[C@H]43)ccc2N)ccc1N.C[C@H](N)O
+6,r1_missing,,0,0,0,inf,nan,nan,nan,nan,
+7,disconnected,R2,1,1,0,inf,nan,nan,nan,nan,F.F.F.NCC=CCc1ccc(F)c(-c2cc(CC=CF)c(F)cc2F)c1
+8,r1_missing,,0,0,0,inf,nan,nan,nan,nan,
+9,success,R1,2,2,0,2.9655,1.554853,119.30283,119.30283,0.0,C=CCc1c(CC)cc(CN)c(-c2cc(O)c(CN)c(CC=C(O)O)c2)c1O
+10,invalid_indices,R2,0,0,0,inf,nan,nan,nan,nan,
+11,success,R2,1,1,0,2.9085,1.3733,119.545763,119.545763,0.0,C=C=C(CO)Cc1cc(-c2c(O)cc(N)c([C@H](O)C=C)c2CC)ccc1O

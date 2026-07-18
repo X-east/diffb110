@@ -1,0 +1,12 @@
+{
+  "inpaint_sdf": "/data/disk6/DiffB110/analysis/dual_sidechain_diffsbdd_onecopy_20260716/inpaint_raw.sdf",
+  "n_input": 12,
+  "n_success": 2,
+  "n_clash": 0,
+  "n_other": 10,
+  "anchor1": 0,
+  "anchor2": 11,
+  "clash_fraction": 0.7,
+  "add_n_nodes": 8,
+  "n_samples": 20
+}

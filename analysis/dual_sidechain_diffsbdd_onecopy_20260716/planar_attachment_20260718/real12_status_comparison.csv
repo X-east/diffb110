@@ -1,0 +1,7 @@
+status,old_count,new_count
+clash,3,0
+disconnected,0,4
+invalid_indices,0,1
+r1_missing,5,5
+sanitize_failed,1,0
+success,3,2
