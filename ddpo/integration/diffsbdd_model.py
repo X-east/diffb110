@@ -458,6 +458,18 @@ class DiffSBDDModel(nn.Module, BaseModel):
         }
         
         return pocket
+
+    def export_single_pocket_context(self) -> Dict[str, torch.Tensor]:
+        """Return detached single-pocket tensors for external read-only models.
+
+        The returned mapping intentionally exposes only coordinates and scalar
+        node features. Offline critics can convert it through their own typed
+        adapter without importing or retaining this policy object.
+        """
+        return {
+            "x": self._pocket_single["x"].detach().clone(),
+            "one_hot": self._pocket_single["one_hot"].detach().clone(),
+        }
     
     # =========================================================================
     # BaseModel interface methods (to be implemented in subsequent tasks)

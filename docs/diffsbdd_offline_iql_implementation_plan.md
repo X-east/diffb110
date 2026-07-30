@@ -919,6 +919,43 @@ critic 必须与以下简单 baseline 比较：
 
 如果 geometric critic 只比节点数 baseline 略好，不能进入 actor 更新阶段。
 
+### 8.7 2026-07-30 实现与容量验证状态
+
+当前分支已实现首版解耦几何 critic：
+
+- `critic_adapter.py`：把不可变 DiffSBDD transition 与固定 pocket context
+  转成 padded critic 输入；final decode 的 action atom latent 由 action mask
+  明确屏蔽；
+- `models/graph_builder.py`：按 pocket/pocket、ligand/ligand、
+  pocket/ligand 三类 cutoff 构造稀疏有向半径边，并额外加入
+  state-action identity edge；
+- `models/encoders.py`：消息只依赖 scalar node feature、距离 RBF 和 edge
+  type embedding，不将笛卡尔分量输入普通 MLP；
+- `models/value_critic.py`：只读取 state+pocket；
+- `models/q_critic.py`：读取 state+action+pocket，`TwinQCritic` 的 Q1/Q2
+  参数完全独立；
+- DiffSBDD adapter 可导出 detached pocket context。
+
+真实 checkpoint/pocket/shard 联调发现一个关键坐标语义：记录的 ligand
+latent 已按质心居中，而 PDB pocket 是绝对晶体坐标。若不显式对 pocket
+按有效节点质心居中，8 Å pocket-ligand cross edge 会全部消失。当前
+`build_geometric_critic_input()` 已统一该坐标系，真实 349-node pocket 的
+居中后质心最大绝对值为 \(9.57\times10^{-6}\)。
+
+验证结果：
+
+- 94 个相关回归测试通过、1 个跳过；
+- scalar 输出通过旋转、平移、反射、ligand/pocket permutation、
+  padding、final-action mask 不变性测试；
+- Q1、Q2、V 均有独立有限梯度；
+- 10 条真实 episode、QED/invalid finite penalty **容量 smoke** 中，500
+  step 后总 MSE 从 1.4312 降至 0.00970（0.68%），Q1/Q2/V Pearson
+  分别为 0.9997/0.9974/1.0000，峰值 CUDA allocation 约 591 MiB。
+
+该 smoke 只排除了“网络/数据接口连不上或小样本完全拟合不了”，并不满足
+Phase 3 的科学验收。QED proxy 不是正式 reward，训练集拟合也不能替代
+held-out reward 排序和简单 baseline 对照。
+
 ---
 
 ## 9. 软件模块与解耦边界
@@ -1567,14 +1604,15 @@ diffsbdd-xh-offline-iql
 
 ## 20. 立即执行的下一步
 
-下一项编码任务不是直接写 critic，而是完成 **Phase 0/1 的不可变数据契约**：
+Phase 1 的不可变 transition 与策略概率契约，以及首版几何 critic 已完成。
+当前下一项任务是补齐 **Phase 0 的 reward sidecar 与审计闭环**：
 
-1. 从正式运行目录读取精确 source snapshot 和 resolved config；
-2. 定义 `DenoisingEpisodeFacts` 与 `DenoisingTransitionBatch`；
-3. 建 2–10 episode 的小型 fixture；
-4. 写 `validate_diffsbdd_transition_contract.py`；
-5. 把 final decode 从普通 reverse log-prob 中拆开；
-6. 完成同设备四时间点 round-trip 测试；
-7. 再开始 reward sidecar 和 geometric critic。
+1. 定义一行一个 `sample_id` 的版本化 reward sidecar schema；
+2. 对重复、缺失、非有限训练 reward 和来源不一致 fail-fast；
+3. 以 lazy join 方式关联 immutable shard，不回写原始轨迹；
+4. 建 episode index 与固定 train/validation/test split manifest；
+5. 接入正式 reward scorer，输出 good/medium/bad/invalid 分层和分布审计；
+6. 再进行 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
 
-在这七项完成之前，不启动全量离线训练。
+在 reward 完整性、split 无泄漏和 held-out baseline 对照完成之前，不启动
+全量 IQL actor 训练。

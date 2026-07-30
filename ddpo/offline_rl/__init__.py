@@ -1,10 +1,14 @@
 """Decoupled offline reinforcement-learning primitives for DiffB110.
 
-This package deliberately contains no trajectory I/O, DiffSBDD model, critic
-architecture, or trainer imports. Those layers consume the stateless
-mathematical helpers exported here.
+The package keeps trajectory I/O, policy integration, geometric critics, and
+trainer logic in separate modules while exposing their typed public boundaries.
 """
 
+from .critic_adapter import (
+    GeometricCriticInput,
+    PocketContext,
+    build_geometric_critic_input,
+)
 from .dataset import (
     DenoisingTrajectoryShard,
     OfflineTrajectoryDataError,
@@ -29,8 +33,11 @@ __all__ = [
     "DenoisingTrajectoryShard",
     "DenoisingTransitionBatch",
     "DiffSBDDPolicyAdapter",
+    "GeometricCriticInput",
     "OfflineTrajectoryDataError",
+    "PocketContext",
     "PolicyLogProbOutput",
+    "build_geometric_critic_input",
     "compute_actor_loss",
     "compute_advantage",
     "compute_advantage_weight",

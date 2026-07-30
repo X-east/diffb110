@@ -118,3 +118,23 @@ def test_mean_per_atom_is_default_logprob_mode(monkeypatch: pytest.MonkeyPatch) 
     runtime_build.build_model(config, device="cuda", dataset_name="crossdock")
 
     assert captured_kwargs["logprob_mode"] == DEFAULT_LOGPROB_MODE
+
+
+def test_export_single_pocket_context_is_detached_and_defensive() -> None:
+    """External critics must not mutate or backpropagate into cached pocket data."""
+    model = _make_model("mean_per_atom")
+    source_x = torch.randn(3, 3, requires_grad=True)
+    source_features = torch.randn(3, 4, requires_grad=True)
+    model._pocket_single = {
+        "x": source_x,
+        "one_hot": source_features,
+    }
+
+    exported = model.export_single_pocket_context()
+    exported["x"].add_(100.0)
+    exported["one_hot"].mul_(0.0)
+
+    assert not exported["x"].requires_grad
+    assert not exported["one_hot"].requires_grad
+    assert not torch.equal(exported["x"], source_x)
+    assert not torch.equal(exported["one_hot"], source_features)
