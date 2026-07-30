@@ -553,6 +553,24 @@ test split 用于离线 critic/weight 诊断，不替代新 checkpoint 的独立
 
 第一版按相同 timestep 组 batch，规避现有模型适配器取 `t[0]` 的问题。后续支持混合 timestep 后再允许完全随机 transition batch。
 
+2026-07-30 已实现 `ddpo/offline_rl/sampler.py`：
+
+- 只在一个 shard 内组成 batch，并按该 split 中可用 episode 数加权选择 shard，
+  保持 episode 等概率；
+- CPU-only LRU cache，加载时验证 shard SHA，reward sidecar 存在时完成
+  provenance-bound lazy join；
+- 默认 batch 内相同 decision index，也可显式启用 mixed-time；
+- 7 个 time bin 可配置权重，区间使用 inclusive decision index；
+- DDP 按稳定 shard-path hash 分配不重叠 shard；
+- checkpoint 保存 generator state，并绑定 index SHA、split、rank/world size、
+  time bins、owned shards 和 reward version；任一漂移拒绝恢复；
+- 记录 cache hit/miss、shard load time 和总 sampling time。
+
+真实 partial-index smoke 抽取 100 batch × 16 = 1,600 transitions，8 个 shard
+各 miss 一次、后续 92 次 cache hit，hit rate 92%；总 sampling time 约
+0.68 秒。该结果证明数据管道接口和局部缓存有效，不代表全量并发训练 I/O
+吞吐，因为当前只使用 8 个 shard 且全部能进入 cache。
+
 ### 5.6 时间分层采样
 
 均匀随机抽取 1001 步会让早期高噪声状态占据大量训练预算，而这些状态可能很难预测终局质量。
@@ -1638,15 +1656,17 @@ diffsbdd-xh-offline-iql
 ## 20. 立即执行的下一步
 
 Phase 1 的不可变 transition 与策略概率契约，以及首版几何 critic 已完成。
-reward sidecar、episode index 和 deterministic split 的代码与真实小样本
-smoke 已完成。当前下一项任务是补齐 **Phase 0 的正式奖励生成与审计闭环**：
+reward sidecar、episode index、deterministic split 和 shard-local sampler
+的代码与真实小样本 smoke 已完成。当前并行推进两条不混淆的路径：
 
-1. 等待/确认 100k collector 正式完成并冻结 manifest snapshot；
-2. 接入正式 reward scorer，输出完整 reward sidecar；
-3. 定义并冻结 reward strata 与 `actual_good_v1`；
-4. 重建全量 index 和正式 train/validation/test split；
-5. 输出 good/medium/bad/invalid 分层、分布、相关性和 scaffold 审计；
-6. 再进行 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
+1. 工程路径：实现可恢复 BC/AWR/IQL update loop 和本地记录，在 fixture/
+   partial data 上只做 smoke；
+2. 数据路径：等待/确认 100k collector 正式完成并冻结 manifest snapshot；
+3. 接入正式 reward scorer，输出完整 reward sidecar；
+4. 定义并冻结 reward strata 与 `actual_good_v1`；
+5. 重建全量 index 和正式 train/validation/test split；
+6. 输出 good/medium/bad/invalid 分层、分布、相关性和 scaffold 审计；
+7. 再进行正式 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
 
 在 reward 完整性、split 无泄漏和 held-out baseline 对照完成之前，不启动
 全量 IQL actor 训练。

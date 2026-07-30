@@ -50,12 +50,19 @@ from .reward_sidecar import (
     load_reward_sidecar,
     write_reward_sidecar,
 )
+from .sampler import (
+    DecisionTimeBin,
+    OfflineTransitionSampler,
+    SamplerStats,
+    default_diffsbdd_time_bins,
+)
 from .target import polyak_update
 
 __all__ = [
     "DenoisingEpisodeFacts",
     "DenoisingTrajectoryShard",
     "DenoisingTransitionBatch",
+    "DecisionTimeBin",
     "DiffSBDDPolicyAdapter",
     "EPISODE_INDEX_SCHEMA_VERSION",
     "EpisodeRewardFacts",
@@ -64,12 +71,14 @@ __all__ = [
     "EpisodeIndexRow",
     "GeometricCriticInput",
     "OfflineTrajectoryDataError",
+    "OfflineTransitionSampler",
     "PocketContext",
     "PolicyLogProbOutput",
     "REWARD_SIDECAR_SCHEMA_VERSION",
     "RewardJoinedTrajectoryShard",
     "RewardSidecar",
     "RewardSidecarError",
+    "SamplerStats",
     "SPLIT_MANIFEST_SCHEMA_VERSION",
     "SplitAssignment",
     "SplitManifest",
@@ -84,6 +93,7 @@ __all__ = [
     "compute_value_loss",
     "effective_sample_size",
     "expectile_loss",
+    "default_diffsbdd_time_bins",
     "load_reward_sidecar",
     "load_episode_index",
     "load_split_manifest",
