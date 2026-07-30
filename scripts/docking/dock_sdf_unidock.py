@@ -65,6 +65,24 @@ def _safe_smiles(mol: Chem.Mol) -> str:
         return ""
 
 
+def _extract_largest_fragment(mol: Chem.Mol) -> tuple[Chem.Mol, int]:
+    """Reduce a record to its largest connected fragment before docking.
+
+    Generators that keep all fragments (DiffSBDD-family) can emit disconnected
+    ligands; docking them as one entity inflates apparent affinity. We keep only
+    the largest connected component while preserving 3D coordinates, and return
+    the original fragment count so downstream logs can report reductions.
+    """
+    try:
+        fragments = Chem.GetMolFrags(mol, asMols=True, sanitizeFrags=True)
+    except Exception:
+        return mol, 1
+    if not fragments:
+        return mol, 1
+    largest = max(fragments, key=lambda m: m.GetNumAtoms())
+    return largest, len(fragments)
+
+
 def load_center_from_json(path: Path) -> dict:
     """Load docking box center from a ligand_center.json file."""
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -83,10 +101,14 @@ def split_sdf(
     metadata: dict[str, dict[str, str]] = {}
     read_failed = 0
     write_failed = 0
+    fragments_reduced = 0
     for idx, mol in enumerate(supplier):
         if mol is None:
             read_failed += 1
             continue
+        mol, fragment_count = _extract_largest_fragment(mol)
+        if fragment_count > 1:
+            fragments_reduced += 1
         stem = f"{model.lower()}_{idx:06d}"
         path = split_dir / f"{stem}.sdf"
         mol.SetProp("benchmark_model", model)
@@ -106,12 +128,15 @@ def split_sdf(
             "source_sdf": str(input_sdf),
             "split_sdf": str(path),
             "input_smiles": _safe_smiles(mol),
+            "fragments_original": str(fragment_count),
+            "fragments_kept": "1",
         }
     metadata["__split_summary__"] = {
         "input_sdf_records_seen": str(idx + 1 if "idx" in dir() else 0),
         "split_ligands": str(len(ligand_paths)),
         "read_failed": str(read_failed),
         "write_failed": str(write_failed),
+        "fragments_reduced": str(fragments_reduced),
     }
     return ligand_paths, metadata
 
@@ -220,6 +245,8 @@ def write_csv(rows: list[dict[str, object]], path: Path) -> None:
         "success",
         "score",
         "input_smiles",
+        "fragments_original",
+        "fragments_kept",
         "source_sdf",
         "split_sdf",
         "output_file",
