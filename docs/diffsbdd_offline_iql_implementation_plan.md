@@ -178,8 +178,9 @@ latents[:, 0]      = z_T
 latents[:, 1]      = z_{T-1}
 ...
 latents[:, 1000]   = z_0
-latents[:, 1001]   = xh_final（解码得到的连续坐标+连续原子特征）
-categorical        = xh_final 原子特征 argmax 后用于重建的 one-hot
+latents[:, 1001]   = xh_final（解码采样的连续坐标+连续特征）
+x                   = xh_final 的坐标通道
+categorical         = z_0 原子特征 argmax 后用于重建的 one-hot
 ```
 
 每个 SDF 分子含 `sample_id`，可以稳定回接 shard 中对应 episode。无效分子虽然不一定写入 SDF，但仍有 trajectory 和 `reconstruction_rows`，必须在 reward sidecar 中显式记录并给予有限惩罚。
@@ -248,20 +249,20 @@ s_T=(z_0,0,c,\text{decode})
 \]
 
 \[
-a_T=xh_{\text{final}}
+a_T=x_{\text{final}}
 \]
 
 \[
 \pi_\theta(a_T|s_T)
-=p_\theta(xh_{\text{final}}|z_0,c)
+=p_\theta(x_{\text{final}}|z_0,c)
 \]
 
 然后环境执行非可微但确定/随机性受控的后处理：
 
 ```text
-xh_final
-  -> 坐标 x
-  -> 连续 atom feature argmax
+z_0 + xh_final
+  -> xh_final 的坐标通道得到坐标 x
+  -> z_0 的 atom feature argmax
   -> categorical one-hot
   -> bond reconstruction
   -> RDKit sanitize
@@ -269,7 +270,10 @@ xh_final
   -> terminal reward
 ```
 
-final decode 不能调用普通 `p(z_s|z_t)` 的 log-prob。
+当前冻结 DiffSBDD 实现虽然还采样并保存 `xh_final` 的连续 h 通道，但实际
+输出 atom type 不消费这些通道。因此 final decode 的有效 action 和 actor
+log-prob 只覆盖 xyz；保存的 h 通道作为 provenance 保留。final decode 不能
+调用普通 `p(z_s|z_t)` 的 log-prob。
 
 ### 3.4 奖励和终止
 
@@ -343,7 +347,7 @@ L_V(\psi)
 Q 的 TD loss：
 
 \[
-y=r+\gamma(1-d)V_{\bar\psi}(s')
+y=r+\gamma(1-d)V_\psi(s')
 \]
 
 \[
@@ -474,11 +478,13 @@ class DenoisingEpisodeFacts:
 训练 batch 计划字段：
 
 ```text
-state_latent       [B,N,D]
-action_latent      [B,N,D]
-next_state_latent  [B,N,D] 或 terminal placeholder
-timestep           [B]
-next_timestep      [B]
+state_latent                 [B,N,D]
+action_latent                [B,N,D]
+next_state_latent            [B,N,D] 或 terminal placeholder
+action_mask                  [B,N,D]
+recorded_timestep            [B]
+source_diffusion_timestep    [B]
+target_diffusion_timestep    [B]
 node_mask          [B,N,1]
 nodesxsample       [B]
 reward             [B]
@@ -488,7 +494,7 @@ sample_id          list[str]
 reward components  可选 CPU metadata
 ```
 
-由于普通反向步满足 `next_state_latent == action_latent`，仍保留两个语义字段；数据 loader 可共享 tensor storage，但接口不混用。
+由于普通反向步满足 `next_state_latent == action_latent`，仍保留两个语义字段；数据 loader 可共享 tensor storage，但接口不混用。普通步的 source/target timestep 分别为 `s+1` 和 `s`；final decode 为 `0` 和 terminal sentinel `-1`。final action 只有 xyz 通道影响输出，atom type 来自 state `z_0` 的特征通道，因此 final `action_mask` 只开放 xyz。
 
 ### 5.4 episode 级切分
 
@@ -738,7 +744,10 @@ class PolicyLogProbOutput:
 
 ### 7.3 log-prob 聚合语义
 
-现有默认是按有效原子归一化的稳定 pseudo/joint log-prob，并进行 `[-100,0]` 截断。IQL 不需要行为策略 ratio，因此旧 `logps` 的截断不阻止 critic 学习。
+现有默认是按有效原子归一化的稳定 pseudo/joint score，并进行 `[-100,0]`
+截断；数据层命名为 `recorded_behavior_score`，不把它冒充未截断、归一化
+的行为策略 log-prob。IQL 不需要行为策略 ratio，因此旧 `logps` 的截断不
+阻止 critic 学习。
 
 但 actor 的加权 NLL 必须预注册一种聚合方式：
 
@@ -770,7 +779,10 @@ class PolicyLogProbOutput:
 
 检查：
 
-- stored 与 recomputed 行为策略 log-prob 在预设容差内；
+- ordinary step 的 stored score 与同聚合/截断定义下的 recomputed score
+  在预设容差内；
+- final step 分别验证 legacy 全 13 维 score round-trip 和训练使用的
+  coordinate-only score，二者不得混称；
 - batch 与逐样本计算一致；
 - final branch 与普通 branch 不串用；
 - gradient 只流向当前 actor 参数；

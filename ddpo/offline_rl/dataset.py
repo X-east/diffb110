@@ -209,8 +209,8 @@ class DenoisingTrajectoryShard:
 
         state = self.latents[episodes, decisions]
         action = self.latents[episodes, decisions + 1]
-        behavior_log_prob = self.logps[episodes, decisions]
-        diffusion_timestep = self.timesteps[episodes, decisions]
+        recorded_behavior_score = self.logps[episodes, decisions]
+        recorded_timestep = self.timesteps[episodes, decisions]
         nodes = self.nodesxsample[episodes]
         node_ids = torch.arange(self.max_n_nodes).unsqueeze(0)
         node_mask = (
@@ -219,6 +219,19 @@ class DenoisingTrajectoryShard:
             .unsqueeze(-1)
         )
         is_final = decisions == self.final_decision_index
+        source_diffusion_timestep = recorded_timestep + 1
+        source_diffusion_timestep = torch.where(
+            is_final,
+            torch.zeros_like(source_diffusion_timestep),
+            source_diffusion_timestep,
+        )
+        target_diffusion_timestep = torch.where(
+            is_final,
+            torch.full_like(recorded_timestep, -1),
+            recorded_timestep,
+        )
+        action_mask = node_mask.expand_as(action).clone()
+        action_mask[is_final, :, 3:] = 0
 
         reward: torch.Tensor | None = None
         if episode_rewards is not None:
@@ -245,8 +258,11 @@ class DenoisingTrajectoryShard:
             state_latent=state,
             action_latent=action,
             next_state_latent=action,
-            behavior_log_prob=behavior_log_prob,
-            diffusion_timestep=diffusion_timestep,
+            action_mask=action_mask,
+            recorded_behavior_score=recorded_behavior_score,
+            recorded_timestep=recorded_timestep,
+            source_diffusion_timestep=source_diffusion_timestep,
+            target_diffusion_timestep=target_diffusion_timestep,
             decision_index=decisions,
             episode_index=episodes,
             nodesxsample=nodes,
@@ -307,7 +323,8 @@ class DenoisingTrajectoryShard:
 
     def _validate_episode_index(self, episode_index: int) -> int:
         """Return one in-range episode index."""
-        index = int(episode_index)
+        normalized = _as_cpu_indices([episode_index], name="episode_index")
+        index = int(normalized.item())
         if index < 0 or index >= self.batch_size:
             raise IndexError(
                 f"episode_index {index} outside [0, {self.batch_size})"

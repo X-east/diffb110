@@ -19,8 +19,24 @@ def _make_batch() -> DenoisingTransitionBatch:
         state_latent=state,
         action_latent=action,
         next_state_latent=action,
-        behavior_log_prob=torch.zeros(batch_size),
-        diffusion_timestep=torch.tensor([2, 0], dtype=torch.long),
+        action_mask=torch.tensor(
+            [
+                [
+                    [1.0, 1.0, 1.0, 1.0],
+                    [1.0, 1.0, 1.0, 1.0],
+                    [0.0, 0.0, 0.0, 0.0],
+                ],
+                [
+                    [1.0, 1.0, 1.0, 0.0],
+                    [1.0, 1.0, 1.0, 0.0],
+                    [1.0, 1.0, 1.0, 0.0],
+                ],
+            ]
+        ),
+        recorded_behavior_score=torch.zeros(batch_size),
+        recorded_timestep=torch.tensor([2, 0], dtype=torch.long),
+        source_diffusion_timestep=torch.tensor([3, 0], dtype=torch.long),
+        target_diffusion_timestep=torch.tensor([2, -1], dtype=torch.long),
         decision_index=torch.tensor([0, 3], dtype=torch.long),
         episode_index=torch.tensor([0, 1], dtype=torch.long),
         nodesxsample=torch.tensor([2, 3], dtype=torch.long),
@@ -93,5 +109,25 @@ def test_transition_batch_requires_finite_reward() -> None:
             **{
                 **batch.__dict__,
                 "reward": torch.tensor([0.0, float("nan")]),
+            }
+        )
+
+
+def test_transition_batch_rejects_timestep_and_action_mask_drift() -> None:
+    """Source/target times and final xyz action semantics must remain explicit."""
+    batch = _make_batch()
+
+    with pytest.raises(ValueError, match="source timestep"):
+        DenoisingTransitionBatch(
+            **{
+                **batch.__dict__,
+                "source_diffusion_timestep": torch.tensor([2, 0]),
+            }
+        )
+    with pytest.raises(ValueError, match="only xyz"):
+        DenoisingTransitionBatch(
+            **{
+                **batch.__dict__,
+                "action_mask": batch.node_mask.expand_as(batch.action_latent),
             }
         )

@@ -39,6 +39,10 @@ class DenoisingTransitionBatch:
     ``next_state_latent`` equals the sampled action for DiffSBDD's deterministic
     state transition. For final decode actions it represents the terminal
     ``xh_final`` observation; ``done=True`` prevents value bootstrapping.
+    ``action_mask`` marks action dimensions that affect the MDP: all latent
+    dimensions for ordinary reverse steps and xyz only for final decode, because
+    the frozen DiffSBDD decoder derives atom types from ``z0`` rather than the
+    sampled final h channels.
     ``reward`` remains ``None`` until an explicit episode-reward sidecar is
     supplied by the caller.
     """
@@ -46,8 +50,11 @@ class DenoisingTransitionBatch:
     state_latent: torch.Tensor
     action_latent: torch.Tensor
     next_state_latent: torch.Tensor
-    behavior_log_prob: torch.Tensor
-    diffusion_timestep: torch.Tensor
+    action_mask: torch.Tensor
+    recorded_behavior_score: torch.Tensor
+    recorded_timestep: torch.Tensor
+    source_diffusion_timestep: torch.Tensor
+    target_diffusion_timestep: torch.Tensor
     decision_index: torch.Tensor
     episode_index: torch.Tensor
     nodesxsample: torch.Tensor
@@ -69,6 +76,7 @@ class DenoisingTransitionBatch:
         for name, tensor in (
             ("action_latent", self.action_latent),
             ("next_state_latent", self.next_state_latent),
+            ("action_mask", self.action_mask),
         ):
             if tuple(tensor.shape) != expected_latent_shape:
                 raise ValueError(
@@ -78,8 +86,10 @@ class DenoisingTransitionBatch:
 
         expected_vector_shape = (batch_size,)
         for name, tensor in (
-            ("behavior_log_prob", self.behavior_log_prob),
-            ("diffusion_timestep", self.diffusion_timestep),
+            ("recorded_behavior_score", self.recorded_behavior_score),
+            ("recorded_timestep", self.recorded_timestep),
+            ("source_diffusion_timestep", self.source_diffusion_timestep),
+            ("target_diffusion_timestep", self.target_diffusion_timestep),
             ("decision_index", self.decision_index),
             ("episode_index", self.episode_index),
             ("nodesxsample", self.nodesxsample),
@@ -114,13 +124,71 @@ class DenoisingTransitionBatch:
                 "DiffSBDD v1 transitions require done == is_final_decode"
             )
         for name, tensor in (
-            ("diffusion_timestep", self.diffusion_timestep),
+            ("recorded_timestep", self.recorded_timestep),
+            ("source_diffusion_timestep", self.source_diffusion_timestep),
+            ("target_diffusion_timestep", self.target_diffusion_timestep),
             ("decision_index", self.decision_index),
             ("episode_index", self.episode_index),
             ("nodesxsample", self.nodesxsample),
         ):
             if tensor.dtype not in (torch.int32, torch.int64):
                 raise TypeError(f"{name} must be an integer tensor, got {tensor.dtype}")
+        if not bool(torch.isfinite(self.recorded_behavior_score).all()):
+            raise ValueError("recorded_behavior_score must contain only finite values")
+        if not bool(
+            torch.logical_or(self.node_mask == 0, self.node_mask == 1).all()
+        ):
+            raise ValueError("node_mask must contain only zero or one")
+        if not bool(
+            torch.logical_or(self.action_mask == 0, self.action_mask == 1).all()
+        ):
+            raise ValueError("action_mask must contain only zero or one")
+        expected_node_mask = (
+            torch.arange(
+                int(self.state_latent.shape[1]),
+                device=self.device,
+            ).unsqueeze(0)
+            < self.nodesxsample.unsqueeze(1)
+        ).to(dtype=self.node_mask.dtype).unsqueeze(-1)
+        if not torch.equal(self.node_mask, expected_node_mask):
+            raise ValueError("node_mask must match nodesxsample")
+
+        expected_action_mask = self.node_mask.expand_as(self.action_mask).clone()
+        final_rows = self.is_final_decode
+        if bool(final_rows.any()):
+            expected_action_mask[final_rows, :, 3:] = 0
+        if not torch.equal(self.action_mask, expected_action_mask):
+            raise ValueError(
+                "action_mask must cover all ordinary latent dimensions and "
+                "only xyz dimensions for final decode"
+            )
+        ordinary_rows = ~self.is_final_decode
+        if bool(
+            torch.any(
+                self.source_diffusion_timestep[ordinary_rows]
+                != self.target_diffusion_timestep[ordinary_rows] + 1
+            )
+        ):
+            raise ValueError(
+                "ordinary transitions require source timestep = target timestep + 1"
+            )
+        if bool(
+            torch.any(
+                self.recorded_timestep[ordinary_rows]
+                != self.target_diffusion_timestep[ordinary_rows]
+            )
+        ):
+            raise ValueError(
+                "ordinary recorded timestep must equal target diffusion timestep"
+            )
+        if bool(final_rows.any()) and (
+            bool(torch.any(self.recorded_timestep[final_rows] != 0))
+            or bool(torch.any(self.source_diffusion_timestep[final_rows] != 0))
+            or bool(torch.any(self.target_diffusion_timestep[final_rows] != -1))
+        ):
+            raise ValueError(
+                "final decode requires recorded/source timestep 0 and target timestep -1"
+            )
         if len(self.sample_ids) != batch_size:
             raise ValueError(
                 f"sample_ids length {len(self.sample_ids)} "
@@ -170,11 +238,20 @@ class DenoisingTransitionBatch:
                 target,
                 non_blocking=non_blocking,
             ),
-            behavior_log_prob=self.behavior_log_prob.to(
+            action_mask=self.action_mask.to(target, non_blocking=non_blocking),
+            recorded_behavior_score=self.recorded_behavior_score.to(
                 target,
                 non_blocking=non_blocking,
             ),
-            diffusion_timestep=self.diffusion_timestep.to(
+            recorded_timestep=self.recorded_timestep.to(
+                target,
+                non_blocking=non_blocking,
+            ),
+            source_diffusion_timestep=self.source_diffusion_timestep.to(
+                target,
+                non_blocking=non_blocking,
+            ),
+            target_diffusion_timestep=self.target_diffusion_timestep.to(
                 target,
                 non_blocking=non_blocking,
             ),
@@ -210,8 +287,11 @@ class DenoisingTransitionBatch:
             self.state_latent,
             self.action_latent,
             self.next_state_latent,
-            self.behavior_log_prob,
-            self.diffusion_timestep,
+            self.action_mask,
+            self.recorded_behavior_score,
+            self.recorded_timestep,
+            self.source_diffusion_timestep,
+            self.target_diffusion_timestep,
             self.decision_index,
             self.episode_index,
             self.nodesxsample,

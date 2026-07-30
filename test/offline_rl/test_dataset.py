@@ -169,8 +169,10 @@ def test_select_transitions_distinguishes_ordinary_and_final_actions(
         shard.latents[torch.tensor([0, 1]), torch.tensor([2, 4])],
     )
     torch.testing.assert_close(batch.next_state_latent, batch.action_latent)
-    assert batch.behavior_log_prob.tolist() == pytest.approx([1.0, 7.0])
-    assert batch.diffusion_timestep.tolist() == [1, 0]
+    assert batch.recorded_behavior_score.tolist() == pytest.approx([1.0, 7.0])
+    assert batch.recorded_timestep.tolist() == [1, 0]
+    assert batch.source_diffusion_timestep.tolist() == [2, 0]
+    assert batch.target_diffusion_timestep.tolist() == [1, -1]
     assert batch.decision_index.tolist() == [1, 3]
     assert batch.done.tolist() == [False, True]
     assert batch.is_final_decode.tolist() == [False, True]
@@ -180,6 +182,18 @@ def test_select_transitions_distinguishes_ordinary_and_final_actions(
     assert batch.node_mask[:, :, 0].tolist() == [
         [1.0, 1.0, 0.0, 0.0],
         [1.0, 1.0, 1.0, 1.0],
+    ]
+    assert batch.action_mask[0].tolist() == [
+        [1.0] * 5,
+        [1.0] * 5,
+        [0.0] * 5,
+        [0.0] * 5,
+    ]
+    assert batch.action_mask[1].tolist() == [
+        [1.0, 1.0, 1.0, 0.0, 0.0],
+        [1.0, 1.0, 1.0, 0.0, 0.0],
+        [1.0, 1.0, 1.0, 0.0, 0.0],
+        [1.0, 1.0, 1.0, 0.0, 0.0],
     ]
 
 
@@ -220,6 +234,8 @@ def test_transition_selection_rejects_invalid_indices_and_rewards(
         shard.select_transition(0, 4)
     with pytest.raises(OfflineTrajectoryDataError, match="integer indices"):
         shard.select_transitions([0.5], [0])
+    with pytest.raises(OfflineTrajectoryDataError, match="integer indices"):
+        shard.select_transition(0.5, 0)
     with pytest.raises(OfflineTrajectoryDataError, match="length"):
         shard.select_transitions([0], [0], episode_rewards=[1.0])
     with pytest.raises(OfflineTrajectoryDataError, match="finite"):
@@ -307,7 +323,16 @@ def test_real_formal_shard_matches_offline_transition_contract() -> None:
     final = shard.select_transition(0, shard.final_decision_index)
     torch.testing.assert_close(final.state_latent[0], shard.latents[0, -2])
     torch.testing.assert_close(final.action_latent[0], shard.latents[0, -1])
-    assert final.diffusion_timestep.item() == 0
+    assert final.recorded_timestep.item() == 0
+    assert final.source_diffusion_timestep.item() == 0
+    assert final.target_diffusion_timestep.item() == -1
     assert final.done.item() is True
     assert final.is_final_decode.item() is True
     assert final.reward is None
+    num_nodes = int(shard.nodesxsample[0].item())
+    assert torch.equal(
+        shard.categorical[0, :num_nodes].argmax(dim=-1),
+        shard.latents[0, -2, :num_nodes, 3:].argmax(dim=-1),
+    )
+    assert bool(torch.all(final.action_mask[0, :num_nodes, :3] == 1))
+    assert bool(torch.all(final.action_mask[0, :num_nodes, 3:] == 0))
