@@ -8,7 +8,7 @@ not depend on DiffSBDD policy internals or trajectory-shard storage.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Mapping
 
 import torch
@@ -282,4 +282,47 @@ def build_geometric_critic_input(
         pocket_mask=pocket_mask,
         normalized_timestep=normalized_timestep,
         is_final_decode=transitions.is_final_decode,
+    )
+
+
+def build_next_geometric_critic_input(
+    transitions: DenoisingTransitionBatch,
+    pocket: PocketContext,
+    *,
+    num_diffusion_steps: int,
+) -> GeometricCriticInput:
+    """Build the successor-state input used by the IQL TD target.
+
+    The successor of an ordinary reverse step is its sampled action latent.
+    If that successor is ``z0`` then its next decision is final decode. Terminal
+    successors are still represented by finite tensors, but ``done`` removes
+    their value from the TD target.
+    """
+    current = build_geometric_critic_input(
+        transitions,
+        pocket,
+        num_diffusion_steps=num_diffusion_steps,
+    )
+    ligand_mask = current.ligand_mask
+    next_state_coordinates = (
+        transitions.next_state_latent[..., :3] * ligand_mask
+    )
+    next_state_features = (
+        transitions.next_state_latent[..., 3:] * ligand_mask
+    )
+    next_timestep = transitions.target_diffusion_timestep.clamp_min(0).to(
+        dtype=transitions.state_latent.dtype
+    ) / float(num_diffusion_steps)
+    next_is_final_decode = torch.logical_and(
+        ~transitions.done,
+        transitions.target_diffusion_timestep == 0,
+    )
+    return replace(
+        current,
+        state_coordinates=next_state_coordinates,
+        state_features=next_state_features,
+        action_coordinates=torch.zeros_like(current.action_coordinates),
+        action_features=torch.zeros_like(current.action_features),
+        normalized_timestep=next_timestep,
+        is_final_decode=next_is_final_decode,
     )

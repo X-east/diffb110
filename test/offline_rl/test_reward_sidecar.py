@@ -175,7 +175,11 @@ def test_join_reorders_by_sample_id_and_keeps_source_bytes_unchanged(
     assert tuple(row.sample_id for row in joined.reward_rows) == shard.sample_ids
     assert joined.episode_rewards.tolist() == pytest.approx([2.0, -1.0])
     assert ordinary.reward is not None and ordinary.reward.item() == 0.0
+    assert ordinary.episode_return is not None
+    assert ordinary.episode_return.item() == 2.0
     assert terminal.reward is not None and terminal.reward.item() == 2.0
+    assert terminal.episode_return is not None
+    assert terminal.episode_return.item() == 2.0
     assert shard_path.read_bytes() == bytes_before
     assert shard_path.stat().st_mtime_ns == mtime_before
 

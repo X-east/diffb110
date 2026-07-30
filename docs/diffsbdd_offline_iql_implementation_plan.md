@@ -496,6 +496,16 @@ reward components  可选 CPU metadata
 
 由于普通反向步满足 `next_state_latent == action_latent`，仍保留两个语义字段；数据 loader 可共享 tensor storage，但接口不混用。普通步的 source/target timestep 分别为 `s+1` 和 `s`；final decode 为 `0` 和 terminal sentinel `-1`。final action 只有 xyz 通道影响输出，atom type 来自 state `z_0` 的特征通道，因此 final `action_mask` 只开放 xyz。
 
+实现中另增加 `episode_return [B]`，与 MDP `reward [B]` 明确分开：
+
+- `reward`：ordinary 为 0，final decode 为 episode terminal reward，用于
+  Bellman target；
+- `episode_return`：同一 episode 的所有 transition 都携带相同终局分数，
+  只用于 filtered BC/AWR 等轨迹级 actor 权重。
+
+两者必须同时存在或同时缺失，防止 AWR 把 ordinary 的稀疏 MDP reward=0
+误解释成 episode 质量为 0。
+
 ### 5.4 episode 级切分
 
 同一 episode 的 1001 个 transition 必须全部属于同一个 split。
@@ -1096,6 +1106,33 @@ test/offline_rl/
 
 具体是 actor 先于 Q 还是 Q 先于 actor，必须通过配置/实现固定并记录。首版建议每轮使用同一个 pre-update target Q 快照，避免更新次序产生隐式差异。
 
+2026-07-30 首版 `ddpo/offline_rl/trainer.py` 已固定为：
+
+1. 用 step 开始时的 frozen target Q 计算 dataset-action `Q1/Q2`；
+2. 对当前 V 做 expectile 更新；
+3. 用更新后的 V(s') 构造 TD target 并更新 online twin Q；
+4. Polyak 更新 target Q；
+5. 用同一份 pre-update target Q 与更新后 V(s) 得到 detached advantage；
+6. warm-up/interval 条件满足时更新 actor。
+
+此外实现：
+
+- BC 等权 actor updater；
+- AWR 使用冻结的 train-split reward mean/std，不允许 minibatch 自归一化；
+- IQL 使用 detached state-action advantage；
+- optimizer 必须覆盖“全部且仅 trainable”参数，接错模块 fail-fast；
+- loss/gradient finite 检查和 gradient clipping；
+- target Q 永不 requires-grad 且保持 eval；
+- checkpoint 包含 online/target Q、V、actor、三个 optimizer、更新计数、
+  module train/eval mode 和 CPU/CUDA RNG；
+- checkpoint 使用临时文件、flush/fsync 和原子替换。
+
+真实 DiffSBDD checkpoint + 真实 shard 的 final-decode GPU smoke 已完成 3
+个 update：V loss 0.0222→0.00464，twin-Q loss 1.947→1.746，actor loss
+1.760→1.600；开放的最后 2 个 dynamics 参数 tensor（16,512 参数）最大变化
+为 \(3.04\times10^{-6}\)。该 smoke 使用 validity `+1/-1` 接口探针，
+`formal_training=false`，仅证明真实 actor/Q/V 可端到端反传。
+
 ### 10.2 critic loss
 
 默认 Huber 或 MSE 需要用 reward scale smoke 决定。至少记录：
@@ -1656,11 +1693,12 @@ diffsbdd-xh-offline-iql
 ## 20. 立即执行的下一步
 
 Phase 1 的不可变 transition 与策略概率契约，以及首版几何 critic 已完成。
-reward sidecar、episode index、deterministic split 和 shard-local sampler
-的代码与真实小样本 smoke 已完成。当前并行推进两条不混淆的路径：
+reward sidecar、episode index、deterministic split、shard-local sampler
+和 BC/AWR/IQL 单步 trainer 的代码与真实小样本 smoke 已完成。当前并行推进
+两条不混淆的路径：
 
-1. 工程路径：实现可恢复 BC/AWR/IQL update loop 和本地记录，在 fixture/
-   partial data 上只做 smoke；
+1. 工程路径：实现 epoch runner、本地 metrics/logging、每 epoch checkpoint
+   和配置化入口，在 fixture/partial data 上只做 smoke；
 2. 数据路径：等待/确认 100k collector 正式完成并冻结 manifest snapshot；
 3. 接入正式 reward scorer，输出完整 reward sidecar；
 4. 定义并冻结 reward strata 与 `actual_good_v1`；

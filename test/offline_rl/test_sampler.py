@@ -235,8 +235,12 @@ def test_sampler_applies_sidecar_reward_only_to_final_decode(
 
     assert ordinary.reward is not None
     assert torch.equal(ordinary.reward, torch.zeros_like(ordinary.reward))
+    assert ordinary.episode_return is not None
+    assert bool(torch.all(ordinary.episode_return > 0))
     assert not bool(ordinary.done.any())
     assert terminal.reward is not None
+    assert terminal.episode_return is not None
+    torch.testing.assert_close(terminal.episode_return, terminal.reward)
     assert bool(torch.all(terminal.reward > 0))
     assert bool(terminal.done.all())
 

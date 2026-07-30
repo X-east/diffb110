@@ -8,6 +8,7 @@ from .critic_adapter import (
     GeometricCriticInput,
     PocketContext,
     build_geometric_critic_input,
+    build_next_geometric_critic_input,
 )
 from .dataset import (
     DenoisingTrajectoryShard,
@@ -57,6 +58,14 @@ from .sampler import (
     default_diffsbdd_time_bins,
 )
 from .target import polyak_update
+from .trainer import (
+    ActorStepMetrics,
+    ActorUpdateConfig,
+    IQLStepMetrics,
+    IQLTrainerConfig,
+    OfflineActorUpdater,
+    OfflineIQLTrainer,
+)
 
 __all__ = [
     "DenoisingEpisodeFacts",
@@ -64,14 +73,20 @@ __all__ = [
     "DenoisingTransitionBatch",
     "DecisionTimeBin",
     "DiffSBDDPolicyAdapter",
+    "ActorStepMetrics",
+    "ActorUpdateConfig",
     "EPISODE_INDEX_SCHEMA_VERSION",
     "EpisodeRewardFacts",
     "EpisodeIndex",
     "EpisodeIndexError",
     "EpisodeIndexRow",
     "GeometricCriticInput",
+    "IQLStepMetrics",
+    "IQLTrainerConfig",
     "OfflineTrajectoryDataError",
     "OfflineTransitionSampler",
+    "OfflineActorUpdater",
+    "OfflineIQLTrainer",
     "PocketContext",
     "PolicyLogProbOutput",
     "REWARD_SIDECAR_SCHEMA_VERSION",
@@ -84,6 +99,7 @@ __all__ = [
     "SplitManifest",
     "build_episode_index",
     "build_geometric_critic_input",
+    "build_next_geometric_critic_input",
     "build_split_manifest",
     "compute_actor_loss",
     "compute_advantage",

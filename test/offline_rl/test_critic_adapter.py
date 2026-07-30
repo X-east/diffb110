@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+import pytest
 import torch
 
 from ddpo.offline_rl.critic_adapter import (
     PocketContext,
     build_geometric_critic_input,
+    build_next_geometric_critic_input,
 )
 from ddpo.offline_rl.protocol import DenoisingTransitionBatch
 
@@ -123,3 +125,34 @@ def test_pocket_context_understands_diffsbdd_single_pocket_mapping() -> None:
     torch.testing.assert_close(context.coordinates, coordinates)
     torch.testing.assert_close(context.features, features.float())
     assert context.node_mask.tolist() == [[1.0], [1.0], [1.0]]
+
+
+def test_next_critic_input_uses_successor_and_next_decision_context() -> None:
+    """TD input should represent s' and mark an ordinary z0 successor."""
+    base = _make_transitions()
+    transitions = replace(
+        base,
+        recorded_timestep=torch.tensor([0, 0]),
+        source_diffusion_timestep=torch.tensor([1, 0]),
+        target_diffusion_timestep=torch.tensor([0, -1]),
+        decision_index=torch.tensor([2, 3]),
+    )
+
+    inputs = build_next_geometric_critic_input(
+        transitions,
+        _make_pocket(),
+        num_diffusion_steps=4,
+    )
+
+    torch.testing.assert_close(
+        inputs.state_coordinates,
+        transitions.next_state_latent[..., :3] * transitions.node_mask,
+    )
+    torch.testing.assert_close(
+        inputs.state_features,
+        transitions.next_state_latent[..., 3:] * transitions.node_mask,
+    )
+    assert bool(torch.all(inputs.action_coordinates == 0))
+    assert bool(torch.all(inputs.action_features == 0))
+    assert inputs.normalized_timestep.tolist() == pytest.approx([0.0, 0.0])
+    assert inputs.is_final_decode.tolist() == [True, False]

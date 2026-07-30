@@ -178,6 +178,8 @@ def test_select_transitions_distinguishes_ordinary_and_final_actions(
     assert batch.is_final_decode.tolist() == [False, True]
     assert batch.reward is not None
     assert batch.reward.tolist() == pytest.approx([0.0, 20.0])
+    assert batch.episode_return is not None
+    assert batch.episode_return.tolist() == pytest.approx([10.0, 20.0])
     assert batch.sample_ids == ("sample-0", "sample-1")
     assert batch.node_mask[:, :, 0].tolist() == [
         [1.0, 1.0, 0.0, 0.0],
@@ -204,6 +206,7 @@ def test_unscored_transition_keeps_reward_missing(tmp_path: Path) -> None:
     batch = shard.select_transition(0, shard.final_decision_index)
 
     assert batch.reward is None
+    assert batch.episode_return is None
     assert batch.done.item() is True
 
 
@@ -218,8 +221,12 @@ def test_single_transition_applies_episode_reward_only_at_terminal(
 
     assert ordinary.reward is not None
     assert ordinary.reward.item() == 0.0
+    assert ordinary.episode_return is not None
+    assert ordinary.episode_return.item() == 7.0
     assert terminal.reward is not None
     assert terminal.reward.item() == 7.0
+    assert terminal.episode_return is not None
+    assert terminal.episode_return.item() == 7.0
 
 
 def test_transition_selection_rejects_invalid_indices_and_rewards(

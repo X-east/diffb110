@@ -50,6 +50,7 @@ def _make_batch() -> DenoisingTransitionBatch:
         is_final_decode=torch.tensor([False, True]),
         sample_ids=("sample-0", "sample-1"),
         reward=torch.tensor([0.0, 5.0]),
+        episode_return=torch.tensor([2.0, 5.0]),
     )
 
 
@@ -65,6 +66,8 @@ def test_transition_batch_reports_size_device_and_moves_tensors() -> None:
     assert moved.sample_ids == batch.sample_ids
     assert moved.reward is not None
     assert moved.reward.tolist() == pytest.approx([0.0, 5.0])
+    assert moved.episode_return is not None
+    assert moved.episode_return.tolist() == pytest.approx([2.0, 5.0])
 
 
 def test_transition_batch_rejects_terminal_semantic_mismatch() -> None:
@@ -109,6 +112,13 @@ def test_transition_batch_requires_finite_reward() -> None:
             **{
                 **batch.__dict__,
                 "reward": torch.tensor([0.0, float("nan")]),
+            }
+        )
+    with pytest.raises(ValueError, match="both be present"):
+        DenoisingTransitionBatch(
+            **{
+                **batch.__dict__,
+                "episode_return": None,
             }
         )
 

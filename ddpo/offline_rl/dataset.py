@@ -241,6 +241,7 @@ class DenoisingTrajectoryShard:
         action_mask[is_final, :, 3:] = 0
 
         reward: torch.Tensor | None = None
+        episode_return: torch.Tensor | None = None
         if episode_rewards is not None:
             rewards = (
                 torch.as_tensor(episode_rewards)
@@ -260,6 +261,7 @@ class DenoisingTrajectoryShard:
                 rewards[episodes],
                 rewards.new_zeros(is_final.shape),
             )
+            episode_return = rewards[episodes]
 
         return DenoisingTransitionBatch(
             state_latent=state,
@@ -278,6 +280,7 @@ class DenoisingTrajectoryShard:
             is_final_decode=is_final,
             sample_ids=tuple(self.sample_ids[int(index)] for index in episodes),
             reward=reward,
+            episode_return=episode_return,
         )
 
     def select_transition(

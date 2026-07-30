@@ -44,7 +44,10 @@ class DenoisingTransitionBatch:
     the frozen DiffSBDD decoder derives atom types from ``z0`` rather than the
     sampled final h channels.
     ``reward`` remains ``None`` until an explicit episode-reward sidecar is
-    supplied by the caller.
+    supplied by the caller. Once supplied, ``reward`` follows the sparse MDP
+    convention (zero on ordinary transitions and terminal return on final
+    decode), while ``episode_return`` repeats the final episode score on every
+    selected transition for return-weighted BC/AWR baselines.
     """
 
     state_latent: torch.Tensor
@@ -63,6 +66,7 @@ class DenoisingTransitionBatch:
     is_final_decode: torch.Tensor
     sample_ids: tuple[str, ...]
     reward: torch.Tensor | None = None
+    episode_return: torch.Tensor | None = None
 
     def __post_init__(self) -> None:
         """Validate shapes, devices, and terminal semantics."""
@@ -201,6 +205,22 @@ class DenoisingTransitionBatch:
             )
         if self.reward is not None and not bool(torch.isfinite(self.reward).all()):
             raise ValueError("reward must contain only finite values")
+        if self.episode_return is not None and tuple(
+            self.episode_return.shape
+        ) != expected_vector_shape:
+            raise ValueError(
+                f"episode_return must have shape {expected_vector_shape}, "
+                f"got {tuple(self.episode_return.shape)}"
+            )
+        if self.episode_return is not None and not bool(
+            torch.isfinite(self.episode_return).all()
+        ):
+            raise ValueError("episode_return must contain only finite values")
+        if (self.reward is None) != (self.episode_return is None):
+            raise ValueError(
+                "reward and episode_return must either both be present or both "
+                "be absent"
+            )
 
         tensor_devices = {
             tensor.device
@@ -279,6 +299,14 @@ class DenoisingTransitionBatch:
                 if self.reward is None
                 else self.reward.to(target, non_blocking=non_blocking)
             ),
+            episode_return=(
+                None
+                if self.episode_return is None
+                else self.episode_return.to(
+                    target,
+                    non_blocking=non_blocking,
+                )
+            ),
         )
 
     def _tensor_values(self) -> tuple[torch.Tensor | None, ...]:
@@ -299,4 +327,5 @@ class DenoisingTransitionBatch:
             self.done,
             self.is_final_decode,
             self.reward,
+            self.episode_return,
         )
