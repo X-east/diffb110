@@ -1,0 +1,30 @@
+# 冒烟测试 — DiffSBDD 冻结策略轨迹收集（多卡 / 每卡不同随机种子）
+# 用途: 验证 1000 步扩散轨迹可被持久化为可训练 shard，且每卡 seed=local_rank+1 不同
+# 运行: CONFIG_PATH=launch/smoke_diffsbdd_collect.yaml bash launch/smoke_diffsbdd_collect.sh
+# 规模: 2 GPU × 2 shard/rank × 2 mol/shard = 8 分子 + 轨迹
+# 预期耗时: 1-3 分钟
+
+name: smoke_diffsbdd_collect
+
+model:
+  checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
+  time_step: 1000
+  pocket_pdb: "./data/8GJL.pdb"
+  ref_ligand: "C:1101"
+  dataset_name: "crossdock"
+  device: "cuda"
+
+diffsbdd_collection:
+  batch_size_per_rank: 2
+  num_shards_per_rank: 2
+  min_nodes: 4
+  max_nodes: 8
+  max_n_nodes: 12
+  reconstruction_method: "openbabel"
+  output_root: "runs/diffsbdd_collect"
+
+dataloader:
+  rollout_micro_batch_size: 2
+
+output:
+  dir: "./runs/diffsbdd_collect/<run_name>_<YYYYMMDD>_<seq>"
