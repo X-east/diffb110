@@ -518,6 +518,24 @@ test 10%
 
 test split 用于离线 critic/weight 诊断，不替代新 checkpoint 的独立生成评价。
 
+2026-07-30 已实现 `ddpo/offline_rl/index.py`：
+
+- 从一次性读取的 completed collector manifest snapshot 构建 episode index；
+- 对每个 shard 校验 manifest SHA-256、rank/shard locator、checkpoint 和
+  episode sample ID；
+- index 一行定位一个 episode，不展开 1001 个 transition；
+- index/split 均使用 canonical digest，split 与精确 index 内容绑定；
+- split 以整个 episode 为单位，按 reward stratum（可选）、validity 和节点数
+  分层，再以稳定 sample hash 排序；
+- 分层整数配额同时强制全局 80/10/10 精确计数，避免小 stratum 各自取整
+  导致 validation/test 枯竭；
+- reward strata 缺失时只能显式生成 `unscored` 诊断 split，不作为正式冻结
+  split。
+
+正式 100k 收集仍在进行，因此当前只完成 8 shard/80 episode smoke：
+49 valid、31 invalid；修正小层取整后 split 为 64/8/8。当前 artifact 明确记录
+`formal_split=false`，待收集和正式 reward 完成后重建并冻结全量 split。
+
 ### 5.5 lazy shard sampler
 
 禁止展开为约 1.001 亿个独立文件或 CSV 行。
@@ -1620,14 +1638,15 @@ diffsbdd-xh-offline-iql
 ## 20. 立即执行的下一步
 
 Phase 1 的不可变 transition 与策略概率契约，以及首版几何 critic 已完成。
-reward sidecar 的 schema、CSV round-trip 和 immutable shard join 已完成。
-当前下一项任务是补齐 **Phase 0 的 episode index/split 与正式奖励审计闭环**：
+reward sidecar、episode index 和 deterministic split 的代码与真实小样本
+smoke 已完成。当前下一项任务是补齐 **Phase 0 的正式奖励生成与审计闭环**：
 
-1. 从 collector manifest 建全局唯一 episode index；
-2. 生成固定 train/validation/test split manifest 并验证 episode 无泄漏；
-3. 接入正式 reward scorer，输出完整 reward sidecar；
-4. 输出 good/medium/bad/invalid 分层、分布、相关性和 scaffold 审计；
-5. 再进行 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
+1. 等待/确认 100k collector 正式完成并冻结 manifest snapshot；
+2. 接入正式 reward scorer，输出完整 reward sidecar；
+3. 定义并冻结 reward strata 与 `actual_good_v1`；
+4. 重建全量 index 和正式 train/validation/test split；
+5. 输出 good/medium/bad/invalid 分层、分布、相关性和 scaffold 审计；
+6. 再进行 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
 
 在 reward 完整性、split 无泄漏和 held-out baseline 对照完成之前，不启动
 全量 IQL actor 训练。

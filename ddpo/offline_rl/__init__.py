@@ -24,6 +24,21 @@ from .losses import (
     effective_sample_size,
     expectile_loss,
 )
+from .index import (
+    EPISODE_INDEX_SCHEMA_VERSION,
+    SPLIT_MANIFEST_SCHEMA_VERSION,
+    EpisodeIndex,
+    EpisodeIndexError,
+    EpisodeIndexRow,
+    SplitAssignment,
+    SplitManifest,
+    build_episode_index,
+    build_split_manifest,
+    load_episode_index,
+    load_split_manifest,
+    write_episode_index,
+    write_split_manifest,
+)
 from .policy_adapter import DiffSBDDPolicyAdapter, PolicyLogProbOutput
 from .protocol import DenoisingEpisodeFacts, DenoisingTransitionBatch
 from .reward_sidecar import (
@@ -42,7 +57,11 @@ __all__ = [
     "DenoisingTrajectoryShard",
     "DenoisingTransitionBatch",
     "DiffSBDDPolicyAdapter",
+    "EPISODE_INDEX_SCHEMA_VERSION",
     "EpisodeRewardFacts",
+    "EpisodeIndex",
+    "EpisodeIndexError",
+    "EpisodeIndexRow",
     "GeometricCriticInput",
     "OfflineTrajectoryDataError",
     "PocketContext",
@@ -51,7 +70,12 @@ __all__ = [
     "RewardJoinedTrajectoryShard",
     "RewardSidecar",
     "RewardSidecarError",
+    "SPLIT_MANIFEST_SCHEMA_VERSION",
+    "SplitAssignment",
+    "SplitManifest",
+    "build_episode_index",
     "build_geometric_critic_input",
+    "build_split_manifest",
     "compute_actor_loss",
     "compute_advantage",
     "compute_advantage_weight",
@@ -61,7 +85,11 @@ __all__ = [
     "effective_sample_size",
     "expectile_loss",
     "load_reward_sidecar",
+    "load_episode_index",
+    "load_split_manifest",
     "load_trajectory_shard",
     "polyak_update",
     "write_reward_sidecar",
+    "write_episode_index",
+    "write_split_manifest",
 ]
