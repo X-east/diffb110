@@ -20,6 +20,7 @@ from .losses import (
     effective_sample_size,
     expectile_loss,
 )
+from .policy_adapter import DiffSBDDPolicyAdapter, PolicyLogProbOutput
 from .protocol import DenoisingEpisodeFacts, DenoisingTransitionBatch
 from .target import polyak_update
 
@@ -27,7 +28,9 @@ __all__ = [
     "DenoisingEpisodeFacts",
     "DenoisingTrajectoryShard",
     "DenoisingTransitionBatch",
+    "DiffSBDDPolicyAdapter",
     "OfflineTrajectoryDataError",
+    "PolicyLogProbOutput",
     "compute_actor_loss",
     "compute_advantage",
     "compute_advantage_weight",

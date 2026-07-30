@@ -714,18 +714,13 @@ mode="final_decode_log_prob"
 
 当前 DiffSBDD 包装器在批内 timestep 不相等时仍取第一个标量 timestep。第一阶段使用同 timestep batch；接口修复后增加混合 timestep 等价测试。
 
-### 7.2 计划接口
+### 7.2 已实现接口
 
 ```python
 class DiffSBDDPolicyAdapter:
     def log_prob(
         self,
-        *,
-        state_latent: torch.Tensor,
-        action_latent: torch.Tensor,
-        timestep: torch.Tensor,
-        node_mask: torch.Tensor,
-        is_final_decode: torch.Tensor,
+        transitions: DenoisingTransitionBatch,
     ) -> PolicyLogProbOutput:
         ...
 ```
@@ -736,11 +731,16 @@ class DiffSBDDPolicyAdapter:
 @dataclass
 class PolicyLogProbOutput:
     log_prob: torch.Tensor
-    reverse_log_prob: torch.Tensor | None
-    final_decode_log_prob: torch.Tensor | None
-    mean: torch.Tensor | None
-    sigma: torch.Tensor | None
+    mean: torch.Tensor
+    sigma: torch.Tensor
+    ordinary_mask: torch.Tensor
+    final_decode_mask: torch.Tensor
 ```
+
+adapter 将 ordinary transition 按 `target_diffusion_timestep` 分组后分别调用
+`mode="offline_reverse_log_prob"`，避免 DiffSBDD dynamics 的标量 timestep
+接口误用 `t[0]`；final transition 单独调用
+`mode="offline_final_decode_log_prob"` 并使用 coordinate-only action mask。
 
 ### 7.3 log-prob 聚合语义
 
@@ -788,6 +788,20 @@ class PolicyLogProbOutput:
 - gradient 只流向当前 actor 参数；
 - padding 修改不改变有效区域 log-prob；
 - CPU mismatch 不被误当作 GPU 生成概率错误，正式判据使用同设备测试。
+
+2026-07-30 使用正式 checkpoint、GPU 0 和真实 shard 的 v1 验证结果：
+
+| 检查 | 结果 |
+|---|---:|
+| ordinary decisions `0/500/999` stored vs recomputed | 逐点误差 `0` |
+| legacy final 13D score round-trip | 绝对误差 `1.24e-5` |
+| mixed batch vs 逐条计算 | 最大绝对误差 `9.90e-6` |
+| padding/final-h 扰动不变性 | 最大绝对误差 `2.67e-5` |
+| 收到梯度的参数 tensor | 111 |
+| 梯度 finite | 是 |
+
+GPU scatter/reduction 存在约 `1e-5` 级非确定性，因此正式 round-trip 容差设为
+`1e-4`，不能要求跨 forward bitwise equal。
 
 ---
 

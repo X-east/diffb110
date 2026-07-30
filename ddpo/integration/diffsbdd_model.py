@@ -88,6 +88,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
         """
         if mode == "ddpo_log_prob":
             return self.forward_ddpo_log_prob(**kwargs)
+        if mode == "offline_reverse_log_prob":
+            return self.forward_ddpo_log_prob(**kwargs)
+        if mode == "offline_final_decode_log_prob":
+            return self.forward_offline_final_decode_log_prob(**kwargs)
         raise ValueError(f"Unsupported DiffSBDDModel forward mode: {mode}")
     
     def __init__(
@@ -556,7 +560,10 @@ class DiffSBDDModel(nn.Module, BaseModel):
         # Apply mask: action_mask [B,N,D] takes precedence over node_mask [B,N,1]
         if action_mask is not None:
             log_p = log_p * action_mask
-            free_dims = action_mask.sum(dim=(1, 2))  # [B]
+            if self.logprob_mode.endswith("per_element"):
+                free_dims = action_mask.sum(dim=(1, 2))
+            else:
+                free_dims = (action_mask.sum(dim=2) > 0).sum(dim=1)
         elif node_mask is not None:
             log_p = log_p * node_mask
             D = zs.shape[-1]
@@ -902,6 +909,79 @@ class DiffSBDDModel(nn.Module, BaseModel):
         )
         mu = self._diffsbdd_to_padded_format(mu_flat, ligand_mask, max_nodes)
         log_prob = self.compute_log_p_zs_given_zt(prev_sample, mu, sigma, node_mask, action_mask)
+        return log_prob, mu, sigma
+
+    def _compute_final_decode_stats(
+        self,
+        z0: torch.Tensor,
+        node_mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Return padded mean, sigma, and ligand mask for ``p(x | z0)``.
+
+        This follows the frozen DiffSBDD final decoder without sampling. The
+        model's exported atom types are deterministic functions of ``z0``;
+        only the xyz dimensions of the final Gaussian action affect the
+        generated molecule.
+        """
+        batch_size = int(z0.shape[0])
+        max_nodes = int(z0.shape[1])
+        z0_flat, ligand_mask = self._padded_to_diffsbdd_format(z0, node_mask)
+        pocket = self._replicate_pocket(batch_size)
+        xh0_pocket = torch.cat([pocket["x"], pocket["one_hot"]], dim=1)
+        pocket_mask = pocket["mask"]
+        t_zeros = torch.zeros((batch_size, 1), device=z0.device)
+        gamma_0 = self.ddpm.gamma(t_zeros)
+        sigma_x = self.ddpm.SNR(-0.5 * gamma_0)
+        net_out_lig, _ = self.ddpm.dynamics(
+            z0_flat,
+            xh0_pocket,
+            0.0,
+            ligand_mask,
+            pocket_mask,
+        )
+        mu_flat = self.ddpm.compute_x_pred(
+            net_out_lig,
+            z0_flat,
+            gamma_0,
+            ligand_mask,
+        )
+        mu = self._diffsbdd_to_padded_format(mu_flat, ligand_mask, max_nodes)
+        return mu, sigma_x, ligand_mask
+
+    def forward_offline_final_decode_log_prob(
+        self,
+        z0: torch.Tensor,
+        node_mask: torch.Tensor,
+        prev_sample: torch.Tensor,
+        action_mask: torch.Tensor,
+        context: torch.Tensor = None,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Compute the differentiable final coordinate-action log-probability.
+
+        Args:
+            z0: Padded terminal diffusion latent with shape ``[B, N, D]``.
+            node_mask: Valid-node mask with shape ``[B, N, 1]``.
+            prev_sample: Recorded final continuous sample ``xh_final``.
+            action_mask: Coordinate-only mask supplied by the offline MDP
+                contract.
+            context: Reserved conditioning input; unused for fixed-pocket v1.
+
+        Returns:
+            The per-transition score, padded Gaussian mean, and sigma.
+        """
+        del context
+        if bool(torch.any(action_mask[..., self.n_dims :] != 0)):
+            raise ValueError(
+                "offline final decode action_mask must exclude atom-feature dimensions"
+            )
+        mu, sigma, _ligand_mask = self._compute_final_decode_stats(z0, node_mask)
+        log_prob = self.compute_log_p_zs_given_zt(
+            prev_sample,
+            mu,
+            sigma,
+            node_mask,
+            action_mask,
+        )
         return log_prob, mu, sigma
 
     # =========================================================================

@@ -63,6 +63,37 @@ def test_batch_sigma_broadcast_and_padding_mask() -> None:
     assert log_prob.tolist() == pytest.approx([-1.0, -1.0])
 
 
+@pytest.mark.parametrize(
+    ("mode", "expected"),
+    [
+        ("mean_per_element", -0.5),
+        ("mean_per_atom", -1.5),
+    ],
+)
+def test_action_mask_respects_requested_normalization(
+    mode: str,
+    expected: float,
+) -> None:
+    """Coordinate-only actions should retain per-element/per-atom semantics."""
+    model = _make_model(mode)
+    sample = torch.ones(1, 2, 5)
+    mean = torch.zeros_like(sample)
+    sigma = torch.ones(1, 1)
+    node_mask = torch.ones(1, 2, 1)
+    action_mask = torch.zeros_like(sample)
+    action_mask[..., :3] = 1
+
+    log_prob = model.compute_log_p_zs_given_zt(
+        sample,
+        mean,
+        sigma,
+        node_mask,
+        action_mask,
+    )
+
+    assert log_prob.item() == pytest.approx(expected)
+
+
 def test_mean_per_atom_is_default_logprob_mode(monkeypatch: pytest.MonkeyPatch) -> None:
     """Implicit model configs should use atom-normalized transition logprobs."""
     signature = inspect.signature(DiffSBDDModel)
