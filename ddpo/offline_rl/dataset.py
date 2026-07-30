@@ -85,6 +85,7 @@ class DenoisingTrajectoryShard:
     def __init__(self, path: Path, payload: dict[str, Any]) -> None:
         """Initialize from a payload already loaded on CPU."""
         self.path = path
+        self._source_sha256: str | None = None
         self.latents = _require_tensor(payload, "latents")
         self.logps = _require_tensor(payload, "logps")
         self.timesteps = _require_tensor(payload, "timesteps")
@@ -136,6 +137,12 @@ class DenoisingTrajectoryShard:
     def max_n_nodes(self) -> int:
         """Return the padded ligand-node dimension."""
         return int(self.metadata["max_n_nodes"])
+
+    def source_sha256(self) -> str:
+        """Return and cache the digest of the immutable source shard."""
+        if self._source_sha256 is None:
+            self._source_sha256 = _sha256_file(self.path)
+        return self._source_sha256
 
     def episode_facts(self, episode_index: int) -> DenoisingEpisodeFacts:
         """Return immutable metadata for one episode."""
@@ -535,6 +542,8 @@ def load_trajectory_shard(
         )
 
     shard = DenoisingTrajectoryShard(shard_path, payload)
+    if expected_sha256 is not None:
+        shard._source_sha256 = actual_sha256
     if validate_full_tensors:
         shard.validate_full_tensors(check_padding=check_padding)
     return shard

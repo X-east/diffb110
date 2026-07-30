@@ -26,6 +26,15 @@ from .losses import (
 )
 from .policy_adapter import DiffSBDDPolicyAdapter, PolicyLogProbOutput
 from .protocol import DenoisingEpisodeFacts, DenoisingTransitionBatch
+from .reward_sidecar import (
+    REWARD_SIDECAR_SCHEMA_VERSION,
+    EpisodeRewardFacts,
+    RewardJoinedTrajectoryShard,
+    RewardSidecar,
+    RewardSidecarError,
+    load_reward_sidecar,
+    write_reward_sidecar,
+)
 from .target import polyak_update
 
 __all__ = [
@@ -33,10 +42,15 @@ __all__ = [
     "DenoisingTrajectoryShard",
     "DenoisingTransitionBatch",
     "DiffSBDDPolicyAdapter",
+    "EpisodeRewardFacts",
     "GeometricCriticInput",
     "OfflineTrajectoryDataError",
     "PocketContext",
     "PolicyLogProbOutput",
+    "REWARD_SIDECAR_SCHEMA_VERSION",
+    "RewardJoinedTrajectoryShard",
+    "RewardSidecar",
+    "RewardSidecarError",
     "build_geometric_critic_input",
     "compute_actor_loss",
     "compute_advantage",
@@ -46,6 +60,8 @@ __all__ = [
     "compute_value_loss",
     "effective_sample_size",
     "expectile_loss",
+    "load_reward_sidecar",
     "load_trajectory_shard",
     "polyak_update",
+    "write_reward_sidecar",
 ]

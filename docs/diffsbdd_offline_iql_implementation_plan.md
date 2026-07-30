@@ -633,6 +633,21 @@ reward_version
 
 所有失败值必须有限。原始不可用数值可另存 `null`，但提供给 critic 的 `reward_total_train` 不得为 `NaN/Inf`。
 
+2026-07-30 已实现 `ddpo/offline_rl/reward_sidecar.py` 的 v1 数据边界：
+
+- `EpisodeRewardFacts` 明确列出 reward、成功标志、性质/病理指标和来源；
+- CSV schema 版本为 `diffsbdd_episode_reward_sidecar_v1`；
+- 一张 sidecar 只允许一个 `reward_version` 和一个 source checkpoint；
+- `reward_total_train` 必须有限，未得到的原始指标用空值而非伪造的 0；
+- 每行绑定 trajectory format、checkpoint SHA-256 和 shard SHA-256；
+- join 按 `sample_id` 重排并要求 shard 内 100% 覆盖，缺行、重复、来源漂移
+  均 fail-fast；
+- join 只产生 CPU episode reward tensor，普通 transition reward 为 0，
+  final decode 才得到 episode terminal reward，不修改原始 `.pt`。
+
+这一步只定义并验证 reward 的可信传输契约；尚未确定
+`reward_v1_balanced/target/quality` 的具体权重，也尚未生成正式 100k sidecar。
+
 ### 6.3 v1 奖励原则
 
 - reconstruction/RDKit-invalid：显式最低有限惩罚；
@@ -1605,14 +1620,14 @@ diffsbdd-xh-offline-iql
 ## 20. 立即执行的下一步
 
 Phase 1 的不可变 transition 与策略概率契约，以及首版几何 critic 已完成。
-当前下一项任务是补齐 **Phase 0 的 reward sidecar 与审计闭环**：
+reward sidecar 的 schema、CSV round-trip 和 immutable shard join 已完成。
+当前下一项任务是补齐 **Phase 0 的 episode index/split 与正式奖励审计闭环**：
 
-1. 定义一行一个 `sample_id` 的版本化 reward sidecar schema；
-2. 对重复、缺失、非有限训练 reward 和来源不一致 fail-fast；
-3. 以 lazy join 方式关联 immutable shard，不回写原始轨迹；
-4. 建 episode index 与固定 train/validation/test split manifest；
-5. 接入正式 reward scorer，输出 good/medium/bad/invalid 分层和分布审计；
-6. 再进行 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
+1. 从 collector manifest 建全局唯一 episode index；
+2. 生成固定 train/validation/test split manifest 并验证 episode 无泄漏；
+3. 接入正式 reward scorer，输出完整 reward sidecar；
+4. 输出 good/medium/bad/invalid 分层、分布、相关性和 scaffold 审计；
+5. 再进行 Phase 2 BC/AWR 与 Phase 3 held-out critic 比较。
 
 在 reward 完整性、split 无泄漏和 held-out baseline 对照完成之前，不启动
 全量 IQL actor 训练。
