@@ -1,0 +1,73 @@
+# Engineering-only 2-rank DiffSBDD offline-IQL smoke on the 80-episode index.
+# The +/-1 validity reward is an interface probe, not a scientific objective.
+
+name: diffsbdd_offline_iql_ddp_smoke_260731
+
+ddp:
+  enabled: true
+  find_unused_parameters: false
+
+offline_iql:
+  formal_training: false
+  output_dir: analysis/offline_iql_ddp_smoke_260731
+
+  data:
+    run_dir: runs/diffsbdd_collect/diffsbdd-original-t1000-8gpu-100k-trajectory_20260730_194643
+    episode_index: analysis/offline_iql_ddp_smoke_inputs_260731/episode_index.jsonl
+    split_manifest: analysis/offline_iql_ddp_smoke_inputs_260731/split_manifest.jsonl
+    split: train
+    expected_pocket_sha256: d61afea4fdeb782ea71b871882e90a20dbc851a015d5893b7d6474caf2a87537
+
+  reward:
+    sidecar: null
+    expected_version: validity_contract_probe_not_formal_reward_v1
+    diagnostic_validity_probe: true
+
+  model:
+    checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+    pocket_pdb: data/8GJL.pdb
+    ref_ligand: "C:1101"
+    dataset_name: crossdock
+    logprob_mode: mean_per_atom
+    trainable_parameter_tensors: 2
+
+  critic:
+    hidden_dim: 32
+    num_message_layers: 1
+    num_rbf: 8
+    time_embedding_dim: 16
+    max_neighbors: 16
+    learning_rate: 0.001
+    weight_decay: 0.0
+
+  trainer:
+    discount: 1.0
+    expectile: 0.7
+    target_tau: 0.005
+    q_loss_type: mse
+    critic_max_grad_norm: 5.0
+    actor_warmup_steps: 0
+    actor_update_interval: 1
+
+  actor:
+    temperature: 1.0
+    max_weight: 10.0
+    max_grad_norm: 5.0
+    learning_rate: 0.000001
+    weight_decay: 0.0
+
+  sampler:
+    cache_size: 2
+    shared_scheduler_seed: 1
+    time_bins:
+      - start: 1000
+        end: 1000
+        weight: 1.0
+
+  run:
+    epochs: 1
+    steps_per_epoch: 1
+    batch_size: 4
+    log_every_steps: 1
+    checkpoint_every_epochs: 1
+    non_blocking_transfer: true

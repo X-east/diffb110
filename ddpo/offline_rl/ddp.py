@@ -537,9 +537,25 @@ class OfflineIQLDDPCoordinator:
         local_error: str | None = None
         try:
             if resume_manifest is None:
-                if self.output_dir.exists() and any(self.output_dir.iterdir()):
+                allowed_bootstrap_names = {
+                    "config",
+                    "logs",
+                    "launch.log",
+                    "run_manifest.json",
+                }
+                unexpected = (
+                    []
+                    if not self.output_dir.exists()
+                    else sorted(
+                        path.name
+                        for path in self.output_dir.iterdir()
+                        if path.name not in allowed_bootstrap_names
+                    )
+                )
+                if unexpected:
                     raise FileExistsError(
-                        f"fresh DDP output directory is not empty: {self.output_dir}"
+                        "fresh DDP output directory contains unexpected entries: "
+                        f"{unexpected}"
                     )
             elif not self.output_dir.exists():
                 raise FileNotFoundError(

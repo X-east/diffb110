@@ -464,6 +464,21 @@ def test_recorder_preflight_uses_public_fresh_run_api(tmp_path: Path) -> None:
         coordinator._global_recorder.close()
 
 
+def test_fresh_output_allows_only_bootstrap_evidence(tmp_path: Path) -> None:
+    """Launcher evidence may exist, but prior training evidence must fail."""
+    coordinator = _coordinator(tmp_path)
+    (tmp_path / "config").mkdir(parents=True)
+    (tmp_path / "logs").mkdir()
+    (tmp_path / "launch.log").write_text("preflight\n", encoding="utf-8")
+    (tmp_path / "run_manifest.json").write_text("{}\n", encoding="utf-8")
+
+    coordinator._preflight_output(None)
+
+    (tmp_path / "metrics").mkdir()
+    with pytest.raises(RuntimeError, match="unexpected entries"):
+        coordinator._preflight_output(None)
+
+
 def test_resume_manifest_validates_rank_checkpoint_integrity(
     tmp_path: Path,
 ) -> None:
