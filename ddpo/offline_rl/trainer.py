@@ -174,6 +174,7 @@ class IQLStepMetrics:
     q_disagreement_mean: float
     actor_updated: bool
     actor: ActorStepMetrics | None
+    gradient_loss_scale: float = 1.0
 
 
 def _optimizer_step(
@@ -183,12 +184,23 @@ def _optimizer_step(
     optimizer: torch.optim.Optimizer,
     max_grad_norm: float,
     component: str,
+    gradient_loss_scale: float = 1.0,
 ) -> float:
-    """Run one finite checked backward/clip/step and return pre-clip norm."""
+    """Run one finite checked backward/clip/step and return pre-clip norm.
+
+    ``gradient_loss_scale`` affects only the backward objective. It lets a DDP
+    coordinator correct unequal rank ownership while keeping reported losses in
+    the original per-batch units.
+    """
     if loss.ndim != 0 or not bool(torch.isfinite(loss)):
         raise FloatingPointError(f"{component} loss must be a finite scalar")
+    if (
+        not math.isfinite(gradient_loss_scale)
+        or gradient_loss_scale <= 0.0
+    ):
+        raise ValueError("gradient_loss_scale must be finite and positive")
     optimizer.zero_grad(set_to_none=True)
-    loss.backward()
+    (loss * gradient_loss_scale).backward()
     gradients = [
         parameter.grad
         for parameter in module.parameters()
@@ -238,6 +250,7 @@ class OfflineActorUpdater:
         transitions: DenoisingTransitionBatch,
         *,
         iql_advantage: torch.Tensor | None = None,
+        gradient_loss_scale: float = 1.0,
     ) -> ActorStepMetrics:
         """Update the actor once with detached objective-specific weights."""
         score: torch.Tensor | None
@@ -283,6 +296,7 @@ class OfflineActorUpdater:
             optimizer=self.optimizer,
             max_grad_norm=self.config.max_grad_norm,
             component="actor",
+            gradient_loss_scale=gradient_loss_scale,
         )
         clipped_fraction = 0.0
         if score is not None:
@@ -310,20 +324,23 @@ class OfflineActorUpdater:
     def state_dict(self) -> dict[str, Any]:
         """Return actor module, optimizer, config, and update counter."""
         return {
-            "format": "diffsbdd_offline_actor_updater_v1",
+            "format": "diffsbdd_offline_actor_updater_v2",
             "config": asdict(self.config),
-            "policy": self.policy.state_dict(),
+            "policy": _unwrap_module(self.policy).state_dict(),
             "optimizer": self.optimizer.state_dict(),
             "updates": self.updates,
         }
 
     def load_state_dict(self, state: dict[str, Any]) -> None:
         """Restore an actor updater with exact objective configuration."""
-        if state.get("format") != "diffsbdd_offline_actor_updater_v1":
+        if state.get("format") not in {
+            "diffsbdd_offline_actor_updater_v1",
+            "diffsbdd_offline_actor_updater_v2",
+        }:
             raise ValueError("unsupported actor updater checkpoint format")
         if state.get("config") != asdict(self.config):
             raise ValueError("actor updater checkpoint config mismatch")
-        self.policy.load_state_dict(state["policy"], strict=True)
+        _unwrap_module(self.policy).load_state_dict(state["policy"], strict=True)
         self.optimizer.load_state_dict(state["optimizer"])
         self.updates = int(state["updates"])
 
@@ -351,6 +368,7 @@ class OfflineIQLTrainer:
         self.target_q.requires_grad_(False)
         self.target_q.eval()
         self.value = value
+        self._value_core = _unwrap_module(value)
         self.q_optimizer = q_optimizer
         self.value_optimizer = value_optimizer
         self.actor_updater = actor_updater
@@ -363,15 +381,25 @@ class OfflineIQLTrainer:
             component="twin_q",
         )
         _validate_optimizer_coverage(
-            self.value,
+            self._value_core,
             self.value_optimizer,
             component="value",
         )
 
-    def step(self, transitions: DenoisingTransitionBatch) -> IQLStepMetrics:
+    def step(
+        self,
+        transitions: DenoisingTransitionBatch,
+        *,
+        gradient_loss_scale: float = 1.0,
+    ) -> IQLStepMetrics:
         """Run one finite checked IQL update on a scored transition batch."""
         if transitions.reward is None:
             raise ValueError("IQL requires sparse reward from a reward sidecar")
+        if (
+            not math.isfinite(gradient_loss_scale)
+            or gradient_loss_scale <= 0.0
+        ):
+            raise ValueError("gradient_loss_scale must be finite and positive")
         inputs = build_geometric_critic_input(
             transitions,
             self.pocket,
@@ -398,6 +426,7 @@ class OfflineIQLTrainer:
             optimizer=self.value_optimizer,
             max_grad_norm=self.config.critic_max_grad_norm,
             component="value",
+            gradient_loss_scale=gradient_loss_scale,
         )
 
         with torch.no_grad():
@@ -427,6 +456,7 @@ class OfflineIQLTrainer:
             optimizer=self.q_optimizer,
             max_grad_norm=self.config.critic_max_grad_norm,
             component="twin_q",
+            gradient_loss_scale=gradient_loss_scale,
         )
         polyak_update(
             self._online_q_core,
@@ -453,6 +483,7 @@ class OfflineIQLTrainer:
             self.actor_updater.step(
                 transitions,
                 iql_advantage=advantage,
+                gradient_loss_scale=gradient_loss_scale,
             )
             if actor_due
             else None
@@ -479,6 +510,7 @@ class OfflineIQLTrainer:
             ),
             actor_updated=actor_metrics is not None,
             actor=actor_metrics,
+            gradient_loss_scale=gradient_loss_scale,
         )
         self.global_step += 1
         return metrics
@@ -493,40 +525,45 @@ class OfflineIQLTrainer:
                 state.clone() for state in torch.cuda.get_rng_state_all()
             ]
         return {
-            "format": "diffsbdd_offline_iql_trainer_v1",
+            "format": "diffsbdd_offline_iql_trainer_v2",
             "config": asdict(self.config),
             "global_step": self.global_step,
-            "online_q": self.online_q.state_dict(),
+            "online_q": self._online_q_core.state_dict(),
             "target_q": self.target_q.state_dict(),
-            "value": self.value.state_dict(),
+            "value": self._value_core.state_dict(),
             "q_optimizer": self.q_optimizer.state_dict(),
             "value_optimizer": self.value_optimizer.state_dict(),
             "actor_updater": self.actor_updater.state_dict(),
             "module_training": {
-                "online_q": self.online_q.training,
-                "value": self.value.training,
-                "policy": self.actor_updater.policy.training,
+                "online_q": self._online_q_core.training,
+                "value": self._value_core.training,
+                "policy": _unwrap_module(self.actor_updater.policy).training,
             },
             "rng_state": rng_state,
         }
 
     def load_state_dict(self, state: dict[str, Any]) -> None:
         """Restore exact model/optimizer state and update counters."""
-        if state.get("format") != "diffsbdd_offline_iql_trainer_v1":
+        if state.get("format") not in {
+            "diffsbdd_offline_iql_trainer_v1",
+            "diffsbdd_offline_iql_trainer_v2",
+        }:
             raise ValueError("unsupported IQL trainer checkpoint format")
         if state.get("config") != asdict(self.config):
             raise ValueError("IQL trainer checkpoint config mismatch")
-        self.online_q.load_state_dict(state["online_q"], strict=True)
+        self._online_q_core.load_state_dict(state["online_q"], strict=True)
         self.target_q.load_state_dict(state["target_q"], strict=True)
-        self.value.load_state_dict(state["value"], strict=True)
+        self._value_core.load_state_dict(state["value"], strict=True)
         self.q_optimizer.load_state_dict(state["q_optimizer"])
         self.value_optimizer.load_state_dict(state["value_optimizer"])
         self.actor_updater.load_state_dict(state["actor_updater"])
         self.global_step = int(state["global_step"])
         module_training = state["module_training"]
-        self.online_q.train(bool(module_training["online_q"]))
-        self.value.train(bool(module_training["value"]))
-        self.actor_updater.policy.train(bool(module_training["policy"]))
+        self._online_q_core.train(bool(module_training["online_q"]))
+        self._value_core.train(bool(module_training["value"]))
+        _unwrap_module(self.actor_updater.policy).train(
+            bool(module_training["policy"])
+        )
         rng_state = state["rng_state"]
         torch.set_rng_state(rng_state["torch_cpu"])
         if torch.cuda.is_available() and "torch_cuda_all" in rng_state:

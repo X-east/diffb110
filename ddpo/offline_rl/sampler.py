@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import math
 import time
 from collections import OrderedDict, defaultdict
 from dataclasses import dataclass
@@ -29,8 +30,101 @@ class DecisionTimeBin:
         """Validate interval and weight."""
         if self.start < 0 or self.end < self.start:
             raise ValueError("time bin requires 0 <= start <= end")
-        if self.weight <= 0:
-            raise ValueError("time bin weight must be positive")
+        if not math.isfinite(self.weight) or self.weight <= 0:
+            raise ValueError("time bin weight must be finite and positive")
+
+
+class SharedDecisionIndexScheduler:
+    """Draw one resumable decision-index stream shared by all DDP ranks."""
+
+    def __init__(
+        self,
+        time_bins: Sequence[DecisionTimeBin],
+        *,
+        seed: int = 1,
+    ) -> None:
+        """Initialize an independent CPU RNG for cross-rank timestep draws."""
+        if seed <= 0:
+            raise ValueError("seed must be positive")
+        if not time_bins:
+            raise ValueError("time_bins cannot be empty")
+        self.time_bins = tuple(time_bins)
+        self.seed = int(seed)
+        self._generator = torch.Generator(device="cpu")
+        self._generator.manual_seed(self.seed)
+        self._time_weights = torch.tensor(
+            [time_bin.weight for time_bin in self.time_bins],
+            dtype=torch.float64,
+        )
+        self._draw_count = 0
+
+    @property
+    def draw_count(self) -> int:
+        """Return the number of shared decisions already produced."""
+        return self._draw_count
+
+    def next_decision_index(self) -> int:
+        """Draw one configured decision index and advance scheduler state."""
+        position = int(
+            torch.multinomial(
+                self._time_weights,
+                num_samples=1,
+                replacement=True,
+                generator=self._generator,
+            ).item()
+        )
+        time_bin = self.time_bins[position]
+        decision_index = int(
+            torch.randint(
+                time_bin.start,
+                time_bin.end + 1,
+                (1,),
+                generator=self._generator,
+            ).item()
+        )
+        self._draw_count += 1
+        return decision_index
+
+    def state_dict(self) -> dict[str, Any]:
+        """Return exact RNG progress and immutable schedule identity."""
+        return {
+            "format": "diffsbdd_offline_shared_decision_scheduler_v1",
+            "seed": self.seed,
+            "time_bins": tuple(
+                (time_bin.start, time_bin.end, time_bin.weight)
+                for time_bin in self.time_bins
+            ),
+            "generator_state": self._generator.get_state().clone(),
+            "draw_count": self._draw_count,
+        }
+
+    def load_state_dict(self, state: dict[str, Any]) -> None:
+        """Restore RNG progress only when schedule identity is unchanged."""
+        expected = {
+            "format": "diffsbdd_offline_shared_decision_scheduler_v1",
+            "seed": self.seed,
+            "time_bins": tuple(
+                (time_bin.start, time_bin.end, time_bin.weight)
+                for time_bin in self.time_bins
+            ),
+        }
+        mismatches = {
+            key: (expected_value, state.get(key))
+            for key, expected_value in expected.items()
+            if state.get(key) != expected_value
+        }
+        if mismatches:
+            raise ValueError(
+                f"shared decision scheduler identity mismatch: {mismatches}"
+            )
+        generator_state = state.get("generator_state")
+        if not isinstance(generator_state, torch.Tensor):
+            raise TypeError("scheduler generator_state must be a tensor")
+        draw_count = int(state.get("draw_count", -1))
+        if draw_count < 0:
+            raise ValueError("scheduler draw_count must be non-negative")
+        self._generator.set_state(generator_state.detach().cpu())
+        self._draw_count = draw_count
 
 
 @dataclass(frozen=True)
@@ -183,14 +277,14 @@ class OfflineTransitionSampler:
             [time_bin.weight for time_bin in self.time_bins],
             dtype=torch.float64,
         )
-        max_decision_index = min(
+        self._max_decision_index = min(
             row.num_diffusion_steps for row in episode_index.rows
         )
         for time_bin in self.time_bins:
-            if time_bin.end > max_decision_index:
+            if time_bin.end > self._max_decision_index:
                 raise ValueError(
                     f"time bin end {time_bin.end} exceeds final decision index "
-                    f"{max_decision_index}"
+                    f"{self._max_decision_index}"
                 )
 
     @property
@@ -214,6 +308,7 @@ class OfflineTransitionSampler:
         *,
         device: str | torch.device = "cpu",
         non_blocking: bool = False,
+        decision_index: int | None = None,
     ) -> DenoisingTransitionBatch:
         """Sample one shard-local batch and optionally transfer it to a device."""
         if batch_size <= 0:
@@ -239,7 +334,11 @@ class OfflineTransitionSampler:
             eligible_rows[int(position)].episode_index
             for position in episode_positions
         ]
-        decision_indices = self._sample_decision_indices(batch_size)
+        if decision_index is None:
+            decision_indices = self._sample_decision_indices(batch_size)
+        else:
+            self._validate_explicit_decision_index(decision_index)
+            decision_indices = [decision_index] * batch_size
         loaded = self._cache.get(*shard_key)
         batch = loaded.select_transitions(
             episode_indices,
@@ -353,6 +452,25 @@ class OfflineTransitionSampler:
                 )
             )
         return decisions
+
+    def _validate_explicit_decision_index(self, decision_index: int) -> None:
+        """Require a DDP-supplied decision to belong to configured time bins."""
+        if isinstance(decision_index, bool) or not isinstance(
+            decision_index,
+            int,
+        ):
+            raise TypeError("decision_index must be an integer")
+        if not 0 <= decision_index <= self._max_decision_index:
+            raise ValueError(
+                f"decision_index must lie in [0,{self._max_decision_index}]"
+            )
+        if not any(
+            time_bin.start <= decision_index <= time_bin.end
+            for time_bin in self.time_bins
+        ):
+            raise ValueError(
+                f"decision_index {decision_index} is outside configured time bins"
+            )
 
     def _sample_time_bin(self) -> DecisionTimeBin:
         """Sample one configured time bin."""

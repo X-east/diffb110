@@ -51,10 +51,23 @@ from .reward_sidecar import (
     load_reward_sidecar,
     write_reward_sidecar,
 )
+from .recording import (
+    EPOCH_METRIC_FIELDS,
+    STEP_METRIC_FIELDS,
+    EpochMetrics,
+    LocalIQLRecorder,
+)
+from .ddp import (
+    DDP_LATEST_FORMAT,
+    DDP_MANIFEST_FORMAT,
+    OfflineIQLDDPCoordinator,
+)
+from .runner import IQLRunnerConfig, OfflineIQLRunner
 from .sampler import (
     DecisionTimeBin,
     OfflineTransitionSampler,
     SamplerStats,
+    SharedDecisionIndexScheduler,
     default_diffsbdd_time_bins,
 )
 from .target import polyak_update
@@ -77,16 +90,21 @@ __all__ = [
     "ActorUpdateConfig",
     "EPISODE_INDEX_SCHEMA_VERSION",
     "EpisodeRewardFacts",
+    "EpochMetrics",
     "EpisodeIndex",
     "EpisodeIndexError",
     "EpisodeIndexRow",
     "GeometricCriticInput",
     "IQLStepMetrics",
     "IQLTrainerConfig",
+    "IQLRunnerConfig",
+    "LocalIQLRecorder",
     "OfflineTrajectoryDataError",
     "OfflineTransitionSampler",
     "OfflineActorUpdater",
     "OfflineIQLTrainer",
+    "OfflineIQLRunner",
+    "OfflineIQLDDPCoordinator",
     "PocketContext",
     "PolicyLogProbOutput",
     "REWARD_SIDECAR_SCHEMA_VERSION",
@@ -94,6 +112,11 @@ __all__ = [
     "RewardSidecar",
     "RewardSidecarError",
     "SamplerStats",
+    "SharedDecisionIndexScheduler",
+    "DDP_MANIFEST_FORMAT",
+    "DDP_LATEST_FORMAT",
+    "STEP_METRIC_FIELDS",
+    "EPOCH_METRIC_FIELDS",
     "SPLIT_MANIFEST_SCHEMA_VERSION",
     "SplitAssignment",
     "SplitManifest",
