@@ -8,7 +8,7 @@ import time
 from collections import OrderedDict, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Collection, Sequence
 
 import torch
 
@@ -215,6 +215,7 @@ class OfflineTransitionSampler:
         rank: int = 0,
         world_size: int = 1,
         same_decision_index_per_batch: bool = True,
+        eligible_sample_ids: Collection[str] | None = None,
     ) -> None:
         """Initialize deterministic split, rank, time, and shard sampling."""
         if seed <= 0:
@@ -234,6 +235,31 @@ class OfflineTransitionSampler:
         self.world_size = world_size
         self.same_decision_index_per_batch = same_decision_index_per_batch
         self.reward_sidecar = reward_sidecar
+        selected_ids = (
+            None
+            if eligible_sample_ids is None
+            else frozenset(str(sample_id) for sample_id in eligible_sample_ids)
+        )
+        if selected_ids is not None:
+            if not selected_ids:
+                raise ValueError("eligible_sample_ids cannot be empty")
+            known_ids = {row.sample_id for row in episode_index.rows}
+            unknown_ids = sorted(selected_ids - known_ids)
+            if unknown_ids:
+                raise EpisodeIndexError(
+                    "eligible_sample_ids contains unknown episodes: "
+                    f"{unknown_ids[:5]}"
+                )
+        self.eligible_sample_ids = selected_ids
+        self.eligible_sample_ids_sha256 = (
+            None
+            if selected_ids is None
+            else hashlib.sha256(
+                "".join(f"{sample_id}\n" for sample_id in sorted(selected_ids)).encode(
+                    "utf-8"
+                )
+            ).hexdigest()
+        )
         self._generator = torch.Generator(device="cpu")
         self._generator.manual_seed(seed)
         self._cache = _ShardCache(
@@ -250,6 +276,8 @@ class OfflineTransitionSampler:
         )
         for row in episode_index.rows:
             if split_manifest.split_for(row.sample_id) != split:
+                continue
+            if selected_ids is not None and row.sample_id not in selected_ids:
                 continue
             rank_owner = int(
                 hashlib.sha256(row.shard_path.encode("utf-8")).hexdigest(),
@@ -366,7 +394,7 @@ class OfflineTransitionSampler:
     def state_dict(self) -> dict[str, Any]:
         """Return deterministic RNG/progress state for checkpointing."""
         return {
-            "format": "diffsbdd_offline_transition_sampler_v1",
+            "format": "diffsbdd_offline_transition_sampler_v2",
             "episode_index_sha256": self.episode_index.sha256,
             "split": self.split,
             "seed": self.seed,
@@ -383,6 +411,7 @@ class OfflineTransitionSampler:
                 if self.reward_sidecar is None
                 else self.reward_sidecar.reward_version
             ),
+            "eligible_sample_ids_sha256": self.eligible_sample_ids_sha256,
             "generator_state": self._generator.get_state().clone(),
             "batches_sampled": self._batches_sampled,
             "transitions_sampled": self._transitions_sampled,
@@ -390,8 +419,21 @@ class OfflineTransitionSampler:
 
     def load_state_dict(self, state: dict[str, Any]) -> None:
         """Restore RNG/progress only when immutable sampler identity matches."""
+        state_format = state.get("format")
+        if state_format not in {
+            "diffsbdd_offline_transition_sampler_v1",
+            "diffsbdd_offline_transition_sampler_v2",
+        }:
+            raise ValueError(f"unsupported sampler checkpoint format {state_format!r}")
+        if (
+            state_format == "diffsbdd_offline_transition_sampler_v1"
+            and self.eligible_sample_ids_sha256 is not None
+        ):
+            raise ValueError(
+                "legacy sampler checkpoint cannot resume a curated selection"
+            )
         expected = {
-            "format": "diffsbdd_offline_transition_sampler_v1",
+            "format": state_format,
             "episode_index_sha256": self.episode_index.sha256,
             "split": self.split,
             "seed": self.seed,
@@ -411,6 +453,10 @@ class OfflineTransitionSampler:
                 else self.reward_sidecar.reward_version
             ),
         }
+        if state_format == "diffsbdd_offline_transition_sampler_v2":
+            expected["eligible_sample_ids_sha256"] = (
+                self.eligible_sample_ids_sha256
+            )
         mismatches = {
             key: (expected_value, state.get(key))
             for key, expected_value in expected.items()

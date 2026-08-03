@@ -17,6 +17,7 @@ from ddpo.integration.diffsbdd_model import DiffSBDDModel
 from ddpo.runtime import DistributedContext
 
 from .critic_adapter import PocketContext
+from .curation import CurationManifest, load_curation_manifest
 from .dataset import load_trajectory_shard
 from .index import EpisodeIndex, SplitManifest, load_episode_index, load_split_manifest
 from .models import GeometricCriticConfig, GeometricValueNetwork, TwinQCritic
@@ -249,6 +250,40 @@ def build_offline_iql_runtime(
         episode_index=episode_index,
         project_root=project_root,
     )
+    curation_manifest: CurationManifest | None = None
+    curation_manifest_sha256: str | None = None
+    selected_quality_classes: tuple[str, ...] = ()
+    eligible_sample_ids: frozenset[str] | None = None
+    curation_value = data_config.get("curation_manifest")
+    classes_value = data_config.get("include_quality_classes")
+    if curation_value is not None:
+        if reward_sidecar_sha256 is None:
+            raise ValueError("curation_manifest requires a persisted reward sidecar")
+        curation_path = resolve_project_path(str(curation_value), project_root)
+        if not curation_path.is_file():
+            raise FileNotFoundError(
+                f"required curation manifest not found: {curation_path}"
+            )
+        if not isinstance(classes_value, list) or not classes_value:
+            raise ValueError(
+                "data.include_quality_classes must be a non-empty list when "
+                "curation_manifest is configured"
+            )
+        selected_quality_classes = tuple(str(value) for value in classes_value)
+        curation_manifest = load_curation_manifest(curation_path)
+        curation_manifest.validate_against(
+            episode_index,
+            reward_sidecar,
+            reward_sidecar_sha256=reward_sidecar_sha256,
+        )
+        eligible_sample_ids = curation_manifest.sample_ids_for_classes(
+            selected_quality_classes
+        )
+        curation_manifest_sha256 = sha256_file(curation_path)
+    elif classes_value is not None:
+        raise ValueError(
+            "data.include_quality_classes requires data.curation_manifest"
+        )
     first_row = episode_index.rows[0]
     num_diffusion_steps = first_row.num_diffusion_steps
     if any(row.num_diffusion_steps != num_diffusion_steps for row in episode_index.rows):
@@ -375,6 +410,7 @@ def build_offline_iql_runtime(
         rank=dist_ctx.rank,
         world_size=dist_ctx.world_size,
         same_decision_index_per_batch=True,
+        eligible_sample_ids=eligible_sample_ids,
     )
     scheduler = SharedDecisionIndexScheduler(
         time_bins,
@@ -401,6 +437,14 @@ def build_offline_iql_runtime(
         "split_manifest_sha256": sha256_file(split_path),
         "reward_version": reward_sidecar.reward_version,
         "reward_sidecar_sha256": reward_sidecar_sha256,
+        "curation_version": (
+            None
+            if curation_manifest is None
+            else curation_manifest.curation_version
+        ),
+        "curation_manifest_sha256": curation_manifest_sha256,
+        "include_quality_classes": list(selected_quality_classes),
+        "eligible_episodes_rank_local": sampler.num_eligible_episodes,
         "source_checkpoint_sha256": checkpoint_sha256,
         "pocket_pdb_sha256": pocket_sha256,
         "split": sampler.split,

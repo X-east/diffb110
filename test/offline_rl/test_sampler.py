@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+from typing import Collection
 
 import pytest
 import torch
@@ -160,6 +161,7 @@ def _sampler(
     rank: int = 0,
     world_size: int = 1,
     same_decision: bool = True,
+    eligible_sample_ids: Collection[str] | None = None,
 ) -> OfflineTransitionSampler:
     """Construct one fixture sampler."""
     return OfflineTransitionSampler(
@@ -174,6 +176,7 @@ def _sampler(
         rank=rank,
         world_size=world_size,
         same_decision_index_per_batch=same_decision,
+        eligible_sample_ids=eligible_sample_ids,
     )
 
 
@@ -206,6 +209,58 @@ def test_sampler_is_shard_local_same_time_and_cache_aware(tmp_path: Path) -> Non
     assert stats.cache_hits > 0
     assert stats.cache_misses <= sampler.num_eligible_shards
     assert 0.0 < stats.cache_hit_rate <= 1.0
+
+
+def test_sampler_respects_explicit_curated_episode_selection(tmp_path: Path) -> None:
+    """Filtered BC sampling must never imitate an unselected negative episode."""
+    run_dir = _make_run(tmp_path)
+    index = build_episode_index(run_dir)
+    manifest = _all_train_manifest(index)
+    selected = {
+        row.sample_id for row in index.rows if row.sample_id.endswith("_m0000")
+    }
+    sampler = _sampler(
+        run_dir,
+        index,
+        manifest,
+        bins=(DecisionTimeBin(0, 2),),
+        eligible_sample_ids=selected,
+    )
+
+    assert sampler.num_eligible_episodes == len(selected)
+    for _ in range(20):
+        batch = sampler.sample_batch(6)
+        assert set(batch.sample_ids) <= selected
+
+
+def test_sampler_resume_rejects_changed_curated_selection(tmp_path: Path) -> None:
+    """A checkpoint cannot silently resume with different positive episodes."""
+    run_dir = _make_run(tmp_path)
+    index = build_episode_index(run_dir)
+    manifest = _all_train_manifest(index)
+    first_ids = {
+        row.sample_id for row in index.rows if row.sample_id.endswith("_m0000")
+    }
+    second_ids = {
+        row.sample_id for row in index.rows if row.sample_id.endswith("_m0001")
+    }
+    first = _sampler(
+        run_dir,
+        index,
+        manifest,
+        bins=(DecisionTimeBin(0, 2),),
+        eligible_sample_ids=first_ids,
+    )
+    changed = _sampler(
+        run_dir,
+        index,
+        manifest,
+        bins=(DecisionTimeBin(0, 2),),
+        eligible_sample_ids=second_ids,
+    )
+
+    with pytest.raises(ValueError, match="eligible_sample_ids_sha256"):
+        changed.load_state_dict(first.state_dict())
 
 
 def test_sampler_applies_sidecar_reward_only_to_final_decode(
