@@ -21,10 +21,11 @@ from ddpo.offline_rl.curation import (
     QUALITY_CLASSES,
     CurationConfig,
     build_curation_manifest,
+    build_curation_split_manifest,
     sha256_file,
     write_curation_manifest,
 )
-from ddpo.offline_rl.index import load_episode_index
+from ddpo.offline_rl.index import load_episode_index, write_split_manifest
 from ddpo.offline_rl.reward_sidecar import load_reward_sidecar
 
 
@@ -41,6 +42,21 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--curation-version",
         default="diffsbdd_drift_training_roles_v1",
+    )
+    parser.add_argument(
+        "--split-version",
+        default="diffsbdd_drift_scaffold_split_v1",
+    )
+    parser.add_argument(
+        "--split-salt",
+        default="diffsbdd-drift-scaffold-split-v1",
+    )
+    parser.add_argument(
+        "--split-fractions",
+        nargs=3,
+        type=float,
+        metavar=("TRAIN", "VALIDATION", "TEST"),
+        default=(0.8, 0.1, 0.1),
     )
     return parser.parse_args(argv)
 
@@ -127,6 +143,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.output_dir / "curation_manifest.jsonl",
         manifest,
     )
+    split_manifest = build_curation_split_manifest(
+        index,
+        manifest,
+        split_version=args.split_version,
+        salt=args.split_salt,
+        fractions=tuple(args.split_fractions),
+    )
+    split_path = write_split_manifest(
+        args.output_dir / "split_manifest.jsonl",
+        split_manifest,
+    )
     counts = manifest.counts()
     scaffold_counts = Counter(
         row.quality_class
@@ -151,6 +178,30 @@ def main(argv: Sequence[str] | None = None) -> int:
             check for check in row.failed_checks.split(";") if check
         )
     attempts = len(manifest.rows)
+    split_counts = Counter(
+        split_manifest.split_for(row.sample_id) for row in manifest.rows
+    )
+    split_quality_counts = {
+        split: {
+            quality_class: sum(
+                row.quality_class == quality_class
+                and split_manifest.split_for(row.sample_id) == split
+                for row in manifest.rows
+            )
+            for quality_class in QUALITY_CLASSES
+        }
+        for split in ("train", "validation", "test")
+    }
+    scaffold_splits: dict[str, set[str]] = {}
+    for row in manifest.rows:
+        if row.scaffold_key is None:
+            continue
+        scaffold_splits.setdefault(row.scaffold_key, set()).add(
+            split_manifest.split_for(row.sample_id)
+        )
+    scaffold_overlap_count = sum(
+        len(splits) > 1 for splits in scaffold_splits.values()
+    )
     summary = {
         "format": "diffsbdd_offline_curation_summary_v1",
         "curation_version": manifest.curation_version,
@@ -160,6 +211,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "reward_sidecar_sha256": sidecar_sha256,
         "label_config_sha256": sha256_file(args.label_config),
         "curation_manifest_sha256": sha256_file(manifest_path),
+        "split_manifest_sha256": sha256_file(split_path),
+        "split_version": args.split_version,
+        "split_fractions": list(args.split_fractions),
+        "split_counts": dict(sorted(split_counts.items())),
+        "split_quality_counts": split_quality_counts,
+        "scaffold_overlap_count": scaffold_overlap_count,
         "counts": counts,
         "rates_fixed_attempts": {
             key: value / attempts for key, value in counts.items()

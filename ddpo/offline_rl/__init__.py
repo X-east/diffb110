@@ -29,6 +29,7 @@ from .curation import (
     CurationManifest,
     EpisodeCurationFacts,
     build_curation_manifest,
+    build_curation_split_manifest,
     load_curation_manifest,
     write_curation_manifest,
 )
@@ -153,6 +154,7 @@ __all__ = [
     "build_episode_index",
     "build_calibration_rows",
     "build_curation_manifest",
+    "build_curation_split_manifest",
     "build_confounding_metrics",
     "build_critic_metric_rows",
     "build_geometric_critic_input",

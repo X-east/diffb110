@@ -12,6 +12,7 @@ from ddpo.offline_rl.curation import (
     CurationConfig,
     CurationError,
     build_curation_manifest,
+    build_curation_split_manifest,
     load_curation_manifest,
     write_curation_manifest,
 )
@@ -223,3 +224,38 @@ def test_curation_rejects_unknown_or_empty_class_selection() -> None:
         manifest.sample_ids_for_classes(("bad",))
     with pytest.raises(CurationError, match="at least one"):
         manifest.sample_ids_for_classes(())
+
+
+def test_curation_split_keeps_whole_scaffolds_together() -> None:
+    """Repeated molecular scaffolds must never leak across held-out splits."""
+    index, sidecar = _fixtures()
+    curation = build_curation_manifest(
+        index,
+        sidecar,
+        reward_sidecar_sha256=SIDECAR_SHA256,
+        config=CurationConfig(curation_version="fixture_curation_v1"),
+    )
+    split = build_curation_split_manifest(
+        index,
+        curation,
+        split_version="fixture_scaffold_split_v1",
+        salt="fixture-scaffold-salt",
+        fractions=(0.6, 0.2, 0.2),
+    )
+    repeated_scaffold_ids = {
+        row.sample_id for row in curation.rows if row.scaffold_key == "c1ccccc1"
+    }
+
+    split.validate_against(index)
+    assert len(repeated_scaffold_ids) == 4
+    assert len(
+        {split.split_for(sample_id) for sample_id in repeated_scaffold_ids}
+    ) == 1
+    repeated = build_curation_split_manifest(
+        index,
+        curation,
+        split_version="fixture_scaffold_split_v1",
+        salt="fixture-scaffold-salt",
+        fractions=(0.6, 0.2, 0.2),
+    )
+    assert repeated.rows == split.rows

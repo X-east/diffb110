@@ -7,7 +7,7 @@ import json
 import math
 import os
 import tempfile
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from types import MappingProxyType
@@ -16,7 +16,12 @@ from typing import Iterable, Mapping
 from rdkit import Chem
 from rdkit.Chem.Scaffolds import MurckoScaffold
 
-from .index import EpisodeIndex
+from .index import (
+    SPLIT_MANIFEST_SCHEMA_VERSION,
+    EpisodeIndex,
+    SplitAssignment,
+    SplitManifest,
+)
 from .reward_sidecar import EpisodeRewardFacts, RewardSidecar
 
 
@@ -28,6 +33,7 @@ QUALITY_CLASSES = (
     "property_negative",
     "technical_failure",
 )
+SPLIT_NAMES = ("train", "validation", "test")
 
 
 class CurationError(RuntimeError):
@@ -430,6 +436,151 @@ def build_curation_manifest(
         reward_sidecar,
         reward_sidecar_sha256=reward_sidecar_sha256,
     )
+    return manifest
+
+
+def _validate_split_fractions(
+    fractions: tuple[float, float, float],
+) -> None:
+    """Validate train/validation/test fractions for grouped curation splits."""
+    if len(fractions) != 3 or any(
+        not math.isfinite(value) or value < 0.0 for value in fractions
+    ):
+        raise CurationError("split fractions must be three finite non-negative values")
+    if not math.isclose(sum(fractions), 1.0, rel_tol=0.0, abs_tol=1e-9):
+        raise CurationError("split fractions must sum to one")
+
+
+def build_curation_split_manifest(
+    episode_index: EpisodeIndex,
+    curation_manifest: CurationManifest,
+    *,
+    split_version: str,
+    salt: str,
+    fractions: tuple[float, float, float] = (0.8, 0.1, 0.1),
+) -> SplitManifest:
+    """Assign whole molecular scaffolds with deterministic class balancing.
+
+    Valid molecules sharing one Murcko scaffold can never cross splits. Episodes
+    without a valid molecular representation remain individually assignable so
+    reconstruction failures still retain their fixed-attempt denominator.
+    """
+    if not split_version.strip() or not salt:
+        raise CurationError("split_version and salt must be non-empty")
+    _validate_split_fractions(fractions)
+    index_ids = {row.sample_id for row in episode_index.rows}
+    curation_ids = {row.sample_id for row in curation_manifest.rows}
+    if index_ids != curation_ids:
+        raise CurationError("curation split requires exact index coverage")
+    if curation_manifest.episode_index_sha256.lower() != episode_index.sha256.lower():
+        raise CurationError("curation split episode-index SHA mismatch")
+
+    index_by_id = {row.sample_id: row for row in episode_index.rows}
+    groups: dict[str, list[EpisodeCurationFacts]] = defaultdict(list)
+    for row in curation_manifest.rows:
+        group_key = (
+            f"scaffold:{row.scaffold_key}"
+            if row.scaffold_key is not None
+            else f"episode:{row.sample_id}"
+        )
+        groups[group_key].append(row)
+
+    total_class_counts = Counter(
+        row.quality_class for row in curation_manifest.rows
+    )
+    total_episodes = len(curation_manifest.rows)
+    target_totals = {
+        split: total_episodes * fraction
+        for split, fraction in zip(SPLIT_NAMES, fractions)
+    }
+    target_classes = {
+        split: {
+            quality_class: total_class_counts[quality_class] * fraction
+            for quality_class in QUALITY_CLASSES
+        }
+        for split, fraction in zip(SPLIT_NAMES, fractions)
+    }
+    assigned_totals = Counter({split: 0 for split in SPLIT_NAMES})
+    assigned_classes = {
+        split: Counter({quality_class: 0 for quality_class in QUALITY_CLASSES})
+        for split in SPLIT_NAMES
+    }
+    group_to_split: dict[str, str] = {}
+
+    def objective() -> float:
+        """Return normalized total and per-class deviation from split targets."""
+        score = 0.0
+        for split in SPLIT_NAMES:
+            total_target = target_totals[split]
+            score += (
+                (assigned_totals[split] - total_target) ** 2
+                / max(total_target, 1.0)
+            )
+            for quality_class in QUALITY_CLASSES:
+                class_target = target_classes[split][quality_class]
+                score += (
+                    (
+                        assigned_classes[split][quality_class]
+                        - class_target
+                    )
+                    ** 2
+                    / max(class_target, 1.0)
+                )
+        return score
+
+    ordered_groups = sorted(
+        groups,
+        key=lambda group_key: (
+            -len(groups[group_key]),
+            hashlib.sha256(f"{salt}|{group_key}".encode("utf-8")).hexdigest(),
+            group_key,
+        ),
+    )
+    for group_key in ordered_groups:
+        class_counts = Counter(row.quality_class for row in groups[group_key])
+        candidates: list[tuple[float, int, str]] = []
+        for split_index, split in enumerate(SPLIT_NAMES):
+            assigned_totals[split] += len(groups[group_key])
+            assigned_classes[split].update(class_counts)
+            candidates.append((objective(), split_index, split))
+            assigned_totals[split] -= len(groups[group_key])
+            assigned_classes[split].subtract(class_counts)
+        _, _, selected_split = min(candidates)
+        group_to_split[group_key] = selected_split
+        assigned_totals[selected_split] += len(groups[group_key])
+        assigned_classes[selected_split].update(class_counts)
+
+    assignments: list[SplitAssignment] = []
+    for group_key in sorted(groups):
+        split = group_to_split[group_key]
+        group_digest = hashlib.sha256(group_key.encode("utf-8")).hexdigest()[:16]
+        for curation_row in groups[group_key]:
+            index_row = index_by_id[curation_row.sample_id]
+            assignments.append(
+                SplitAssignment(
+                    split_schema_version=SPLIT_MANIFEST_SCHEMA_VERSION,
+                    split_version=split_version,
+                    episode_index_sha256=episode_index.sha256,
+                    sample_id=curation_row.sample_id,
+                    split=split,
+                    stratum=(
+                        f"quality={curation_row.quality_class}"
+                        f"|valid={int(index_row.rdkit_valid)}"
+                        f"|nodes={index_row.num_nodes}"
+                        f"|group={group_digest}"
+                    ),
+                )
+            )
+    manifest = SplitManifest(assignments)
+    manifest.validate_against(episode_index)
+    for group_key, group_rows in groups.items():
+        observed = {
+            manifest.split_for(row.sample_id) for row in group_rows
+        }
+        if len(observed) != 1:
+            raise CurationError(
+                f"curation scaffold group crosses splits: {group_key!r}"
+            )
     return manifest
 
 
