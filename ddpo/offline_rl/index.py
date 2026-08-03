@@ -7,11 +7,12 @@ import json
 import math
 import os
 import tempfile
+import time
 from collections import defaultdict
 from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from types import MappingProxyType
-from typing import Iterable, Mapping, Sequence
+from typing import Callable, Iterable, Mapping, Sequence
 
 from .dataset import OfflineTrajectoryDataError, load_trajectory_shard
 
@@ -106,6 +107,18 @@ class EpisodeIndexRow:
             raise EpisodeIndexError("failure_type must be non-empty")
         if self.smiles is not None and not isinstance(self.smiles, str):
             raise EpisodeIndexError("smiles must be str or None")
+
+
+@dataclass(frozen=True)
+class EpisodeIndexProgressFacts:
+    """One immutable index-build progress snapshot for local logging."""
+
+    completed_shards: int
+    total_shards: int
+    indexed_episodes: int
+    elapsed_seconds: float
+    shards_per_second: float
+    eta_seconds: float
 
 
 @dataclass(frozen=True)
@@ -333,8 +346,12 @@ def build_episode_index(
     run_dir: str | Path,
     *,
     max_shards_per_rank: int | None = None,
+    progress_every_shards: int = 100,
+    progress_callback: Callable[[EpisodeIndexProgressFacts], None] | None = None,
 ) -> EpisodeIndex:
     """Build an exact index from a stable snapshot of completed manifests."""
+    if progress_every_shards <= 0:
+        raise EpisodeIndexError("progress_every_shards must be positive")
     source_dir = Path(run_dir).resolve()
     manifest_rows, snapshot_sha256 = _read_manifest_snapshot(source_dir)
     if max_shards_per_rank is not None:
@@ -350,7 +367,9 @@ def build_episode_index(
         manifest_rows = tuple(selected)
 
     rows: list[EpisodeIndexRow] = []
-    for manifest_row in manifest_rows:
+    total_shards = len(manifest_rows)
+    started = time.perf_counter()
+    for completed_shards, manifest_row in enumerate(manifest_rows, start=1):
         try:
             relative_path = str(manifest_row["shard_path"])
             shard_sha256 = str(manifest_row["shard_sha256"])
@@ -395,6 +414,24 @@ def build_episode_index(
                     failure_type=facts.failure_type,
                     smiles=facts.smiles,
                     source_checkpoint_sha256=facts.checkpoint_sha256,
+                )
+            )
+        if progress_callback is not None and (
+            completed_shards % progress_every_shards == 0
+            or completed_shards == total_shards
+        ):
+            elapsed_seconds = time.perf_counter() - started
+            shards_per_second = completed_shards / max(elapsed_seconds, 1e-12)
+            progress_callback(
+                EpisodeIndexProgressFacts(
+                    completed_shards=completed_shards,
+                    total_shards=total_shards,
+                    indexed_episodes=len(rows),
+                    elapsed_seconds=elapsed_seconds,
+                    shards_per_second=shards_per_second,
+                    eta_seconds=(
+                        (total_shards - completed_shards) / shards_per_second
+                    ),
                 )
             )
     return EpisodeIndex(rows)

@@ -87,6 +87,7 @@ def _build_contract_probe_sidecar(
             reconstruction_success=facts.rdkit_valid,
             sanitize_success=facts.rdkit_valid,
             rdkit_valid=facts.rdkit_valid,
+            pb_evaluated=False,
             pb_valid=False,
             docking_input_success=False,
             docking_success=False,

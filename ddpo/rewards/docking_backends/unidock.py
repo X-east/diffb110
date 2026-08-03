@@ -94,75 +94,127 @@ class UniDockBackend(BaseDockingBackend):
         size_y: float = 20.0,
         size_z: float = 20.0,
         exhaustiveness: int = 8,
+        output_dir: Optional[str] = None,
         **kwargs,
     ) -> List[DockingResult]:
-        """Dock a batch of ligands and return structured DockingResult objects."""
+        """Dock ligands and optionally retain pose files under ``output_dir``."""
         if not ligand_files:
             return []
+
+        if output_dir is None:
+            with tempfile.TemporaryDirectory() as tmpdir:
+                return self._dock_batch_result_in_dir(
+                    ligand_files,
+                    receptor_file,
+                    tmpdir,
+                    center_x=center_x,
+                    center_y=center_y,
+                    center_z=center_z,
+                    size_x=size_x,
+                    size_y=size_y,
+                    size_z=size_z,
+                )
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        return self._dock_batch_result_in_dir(
+            ligand_files,
+            receptor_file,
+            output_dir,
+            center_x=center_x,
+            center_y=center_y,
+            center_z=center_z,
+            size_x=size_x,
+            size_y=size_y,
+            size_z=size_z,
+        )
+
+    def _dock_batch_result_in_dir(
+        self,
+        ligand_files: List[str],
+        receptor_file: str,
+        output_dir: str,
+        *,
+        center_x: Optional[float],
+        center_y: Optional[float],
+        center_z: Optional[float],
+        size_x: float,
+        size_y: float,
+        size_z: float,
+    ) -> List[DockingResult]:
+        """Execute one UniDock batch into an existing output directory."""
 
         env = os.environ.copy()
         env['CUDA_VISIBLE_DEVICES'] = str(self.gpu_id)
 
-        with tempfile.TemporaryDirectory() as tmpdir:
-            cmd = [
-                self.unidock_bin,
-                '--receptor', receptor_file,
-                '--gpu_batch', *ligand_files,
-                '--num_modes', str(self.num_modes),
-                '--dir', tmpdir,
+        cmd = [
+            self.unidock_bin,
+            '--receptor', receptor_file,
+            '--gpu_batch', *ligand_files,
+            '--num_modes', str(self.num_modes),
+            '--dir', output_dir,
+        ]
+        if self.search_mode:
+            cmd += ['--search_mode', self.search_mode]
+        else:
+            cmd += ['--exhaustiveness', str(self.exhaustiveness)]
+        if center_x is not None:
+            cmd += [
+                '--center_x', str(center_x),
+                '--center_y', str(center_y),
+                '--center_z', str(center_z),
+                '--size_x', str(size_x),
+                '--size_y', str(size_y),
+                '--size_z', str(size_z),
             ]
-            if self.search_mode:
-                cmd += ['--search_mode', self.search_mode]
-            else:
-                cmd += ['--exhaustiveness', str(self.exhaustiveness)]
-            if center_x is not None:
-                cmd += [
-                    '--center_x', str(center_x),
-                    '--center_y', str(center_y),
-                    '--center_z', str(center_z),
-                    '--size_x', str(size_x),
-                    '--size_y', str(size_y),
-                    '--size_z', str(size_z),
+
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=600, env=env,
+            )
+            if result.returncode != 0:
+                warnings.warn(
+                    f"[UniDockBackend] unidock exited {result.returncode}:\n"
+                    f"{result.stderr[:500]}"
+                )
+                return [
+                    DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND")
+                    for _ in ligand_files
                 ]
 
-            try:
-                result = subprocess.run(
-                    cmd, capture_output=True, text=True, timeout=600, env=env,
-                )
-                if result.returncode != 0:
-                    warnings.warn(
-                        f"[UniDockBackend] unidock exited {result.returncode}:\n"
-                        f"{result.stderr[:500]}"
+            scores = self._parse_output_dir(output_dir, ligand_files)
+            results = []
+            for score in scores:
+                if score != 0.0:
+                    results.append(DockingResult.succeeded(self.backend_name, score))
+                else:
+                    results.append(
+                        DockingResult.failed(
+                            self.backend_name,
+                            "FAILURE_DOCKING_BACKEND",
+                        )
                     )
-                    return [
-                        DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND")
-                        for _ in ligand_files
-                    ]
 
-                scores = self._parse_output_dir(tmpdir, ligand_files)
-                results = []
-                for score in scores:
-                    if score != 0.0:
-                        results.append(DockingResult.succeeded(self.backend_name, score))
-                    else:
-                        results.append(DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND"))
+            non_zero = sum(1 for item in results if item.success)
+            mean_s = sum(item.score_raw for item in results) / len(results)
+            LOGGER.debug(
+                "[UniDockBackend] Completed: %s/%s scored, mean=%.3f",
+                non_zero,
+                len(results),
+                mean_s,
+            )
+            return results
 
-                non_zero = sum(1 for r in results if r.success)
-                mean_s = sum(r.score_raw for r in results) / len(results)
-                LOGGER.debug(
-                    "[UniDockBackend] Completed: %s/%s scored, mean=%.3f",
-                    non_zero,
-                    len(results),
-                    mean_s,
-                )
-                return results
-
-            except subprocess.TimeoutExpired:
-                warnings.warn("[UniDockBackend] unidock timed out")
-                return [DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND") for _ in ligand_files]
-            except Exception as e:
-                warnings.warn(f"[UniDockBackend] dock_batch_result failed: {e}")
-                return [DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND") for _ in ligand_files]
+        except subprocess.TimeoutExpired:
+            warnings.warn("[UniDockBackend] unidock timed out")
+            return [
+                DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND")
+                for _ in ligand_files
+            ]
+        except Exception as exc:
+            warnings.warn(f"[UniDockBackend] dock_batch_result failed: {exc}")
+            return [
+                DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND")
+                for _ in ligand_files
+            ]
 
     def dock_single(
         self,

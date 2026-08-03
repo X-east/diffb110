@@ -95,7 +95,7 @@ def run_posebusters_filter(
                 continue
             try:
                 if buster is None:
-                    pb_fields = _bust_one_molecule_with_timeout(
+                    pb_fields = evaluate_posebusters_molecule(
                         config_name=config_name,
                         receptor_pdb=receptor_pdb,
                         mol=sanitized,
@@ -205,7 +205,7 @@ def _bust_one_molecule(buster: Any, receptor_pdb: Path, mol: Chem.Mol) -> dict[s
     return fields
 
 
-def _bust_one_molecule_with_timeout(
+def evaluate_posebusters_molecule(
     *,
     config_name: str,
     receptor_pdb: Path,

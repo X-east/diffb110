@@ -132,7 +132,7 @@ class ChemistryGuardReward(BaseReward):
             mol = rdmols[idx] if rdmols is not None and idx < len(rdmols) else None
             if mol is None:
                 continue
-            facts = self._compute_facts(mol)
+            facts = self.compute_facts(mol)
             fact_rows[idx] = facts
             reward = self.base_reward - self.violation_penalty * float(facts.violation_count)
             rewards[idx] = torch.clamp(
@@ -145,7 +145,7 @@ class ChemistryGuardReward(BaseReward):
         self._write_fields(data, rewards, success, fact_rows, device=device)
         return data
 
-    def _compute_facts(self, mol: Chem.Mol) -> ChemistryGuardFacts:
+    def compute_facts(self, mol: Chem.Mol) -> ChemistryGuardFacts:
         """Compute guard facts for one valid RDKit molecule."""
         heavy_atoms = [atom for atom in mol.GetAtoms() if atom.GetAtomicNum() > 1]
         heavy_atom_count = len(heavy_atoms)

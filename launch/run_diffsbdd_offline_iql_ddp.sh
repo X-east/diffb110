@@ -2,9 +2,12 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PYTHONPATH="${PROJECT_ROOT}:${PYTHONPATH:-}"
+GIT_COMMON_DIR="$(git -C "${PROJECT_ROOT}" rev-parse --path-format=absolute --git-common-dir)"
+DEFAULT_DATA_ROOT="$(dirname "${GIT_COMMON_DIR}")"
 CONFIG_PATH="${CONFIG_PATH:-${PROJECT_ROOT}/launch/diffsbdd_offline_iql_ddp_smoke_260731.yaml}"
-DATA_ROOT="${DATA_ROOT:-${PROJECT_ROOT}}"
-OUTPUT_DIR="${OUTPUT_DIR:-${PROJECT_ROOT}/analysis/offline_iql_ddp_smoke_260731}"
+DATA_ROOT="${DATA_ROOT:-${DEFAULT_DATA_ROOT}}"
+OUTPUT_DIR="${OUTPUT_DIR:-${DATA_ROOT}/analysis/offline_iql_ddp_smoke_260731}"
 NPROC_PER_NODE="${NPROC_PER_NODE:-2}"
 MASTER_PORT="${MASTER_PORT:-29631}"
 LOG_LEVEL="${LOG_LEVEL:-INFO}"

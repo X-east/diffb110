@@ -116,7 +116,7 @@ class RingComplexityReward(BaseReward):
             mol = rdmols[idx] if rdmols is not None and idx < len(rdmols) else None
             if mol is None:
                 continue
-            fact = self._compute_facts(mol)
+            fact = self.compute_facts(mol)
             facts[idx] = fact
             reward = self.base_reward - fact.penalty
             rewards[idx] = torch.clamp(
@@ -129,7 +129,8 @@ class RingComplexityReward(BaseReward):
         self._write_fields(data, rewards, success, facts, device=device)
         return data
 
-    def _compute_facts(self, mol: Chem.Mol) -> RingComplexityFacts:
+    def compute_facts(self, mol: Chem.Mol) -> RingComplexityFacts:
+        """Compute ring-complexity facts for one valid RDKit molecule."""
         ring_info = mol.GetRingInfo()
         atom_rings = [tuple(ring) for ring in ring_info.AtomRings()]
         ring_count = len(atom_rings)

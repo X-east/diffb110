@@ -137,6 +137,7 @@ def _reward_sidecar(index: EpisodeIndex) -> RewardSidecar:
             reconstruction_success=row.rdkit_valid,
             sanitize_success=row.rdkit_valid,
             rdkit_valid=row.rdkit_valid,
+            pb_evaluated=False,
             pb_valid=False,
             docking_input_success=False,
             docking_success=False,

@@ -41,6 +41,11 @@ _SA_MIN: float = 1.0
 _SA_MAX: float = 10.0
 
 
+def calculate_sa_score(mol: object) -> float:
+    """Return the canonical DiffSBDD synthetic-accessibility score."""
+    return float(_sascorer(mol))
+
+
 class SAReward(BaseReward):
     """Reward function based on SA (Synthetic Accessibility) score.
 
@@ -130,7 +135,7 @@ class SAReward(BaseReward):
                     continue
 
                 with redirect_stderr_to_log():
-                    raw_val = _sascorer(mol)           # raw SA [1, 10], lower = easier
+                    raw_val = calculate_sa_score(mol)  # raw SA [1, 10], lower = easier
 
                 # Write both raw and normalised forms
                 sa_raw[i] = round(raw_val, 2)

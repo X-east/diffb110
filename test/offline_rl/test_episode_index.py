@@ -197,6 +197,38 @@ def test_max_shards_per_rank_is_balanced_and_snapshot_bound(
     assert len({row.manifest_snapshot_sha256 for row in episode_index.rows}) == 1
 
 
+def test_build_episode_index_reports_interval_and_final_progress(
+    tmp_path: Path,
+) -> None:
+    """Progress callbacks should report stable denominators and a final ETA."""
+    run_dir, _ = _make_run(tmp_path)
+    progress = []
+
+    episode_index = build_episode_index(
+        run_dir,
+        progress_every_shards=3,
+        progress_callback=progress.append,
+    )
+
+    assert [facts.completed_shards for facts in progress] == [3, 4]
+    assert [facts.total_shards for facts in progress] == [4, 4]
+    assert [facts.indexed_episodes for facts in progress] == [6, 8]
+    assert all(facts.elapsed_seconds >= 0.0 for facts in progress)
+    assert all(facts.shards_per_second > 0.0 for facts in progress)
+    assert progress[-1].eta_seconds == pytest.approx(0.0)
+    assert len(episode_index.rows) == 8
+
+
+def test_build_episode_index_rejects_invalid_progress_interval(
+    tmp_path: Path,
+) -> None:
+    """A non-positive progress interval should fail before reading shards."""
+    run_dir, _ = _make_run(tmp_path)
+
+    with pytest.raises(EpisodeIndexError, match="progress_every_shards"):
+        build_episode_index(run_dir, progress_every_shards=0)
+
+
 def test_split_is_deterministic_order_independent_and_stratified() -> None:
     """Stable hashing should produce exact per-stratum 80/10/10 counts."""
     rows = tuple(

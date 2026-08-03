@@ -1,0 +1,64 @@
+# Real-backend one-shard labeling smoke. The formula and thresholds are frozen
+# for pipeline validation; a partial run is never marked as a complete dataset.
+name: diffsbdd_offline_labels_smoke_260731
+
+offline_labeling:
+  source_run_dir: runs/diffsbdd_collect/diffsbdd-original-t1000-8gpu-100k-trajectory_20260730_194643
+  episode_index: analysis/offline_iql_ddp_smoke_inputs_260731/episode_index.jsonl
+  output_dir: analysis/offline_iql_labels_smoke_v2_260731
+
+  policy:
+    reward_version: diffsbdd_8gjl_pb_dock_unidock_qed_sa_smoke_v2
+    formal_labels: true
+    posebusters_enabled: true
+    docking_enabled: true
+    posebusters_input: docked_pose
+    failure_penalty: -2.0
+    valid_base_reward: 0.0
+    qed_weight: 0.2
+    sa_weight: 0.2
+    docking_weight: 0.4
+    pb_valid_weight: 0.2
+    docking_normalization_factor: -10.0
+    actual_good_docking_max: -8.0
+    actual_good_ligand_efficiency_min: 0.25
+    actual_good_qed_min: 0.4
+    actual_good_sa_max: 6.0
+    actual_good_logp_min: -1.0
+    actual_good_logp_max: 5.0
+    actual_good_tpsa_min: 20.0
+    actual_good_tpsa_max: 140.0
+    actual_good_max_three_member_rings: 0
+    actual_good_max_fused_rings: 4
+    actual_good_max_complex_rings: 1
+    actual_good_max_brenk: 0
+
+  posebusters:
+    enabled: true
+    receptor_pdb: analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+    config_name: dock
+    molecule_timeout_seconds: 120.0
+    execution_mode: persistent_worker
+
+  docking:
+    enabled: true
+    receptor_pdbqt: data/8gjl.pdbqt
+    gpu_ids: [0, 1, 2, 3, 4, 5, 6, 7]
+    unidock_bin: /opt/unidock-1.1.3/bin/unidock
+    center_x: 207.293
+    center_y: 212.430
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    search_mode: fast
+    num_modes: 1
+    exhaustiveness: 8
+    add_hydrogens: true
+    assign_gasteiger: true
+
+  split:
+    enabled: true
+    version: diffsbdd_offline_label_split_smoke_v1
+    salt: diffsbdd-offline-label-split-smoke-v1
+    fractions: [0.8, 0.1, 0.1]

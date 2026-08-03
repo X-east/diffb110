@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from os import PathLike
 
 
-REWARD_SIDECAR_SCHEMA_VERSION = "diffsbdd_episode_reward_sidecar_v1"
+REWARD_SIDECAR_SCHEMA_VERSION = "diffsbdd_episode_reward_sidecar_v2"
 OPTIONAL_FLOAT_FIELDS = (
     "docking_raw",
     "ligand_efficiency",
@@ -51,6 +51,7 @@ BOOLEAN_FIELDS = (
     "reconstruction_success",
     "sanitize_success",
     "rdkit_valid",
+    "pb_evaluated",
     "pb_valid",
     "docking_input_success",
     "docking_success",
@@ -75,6 +76,7 @@ class EpisodeRewardFacts:
     reconstruction_success: bool
     sanitize_success: bool
     rdkit_valid: bool
+    pb_evaluated: bool
     pb_valid: bool
     docking_input_success: bool
     docking_success: bool
@@ -170,8 +172,13 @@ class EpisodeRewardFacts:
             raise RewardSidecarError(
                 "docking_success requires docking_input_success"
             )
+        if self.pb_valid and not self.pb_evaluated:
+            raise RewardSidecarError("pb_valid requires pb_evaluated")
         if self.actual_good and not (
-            self.rdkit_valid and self.pb_valid and self.docking_success
+            self.rdkit_valid
+            and self.pb_evaluated
+            and self.pb_valid
+            and self.docking_success
         ):
             raise RewardSidecarError(
                 "actual_good requires rdkit_valid, pb_valid, and docking_success"

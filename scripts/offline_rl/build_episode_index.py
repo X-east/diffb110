@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 
 from ddpo.offline_rl.index import (
     EpisodeIndex,
+    EpisodeIndexProgressFacts,
     SplitManifest,
     build_episode_index,
     build_split_manifest,
@@ -30,6 +31,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-shards-per-rank", type=int, default=None)
+    parser.add_argument("--progress-every-shards", type=int, default=100)
     parser.add_argument(
         "--write-unscored-split",
         action="store_true",
@@ -138,18 +140,37 @@ def _write_summary(
     plt.close(figure)
 
 
+def _log_index_progress(progress: EpisodeIndexProgressFacts) -> None:
+    """Log denominator-explicit shard progress, throughput, and ETA."""
+    LOGGER.info(
+        "index progress shards=%d/%d percent=%.2f episodes=%d "
+        "elapsed_seconds=%.1f shards_per_second=%.3f eta_seconds=%.1f",
+        progress.completed_shards,
+        progress.total_shards,
+        100.0 * progress.completed_shards / progress.total_shards,
+        progress.indexed_episodes,
+        progress.elapsed_seconds,
+        progress.shards_per_second,
+        progress.eta_seconds,
+    )
+
+
 def main() -> None:
     """Build index artifacts from one collector manifest snapshot."""
     args = _parse_args()
     _configure_logging(args.output_dir)
     LOGGER.info(
-        "building index run_dir=%s max_shards_per_rank=%s",
+        "building index run_dir=%s max_shards_per_rank=%s "
+        "progress_every_shards=%d",
         args.run_dir,
         args.max_shards_per_rank,
+        args.progress_every_shards,
     )
     episode_index = build_episode_index(
         args.run_dir,
         max_shards_per_rank=args.max_shards_per_rank,
+        progress_every_shards=args.progress_every_shards,
+        progress_callback=_log_index_progress,
     )
     index_path = write_episode_index(
         args.output_dir / "episode_index.jsonl",

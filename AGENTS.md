@@ -44,6 +44,13 @@ Before changing project code, read:
 - Run project Python, tests, and training commands in the `dif` environment.
 - Prefer `conda run -n dif <command>` for one-off commands when activation state
   is uncertain.
+- In an independent git worktree, every DiffSBDD offline-IQL Python, pytest,
+  preprocessing, and training command must prepend the active worktree root to
+  `PYTHONPATH`, for example
+  `PYTHONPATH="$(git rev-parse --show-toplevel):${PYTHONPATH:-}" conda run -n dif ...`.
+  Do not rely on `conda run` to select the current worktree package: it can
+  otherwise import `ddpo` from another checkout. Offline-IQL launch scripts must
+  export this value themselves before invoking Python or `torchrun`.
 - DiffGui reinforcement-learning work is environment-isolated from DiffSBDD.
   Any task that loads the reference DiffGui model/checkpoint, runs DiffGui
   denovo/fragment sampling, or trains DiffGui PPO/DDPO must use a dedicated
