@@ -2,12 +2,12 @@
 # Reward design follows the existing PB-gated DePPA ordering: reconstruct ->
 # UniDock -> PoseBusters -> finite PB gate -> QED/SA/docking composite.
 
-name: diffsbdd_offline_labels_formal_v1_260803
+name: diffsbdd_offline_labels_formal_v1_guarded_260803
 
 offline_labeling:
   source_run_dir: runs/diffsbdd_collect/diffsbdd-original-t1000-8gpu-100k-trajectory_20260730_194643
   episode_index: analysis/offline_iql_full_index_260803/episode_index.jsonl
-  output_dir: analysis/offline_iql_labels_formal_v1_260803
+  output_dir: analysis/offline_iql_labels_formal_v1_guarded_260803
 
   policy:
     reward_version: diffsbdd_8gjl_pb_gated_deppa_formal_v1
