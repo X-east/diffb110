@@ -10,6 +10,7 @@ import pytest
 import torch
 from torch import nn
 
+from ddpo.offline_rl.build import _fixed_awr_statistics
 from ddpo.offline_rl.critic_adapter import PocketContext
 from ddpo.offline_rl.models import (
     GeometricCriticConfig,
@@ -18,6 +19,11 @@ from ddpo.offline_rl.models import (
 )
 from ddpo.offline_rl.policy_adapter import DiffSBDDPolicyAdapter
 from ddpo.offline_rl.protocol import DenoisingTransitionBatch
+from ddpo.offline_rl.reward_sidecar import (
+    REWARD_SIDECAR_SCHEMA_VERSION,
+    EpisodeRewardFacts,
+    RewardSidecar,
+)
 from ddpo.offline_rl.trainer import (
     ActorUpdateConfig,
     IQLTrainerConfig,
@@ -50,6 +56,40 @@ class _TinyPolicy(nn.Module):
         log_prob = -squared_error.sum(dim=(1, 2)) / denominator
         sigma = state.new_ones((int(state.shape[0]), 1, 1))
         return log_prob, mean, sigma
+
+
+class _FixtureSplit:
+    """Minimal split lookup used to test immutable AWR statistics."""
+
+    def __init__(self, assignments: dict[str, str]) -> None:
+        """Store sample-to-split assignments."""
+        self.assignments = assignments
+
+    def split_for(self, sample_id: str) -> str:
+        """Return the configured fixture split."""
+        return self.assignments[sample_id]
+
+
+def _reward_facts(sample_id: str, reward: float) -> EpisodeRewardFacts:
+    """Build one finite reward row without molecule success claims."""
+    return EpisodeRewardFacts(
+        sample_id=sample_id,
+        source_trajectory_format="diffsbdd_frozen_policy_trajectory_v1",
+        source_checkpoint_sha256="c" * 64,
+        source_shard_sha256="d" * 64,
+        reward_schema_version=REWARD_SIDECAR_SCHEMA_VERSION,
+        reward_version="fixture_awr_reward_v1",
+        reconstruction_success=False,
+        sanitize_success=False,
+        rdkit_valid=False,
+        pb_evaluated=False,
+        pb_valid=False,
+        docking_input_success=False,
+        docking_success=False,
+        actual_good=False,
+        reward_total_train=reward,
+        failure_reason="fixture",
+    )
 
 
 def _make_transitions(*, scored: bool = True) -> DenoisingTransitionBatch:
@@ -128,8 +168,9 @@ def _make_actor_updater(
 def _make_iql_trainer(
     *,
     actor_warmup_steps: int = 0,
+    actor_objective: str = "iql",
 ) -> tuple[OfflineIQLTrainer, _TinyPolicy]:
-    """Build a small geometric IQL trainer."""
+    """Build a small geometric critic plus configured actor trainer."""
     torch.manual_seed(5)
     critic_config = GeometricCriticConfig(
         ligand_feature_dim=2,
@@ -142,7 +183,7 @@ def _make_iql_trainer(
     )
     online_q = TwinQCritic(critic_config)
     value = GeometricValueNetwork(critic_config)
-    policy, actor_updater = _make_actor_updater("iql")
+    policy, actor_updater = _make_actor_updater(actor_objective)
     trainer = OfflineIQLTrainer(
         online_q=online_q,
         value=value,
@@ -255,6 +296,26 @@ def test_iql_step_updates_v_q_target_and_actor_with_finite_metrics() -> None:
     _assert_metrics_finite(asdict(metrics))
 
 
+@pytest.mark.parametrize("objective", ("bc", "awr"))
+def test_full_trainer_uses_non_iql_actor_objective_without_critic_advantage(
+    objective: str,
+) -> None:
+    """BC/AWR actor gradients must use their own weights in the DDP train loop."""
+    trainer, policy = _make_iql_trainer(actor_objective=objective)
+    actor_before = _parameter_snapshot(policy)
+
+    metrics = trainer.step(_make_transitions())
+
+    assert metrics.actor is not None
+    assert _any_parameter_changed(actor_before, policy)
+    if objective == "bc":
+        assert metrics.actor.weight_mean == pytest.approx(1.0)
+        assert metrics.actor.effective_sample_size == pytest.approx(4.0)
+    else:
+        assert metrics.actor.weight_max > metrics.actor.weight_mean
+        assert metrics.actor.effective_sample_size < 4.0
+
+
 def test_iql_warmup_updates_critics_without_actor() -> None:
     """Critic warm-up should leave policy parameters unchanged."""
     trainer, policy = _make_iql_trainer(actor_warmup_steps=2)
@@ -342,3 +403,26 @@ def test_config_rejects_awr_without_frozen_train_statistics() -> None:
             ),
             awr_reward_std=0.0,
         )
+
+
+def test_awr_statistics_use_the_selected_global_split_only() -> None:
+    """AWR normalization must be frozen from selected train episodes, not batches."""
+    sidecar = RewardSidecar(
+        (
+            _reward_facts("a", -1.0),
+            _reward_facts("b", 0.0),
+            _reward_facts("c", 2.0),
+        )
+    )
+    split = _FixtureSplit({"a": "train", "b": "validation", "c": "train"})
+
+    mean, std, count = _fixed_awr_statistics(
+        sidecar,
+        split,  # type: ignore[arg-type]
+        split="train",
+        eligible_sample_ids=frozenset({"a", "c"}),
+    )
+
+    assert count == 2
+    assert mean == pytest.approx(0.5)
+    assert std == pytest.approx(1.5)

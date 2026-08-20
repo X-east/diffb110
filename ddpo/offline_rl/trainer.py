@@ -346,7 +346,7 @@ class OfflineActorUpdater:
 
 
 class OfflineIQLTrainer:
-    """Execute the fixed V -> Q -> target -> actor IQL update order."""
+    """Execute fixed critic updates plus BC, AWR, or IQL actor updates."""
 
     def __init__(
         self,
@@ -360,8 +360,6 @@ class OfflineIQLTrainer:
         config: IQLTrainerConfig,
     ) -> None:
         """Initialize online/target critics, optimizers, actor, and pocket."""
-        if actor_updater.config.objective != "iql":
-            raise ValueError("OfflineIQLTrainer requires an IQL actor updater")
         self.online_q = online_q
         self._online_q_core = _unwrap_module(online_q)
         self.target_q = copy.deepcopy(self._online_q_core)
@@ -479,15 +477,17 @@ class OfflineIQLTrainer:
             % self.config.actor_update_interval
             == 0
         )
-        actor_metrics = (
-            self.actor_updater.step(
+        actor_metrics: ActorStepMetrics | None = None
+        if actor_due:
+            actor_metrics = self.actor_updater.step(
                 transitions,
-                iql_advantage=advantage,
+                iql_advantage=(
+                    advantage
+                    if self.actor_updater.config.objective == "iql"
+                    else None
+                ),
                 gradient_loss_scale=gradient_loss_scale,
             )
-            if actor_due
-            else None
-        )
         metrics = IQLStepMetrics(
             global_step=self.global_step,
             value_loss=float(value_loss.detach().cpu()),

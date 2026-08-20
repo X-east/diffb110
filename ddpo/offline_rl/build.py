@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -215,6 +216,33 @@ def _time_bins(config: dict[str, Any]) -> tuple[DecisionTimeBin, ...]:
     )
 
 
+def _fixed_awr_statistics(
+    reward_sidecar: RewardSidecar,
+    split_manifest: SplitManifest,
+    *,
+    split: str,
+    eligible_sample_ids: frozenset[str] | None,
+) -> tuple[float, float, int]:
+    """Return immutable population return statistics for one selected split."""
+    rewards = [
+        float(row.reward_total_train)
+        for row in reward_sidecar.rows
+        if split_manifest.split_for(row.sample_id) == split
+        and (
+            eligible_sample_ids is None
+            or row.sample_id in eligible_sample_ids
+        )
+    ]
+    if not rewards:
+        raise ValueError("AWR selection contains no rewards in the configured split")
+    mean = math.fsum(rewards) / len(rewards)
+    variance = math.fsum((reward - mean) ** 2 for reward in rewards) / len(rewards)
+    std = math.sqrt(max(variance, 0.0))
+    if not math.isfinite(std) or std <= 0.0:
+        raise ValueError("AWR selected train-split reward std must be positive")
+    return mean, std, len(rewards)
+
+
 def build_offline_iql_runtime(
     config: dict[str, Any],
     *,
@@ -351,11 +379,44 @@ def build_offline_iql_runtime(
     else:
         policy, online_q, value = policy_core, online_q_core, value_core
 
+    actor_objective = str(actor_values.get("objective", "iql"))
+    awr_reward_mean: float | None = None
+    awr_reward_std: float | None = None
+    awr_reward_count: int | None = None
+    configured_split = str(data_config.get("split", "train"))
+    if actor_objective == "awr":
+        (
+            awr_reward_mean,
+            awr_reward_std,
+            awr_reward_count,
+        ) = _fixed_awr_statistics(
+            reward_sidecar,
+            split_manifest,
+            split=configured_split,
+            eligible_sample_ids=eligible_sample_ids,
+        )
+        for name, computed in (
+            ("awr_reward_mean", awr_reward_mean),
+            ("awr_reward_std", awr_reward_std),
+        ):
+            expected = actor_values.get(name)
+            if expected is not None and not math.isclose(
+                float(expected),
+                computed,
+                rel_tol=0.0,
+                abs_tol=1e-12,
+            ):
+                raise ValueError(
+                    f"configured {name} does not match selected train split: "
+                    f"configured={expected} computed={computed}"
+                )
     actor_config = ActorUpdateConfig(
-        objective="iql",
+        objective=actor_objective,  # type: ignore[arg-type]
         temperature=float(actor_values.get("temperature", 1.0)),
         max_weight=float(actor_values.get("max_weight", 10.0)),
         max_grad_norm=float(actor_values.get("max_grad_norm", 5.0)),
+        awr_reward_mean=awr_reward_mean,
+        awr_reward_std=awr_reward_std,
     )
     trainer_config = IQLTrainerConfig(
         num_diffusion_steps=num_diffusion_steps,
@@ -402,7 +463,7 @@ def build_offline_iql_runtime(
         run_dir=run_dir,
         episode_index=episode_index,
         split_manifest=split_manifest,
-        split=str(data_config.get("split", "train")),
+        split=configured_split,
         time_bins=time_bins,
         reward_sidecar=reward_sidecar,
         cache_size=int(sampler_values.get("cache_size", 2)),
@@ -454,6 +515,7 @@ def build_offline_iql_runtime(
         "critic_config": asdict(critic_config),
         "trainer_config": asdict(trainer_config),
         "actor_config": asdict(actor_config),
+        "awr_reward_count": awr_reward_count,
         "trainable_policy_parameter_names": [name for name, _ in selected],
     }
     json.dumps(run_identity, sort_keys=True)
