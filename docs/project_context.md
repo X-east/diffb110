@@ -1,17 +1,61 @@
 # Project Context
 
-> **最后更新**: 2026-06-18
+> **最后更新**: 2026-09-02
 
 This document records the current project direction, molecule semantics, reward semantics, and route-level decisions for DiffB110.
 
 ## 1. Current Project Direction
 
-DiffB110 uses DiffGui and DiffSBDD for pocket-aware 3D molecular generation, with DDPO/PPO for reinforcement learning optimization and local analysis artifacts for route decisions. As of 2026-06-24, the current research main line is DiffGui reinforcement learning on the same target/task; DiffSBDD RL is retained as a baseline and backup path.
+DiffB110 的 DiffSBDD 保留线已确认**最终主线方向为 E2PO**（structure-matched, x-only v=0, lr=1e-5, 1-epoch global-e2po DPO）。该决策由 2026-09-02 的 1000-attempt 生成与对比证据支撑（见 `work_records/26-9/260902/260902-02 lr1e-5 1000分子生成对比Original.md`）：宽松口径 sanitize 通过率 81.9%，高于标准 DiffSBDD（~66.9%）与 GCDM-SBDD（~51.9%）；环系/多环病理下降 ~36pp；对接中位 −7.93（弱于 Original −9.51，但结构合理性显著占优）。
+
+其他 DiffSBDD 支线作为**对照或并行实验**保留，但不作为 DiffSBDD 保留线主线。各路线仍共享模型横评、固定尝试次数、分子重建、奖励事实、结构/对接筛选和 MD 候选交接规范。
+
+当前保留/并行路线包括：
+
+- **【主线】DiffSBDD E2PO**：structure-matched, x-only（v=0）, lr=1e-5, 1-epoch global-e2po DPO；训练入口 `ddpo/main_diffsbdd_global_dpo.py`，规范配置 `launch/diffsbdd_global_e2po_x_only_lr1e5_mainline.yaml`，生成脚本 `launch/run_diffsbdd_global_e2po_x_only_lr1e5_generation.sh`。
+- DiffSBDD 原始模型、完整去噪轨迹和终局筛选（对照基线）；
+- DiffSBDD 轨迹上的 BC-all、filtered BC、AWR、offline IQL 等离线学习实验（对照）；
+- AliDiff 风格 Global DPO 非 x-only 变体（对照）；
+- DecompDPO/DecompDiff 风格分解式偏好优化（对照）；
+- 在线 DiffSBDD DDPO、DiffGui PPO/DDPO（对照/其他模型）。
+
+主线选定不撤销其他路线的历史证据；新训练/生成默认走 E2PO 主线配置，除非实验记录明确标注为对照实验。
+
+共享的证据链是：
+
+```text
+扩散模型横评（保留起点证据）
+  -> DiffSBDD 完整去噪轨迹与 reward sidecar
+  -> 按路线构造冻结数据、偏好对或完整轨迹
+  -> 训练/采样各自的候选 checkpoint
+  -> 多指标筛选与重打分
+  -> 选择最优分子进入分子动力学模拟
+```
+
+该共享流程可用于报告、答辩和新任务摘要。目的不是只比较训练 loss，而是对每条路线都产出可审计的候选分子集合，并判断其是否值得进入后续 MD 验证。
+
+各路线都遵循以下实践阶段：
+
+1. **Cross-model diffusion benchmark**: compare DiffGui, DiffSBDD, PMDM, GCDM-SBDD, TargetDiff and related baselines under the same RE-CmeB / 8GJL-C1101 task, using a fixed attempt count rather than refilling invalid generations. This supplies baseline evidence; it does not by itself select the current offline-RL actor.
+2. **Route-specific data construction**: collect DiffSBDD complete trajectories when needed, attach finite reward sidecars, construct preference pairs or decomposition labels when needed, verify manifest/SHA/sample identity, and freeze a no-leakage split.
+3. **Parallel training/evaluation**: run each selected route with its own base-model, loss, data, and checkpoint semantics. For IQL, recorded behavior scores are not safe old-policy log probabilities; for preference methods, distinguish endpoint denoising preference loss from complete trajectory log-probability objectives.
+4. **Independent generation and screening**: sample independently from each checkpoint, then filter and rerank by RDKit and PB legality, uniqueness, docking, ligand efficiency, drug-like descriptors, ring/pathology facts, ChEMBL/D-MPNN-like priors, and manual 3D interaction review.
+5. **Molecular dynamics preparation**: select candidates only after route-matched evidence is available. MD protocol, engine, force field, simulation time, and acceptance criteria should be documented separately when that stage starts.
 
 The project has evolved from simple docking + QED/SA optimization into a multi-objective molecular-quality control system:
 
-- **DiffGui PPO entrypoint**: `ddpo/main_diffgui_docking_ddp.py`
-- **DiffSBDD retained DDPO entrypoint**: `ddpo/main_diffsbdd_ddp.py`
+### Long-running job execution rule
+
+Formal generation, analysis, and training jobs must run independently of a
+foreground Codex/tool session. Launch them with a detached process, record the
+launcher and child PIDs, exact command, output/log/status paths, and resume
+checkpoint. After launch, verify that the process is re-parented to PID 1 and
+that durable logs or metrics continue to advance. A frontend command timeout is
+not evidence of a scientific or training failure; inspect the detached job and
+resume from the latest checkpoint when needed.
+
+- **DiffSBDD complete-trajectory collector**: `ddpo/main_diffsbdd_collect_ddp.py`
+- **Offline-IQL implementation record**: `work_records/26-7/260731/260731-01 DiffSBDD去噪轨迹离线IQL支线全过程记录.md`
 - **Launch configs**: `launch/*.yaml` and `launch/*.sh`
 - **Main outputs**: `OUT/`
 - **Analysis evidence**: `analysis/`
@@ -22,22 +66,24 @@ The project has evolved from simple docking + QED/SA optimization into a multi-o
 
 Key changes from earlier project states:
 
-- No longer Lightning DDP; current mainline uses PyTorch native DDP.
+- No longer Lightning DDP; active training branches use their documented runtime, with PyTorch native DDP where applicable.
 - No longer just QED/SA/docking; current reward work is multi-component and descriptor-aware.
 - No longer only a 2220D MLP classifier; D-MPNN and explicit structural facts are now part of the reward/assessment design.
-- DiffGui is no longer only a reference sampler; it is the current environment-isolated PPO/DDPO main line.
+- DiffGui, online DiffSBDD DDPO, offline IQL, AliDiff-style Global DPO, and DecompDPO-style local preference optimization are kept as parallel routes or comparisons according to each experiment record.
+- No formal RL or preference-optimization mainline is currently confirmed; route selection remains conditional on matched evidence and an explicit project decision.
 - Symmetric dual-R sidechain generation has been investigated deeply and is not a current near-term main method.
+- The project narrative is no longer a four-line method exploration summary; it is now organized as parallel route work packages with no confirmed single mainline.
 
-## 2. Current Research Lines
+## 2. Parallel Project Parts And Work Packages
 
-| Line | Main Code / Evidence | Current Status |
+| Parallel work package | Main Code / Evidence | Current Status |
 |---|---|---|
-| DiffGui RL | `ddpo/main_diffgui_docking_ddp.py`, `ddpo/diffgui/runtime/`, `analysis/diffgui_rl/`, `OUT/diffgui-*` | Current main RL platform; focus on same-target reward optimization, ring/pathology control, top-N reranking, and molecule-quality retention |
-| DiffSBDD RL | `ddpo/main_diffsbdd_ddp.py`, `analysis/diffsbdd_rl/`, `OUT/diffsbdd-*` | Retained DDPO baseline and backup path; reward drift and structural guards remain useful comparison evidence |
-| ChEMBL / D-MPNN | `chembl_classifier/`, `ddpo/rewards/chembl_*` | MLP exists; D-MPNN is the stronger learned-prior candidate but must be calibrated |
-| DiffSBDD small mods | `DiffSBDD/equivariant_diffusion/`, `analysis/diffsbdd_small_mod/` | Local quality improvements remain possible |
-| DiffSBDD x/h/e | `DiffSBDD/edge_diffusion/`, `analysis/diffsbdd_xhe/` | Scientifically meaningful but high-risk and not yet the stable mainline |
-| Symmetric dual-R | `ddpo/constraints/`, `analysis/dual_sidechain_honokiol_9pc_*`, `work_records/26-6/260617/` | Explored deeply; current hard/soft constraint route is not promising as a main method |
+| Benchmark evidence | `analysis/benchmark/`, `work_records/26-7/260730/` | Preserve common fixed-attempt starting-point evidence; do not equate one benchmark ranking with route suitability |
+| DiffSBDD trajectory/offline branch | `ddpo/main_diffsbdd_collect_ddp.py`, `work_records/26-7/260731/`, independent IQL worktree | Parallel branch containing Original, BC, filtered BC, AWR and IQL experiments with route-specific gates |
+| AliDiff-style global preference branch | `reference project/AliDiff-main/`, `analysis/diffsbdd_decompdpo_adaptation_audit_260822/`, current DiffSBDD DPO pilots | Parallel whole-molecule preference branch; must use DiffSBDD-native state/loss semantics when adapted |
+| DecompDPO-style decomposed branch | `reference project/DecompDPO/`, `work_records/26-8/260822/` | Parallel local/multi-granularity branch; decomposition and bond mechanisms are not assumed portable |
+| Online/legacy RL comparisons | `ddpo/main_diffgui_docking_ddp.py`, `ddpo/main_diffsbdd_ddp.py`, `analysis/diffgui_rl/`, `analysis/diffsbdd_rl/` | Run or cite according to the individual experiment record; not globally classified as the sole mainline |
+| Screening, reranking and MD handoff | `scripts/docking/`, `chembl_classifier/`, `ddpo/utils/molecular_descriptors.py`, `analysis/` | Shared downstream evidence layer for every route |
 
 ## 3. Unified Molecule Semantics
 
@@ -178,23 +224,21 @@ Key files:
 
 D-MPNN must be calibrated against docking, explicit structural facts, descriptor drift, top-molecule review, and diversity.
 
-## 7. DiffGui-Specific Context
+## 7. DiffSBDD Offline Trajectory/RL Branch
 
-DiffGui is handled as an environment-isolated path:
+One parallel branch uses the regular `dif` environment and treats the DiffSBDD reverse-diffusion chain as a finite-horizon offline MDP:
 
-- Reference project: `reference project/DiffGui/`
-- Main PPO entrypoint: `ddpo/main_diffgui_docking_ddp.py`
-- Runtime modules: `ddpo/diffgui/runtime/`
-- Outputs: `OUT/diffgui-*`
-- Analyses: `analysis/diffgui_rl/`
+- Collector: `ddpo/main_diffsbdd_collect_ddp.py`
+- Dataset/algorithm record: `work_records/26-7/260731/260731-01 DiffSBDD去噪轨迹离线IQL支线全过程记录.md`
+- State/action semantics: `state=(z_t,t,pocket,node_count)`, `action=z_{t-1}`
+- Required controls: Original, BC-all, filtered BC, episode-return AWR, trajectory IQL
 
-Current DiffGui conclusion:
+Branch-level conclusion:
 
-- DiffGui RL is the current main reinforcement-learning route.
-- Its routine evaluation is same-target/same-task optimization, not cross-target generalization.
-- It is useful for testing distribution shaping, especially ring/pathology control.
-- DiffGui should not currently be used as the main hard symmetric dual-R sidechain platform.
-- Good-molecule replay is implemented but should only be used with a short window, small ratio, and KL/clip gate after good-pool auditing.
+- DiffSBDD offline IQL is one experimental route, not the currently confirmed formal route.
+- It is not valid to claim actor improvement until the relevant episode/manifest, reward-sidecar, actual-good/scaffold, held-out critic, and independent-generation gates pass.
+- Pure offline PPO is excluded because stored behavior scores cannot safely serve as PPO old-policy log probabilities.
+- DiffGui PPO/DDPO and online DiffSBDD DDPO may be run as parallel or comparison routes, but their checkpoints and trajectory semantics must not be mixed with DiffSBDD offline branches.
 
 ## 8. Symmetric Dual-R Context
 
@@ -243,17 +287,24 @@ When updating reconstruction, filtering, reward, logging, docking, or replay cod
 - do not silently mix molecule-building paths
 - make failure boundaries explicit
 - keep per-component logging explicit
-- write local artifacts under `OUT/` or `analysis/` as appropriate
+- write local artifacts under `runs/` or `analysis/` as appropriate
 
 ## 11. Evidence Rule
 
+All proposed model, training, reward, sampler, and reinforcement-learning
+directions must be grounded in existing project code or a mature public
+implementation, paper, repository, or official documentation. Do not treat
+intuition-only ideas as recommended methods or selected project routes. An
+unsupported idea is permitted only as a clearly labelled isolated prototype
+with a documented reference gap, risk, and acceptance ablation.
+
 For project-level conclusions, inspect the relevant artifacts:
 
-- raw run outputs: `OUT/`
+- raw run outputs: `runs/`
 - analysis reports and plots: `analysis/`
 - task records: `work_records/`
 - daily/weekly summaries: `work_days/`
 - launch configs: `launch/`
-- resolved run configs: `OUT/<run>/config/resolved_config.yaml`
+- resolved run configs: `runs/<run>/config/resolved_config.yaml`
 
 Do not rely on old README text or memory when run artifacts are available.

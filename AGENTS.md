@@ -3,11 +3,15 @@
 ## Project Scope
 
 This repository is the DiffB110 project: pocket-conditioned 3D molecule
-generation for the RE-CmeB / CmeB target, with the current research main line
-focused on DiffGui DDPO/PPO reinforcement learning. Treat
-`ddpo/main_diffgui_docking_ddp.py` as the current DiffGui RL training entry
-point. `ddpo/main_diffsbdd_ddp.py` remains the retained DiffSBDD RL baseline and
-comparison path.
+generation for the RE-CmeB / CmeB target. The current research stance is a set
+of parallel routes rather than a confirmed formal mainline. These routes
+include the DiffSBDD base/trajectory branch, offline BC/AWR/IQL experiments,
+AliDiff-style global preference optimization, DecompDPO-style decomposed
+preference optimization, online DiffSBDD DDPO, and DiffGui PPO/DDPO. The
+complete-trajectory collector `ddpo/main_diffsbdd_collect_ddp.py` is a shared
+data and evidence entry point; no one route should be described as the formal
+research route without a later explicit decision and matched independent
+evaluation.
 
 Before changing project code, read:
 
@@ -30,6 +34,14 @@ Before changing project code, read:
 - Do not introduce model-internal scientific mechanisms only from intuition. If
   no suitable reference exists, first create an isolated exploratory prototype
   and report it as speculative rather than merging it into the main pipeline.
+- Do not present an unsupported idea as a recommended training, reward,
+  sampling, model, or RL direction. Recommendations must name their concrete
+  existing-code, mature public implementation, paper, repository, or official
+  documentation basis.
+- A speculative idea without that basis may be discussed only as an explicitly
+  isolated prototype; it must not enter a main configuration, formal run, or
+  scientific conclusion until a reference and an acceptance ablation are
+  recorded.
 
 ## Worktree Safety
 
@@ -69,6 +81,15 @@ Before changing project code, read:
   generation is only acceptable after a real GPU attempt fails or the user
   explicitly asks for CPU. CPU-only generation attempts must not be used for
   speed conclusions.
+- Do not treat an `nvidia-smi` / NVML initialization error as proof that CUDA
+  workloads are unavailable. On this machine, NVML can report a driver/library
+  mismatch while PyTorch in the `dif` environment can still use all GPUs.
+  For DiffSBDD generation, inference, training, and GPU diagnostics, the
+  authoritative preflight is an escalated `dif`-environment PyTorch check:
+  `torch.cuda.is_available()`, `torch.cuda.device_count()`, a device-name
+  query, and, when needed, a small actual CUDA tensor operation. Fall back to
+  CPU only after that PyTorch preflight or the real CUDA workload fails; record
+  the NVML warning separately rather than misclassifying the run as CPU-only.
 - For CPU-parallel analysis, preprocessing, descriptor calculation, dataset
   building, and similar project tasks, default to 18 CPU cores unless the user
   specifies another value or the tool has a safer project-specific limit.
@@ -80,6 +101,13 @@ Before changing project code, read:
 
 ## Analysis Artifacts
 
+- When a plotting task could use either Python or R and the user has not named
+  a backend, default to Python. Use Python exclusively for plotting, preview,
+  export, and visual QA unless the user explicitly requests R.
+- The user prefers comparatively large, presentation-readable figure text.
+  Default to larger titles, axis labels, tick labels, annotations, and legends
+  than dense journal-minimum typography, and verify readability at the actual
+  Markdown, PDF, or slide display size rather than only on a zoomed canvas.
 - For every project analysis task, generate plots by default in addition to
   CSV/JSON/Markdown outputs, unless the user explicitly asks for text-only
   analysis.
@@ -143,6 +171,38 @@ Before changing project code, read:
 - If a run predates this rule and lacks component metrics, state that limitation
   clearly before interpreting loss or model quality.
 
+## Long-Running Shell Job Safety
+
+- Before launching any formal long-running shell job, especially serial
+  generation, benchmark, evaluation, or training wrappers, run `bash -n` on the
+  top-level script and every project script it will call. Re-run `bash -n`
+  after the final edit, not only before an intermediate precheck.
+- A successful first task in a serial shell script is not proof that later tasks
+  are safe: child scripts may be invoked again later and can fail from syntax
+  drift such as unmatched quotes. Always validate the exact script files that
+  the running job will call.
+- Do not edit a shell script that an active serial job will invoke again for
+  later tasks. If a fix is required, stop or let the current stage finish, patch
+  the script, rerun syntax/precheck validation, and resume with an explicit
+  resume control such as `START_FROM` rather than relying on the already-running
+  process to pick up a partially edited file.
+- For formal serial jobs, prefer immutable or run-local script/config snapshots
+  under the output directory, plus explicit task indexes, start/finish log lines,
+  and resume/skip controls. This prevents a later task from using a different
+  script version than the one prechecked at launch.
+- For scripts that generate YAML or heredocs, keep the generated files validated
+  by a dry run or `PRECHECK_ONLY=1` path that exercises every planned task and
+  confirms critical fields such as seeds, GPU shards, attempt counts, and
+  diffusion timesteps before generation starts.
+- Long-running formal jobs must not depend on a foreground tool session. Start
+  them in a session-detached/background process (for example, `setsid` with
+  stdin detached), record the launcher PID, child PID when available, command,
+  output directory, durable log path, status path, and resume/checkpoint path,
+  then verify after launch that the process is re-parented to PID 1 and that
+  logs or metrics continue to advance. Never treat a short command timeout as
+  a training failure; inspect the detached job and resume from its latest
+  checkpoint if it stopped.
+
 ## Work Records
 
 - For substantial coding, analysis, preprocessing, or experiment tasks, create a
@@ -162,7 +222,7 @@ Before changing project code, read:
 - Images embedded from `work_records/` Markdown or archived HTML must be copied
   into the same directory as the document and referenced with a local filename
   such as `![caption](metric_by_method.png)` or `src="metric_by_method.png"`.
-  Do not leave work-record image links pointing to `analysis/`, `OUT/`,
+  Do not leave work-record image links pointing to `analysis/`, `runs/`,
   `data/`, absolute paths, or parent directories; keep the work record
   self-contained for PDF export and archival movement. CSV/JSON/SDF evidence
   may still be linked to its source directory.
@@ -289,7 +349,7 @@ cleanup logic for torchrun process trees, port 29500, and GPU memory reporting.
 - Commit by logical task, not by file.
 - Use commit messages like `YYMMDD-N 简单中文描述`.
 - Before committing, run `git status --short` and add all intended files.
-- Do not add ignored/generated large outputs such as `OUT/`, `checkpoints/`,
+- Do not add ignored/generated large outputs such as `runs/`, `checkpoints/`,
   `bishe/`, `QADD-main/`, `DiffMeta-main/`, or `RL-Diffusion-main/`.
 
 ## Completion Summary
@@ -331,10 +391,38 @@ Rationale: the formal benchmark `launch_benchmark.sh` already uses
 `seed = gpu_id` for the four main models (DiffGui/DiffSBDD/PMDM/GCDM-SBDD);
 GraphBP and Pocket2Mol were aligned to this convention on 2026-06-25.
 
-## DiffGui PPO Data-Reuse Norm
+## DiffSBDD Offline RL And Preference Route Norm
 
-For formal DiffGui PPO/DDPO training where each newly generated molecule should
-contribute to only one policy update, set `train.ppo_epochs: 1`. This controls
-how many PPO optimization passes reuse the current epoch's rollout batch; it is
-not checkpoint or optimizer-state reuse. Checkpoint reuse is controlled by
-`diffgui_model.checkpoint`.
+DiffSBDD 保留线的最终主线方向已确认为 **E2PO**（structure-matched, x-only
+v=0, lr=1e-5, 1-epoch global-e2po DPO）。训练入口
+`ddpo/main_diffsbdd_global_dpo.py`，规范配置
+`launch/diffsbdd_global_e2po_x_only_lr1e5_mainline.yaml`，生成脚本
+`launch/run_diffsbdd_global_e2po_x_only_lr1e5_generation.sh`。该决策由
+2026-09-02 的 1000-attempt 生成与对比证据支撑（见
+`work_records/26-9/260902/260902-02 lr1e-5 1000分子生成对比Original.md`）：宽松口径
+sanitize 通过率 81.9%，高于标准 DiffSBDD（~66.9%）与 GCDM-SBDD（~51.9%）；环系/多环
+病理下降 ~36pp。
+
+Offline IQL, BC/AWR, AliDiff-style global preference (非 x-only 变体), and
+DecompDPO-style decomposed preference optimization remain **parallel/comparison
+routes** alongside E2PO. Do not call any one of them the formal mainline without
+an explicit project decision and matched independent generation/evaluation; new
+training/generation defaults to the E2PO mainline unless explicitly tagged as a
+comparison experiment.
+
+For an IQL-specific run, do not substitute offline PPO ratios for IQL:
+recorded behavior scores are not safe old-policy log probabilities. Before an
+IQL actor run intended for scientific comparison, require all 100,000
+episodes/manifests used by that experiment, complete finite reward sidecars, a
+frozen no-leakage split, sufficient actual-good/scaffold support, and held-out
+critic diagnostics. Compare Original, BC-all, filtered BC, AWR, and IQL with
+matched budgets when that branch is evaluated; every trained checkpoint must
+be evaluated using fresh fixed-attempt generation and independent
+structural/docking screening.
+
+For preference-optimization runs, record whether the experiment is whole-
+molecule or decomposed/local, which base model and diffusion parameterization
+are used, how preferred/rejected pairs are constructed, and which acceptance
+ablation determines whether the route is retained. AliDiff/DecompDPO losses
+must not be presented as complete trajectory log-probability DPO unless the
+full trajectory objective has actually been implemented and validated.
