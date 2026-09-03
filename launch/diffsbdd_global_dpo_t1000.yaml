@@ -1,0 +1,55 @@
+name: diffsbdd-global-dpo-t1000-v1
+
+run:
+  output_dir: analysis/diffsbdd_global_dpo_t1000_v1/formal_run
+  seed: 1
+  variant: native_joint
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  pocket_pdb: data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda:0
+
+data:
+  pair_dir: analysis/diffsbdd_gaussian_dpo_t1000_v1/pairs
+  minimum_validation_pairs: 2000
+
+diffusion:
+  timestep_grid: 1000
+
+dpo:
+  beta: 1.0
+
+training:
+  epochs: 5
+  batch_pairs: 2
+  learning_rate: 1.0e-6
+  max_grad_norm: 1.0
+  train_timesteps_per_batch: 1
+  validation_timesteps: [100, 250, 500, 750, 900]
+  train_eval_pair_count: 512
+
+variants:
+  native_joint:
+    x_weight: 0.23076923076923078
+    v_weight: 0.7692307692307693
+  component_balanced:
+    x_weight: 0.5
+    v_weight: 0.5
+  gradient_balanced:
+    x_weight: 1.0
+    v_weight: 10.0899
+
+generation:
+  enabled: true
+  device: cuda:0
+  attempts: 1000
+  batch_size: 25
+  timesteps: 1000
+  seed: 1
+  reconstruction_method: openbabel
+  resamplings: 10
+  jump_length: 1
+  all_frags: true

@@ -1,0 +1,64 @@
+name: diffsbdd-global-dpo-t1000-frozen-front-xv
+
+run:
+  output_dir: analysis/diffsbdd_global_dpo_t1000_frozen_front_xv
+  seed: 1
+  variant: balanced
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  pocket_pdb: data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda:0
+
+data:
+  pair_dir: analysis/diffsbdd_gaussian_dpo_t1000_v1/pairs
+  minimum_validation_pairs: 2000
+
+diffusion:
+  timestep_grid: 1000
+
+dpo:
+  beta: 1.0
+
+training:
+  epochs: 5
+  batch_pairs: 2
+  learning_rate: 1.0e-6
+  max_grad_norm: 1.0
+  train_timesteps_per_batch: 1
+  validation_timesteps: [100, 250, 500, 750, 900]
+  train_eval_pair_count: 512
+  freeze:
+    encoder_decoder: true
+    egnn_first_n_blocks: 3
+
+variants:
+  x_only:
+    x_weight: 1.0
+    v_weight: 0.0
+  x_dominant:
+    x_weight: 0.75
+    v_weight: 0.25
+  balanced:
+    x_weight: 0.5
+    v_weight: 0.5
+  v_dominant:
+    x_weight: 0.25
+    v_weight: 0.75
+  v_only:
+    x_weight: 0.0
+    v_weight: 1.0
+
+generation:
+  enabled: true
+  device: cuda:0
+  attempts: 1000
+  batch_size: 25
+  timesteps: 1000
+  seed: 1
+  reconstruction_method: openbabel
+  resamplings: 10
+  jump_length: 1
+  all_frags: true

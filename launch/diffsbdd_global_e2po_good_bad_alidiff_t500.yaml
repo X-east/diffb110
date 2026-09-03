@@ -1,0 +1,73 @@
+# Controlled first-stage pilot: explicit strong-good -> strong-bad pairs.
+# Pair manifests are built by scripts/offline_rl/build_alidiff_preference_pairs.py.
+name: diffsbdd-global-e2po-good-bad-alidiff-t500-v1
+
+run:
+  output_dir: analysis/diffsbdd_global_e2po_good_bad_alidiff_t500_v1/formal_run
+  seed: 1
+  variant: native_joint
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  pocket_pdb: data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda:0
+
+data:
+  pair_dir: analysis/diffsbdd_global_e2po_good_bad_alidiff_260825/pairs
+  reward_sidecar: analysis/offline_iql_labels_alidiff_unidock_affinity_8gpu_full_260824/reward_sidecar.csv
+  reward_key: reward_total_raw
+  minimum_validation_pairs: 2000
+  allow_endpoint_reuse: true
+
+diffusion:
+  timestep_grid: 500
+
+dpo:
+  objective: e2po
+  beta: 1.0
+  reward_temperature: 1.0
+  reward_sign: 1.0
+
+training:
+  epochs: 5
+  batch_pairs: 2
+  learning_rate: 1.0e-6
+  max_grad_norm: 1.0
+  train_timesteps_per_batch: 1
+  noise_coupling: independent
+  freeze:
+    encoder_decoder: true
+    egnn_first_n_blocks: 3
+  validation_timesteps: [50, 125, 250, 375, 500]
+  train_eval_pair_count: 512
+
+variants:
+  x_only:
+    x_weight: 1.0
+    v_weight: 0.0
+  v_only:
+    x_weight: 0.0
+    v_weight: 1.0
+  native_joint:
+    x_weight: 0.23076923076923078
+    v_weight: 0.7692307692307693
+  component_balanced:
+    x_weight: 0.5
+    v_weight: 0.5
+  gradient_balanced:
+    x_weight: 1.0
+    v_weight: 10.0899
+
+generation:
+  enabled: true
+  device: cuda:0
+  attempts: 1000
+  batch_size: 25
+  timesteps: 500
+  seed: 1
+  reconstruction_method: openbabel
+  resamplings: 10
+  jump_length: 1
+  all_frags: true
