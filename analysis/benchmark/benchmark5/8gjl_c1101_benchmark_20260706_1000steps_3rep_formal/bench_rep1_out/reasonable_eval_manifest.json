@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "rule": "reasonable = five screening rules R1-R5 all clean; properties/docking measured on the reasonable subset only",
+  "inputs": [
+    "DiffSBDD_bench_rep1:-:/home/md666/data/disk6/DiffB110/analysis/benchmark/8gjl_c1101_benchmark_20260630_all_1000steps/filtered_sanitize_valid/diffsbdd.sanitize_valid.sdf:/home/md666/data/disk6/DiffB110/analysis/benchmark/benchmark5/8gjl_c1101_benchmark_20260706_1000steps_3rep_formal/docking/rep1/diffsbdd/docking_results.csv:1000"
+  ],
+  "rows": 1
+}

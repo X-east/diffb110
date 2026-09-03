@@ -1,0 +1,4 @@
+system,source,reasonable_yield_pct,reasonable_docking_median,reasonable_docking_mean,n_reasonable,n_attempts
+Benchmark_DiffSBDD,benchmark 3-rep formal (R1-R5 identical),28.7,-8.78,-8.76,860,3000
+E2PO_Original,Original checkpoint (R1-R5 identical),30.5,-8.92,-8.88,305,1000
+E2PO_step_004000,step_4000 checkpoint (R1-R5 identical),55.6,-8.46,-8.43,556,1000
