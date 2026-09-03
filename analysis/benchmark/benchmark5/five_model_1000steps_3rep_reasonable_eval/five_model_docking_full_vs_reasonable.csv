@@ -1,0 +1,6 @@
+model,full_dock_mean,full_dock_median,reasonable_dock_mean,reasonable_dock_median,reasonable_yield_per_attempt_pct,reasonable_pct_of_relaxed,qed_median_reasonable,n_reasonable_total
+DiffSBDD,-9.46,-9.58,-8.757,-8.782,28.67,43.03,0.649,860
+DiffGui,-10.873,-11.009,-9.222,-9.326,18.7,21.3,0.722,561
+TargetDiff,-11.081,-11.086,-9.555,-9.396,20.5,20.68,0.716,615
+PMDM,-9.761,-9.663,-9.131,-8.946,3.5,6.08,0.615,105
+GCDM-SBDD,-6.471,-6.526,-6.202,-6.263,40.77,77.92,0.423,1223
