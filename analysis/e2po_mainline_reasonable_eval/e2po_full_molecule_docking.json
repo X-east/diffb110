@@ -1,0 +1,112 @@
+[
+  {
+    "checkpoint": "Original",
+    "total_relaxed": 678,
+    "docked": 678,
+    "full_docking_mean": -9.436898230088495,
+    "full_docking_std": 1.90102740424955,
+    "full_docking_min": -15.211,
+    "full_docking_median": -9.501999999999999,
+    "delta_vs_benchmark": 0.0231017699115057
+  },
+  {
+    "checkpoint": "step_002000",
+    "total_relaxed": 793,
+    "docked": 793,
+    "full_docking_mean": -7.336725094577554,
+    "full_docking_std": 30.950897167089618,
+    "full_docking_min": -14.214,
+    "full_docking_median": -8.671,
+    "delta_vs_benchmark": 2.1232749054224467
+  },
+  {
+    "checkpoint": "step_004000",
+    "total_relaxed": 818,
+    "docked": 818,
+    "full_docking_mean": -8.178228606356969,
+    "full_docking_std": 5.723737208852551,
+    "full_docking_min": -13.53,
+    "full_docking_median": -8.688,
+    "delta_vs_benchmark": 1.281771393643032
+  },
+  {
+    "checkpoint": "step_006000",
+    "total_relaxed": 839,
+    "docked": 839,
+    "full_docking_mean": -4.966668653158522,
+    "full_docking_std": 76.07070955613678,
+    "full_docking_min": -12.951,
+    "full_docking_median": -8.204,
+    "delta_vs_benchmark": 4.493331346841479
+  },
+  {
+    "checkpoint": "step_008000",
+    "total_relaxed": 798,
+    "docked": 798,
+    "full_docking_mean": -7.480809523809524,
+    "full_docking_std": 10.223433848783914,
+    "full_docking_min": -12.975,
+    "full_docking_median": -8.216000000000001,
+    "delta_vs_benchmark": 1.9791904761904773
+  },
+  {
+    "checkpoint": "step_010000",
+    "total_relaxed": 812,
+    "docked": 812,
+    "full_docking_mean": 147.4260763546798,
+    "full_docking_std": 3861.0625149278594,
+    "full_docking_min": -13.015,
+    "full_docking_median": -8.0755,
+    "delta_vs_benchmark": 156.8860763546798
+  },
+  {
+    "checkpoint": "step_012000",
+    "total_relaxed": 855,
+    "docked": 855,
+    "full_docking_mean": -6.650230409356725,
+    "full_docking_std": 11.938412286005798,
+    "full_docking_min": -13.297,
+    "full_docking_median": -7.92,
+    "delta_vs_benchmark": 2.809769590643276
+  },
+  {
+    "checkpoint": "step_014000",
+    "total_relaxed": 836,
+    "docked": 836,
+    "full_docking_mean": 1429.18004784689,
+    "full_docking_std": 41467.028741918264,
+    "full_docking_min": -13.135,
+    "full_docking_median": -7.9495000000000005,
+    "delta_vs_benchmark": 1438.64004784689
+  },
+  {
+    "checkpoint": "step_016000",
+    "total_relaxed": 849,
+    "docked": 849,
+    "full_docking_mean": -2.854250883392226,
+    "full_docking_std": 83.23181574301586,
+    "full_docking_min": -13.523,
+    "full_docking_median": -7.766,
+    "delta_vs_benchmark": 6.605749116607775
+  },
+  {
+    "checkpoint": "step_018000",
+    "total_relaxed": 819,
+    "docked": 819,
+    "full_docking_mean": 71.03047863247863,
+    "full_docking_std": 1557.5484778518808,
+    "full_docking_min": -13.461,
+    "full_docking_median": -7.837,
+    "delta_vs_benchmark": 80.49047863247864
+  },
+  {
+    "checkpoint": "step_final",
+    "total_relaxed": 819,
+    "docked": 819,
+    "full_docking_mean": -6.796675213675213,
+    "full_docking_std": 9.479295922500423,
+    "full_docking_min": -13.029,
+    "full_docking_median": -7.833,
+    "delta_vs_benchmark": 2.6633247863247878
+  }
+]

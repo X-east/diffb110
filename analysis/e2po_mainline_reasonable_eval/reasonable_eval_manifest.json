@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "rule": "reasonable = five screening rules R1-R5 all clean; properties/docking measured on the reasonable subset only",
+  "inputs": [
+    "Original:analysis/diffsbdd_global_e2po_structure_matched_x_only_generation_1000_260901/molecules.sdf:analysis/diffsbdd_global_e2po_structure_matched_x_only_generation_1000_260901/molecules_relaxed_largest.sdf:analysis/diffsbdd_global_e2po_structure_matched_x_only_generation_1000_260901/docking_relaxed/docking_results.csv:1000",
+    "step_002000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_002000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_002000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_002000/docking_relaxed/docking_results.csv:1000",
+    "step_004000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_004000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_004000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_004000/docking_relaxed/docking_results.csv:1000",
+    "step_006000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_006000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_006000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_006000/docking_relaxed/docking_results.csv:1000",
+    "step_008000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_008000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_008000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_008000/docking_relaxed/docking_results.csv:1000",
+    "step_010000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_010000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_010000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_010000/docking_relaxed/docking_results.csv:1000",
+    "step_012000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_012000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_012000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_012000/docking_relaxed/docking_results.csv:1000",
+    "step_014000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_014000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_014000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_014000/docking_relaxed/docking_results.csv:1000",
+    "step_016000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_016000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_016000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_016000/docking_relaxed/docking_results.csv:1000",
+    "step_018000:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_018000/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_018000/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_018000/docking_relaxed/docking_results.csv:1000",
+    "step_final:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_final/molecules.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_final/molecules_relaxed_largest.sdf:OUT/diffsbdd_e2po_mainline_intermediate_gen/step_final/docking_relaxed/docking_results.csv:1000"
+  ],
+  "rows": 11
+}
