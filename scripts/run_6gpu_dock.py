@@ -260,7 +260,7 @@ def _build_config() -> dict[str, Any]:
         "grad_sync_probe": bool(GRAD_SYNC_PROBE),
     }
 
-    data["output"] = {"dir": "./OUT/<run_name>_<YYYYMMDD>_<seq>"}
+    data["output"] = {"dir": "./runs/<run_name>_<YYYYMMDD>_<seq>"}
     return data
 
 

@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 # ===================== user controls =====================
-SDF_FILE = Path("/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf")
+SDF_FILE = Path("/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/260407generated_10000_filtered.sdf")
 OUTPUT_CSV = None  # Set to a Path to force a custom output name; None uses auto naming
 MAX_SUCCESSFUL_MOLECULES = None  # Set to None to calculate all molecules
 # =========================================================

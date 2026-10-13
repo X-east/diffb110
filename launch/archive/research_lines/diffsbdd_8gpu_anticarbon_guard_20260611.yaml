@@ -219,4 +219,4 @@ trajectory_replay:
   enabled: false
 
 output:
-  dir: "./OUT/<run_name>_<YYYYMMDD>_<seq>"
+  dir: "./runs/<run_name>_<YYYYMMDD>_<seq>"

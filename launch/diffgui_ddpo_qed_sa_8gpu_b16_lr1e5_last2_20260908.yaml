@@ -1,0 +1,76 @@
+name: diffgui-ddpo-qed-sa-8gpu-b16-lr1e5-last2-20260908
+
+dataset: crossdock
+
+diffgui_model:
+  sample_config: "reference project/代码/DiffGui/configs/sample/sample.yml"
+  checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
+  base_checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
+  pocket_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
+  ligand_sdf: "None"
+
+diffgui_training:
+  output_root: "OUT"
+  epochs: 100
+  batch_size: 16
+  checkpoint_every_epochs: 1
+
+diffgui_docking_batch_sweep:
+  device: "cuda:0"
+  reward_env: "dif"
+  reward_device: "cuda"
+  reward_batch_size: null
+  reward_timeout_seconds: 1800
+  num_timesteps: 200
+  auto_configure_timesteps: true
+  ligand_size_mode: "priori"
+  ligand_atoms: 24
+  seed_mode: "gpu_id"
+  gui_strength: 3.0
+  precision: "bf16"
+  graph_micro_batch_size: 1
+  normalize_advantages: true
+  advantage_epsilon: 1.0e-6
+  advantage_clip_min: -2.0
+  advantage_clip_max: 2.0
+  failure_advantage: -1.0
+  memory_poll_interval: 5.0
+
+pocket:
+  pdb_path: "./data/8GJL.pdb"
+  ref_ligand: "C:1101"
+  pdbqt_path: "./data/8gjl.pdbqt"
+
+# ── 简单奖励：QED + SA 等权，无 docking / 无 DePPA 模式 ──
+# CompositeReward 对权重做归一化（factory.py: normalize_weights=True），
+# 因此 1.0/1.0 等价于 0.5/0.5，只有相对比例有意义。
+# weight > 0 即启用；若全为 0，factory 会回退到 ["qed", "sa"]（factory.py:58）。
+reward:
+  weights:
+    qed: 1.0
+    sa: 1.0
+  per_component_normalization:
+    enabled: false
+  normalization:
+    enabled: false
+  qed:
+    failure_penalty: -1.0
+  sa:
+    failure_penalty: -1.0
+
+train:
+  learning_rate: 1.0e-5
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 0.0
+  adam_epsilon: 1.0e-8
+  clip_range: 0.2
+  max_grad_norm: 1.0
+  ppo_epochs: 1
+  diffgui_logprob_reduction: "mean"
+  precision: "bf16"
+  graph_micro_batch_size: 1
+  ddp_find_unused_parameters: false
+  freeze:
+    mode: "last_n_blocks"
+    train_last_n_blocks: 2

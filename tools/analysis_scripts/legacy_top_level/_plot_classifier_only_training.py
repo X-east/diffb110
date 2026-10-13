@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Comprehensive visualization of 7gpu-classifier-only_20260526_210715 training.
-Generates ~20 plots across 5 categories, saved to OUT/<run>/analysis_figures/
+Generates ~20 plots across 5 categories, saved to runs/<run>/analysis_figures/
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 
 # ── Config ──────────────────────────────────────────────────
-RUN_DIR = Path("/home/md666/data/disk6/DiffB110/OUT/7gpu-classifier-only_20260526_210715")
+RUN_DIR = Path("/home/md666/data/disk6/DiffB110/runs/7gpu-classifier-only_20260526_210715")
 OUT_DIR = RUN_DIR / "analysis_figures"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

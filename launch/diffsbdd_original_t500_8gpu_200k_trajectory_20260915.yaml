@@ -1,0 +1,42 @@
+# DiffSBDD original model, 8-GPU, 200000 fixed attempts, 500 diffusion timesteps.
+#
+# Paired control for the existing 200k t1000 trajectory collection
+# (runs/diffsbdd_collect/diffsbdd-original-t1000-8gpu-100k-trajectory_20260730_194643,
+# extended to 200k by launch/continue_diffsbdd_original_t1000_8gpu_to_200k_20260819.sh).
+# Identical checkpoint / pocket / node range / seed rule / attempt budget / shard
+# layout; the only changed field is model.time_step.
+#
+# Timestep semantics (do not change silently):
+#   DiffSBDD normalizes the reverse process as s = s_int / T, so time_step is the
+#   number of discrete steps used to discretize one fixed normalized-time process.
+#   The checkpoint's native diffusion_steps is 500, so time_step: 500 is the
+#   native-fidelity setting and time_step: 1000 is a 2x oversampled discretization.
+name: diffsbdd-original-t500-8gpu-200k-trajectory-20260915
+
+dataset: crossdock
+
+model:
+  checkpoint: "./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
+  time_step: 500
+  pocket_pdb: "./data/8GJL.pdb"
+  ref_ligand: "C:1101"
+  dataset_name: "crossdock"
+  device: "cuda"
+
+diffsbdd_collection:
+  expected_world_size: 8
+  fixed_attempts_total: 200000
+  batch_size_per_rank: 10
+  num_shards_per_rank: 2500
+  min_nodes: 10
+  max_nodes: 30
+  max_n_nodes: 30
+  reconstruction_method: "openbabel"
+  output_root: "runs/diffsbdd_collect"
+  finalize_timeout_seconds: 7200
+
+dataloader:
+  rollout_micro_batch_size: 10
+
+output:
+  dir: "./runs/diffsbdd_collect/<run_name>_<YYYYMMDD_HHMMSS>"

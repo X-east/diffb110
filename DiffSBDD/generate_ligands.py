@@ -30,6 +30,7 @@ if __name__ == "__main__":
     parser.add_argument('--outfile', type=Path)
     parser.add_argument('--n_samples', type=int, default=20)
     parser.add_argument('--batch_size', type=int, default=None)
+    parser.add_argument('--seed', type=int, default=None)
     parser.add_argument('--num_nodes_lig', type=int, default=None)
     parser.add_argument('--all_frags', action='store_true')
     parser.add_argument('--sanitize', action='store_true')
@@ -92,6 +93,13 @@ if __name__ == "__main__":
         help='Bond inference backend used when rebuilding RDKit molecules.',
     )
     args = parser.parse_args()
+
+    if args.seed is not None:
+        if args.seed <= 0:
+            raise ValueError('--seed must be positive')
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
 
     pdb_id = Path(args.pdbfile).stem
 

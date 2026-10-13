@@ -23,7 +23,7 @@ run_diffpharma_one() {
   export MPLCONFIGDIR="${mpl_dir}"
   /usr/bin/time -p conda run -n diffpharma_modern_ref python "${SCRIPTS}/run_interaction_model_shard.py" \
     --kind diffpharma \
-    --repo "${ROOT}/reference project/modern_sbdd_20260531/DiffPharma" \
+    --repo "${ROOT}/reference project/代码/modern_sbdd_20260531/DiffPharma" \
     --checkpoint "${ROOT}/analysis/modern_sbdd_20260531/assets/DiffPharma/DiffPharma_best.ckpt" \
     --pdb "${INPUTS}/8GJL_C1101_protein_only.pdb" \
     --sdf "${INPUTS}/8GJL_C1101_ligand.sdf" \

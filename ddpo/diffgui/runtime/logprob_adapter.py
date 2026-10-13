@@ -1,8 +1,8 @@
 """DiffGui reverse-transition sampling and log-probability helpers.
 
 The functions here mirror the local reference implementation in
-``reference project/DiffGui/models/model.py`` and
-``reference project/DiffGui/models/transition.py`` while keeping the code under
+``reference project/代码/DiffGui/models/model.py`` and
+``reference project/代码/DiffGui/models/transition.py`` while keeping the code under
 the decoupled ``ddpo.diffgui`` namespace.  They provide the missing bridge
 between DiffGui's denovo sampler and DDPO/PPO, namely a per-step log-probability
 for the sampled ``pos/node/halfedge`` reverse transition.
@@ -449,6 +449,9 @@ def diffgui_sample_with_logprob(
             "halfedge": ligand_halfedge_traj,
             "node_log_state": node_log_state_traj,
             "halfedge_log_state": halfedge_log_state_traj,
+        },
+        "policy_condition": {
+            "protein_pos": protein_pos_centered,
         },
         "logprob": {
             "total": logprob,

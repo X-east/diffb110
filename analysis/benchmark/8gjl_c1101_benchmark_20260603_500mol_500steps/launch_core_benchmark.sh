@@ -74,7 +74,7 @@ aggregate_diffsbdd() {
 run_diffgui_one() {
   local gpu_id="$1"
   local count="$2"
-  local project="${ROOT}/reference project/DiffGui"
+  local project="${ROOT}/reference project/代码/DiffGui"
   local out_dir="${EXP}/outputs/diffgui/gpu_${gpu_id}"
   local cfg="${EXP}/configs/diffgui/diffgui_c1101_gpu${gpu_id}.yml"
   local mpl_dir="${EXP}/mplconfig/diffgui/gpu_${gpu_id}"
@@ -102,7 +102,7 @@ aggregate_diffgui() {
 run_deppa_one() {
   local gpu_id="$1"
   local count="$2"
-  local project="${ROOT}/reference project/DePPA"
+  local project="${ROOT}/reference project/代码/DePPA"
   local out_dir="${EXP}/outputs/deppa_rerun/gpu_${gpu_id}"
   local mpl_dir="${EXP}/mplconfig/deppa/gpu_${gpu_id}"
   mkdir -p "${EXP}/outputs/deppa_rerun" "${mpl_dir}"

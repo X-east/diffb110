@@ -26,7 +26,7 @@ from rdkit.Chem import Crippen, Descriptors, Lipinski, QED, rdMolDescriptors
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-MOLSKILL_ROOT = PROJECT_ROOT / "reference project" / "molskill"
+MOLSKILL_ROOT = PROJECT_ROOT / "reference project" / "代码" / "molskill"
 if str(MOLSKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(MOLSKILL_ROOT))
 if str(PROJECT_ROOT) not in sys.path:

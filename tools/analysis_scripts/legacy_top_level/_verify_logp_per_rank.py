@@ -4,7 +4,7 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Descriptors
 
-ROOT = '/home/md666/data/disk6/DiffB110/OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341'
+ROOT = '/home/md666/data/disk6/DiffB110/runs/7gpu-dock-ecfp4-fcfp4_20260526_115341'
 mdf = pd.read_csv(f'{ROOT}/epochs/epoch_0016/molecules.csv')
 valid = mdf[mdf['rdkit_valid'] == 1].copy()
 

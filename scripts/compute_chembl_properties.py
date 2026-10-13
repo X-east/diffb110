@@ -267,7 +267,7 @@ def write_properties_csv(rows: list[dict[str, Any]], path: Path) -> None:
     LOGGER.info("Wrote %d rows to %s", len(rows), path)
 
 
-def write_stats_json(stats: dict, path: Path) -> None:
+def write_stats_json(stats: dict, path: Path, source_path: Path) -> None:
     """Write aggregate statistics to JSON."""
     LOGGER.info("Writing statistics: %s", path)
     # Use the first descriptor's count as the authoritative molecule count
@@ -275,7 +275,7 @@ def write_stats_json(stats: dict, path: Path) -> None:
     mol_count = int(stats[first_key]["count"]) if first_key else 0
     meta = {
         "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "source": str(Path("data/chembl/chembl_36_molecules.csv.gz")),
+        "source": str(source_path),
         "num_molecules": mol_count,
         "num_descriptors": len(stats),
         "descriptor_names": ALL_DESCRIPTOR_NAMES,
@@ -333,7 +333,7 @@ def main() -> int:
 
     # Step 4: Compute and write statistics
     stats = compute_statistics(results)
-    write_stats_json(stats, output_stats)
+    write_stats_json(stats, output_stats, input_path)
 
     # Print summary
     LOGGER.info("Done. Key statistics:")

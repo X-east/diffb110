@@ -1,0 +1,27 @@
+# Append 100k attempts to the completed 100k DiffSBDD trajectory collection.
+# This is used only with --resume and the original run directory, restoring the
+# per-rank rng_state_after recorded in shards 1249.
+name: diffsbdd-original-t1000-8gpu-200k-continuation-20260819
+dataset: crossdock
+model:
+  checkpoint: ./DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  time_step: 1000
+  pocket_pdb: ./data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda
+diffsbdd_collection:
+  expected_world_size: 8
+  fixed_attempts_total: 200000
+  batch_size_per_rank: 10
+  num_shards_per_rank: 2500
+  min_nodes: 10
+  max_nodes: 30
+  max_n_nodes: 30
+  reconstruction_method: openbabel
+  output_root: runs/diffsbdd_collect
+  finalize_timeout_seconds: 7200
+dataloader:
+  rollout_micro_batch_size: 10
+output:
+  dir: ./runs/diffsbdd_collect/<run_name>_<YYYYMMDD_HHMMSS>

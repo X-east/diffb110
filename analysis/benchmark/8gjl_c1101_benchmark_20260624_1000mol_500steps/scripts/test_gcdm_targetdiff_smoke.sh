@@ -16,7 +16,7 @@ RUN_TAG="${RUN_TAG:-$(date +%Y%m%d_%H%M%S)}"
 OUT_ROOT="${OUT_ROOT:-${EXP}/work/gcdm_targetdiff_smoke_${RUN_TAG}}"
 TARGETDIFF_BATCH_SIZE="${TARGETDIFF_BATCH_SIZE:-5}"
 
-GCDM_PROJECT="${ROOT}/reference project/modern_sbdd_20260531/GCDM-SBDD"
+GCDM_PROJECT="${ROOT}/reference project/代码/modern_sbdd_20260531/GCDM-SBDD"
 GCDM_CKPT="${ROOT}/analysis/benchmark/modern_sbdd_20260531/assets/GCDM-SBDD/extracted/checkpoints/crossdocked_ca_joint_egnn.ckpt"
 GCDM_OUT="${OUT_ROOT}/gcdm"
 GCDM_LOG="${OUT_ROOT}/logs/gcdm.log"

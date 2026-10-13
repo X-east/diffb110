@@ -3,14 +3,14 @@ name: diffgui-deppa-full-lr1e5-wd1e4-b8x8-t200-100ep-20260626
 dataset: crossdock
 
 diffgui_model:
-  sample_config: "reference project/DiffGui/configs/sample/sample.yml"
-  checkpoint: "reference project/DiffGui/ckpt/trained.pt"
-  base_checkpoint: "reference project/DiffGui/ckpt/trained.pt"
+  sample_config: "reference project/代码/DiffGui/configs/sample/sample.yml"
+  checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
+  base_checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
   pocket_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
   ligand_sdf: "None"
 
 diffgui_training:
-  output_root: "OUT"
+  output_root: "runs"
   epochs: 100
   batch_size: 8
   checkpoint_every_epochs: 5
@@ -27,9 +27,12 @@ diffgui_deppa_mode:
   normal_eps: 1.0e-3
   invalid_penalty_std: 3.0
   invalid_fallback_reward: -1.0
-  normalize_advantages: false
+  normalize_advantages: true
   advantage_clip_min: -3.0
   advantage_clip_max: 3.0
+  metrics:
+    distance:
+      fingerprint_type: "rdkit"
 
 diffgui_training_filter:
   enabled: false
@@ -125,7 +128,7 @@ reward:
     size_x: 20.0
     size_y: 20.0
     size_z: 20.0
-    exhaustiveness: 8
+    exhaustiveness: 16
     search_mode: "fast"
 
 train:
@@ -136,7 +139,7 @@ train:
   adam_epsilon: 1.0e-8
   clip_range: 0.2
   max_grad_norm: 1.0
-  ppo_epochs: 1
+  ppo_epochs: 2
   diffgui_logprob_reduction: "mean"
   precision: "bf16"
   graph_micro_batch_size: 1

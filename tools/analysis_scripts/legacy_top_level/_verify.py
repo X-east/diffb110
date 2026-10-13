@@ -5,7 +5,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 from ddpo.rewards.logp_distribution_reward import LogPDistributionReward,DEFAULT_LOGP_BINS
 
-mdf=pd.read_csv(f'{ROOT}/OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs/epoch_0016/molecules.csv')
+mdf=pd.read_csv(f'{ROOT}/runs/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs/epoch_0016/molecules.csv')
 valid=mdf[mdf['rdkit_valid']==1]
 rw=LogPDistributionReward(chembl_csv='./data/chembl/chembl_36_properties.csv.gz',
     failure_penalty=-1.0,min_reward=-2.0,max_reward=2.0,scale=6.0,ema_alpha=0.0)
@@ -31,7 +31,7 @@ for rank in sorted(valid['rank'].unique()):
 
 print(f'\nPer-rank mean: {np.mean(res):.4f} | CSV: 0.189')
 print('Epoch 1 check:')
-mdf1=pd.read_csv(f'{ROOT}/OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs/epoch_0001/molecules.csv')
+mdf1=pd.read_csv(f'{ROOT}/runs/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs/epoch_0001/molecules.csv')
 res1=[]
 for rank in sorted(mdf1[mdf1['rdkit_valid']==1]['rank'].unique()):
     rv=mdf1[(mdf1['rank']==rank)&(mdf1['rdkit_valid']==1)]

@@ -1,5 +1,5 @@
 ---
-description: Current project context — DiffGui RL main line, environment, paths, and key rules
+description: Current project context — Part I DiffSBDD offline IQL to screening and MD handoff, environment, paths, and key rules
 globs: "**/*"
 alwaysApply: true
 ---
@@ -21,11 +21,20 @@ Rules:
 
 ## Current Main Line
 
-- **Current RL training entry point**: `ddpo/main_diffgui_docking_ddp.py` (DiffGui PPO/DDPO).
-- **Retained baseline**: `ddpo/main_diffsbdd_ddp.py` (DiffSBDD DDPO, for comparison only).
+- **Project structure**: current project status is split into two parts. Part I
+  is confirmed; Part II is TBD.
+- **Part I workflow**: cross-model diffusion benchmark evidence -> DiffSBDD
+  complete denoising trajectories and reward sidecars -> BC / filtered BC / AWR
+  / trajectory IQL comparison -> fresh molecule generation -> screening/reranking
+  -> top candidates for molecular dynamics simulation.
+- **Benchmark rule**: compare models by fixed generation attempts and fixed seed
+  rules; do not refill invalid generations to force equal written SDF counts.
+- **Current collection entry point**: `ddpo/main_diffsbdd_collect_ddp.py` (DiffSBDD complete trajectories).
+- **IQL readiness**: do not claim a formal IQL launcher or actor result until the frozen data, actual-good/scaffold, and held-out critic gates pass.
+- **Historical/comparison paths**: `ddpo/main_diffgui_docking_ddp.py` (DiffGui PPO/DDPO) and `ddpo/main_diffsbdd_ddp.py` (online DiffSBDD DDPO).
 - **Launch scripts**: under `launch/`, not `scripts/`.
 - **Configs**: under `configs/`.
-- **Output root**: `output/` for diffgui runs, not `OUT/`.
+- **Output root**: `OUT/` for formal training/generation/smoke outputs.
 
 ## Training Workflow
 
@@ -37,7 +46,7 @@ Rules:
 ## Output Directory Structure (Current DDP Format)
 
 ```
-output/<run_name>/
+OUT/<run_name>/
 ├── resolved_config.yaml        # Full resolved config snapshot
 ├── training_summary.csv        # Per-epoch summary (rewards/loss/validity/time)
 ├── metrics/
@@ -86,7 +95,9 @@ Format: `[YYYY-MM-DD HH:MM] tag-name — 中文简介`
 - `[2026-03-14 23:00] autodockgpu-rl-test-pass` — AutoDock-GPU + Lightning DDP DDPO 端到端测试通过。
 - `[2026-03-15 20:00] tmux-training-workflow` — 确立 tmux 为远程训练标准工作流。
 - `[2026-05-18 10:30] unidock-chembl-prior-6gpu` — UniDock + ChEMBL prior 6 卡训练入口。
-- `[2026-06-24 10:00] diffgui-rl-mainline` — DiffGui RL 成为当前主线，DiffSBDD 降为保留对照线；文档、规则、入口全面同步。
+- `[2026-06-24 10:00] diffgui-rl-mainline` — 历史路线：DiffGui RL 曾作为主线；保留其结果和运行记录，不把它写成当前路线。
+- `[2026-08-17 10:00] diffsbdd-offline-iql-mainline` — 当前第一部分改为 DiffSBDD 完整去噪轨迹、离线 BC/AWR/IQL 对照、独立生成筛选与 MD 候选交接；IQL actor 受既定 go/no-go 约束。
+- `[2026-09-18 17:00] e2po-renamed-to-esrpo` — E2PO 更名为 ESRPO（Endpoint Structural-Rule Preference Optimization，终点级结构规则偏好优化）：原全称与缩写不自洽，且 E2PO 已被 ICML 2026 论文占用。代码符号、launch 配置与脚本、tools 脚本、论文与 PPT 文本已全面更新；旧 objective 名 `e2po` 保留为兼容别名以便历史配置与 run manifest 复现。产物路径（OUT/、analysis/ 下的既有 run 目录）与 run label 不改。
 
 ## AutoDock-GPU Device Numbering (only if that backend is explicitly enabled)
 

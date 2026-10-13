@@ -29,8 +29,8 @@ from matplotlib.ticker import MaxNLocator
 # ============================================================
 # 用户可调参数
 # ============================================================
-DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260407generated_10000_filtered_properties_all.csv"
-DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260410-10000-generate1-5829mol"
+DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/260407generated_10000_filtered_properties_all.csv"
+DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/260410-10000-generate1-5829mol"
 SUMMARY_CSV_NAME = None  # None 时自动按输出目录名生成
 
 SINGLE_FIGSIZE = (10, 7.5)

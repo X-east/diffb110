@@ -49,19 +49,22 @@ import torch.distributed as dist
 import yaml
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(
+    os.environ.get("DIFFB110_PROJECT_ROOT", Path(__file__).resolve().parent.parent)
+).resolve()
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from ddpo.integration.diffsbdd_model import DiffSBDDModel  # noqa: E402
 from ddpo.runtime.protocol import DataProto, TensorDict  # noqa: E402
 from ddpo.runtime.rollout import DiffSBDDRollout  # noqa: E402
+from ddpo.runtime.trajectory_shard import TRAJECTORY_SHARD_FORMAT  # noqa: E402
 from ddpo.utils.molecule_semantics import annotate_batch_molecule_semantics  # noqa: E402
 
 
 LOGGER = logging.getLogger("DiffSBDDTrajectoryCollector")
 
-SHARD_FORMAT = "diffsbdd_frozen_policy_trajectory_v1"
+SHARD_FORMAT = TRAJECTORY_SHARD_FORMAT
 
 
 def parse_args() -> argparse.Namespace:
@@ -214,7 +217,15 @@ def _restore_rng_state(state: dict[str, Any], device: torch.device) -> None:
 
 
 def _restore_or_seed(
-    run_dir: Path, *, rank: int, seed: int, resume: bool, device: torch.device
+    run_dir: Path,
+    *,
+    rank: int,
+    seed: int,
+    resume: bool,
+    device: torch.device,
+    batch_size: int,
+    num_timesteps: int,
+    max_n_nodes: int,
 ) -> int:
     """Restore the last completed shard RNG state or initialize the rank seed once."""
     manifest_path = run_dir / "manifests" / f"rank_{rank:02d}.jsonl"
@@ -224,9 +235,36 @@ def _restore_or_seed(
             raise FileExistsError(f"Existing manifest requires --resume: {manifest_path}")
         _seed_all(seed)
         return 0
-    last = max(records, key=lambda row: int(row["shard_index"]))
+    for expected_index, row in enumerate(records):
+        if int(row.get("shard_index", -1)) != expected_index:
+            raise ValueError(
+                f"Rank {rank} manifest is not contiguous at row {expected_index}: {row}"
+            )
+        if int(row.get("rank", -1)) != rank or int(row.get("seed", -1)) != seed:
+            raise ValueError(f"Rank/seed mismatch in existing manifest row: {row}")
+        if int(row.get("attempts", -1)) != batch_size:
+            raise ValueError(f"Batch-size mismatch in existing manifest row: {row}")
+        if int(row.get("num_timesteps", -1)) != num_timesteps:
+            raise ValueError(f"Timestep mismatch in existing manifest row: {row}")
+        shard_path = run_dir / str(row["shard_path"])
+        if not shard_path.exists() or shard_path.stat().st_size != int(row["shard_bytes"]):
+            raise FileNotFoundError(f"Missing or size-mismatched trajectory shard: {shard_path}")
+
+    last = records[-1]
     shard_path = run_dir / str(last["shard_path"])
     payload = torch.load(shard_path, map_location="cpu", weights_only=False)
+    expected_latent_shape = [batch_size, num_timesteps + 2, max_n_nodes, 13]
+    expected_logps_shape = [batch_size, num_timesteps + 1]
+    if list(payload["latents"].shape) != expected_latent_shape:
+        raise ValueError(
+            f"Resume latent shape mismatch: {list(payload['latents'].shape)} "
+            f"!= {expected_latent_shape}"
+        )
+    if list(payload["logps"].shape) != expected_logps_shape:
+        raise ValueError(
+            f"Resume logps shape mismatch: {list(payload['logps'].shape)} "
+            f"!= {expected_logps_shape}"
+        )
     _restore_rng_state(payload["rng_state_after"], device)
     return int(last["shard_index"]) + 1
 
@@ -377,9 +415,29 @@ def _collect(
     reconstruction_method = str(collection_cfg.get("reconstruction_method", "openbabel"))
     if batch_size <= 0 or num_shards <= 0:
         raise ValueError("Collection batch_size_per_rank and num_shards_per_rank must be positive.")
+    if not (1 <= min_nodes <= max_nodes <= max_n_nodes):
+        raise ValueError(
+            "Expected 1 <= min_nodes <= max_nodes <= max_n_nodes, got "
+            f"{min_nodes}, {max_nodes}, {max_n_nodes}"
+        )
 
     rank = int(dist_info["rank"])
     local_rank = int(dist_info["local_rank"])
+    world_size = int(dist_info["world_size"])
+    expected_world_size = int(collection_cfg.get("expected_world_size", world_size))
+    if world_size != expected_world_size:
+        raise ValueError(
+            f"Configured expected_world_size={expected_world_size}, launched world_size={world_size}"
+        )
+    expected_fixed_attempts = world_size * num_shards * batch_size
+    configured_fixed_attempts = int(
+        collection_cfg.get("fixed_attempts_total", expected_fixed_attempts)
+    )
+    if configured_fixed_attempts != expected_fixed_attempts:
+        raise ValueError(
+            f"Configured fixed_attempts_total={configured_fixed_attempts}, but "
+            f"world_size*shards*batch={expected_fixed_attempts}"
+        )
     device = torch.device(f"cuda:{local_rank}" if torch.cuda.is_available() else "cpu")
     if device.type != "cuda":
         raise RuntimeError("DiffSBDD trajectory collection requires CUDA.")
@@ -391,8 +449,21 @@ def _collect(
     num_timesteps = int(model_cfg.get("time_step", 500))
 
     rollout = DiffSBDDRollout(model, config)
-    seed = local_rank + 1
-    start_shard = _restore_or_seed(run_dir, rank=rank, seed=seed, resume=resume, device=device)
+    seed = rank + 1
+    start_shard = _restore_or_seed(
+        run_dir,
+        rank=rank,
+        seed=seed,
+        resume=resume,
+        device=device,
+        batch_size=batch_size,
+        num_timesteps=num_timesteps,
+        max_n_nodes=max_n_nodes,
+    )
+    if start_shard > num_shards:
+        raise ValueError(
+            f"Rank {rank} already has {start_shard} shards, exceeding requested {num_shards}"
+        )
     LOGGER.info(
         "collection start checkpoint=%s sha256=%s steps=%d batch=%d shards=%d seed=%d start_shard=%d",
         checkpoint,
@@ -407,7 +478,8 @@ def _collect(
     manifest_path = run_dir / "manifests" / f"rank_{rank:02d}.jsonl"
     rank_started = time.perf_counter()
     new_attempts = 0
-    new_reconstructed = 0
+    new_obabel_reconstructed = 0
+    new_rdkit_valid = 0
     new_bytes = 0
 
     for shard_index in range(start_shard, num_shards):
@@ -428,8 +500,12 @@ def _collect(
         )
         ntb = data.non_tensor_batch
         rdmols = ntb.get("rdmols", [None] * batch_size)
+        obabel_flags = ntb.get("obabel_reconstruct_success", [0] * batch_size)
+        sanitize_flags = ntb.get("sanitize_success", [0] * batch_size)
         valid_flags = ntb.get("rdkit_valid", [0] * batch_size)
-        reconstructed = int(sum(1 for v in valid_flags if v))
+        obabel_reconstructed = int(sum(int(v) for v in obabel_flags))
+        sanitize_success = int(sum(int(v) for v in sanitize_flags))
+        rdkit_valid = int(sum(int(v) for v in valid_flags))
 
         mol_dir = run_dir / "molecules" / f"rank_{rank:02d}" / f"shard_{shard_index:04d}"
         sample_ids = [
@@ -466,6 +542,7 @@ def _collect(
                 "seed": seed,
                 "num_timesteps": num_timesteps,
                 "max_n_nodes": max_n_nodes,
+                "condition": bool(prompts.meta_info.get("condition", False)),
                 "reconstruction_method": reconstruction_method,
                 "checkpoint": str(checkpoint),
                 "checkpoint_sha256": checkpoint_sha256,
@@ -486,7 +563,12 @@ def _collect(
             "shard_index": shard_index,
             "seed": seed,
             "attempts": batch_size,
-            "reconstructed": reconstructed,
+            "obabel_reconstructed": obabel_reconstructed,
+            "sanitize_success": sanitize_success,
+            "rdkit_valid": rdkit_valid,
+            "sdf_written": rdkit_valid,
+            "reconstructed": rdkit_valid,
+            "reconstructed_field_semantics": "legacy alias of rdkit_valid",
             "num_timesteps": num_timesteps,
             "trajectory_steps": trajectory_steps,
             "latent_shape": list(data.batch["latents"].shape),
@@ -500,7 +582,8 @@ def _collect(
         }
         _append_jsonl(manifest_path, manifest_row)
         new_attempts += batch_size
-        new_reconstructed += reconstructed
+        new_obabel_reconstructed += obabel_reconstructed
+        new_rdkit_valid += rdkit_valid
         new_bytes += shard_bytes
         LOGGER.info("shard complete %s", json.dumps(manifest_row, ensure_ascii=False))
 
@@ -511,10 +594,18 @@ def _collect(
         "rank": rank,
         "seed": seed,
         "new_attempts": new_attempts,
-        "new_reconstructed": new_reconstructed,
+        "new_obabel_reconstructed": new_obabel_reconstructed,
+        "new_rdkit_valid": new_rdkit_valid,
         "new_shard_bytes": new_bytes,
         "attempts_total": sum(int(row.get("attempts", 0)) for row in manifest_records),
-        "reconstructed_total": sum(int(row.get("reconstructed", 0)) for row in manifest_records),
+        "obabel_reconstructed_total": sum(
+            int(row.get("obabel_reconstructed", row.get("reconstructed", 0)))
+            for row in manifest_records
+        ),
+        "rdkit_valid_total": sum(
+            int(row.get("rdkit_valid", row.get("reconstructed", 0)))
+            for row in manifest_records
+        ),
         "shard_bytes_total": sum(int(row.get("shard_bytes", 0)) for row in manifest_records),
         "completed_shards": sum(1 for row in manifest_records if row.get("status") == "completed"),
         "model_parameters_unchanged": model_digest_before == model_digest_after,
@@ -526,25 +617,50 @@ def _collect(
     if rank != 0:
         return local_summary
 
-    gathered = _wait_for_rank_summaries(run_dir, attempt_id, int(dist_info["world_size"]))
+    gathered = _wait_for_rank_summaries(
+        run_dir,
+        attempt_id,
+        world_size,
+        timeout_seconds=float(collection_cfg.get("finalize_timeout_seconds", 7200.0)),
+    )
+    attempts_total = sum(int(row["attempts_total"]) for row in gathered)
+    completed_shards_total = sum(int(row["completed_shards"]) for row in gathered)
+    expected_shards_total = world_size * num_shards
+    complete = (
+        len(gathered) == world_size
+        and attempts_total == expected_fixed_attempts
+        and completed_shards_total == expected_shards_total
+        and all(bool(row["model_parameters_unchanged"]) for row in gathered)
+    )
     summary = {
         "stage": "diffsbdd_frozen_policy_trajectory_collection",
-        "status": "completed",
+        "status": "completed" if complete else "incomplete",
         "checkpoint": str(checkpoint),
         "checkpoint_sha256": checkpoint_sha256,
-        "world_size": int(dist_info["world_size"]),
+        "world_size": world_size,
         "num_timesteps": num_timesteps,
         "batch_size_per_rank": batch_size,
         "num_shards_per_rank": num_shards,
+        "expected_shards_total": expected_shards_total,
+        "completed_shards_total": completed_shards_total,
+        "expected_fixed_attempts": expected_fixed_attempts,
         "attempts_new": sum(int(row["new_attempts"]) for row in gathered),
-        "attempts_total": sum(int(row["attempts_total"]) for row in gathered),
-        "reconstructed_new": sum(int(row["new_reconstructed"]) for row in gathered),
-        "reconstructed_total": sum(int(row["reconstructed_total"]) for row in gathered),
+        "attempts_total": attempts_total,
+        "obabel_reconstructed_new": sum(
+            int(row["new_obabel_reconstructed"]) for row in gathered
+        ),
+        "obabel_reconstructed_total": sum(
+            int(row["obabel_reconstructed_total"]) for row in gathered
+        ),
+        "rdkit_valid_new": sum(int(row["new_rdkit_valid"]) for row in gathered),
+        "rdkit_valid_total": sum(int(row["rdkit_valid_total"]) for row in gathered),
         "shard_bytes_new": sum(int(row["new_shard_bytes"]) for row in gathered),
-        "shard_bytes_total": sum(int(row["new_shard_bytes"]) for row in gathered),
+        "shard_bytes_total": sum(int(row["shard_bytes_total"]) for row in gathered),
         "all_models_unchanged": all(bool(row["model_parameters_unchanged"]) for row in gathered),
         "rank_summaries": gathered,
     }
+    if not complete:
+        raise RuntimeError(f"Trajectory collection completion check failed: {summary}")
     return summary
 
 

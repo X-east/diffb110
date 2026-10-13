@@ -96,13 +96,13 @@ EXTERNAL_PROVIDER_DEFAULTS = {
     "diffgui": {
         "name": "diffgui_bond",
         "env": "diffgui",
-        "root_parts": ("reference project", "DiffGui"),
+        "root_parts": ("reference project", "代码", "DiffGui"),
         "checkpoint_parts": ("ckpt", "bond_trained.pt"),
     },
     "molsnapper": {
         "name": "molsnapper_bond",
         "env": "molsnapper_modern_ref",
-        "root_parts": ("reference project", "modern_sbdd_20260531", "MolSnapper"),
+        "root_parts": ("reference project", "代码", "modern_sbdd_20260531", "MolSnapper"),
         "checkpoint_parts": ("ckpt", "bondpred.pt"),
     },
 }
@@ -837,17 +837,17 @@ def probe_external_bond_resources(project_root: Path) -> list[dict[str, object]]
         _resource_row(
             name="diffgui_pretrained_bond_predictor",
             kind="external_pretrained_bond_predictor",
-            checkpoint=project_root / "reference project" / "DiffGui" / "ckpt" / "bond_trained.pt",
-            config=project_root / "reference project" / "DiffGui" / "configs" / "train" / "train_bond.yml",
-            source=project_root / "reference project" / "DiffGui" / "models" / "bond_predictor.py",
+            checkpoint=project_root / "reference project" / "代码" / "DiffGui" / "ckpt" / "bond_trained.pt",
+            config=project_root / "reference project" / "代码" / "DiffGui" / "configs" / "train" / "train_bond.yml",
+            source=project_root / "reference project" / "代码" / "DiffGui" / "models" / "bond_predictor.py",
             adapter_available=True,
         ),
         _resource_row(
             name="molsnapper_pretrained_bond_predictor",
             kind="external_pretrained_bond_predictor",
-            checkpoint=project_root / "reference project" / "modern_sbdd_20260531" / "MolSnapper" / "ckpt" / "bondpred.pt",
+            checkpoint=project_root / "reference project" / "代码" / "modern_sbdd_20260531" / "MolSnapper" / "ckpt" / "bondpred.pt",
             config=None,
-            source=project_root / "reference project" / "modern_sbdd_20260531" / "MolSnapper" / "models" / "bond_predictor.py",
+            source=project_root / "reference project" / "代码" / "modern_sbdd_20260531" / "MolSnapper" / "models" / "bond_predictor.py",
             adapter_available=True,
         ),
         _resource_row(
@@ -856,7 +856,7 @@ def probe_external_bond_resources(project_root: Path) -> list[dict[str, object]]
             checkpoint=None,
             config=None,
             source=project_root
-            / "reference project"
+            / "reference project" / "代码"
             / "modern_sbdd_20260531"
             / "DecompOpt"
             / "scripts"

@@ -1,0 +1,39 @@
+name: diffsbdd-gaussian-dpo-t1000-v1
+
+run:
+  output_dir: analysis/diffsbdd_gaussian_dpo_t1000_v1/formal_run
+  seed: 1
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  pocket_pdb: data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda:0
+  num_timesteps: 1000
+
+data:
+  endpoint_manifest: analysis/offline_iql_extreme_good_bad_pool_260822/inputs/selected_extremes_manifest.csv.gz
+  pair_dir: analysis/diffsbdd_gaussian_dpo_t1000_v1/pairs
+  minimum_validation_pairs: 2000
+
+dpo:
+  mode: sampled_multistep
+  beta: 0.1
+  reduction: sum
+  include_normal_constant: true
+  include_sigma_term: true
+  x_weight: 1.0
+  v_weight: 1.0
+  degenerate_sigma_tolerance: 1.0e-8
+
+training:
+  epochs: 1
+  batch_pairs: 2
+  learning_rate: 1.0e-6
+  max_grad_norm: 1.0
+  mode: sampled_multistep
+  timesteps_per_batch: 8
+  evaluation_mode: sampled_multistep
+  evaluation_timesteps_per_batch: 16
+  aggregation: mean

@@ -39,7 +39,7 @@ def main() -> None:
                 "result_path": str(result_path.resolve()),
             },
             "sample": {
-                "seed": args.base_seed + gpu_id * 101,
+                "seed": args.base_seed + gpu_id,
                 "num_samples": count,
                 "num_steps": 500,
                 "pos_only": False,

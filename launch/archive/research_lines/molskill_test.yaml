@@ -47,7 +47,7 @@ reward:
     exhaustiveness: 8
     search_mode: "fast"
   molskill:
-    checkpoint_path: null       # 使用默认路径 (reference project/molskill/models/...)
+    checkpoint_path: null       # 使用默认路径 (reference project/代码/molskill/models/...)
     failure_penalty: -1.0
     clamp_min: -5.0
     clamp_max: 5.0
@@ -85,4 +85,4 @@ ddp:
   grad_sync_probe: false
 
 output:
-  dir: "./OUT/<run_name>_<YYYYMMDD>_<seq>"
+  dir: "./runs/<run_name>_<YYYYMMDD>_<seq>"

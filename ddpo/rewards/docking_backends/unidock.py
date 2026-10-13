@@ -7,7 +7,6 @@ docking all ligands in a single GPU-parallelised run.
 
 import logging
 import os
-import re
 import subprocess
 import tempfile
 import warnings
@@ -16,6 +15,11 @@ from typing import List, Optional, Tuple
 
 from ddpo.rewards.interfaces.docking_backend import BaseDockingBackend
 from ddpo.rewards.interfaces.docking_result import DockingResult
+from ddpo.utils.docking_protocol import (
+    FRAME_CENTERED_ZERO,
+    describe_protocol,
+)
+from ddpo.utils.unidock_score import parse_unidock_output
 
 # Full path to unidock binary (conda dif env)
 UNIDOCK_BIN = "/opt/unidock-1.1.3/bin/unidock"
@@ -41,6 +45,14 @@ class UniDockBackend(BaseDockingBackend):
         num_modes: int = 1,
         exhaustiveness: int = 8,
         unidock_bin: str = UNIDOCK_BIN,
+        scoring: str = "vina",
+        seed: int = 42,
+        verbosity: int = 1,
+        cpu: int = 0,
+        max_gpu_memory: int = 0,
+        timeout_seconds: int = 3600,
+        ligand_frame: str = FRAME_CENTERED_ZERO,
+        ligand_charges: str = "none",
         **kwargs
     ):
         """
@@ -50,12 +62,29 @@ class UniDockBackend(BaseDockingBackend):
             num_modes: number of output poses per ligand
             exhaustiveness: search exhaustiveness (overridden by search_mode if set)
             unidock_bin: path to unidock executable
+            scoring: scoring function; must be passed explicitly because Uni-Dock
+                silently defaults to ``vina`` and would change if the version does
+            seed: RNG seed; Uni-Dock defaults to 0, and the benchmark standard is 42
+            verbosity, cpu, max_gpu_memory: passed explicitly so the reward search is
+                identical to the evaluation search (docs/评估口径规范.md §3.1)
+            timeout_seconds: subprocess timeout (was hard-coded to 600 s)
+            ligand_frame: coordinate frame of the ligands handed to the backend;
+                the DDPO rollout keeps coordinates zero-centred while the
+                generation-evaluation line translates back to the pocket centre
         """
         self.gpu_id = gpu_id
         self.search_mode = search_mode
         self.num_modes = num_modes
         self.exhaustiveness = exhaustiveness
         self.unidock_bin = unidock_bin
+        self.scoring = scoring
+        self.seed = seed
+        self.verbosity = verbosity
+        self.cpu = cpu
+        self.max_gpu_memory = max_gpu_memory
+        self.timeout_seconds = timeout_seconds
+        self.ligand_frame = ligand_frame
+        self.ligand_charges = ligand_charges
 
         # Verify binary exists and works (once per process only)
         if not Path(self.unidock_bin).exists():
@@ -108,7 +137,12 @@ class UniDockBackend(BaseDockingBackend):
                 self.unidock_bin,
                 '--receptor', receptor_file,
                 '--gpu_batch', *ligand_files,
+                '--scoring', self.scoring,
                 '--num_modes', str(self.num_modes),
+                '--seed', str(self.seed),
+                '--verbosity', str(self.verbosity),
+                '--cpu', str(self.cpu),
+                '--max_gpu_memory', str(self.max_gpu_memory),
                 '--dir', tmpdir,
             ]
             if self.search_mode:
@@ -116,6 +150,14 @@ class UniDockBackend(BaseDockingBackend):
             else:
                 cmd += ['--exhaustiveness', str(self.exhaustiveness)]
             if center_x is not None:
+                box_payload: dict[str, object] = {
+                    'center_x': float(center_x),
+                    'center_y': float(center_y if center_y is not None else 0.0),
+                    'center_z': float(center_z if center_z is not None else 0.0),
+                    'size_x': float(size_x),
+                    'size_y': float(size_y),
+                    'size_z': float(size_z),
+                }
                 cmd += [
                     '--center_x', str(center_x),
                     '--center_y', str(center_y),
@@ -124,10 +166,35 @@ class UniDockBackend(BaseDockingBackend):
                     '--size_y', str(size_y),
                     '--size_z', str(size_z),
                 ]
+            else:
+                box_payload = {'box_source': 'unset_let_unidock_decide'}
+
+            protocol = describe_protocol(
+                receptor_pdbqt=receptor_file,
+                box=box_payload,
+                scoring=self.scoring,
+                search_mode=self.search_mode,
+                num_modes=self.num_modes,
+                seed=self.seed,
+                ligand_prep={
+                    'fragment_policy': 'largest_fragment',
+                    'add_hydrogens': True,
+                    'add_coords': True,
+                    'charges': self.ligand_charges,
+                },
+                frame=self.ligand_frame,
+                unidock_bin=self.unidock_bin,
+            )
+            LOGGER.info(
+                "[UniDockBackend] docking_protocol_id=%s scoring=%s search_mode=%s seed=%s",
+                protocol['docking_protocol_id'], self.scoring,
+                self.search_mode, self.seed,
+            )
 
             try:
                 result = subprocess.run(
-                    cmd, capture_output=True, text=True, timeout=600, env=env,
+                    cmd, capture_output=True, text=True,
+                    timeout=self.timeout_seconds, env=env,
                 )
                 if result.returncode != 0:
                     warnings.warn(
@@ -142,7 +209,7 @@ class UniDockBackend(BaseDockingBackend):
                 scores = self._parse_output_dir(tmpdir, ligand_files)
                 results = []
                 for score in scores:
-                    if score != 0.0:
+                    if score is not None:
                         results.append(DockingResult.succeeded(self.backend_name, score))
                     else:
                         results.append(DockingResult.failed(self.backend_name, "FAILURE_DOCKING_BACKEND"))
@@ -211,35 +278,36 @@ class UniDockBackend(BaseDockingBackend):
     def _parse_output_dir(
         self,
         output_dir: str,
-        ligand_files: List[str]
-    ) -> List[float]:
-        """
-        Parse best docking scores from UniDock output SDF/PDBQT files.
+        ligand_files: List[str],
+    ) -> List[Optional[float]]:
+        """Parse best docking scores from UniDock output files.
 
-        UniDock writes <stem>_out.sdf (or _out.pdbqt) into --dir.
-        Each file contains REMARK lines or SDF properties with the score.
+        Delegates to the canonical parser (``ddpo.utils.unidock_score``); see
+        ``docs/评估口径规范.md`` §3.3 / §3.3.1.  Returns ``None`` when a ligand
+        has no usable affinity (parse error, or a suspect backend output), which
+        the caller turns into ``FAILURE_DOCKING_BACKEND``.
         """
-        scores = []
+        scores: List[Optional[float]] = []
         out_path = Path(output_dir)
 
         for lig_file in ligand_files:
             stem = Path(lig_file).stem
-            score = 0.0
+            score: Optional[float] = None
 
             # Try SDF output first, then PDBQT
             for suffix in ('_out.sdf', '_out.pdbqt', '.sdf', '.pdbqt'):
                 candidate = out_path / f"{stem}{suffix}"
                 if candidate.exists():
                     score = self._extract_score(candidate)
-                    if score != 0.0:
+                    if score is not None:
                         break
 
             # Also try scanning all files in output dir matching stem
-            if score == 0.0:
-                for f in out_path.glob(f"{stem}*"):
-                    s = self._extract_score(f)
-                    if s != 0.0:
-                        score = s
+            if score is None:
+                for candidate_file in sorted(out_path.glob(f"{stem}*")):
+                    candidate_score = self._extract_score(candidate_file)
+                    if candidate_score is not None:
+                        score = candidate_score
                         break
 
             scores.append(score)
@@ -247,36 +315,13 @@ class UniDockBackend(BaseDockingBackend):
         return scores
 
     @staticmethod
-    def _extract_score(filepath: Path) -> float:
-        """Extract best docking score from a UniDock output file."""
-        try:
-            content = filepath.read_text(errors='ignore')
+    def _extract_score(filepath: Path) -> Optional[float]:
+        """Canonical Uni-Dock score accessor (see ``ddpo.utils.unidock_score``).
 
-            # Uni-Dock v1.1.x SDF output: > <Uni-Dock RESULT>\nENERGY=   -9.578
-            m = re.search(r'ENERGY\s*=\s*([\-\+]?[0-9]*\.?[0-9]+)', content)
-            if m:
-                return float(m.group(1))
-
-            # SDF property: > <docking_score>\n-7.5
-            m = re.search(r'>\s*<[Dd]ocking[_\s][Ss]core>\s*\n([\-\+]?[0-9]*\.?[0-9]+)', content)
-            if m:
-                return float(m.group(1))
-
-            # VINA RESULT in PDBQT: REMARK VINA RESULT: -7.5
-            m = re.search(r'REMARK VINA RESULT:\s+([\-\+]?[0-9]*\.?[0-9]+)', content)
-            if m:
-                return float(m.group(1))
-
-            # SDF score_only style: > <score>\n
-            m = re.search(r'>\s*<[Ss]core>\s*\n([\-\+]?[0-9]*\.?[0-9]+)', content)
-            if m:
-                return float(m.group(1))
-
-            # Uni-Dock v1.1 style: REMARK INTER + INTRA energy
-            m = re.search(r'REMARK minimizedAffinity\s+([\-\+]?[0-9]*\.?[0-9]+)', content)
-            if m:
-                return float(m.group(1))
-
-        except Exception as e:
-            warnings.warn(f"[UniDockBackend] Score parse error for {filepath}: {e}")
-        return 0.0
+        Returns the affinity only when it is physically interpretable.  A
+        ``suspect_backend`` output — Uni-Dock failures are written as a
+        physically impossible, huge positive energy while rc stays 0 — and an
+        unparseable file both yield ``None``.  This replaces the previous
+        ``0.0`` sentinel, which conflated a genuine 0.0 score with failure.
+        """
+        return parse_unidock_output(filepath).as_legacy_float()

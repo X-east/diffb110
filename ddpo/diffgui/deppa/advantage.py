@@ -15,7 +15,6 @@ from typing import Any
 
 import torch
 from rdkit import Chem, DataStructs
-from rdkit.Chem import rdFingerprintGenerator
 
 
 DEFAULT_WEIGHTS: dict[str, float] = {
@@ -29,13 +28,38 @@ DEFAULT_WEIGHTS: dict[str, float] = {
 DEFAULT_ENABLED_METRICS = ("qed", "sa", "vina_score", "distance")
 DEFAULT_DIVERSITY_RADIUS = 2
 DEFAULT_DIVERSITY_BITS = 2048
+DEFAULT_DIVERSITY_FINGERPRINT_TYPE = "rdkit"
 
-# Keep the legacy metric name ``distance`` in configs/CSVs, but compute it as
-# DePPA's Morgan-fingerprint diversity term.
-_DIVERSITY_FINGERPRINT_GENERATOR = rdFingerprintGenerator.GetMorganGenerator(
-    radius=DEFAULT_DIVERSITY_RADIUS,
-    fpSize=DEFAULT_DIVERSITY_BITS,
-)
+# DePPA source (lightning_modules.py:1084) uses ``Chem.RDKFingerprint``, the
+# RDKit path-based topological fingerprint, for its diversity/distance term.
+# This matches DePPA exactly.  ``"morgan"`` is retained for backward
+# compatibility but is no longer the default.
+
+
+def _compute_diversity_fingerprint(
+    mol: Any,
+    *,
+    fingerprint_type: str = DEFAULT_DIVERSITY_FINGERPRINT_TYPE,
+    radius: int = DEFAULT_DIVERSITY_RADIUS,
+    n_bits: int = DEFAULT_DIVERSITY_BITS,
+) -> Any:
+    """Return a fingerprint for a molecule matching the configured type.
+
+    ``"rdkit"`` mirrors DePPA's ``Chem.RDKFingerprint`` (path-based, 2048 bits).
+    ``"morgan"`` uses the older Morgan/ECFP generator retained for ablations.
+    """
+    fp_type = str(fingerprint_type).lower()
+    if fp_type in ("rdkit", "rdk", "rdkitfingerprint"):
+        return Chem.RDKFingerprint(mol)
+    if fp_type in ("morgan", "ecfp"):
+        from rdkit.Chem import rdFingerprintGenerator
+
+        generator = rdFingerprintGenerator.GetMorganGenerator(radius=radius, fpSize=n_bits)
+        return generator.GetFingerprint(mol)
+    raise ValueError(
+        f"Unsupported diversity_fingerprint_type {fingerprint_type!r}; "
+        "expected one of 'rdkit', 'morgan'."
+    )
 
 
 @dataclass
@@ -113,7 +137,7 @@ def compute_deppa_advantages(
     all_records = _flatten_records(gathered_records)
     metric_weights = _metric_weights(cfg)
     enabled_metrics = [name for name, weight in metric_weights.items() if abs(float(weight)) > 0.0]
-    _attach_distance_metric(all_records)
+    _attach_distance_metric(all_records, config=cfg)
     global_record_by_key = {_record_key(record): record for record in all_records}
 
     valid_keys = _valid_record_keys(all_records, enabled_metrics)
@@ -274,14 +298,29 @@ def _first_finite(row: dict[str, Any], fields: tuple[str, ...]) -> float | None:
     return None
 
 
-def _attach_distance_metric(records: list[dict[str, Any]]) -> None:
+def _attach_distance_metric(
+    records: list[dict[str, Any]],
+    *,
+    config: dict[str, Any] | None = None,
+) -> None:
+    """Attach the DePPA diversity/distance metric to each record.
+
+    Mirrors ``DePPA/lightning_modules.py::_compute_fps_distances``: each valid
+    molecule gets ``distance = 1 - mean(Tanimoto similarity to all other valid
+    molecules in the gathered batch)``.
+    """
+    metrics_cfg = (config or {}).get("metrics", {}) or {}
+    distance_cfg = metrics_cfg.get("distance", {}) if isinstance(metrics_cfg, dict) else {}
+    fingerprint_type = str(
+        distance_cfg.get("fingerprint_type", DEFAULT_DIVERSITY_FINGERPRINT_TYPE)
+    )
     keyed_fps: list[tuple[tuple[int, int], Any]] = []
     for record in records:
         smiles = str(record.get("smiles", ""))
         mol = Chem.MolFromSmiles(smiles) if smiles else None
         if mol is None:
             continue
-        keyed_fps.append((_record_key(record), _DIVERSITY_FINGERPRINT_GENERATOR.GetFingerprint(mol)))
+        keyed_fps.append((_record_key(record), _compute_diversity_fingerprint(mol, fingerprint_type=fingerprint_type)))
     if len(keyed_fps) < 2:
         distances = {key: 0.0 for key, _fp in keyed_fps}
     else:

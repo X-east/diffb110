@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-DEFAULT_REFERENCE_ROOT = Path("reference project/DiffGui")
+DEFAULT_REFERENCE_ROOT = Path("reference project/代码/DiffGui")
 REQUIRED_MODULES = (
     "easydict",
     "torch_geometric",

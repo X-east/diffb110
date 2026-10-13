@@ -18,7 +18,7 @@ from rdkit import Chem, RDLogger
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MOLSKILL_ROOT = ROOT / "reference project" / "molskill"
+MOLSKILL_ROOT = ROOT / "reference project" / "代码" / "molskill"
 if str(MOLSKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(MOLSKILL_ROOT))
 if str(ROOT) not in sys.path:

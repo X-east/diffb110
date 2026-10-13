@@ -12,7 +12,7 @@ CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}"
 MASTER_PORT="${MASTER_PORT:-29854}"
 CONDA_ENV="${CONDA_ENV:-diffgui}"
 RUN_STAMP="${RUN_STAMP:-$(date +%Y%m%d_%H%M%S)}"
-OUTPUT_DIR="${OUTPUT_DIR:-$ROOT/OUT/diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to50_${RUN_STAMP}}"
+OUTPUT_DIR="${OUTPUT_DIR:-$ROOT/runs/diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to50_${RUN_STAMP}}"
 LOG_PATH="${LOG_PATH:-$LOG_DIR/04_ring_last3_pathology_guard_continue_to50_${RUN_STAMP}.log}"
 
 mkdir -p "$LOG_DIR"

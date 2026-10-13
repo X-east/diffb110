@@ -1,0 +1,149 @@
+name: diffgui-ddpo-qed-sa-docking-8gpu-b8-t200-100ep-nofreeze-lr3e5-20260909
+
+dataset: crossdock
+
+diffgui_model:
+  sample_config: "reference project/代码/DiffGui/configs/sample/sample.yml"
+  checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
+  base_checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
+  pocket_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
+  ligand_sdf: "None"
+
+diffgui_training:
+  output_root: "OUT"
+  epochs: 100
+  batch_size: 8
+  checkpoint_every_epochs: 1
+
+diffgui_runtime:
+  cpu_affinity:
+    enabled: true
+    logical_cpus_per_rank: 4
+
+# PoseBusters 监控 + 自动止血线：freeze:none + lr 3e-5 是最激进组合，
+# 必须启用 PB 以捕捉键长漂移（pb_check_bond_lengths<0.80 由 watchdog 自动停训）。
+diffgui_posebusters_filter:
+  enabled: true
+  environment: "dif"
+  config: "dock"
+  receptor_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
+  molecule_timeout_seconds: 120
+  timeout_seconds: 1800
+  output_sdf: "pb_valid.sdf"
+  output_csv: "posebusters.csv"
+  summary_json: "posebusters_summary.json"
+  log_file: "posebusters_subprocess.log"
+
+diffgui_training_filter:
+  enabled: false
+  require_reconstruction_success: true
+  require_rdkit_valid: true
+  min_train_graphs_per_rank: 1
+  extreme_reward_quantile_drop: 0.0
+  missing_quality_filter_policy: "ignore"
+  quality_filters:
+    fragment_count:
+      max: 1
+    three_member_ring_count:
+      max: 0
+
+diffgui_good_molecule_pool:
+  enabled: false
+  top_k_per_rank_per_epoch: 4
+  retained_top_k: 128
+  retention_window_epochs: 10
+  score_key: "reward_total"
+  require_training_keep: true
+  deduplicate_smiles: true
+  missing_quality_filter_policy: "ignore"
+  quality_filters:
+    fragment_count:
+      max: 1
+    three_member_ring_count:
+      max: 0
+
+diffgui_trajectory_replay:
+  enabled: false
+  store_enabled: false
+  warmup_epochs: 2
+  replay_ratio: 0.10
+  max_age_epochs: 3
+  max_replay_graphs_per_rank: 2
+  sample_strategy: "top_score_recent"
+  max_approx_kl: 0.03
+  max_clipfrac: 0.30
+  max_ratio_mean_deviation: 0.20
+  ratio_decay: 0.5
+  ratio_recovery: 1.0
+  min_replay_ratio: 0.0
+  disable_on_violation: false
+
+diffgui_docking_batch_sweep:
+  device: "cuda:0"
+  reward_env: "dif"
+  reward_device: "cuda"
+  reward_batch_size: null
+  reward_timeout_seconds: 3600
+  num_timesteps: 200
+  auto_configure_timesteps: true
+  ligand_size_mode: "priori"
+  ligand_atoms: 24
+  seed_mode: "gpu_id"
+  gui_strength: 3.0
+  precision: "bf16"
+  graph_micro_batch_size: 1
+  normalize_advantages: true
+  advantage_epsilon: 1.0e-6
+  advantage_clip_min: -2.0
+  advantage_clip_max: 2.0
+  failure_advantage: -1.0
+  memory_poll_interval: 5.0
+
+pocket:
+  pdb_path: "./data/8GJL.pdb"
+  ref_ligand: "C:1101"
+  pdbqt_path: "./data/8gjl.pdbqt"
+
+# ── 奖励：QED 0.25 + SA 0.25 + Docking 0.50（同上一轮，仅改 lr 与 freeze）──
+reward:
+  weights:
+    qed: 0.25
+    sa: 0.25
+    docking: 0.50
+  per_component_normalization:
+    enabled: false
+  normalization:
+    enabled: false
+  qed:
+    failure_penalty: -1.0
+  sa:
+    failure_penalty: -1.0
+  docking:
+    backend: "unidock"
+    receptor_file: "./data/8gjl.pdbqt"
+    normalization_factor: -10.0
+    gpu_id: 0
+    center_x: 207.293
+    center_y: 212.430
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    exhaustiveness: 8
+    search_mode: "fast"
+
+train:
+  learning_rate: 3.0e-5          # ← 之前 DiffGui PPO (next4/6) 验证过的 lr
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 0.0
+  adam_epsilon: 1.0e-8
+  clip_range: 0.2
+  max_grad_norm: 1.0
+  ppo_epochs: 1
+  diffgui_logprob_reduction: "mean"
+  precision: "bf16"
+  graph_micro_batch_size: 1
+  ddp_find_unused_parameters: false
+  freeze:
+    mode: "none"                 # ← 不冻结：全模型训练（DePPA full 同款，更新真实）

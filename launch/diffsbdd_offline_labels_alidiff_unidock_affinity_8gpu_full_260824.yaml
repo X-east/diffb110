@@ -1,0 +1,90 @@
+# Full 200,000-episode DiffSBDD affinity labels for the AliDiff-style ESRPO pilot.
+# This run labels every episode with RDKit descriptors and UniDock affinity.
+# PoseBusters is deliberately deferred because it is not part of the current
+# continuous affinity reward and would substantially slow the full pass.
+
+name: diffsbdd_offline_labels_alidiff_unidock_affinity_8gpu_full_260824
+
+offline_labeling:
+  source_run_dir: runs/diffsbdd_collect/diffsbdd-original-t1000-8gpu-100k-trajectory_20260730_194643
+  episode_index: analysis/offline_iql_full_index_rebuilt_260824_v7/episode_index.jsonl
+  output_dir: analysis/offline_iql_labels_alidiff_unidock_affinity_8gpu_full_260824
+
+  # One independent submission per worker.  The application does not split
+  # into 4096-ligand batches; UniDock performs its own GPU-memory-aware
+  # internal splitting after reading this worker's complete ligand index.
+  benchmark_docking:
+    submission_mode: one_full_worker
+    scoring: vina
+    search_mode: fast
+    seed: 42
+    verbosity: 1
+    cpu: 0
+    max_gpu_memory: 0
+    timeout_seconds: 3600
+    retain_docking_outputs: true
+    max_retries: 2
+
+  # These are the established offline-labeler molecule semantics.  The
+  # UniDock runtime controls above remain identical to the five-model
+  # 8GJL/C1101 benchmark; this preparation choice is recorded explicitly.
+  molecule_preparation:
+    add_hydrogens: true
+    assign_gasteiger: false
+
+  policy:
+    reward_version: diffsbdd_alidiff_unidock_affinity_v1
+    formal_labels: false
+    posebusters_enabled: false
+    docking_enabled: true
+    posebusters_input: docked_pose
+    require_pb_valid_for_reward: false
+    failure_penalty: -1.0
+    valid_base_reward: 0.0
+    qed_weight: 0.0
+    sa_weight: 0.0
+    docking_weight: 1.0
+    pb_valid_weight: 0.0
+    docking_normalization_factor: -1.0
+    actual_good_docking_max: -8.0
+    actual_good_ligand_efficiency_min: 0.25
+    actual_good_qed_min: 0.4
+    actual_good_sa_max: 6.0
+    actual_good_logp_min: -1.0
+    actual_good_logp_max: 5.0
+    actual_good_tpsa_min: 20.0
+    actual_good_tpsa_max: 140.0
+    actual_good_max_three_member_rings: 0
+    actual_good_max_fused_rings: 4
+    actual_good_max_complex_rings: 1
+    actual_good_max_brenk: 0
+
+  posebusters:
+    enabled: false
+    receptor_pdb: analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
+    config_name: dock
+    molecule_timeout_seconds: 120.0
+    execution_mode: persistent_worker
+
+  docking:
+    enabled: true
+    receptor_pdbqt: data/8gjl.pdbqt
+    gpu_ids: [0, 1, 2, 3, 4, 5, 6, 7]
+    unidock_bin: /opt/unidock-1.1.3/bin/unidock
+    center_x: 207.293
+    center_y: 212.430
+    center_z: 172.771
+    size_x: 20.0
+    size_y: 20.0
+    size_z: 20.0
+    search_mode: fast
+    num_modes: 1
+    exhaustiveness: 8
+    add_hydrogens: true
+    assign_gasteiger: false
+
+  split:
+    enabled: true
+    version: diffsbdd_offline_label_split_alidiff_unidock_v1
+    salt: diffsbdd-alidiff-unidock-label-split-v1
+    fractions: [0.8, 0.1, 0.1]

@@ -31,7 +31,7 @@ from rdkit import RDLogger
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # ── Import MolSkill featurizer ──────────────────────────────────────────────
-_MOLSKILL_ROOT = _PROJECT_ROOT / "reference project" / "molskill"
+_MOLSKILL_ROOT = _PROJECT_ROOT / "reference project" / "代码" / "molskill"
 if str(_MOLSKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(_MOLSKILL_ROOT))
 

@@ -1,0 +1,45 @@
+project	relative_path	source_url	commit_sha	source_changes	untracked_source_files	status	readme_files	environment_files
+AliDiff-main	AliDiff-main			unknown	unknown	needs_source_version	README.md	environment.yaml
+DePPA	DePPA	https://github.com/xy9485/DePPA.git	58439d82ad72fd514b8aabf6d53a3074796c2953	42	2	source_version_recorded	README.md	
+DecompDPO	DecompDPO	https://github.com/laviaf/DecompDPO.git	cb109f7d2296b8206ff844502f15d4f165a42a0c	0	0	source_version_recorded	README.md	environment.yaml
+DiffGui	DiffGui	https://github.com/QiaoyuHu89/DiffGui.git	f2f90b560ad32db9d584a3b7b153420dc1e8d258	46	6	source_version_recorded	README.md	env.yml
+DiffMeta-main	DiffMeta-main			unknown	unknown	needs_source_version	README.md	requirements.txt
+DiffSBDD_upstream	DiffSBDD_upstream	https://github.com/arneschneuing/DiffSBDD.git	5d0d38d16c8932a0339fd2ce3f67ade98bbdff27	1	0	source_version_recorded	README.md	environment.yaml
+DiverseDRL	DiverseDRL	https://github.com/larngroup/DiverseDRL.git	99b6677b6a3fddfcabb6811f91394fd43c0ab140	46	0	source_version_recorded	README.md	
+DrugEx	DrugEx	https://github.com/CDDLeiden/DrugEx.git	bf61ce71db96bdfe25cc2832ec0d4cf0b1142db4	0	3	source_version_recorded	README.md	
+GraphBP	GraphBP	https://github.com/divelab/GraphBP.git	c5a2a2a1a5781d471754ed091ce4f79d15c5e341	0	0	source_version_recorded	README.md	
+KinGen	KinGen	https://github.com/Shawn-Lau-lxm/KinGen.git	fc7b1dd10c1145adf36b3ca812573549979bcdc0	30	0	source_version_recorded	README.md	requirements.txt
+MolGen	MolGen	https://github.com/eyalmazuz/MolGen.git	65d5159cc6ebe2e5f92980b6f98d965ba62cd384	59	0	source_version_recorded	README.md	environment.yml
+MolRL	MolRL	https://github.com/Cellarity/MolRL.git	bbdd4acb171e1472e42cb90b059b3351dccb307a	11	0	source_version_recorded	README.md	
+Pocket2Mol	Pocket2Mol	https://github.com/pengxingang/Pocket2Mol.git	836a0c4ce487297ad24bc54ac2ebd163de13242c	0	0	source_version_recorded	README.md	
+QADD-main	QADD-main			unknown	unknown	needs_source_version	README.md	
+REINVENT	REINVENT	https://github.com/MarcusOlivecrona/REINVENT.git	752935c29d46868d1aa040c0cd9c8d2169c9150a	6	0	source_version_recorded	README.md	
+RL-Diffusion-main	RL-Diffusion-main			unknown	unknown	needs_source_version	README.md	
+RLPF-verl_diffusion	RLPF-verl_diffusion			unknown	unknown	needs_source_version	README-rlpf.md	requirements.txt
+SHARP	SHARP	https://github.com/seoklab/SHARP.git	e2391c111e882c7fd1406efb1f40079bd3f78fa3	17	0	source_version_recorded	README.md	environment.yml
+SMILES-RL	SMILES-RL	https://github.com/MolecularAI/SMILES-RL.git	41e6cb25bc61cbe1363eee71f5d5c5ae60409f86	88	0	source_version_recorded	README.md	
+Apo2Mol	modern_sbdd_20260531/Apo2Mol	https://github.com/AIDD-LiLab/Apo2Mol.git	d249aaa32649c606c9f78f4fba274f765acad5e3	38	0	source_version_recorded	README.md	
+BADGER-SBDD	modern_sbdd_20260531/BADGER-SBDD	https://github.com/ASK-Berkeley/BADGER-SBDD.git	d8c5d050b4e72676c239d97a12ca185af902a773	48	0	source_version_recorded	README.md	
+DecompDiff	modern_sbdd_20260531/DecompDiff	https://github.com/bytedance/DecompDiff.git	ed4e7d8202c077cc4bd1b9ca626e173c24007f2a	42	0	source_version_recorded	README.md	
+DecompOpt	modern_sbdd_20260531/DecompOpt	https://github.com/bytedance/DecompOpt.git	d4f4bb192eb61e6633dd432bbe7dfddca0faf769	47	0	source_version_recorded	README.md	
+DeepICL	modern_sbdd_20260531/DeepICL	https://github.com/ACE-KAIST/DeepICL.git	69929d3dffe7d6ffc6a0d848fa5e51e004990207	12	0	source_version_recorded	README.md	
+DiffInt	modern_sbdd_20260531/DiffInt	https://github.com/sekijima-lab/DiffInt.git	1678c4d121e5b9a500d3d837db0885684e896d99	26	0	source_version_recorded	README.md	environment.yml
+DiffPharma	modern_sbdd_20260531/DiffPharma	https://github.com/sekijima-lab/DiffPharma.git	3ef781142cab3accaddab03b8ec4be860e878eed	25	0	source_version_recorded	README.md	environment.yml
+GCDM-SBDD	modern_sbdd_20260531/GCDM-SBDD	https://github.com/BioinfoMachineLearning/GCDM-SBDD.git	3ba8dd9c0d0018a3d9c27c230c87f2d8dad37f2d	78	0	source_version_recorded	README.md	environment.yaml
+MolCRAFT	modern_sbdd_20260531/MolCRAFT	https://github.com/GenSI-THUAIR/MolCRAFT.git	743dfb5198c44ca0cec180822bd54258f9d386f1	238	0	source_version_recorded	README.md	
+MolSnapper	modern_sbdd_20260531/MolSnapper	https://github.com/oxpig/MolSnapper.git	8b055ab2193152c64c98eddaed27022c39e1660d	43	0	source_version_recorded	README.md	env.yml
+NucleusDiff	modern_sbdd_20260531/NucleusDiff	https://github.com/yanliang3612/NucleusDiff.git	6751f11413d5f27fb4334b0f862810c6d98bbe55	52	0	source_version_recorded	README.md	
+PMDM	modern_sbdd_20260531/PMDM	https://github.com/Layne-Huang/PMDM.git	726a38477d0f3866977699d842202f0f1b01d9cd	60	0	source_version_recorded	README.md	
+PMODiff	modern_sbdd_20260531/PMODiff	https://github.com/zhangyaoxiang/PMODiff.git	7a023123c73feaaf6c863f4c2b51a1f826262f50	69	0	source_version_recorded	README.md	
+SGEDiff	modern_sbdd_20260531/SGEDiff	https://github.com/Luoacee/SGEDiff.git	2a6576d95ded88bcc6fdd9574cfe3b81fd20a893	66	0	source_version_recorded	README.md	environment.yml
+molskill	molskill	https://github.com/microsoft/molskill.git	40f712e05154332c6c4d0817a92bc29a60c99c02	34	1	source_version_recorded	README.md	environment.yml
+BInD	pharmacophore/BInD	https://github.com/lee-jwon/BInD.git	5c99b69ed2b4322f11ac42528ff84d8dd0c58b02	31	0	source_version_recorded	README.md	
+DiffPhore	pharmacophore/DiffPhore	https://github.com/VicFisher/DiffPhore.git	0eafc3f4c95ede15e83ff3e0996ec03a8f6d5805	30	0	source_version_recorded	README.md	
+DiffSMol	pharmacophore/DiffSMol	https://github.com/ninglab/DiffSMol.git	2f72f80c88571cc7951131dcd32ae9621b5f6d64	60	0	source_version_recorded	ReadMe.md	environment.yml
+DrugDiff	pharmacophore/DrugDiff	https://github.com/MarieOestreich/DrugDiff.git	195c1a142cb72088d80b3b8539a9dd23e126451e	12	0	source_version_recorded	README.md	
+KGDiff	pharmacophore/KGDiff	https://github.com/CMACH508/KGDiff.git	ad893fc710f339b48d8c7e7fdc17f1038166bab8	43	0	source_version_recorded	README.md	
+PILOT	pharmacophore/PILOT	https://github.com/jule-c/PILOT.git	0919b13fee42b550632c0e6a50f25cb570026c8a	269	0	source_version_recorded	README.md	environment.yml;environment_vina.yml;environment_walters.yml
+PoLiGenX	pharmacophore/PoLiGenX	https://github.com/pfizer-opensource/e3moldiffusion.git	34400693cd66d5699118fb4b368964c8aa5b299c	191	0	source_version_recorded	README.md	environment.yml;environment_vina.yml;environment_walters.yml
+prop_gen	prop_gen	https://github.com/dbkgroup/prop_gen.git	d17d935a534b6a667d2603b4d0c7b4add446d6bf	108	0	source_version_recorded	README.md	
+reinforcement-learning-active-learning	reinforcement-learning-active-learning	https://github.com/MolecularAI/reinforcement-learning-active-learning.git	92caa2fb11b9519307b433e489fbc97e71a217c2	1036	0	source_version_recorded	README.md	
+rl_experiments	rl_experiments	https://github.com/isayevlab/rl_experiments.git	b0d63e3a4629cc382ef1a7e04a1f6d8880aa8676	17	0	source_version_recorded	README.md	

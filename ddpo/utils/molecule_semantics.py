@@ -19,6 +19,10 @@ from analysis.metrics import rdmol_to_smiles
 from constants import dataset_params
 from reconstruction import DEFAULT_RECONSTRUCTION_METHOD, reconstruct_molecule
 
+from ddpo.utils.ligand_prep import (  # noqa: F401 - re-exported for callers
+    add_hydrogens_for_docking,
+    extract_largest_fragment,
+)
 from ddpo.utils.suppress_warnings import redirect_stderr_to_log
 
 log = logging.getLogger("DiffSBDD-DDPO")
@@ -205,16 +209,28 @@ def compute_sample_molecule_semantics(
 def prepare_mol_for_docking(
     mol: Chem.Mol,
     add_hydrogens: bool = True,
-    assign_gasteiger: bool = True,
+    assign_gasteiger: bool = False,
 ) -> Chem.Mol | None:
     """Prepare an RDKit Mol for Vina-family docking (pure transformation, no I/O).
 
     Steps:
       1. Deep copy — original mol is not modified
       2. Chem.AddHs(mol, addCoords=True) — add H, keep heavy-atom 3D coordinates
-      3. ComputeGasteigerCharges(mol) — assign partial charges for Vina electrostatics
+
+    Hydrogens are **mandatory**: AutoDock Vina needs *polar* hydrogens in the
+    input to type heavy atoms as hydrogen-bond donors
+    (https://vina.scripps.edu/manual/), and Uni-Dock's SDF atom typer matches
+    donors via ``[#1][#7,#8,#9,#15,#16] -> HD``.
+
+    ``addCoords=True`` is equally mandatory: omitting it places every hydrogen
+    at the origin and degenerates the geometry (measured: 100/100 ligands, see
+    ``docs/评估口径规范.md`` §8.4).
 
     What is NOT done (by design):
+      - **No partial charges by default.** The Vina scoring function "ignores
+        the user-supplied partial charges", so Gasteiger assignment is a no-op
+        under ``--scoring vina``; the switch is kept only for a future ``ad4``
+        path (SOP §二.4).
       - No MMFF/UFF minimisation (Vina flexes the ligand internally)
       - No Re-Embed (would discard the pocket-conditioned binding pose)
 
@@ -230,13 +246,17 @@ def prepare_mol_for_docking(
         return None
     try:
         with redirect_stderr_to_log():
-            # Deep copy — never mutate the original
-            mol = Chem.Mol(mol)
             if add_hydrogens:
-                mol = Chem.AddHs(mol, addCoords=True)
+                # Shared implementation (ddpo.utils.ligand_prep); it copies
+                # internally, so the caller's molecule is never mutated.
+                working, _added = add_hydrogens_for_docking(mol)
+                if working is None:
+                    return None
+            else:
+                working = Chem.Mol(mol)  # Deep copy — never mutate the original
             if assign_gasteiger:
-                AllChem.ComputeGasteigerCharges(mol)
-        return mol
+                AllChem.ComputeGasteigerCharges(working)
+        return working
     except Exception as exc:
         log.warning("[LIGPREP-ERROR] %s: %s", type(exc).__name__, exc)
         return None
@@ -366,6 +386,7 @@ __all__ = [
     "compute_smiles_from_rdmol",
     "build_canonical_rdmol_from_sample",
     "compute_sample_molecule_semantics",
+    "extract_largest_fragment",
     "prepare_mol_for_docking",
     "write_rdmol_to_sdf",
     "write_rdmol_to_pdbqt",

@@ -1,0 +1,169 @@
+name: diffsbdd_filtered_bc_rank40_allpreferred_8gpu_20epoch_260822
+
+ddp:
+  enabled: true
+  find_unused_parameters: false
+
+offline_iql:
+  # Deliberately leaky exploratory filtered BC requested by the user: every
+  # rank40 preferred terminal molecule contributes its denoising trajectory.
+  formal_training: false
+  output_dir: /data/disk6/DiffB110/analysis/diffsbdd_filtered_bc_rank40_allpreferred_8gpu_20epoch_260822
+  data:
+    run_dir: /data/disk6/DiffB110/analysis/offline_iql_frozen_original_100k_260819/run_view
+    episode_index: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/episode_index.jsonl
+    split_manifest: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/all_train_split_manifest.jsonl
+    split: train
+    eligible_sample_ids_json: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/preferred_all_sample_ids.json
+    expected_pocket_sha256: d61afea4fdeb782ea71b871882e90a20dbc851a015d5893b7d6474caf2a87537
+  reward:
+    sidecar: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/binary_reward_sidecar.csv
+    expected_version: rank40_binary_allpreferred_one_nonpreferred_zero_v1
+    diagnostic_validity_probe: false
+  model:
+    checkpoint: /data/disk6/DiffB110/DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+    pocket_pdb: /data/disk6/DiffB110/data/8GJL.pdb
+    ref_ligand: "C:1101"
+    dataset_name: crossdock
+    logprob_mode: mean_per_atom
+    trainable_dynamics_blocks: [3, 4]
+  critic:
+    # Compatibility modules for the established runtime only. BC actor weights
+    # are exactly one and never use Q/V or critic advantages.
+    hidden_dim: 32
+    num_message_layers: 1
+    num_rbf: 8
+    time_embedding_dim: 16
+    max_neighbors: 16
+    learning_rate: 0.001
+    weight_decay: 0.0
+  trainer:
+    discount: 1.0
+    expectile: 0.7
+    target_tau: 0.005
+    q_loss_type: mse
+    critic_max_grad_norm: 5.0
+    actor_warmup_steps: 0
+    actor_update_interval: 1
+  actor:
+    objective: bc
+    temperature: 1.0
+    max_weight: 1.0
+    max_grad_norm: 5.0
+    learning_rate: 0.000001
+    weight_decay: 0.0
+  sampler:
+    cache_size: 2
+    shared_scheduler_seed: 1
+    sequential: false
+    time_bins:
+      - {start: 0, end: 1000, weight: 1.0}
+    fixed_decision_indices:
+      - 0
+      - 10
+      - 20
+      - 30
+      - 40
+      - 50
+      - 60
+      - 70
+      - 80
+      - 90
+      - 100
+      - 110
+      - 120
+      - 130
+      - 140
+      - 150
+      - 160
+      - 170
+      - 180
+      - 190
+      - 200
+      - 210
+      - 220
+      - 230
+      - 240
+      - 250
+      - 260
+      - 270
+      - 280
+      - 290
+      - 300
+      - 310
+      - 320
+      - 330
+      - 340
+      - 350
+      - 360
+      - 370
+      - 380
+      - 390
+      - 400
+      - 410
+      - 420
+      - 430
+      - 440
+      - 450
+      - 460
+      - 470
+      - 480
+      - 490
+      - 500
+      - 510
+      - 520
+      - 530
+      - 540
+      - 550
+      - 560
+      - 570
+      - 580
+      - 590
+      - 600
+      - 610
+      - 620
+      - 630
+      - 640
+      - 650
+      - 660
+      - 670
+      - 680
+      - 690
+      - 700
+      - 710
+      - 720
+      - 730
+      - 740
+      - 750
+      - 760
+      - 770
+      - 780
+      - 790
+      - 800
+      - 810
+      - 820
+      - 830
+      - 840
+      - 850
+      - 860
+      - 870
+      - 880
+      - 890
+      - 900
+      - 910
+      - 920
+      - 930
+      - 940
+      - 950
+      - 960
+      - 970
+      - 980
+      - 990
+      - 1000
+  run:
+    epochs: 20
+    steps_per_epoch: 101
+    batch_size: 4
+    log_every_steps: 10
+    checkpoint_every_epochs: 1
+    non_blocking_transfer: true

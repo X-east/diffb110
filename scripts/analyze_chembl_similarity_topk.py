@@ -25,7 +25,7 @@ LOGGER = logging.getLogger("analyze_topk")
 
 SDF = Path("bishe/RE-out/260407generated_10000_valid_dedup2d.sdf")
 CACHE = Path("data/chembl/chembl_36_morgan_fingerprints.pkl.gz")
-OUT_DIR = Path("OUT/analysis/chembl_similarity")
+OUT_DIR = Path("runs/analysis/chembl_similarity")
 TOP_KS = [1, 5, 10]
 CHUNK_SIZE = 100000
 

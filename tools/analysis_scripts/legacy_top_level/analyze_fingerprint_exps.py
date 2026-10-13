@@ -24,7 +24,7 @@ import pandas as pd
 # ---------------------------------------------------------------------------
 EXPS = {
     5: {
-        "root": "/home/md666/data/disk6/DiffB110/OUT/6gpu-chembl-only_20260521_112200",
+        "root": "/home/md666/data/disk6/DiffB110/runs/6gpu-chembl-only_20260521_112200",
         "name": "ECFP4+FCFP4 (无docking)",
         "short": "#5 指纹拆分",
         "epochs": 18,
@@ -33,7 +33,7 @@ EXPS = {
         "has_diversity": False,
     },
     6: {
-        "root": "/home/md666/data/disk6/DiffB110/OUT/6gpu-chembl-only_20260521_154957",
+        "root": "/home/md666/data/disk6/DiffB110/runs/6gpu-chembl-only_20260521_154957",
         "name": "Docking+ECFP4+FCFP4",
         "short": "#6 docking回归",
         "epochs": 20,
@@ -42,7 +42,7 @@ EXPS = {
         "has_diversity": False,
     },
     7: {
-        "root": "/home/md666/data/disk6/DiffB110/OUT/7gpu-dock-ecfp4-fcfp4_20260521_212927",
+        "root": "/home/md666/data/disk6/DiffB110/runs/7gpu-dock-ecfp4-fcfp4_20260521_212927",
         "name": "Docking+ECFP4+FCFP4+Diversity (坍塌)",
         "short": "#7 含diversity",
         "epochs": 50,

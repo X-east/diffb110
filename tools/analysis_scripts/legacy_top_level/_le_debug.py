@@ -6,7 +6,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 import numpy as np
 
-runs = "OUT/7gpu-dock-ecfp4-fcfp4_20260525_212140"
+runs = "runs/7gpu-dock-ecfp4-fcfp4_20260525_212140"
 
 for ep in [1, 2, 3, 10, 20]:
     df = pd.read_csv(f"{runs}/epochs/epoch_{ep:04d}/molecules.csv")

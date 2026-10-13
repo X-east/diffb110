@@ -14,7 +14,7 @@ mkdir -p "${EXP}/logs/deppa_rerun" "${EXP}/outputs/deppa_rerun" "${EXP}/aggregat
 run_deppa_one() {
   local gpu_id="$1"
   local count="$2"
-  local project="${ROOT}/reference project/DePPA"
+  local project="${ROOT}/reference project/代码/DePPA"
   local out_dir="${EXP}/outputs/deppa_rerun/gpu_${gpu_id}"
   local mpl_dir="${EXP}/mplconfig/deppa/gpu_${gpu_id}"
   mkdir -p "${mpl_dir}"

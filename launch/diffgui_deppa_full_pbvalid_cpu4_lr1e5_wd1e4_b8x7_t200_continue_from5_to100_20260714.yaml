@@ -3,9 +3,9 @@ name: diffgui-deppa-full-pbvalid-cpu4-lr1e5-wd1e4-b8x7-t200-continue-from5-to100
 dataset: crossdock
 
 diffgui_model:
-  sample_config: "reference project/DiffGui/configs/sample/sample.yml"
+  sample_config: "reference project/代码/DiffGui/configs/sample/sample.yml"
   checkpoint: "runs/diffgui-deppa-full-pbvalid-lr1e5-wd1e4-b8x7-t200-100ep_20260714_1615/checkpoints/latest.pt"
-  base_checkpoint: "reference project/DiffGui/ckpt/trained.pt"
+  base_checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
   pocket_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
   ligand_sdf: "None"
 

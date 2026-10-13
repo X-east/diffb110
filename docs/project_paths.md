@@ -1,6 +1,9 @@
 # Project Paths
 
-> **最后更新**: 2026-06-18
+> ⚠️ **部分内容停留在 2026-06-18，目录约定可能已漂移。**
+> 管线状态与权威文档指针见 [`管线总览.md`](管线总览.md)；文档索引见 [`README.md`](README.md)。
+
+> **最后更新**: 2026-09-29
 
 This file records the current directory layout and canonical path conventions for the DiffB110 workspace.
 
@@ -44,6 +47,8 @@ Use runtime-visible absolute paths in local commands and work records when clari
 |---|---|---|
 | `workspace_data_root` | `/home/md666/data/disk6/DiffB110/data` | Protein, ligand, ChEMBL, CrossDocked, RND-EPI data |
 | `chembl_data_root` | `/home/md666/data/disk6/DiffB110/data/chembl` | ChEMBL baseline data |
+| `chembl_reference_set` | `/home/md666/data/disk6/DiffB110/data/chembl_smallmol_reference` | **ChEMBL small-molecule reference set (1,790,085)** used as the R1-R5 / distribution reference |
+| `crosssource_shards_root` | `/home/md666/data/disk6/DiffB110/data/crosssource` | **ESRPO-ChEMBL winner stores** (ChEMBL dock poses converted to DiffSBDD endpoint-shard format) |
 | `cache_root` | `/home/md666/data/disk6/DiffB110/cache` | Cache files |
 | `top_level_checkpoints_root` | `/home/md666/data/disk6/DiffB110/checkpoints` | Small top-level checkpoint area |
 | `diffsbdd_checkpoints_root` | `/home/md666/data/disk6/DiffB110/DiffSBDD/checkpoints` | DiffSBDD checkpoints |
@@ -62,6 +67,7 @@ Common ChEMBL files:
 | `analysis_root` | `/home/md666/data/disk6/DiffB110/analysis` | Analysis artifacts, reports, plots, CSV/JSON/SDF |
 | `diffgui_rl_analysis_root` | `/home/md666/data/disk6/DiffB110/analysis/diffgui_rl` | Current DiffGui RL analysis artifacts |
 | `diffgui_rl_major_summary` | `/home/md666/data/disk6/DiffB110/analysis/diffgui_rl_major_runs_20260618` | Current DiffGui RL major-run summary pipeline |
+| `crosssource_pairs_root` | `/home/md666/data/disk6/DiffB110/analysis/crosssource_pairs_260929` | **ESRPO-ChEMBL (cross-source) pipeline**: scripts, pair manifests, docking evaluation |
 | `work_records_root` | `/home/md666/data/disk6/DiffB110/work_records` | Task-level records |
 | `work_days_root` | `/home/md666/data/disk6/DiffB110/work_days` | Daily/weekly/monthly summaries |
 | `docs_root` | `/home/md666/data/disk6/DiffB110/docs` | Current docs |
@@ -74,9 +80,9 @@ Analysis reports should embed plots and tables directly. CSV/JSON/SDF files are 
 | Name | Path | Notes |
 |---|---|---|
 | `reference_projects_root` | `/home/md666/data/disk6/DiffB110/reference project` | External method references |
-| `diffgui_reference_root` | `/home/md666/data/disk6/DiffB110/reference project/DiffGui` | DiffGui reference model and scripts |
-| `deppa_reference_root` | `/home/md666/data/disk6/DiffB110/reference project/DePPA` | DePPA reference |
-| `molskill_reference_root` | `/home/md666/data/disk6/DiffB110/reference project/molskill` | MolSkill reference |
+| `diffgui_reference_root` | `/home/md666/data/disk6/DiffB110/reference project/代码/DiffGui` | DiffGui reference model and scripts |
+| `deppa_reference_root` | `/home/md666/data/disk6/DiffB110/reference project/代码/DePPA` | DePPA reference |
+| `molskill_reference_root` | `/home/md666/data/disk6/DiffB110/reference project/代码/molskill` | MolSkill reference |
 
 Reference projects are method references and environment-specific. Do not install their dependencies into the main `dif` environment without a deliberate compatibility plan.
 
@@ -98,8 +104,9 @@ DiffGui reward-only SDF scoring may use the main environment only when it does n
 ## Notes
 
 - Active training configs are under `launch/`, not top-level `configs/`.
-- For new DiffGui RL training, prefer the `launch/run_diffgui_*.sh` / `launch/start_diffgui_*.sh` wrappers that call `ddpo/main_diffgui_docking_ddp.py` in the `diffgui` environment.
-- For retained DiffSBDD training, prefer `CONFIG_PATH=launch/<config>.yaml bash launch/run.sh` over older 6/8GPU wrapper scripts.
-- Formal run evidence is under `OUT/`.
+- **Current mainline (ESRPO)**: `python ddpo/main_diffsbdd_global_dpo.py --config launch/diffsbdd_global_esrpo_x_only_lr1e5_mainline.yaml` (see `docs/管线总览.md`). `launch/run.sh` still works as a generic wrapper.
+- `launch/run_diffgui_*.sh` / `launch/start_diffgui_*.sh` (calling `ddpo/main_diffgui_docking_ddp.py` in the `diffgui` env) are for the **DiffGui comparison/historical line**, not the mainline.
+- ESRPO-ChEMBL (cross-source) pipeline entry points: `analysis/crosssource_pairs_260929/` (see `docs/overview/DiffSBDD-ESRPO-ChEMBL版总审计.md`).
+- Formal run evidence is under `runs/`.
 - Research conclusions usually require `analysis/` plus `work_records/`.
 - Top-level `output/` should not be reintroduced as a live output root.

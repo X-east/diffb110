@@ -13,11 +13,16 @@ data and evidence entry point; no one route should be described as the formal
 research route without a later explicit decision and matched independent
 evaluation.
 
-Before changing project code, read:
+Before changing project code:
 
-- `docs/project_context.md`
-- `docs/workflow_commands.md`
-- the relevant module near the requested change
+- **Read `docs/管线总览.md` first — the ONLY mandatory read (≤80 lines: pipelines,
+  status, entry points, authoritative doc pointers).** It is not a summary to skim
+  past; it tells you which route you are about to touch.
+- Then look things up **on demand — never read these end-to-end**:
+  - `docs/project_context.md` — molecule semantics / reward system (open only the relevant section),
+  - `docs/workflow_commands.md` — command lookup only,
+  - `docs/README.md` — doc index (use when you need to find a document).
+- Always read the relevant module near the requested change.
 
 ## Evidence-Based Change Rule
 
@@ -346,9 +351,22 @@ cleanup logic for torchrun process trees, port 29500, and GPU memory reporting.
 
 ## Git Commit Norms
 
+- Follow `docs/GitHub上传与版本管理规范.md` for upload scope, reference dependencies,
+  publication artifacts, and the staged-file checks.
 - Commit by logical task, not by file.
 - Use commit messages like `YYMMDD-N 简单中文描述`.
-- Before committing, run `git status --short` and add all intended files.
+- Before committing, run `git status --short`, stage intended paths explicitly,
+  and review `git diff --cached`. Do not use `git add .`, `git add -A`, or force-add
+  ignored data/outputs as the default staging workflow.
+- Run `conda run -n dif python scripts/check_git_upload.py` before committing or
+  pushing. The check reads staged blobs; it does not stage, commit, or push.
+- Keep analysis programs in Git; place newly selected small result summaries in
+  `analysis/published/` with provenance, fixed-attempt denominators, and relative
+  figure/data links. Immutable run snapshots and migration backups stay local.
+- Record third-party source URL, pinned commit, environment, and any source patch
+  in `docs/reference_projects.tsv` and the reference-dependency instructions.
+- Local `work_records/` are not a Git backup. Publish selected stable conclusions
+  under `docs/` or `analysis/published/`; back up full run evidence separately.
 - Do not add ignored/generated large outputs such as `runs/`, `checkpoints/`,
   `bishe/`, `QADD-main/`, `DiffMeta-main/`, or `RL-Diffusion-main/`.
 
@@ -393,11 +411,11 @@ GraphBP and Pocket2Mol were aligned to this convention on 2026-06-25.
 
 ## DiffSBDD Offline RL And Preference Route Norm
 
-DiffSBDD 保留线的最终主线方向已确认为 **E2PO**（structure-matched, x-only
-v=0, lr=1e-5, 1-epoch global-e2po DPO）。训练入口
+DiffSBDD 保留线的最终主线方向已确认为 **ESRPO**（structure-matched, x-only
+v=0, lr=1e-5, 1-epoch global-esrpo DPO）。训练入口
 `ddpo/main_diffsbdd_global_dpo.py`，规范配置
-`launch/diffsbdd_global_e2po_x_only_lr1e5_mainline.yaml`，生成脚本
-`launch/run_diffsbdd_global_e2po_x_only_lr1e5_generation.sh`。该决策由
+`launch/diffsbdd_global_esrpo_x_only_lr1e5_mainline.yaml`，生成脚本
+`launch/run_diffsbdd_global_esrpo_x_only_lr1e5_generation.sh`。该决策由
 2026-09-02 的 1000-attempt 生成与对比证据支撑（见
 `work_records/26-9/260902/260902-02 lr1e-5 1000分子生成对比Original.md`）：宽松口径
 sanitize 通过率 81.9%，高于标准 DiffSBDD（~66.9%）与 GCDM-SBDD（~51.9%）；环系/多环
@@ -405,9 +423,9 @@ sanitize 通过率 81.9%，高于标准 DiffSBDD（~66.9%）与 GCDM-SBDD（~51.
 
 Offline IQL, BC/AWR, AliDiff-style global preference (非 x-only 变体), and
 DecompDPO-style decomposed preference optimization remain **parallel/comparison
-routes** alongside E2PO. Do not call any one of them the formal mainline without
+routes** alongside ESRPO. Do not call any one of them the formal mainline without
 an explicit project decision and matched independent generation/evaluation; new
-training/generation defaults to the E2PO mainline unless explicitly tagged as a
+training/generation defaults to the ESRPO mainline unless explicitly tagged as a
 comparison experiment.
 
 For an IQL-specific run, do not substitute offline PPO ratios for IQL:

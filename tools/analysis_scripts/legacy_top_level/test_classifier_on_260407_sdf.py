@@ -16,7 +16,7 @@ import torch
 from rdkit import Chem
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-MOLSKILL_ROOT = PROJECT_ROOT / "reference project" / "molskill"
+MOLSKILL_ROOT = PROJECT_ROOT / "reference project" / "代码" / "molskill"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 if str(MOLSKILL_ROOT) not in sys.path:
@@ -25,7 +25,7 @@ if str(MOLSKILL_ROOT) not in sys.path:
 from chembl_classifier.model import ChemblClassifier  # noqa: E402
 from molskill.data.featurizers import get_featurizer  # noqa: E402
 
-SDF_PATH = PROJECT_ROOT / "OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf"
+SDF_PATH = PROJECT_ROOT / "runs/260407_generate_ligands_10000/260407generated_10000_filtered.sdf"
 MODEL_PATH = PROJECT_ROOT / "chembl_classifier/models/chembl_classifier_selected_v0_1.pt"
 OUT_DIR = PROJECT_ROOT / "analysis/classifier_test_260407_sdf_20260527"
 

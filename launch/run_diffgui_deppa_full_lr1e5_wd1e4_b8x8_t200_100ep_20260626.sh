@@ -10,7 +10,7 @@ LOG_LEVEL="${LOG_LEVEL:-INFO}"
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}"
 CONDA_ENV="${CONDA_ENV:-diffgui}"
 RUN_STAMP="${RUN_STAMP:-$(date +%Y%m%d_%H%M%S)}"
-OUTPUT_DIR="${OUTPUT_DIR:-$ROOT/OUT/diffgui-deppa-full-lr1e5-wd1e4-b8x8-t200-100ep_${RUN_STAMP}}"
+OUTPUT_DIR="${OUTPUT_DIR:-$ROOT/runs/diffgui-deppa-full-lr1e5-wd1e4-b8x8-t200-100ep_${RUN_STAMP}}"
 LOG_DIR="${LOG_DIR:-$ROOT/launch/archive/logs/diffgui_deppa_full_20260626}"
 LOG_PATH="${LOG_PATH:-$LOG_DIR/diffgui_deppa_full_lr1e5_wd1e4_b8x8_t200_100ep_${RUN_STAMP}.log}"
 
@@ -24,7 +24,7 @@ echo "[DiffGui-DDP-Full] log=${LOG_PATH}"
 echo "[DiffGui-DDP-Full] env=${CONDA_ENV}"
 echo "[DiffGui-DDP-Full] cuda_visible_devices=${CUDA_VISIBLE_DEVICES}"
 echo "[DiffGui-DDP-Full] nproc_per_node=${NPROC_PER_NODE} master_port=${MASTER_PORT}"
-echo "[DiffGui-DDP-Full] common=8GPU, batch/rank=8, global_batch=64, epochs=100, steps=200, freeze=none, lr=1e-5, weight_decay=1e-4, target=8GJL:C1101"
+echo "[DiffGui-DDP-Full] common=8GPU, batch/rank=8, global_batch=64, epochs=100, steps=200, freeze=none, lr=1e-5, weight_decay=1e-4, ppo_epochs=2, target=8GJL:C1101"
 echo "[DiffGui-DDP-Full] start=$(date '+%F %T')"
 
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \

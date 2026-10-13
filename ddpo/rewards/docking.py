@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "DiffSBDD"))
 from constants import dataset_params
 
 from ddpo.field_registry import FieldSpec
+from ddpo.utils.docking_protocol import FRAME_CENTERED_ZERO
 from ddpo.utils.molecule_semantics import (
     FAILURE_DOCKING_BACKEND,
     FAILURE_DOCKING_INPUT,
@@ -49,10 +50,16 @@ from .docking_config import (
     DEFAULT_EXHAUSTIVENESS,
     DEFAULT_FLD_FILE,
     DEFAULT_GPU_ID,
+    DEFAULT_CPU,
+    DEFAULT_DOCKING_TIMEOUT_SECONDS,
     DEFAULT_HEURISTICS,
+    DEFAULT_MAX_GPU_MEMORY,
     DEFAULT_NRUN,
     DEFAULT_RECEPTOR_FILE,
+    DEFAULT_SCORING,
     DEFAULT_SEARCH_MODE,
+    DEFAULT_SEED,
+    DEFAULT_VERBOSITY,
     DEFAULT_SIZE_X,
     DEFAULT_SIZE_Y,
     DEFAULT_SIZE_Z,
@@ -109,6 +116,13 @@ class DockingReward(BaseReward):
         chunk_size: Optional[int] = None,
         gpu_id: int = DEFAULT_GPU_ID,
         search_mode: str = DEFAULT_SEARCH_MODE,
+        scoring: str = DEFAULT_SCORING,
+        seed: int = DEFAULT_SEED,
+        verbosity: int = DEFAULT_VERBOSITY,
+        cpu: int = DEFAULT_CPU,
+        max_gpu_memory: int = DEFAULT_MAX_GPU_MEMORY,
+        timeout_seconds: int = DEFAULT_DOCKING_TIMEOUT_SECONDS,
+        ligand_frame: str = FRAME_CENTERED_ZERO,
         fld_file: Optional[str] = None,
         nrun: int = DEFAULT_NRUN,
         heuristics: bool = DEFAULT_HEURISTICS,
@@ -133,6 +147,16 @@ class DockingReward(BaseReward):
         self.size_y = size_y
         self.size_z = size_z
         self.exhaustiveness = exhaustiveness
+
+        # Uni-Dock runtime controls passed explicitly so the reward search is
+        # identical to the evaluation search (docs/评估口径规范.md §3.1).
+        self.scoring = scoring
+        self.seed = seed
+        self.verbosity = verbosity
+        self.cpu = cpu
+        self.max_gpu_memory = max_gpu_memory
+        self.timeout_seconds = timeout_seconds
+        self.ligand_frame = ligand_frame
 
         # Smina autobox
         self.autobox_ligand = str(Path(autobox_ligand).resolve()) if autobox_ligand else None
@@ -212,6 +236,14 @@ class DockingReward(BaseReward):
                     search_mode=self.search_mode,
                     num_modes=1,
                     exhaustiveness=self.exhaustiveness,
+                    scoring=self.scoring,
+                    seed=self.seed,
+                    verbosity=self.verbosity,
+                    cpu=self.cpu,
+                    max_gpu_memory=self.max_gpu_memory,
+                    timeout_seconds=self.timeout_seconds,
+                    ligand_frame=self.ligand_frame,
+                    ligand_charges="gasteiger" if self.assign_gasteiger else "none",
                 )
             return self._unidock_backend
         if self.backend == "smina":

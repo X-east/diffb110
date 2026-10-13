@@ -10,7 +10,7 @@ LOG_LEVEL="${LOG_LEVEL:-INFO}"
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}"
 CONDA_ENV="${CONDA_ENV:-diffgui}"
 RUN_STAMP="$(date +%Y%m%d_%H%M%S)"
-OUTPUT_DIR="${OUTPUT_DIR:-$ROOT/OUT/diffgui-deppa-last3-lr1e5-b18x8-t200-100ep_${RUN_STAMP}}"
+OUTPUT_DIR="${OUTPUT_DIR:-$ROOT/runs/diffgui-deppa-last3-lr1e5-b18x8-t200-100ep_${RUN_STAMP}}"
 LOG_DIR="${LOG_DIR:-$ROOT/launch/archive/logs/diffgui_deppa_20260623}"
 LOG_PATH="${LOG_PATH:-$LOG_DIR/diffgui_deppa_last3_lr1e5_b18x8_t200_100ep_${RUN_STAMP}.log}"
 

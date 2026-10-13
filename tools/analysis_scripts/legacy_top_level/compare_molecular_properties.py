@@ -34,8 +34,8 @@ from rdkit.Chem import Descriptors, QED, Crippen, rdMolDescriptors
 # ============================================================
 # 配置
 # ============================================================
-EPOCH20_CSV = "/home/md666/data/disk6/DiffB110/OUT/6gpu-chembl-only_20260521_154957/epochs/epoch_0020/molecules.csv"
-REF_CSV = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/guacamol_eval/260407generated_10000_properties.csv"
+EPOCH20_CSV = "/home/md666/data/disk6/DiffB110/runs/6gpu-chembl-only_20260521_154957/epochs/epoch_0020/molecules.csv"
+REF_CSV = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/guacamol_eval/260407generated_10000_properties.csv"
 OUTPUT_DIR = "/home/md666/data/disk6/DiffB110/analysis/"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

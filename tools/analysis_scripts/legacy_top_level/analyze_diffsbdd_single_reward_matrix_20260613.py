@@ -35,15 +35,15 @@ class RunSpec:
 
 
 RUNS = [
-    RunSpec("01_docking", "docking", ROOT / "OUT/diffsbdd-single-reward-20260612-01-docking_20260612_210459"),
-    RunSpec("02_qed", "qed", ROOT / "OUT/diffsbdd-single-reward-20260612-02-qed_20260612_213118"),
-    RunSpec("03_sa", "sa", ROOT / "OUT/diffsbdd-single-reward-20260612-03-sa_20260612_215558"),
-    RunSpec("04_tpsa", "tpsa_distribution", ROOT / "OUT/diffsbdd-single-reward-20260612-04-tpsa_distribution_20260612_222038"),
-    RunSpec("05_ecfp4", "ecfp4_prior", ROOT / "OUT/diffsbdd-single-reward-20260612-05-ecfp4_prior_20260612_224533"),
-    RunSpec("06_fcfp4", "fcfp4_prior", ROOT / "OUT/diffsbdd-single-reward-20260612-06-fcfp4_prior_20260612_231147"),
-    RunSpec("07_logp", "logp_distribution", ROOT / "OUT/diffsbdd-single-reward-20260612-07-logp_distribution_20260612_233802"),
-    RunSpec("08_le", "ligand_efficiency", ROOT / "OUT/diffsbdd-single-reward-20260612-08-ligand_efficiency_20260613_000317"),
-    RunSpec("09_classifier", "chembl_classifier", ROOT / "OUT/diffsbdd-single-reward-20260612-09-chembl_classifier_20260613_002952"),
+    RunSpec("01_docking", "docking", ROOT / "runs/diffsbdd-single-reward-20260612-01-docking_20260612_210459"),
+    RunSpec("02_qed", "qed", ROOT / "runs/diffsbdd-single-reward-20260612-02-qed_20260612_213118"),
+    RunSpec("03_sa", "sa", ROOT / "runs/diffsbdd-single-reward-20260612-03-sa_20260612_215558"),
+    RunSpec("04_tpsa", "tpsa_distribution", ROOT / "runs/diffsbdd-single-reward-20260612-04-tpsa_distribution_20260612_222038"),
+    RunSpec("05_ecfp4", "ecfp4_prior", ROOT / "runs/diffsbdd-single-reward-20260612-05-ecfp4_prior_20260612_224533"),
+    RunSpec("06_fcfp4", "fcfp4_prior", ROOT / "runs/diffsbdd-single-reward-20260612-06-fcfp4_prior_20260612_231147"),
+    RunSpec("07_logp", "logp_distribution", ROOT / "runs/diffsbdd-single-reward-20260612-07-logp_distribution_20260612_233802"),
+    RunSpec("08_le", "ligand_efficiency", ROOT / "runs/diffsbdd-single-reward-20260612-08-ligand_efficiency_20260613_000317"),
+    RunSpec("09_classifier", "chembl_classifier", ROOT / "runs/diffsbdd-single-reward-20260612-09-chembl_classifier_20260613_002952"),
 ]
 
 

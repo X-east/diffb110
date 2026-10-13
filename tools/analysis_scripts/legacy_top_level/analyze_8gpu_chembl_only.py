@@ -16,7 +16,7 @@ from matplotlib.patches import FancyBboxPatch
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-ROOT = Path("/home/md666/data/disk6/DiffB110/OUT/8gpu-chembl-only_20260520_101340")
+ROOT = Path("/home/md666/data/disk6/DiffB110/runs/8gpu-chembl-only_20260520_101340")
 CSV_PATH = ROOT / "training_summary.csv"
 EPOCH_DIR = ROOT / "epochs"
 

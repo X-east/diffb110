@@ -1,0 +1,73 @@
+# ESRPO 消融臂 B —— 偏好轴 = 对接分（纯对接标签）
+#
+# 配对构建: analysis/reference_support_experiment/build_bcd_pair_sets.py
+#   winner = 池内"对接百分位"更高者（即对接分更负、结合更好）
+#   硬约束: 元素组成严格相等 + 重原子数严格相等 + |ΔTPSA| <= 30 + |Δ对接| <= 3.0
+#   数据: 67,414 对 (train 56,628 / val 5,393 / test 5,393)
+#
+# 臂间唯一差异 = 标签轴；其余超参与本 mainline 完全一致:
+#   launch/diffsbdd_global_esrpo_x_only_lr1e5_mainline.yaml
+#
+# ⚠️ reward_temperature = 5.0（不是 mainline 的 1.0）
+#   mainline 的奖励是"整数违规数 0-7"，典型 ΔR≈2；本臂奖励是 [0,1] 池内百分位分，
+#   实测典型 ΔR≈0.371。p_w = sigmoid(tau * ΔR):
+#       tau=1 -> 0.59（几乎对称，方向退化）
+#       tau=5 -> 0.86（正常力度）
+name: e2po-frag-bcd-b-docking-20260915
+
+run:
+  output_dir: analysis/e2po_frag_bcd_B_20260915
+  seed: 1
+  variant: x_only
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  pocket_pdb: data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda:0
+
+data:
+  pair_dir: analysis/reference_support_experiment/pairs_bcd/B
+  minimum_validation_pairs: 2000
+  allow_endpoint_reuse: false
+
+diffusion:
+  timestep_grid: 500
+
+dpo:
+  objective: esrpo
+  beta: 1.0
+  reward_temperature: 5.0
+  reward_sign: 1.0
+
+training:
+  epochs: 1
+  batch_pairs: 2
+  learning_rate: 1.0e-5
+  max_grad_norm: 1.0
+  train_timesteps_per_batch: 1
+  noise_coupling: independent
+  freeze:
+    encoder_decoder: true
+    egnn_first_n_blocks: 3
+  validation_timesteps: [50, 125, 250, 375, 500]
+  train_eval_pair_count: 1024
+  save_every_updates: 2000
+
+variants:
+  x_only:
+    x_weight: 1.0
+    v_weight: 0.0
+
+generation:
+  enabled: false
+  device: cuda:0
+  attempts: 0
+  batch_size: 25
+  timesteps: 500
+  seed: 1
+  reconstruction_method: openbabel
+  resamplings: 10
+  jump_length: 1
+  all_frags: true

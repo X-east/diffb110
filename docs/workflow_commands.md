@@ -1,8 +1,32 @@
 # Workflow Commands
 
-> **最后更新**: 2026-06-18
+> **最后更新**: 2026-09-29
 
 This document records the current verified workflow entrypoints, launch scripts, and supporting utilities in the repository.
+
+## 0. Current Project Workflow
+
+The DiffSBDD retained route has a confirmed mainline: **ESRPO** (endpoint structural-rule
+preference optimization; structure-matched, x-only, lr 1e-5) - see section 5.
+Its **ChEMBL version** (cross-source preference pairs, winners taken from real ChEMBL
+molecules) is in progress - also section 5.
+
+Other routes remain parallel work packages / comparisons:
+
+```text
+cross-model diffusion benchmark evidence
+  -> ESRPO mainline (DiffSBDD endpoints)  |  ESRPO-ChEMBL version (ChEMBL winners)
+  -> parallel: BC/AWR/IQL, AliDiff-style DPO, DecompDPO-style DPO, online DDPO, DiffGui RL
+  -> independent generation from each checkpoint
+  -> screen and rerank generated molecules
+  -> hand off top candidates to molecular dynamics simulation
+```
+
+Pipeline status / code entry points: `docs/管线总览.md`.
+
+For Part I reports and execution records, use fixed sampling attempts and fixed
+seed rules. Do not refill invalid generations to force every model to have the
+same number of written SDF molecules.
 
 ## 1. Environments
 
@@ -19,37 +43,31 @@ nvidia-smi
 
 ### DiffGui environment
 
-Use `diffgui` for any task that imports the reference DiffGui model, loads `reference project/DiffGui/ckpt/trained.pt`, performs DiffGui generation, or runs DiffGui PPO/DDPO.
+Use `diffgui` for any task that imports the reference DiffGui model, loads `reference project/代码/DiffGui/ckpt/trained.pt`, performs DiffGui generation, or runs DiffGui PPO/DDPO.
 
 Do not install DiffGui-only dependencies into `dif`.
 
-## 2. DiffGui PPO/DDPO Current Main Line
+## 2. DiffSBDD Offline IQL Parallel Branch
 
-DiffGui has its own decoupled runtime under `ddpo/diffgui/` and must run in the `diffgui` environment when the reference model is loaded. This is the current reinforcement-learning main line.
+DiffSBDD offline IQL is one parallel branch in the `dif` environment. The main repository provides complete-trajectory collection; any IQL actor training remains conditional on the data, critic, numerical-stability, and independent-generation checks documented for that branch. Do not describe IQL as the globally confirmed mainline.
 
-### Main Python entrypoints
+### Available collection entrypoint
 
 ```bash
-torchrun --nproc_per_node=<N> ddpo/main_diffgui_docking_ddp.py --config <launch/config.yaml>
-python ddpo/main_diffgui_reward_only.py --config <launch/config.yaml>
+conda run -n dif python ddpo/main_diffsbdd_collect_ddp.py --help
 ```
 
 ### Launch scripts
 
 | Command | Use |
 |---|---|
-| `bash launch/run_diffgui_docking_train_ddp_smoke.sh` | DiffGui DDP smoke |
-| `bash launch/run_diffgui_deppa_last3_lr1e5_b18x8_t200_100ep_20260623.sh` | Current DePPA-style DiffGui RL formal run |
-| `bash launch/run_diffgui_next6_matrix_20260618.sh` | DiffGui next6 serial matrix |
-| `bash launch/run_diffgui_ring_control_matrix_20260615.sh` | QED/SA/ring/combination matrix |
-| `bash launch/start_diffgui_next4_continue_to50_20260621.sh` | Continue next4 run to 50 total epochs |
+| `conda run -n dif python ddpo/main_diffsbdd_collect_ddp.py --help` | Inspect the DiffSBDD complete-trajectory collector |
 
-Historical DiffGui launchers live under `launch/archive/diffgui_historical/`
-and should be used only to reproduce earlier runs.
+For an IQL comparison, follow the branch record in `work_records/26-7/260731/260731-01 DiffSBDD去噪轨迹离线IQL支线全过程记录.md`: freeze the relevant episodes/manifests, build finite reward sidecars, audit actual-good/scaffold support, freeze the split, run matched controls, perform held-out critic diagnostics, then independently evaluate fresh molecules.
 
-### Important DiffGui evidence paths
+### Related parallel route evidence
 
-- `OUT/diffgui-*`
+- `runs/diffgui-*`
 - `launch/archive/logs/diffgui_ring_control_matrix_*`
 - `analysis/diffgui_rl/`
 - `ddpo/diffgui/runtime/rollout.py`
@@ -62,13 +80,52 @@ and should be used only to reproduce earlier runs.
 `launch/archive/logs/` and `launch/archive/runtime_logs/` are run evidence, not
 maintained entrypoints.
 
-DiffGui RL stage-summary statistics are documented in:
+The IQL branch gates and control design are documented in:
 
-- `docs/DiffGui强化学习统计清单.md`
+- `work_records/26-7/260731/260731-01 DiffSBDD去噪轨迹离线IQL支线全过程记录.md`
 
-## 3. DiffSBDD DDPO/PPO Retained Baseline
+## 3. Cross-Route Generation, Screening, And MD Handoff
 
-The retained DiffSBDD reinforcement-learning path uses PyTorch native DDP via `torchrun`. Use it for comparison, backup, or historical reproduction, not as the current research main line.
+After any route checkpoint is selected for evaluation, the downstream work should be recorded as independent generation and screening, not inferred from training loss alone.
+
+### Generation From Route Checkpoints
+
+- Use the `dif` environment for DiffSBDD checkpoints.
+- Save generated SDFs, run logs, resolved config snapshots, seed rules, and
+  attempt counts under `OUT/` or a dated `analysis/` directory.
+- Keep the benchmark seed convention unless a run explicitly documents another
+  reason: `seed = gpu_id` for sharded generation and `seed = 1` for single-GPU
+  generation.
+
+### Screening And Reranking
+
+Screen generated molecules with a fixed funnel:
+
+1. RDKit readable and sanitize-valid.
+2. Canonical SMILES deduplication.
+3. UniDock RE-CmeB docking under the documented box and receptor.
+4. Ligand efficiency to control molecule-size bias.
+5. QED, SA, LogP, TPSA, MW, HBA/HBD, and related drug-like descriptors.
+6. Ring/pathology facts, fragments, bad bond lengths, abnormal valence, and
+   chemistry-guard fields.
+7. ChEMBL-like MLP/D-MPNN or fingerprint-prior rescoring.
+8. Manual 3D interaction review for top candidates.
+
+### MD Candidate Handoff
+
+Molecular dynamics is a downstream validation stage. Before starting MD, create
+or update a task-specific record with:
+
+- selected molecule IDs and source SDF paths;
+- docking pose or pose-generation source;
+- protein structure, protonation, ligand preparation, and force-field choices;
+- MD engine, simulation length, replica count, solvent/ion setup, and acceptance
+  criteria;
+- final output directory under `analysis/` or a dedicated MD record directory.
+
+## 4. Online PPO/DDPO Parallel And Historical Paths
+
+The online DiffSBDD and DiffGui PPO/DDPO paths may be used as parallel experiments, comparisons, or historical reproductions according to their run records. Do not mix their checkpoints or trajectory semantics with DiffSBDD offline branches, and do not substitute recorded behavior scores for offline-IQL old-policy log probabilities.
 
 ### Main Python entrypoint
 
@@ -89,8 +146,8 @@ torchrun --nproc_per_node=<N> ddpo/main_diffsbdd_ddp.py --config <launch/config.
 Do not use the old `run_6gpu*.sh` / `run_8gpu*.sh` wrappers for new jobs unless
 they are repaired first. They have been moved to
 `launch/archive/legacy_diffsbdd_wrappers/`, overlap with `launch/run.sh`, and
-still reference the obsolete `launch/yaml_launch_env.py` helper in several
-places. Prefer:
+still reference the obsolete helper now living at `scripts/yaml_launch_env.py`
+(older records write `launch/yaml_launch_env.py`). Prefer:
 
 ```bash
 CONFIG_PATH=launch/<config>.yaml bash launch/run.sh
@@ -101,10 +158,56 @@ CONFIG_PATH=launch/<config>.yaml bash launch/run.sh
 | Entrypoint | Status |
 |---|---|
 | `ddpo/main_diffsbdd_ddp.py` | Retained DiffSBDD DDP path |
-| `ddpo/main_diffsbdd_single_gpu.py` | Legacy single-GPU debug path |
-| `ddpo/main_diffsbdd.py` | Legacy Ray-style reference |
+| ~~`ddpo/main_diffsbdd_single_gpu.py`~~ | **REMOVED** — moved to `launch/archive/legacy_diffsbdd_wrappers/` |
+| ~~`ddpo/main_diffsbdd.py`~~ | **REMOVED** — moved to `launch/archive/legacy_diffsbdd_wrappers/` |
 
-## 4. DiffSBDD Base Model Training And Generation
+## 5. DiffSBDD ESRPO (Endpoint Preference) And ESRPO-ChEMBL (Cross-source)
+
+### ESRPO mainline
+
+```bash
+# train (full config; single-GPU example)
+CUDA_VISIBLE_DEVICES=5 python ddpo/main_diffsbdd_global_dpo.py \
+  --config launch/diffsbdd_global_esrpo_x_only_lr1e5_mainline.yaml --allow-small-pairs --epochs 1
+
+# generate from a trained checkpoint
+DPO_CHECKPOINT=<run>/checkpoints/diffsbdd-global-dpo-epoch=0001.pt GPU_ID=5 ATTEMPTS=1000 \
+  bash launch/run_diffsbdd_global_esrpo_x_only_lr1e5_generation.sh
+```
+
+### ESRPO-ChEMBL (cross-source preference pairs)
+
+Method/ledger: `docs/overview/DiffSBDD-ESRPO-ChEMBL版总审计.md`.
+
+```bash
+# 1) per-molecule R1-R5 rules for docked ChEMBL molecules
+python analysis/crosssource_pairs_260929/compute_chembl_docked_rules.py --workers 18
+# 2) ChEMBL dock poses -> DiffSBDD endpoint-store shards
+python analysis/crosssource_pairs_260929/chembl_to_endpoint_shards.py --batch-size 1000
+# 3) build pairs: SIZE-MATCHED is mandatory ('ring'/'none' only for ablations)
+python analysis/crosssource_pairs_260929/build_crosssource_pairs.py \
+  --loser-manifest-glob 'analysis/diffsbdd_structure_pairs_matched_260831/*pairs.csv' \
+  --match-key size --min-gap 0.5 --output-dir analysis/crosssource_pairs_260929/pairs_size
+# 4) train (ESRPO loss; trainer unchanged)
+CUDA_VISIBLE_DEVICES=5 python ddpo/main_diffsbdd_global_dpo.py \
+  --config launch/diffsbdd_esrpo_crosssource_size_smoke.yaml \
+  --allow-small-pairs --epochs 1 --learning-rate 5e-5 --pair-count 3400
+# 5) checkpoint sweep generation / 6) dock generated molecules (LF + no-H)
+bash analysis/crosssource_pairs_260929/scan_size_ckpts.sh
+python analysis/crosssource_pairs_260929/evaluate_gen_docking.py \
+  --sdf OUT/crosssource_size_scan/step000800/molecules.sdf \
+  --work-dir analysis/crosssource_pairs_260929/size_scan_dock/step000800
+```
+
+Notes:
+- winners are ChEMBL unidock poses (RE-CmeB frame); losers are DiffSBDD endpoints from the
+  existing 200k store - no trajectory is needed (DPO reads only `x / categorical / nodesxsample`).
+- HA matching is mandatory: unrestricted pairing leaves a +11.4 heavy-atom gap and turns
+  molecular size into an exploitable signal.
+- evaluation set: loose sanitize / R1-R5 (ChEMBL HA10-30 target = 90.6%) / shape guards
+  (0-ring rate, QED, single-fragment) / docking (clean & HA10-30, LF + no-H).
+
+## 6. DiffSBDD Base Model Training And Generation
 
 ### Base model training
 
@@ -135,7 +238,7 @@ Recent dual-R/fixed-core work is documented under:
 - `work_records/26-6/260617/`
 - `work_records/26-6/260618/260618-01 DiffGui双R侧链解耦推进分析.md`
 
-## 5. ChEMBL MLP And D-MPNN Classifiers
+## 7. ChEMBL MLP And D-MPNN Classifiers
 
 ### MLP classifier
 
@@ -166,7 +269,7 @@ Reward integration:
 - `test/test_chembl_dmpnn_training.py`
 - `test/test_chembl_dmpnn_reward.py`
 
-## 6. Docking
+## 8. Docking
 
 UniDock is installed in the `dif` conda environment and is the current primary docking backend.
 
@@ -182,7 +285,7 @@ Relevant code:
 - `ddpo/rewards/docking_backends/`
 - `scripts/docking/`
 
-## 7. Tests And Smoke Checks
+## 9. Tests And Smoke Checks
 
 ### Syntax check changed Python files
 
@@ -218,7 +321,7 @@ OUTPUT_DIR=<OUT/run_dir> \
 bash launch/run_diffgui_docking_train_ddp_smoke.sh
 ```
 
-## 8. Analysis And Reporting
+## 10. Analysis And Reporting
 
 Analysis artifacts should live under `analysis/<topic>_<date>/` and include:
 
@@ -239,7 +342,7 @@ Daily summaries live under:
 work_days/
 ```
 
-## 9. Current High-Value Analysis Directories
+## 11. Current High-Value Analysis Directories
 
 | Directory | Use |
 |---|---|
@@ -252,10 +355,10 @@ work_days/
 | `analysis/dual_sidechain_honokiol_9pc_20260617/` | DiffSBDD dual-R fixed-core attempts |
 | `analysis/dual_sidechain_honokiol_9pc_20260618/` | DiffGui dual-R feasibility analysis |
 
-## 10. Operational Notes
+## 12. Operational Notes
 
 - Active launch configs are under `launch/`, not top-level `configs/`.
-- Formal outputs go to `OUT/`.
+- Formal outputs go to `runs/`.
 - `analysis/` is for interpreted artifacts and should embed charts in reports.
 - `output/` is not an active root and should not be used for new run outputs.
 - For live progress checks, trust logs, rank epoch artifacts, checkpoints, and GPU process evidence before stale manifests.

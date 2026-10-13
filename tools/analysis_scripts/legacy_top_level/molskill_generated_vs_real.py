@@ -23,7 +23,7 @@ from scipy.stats import ks_2samp
 
 # ── 项目路径 ──
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(_PROJECT_ROOT / "reference project" / "molskill"))
+sys.path.insert(0, str(_PROJECT_ROOT / "reference project" / "代码" / "molskill"))
 
 from molskill.data.featurizers import get_featurizer  # noqa: E402
 from molskill.models.ranknet import LitRankNet  # noqa: E402
@@ -35,7 +35,7 @@ from rdkit import Chem  # noqa: E402
 GENERATED_DIR = str(_PROJECT_ROOT / "OUT" / "7gpu-dock-ecfp4-fcfp4_20260526_115341" / "epochs")
 CHEMBL_CSV = str(_PROJECT_ROOT / "data" / "chembl" / "chembl_36_properties.csv.gz")
 CHECKPOINT_PATH = str(
-    _PROJECT_ROOT / "reference project" / "molskill" / "models" / "default" / "checkpoints" / "last.ckpt"
+    _PROJECT_ROOT / "reference project" / "代码" / "molskill" / "models" / "default" / "checkpoints" / "last.ckpt"
 )
 OUTPUT_DIR = str(_PROJECT_ROOT / "OUT" / "7gpu-dock-ecfp4-fcfp4_20260526_115341" / "analysis_figures")
 CHEMBL_N_SAMPLE = 10_000  # ChEMBL 采样量

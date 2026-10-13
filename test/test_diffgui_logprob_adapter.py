@@ -9,7 +9,7 @@ import numpy as np
 import torch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "DiffGui"
+DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "代码" / "DiffGui"
 if str(DIFFGUI_ROOT) not in sys.path:
     sys.path.insert(0, str(DIFFGUI_ROOT))
 
@@ -183,12 +183,17 @@ def test_sample_with_logprob_records_recomputable_transition() -> None:
     assert outputs["traj"][0].shape[0] == model.num_timesteps + 1
     assert outputs["policy_traj"]["node_log_state"].shape == outputs["traj"][0].shape
     assert torch.isfinite(outputs["logprob"]["total"]).all()
+    assert torch.allclose(
+        outputs["policy_condition"]["protein_pos"],
+        torch.zeros_like(outputs["policy_condition"]["protein_pos"]),
+        atol=1e-6,
+    )
 
     transition_idx = 1
     recomputed = diffgui_forward_step_logprob(
         model,
         protein_node=torch.zeros(2, 4),
-        protein_pos=torch.tensor([[0.0, 0.0, 0.0], [3.0, 0.0, 0.0]]),
+        protein_pos=outputs["policy_condition"]["protein_pos"],
         protein_batch=torch.tensor([0, 1], dtype=torch.long),
         ligand_node_t=outputs["policy_traj"]["node"][transition_idx],
         ligand_pos_t=outputs["policy_traj"]["pos_centered"][transition_idx],

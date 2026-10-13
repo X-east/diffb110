@@ -33,7 +33,7 @@ from matplotlib.ticker import MaxNLocator
 # ============================================================
 # 用户可调参数
 # ============================================================
-DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/guacamol_eval_260407generated_10000-2_first1000/260407generated_10000-2_first1000_properties.csv"
+DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/guacamol_eval_260407generated_10000-2_first1000/260407generated_10000-2_first1000_properties.csv"
 DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/bishe/RE-out/analysis"
 SUMMARY_CSV_NAME = None  # None 时自动按输出目录名生成
 

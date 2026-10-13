@@ -15,7 +15,7 @@ matplotlib.rcParams.update({
     'figure.figsize': (12, 8),
 })
 
-OUT_DIR = "/home/md666/data/disk6/DiffB110/OUT/6gpu-dock-chembl_20260519_180540"
+OUT_DIR = "/home/md666/data/disk6/DiffB110/runs/6gpu-dock-chembl_20260519_180540"
 SAVE_DIR = os.path.join(OUT_DIR, "analysis_figures")
 os.makedirs(SAVE_DIR, exist_ok=True)
 

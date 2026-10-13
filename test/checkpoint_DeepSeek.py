@@ -42,7 +42,7 @@ except ImportError:
 # =========================================
 DEFAULT_CHECKPOINT_PATH = "/home/md666/data/disk6/DiffB110/DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt"
 #/home/md666/data/disk6/DiffB110/DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
-#/home/md666/data/disk6/DiffB110/OUT/diffsbdd-ddpo-qed-sa-1gpu_20260401_201155/checkpoints/diffsbdd-ddpo-epoch=0001.pt
+#/home/md666/data/disk6/DiffB110/runs/diffsbdd-ddpo-qed-sa-1gpu_20260401_201155/checkpoints/diffsbdd-ddpo-epoch=0001.pt
 # =========================================
 # 辅助函数
 # =========================================

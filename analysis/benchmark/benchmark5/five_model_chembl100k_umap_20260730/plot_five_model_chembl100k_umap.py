@@ -92,12 +92,12 @@ def _configure_plotting() -> None:
         {
             "font.family": "sans-serif",
             "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans", "sans-serif"],
-            "font.size": 10,
-            "axes.titlesize": 13,
-            "axes.labelsize": 11,
-            "xtick.labelsize": 9,
-            "ytick.labelsize": 9,
-            "legend.fontsize": 9,
+            "font.size": 13,
+            "axes.titlesize": 17,
+            "axes.labelsize": 15,
+            "xtick.labelsize": 13,
+            "ytick.labelsize": 13,
+            "legend.fontsize": 13,
             "axes.spines.right": False,
             "axes.spines.top": False,
             "axes.linewidth": 0.8,
@@ -335,7 +335,7 @@ def _plot_overview(coordinates: pd.DataFrame, output_dir: Path, seed: int) -> No
         0.5, 0.012,
         "One joint embedding: ECFP4 (radius 2, 2048 bits), cosine UMAP; "
         "generated points include all sanitize-valid molecules from three formal repeats",
-        ha="center", fontsize=9,
+        ha="center", fontsize=12,
     )
     fig.tight_layout(rect=(0, 0.035, 1, 1))
     _save_figure(fig, output_dir / "five_model_chembl100k_umap_overview")
@@ -353,7 +353,7 @@ def _plot_facets(coordinates: pd.DataFrame, output_dir: Path) -> None:
                 chembl["umap1"], chembl["umap2"], s=0.6, color=CHEMBL_COLOR,
                 alpha=0.14, linewidths=0, rasterized=True,
             )
-            axis.set_title(f"ChEMBL36  |  n={len(chembl):,}", fontsize=15)
+            axis.set_title(f"ChEMBL36  |  n={len(chembl):,}", fontsize=18)
         else:
             group = generated[generated["model"] == panel]
             axis.scatter(
@@ -364,18 +364,18 @@ def _plot_facets(coordinates: pd.DataFrame, output_dir: Path) -> None:
                 group["umap1"], group["umap2"], s=7.5, color=MODEL_COLORS[panel],
                 alpha=0.55, linewidths=0, rasterized=True,
             )
-            axis.set_title(f"{panel}  |  n={len(group):,}", fontsize=15)
-        axis.set_xlabel("UMAP 1", fontsize=13)
-        axis.set_ylabel("UMAP 2", fontsize=13)
-        axis.tick_params(labelsize=11)
+            axis.set_title(f"{panel}  |  n={len(group):,}", fontsize=18)
+        axis.set_xlabel("UMAP 1", fontsize=16)
+        axis.set_ylabel("UMAP 2", fontsize=16)
+        axis.tick_params(labelsize=13)
     fig.suptitle(
         "Model-specific coverage and ChEMBL36 reference in one shared chemical-space map",
-        fontsize=18,
+        fontsize=21,
     )
     fig.text(
         0.5, 0.008,
         "Coordinates are descriptive neighborhood projections; distance is not efficacy or molecular quality.",
-        ha="center", fontsize=11,
+        ha="center", fontsize=13,
     )
     fig.tight_layout(rect=(0, 0.025, 1, 0.965))
     _save_figure(fig, output_dir / "five_model_chembl100k_umap_facets")

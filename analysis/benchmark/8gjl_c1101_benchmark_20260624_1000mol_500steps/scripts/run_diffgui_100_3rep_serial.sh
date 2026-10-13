@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Run the planned DiffGui 100-step 3-replicate matrix serially.
+set -euo pipefail
+
+ROOT="${ROOT:-/home/md666/data/disk6/DiffB110}"
+BASE_EXP="${BASE_EXP:-${ROOT}/analysis/benchmark/8gjl_c1101_benchmark_20260624_1000mol_500steps}"
+SCRIPT="${BASE_EXP}/scripts/run_diffgui_step_replicate.sh"
+SWEEP_ROOT="${SWEEP_ROOT:-${ROOT}/analysis/benchmark/diffgui_step_sweep_100_1000attempts_20260709}"
+RUN_TAG="${RUN_TAG:-$(date +%Y%m%d_%H%M%S)}"
+PRECHECK_ONLY="${PRECHECK_ONLY:-0}"
+START_FROM="${START_FROM:-1}"
+
+mkdir -p "${SWEEP_ROOT}/logs"
+MASTER_LOG="${SWEEP_ROOT}/logs/diffgui_100_3rep_serial_${RUN_TAG}.log"
+
+log() {
+  echo "$@" | tee -a "${MASTER_LOG}"
+}
+
+run_one() {
+  local task_index="$1"
+  local replicate="$2"
+  local seed_offset="$3"
+  local timesteps=100
+  local exp="${SWEEP_ROOT}/${timesteps}steps_rep${replicate}_seed$((seed_offset + 1))_$((seed_offset + 7))"
+  if [[ "${task_index}" -lt "${START_FROM}" ]]; then
+    log "[serial100] skipping task=${task_index} timesteps=${timesteps} replicate=${replicate} because START_FROM=${START_FROM}"
+    return
+  fi
+  log "[serial100] starting task=${task_index} timesteps=${timesteps} replicate=${replicate} seed_offset=${seed_offset} exp=${exp}"
+  TIMESTEPS="${timesteps}" \
+    REPLICATE="${replicate}" \
+    SEED_OFFSET="${seed_offset}" \
+    SWEEP_ROOT="${SWEEP_ROOT}" \
+    EXP="${exp}" \
+    PRECHECK_ONLY="${PRECHECK_ONLY}" \
+    bash "${SCRIPT}" 2>&1 | tee -a "${MASTER_LOG}"
+  log "[serial100] finished task=${task_index} timesteps=${timesteps} replicate=${replicate}"
+}
+
+main() {
+  log "[serial100] started at $(date -Is)"
+  log "[serial100] sweep_root=${SWEEP_ROOT}"
+  log "[serial100] precheck_only=${PRECHECK_ONLY}"
+  log "[serial100] start_from=${START_FROM}"
+  log "[serial100] matrix=100 steps x rep1-3, seeds 1-7/8-14/15-21, gpus 1-7"
+
+  run_one 1 1 0
+  run_one 2 2 7
+  run_one 3 3 14
+
+  log "[serial100] completed at $(date -Is)"
+}
+
+main "$@"

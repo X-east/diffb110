@@ -154,7 +154,7 @@ RLPF-verl_diffusion/Model/EDM/qm9/temp/
 # ============================================
 # Project-specific large files (added)
 # ============================================
-OUT/
+runs/
 AutoDock-GPU/
 Uni-Dock/
 checkpoints/
@@ -197,6 +197,11 @@ cache/
 
 # reference data (large binary, don't track in git)
 data/
+# The classifier's data-building module is source; its data products remain local.
+!/chembl_classifier/data/
+/chembl_classifier/data/**
+!/chembl_classifier/data/**/
+!/chembl_classifier/data/**/*.py
 
 # external project
 ChEMBL_Structure_Pipeline-master/
@@ -219,17 +224,52 @@ url
 # work records (persistent Markdown task logs)
 work_records/
 
-# edge denoiser experimental output (not source code)
-analysis/edge_denoiser_*
-analysis/generated_edge_denoiser_*
-analysis/edge_diffusion_sampler_smoke_*
-analysis/edge_diffusion_ddp_*
-analysis/edge_data_chain_*
-analysis/edge_semantic_bundle_*
-analysis/refinement_ablation_*
-analysis/oracle_original_sdf_audit_*/*.sdf
-analysis/edge_denoiser_ablation_summary_*
-analysis/edge_diffusion_xhe_*
-analysis/edge_transition_smoke_*
-analysis/oracle_original_sdf_audit_*/*.py
+# Analysis programs are versioned; raw results are local by default.
+/analysis/**
+!/analysis/**/
+!/analysis/**/*.py
+!/analysis/**/*.sh
+# Reviewed, small result summaries have one explicit publication area.
+!/analysis/published/**/
+!/analysis/published/**/*.md
+!/analysis/published/**/*.csv
+!/analysis/published/**/*.json
+!/analysis/published/**/*.png
+!/analysis/published/**/*.svg
+!/analysis/published/**/*.pdf
+!/analysis/published/**/*.yaml
+!/analysis/published/**/*.yml
+# Keep run-local immutable snapshots and migration backups local.
+/analysis/**/script_snapshot/
+/analysis/**/code_snapshot/
+/analysis/**/runtime_snapshot/
+/analysis/**/snapshots/
+**/before_path_edits/
+**/after_path_edits/
+**/pdf_first_pages/
 tools/clash/
+
+# Local run outputs and temporary renderings (case-sensitive paths).
+/OUT/
+/output/
+/tmp/
+/collected_iql_benchmark_100k_260806/
+*.log
+*.bak*
+
+# Local credentials; templates must contain placeholders only.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local-only areas: presentation materials, collaborator work, tool caches, archives.
+/中期/
+/lee/
+/.scholar-kit/
+/docs/archive/
+# Third-party reference repositories cloned under analysis stay local.
+/analysis/**/repositories/
+# Classifier dataset products at the models root (subdirectory evaluation summaries stay tracked).
+/chembl_classifier/models/*.csv

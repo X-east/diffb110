@@ -59,7 +59,7 @@ for config in "$MATRIX_DIR"/*.yaml; do
 
   master_port=$((MASTER_PORT_BASE + 10#$idx))
   run_stamp="$(date +%Y%m%d_%H%M%S)"
-  output_dir="$ROOT/OUT/diffgui-ring-control-20260613-${idx}-${slug}_${run_stamp}"
+  output_dir="$ROOT/runs/diffgui-ring-control-20260613-${idx}-${slug}_${run_stamp}"
   log_path="$LOG_DIR/${base%.yaml}.log"
 
   echo "============================================================"

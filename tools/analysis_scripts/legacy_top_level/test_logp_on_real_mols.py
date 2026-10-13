@@ -135,7 +135,7 @@ def analyze_dataset(name: str, smiles_list: list[str | None]):
 # ── Main ──
 if __name__ == "__main__":
     # Dataset 1: Baseline 5827 (SDF)
-    sdf_path = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf"
+    sdf_path = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/260407generated_10000_filtered.sdf"
     if os.path.exists(sdf_path):
         print("Loading SDF...")
         sdf_smiles = load_smiles_from_sdf(sdf_path)
@@ -146,7 +146,7 @@ if __name__ == "__main__":
         print(f"SDF not found: {sdf_path}")
 
     # Dataset 2: Experiment #6 Epoch20 (CSV)
-    csv_path = "/home/md666/data/disk6/DiffB110/OUT/6gpu-chembl-only_20260521_154957/epochs/epoch_0020/molecules.csv"
+    csv_path = "/home/md666/data/disk6/DiffB110/runs/6gpu-chembl-only_20260521_154957/epochs/epoch_0020/molecules.csv"
     if os.path.exists(csv_path):
         print("\nLoading CSV...")
         csv_smiles = load_smiles_from_csv(csv_path)

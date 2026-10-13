@@ -22,7 +22,7 @@ from rdkit.Chem.Scaffolds.MurckoScaffold import GetScaffoldForMol
 # ---------------------------------------------------------------------------
 # Paths & output
 # ---------------------------------------------------------------------------
-ROOT = Path("/home/md666/data/disk6/DiffB110/OUT/7gpu-dock-ecfp4-fcfp4_20260525_212140")
+ROOT = Path("/home/md666/data/disk6/DiffB110/runs/7gpu-dock-ecfp4-fcfp4_20260525_212140")
 CSV_PATH = ROOT / "training_summary.csv"
 EPOCH_DIR = ROOT / "epochs"
 SAVE_DIR = ROOT / "analysis_figures"

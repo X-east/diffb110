@@ -2,7 +2,7 @@
 # 用于验证大模型 + pocket700 + bond diffusion 不 OOM
 
 run_name: 'smoke-xhe-scratch-pocket700-260608'
-logdir: 'OUT/smoke_xhe_scratch_pocket700/lightning'
+logdir: 'runs/smoke_xhe_scratch_pocket700/lightning'
 seed: 260608
 wandb_params:
   mode: 'disabled'

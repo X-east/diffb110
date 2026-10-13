@@ -14,7 +14,7 @@ from rdkit import Chem
 
 
 ROOT = Path(__file__).resolve().parents[2]
-MOLSKILL_ROOT = ROOT / "reference project" / "molskill"
+MOLSKILL_ROOT = ROOT / "reference project" / "代码" / "molskill"
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 if str(MOLSKILL_ROOT) not in sys.path:

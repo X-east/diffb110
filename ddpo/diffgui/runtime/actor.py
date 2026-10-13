@@ -75,10 +75,12 @@ class DiffGuiPolicyBatch:
         pred_node = pred[0] if pred is not None else None
         pred_pos = pred[1] if pred is not None else None
         pred_halfedge = pred[2] if pred is not None else None
+        policy_condition = outputs.get("policy_condition", {})
+        policy_protein_pos = policy_condition.get("protein_pos", protein_pos)
         return cls(
             advantages=advantages,
             protein_node=protein_node,
-            protein_pos=protein_pos,
+            protein_pos=policy_protein_pos,
             protein_batch=protein_batch,
             ligand_batch=ligand_batch,
             halfedge_index=halfedge_index,

@@ -25,7 +25,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "DiffGui"
+DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "代码" / "DiffGui"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 if str(DIFFGUI_ROOT) not in sys.path:
@@ -728,7 +728,7 @@ def _merge_sdf_files(sources: list[Path], output_path: Path) -> Path | None:
         for mol in mols:
             try:
                 writer.write(mol)
-            except (RuntimeError, ValueError, Chem.AtomValenceException) as exc:
+            except Exception as exc:
                 LOGGER.warning("Skipping molecule during SDF merge: %s", exc)
                 skipped += 1
     finally:
@@ -763,7 +763,7 @@ def _write_top_reward_sdf(sources: list[Path], output_path: Path, *, top_k: int)
         for _, mol in mols[: max(1, int(top_k))]:
             try:
                 writer.write(mol)
-            except (RuntimeError, ValueError, Chem.AtomValenceException) as exc:
+            except Exception as exc:
                 LOGGER.warning("Skipping top-reward molecule during SDF write: %s", exc)
                 skipped += 1
     finally:
@@ -1473,7 +1473,9 @@ def _resolve_shared_run_dir(config: dict[str, Any], output_dir: Path | None, dis
             value = str(output_dir.resolve())
         else:
             train_cfg = config.get("diffgui_training", {})
-            output_root = _resolve_path(train_cfg.get("output_root", "OUT"))
+            output_root = _resolve_path(train_cfg.get("output_root", "runs"))
+            if config.get("diffgui_deppa_mode", {}).get("enabled", False):
+                output_root = output_root / "deppa"
             run_name = str(config.get("name", "diffgui-docking-ddp-train")).replace("/", "_")
             value = str(output_root / f"{run_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
     else:

@@ -24,7 +24,7 @@ import yaml
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "DiffGui"
+DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "代码" / "DiffGui"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 if str(DIFFGUI_ROOT) not in sys.path:
@@ -199,7 +199,9 @@ def _resolve_run_dir(config: dict[str, Any], output_dir: Path | None) -> Path:
     if output_dir is not None:
         return output_dir.resolve()
     train_cfg = config.get("diffgui_training", {})
-    output_root = _resolve_path(train_cfg.get("output_root", "OUT"))
+    output_root = _resolve_path(train_cfg.get("output_root", "runs"))
+    if config.get("diffgui_deppa_mode", {}).get("enabled", False):
+        output_root = output_root / "deppa"
     run_name = str(config.get("name", "diffgui-docking-train")).replace("/", "_")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     return output_root / f"{run_name}_{timestamp}"

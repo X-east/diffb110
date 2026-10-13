@@ -57,7 +57,7 @@ for config in $(find "$MATRIX_DIR" -maxdepth 1 -type f -name "*.yaml" | sort); d
 
     master_port=$((MASTER_PORT_BASE + idx_num))
     run_stamp="$(date +%Y%m%d_%H%M%S)"
-    output_dir="$ROOT/OUT/diffgui-next6-20260618-${idx}-${slug}_${run_stamp}"
+    output_dir="$ROOT/runs/diffgui-next6-20260618-${idx}-${slug}_${run_stamp}"
     log_path="$LOG_DIR/${idx}_${slug}.log"
 
     echo "============================================================"

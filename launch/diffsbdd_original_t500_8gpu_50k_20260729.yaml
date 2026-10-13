@@ -1,0 +1,31 @@
+name: diffsbdd-original-t500-8gpu-50k-20260729
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  checkpoint_sha256: 07f86764bf569aafbc40a9c15fc02de8e2550437dd0f17f657eab3abe66c372c
+  pdbfile: data/8GJL.pdb
+  pdbfile_sha256: d61afea4fdeb782ea71b871882e90a20dbc851a015d5893b7d6474caf2a87537
+  ref_ligand: C:1101
+
+generation:
+  num_gpus: 8
+  shards_per_rank: 625
+  attempts_per_shard: 10
+  fixed_attempts_total: 50000
+  batch_size: 10
+  timesteps: 500
+  reconstruction_method: openbabel
+  sanitize: false
+  largest_frag: false
+  relax_iter: 0
+  seed_mode: gpu_id
+  rank_seeds: [1, 2, 3, 4, 5, 6, 7, 8]
+
+runtime:
+  conda_environment: dif
+  output_root: runs/diffsbdd_generation
+  preserve_failed_attempt_denominator: true
+  refill_reconstruction_failures: false
+  save_rng_state_per_shard: true
+  bitwise_deterministic_cuda_kernels: false
+  aggregate_after_completion: true

@@ -18,32 +18,34 @@ import argparse
 import csv
 import json
 import os
-import re
 import subprocess
+import sys
 import time
 from pathlib import Path
 from statistics import mean, median
 
 from rdkit import Chem, RDLogger
 
-RDLogger.DisableLog("rdApp.*")
+# Canonical Uni-Dock score parsing (docs/评估口径规范.md §3.3 / §3.3.1).
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
 
-SCORE_PATTERNS = [
-    re.compile(r"REMARK\s+VINA RESULT:\s*([-+]?\d+(?:\.\d+)?)"),
-    re.compile(r"ENERGY=\s*([-+]?\d+(?:\.\d+)?)"),
-    re.compile(
-        r">\s*<Uni-Dock RESULT>\s*\n(?:.*\n)*?ENERGY=\s*([-+]?\d+(?:\.\d+)?)",
-        re.MULTILINE,
-    ),
-    re.compile(
-        r">\s*<[Dd]ocking[_\s][Ss]core>\s*\n\s*([-+]?\d+(?:\.\d+)?)",
-        re.MULTILINE,
-    ),
-    re.compile(
-        r">\s*<[Ss]core>\s*\n\s*([-+]?\d+(?:\.\d+)?)",
-        re.MULTILINE,
-    ),
-]
+from ddpo.utils.docking_protocol import (  # noqa: E402
+    FRAME_CENTERED_ZERO,
+    FRAME_RECEPTOR,
+    describe_protocol,
+)
+from ddpo.utils.ligand_prep import (  # noqa: E402
+    add_hydrogens_for_docking,
+    extract_largest_fragment,
+)
+from ddpo.utils.unidock_score import (  # noqa: E402
+    STATUS_PARSE_ERROR,
+    parse_unidock_output,
+)
+
+RDLogger.DisableLog("rdApp.*")
 
 
 def _chunked(items: list[Path], size: int):
@@ -65,22 +67,28 @@ def _safe_smiles(mol: Chem.Mol) -> str:
         return ""
 
 
-def _extract_largest_fragment(mol: Chem.Mol) -> tuple[Chem.Mol, int]:
-    """Reduce a record to its largest connected fragment before docking.
+def _extract_largest_fragment(mol: Chem.Mol) -> tuple[Chem.Mol | None, int]:
+    """Legacy two-value wrapper over the canonical reduction (SOP §二.2).
 
-    Generators that keep all fragments (DiffSBDD-family) can emit disconnected
-    ligands; docking them as one entity inflates apparent affinity. We keep only
-    the largest connected component while preserving 3D coordinates, and return
-    the original fragment count so downstream logs can report reductions.
+    Returns ``None`` when the record cannot be reduced, instead of the previous
+    silent ``(mol, 1)`` fallback which made ``fragments_reduced`` report 0.
     """
-    try:
-        fragments = Chem.GetMolFrags(mol, asMols=True, sanitizeFrags=True)
-    except Exception:
-        return mol, 1
-    if not fragments:
-        return mol, 1
-    largest = max(fragments, key=lambda m: m.GetNumAtoms())
-    return largest, len(fragments)
+    fragment, fragment_count, _reason = extract_largest_fragment(mol)
+    return fragment, fragment_count
+
+
+def _prepare_ligand(mol: Chem.Mol) -> tuple[Chem.Mol | None, int, bool]:
+    """LF + ``AddHs(addCoords=True)`` — the fixed pre-docking chemistry (SOP §二).
+
+    Returns ``(ligand, original_fragment_count, hydrogens_added)``.
+    """
+    fragment, fragment_count, _reason = extract_largest_fragment(mol)
+    if fragment is None:
+        return None, fragment_count, False
+    ligand, added_hydrogens = add_hydrogens_for_docking(fragment)
+    if ligand is None:
+        return None, fragment_count, False
+    return ligand, fragment_count, added_hydrogens
 
 
 def load_center_from_json(path: Path) -> dict:
@@ -102,21 +110,28 @@ def split_sdf(
     read_failed = 0
     write_failed = 0
     fragments_reduced = 0
+    fragment_failed = 0
+    hydrogens_added = 0
     for idx, mol in enumerate(supplier):
         if mol is None:
             read_failed += 1
             continue
-        mol, fragment_count = _extract_largest_fragment(mol)
+        ligand, fragment_count, added_hydrogens = _prepare_ligand(mol)
+        if ligand is None:
+            fragment_failed += 1
+            continue
         if fragment_count > 1:
             fragments_reduced += 1
+        if added_hydrogens:
+            hydrogens_added += 1
         stem = f"{model.lower()}_{idx:06d}"
         path = split_dir / f"{stem}.sdf"
-        mol.SetProp("benchmark_model", model)
-        mol.SetProp("benchmark_index", str(idx))
-        mol.SetProp("_Name", stem)
+        ligand.SetProp("benchmark_model", model)
+        ligand.SetProp("benchmark_index", str(idx))
+        ligand.SetProp("_Name", stem)
         try:
             writer = Chem.SDWriter(str(path))
-            writer.write(mol)
+            writer.write(ligand)
             writer.close()
         except Exception:
             write_failed += 1
@@ -127,9 +142,10 @@ def split_sdf(
             "benchmark_index": str(idx),
             "source_sdf": str(input_sdf),
             "split_sdf": str(path),
-            "input_smiles": _safe_smiles(mol),
+            "input_smiles": _safe_smiles(ligand),
             "fragments_original": str(fragment_count),
             "fragments_kept": "1",
+            "hydrogens_added": "1" if added_hydrogens else "0",
         }
     metadata["__split_summary__"] = {
         "input_sdf_records_seen": str(idx + 1 if "idx" in dir() else 0),
@@ -137,6 +153,8 @@ def split_sdf(
         "read_failed": str(read_failed),
         "write_failed": str(write_failed),
         "fragments_reduced": str(fragments_reduced),
+        "fragment_failed": str(fragment_failed),
+        "hydrogens_added": str(hydrogens_added),
     }
     return ligand_paths, metadata
 
@@ -185,15 +203,12 @@ def build_cmd(
 
 
 def parse_score(path: Path) -> float | None:
-    text = path.read_text(encoding="utf-8", errors="ignore")
-    for pattern in SCORE_PATTERNS:
-        match = pattern.search(text)
-        if match:
-            try:
-                return float(match.group(1))
-            except ValueError:
-                return None
-    return None
+    """Usable affinity, or ``None``.
+
+    Thin wrapper over the canonical parser; use ``parse_unidock_output``
+    directly when the three-state status is needed.
+    """
+    return parse_unidock_output(path).as_legacy_float()
 
 
 def collect_batch_results(
@@ -218,20 +233,25 @@ def collect_batch_results(
                     "ligand_stem": stem,
                     "success": False,
                     "score": "",
+                    "score_status": STATUS_PARSE_ERROR,
+                    "score_reason": "missing_output_file",
                     "output_file": "",
                     "failure_reason": "missing_output_file",
                 }
             )
             continue
-        score = parse_score(output_file)
+        parsed = parse_unidock_output(output_file)
+        score = parsed.as_legacy_float()
         rows.append(
             {
                 **meta,
                 "ligand_stem": stem,
                 "success": score is not None,
                 "score": score if score is not None else "",
+                "score_status": parsed.status,
+                "score_reason": parsed.reason,
                 "output_file": str(output_file),
-                "failure_reason": "" if score is not None else "score_not_found",
+                "failure_reason": "" if score is not None else parsed.status,
             }
         )
     return rows
@@ -244,9 +264,13 @@ def write_csv(rows: list[dict[str, object]], path: Path) -> None:
         "ligand_stem",
         "success",
         "score",
+        "score_status",
+        "score_reason",
         "input_smiles",
         "fragments_original",
         "fragments_kept",
+        "hydrogens_added",
+        "docking_protocol_id",
         "source_sdf",
         "split_sdf",
         "output_file",
@@ -359,6 +383,15 @@ def main() -> None:
     parser.add_argument("--exhaustiveness", type=int, default=8)
     parser.add_argument("--num-modes", type=int, default=1)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--ligand-frame",
+        default="unspecified",
+        choices=[FRAME_CENTERED_ZERO, FRAME_RECEPTOR, "unspecified"],
+        help=(
+            "Coordinate frame of the input ligands; recorded in the protocol "
+            "fingerprint. See docs/评估口径规范.md §3.0."
+        ),
+    )
     parser.add_argument("--verbosity", type=int, default=1)
     parser.add_argument("--cpu", type=int, default=0)
     parser.add_argument("--max-gpu-memory", type=int, default=0)
@@ -442,9 +475,35 @@ def main() -> None:
 
     results_csv = args.out_dir / "docking_results.csv"
     docked_sdf = args.out_dir / "successful_docked_outputs.sdf"
+    protocol = describe_protocol(
+        receptor_pdbqt=args.receptor,
+        box={
+            "center_x": args.center_x,
+            "center_y": args.center_y,
+            "center_z": args.center_z,
+            "size_x": args.size_x,
+            "size_y": args.size_y,
+            "size_z": args.size_z,
+        },
+        scoring=args.scoring,
+        search_mode=args.search_mode,
+        num_modes=args.num_modes,
+        seed=args.seed,
+        ligand_prep={
+            "fragment_policy": "largest_fragment",
+            "add_hydrogens": True,
+            "add_coords": True,
+            "charges": "none",
+        },
+        frame=args.ligand_frame,
+        unidock_bin=args.unidock_bin,
+    )
+    for row in all_rows:
+        row["docking_protocol_id"] = protocol["docking_protocol_id"]
     write_csv(all_rows, results_csv)
     merged_count = write_success_sdf(all_rows, docked_sdf)
     summary = summarize(all_rows, args, started, merged_count, split_summary)
+    summary["docking_protocol"] = protocol
     summary["failed_batches"] = failed_batches
     (args.out_dir / "run_summary.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"

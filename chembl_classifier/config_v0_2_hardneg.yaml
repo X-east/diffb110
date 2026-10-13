@@ -41,4 +41,4 @@ output:
   model_name: "chembl_classifier_selected_v0_2_hardneg.pt"
   dataset_cache: "chembl_classifier/models/dataset_selected_v0_2_hardneg.pt"
   evaluation_dir: "chembl_classifier/models/evaluation_selected_v0_2_hardneg"
-  norm_stats: "reference project/molskill/data/chembl_population_mean_std.csv"
+  norm_stats: "reference project/代码/molskill/data/chembl_population_mean_std.csv"

@@ -4,7 +4,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 
 ROOT='/home/md666/data/disk6/DiffB110'
-os=f'{ROOT}/OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341'
+os=f'{ROOT}/runs/7gpu-dock-ecfp4-fcfp4_20260526_115341'
 bins=[-np.inf,0.5,1.5,2.5,3.0,3.5,4.5,5.5,np.inf]; n=len(bins)-1
 bin_labels=['(-∞,0.5)','[0.5,1.5)','[1.5,2.5)','[2.5,3.0)','[3.0,3.5)','[3.5,4.5)','[4.5,5.5)','(5.5,+∞)']
 scale=6.0

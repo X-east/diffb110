@@ -42,7 +42,7 @@ DEFAULT_REF_LIGAND = (
     "analysis/honokiol_9pc_docking_20260617/docking/successful_docked_outputs.sdf"
 )
 DEFAULT_FIXED_CORE = (
-    "analysis/dual_sidechain_honokiol_9pc_20260617/inpaint_fixed_core_inputs/fixed_core_no_oh.sdf"
+    "analysis/dual_sidechain_honokiol_9pc_20260617/inpaint_fixed_core_inputs/fixed_core_c0oh_only.sdf"
 )
 
 

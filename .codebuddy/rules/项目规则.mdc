@@ -47,6 +47,15 @@ The user wants a shorter, more concise coding specification - just the key rules
 
 如果找不到成熟参考，只能先做隔离 prototype，并在报告中明确标注“探索性/高风险”，不得直接并入主训练或主生成流程。
 
+**文献阅读要求（强制）：** 对齐某个方法、复现某个算法、或参考某个开源项目时，**不仅包括代码，如果有相应文献也要阅读文献**。必须同时检查：
+
+1. 是否存在配套论文（PDF / arXiv），在 `reference project/` 下或网上查找；
+2. 论文中的方法描述、参数设置、公式定义；
+3. **论文与代码是否一致**——如发现冲突，以官方源码训练入口为准，并在改动记录和规则文档中标注冲突（参考第十八节 DePPA 对齐规范的 18.1 冲突报告格式）；
+4. 论文 Appendix / Supplementary 中常有关键实现细节（如 reward 公式、归一化方式、超参数默认值），不可跳过。
+
+依据来源优先级：**官方源码训练入口 > 论文 Appendix > 论文正文 > README > 第三方复现**。
+
 | 元素 | 规则 | 示例 |
 |------|------|------|
 | 类 | PascalCase | `DiffSBDDModel` |
@@ -138,7 +147,7 @@ logger = logging.getLogger(__name__)  # 或统一 "DiffSBDD-DDPO"
 | 前置操作 | 先 `git status` 确认文件范围 → `git add <文件>` → 再 `git commit`，**禁止漏 add** |
 
 **排除清单**（`.gitignore` 已涵盖，不要手动添加）：
-`QADD-main/`, `OUT/`, `checkpoints/`, `DiffMeta-main/`, `RL-Diffusion-main/`, `bishe/`
+`QADD-main/`, `runs/`, `checkpoints/`, `DiffMeta-main/`, `RL-Diffusion-main/`, `bishe/`
 
 **提交前检查：**
 1. 语法检查 — 改了的 `.py` 逐一验证
@@ -438,3 +447,199 @@ training_summary.csv  ← 新增 22 列
 - `参数改动上下游检查.mdc` — 参数修改全链路检查
 - `环境.mdc` — dif 环境激活提醒
 - `项目规则.mdc` — 本文档（完整编程规范）
+
+## 十七、随机种子规范（2026-06-25 制定）
+
+**所有分子生成、benchmark 横评、采样分片统一使用 `seed = gpu_id`（从 1 开始）。**
+
+| 场景 | 规则 | 示例 |
+|------|------|------|
+| 多 GPU 分片生成 | 每卡 `seed = gpu_id`（1-based） | GPU 1→seed 1，GPU 7→seed 7 |
+| 单 GPU 生成 | `seed = 1` | `--seed 1` |
+| benchmark 横评 | 所有模型统一 `seed = gpu_id` | 与 DiffGui/DiffSBDD/PMDM/GCDM-SBDD/GraphBP/Pocket2Mol 对齐 |
+
+**禁止：**
+- ❌ 用日期型 seed（如 `20260625 + gpu_id * 101`）
+- ❌ 用 `0` 作为 seed
+- ❌ 不同模型用不同 seed 公式导致横评不可比
+
+**依据：** 正式横评 `launch_benchmark.sh` 中主流 4 模型（DiffGui/DiffSBDD/PMDM/GCDM-SBDD）已用 `seed = gpu_id`，2026-06-25 将 GraphBP/Pocket2Mol 对齐至此口径。
+
+## 十八、DePPA 对齐规范（2026-06-26 制定）
+
+**背景：** DiffGui RL 训练的 DePPA 模式（`diffgui_deppa_mode`）对齐 DePPA 论文（arXiv:2605.17693）和官方源码（`reference project/DePPA/`）。本节规定哪些参数必须与 DePPA 一致、哪些允许自定义、哪些存在论文与代码冲突需特别标注。
+
+### 18.1 论文与代码冲突报告（强制）
+
+| 项目 | 论文 Appendix A 说法 | 官方源码实际实现 | 采纳 | 理由 |
+|------|----------------------|------------------|------|------|
+| Diversity 指纹 | "Morgan fingerprints"（第 1328 行） | `Chem.RDKFingerprint`（`lightning_modules.py:1084`） | **RDKFingerprint** | 以训练代码为准，论文文字描述可能为笔误 |
+| 无效分子处理 | penalty = `µB - 3σB`（第 1330 行） | 代码同论文 | `µB - 3σB` | 一致 |
+| 权重 | `0.2*QED + 0.2*SA + 0.5*Vina + 0.1*Div` | 代码同论文 | 同 | 一致 |
+| clip_range | 0.2（第 1341 行） | `default=0.2` | 0.2 | 一致 |
+
+**规则：** 当 DePPA 论文与官方源码冲突时，以**官方源码训练入口**（`batch_generate_ligands_rl.py` + `lightning_modules.py`）为准，并在改动记录中标注冲突。
+
+### 18.2 必须与 DePPA 一致的参数
+
+| 参数 | DePPA 值 | 来源 | DiffGui 对应配置 | 说明 |
+|------|----------|------|------------------|------|
+| clip_range | 0.2 | 论文+代码 | `train.clip_range` | PPO 截断范围 |
+| 优化器 | AdamW | 论文 | `train` 块 | — |
+| learning_rate | 1e-5 | 论文 | `train.learning_rate` | — |
+| adam_weight_decay | 1e-4 | 论文 | `train.adam_weight_decay` | — |
+| 无效分子惩罚 | `µB - 3σB` | 论文+代码 | `diffgui_deppa_mode.invalid_penalty_std: 3.0` | — |
+| reward 归一化 | Gaussian rank transform（rank→(0,1)→inverse Normal CDF） | 论文+代码 | `advantage.py::_rank_normal_scores` | 每个分量独立 rank→normal |
+| advantage 归一化 | z-score: `(r - µ) / (σ + 1e-8)` | 代码 `lightning_modules.py:1341` | `diffgui_deppa_mode.normalize_advantages` | **必须 true** |
+| KL to pretrained | 默认 0（关闭） | 代码 `default=0.0` | 不启用 | DePPA 默认不用 KL 约束 |
+| diversity 指纹 | `Chem.RDKFingerprint` | 代码 | `metrics.distance.fingerprint_type: "rdkit"` | 见 18.1 冲突报告 |
+| diversity 相似度 | Tanimoto，`1 - mean(sim)` | 代码 | `_attach_distance_metric` | per-molecule distance |
+| reward 组合 | 加权求和 | 代码 | `compute_deppa_advantages` | rank-normal 后加权 |
+
+### 18.3 允许自定义的参数
+
+| 参数 | DePPA 值 | 自定义说明 |
+|------|----------|------------|
+| batch_size | 32（论文） | 可自定义，受显存约束。DiffGui 三状态耦合显存更大，常用 8/16 |
+| 权重 | 0.2/0.2/0.5/0.1 | 可自定义，但一旦定下不可中途改 |
+| docking backend | QuickVina2（DePPA） | DiffGui 用 UniDock，exhaustiveness 可自定义 |
+| num_timesteps | 500（DiffSBDD pretrained） | DiffGui 用 200 |
+| epochs / rollouts | 100 rollouts/pocket | 可自定义 |
+| max_grad_norm | 0.5（代码）vs 1.0（当前） | 见 18.4 |
+| ppo_epochs | 无多轮（逐 time step 更新） | 当前用累计梯度+ppo_epochs，属于架构差异 |
+
+### 18.4 需要决策的已知差异
+
+| # | 差异 | DePPA | 当前 DiffGui | 建议 | 状态 |
+|---|------|-------|--------------|------|------|
+| 1 | `max_grad_norm` | 0.5 | 1.0 | 对齐到 0.5 | 待确认 |
+| 2 | `normalize_advantages` | 始终 z-score | false | 对齐到 true | 待确认 |
+| 3 | `advantage_clip` | 无裁剪 | [-3, 3] | 去掉对齐 | 待确认 |
+| 4 | PPO 更新策略 | 逐 time step `optimizer.step()` | 累计梯度 + 1 次 step | 需改代码，见 18.5 | 暂不动 |
+| 5 | `inference_interval`（coarse denoising scheduler） | 10（代码默认）/ 5（论文默认） | 无 | 需改代码，见 18.5 | 暂不动 |
+| 6 | prediction thresholding | 有（atom-type clip 到 [0,0.25]） | 无 | DiffGui 架构不同，暂不搬 | — |
+
+### 18.5 DePPA 核心 PPO 更新策略（未来改造方向，暂不实施）
+
+DePPA 的 PPO 更新与当前 DiffGui 有本质区别：
+
+```
+DePPA:  episode_length = max_timesteps / inference_interval  (如 200/10=20)
+        每个 time step 独立 backward + optimizer.step()，共 20 次更新
+        time step 顺序先 shuffle
+
+当前:   所有 time step 累计梯度，ppo_epochs 轮，每轮 1 次 optimizer.step()
+```
+
+**如果未来要移植 DePPA 逐 time step 更新，必须同时引入 `inference_interval`**，否则 200 次更新（vs DePPA 的 20 次）会导致 KL 失控。
+
+**移植前提：**
+1. rollout 层引入 observation subsampling（每 N 步存一个观测点）
+2. actor 层逐观测点 backward + step
+3. replay gate 的 KL 阈值需重新校准（DePPA 模式 KL 系统性偏高）
+4. 三状态 logprob 分量需单独监控（coord/node/halfedge 量级不同）
+
+### 18.6 DePPA 模式配置检查清单
+
+每次启动 DePPA 模式训练前，确认以下配置：
+
+- [ ] `diffgui_deppa_mode.enabled: true`
+- [ ] `diffgui_deppa_mode.metrics.distance.fingerprint_type: "rdkit"`
+- [ ] `diffgui_deppa_mode.normalize_advantages: true`（对齐 DePPA）
+- [ ] `diffgui_deppa_mode.invalid_penalty_std: 3.0`
+- [ ] `train.clip_range: 0.2`
+- [ ] `train.learning_rate: 1.0e-5`
+- [ ] `train.adam_weight_decay: 1.0e-4`
+- [ ] `reward.docking.backend: "unidock"`
+- [ ] 权重和在合理范围（建议 0.2/0.2/0.5/0.1 或论文默认）
+- [ ] DePPA 输出目录为 `<output_root>/deppa/`（代码自动路由，确认 run 目录名落在 `deppa/` 下）
+
+### 18.7 参考来源
+
+- **论文**：`reference project/deppa.pdf`（arXiv:2605.17693v1, 2026-05-17）
+- **训练入口**：`reference project/DePPA/batch_generate_ligands_rl.py`（命令行参数定义）
+- **PPO 逻辑**：`reference project/DePPA/lightning_modules.py:1404-1507`（time step shuffle + 逐 step 更新）
+- **Diversity 计算**：`reference project/DePPA/lightning_modules.py:1082-1096`（`_compute_fps_distances`）
+- **Rank 归一化**：`reference project/DePPA/utils.py:273-326`（`rank01_masked` + `pct_to_normal`）
+- **当前 DiffGui 实现**：`ddpo/diffgui/deppa/advantage.py`
+
+### 18.8 DePPA 输出目录规则（2026-07-20 制定）
+
+- DePPA 模式（`diffgui_deppa_mode.enabled: true`）的所有训练 / 生成 / 评估输出**统一放在 `<output_root>/deppa/` 下**，其中 `<output_root>` 默认 `runs/`（`runs/` 已在 `.gitignore` 中排除，不进 git）。
+- 非 DePPA 模式（标准 DiffGui RL）输出仍在 `<output_root>/`（默认 `runs/`），**不得与 DePPA 输出混在同一目录**。
+- 代码路由：入口 `ddpo/main_diffgui_docking_ddp.py::_resolve_shared_run_dir` 与 `ddpo/main_diffgui_docking_train.py::_resolve_run_dir` 在检测到 `diffgui_deppa_mode.enabled: true` 时，自动将 `output_root` 追加 `/deppa`；**无需在 YAML 里重复设置 `output_root`**。
+- 现有 `runs/` 下历史 `diffgui-deppa-*` 目录保留原位，新 run 一律进 `runs/deppa/`。
+
+## 十九、指标与判据必须有文献出处（2026-09-15 制定）
+
+**背景：** 2026-09-15 讨论"如何度量生成分子偏离真实化学空间的程度"时，曾尝试自造指标（`brics_hacb_soft`：按重原子数分箱 + 箱内频率阈值取箱大小的一半）与自造判据（四条件闸 + 多个自设阈值）。用户判定"太复杂、无从解释"，要求改为文献调研。本规则据此制定。
+
+**规则：**
+
+1. **禁止自造指标与自造判据。** 用于训练奖励、偏好轴、诊断结论的分子指标，以及判定它是否可用的判据，必须能追溯到已发表文献或官方实现。
+2. **先调研、后实现。** 提出新指标/新判据前必须先做文献调研，并在工作记录中列出：文献出处（作者、年份、期刊/arXiv 编号）、原始定义、官方实现位置（本机路径或仓库）。
+3. **优先调用本机已有的官方实现**，不许重新实现已发表方法。
+4. **阈值不能自设。** 判据的参照点必须是文献或数学上自然的（如 0.5、随机基线），不得出现"我选 0.30"这类无法辩护的阈值。
+5. **禁止编造引用。** 找不到文献支撑时必须明说"未找到"，不得用近似论文名充数。
+
+**已核验可用的文献指标（本机已实测可调用）：**
+
+| 指标 | 文献 | 本机实现 | 度量层级 |
+|------|------|----------|----------|
+| NP-likeness | Ertl, Roggo, Schuffenhauer, *J. Chem. Inf. Model.* **48**, 68–74 (2008), doi:10.1021/ci700286x | `rdkit/Contrib/NP_Score/npscorer.py` + `publicnp.model.gz` | 单分子 |
+| SA score | Ertl & Schuffenhauer, *J. Cheminform.* **1**:8 (2009) | `rdkit/Contrib/SA_Score/sascorer.py` | 单分子 |
+| Frag / Scaff / SNN / IntDiv | Polykovskiy et al., *Front. Pharmacol.* (2020), arXiv:1811.12823 | `molecularsets/moses` | 集合级 |
+| FCD | Preuer et al., *J. Cheminform.* (2018) | `moses` / `guacamol` 的 FCD 库 | 集合级 |
+| KLD | Brown et al., *J. Cheminform.* (2019), arXiv:1811.09621 | `BenevolentAI/guacamol` | 集合级 |
+
+**配套要求：** 按第十六节，本节内容必须同步写入 `.cursor/rules/项目规则.mdc`。
+
+## 二十、PPT / 演示文稿生成规范（2026-09-18 制定）
+
+**背景：** 2026-09-18 生成论文汇报 PPT 时，`pptxgenjs` 由 `npm install -g` 安装在 `/usr/local/lib/node_modules`，而 Node 默认**不从全局目录解析**本地脚本的 `require`，直接 `node build_ppt.js` 报 `MODULE_NOT_FOUND: pptxgenjs`。本规则据此制定。
+
+**规则：**
+
+1. **生成 PPT 必须显式指定 `NODE_PATH`。** 运行任何使用 `pptxgenjs` 的 Node 脚本时，必须写成：
+
+   ```bash
+   NODE_PATH=/usr/local/lib/node_modules node <script>.js
+   ```
+
+   不得直接 `node <script>.js`（会因找不到 `pptxgenjs` 失败）。
+
+2. **依赖清单（本机已核验可用）：**
+
+   | 依赖 | 版本 / 路径 | 用途 |
+   |------|------------|------|
+   | `pptxgenjs` | 4.0.1，`/usr/local/lib/node_modules` | 生成 .pptx（skill 原套路线） |
+   | `markitdown` | 0.1.7（conda base） | 内容 QA：从 .pptx 抽取文本 |
+   | `python-pptx` | 1.0.2（conda base） | 备选路线：Python 生成 .pptx |
+   | LibreOffice | `/usr/bin/soffice` | `.pptx` → `.pdf` |
+   | Poppler | `/usr/bin/pdftoppm` | `.pdf` → 逐页 PNG（视觉 QA） |
+
+   > 注意：本机 `/home/md666/miniforge3/bin/python` 是 conda base，**系统 `pip` 受 PEP 668 保护无法直接安装**；安装 Python 包须用该解释器显式调用：`/home/md666/miniforge3/bin/python -m pip install <pkg>`。
+
+3. **`npm install -g` 需要 sudo。** npm 全局前缀为 `/usr/local`（root 所有），非交互环境无法执行。若不可用 sudo，改用 `npm config set prefix ~/.npm-global` + PATH，或在目标目录局部 `npm install`。
+
+4. **交付前必须跑两道 QA**（`academic-pptx` skill 要求）：
+
+   ```bash
+   # 内容 QA
+   /home/md666/miniforge3/bin/python -m markitdown <deck>.pptx > qa_content.md
+   # 视觉 QA：转 PDF 后逐页出图，检查文字溢出与版式
+   soffice --headless --convert-to pdf <deck>.pptx
+   pdftoppm -png -r 100 <deck>.pdf _qa_slide
+   ```
+
+   已知高频问题是**文字溢出**（要点条数过多、参考文献列表过长）。修复原则：**减少内容，不缩小字号**。
+
+5. **内容规范**（`academic-pptx` skill，技能位于 `~/.codebuddy/skills/academic-pptx/`）：
+   - 每个内容页的标题必须是**行动标题**（完整结论句），不得用"实验结果"这类主题标签
+   - **幽灵 deck 测试**：只按顺序读各页行动标题，必须能讲出完整论证
+   - 每页一张图；结果页图在左、解读在右；关键结论直接标注在图上
+   - 正文 **≥ 20 pt**、每页 **≤ 40 词**、每页 **3–5 条**要点、单一字体、白底
+   - 必须有独立的「研究问题」页；**以 Conclusions 页收尾**（问答时持续显示），**不得**以 "Thank You" 或空白页结束
+   - 附录预置 Q&A 页
+
+**配套要求：** 按第十六节，本节内容必须同步写入 `.cursor/rules/项目规则.mdc`。

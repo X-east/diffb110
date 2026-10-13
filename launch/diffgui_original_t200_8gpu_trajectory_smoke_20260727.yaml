@@ -1,0 +1,21 @@
+name: diffgui-original-t200-8gpu-trajectory-smoke-20260727
+
+diffgui_model:
+  sample_config: "reference project/代码/DiffGui/configs/sample/sample.yml"
+  checkpoint: "reference project/代码/DiffGui/ckpt/trained.pt"
+  pocket_pdb: "analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb"
+  ligand_sdf: "None"
+
+diffgui_collection:
+  output_root: "runs/diffgui_collection"
+  batch_size_per_rank: 10
+  num_shards_per_rank: 1
+
+diffgui_docking_batch_sweep:
+  num_timesteps: 200
+  auto_configure_timesteps: true
+  ligand_size_mode: "priori"
+  ligand_atoms: 24
+  seed_mode: "gpu_id"
+  gui_strength: 3.0
+

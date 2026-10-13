@@ -1,0 +1,58 @@
+# Full one-epoch x:v=10:1 test on composition-matched structural pairs.
+name: diffsbdd-global-e2po-structure-matched-xv10-1-lr1e5-full-260901
+
+run:
+  output_dir: analysis/diffsbdd_global_e2po_structure_matched_xv10_1_lr1e5_full_260901
+  seed: 1
+  variant: xv_10_1
+
+model:
+  checkpoint: DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+  pocket_pdb: data/8GJL.pdb
+  ref_ligand: C:1101
+  dataset_name: crossdock
+  device: cuda:0
+
+data:
+  pair_dir: analysis/diffsbdd_structure_pairs_matched_260831
+  minimum_validation_pairs: 2000
+  allow_endpoint_reuse: false
+
+diffusion:
+  timestep_grid: 500
+
+dpo:
+  objective: esrpo
+  beta: 1.0
+  reward_temperature: 1.0
+  reward_sign: 1.0
+
+training:
+  epochs: 1
+  batch_pairs: 2
+  learning_rate: 1.0e-5
+  max_grad_norm: 1.0
+  train_timesteps_per_batch: 1
+  noise_coupling: independent
+  freeze:
+    encoder_decoder: true
+    egnn_first_n_blocks: 3
+  validation_timesteps: [50, 125, 250, 375, 500]
+  train_eval_pair_count: 1024
+
+variants:
+  xv_10_1:
+    x_weight: 10.0
+    v_weight: 1.0
+
+generation:
+  enabled: false
+  device: cuda:0
+  attempts: 0
+  batch_size: 25
+  timesteps: 500
+  seed: 1
+  reconstruction_method: openbabel
+  resamplings: 10
+  jump_length: 1
+  all_frags: true

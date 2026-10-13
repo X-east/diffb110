@@ -1,13 +1,13 @@
 """验证 MolSkill 评分方向：已知好药 vs 全碳/坏分子 vs ChEMBL."""
 import numpy as np, torch, pandas as pd
-import sys; sys.path.insert(0, "reference project/molskill")
+import sys; sys.path.insert(0, "reference project/代码/molskill")
 from rdkit import Chem
 from molskill.data.featurizers import get_featurizer
 from molskill.models.ranknet import LitRankNet
 
 feat = get_featurizer("morgan_count_rdkit_2d")
 model = LitRankNet.load_from_checkpoint(
-    checkpoint_path="reference project/molskill/models/default/checkpoints/last.ckpt",
+    checkpoint_path="reference project/代码/molskill/models/default/checkpoints/last.ckpt",
     input_size=feat.dim(), map_location="cpu")
 model.eval()
 
@@ -54,7 +54,7 @@ print(f"Min={np.min(clean):.4f}, Max={np.max(clean):.4f}")
 print("\n--- Generated molecules ---")
 import csv, os
 gen_smiles = []
-base = "OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs"
+base = "runs/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs"
 for ep in sorted(os.listdir(base)):
     for f in sorted(os.listdir(f"{base}/{ep}")):
         if f.startswith("molecules_rank") and f.endswith(".csv"):

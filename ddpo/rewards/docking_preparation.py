@@ -59,7 +59,7 @@ def _build_sample_to_sdf_from_mol(
     sdf_path: str,
     *,
     add_hydrogens: bool = True,
-    assign_gasteiger: bool = True,
+    assign_gasteiger: bool = False,
 ) -> Tuple[bool, Optional[str]]:
     """Write an existing RDKit Mol object to SDF with optional docking preparation.
 
@@ -94,7 +94,7 @@ def build_sample_to_sdf(
     dataset_info,
     *,
     add_hydrogens: bool = True,
-    assign_gasteiger: bool = True,
+    assign_gasteiger: bool = False,
 ) -> Tuple[bool, Optional[str]]:
     """Build canonical RDKit molecule for one sample and export to SDF.
 
@@ -141,7 +141,7 @@ def prepare_batch_sdf_inputs(
     data: "DataProto" = None,
     *,
     add_hydrogens: bool = True,
-    assign_gasteiger: bool = True,
+    assign_gasteiger: bool = False,
 ) -> PreparedLigandBatch:
     """Prepare one SDF file per valid sample for backend batch execution.
 
@@ -218,7 +218,7 @@ def prepare_single_sdf_input(
     dataset_info,
     *,
     add_hydrogens: bool = True,
-    assign_gasteiger: bool = True,
+    assign_gasteiger: bool = False,
 ) -> PreparedLigandFile:
     """Prepare one temporary SDF file for sequential backend execution.
 

@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 # =========================================
 # 配置部分 - 修改这里的路径
 # =========================================
-CHECKPOINT_PATH = "/home/md666/data/disk6/DiffB110/OUT/diffsbdd-ddpo-qed-sa-1gpu_20260401_201155/checkpoints/diffsbdd-ddpo-epoch=0001.pt"
+CHECKPOINT_PATH = "/home/md666/data/disk6/DiffB110/runs/diffsbdd-ddpo-qed-sa-1gpu_20260401_201155/checkpoints/diffsbdd-ddpo-epoch=0001.pt"
 
 # 可选：比较两个检查点
 COMPARE_PATH = None  # 设置为另一个检查点路径进行比较

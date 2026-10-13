@@ -1,45 +1,67 @@
-# DiffB110: DiffGui / DiffSBDD 分子生成与强化学习优化
+# DiffB110: RE-CmeB 口袋条件化 3D 分子生成
 
-> 以 DiffGui 强化学习为当前主线，保留 DiffSBDD 强化学习与模型改造作为对照和备用路线的口袋特异性 3D 分子生成、奖励建模、DDPO/PPO 优化和分子质量诊断工作区。
+Git上传范围与提交检查见[版本管理规范](docs/GitHub上传与版本管理规范.md)；
+外部源码获取见[参考依赖说明](docs/参考项目获取与复现.md)。
 
-**最后更新**: 2026-06-18
+> ⚠️ **本文档的“当前路线”表述停留在 2026-08-17（离线 IQL 口径），已过时。**
+> **最新管线状态与入口请看 [`docs/管线总览.md`](docs/管线总览.md)；文档索引见 [`docs/README.md`](docs/README.md)。**
+> （当前主线：DiffSBDD 保留线 ESRPO；其 ChEMBL 版本见 `docs/overview/DiffSBDD-ESRPO-ChEMBL版总审计.md`。）
+
+> 当前项目分为两部分：第一部分已确定，围绕“扩散模型横评形成基线证据 -> 完整去噪轨迹离线学习 -> 独立生成和多指标筛选 -> 最优候选进入分子动力学模拟”推进；第二部分待定。
+
+**最后更新**: 2026-09-30（头部横幅与文档入口；正文结论仍为 2026-08-17 口径）
 
 ## 项目定位
 
-DiffB110 现在不是单一模型仓库，而是一个完整研究工作区。当前主线已经转向 DiffGui 强化学习，重点是在同一靶点/同一任务上验证 reward 优化是否真实、分子是否仍然合法且结构合理。工作区包含：
+DiffB110 当前第一部分是一个面向 RE-CmeB / CmeB 靶点的完整计算发现流程。横评仍用于保留各生成模型的靶点适配、几何合法性和对接表现证据，但不再决定当前强化学习底座。当前正式强化学习路线是：以 DiffSBDD 固定行为策略采集的完整去噪轨迹构造离线 MDP，在通过数据、actual-good 支持、held-out critic 和 actor 门槛后，比较 BC、filtered BC、AWR 与 trajectory IQL；再对新 checkpoint 独立生成的分子进行多指标筛选和人工结构审查，选择 MD 候选。
 
-- DiffGui 参考模型与解耦强化学习流程；
-- DiffSBDD 生成底座、强化学习对照和模型内部改造；
-- DDPO/PPO runtime、reward system、训练记录和 replay/good-pool 机制；
+第一部分的主流程：
+
+```text
+扩散模型横评
+  -> 固化横评证据（不以单项第一决定 RL 底座）
+  -> DiffSBDD 完整去噪轨迹采集与 reward sidecar
+  -> BC / filtered BC / AWR / trajectory IQL 离线比较
+  -> IQL 后模型独立生成
+  -> RDKit / docking / LE / QED-SA / ChEMBL-like / 结构病理筛选
+  -> 最优候选分子
+  -> 分子动力学模拟
+```
+
+工作区包含：
+
+- DiffSBDD 生成底座、完整去噪轨迹采集与离线 IQL 研究线；
+- DiffGui 参考模型、历史 PPO/DDPO 实验与横评基线；
+- DDPO/PPO runtime、离线 BC/AWR/IQL 原型、reward system 与训练记录；
 - ChEMBL MLP / D-MPNN 分类器与分子先验；
 - UniDock docking、QED/SA/LE、环结构、化学 guard、多样性和分布漂移监控；
 - `analysis/` 与 `work_records/` 中沉淀的实验图表、失败分析和路线决策。
 
-当前研究重点已经从“单纯提高 docking reward”转为：
+当前第一部分的研究重点已经从“单纯提高 docking reward”转为：
 
 1. 保持生成分子合法性和多样性；
 2. 抑制高碳、低极性、复杂坏环、reward hacking 等漂移；
 3. 用明确的结构 facts、classifier/D-MPNN 和 docking 共同筛选候选物；
-4. 对 DiffSBDD 与 DiffGui 的能力边界分别测试，而不是混成一条路线。
+4. 将筛选后的 top 候选分子交给分子动力学模拟，而不是只停留在训练 reward 或 docking 分数。
 
-## 当前主线
+## 当前项目部分
 
-| 主线 | 主要目录 | 当前定位 |
+| 部分 / 阶段 | 主要目录 | 当前定位 |
 |---|---|---|
-| DiffGui RL | `ddpo/diffgui/`、`reference project/DiffGui/`、`launch/run_diffgui_*.sh`、`OUT/diffgui-*` | 当前正式强化学习主线，入口为 `ddpo/main_diffgui_docking_ddp.py` |
-| DiffSBDD RL | `ddpo/`、`DiffSBDD/`、`launch/`、`OUT/diffsbdd-*` | 保留的 DDPO/PPO 对照线，入口为 `ddpo/main_diffsbdd_ddp.py` |
-| ChEMBL / D-MPNN reward | `chembl_classifier/`、`ddpo/rewards/chembl_*` | MLP 与 D-MPNN 分类器，用于 reward、筛选和 top 分子复核 |
-| DiffSBDD 小改 | `DiffSBDD/equivariant_diffusion/`、`analysis/diffsbdd_small_mod/` | atom prior、geometry/bond loss、局部质量修正 |
-| DiffSBDD x/h/e 大改 | `DiffSBDD/edge_diffusion/`、`analysis/diffsbdd_xhe/` | halfedge/edge diffusion 验证路线，仍属于高风险研究线 |
-| 双 R / 对称侧链 | `ddpo/constraints/`、`analysis/dual_sidechain_*`、`work_records/26-6/260617*` | 已完成可行性复核；不作为当前主方法平台 |
+| 第一部分-横评证据 | `analysis/benchmark/`、`work_records/26-7/260730/` | 固化多模型起点与筛选标准；不把横评单项领先直接等同于 RL 底座选择 |
+| 第一部分-DiffSBDD 离线 IQL | `ddpo/main_diffsbdd_collect_ddp.py`、`work_records/26-7/260731/`、独立 IQL worktree | 当前正式研究路线：完整轨迹、reward sidecar、冻结 split、BC/AWR/IQL 对照与 go/no-go |
+| 第一部分-IQL 后生成与筛选 | `analysis/`、`scripts/docking/`、`chembl_classifier/`、`ddpo/utils/molecular_descriptors.py` | 仅用新 checkpoint 的独立生成分子进行 RDKit、PB、docking、LE、QED/SA、ChEMBL-like 和结构病理筛选 |
+| 第一部分-MD 候选 | 后续 `analysis/md_simulation/` 或独立 MD 记录目录 | 从筛选结果中选择最优分子进入分子动力学模拟；MD 协议待正式确定 |
+| 第二部分 | 待定 | 暂不写成确定路线 |
+| 历史/保留对照 | `ddpo/diffgui/`、`ddpo/main_diffgui_docking_ddp.py`、`ddpo/main_diffsbdd_ddp.py` | DiffGui PPO/DDPO 与在线 DiffSBDD DDPO 均保留为横评、历史复现或对照，不作为当前正式训练路线 |
 
 ## 项目结构
 
 ```text
 DiffB110/
 ├── ddpo/                    # DDPO/PPO runtime、reward、DiffSBDD/DiffGui 集成
-│   ├── main_diffgui_docking_ddp.py # DiffGui 当前主线 DDP 强化学习入口
-│   ├── main_diffsbdd_ddp.py        # DiffSBDD 保留/对照 DDP 强化学习入口
+│   ├── main_diffsbdd_collect_ddp.py # DiffSBDD 完整去噪轨迹采集入口
+│   ├── main_diffsbdd_ddp.py        # 历史/对照在线 DDPO 入口
 │   ├── rewards/
 │   ├── runtime/
 │   ├── diffgui/runtime/
@@ -68,28 +90,21 @@ DiffB110/
 
 ## 主要入口
 
-### DiffGui PPO/DDPO
+### DiffSBDD 离线 IQL（当前正式研究路线）
 
-DiffGui 模型路径必须使用专门的 `diffgui` 环境。不要把 DiffGui-only 依赖装进 `dif`。
-
-```bash
-bash launch/run_diffgui_docking_train_ddp_smoke.sh
-bash launch/run_diffgui_deppa_last3_lr1e5_b18x8_t200_100ep_20260623.sh
-bash launch/run_diffgui_ring_control_matrix_20260615.sh
-```
-
-核心 Python 入口：
+离线 IQL 使用 DiffSBDD 轨迹；当前主仓库尚无配置化正式 IQL 启动入口。开始 actor 训练前必须完成 100k 轨迹/sidecar、actual-good 与 scaffold 支持审计、冻结 split、held-out critic go/no-go；随后以相同预算比较 BC-all、filtered BC、AWR、IQL。
 
 ```bash
-torchrun --nproc_per_node=<N> ddpo/main_diffgui_docking_ddp.py --config <launch/config.yaml>
-python ddpo/main_diffgui_reward_only.py --config <launch/config.yaml>
+conda run -n dif python ddpo/main_diffsbdd_collect_ddp.py --help
 ```
+
+配置化 IQL actor 入口尚未完成；在既定 gates 通过前，不应以历史 DiffGui 或在线 DDPO 命令替代。
 
 统计口径：
 
-- `docs/DiffGui强化学习统计清单.md`
+- `work_records/26-7/260731/260731-01 DiffSBDD去噪轨迹离线IQL支线全过程记录.md`
 
-### DiffSBDD DDPO/PPO
+### 历史在线 PPO/DDPO 对照
 
 ```bash
 bash launch/smoke.sh
@@ -101,7 +116,7 @@ CONFIG_PATH=launch/7gpu_dock_classifier_v0_1.yaml bash launch/run.sh
 核心 Python 入口：
 
 ```bash
-torchrun --nproc_per_node=<N> ddpo/main_diffsbdd_ddp.py --config <launch/config.yaml>
+torchrun --nproc_per_node=<N> ddpo/main_diffsbdd_ddp.py --config <launch/config.yaml>  # 历史/对照
 ```
 
 ### DiffSBDD 生成
@@ -142,8 +157,9 @@ conda run -n dif python chembl_classifier/dmpnn/train.py --config chembl_classif
 
 ## 当前重要结论
 
-- DiffGui RL 是当前主训练平台，评估重点是同一靶点内的 reward 优化、坏环/复杂环控制、成药性、多样性和 top-N 复筛。
-- DiffSBDD RL 仍保留为速度更快的对照和备用路线，但不再是当前主线。
+- 第一部分已经确定：横评作为起点证据后，使用 DiffSBDD 完整去噪轨迹开展离线 IQL，并仅以 IQL/对照 checkpoint 的独立生成分子筛选 MD 候选。
+- 当前主训练路线是 DiffSBDD 离线 IQL；其结论需由 actual-good 支持、held-out critic、独立生成、完整重对接和结构质量共同决定，不能由离线训练 loss 或 reward 单独决定。
+- DiffGui PPO/DDPO 仍保留为重要历史结果、横评基线和可能的对照，但不再是当前主线。
 - DiffSBDD x/h/e 大改有理论价值，但工程风险高，目前作为参考记录和方法储备。
 - MLP classifier 不能单独承担药物样约束；D-MPNN、explicit ring facts、docking 和人工/规则审计需要配合。
 - 好分子 replay 只能短窗口、小比例，并需要 KL/clip gate；正式混入 PPO 前必须先做 retained pool 审计。
@@ -152,8 +168,12 @@ conda run -n dif python chembl_classifier/dmpnn/train.py --config chembl_classif
 
 | 文件 | 内容 |
 |---|---|
-| `docs/project_context.md` | 当前项目方向、分子语义、reward 体系 |
-| `docs/project_paths.md` | 当前目录、输出、记录和参考项目路径 |
+| **`docs/管线总览.md`** | **所有管线状态、入口、结论速查（唯一总览入口，先看这个）** |
+| `docs/README.md` | docs 全量文档索引（定位 / 时效 / 维护规则） |
+| `docs/overview/*.md` | 管线级实验总审计（ESRPO / ESRPO-ChEMBL / 在线 DDPO / Global DPO / IQL / DiffGui RL） |
+| `docs/project_context.md` | 项目方向、分子语义、reward 体系 |
+| `docs/project_paths.md` | 当前目录、输出、记录和参考项目路径（部分待更新） |
 | `docs/workflow_commands.md` | 训练、生成、DiffGui、分类器、测试命令 |
-| `docs/DiffGui强化学习统计清单.md` | 当前 DiffGui RL 主线的统计与阶段总结口径 |
+| `docs/论文/大论文三章规划.md` | 论文骨架与证据索引 |
+| `work_records/26-7/260731/260731-01 DiffSBDD去噪轨迹离线IQL支线全过程记录.md` | 离线 IQL 路线、门槛和比较设计（对照线） |
 | `work_records/26-6/260618/260618-05 项目文件夹架构全景梳理.md` | 按文件夹架构的全项目介绍 |

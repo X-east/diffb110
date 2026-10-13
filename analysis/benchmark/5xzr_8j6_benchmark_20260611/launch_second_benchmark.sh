@@ -78,7 +78,7 @@ run_pmdm_one() {
   mkdir -p "${out_dir}" "${mpl_dir}"
   export MPLCONFIGDIR="${mpl_dir}"
   /usr/bin/time -p conda run -n pmdm_modern_ref python "${ROOT}/analysis/modern_sbdd_20260531/run_pmdm_for_pdb.py" \
-    --repo "${ROOT}/reference project/modern_sbdd_20260531/PMDM" \
+    --repo "${ROOT}/reference project/代码/modern_sbdd_20260531/PMDM" \
     --ckpt "${ROOT}/analysis/modern_sbdd_20260531/assets/PMDM/500.pt" \
     --pdb-path "${INPUTS}/5XZR_8J6_pocket8A.pdb" \
     --outdir "${out_dir}" \
@@ -107,8 +107,8 @@ run_diffint_one() {
   export MPLCONFIGDIR="${mpl_dir}"
   /usr/bin/time -p conda run -n diffint_modern_ref python "${SCRIPTS}/run_interaction_model_shard.py" \
     --kind diffint \
-    --repo "${ROOT}/reference project/modern_sbdd_20260531/DiffInt" \
-    --checkpoint "${ROOT}/reference project/modern_sbdd_20260531/DiffInt/checkpoints/best_model.ckpt" \
+    --repo "${ROOT}/reference project/代码/modern_sbdd_20260531/DiffInt" \
+    --checkpoint "${ROOT}/reference project/代码/modern_sbdd_20260531/DiffInt/checkpoints/best_model.ckpt" \
     --pdb "${INPUTS}/5XZR_8J6_protein_only.pdb" \
     --sdf "${INTERACTION_LIGAND_SDF}" \
     --outdir "${out_dir}" \
@@ -142,7 +142,7 @@ run_diffpharma_one() {
   export MPLCONFIGDIR="${mpl_dir}"
   /usr/bin/time -p conda run -n diffpharma_modern_ref python "${SCRIPTS}/run_interaction_model_shard.py" \
     --kind diffpharma \
-    --repo "${ROOT}/reference project/modern_sbdd_20260531/DiffPharma" \
+    --repo "${ROOT}/reference project/代码/modern_sbdd_20260531/DiffPharma" \
     --checkpoint "${ROOT}/analysis/modern_sbdd_20260531/assets/DiffPharma/DiffPharma_best.ckpt" \
     --pdb "${INPUTS}/5XZR_8J6_protein_only.pdb" \
     --sdf "${INTERACTION_LIGAND_SDF}" \

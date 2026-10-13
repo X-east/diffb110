@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="/data/disk6/DiffB110/analysis/diffgui_6gpu_500x3_20260531_085146"
-PROJECT="/data/disk6/DiffB110/reference project/DiffGui"
+PROJECT="/data/disk6/DiffB110/reference project/代码/DiffGui"
 PATCH_DIR="${ROOT}/runtime_patch"
 COUNTS=(84 84 83 83 83 83)
 STEPS=(100 200 1000)

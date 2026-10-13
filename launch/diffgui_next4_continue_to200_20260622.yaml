@@ -1,9 +1,9 @@
 name: diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to200-20260622
 dataset: crossdock
 diffgui_model:
-  sample_config: reference project/DiffGui/configs/sample/sample.yml
-  checkpoint: OUT/diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to50_20260621_225705/checkpoints/latest.pt
-  base_checkpoint: reference project/DiffGui/ckpt/trained.pt
+  sample_config: reference project/代码/DiffGui/configs/sample/sample.yml
+  checkpoint: runs/diffgui-next6-20260618-04-ring_last3_pathology_guard-continue-to50_20260621_225705/checkpoints/latest.pt
+  base_checkpoint: reference project/代码/DiffGui/ckpt/trained.pt
   pocket_pdb: analysis/benchmark/8gjl_c1101_benchmark_20260603_500mol_500steps/inputs/8GJL_C1101_pocket8A.pdb
   ligand_sdf: None
 diffgui_training:

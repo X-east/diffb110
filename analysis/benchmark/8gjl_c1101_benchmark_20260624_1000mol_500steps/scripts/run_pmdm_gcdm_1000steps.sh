@@ -85,7 +85,7 @@ run_pmdm_one() {
   export MPLCONFIGDIR="${mpl_dir}"
   conda run -n pmdm_modern_ref python \
     "${ROOT}/analysis/benchmark/modern_sbdd_20260531/run_pmdm_for_pdb.py" \
-    --repo "${ROOT}/reference project/modern_sbdd_20260531/PMDM" \
+    --repo "${ROOT}/reference project/代码/modern_sbdd_20260531/PMDM" \
     --ckpt "${ROOT}/analysis/benchmark/modern_sbdd_20260531/assets/PMDM/500.pt" \
     --pdb-path "${INPUTS}/8GJL_C1101_pocket8A.pdb" \
     --outdir "${out_dir}" \
@@ -113,7 +113,7 @@ run_gcdm_one() {
   local mpl_dir="${EXP}/mplconfig/gcdm/gpu_${gpu_id}"
   mkdir -p "${out_dir}" "${mpl_dir}"
   require_no_existing_output "GCDM-SBDD gpu_${gpu_id}" "${out_dir}/8GJL_mol.sdf"
-  cd "${ROOT}/reference project/modern_sbdd_20260531/GCDM-SBDD"
+  cd "${ROOT}/reference project/代码/modern_sbdd_20260531/GCDM-SBDD"
   export MPLCONFIGDIR="${mpl_dir}"
   conda run -n gcdm_sbdd_modern_ref python generate_ligands.py \
     "${ROOT}/analysis/benchmark/modern_sbdd_20260531/assets/GCDM-SBDD/extracted/checkpoints/crossdocked_ca_joint_egnn.ckpt" \

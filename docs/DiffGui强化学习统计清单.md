@@ -1,5 +1,9 @@
 # DiffGui 强化学习统计清单
 
+> ⚠️ **定位说明**：DiffGui RL 是**横评基线与历史/对照线**，不是当前主线
+> （主线为 DiffSBDD 保留线的 ESRPO，见 [`管线总览.md`](管线总览.md)）。本文的统计口径
+> 仅适用于 DiffGui 线自身的记录。
+
 > 适用范围：DiffGui 作为生成底座时的 DDPO/PPO 强化学习训练、离线采样、复筛与阶段总结。
 > 本文只定义同一任务/同一靶点上的强化学习评估口径；跨靶点泛化不作为常规统计项。
 
@@ -13,7 +17,7 @@
 
 | 层级 | 位置 | 内容 |
 |---|---|---|
-| 原始运行证据 | `OUT/<run_name>/` | 日志、config snapshot、checkpoint、每轮 SDF/CSV、GPU/耗时记录 |
+| 原始运行证据 | `runs/<run_name>/` | 日志、config snapshot、checkpoint、每轮 SDF/CSV、GPU/耗时记录 |
 | 汇总分析证据 | `analysis/diffgui_rl/<topic>_<date>/` | 聚合 CSV/JSON、绘图脚本、PNG/SVG、必要时的独立 `report.md` |
 | 叙事记录 | `work_records/<YYMM>/<YYMMDD>/` | 本次为什么跑、参数组合、主要结果、和预期差异、剩余风险 |
 
@@ -21,7 +25,7 @@
 
 ## 2. 每个正式训练必须保存的原始文件
 
-每个 `OUT/<run_name>/` 至少应能追溯以下文件或等价文件：
+每个 `runs/<run_name>/` 至少应能追溯以下文件或等价文件：
 
 - `train.log` 或 rank 日志：训练过程、报错、epoch 进度。
 - `config.yaml` / `resolved_config.yaml`：实际使用参数。

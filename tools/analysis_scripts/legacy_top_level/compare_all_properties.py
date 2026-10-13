@@ -44,10 +44,10 @@ except ImportError:
 # Paths
 # ---------------------------------------------------------------------------
 CHEMBL_PROP = "/home/md666/data/disk6/DiffB110/data/chembl/chembl_36_properties.csv.gz"
-BASELINE_CSV = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/guacamol_eval/260407generated_10000_properties.csv"
-EXP5_CSV = "/home/md666/data/disk6/DiffB110/OUT/6gpu-chembl-only_20260521_112200/epochs/epoch_0018/molecules.csv"
-EXP6_CSV = "/home/md666/data/disk6/DiffB110/OUT/6gpu-chembl-only_20260521_154957/epochs/epoch_0020/molecules.csv"
-EXP7_CSV = "/home/md666/data/disk6/DiffB110/OUT/7gpu-dock-ecfp4-fcfp4_20260521_212927/epochs/epoch_0050/molecules.csv"
+BASELINE_CSV = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/guacamol_eval/260407generated_10000_properties.csv"
+EXP5_CSV = "/home/md666/data/disk6/DiffB110/runs/6gpu-chembl-only_20260521_112200/epochs/epoch_0018/molecules.csv"
+EXP6_CSV = "/home/md666/data/disk6/DiffB110/runs/6gpu-chembl-only_20260521_154957/epochs/epoch_0020/molecules.csv"
+EXP7_CSV = "/home/md666/data/disk6/DiffB110/runs/7gpu-dock-ecfp4-fcfp4_20260521_212927/epochs/epoch_0050/molecules.csv"
 OUTPUT_DIR = "/home/md666/data/disk6/DiffB110/analysis/"
 
 # Property mapping: (display_name, col_baseline, col_chembl, compute_fn)

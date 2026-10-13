@@ -29,8 +29,8 @@ plt.rcParams['font.family'] = 'sans-serif'
 plt.rcParams['axes.edgecolor'] = '#e0e0e0'
 plt.rcParams['axes.linewidth'] = 1.2
 
-DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260407generated_10000_filtered_properties_all.csv"
-DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/OUT/260407_generate_ligands_10000/260410-10000-generate1-5829mol/all_properties_plots"
+DEFAULT_INPUT = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/260407generated_10000_filtered_properties_all.csv"
+DEFAULT_OUTDIR = "/home/md666/data/disk6/DiffB110/runs/260407_generate_ligands_10000/260410-10000-generate1-5829mol/all_properties_plots"
 FIG_DPI = 300  # 提高DPI使图像更清晰
 SINGLE_FIGSIZE = (10, 7)
 TITLE_SIZE = 16

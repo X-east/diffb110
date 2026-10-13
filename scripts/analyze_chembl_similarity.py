@@ -25,7 +25,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sdf", required=True, help="Generated molecule SDF file.")
     parser.add_argument("--fingerprint-cache", required=True, help="ChEMBL fingerprint cache .pkl.gz from prepare_chembl_fingerprints.py.")
-    parser.add_argument("--out-dir", default="OUT/analysis/chembl_similarity")
+    parser.add_argument("--out-dir", default="runs/analysis/chembl_similarity")
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--chunk-size", type=int, default=100000, help="Reference fingerprint chunk size for similarity calculation.")
     parser.add_argument("--max-molecules", type=int, default=0, help="Optional limit for generated molecules; 0 means all.")

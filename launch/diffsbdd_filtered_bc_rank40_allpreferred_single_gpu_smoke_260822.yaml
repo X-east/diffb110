@@ -1,0 +1,64 @@
+name: diffsbdd_filtered_bc_rank40_allpreferred_single_gpu_smoke_260822
+
+ddp:
+  enabled: false
+  find_unused_parameters: false
+
+offline_iql:
+  formal_training: false
+  output_dir: /data/disk6/DiffB110/analysis/diffsbdd_filtered_bc_rank40_allpreferred_single_gpu_smoke_260822
+  data:
+    run_dir: /data/disk6/DiffB110/analysis/offline_iql_frozen_original_100k_260819/run_view
+    episode_index: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/episode_index.jsonl
+    split_manifest: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/all_train_split_manifest.jsonl
+    split: train
+    eligible_sample_ids_json: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/preferred_all_sample_ids.json
+    expected_pocket_sha256: d61afea4fdeb782ea71b871882e90a20dbc851a015d5893b7d6474caf2a87537
+  reward:
+    sidecar: /data/disk6/DiffB110/analysis/offline_iql_filtered_bc_rank40_260822/inputs/binary_reward_sidecar.csv
+    expected_version: rank40_binary_allpreferred_one_nonpreferred_zero_v1
+    diagnostic_validity_probe: false
+  model:
+    checkpoint: /data/disk6/DiffB110/DiffSBDD/checkpoints/crossdocked_fullatom_cond.ckpt
+    pocket_pdb: /data/disk6/DiffB110/data/8GJL.pdb
+    ref_ligand: "C:1101"
+    dataset_name: crossdock
+    logprob_mode: mean_per_atom
+    trainable_dynamics_blocks: [3, 4]
+  critic:
+    hidden_dim: 32
+    num_message_layers: 1
+    num_rbf: 8
+    time_embedding_dim: 16
+    max_neighbors: 16
+    learning_rate: 0.001
+    weight_decay: 0.0
+  trainer:
+    discount: 1.0
+    expectile: 0.7
+    target_tau: 0.005
+    q_loss_type: mse
+    critic_max_grad_norm: 5.0
+    actor_warmup_steps: 0
+    actor_update_interval: 1
+  actor:
+    objective: bc
+    temperature: 1.0
+    max_weight: 1.0
+    max_grad_norm: 5.0
+    learning_rate: 0.000001
+    weight_decay: 0.0
+  sampler:
+    cache_size: 2
+    shared_scheduler_seed: 1
+    sequential: false
+    time_bins:
+      - {start: 0, end: 1000, weight: 1.0}
+    fixed_decision_indices: [0, 330, 660, 1000]
+  run:
+    epochs: 1
+    steps_per_epoch: 4
+    batch_size: 4
+    log_every_steps: 1
+    checkpoint_every_epochs: 1
+    non_blocking_transfer: true

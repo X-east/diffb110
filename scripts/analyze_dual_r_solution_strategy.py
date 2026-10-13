@@ -289,8 +289,8 @@ def _write_report(
 | `DiffSBDD/edge_utils.py` | RDKit bond -> halfedge label，bond type 0/1/2/3/4 | 可用于显式边约束 |
 | `DiffSBDD/reconstruction/builder.py` | `predicted_edge` / `oracle_edge` 从 halfedge 重建 RDKit | 是正式方法的关键接口 |
 | `DiffSBDD/edge_diffusion` | decoupled x/h/e sampler/model/test | 有基础，但仍需训练数据、条件输入和采样约束 |
-| `reference project/DiffGui/models/bond_predictor.py` | protein-conditioned ligand halfedge predictor | 可借鉴蛋白上下文进入边预测 |
-| `reference project/modern_sbdd_20260531/MolSnapper/models/bond_predictor.py` | ligand node-edge bond predictor | 可借鉴显式 bond predictor 结构 |
+| `reference project/代码/DiffGui/models/bond_predictor.py` | protein-conditioned ligand halfedge predictor | 可借鉴蛋白上下文进入边预测 |
+| `reference project/代码/modern_sbdd_20260531/MolSnapper/models/bond_predictor.py` | ligand node-edge bond predictor | 可借鉴显式 bond predictor 结构 |
 
 ## 策略矩阵
 

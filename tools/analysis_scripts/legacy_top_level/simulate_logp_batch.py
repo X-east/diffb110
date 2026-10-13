@@ -26,7 +26,7 @@ N_TRIALS = 500
 LAPLACE_SMOOTH = True
 
 # ── Load molecules ──
-sdf = "OUT/260407_generate_ligands_10000/260407generated_10000_filtered.sdf"
+sdf = "runs/260407_generate_ligands_10000/260407generated_10000_filtered.sdf"
 suppl = Chem.SDMolSupplier(sdf)
 logps = []
 for mol in suppl:

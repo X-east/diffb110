@@ -50,6 +50,10 @@ def main() -> None:
     parser.add_argument("--sampling-type", default="generalized")
     parser.add_argument("--eta", type=float, default=1.0)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Random seed (overrides checkpoint train.seed, required for multi-shard)")
+    parser.add_argument("--fixed-attempts", action="store_true",
+                        help="Stop after num_samples attempts regardless of success (for fair benchmarking)")
     args = parser.parse_args()
 
     _repo_imports(args.repo.resolve())
@@ -91,7 +95,7 @@ def main() -> None:
     ckpt = torch.load(str(args.ckpt), map_location="cpu")
     config = ckpt["config"]
     device = torch.device(args.device if torch.cuda.is_available() else "cpu")
-    pm.seed_all(config.train.seed)
+    pm.seed_all(args.seed if args.seed is not None else config.train.seed)
 
     if config.dataset.name != "crossdock":
         raise ValueError(f"Only crossdock checkpoint path is wired here, got {config.dataset.name}")
@@ -141,8 +145,12 @@ def main() -> None:
     smiles_seen: list[str] = []
 
     for datas in tqdm(data_list, desc="pmdm_batches"):
-        if stable >= args.num_samples:
-            break
+        if args.fixed_attempts:
+            if attempted >= args.num_samples:
+                break
+        else:
+            if stable >= args.num_samples:
+                break
         batch = Batch.from_data_list(
             datas, follow_batch=["ligand_atom_feature", "protein_atom_feature_full"]
         ).to(device)
@@ -205,7 +213,7 @@ def main() -> None:
             stable += 1
             smiles_seen.append(smiles)
             writer.write(mol)
-            if stable >= args.num_samples:
+            if not args.fixed_attempts and stable >= args.num_samples:
                 break
 
     writer.close()

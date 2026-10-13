@@ -13,7 +13,7 @@ import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import Descriptors, Crippen
 
-RUN_DIR = Path("/home/md666/data/disk6/DiffB110/OUT/7gpu-classifier-only_20260526_210715")
+RUN_DIR = Path("/home/md666/data/disk6/DiffB110/runs/7gpu-classifier-only_20260526_210715")
 OUT_DIR = RUN_DIR / "analysis_figures"
 
 def load_valid_smiles(epoch):

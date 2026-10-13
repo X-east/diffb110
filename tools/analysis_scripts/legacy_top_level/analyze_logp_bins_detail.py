@@ -20,7 +20,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 
 # ============================================================
-ROOT = Path("/home/md666/data/disk6/DiffB110/OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341")
+ROOT = Path("/home/md666/data/disk6/DiffB110/runs/7gpu-dock-ecfp4-fcfp4_20260526_115341")
 EPOCH_DIR = ROOT / "epochs"
 SAVE_DIR = ROOT / "analysis_figures"
 SAVE_DIR.mkdir(exist_ok=True)

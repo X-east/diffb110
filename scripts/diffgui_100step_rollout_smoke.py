@@ -13,7 +13,7 @@ from typing import Any
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "DiffGui"
+DIFFGUI_ROOT = PROJECT_ROOT / "reference project" / "代码" / "DiffGui"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 if str(DIFFGUI_ROOT) not in sys.path:

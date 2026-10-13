@@ -11,7 +11,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 from ddpo.rewards.logp_distribution_reward import LogPDistributionReward, DEFAULT_LOGP_BINS
 
-mdf = pd.read_csv(f'{ROOT}/OUT/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs/epoch_0016/molecules.csv')
+mdf = pd.read_csv(f'{ROOT}/runs/7gpu-dock-ecfp4-fcfp4_20260526_115341/epochs/epoch_0016/molecules.csv')
 valid = mdf[mdf['rdkit_valid'] == 1].copy()
 
 # Build rdmols from SMILES
